@@ -1,0 +1,747 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.useso.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="configuration_entity," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Rambo's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="Drupal8的实体由2部分组成，配置实体(configuration entities)和内容实体(content entities)。如图：
+本节源代码见 https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example
+内容实体见：http://verynull.com/2015/12/22/drupa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Drupal8 Configuration Entity">
+<meta property="og:url" content="http://verynull.com/2015/12/21/Drupal8-configuration-Entity/index.html">
+<meta property="og:site_name" content="Rambo's Blog">
+<meta property="og:description" content="Drupal8的实体由2部分组成，配置实体(configuration entities)和内容实体(content entities)。如图：
+本节源代码见 https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example
+内容实体见：http://verynull.com/2015/12/22/drupa">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222113456_92999.png">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212259_77460.png">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212429_43428.png">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212547_35896.png">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212157_21914.png">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212041_77165.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Drupal8 Configuration Entity">
+<meta name="twitter:description" content="Drupal8的实体由2部分组成，配置实体(configuration entities)和内容实体(content entities)。如图：
+本节源代码见 https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example
+内容实体见：http://verynull.com/2015/12/22/drupa">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Drupal8 Configuration Entity | Rambo's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Rambo's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录生活，分享知识，传播乐趣</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Drupal8 Configuration Entity
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-21T10:39:45+08:00" content="2015-12-21">
+              2015-12-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/21/Drupal8-configuration-Entity/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/21/Drupal8-configuration-Entity/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>Drupal8的实体由2部分组成，配置实体(configuration entities)和内容实体(content entities)。如图：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222113456_92999.png" alt="Entity"></p>
+<p>本节源代码见 <a href="https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example" target="_blank" rel="external">https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example</a></p>
+<p>内容实体见：<a href="http://verynull.com/2015/12/22/drupal8-content-entity/" target="_blank" rel="external">http://verynull.com/2015/12/22/drupal8-content-entity/</a></p>
+<h3 id="一、配置实体接口(configuration_entity_interface)">一、配置实体接口(configuration entity interface)</h3><p>在src目录下touch DemoInterface.php，DemoInterface继承并实现<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21Entity%21ConfigEntityInterface.php/interface/ConfigEntityInterface/8" target="_blank" rel="external">ConfigEntityInterface</a>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains \Drupal\demo\DemoInterface.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>\<span class="title">Entity</span>\<span class="title">ConfigEntityInterface</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Provides an interface defining a demo entity type.</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">DemoInterface</span> <span class="keyword">extends</span> <span class="title">ConfigEntityInterface</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Add get/set methods for your configuration properties here.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="二、配置实体类(configuration_entity_class)">二、配置实体类(configuration entity class)</h3><p>在src目录下创建Entity目录，并touch src/Entity/Demo.php，在这个文件中我们将实现DemoEntity。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains \Drupal\demo\Entity\Demo.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Entity</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>\<span class="title">Entity</span>\<span class="title">ConfigEntityBase</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">DemoInterface</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Defines the Demo entity.</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @ConfigEntityType</span>(</span><br><span class="line"> *   id = "demo",</span><br><span class="line"> *   label =<span class="phpdoc"> @Translation</span>("Demo"),</span><br><span class="line"> *   fieldable = FALSE,</span><br><span class="line"> *   handlers = &#123;</span><br><span class="line"> *     "list_builder" = "Drupal\demo\DemoListBuilder",</span><br><span class="line"> *     "form" = &#123;</span><br><span class="line"> *       "add" = "Drupal\demo\Form\DemoForm",</span><br><span class="line"> *       "edit" = "Drupal\demo\Form\DemoForm",</span><br><span class="line"> *       "delete" = "Drupal\demo\Form\DemoDeleteForm"</span><br><span class="line"> *     &#125;</span><br><span class="line"> *   &#125;,</span><br><span class="line"> *   config_prefix = "demo",</span><br><span class="line"> *   admin_permission = "administer site configuration",</span><br><span class="line"> *   entity_keys = &#123;</span><br><span class="line"> *     "id" = "id",</span><br><span class="line"> *     "label" = "name"</span><br><span class="line"> *   &#125;,</span><br><span class="line"> *   links = &#123;</span><br><span class="line"> *     "edit-form" = "/admin/structure/demos/&#123;demo&#125;",</span><br><span class="line"> *     "delete-form" = "/admin/structure/demos/&#123;demo&#125;/delete"</span><br><span class="line"> *   &#125;</span><br><span class="line"> * )</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> <span class="keyword">extends</span> <span class="title">ConfigEntityBase</span> <span class="keyword">implements</span> <span class="title">DemoInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * The ID of the demo.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @var</span> string</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="variable">$id</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * The demo name.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @var</span> string</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="variable">$name</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * The demo sex.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @var</span> string</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="variable">$sex</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面定义Entity的方式熟悉吧！对，就是注解annotation。</p>
+<p>@ConfigEntityType告诉Drupal这是一个配置实体。参数如下：<br>1、lable：翻译系统的标签<br>2、fieldable: 附加字段，配置实体一般为FALSE，内容实体一般为TRUE<br>3、handlers：管理该实体所需要的类<br>4、list_builder：提供该实体的管理界面接口<br>5、config_prefix：配置的前缀，一般用于schema<br>6、admin_permission：管理员权限<br>7、entity_keys：主要实体属性的集合<br>8、links：编辑和删除的路径，在demo.routing.yml中定义</p>
+<h3 id="三、实体表单(entity_form)">三、实体表单(entity form)</h3><p>接下来我们来实现在Entity中的定义的表单，如add, edit, delete。</p>
+<h4 id="1、mkdir_-p_src/Form，并touch_src/Form/DemoForm-php。">1、mkdir -p src/Form，并touch src/Form/DemoForm.php。</h4><p>在DemoForm主要实现2个方法，form()和save()。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains \Drupal\demo\Form\DemoForm.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Form</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityForm</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityInterface</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityTypeInterface</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">Query</span>\<span class="title">QueryFactory</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormStateInterface</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Class DemoForm</span><br><span class="line"> *</span><br><span class="line"> * Form class for adding/editing demo config entities.</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoForm</span> <span class="keyword">extends</span> <span class="title">EntityForm</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   *<span class="phpdoc"> @param</span> \Drupal\Core\Entity\Query\QueryFactory $entity_query</span><br><span class="line">   *   The entity query.</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(QueryFactory <span class="variable">$entity_query</span>)</span> </span>&#123;</span><br><span class="line">    <span class="variable">$this</span>-&gt;entityQuery = <span class="variable">$entity_query</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">(ContainerInterface <span class="variable">$container</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">static</span>(</span><br><span class="line">      <span class="variable">$container</span>-&gt;get(<span class="string">'entity.query'</span>)</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">form</span><span class="params">(array <span class="variable">$form</span>, FormStateInterface <span class="variable">$form_state</span>)</span> </span>&#123;</span><br><span class="line">    <span class="variable">$form</span> = <span class="keyword">parent</span>::form(<span class="variable">$form</span>, <span class="variable">$form_state</span>);</span><br><span class="line">    <span class="variable">$demo</span> = <span class="variable">$this</span>-&gt;entity;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Change page title for the edit operation</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$this</span>-&gt;operation == <span class="string">'edit'</span>) &#123;</span><br><span class="line">      <span class="variable">$form</span>[<span class="string">'#title'</span>] = <span class="variable">$this</span>-&gt;t(<span class="string">'Edit demo: @name'</span>, <span class="keyword">array</span>(<span class="string">'@name'</span> =&gt; <span class="variable">$demo</span>-&gt;name));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The demo name.</span></span><br><span class="line">    <span class="variable">$form</span>[<span class="string">'name'</span>] = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'textfield'</span>,</span><br><span class="line">      <span class="string">'#title'</span> =&gt; <span class="variable">$this</span>-&gt;t(<span class="string">'Name'</span>),</span><br><span class="line">      <span class="string">'#maxlength'</span> =&gt; <span class="number">255</span>,</span><br><span class="line">      <span class="string">'#default_value'</span> =&gt; <span class="variable">$demo</span>-&gt;name,</span><br><span class="line">      <span class="string">'#description'</span> =&gt; <span class="variable">$this</span>-&gt;t(<span class="string">"demo name."</span>),</span><br><span class="line">      <span class="string">'#required'</span> =&gt; <span class="keyword">TRUE</span>,</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The unique machine name of the demo.</span></span><br><span class="line">    <span class="variable">$form</span>[<span class="string">'id'</span>] = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'machine_name'</span>,</span><br><span class="line">      <span class="string">'#maxlength'</span> =&gt; EntityTypeInterface::BUNDLE_MAX_LENGTH,</span><br><span class="line">      <span class="string">'#default_value'</span> =&gt; <span class="variable">$demo</span>-&gt;id,</span><br><span class="line">      <span class="string">'#disabled'</span> =&gt; !<span class="variable">$demo</span>-&gt;isNew(),</span><br><span class="line">      <span class="string">'#machine_name'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'source'</span> =&gt; <span class="keyword">array</span>(<span class="string">'name'</span>),</span><br><span class="line">        <span class="string">'exists'</span> =&gt; <span class="string">'demo_load'</span></span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The sex.</span></span><br><span class="line">    <span class="variable">$form</span>[<span class="string">'sex'</span>] = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'select'</span>,</span><br><span class="line">      <span class="string">'#options'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'Man'</span> =&gt; <span class="string">'Man'</span>,</span><br><span class="line">        <span class="string">'Woman'</span> =&gt; <span class="string">'Woman'</span>,</span><br><span class="line">      ),</span><br><span class="line">      <span class="string">'#title'</span> =&gt; <span class="variable">$this</span>-&gt;t(<span class="string">'Sex'</span>),</span><br><span class="line">      <span class="string">'#maxlength'</span> =&gt; <span class="number">255</span>,</span><br><span class="line">      <span class="string">'#default_value'</span> =&gt; <span class="variable">$demo</span>-&gt;sex,</span><br><span class="line">      <span class="string">'#description'</span> =&gt; <span class="variable">$this</span>-&gt;t(<span class="string">"sex"</span>),</span><br><span class="line">      <span class="string">'#required'</span> =&gt; <span class="keyword">TRUE</span>,</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$form</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">(array <span class="variable">$form</span>, FormStateInterface <span class="variable">$form_state</span>)</span> </span>&#123;</span><br><span class="line">    <span class="variable">$demo</span> = <span class="variable">$this</span>-&gt;entity;</span><br><span class="line">    <span class="variable">$status</span> = <span class="variable">$demo</span>-&gt;save();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$status</span>) &#123;</span><br><span class="line">      <span class="comment">// Setting the success message.</span></span><br><span class="line">      drupal_set_message(<span class="variable">$this</span>-&gt;t(<span class="string">'Saved the demo: @label.'</span>, <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'@label'</span> =&gt; <span class="variable">$demo</span>-&gt;name,</span><br><span class="line">      )));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      drupal_set_message(<span class="variable">$this</span>-&gt;t(<span class="string">'The @label demo was not saved.'</span>, <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'@label'</span> =&gt; <span class="variable">$demo</span>-&gt;name,</span><br><span class="line">      )));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$form_state</span>-&gt;setRedirect(<span class="string">'demo.list'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如图：</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212259_77460.png" alt="DemoForm"></p>
+<h4 id="2、touch_src/Form/DemoFormDelete-php。">2、touch src/Form/DemoFormDelete.php。</h4><p>DemoFormDelete继承<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21EntityConfirmFormBase.php/class/EntityConfirmFormBase/8" target="_blank" rel="external">EntityConfirmFormBase</a>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains \Drupal\demo\Form\DemoDeleteForm.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Form</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityConfirmFormBase</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Url</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormStateInterface</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Form that handles the removal of demo entities.</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoDeleteForm</span> <span class="keyword">extends</span> <span class="title">EntityConfirmFormBase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getQuestion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$this</span>-&gt;t(<span class="string">'Are you sure you want to delete this demo: @name?'</span>, <span class="keyword">array</span>(<span class="string">'@name'</span> =&gt; <span class="variable">$this</span>-&gt;entity-&gt;name));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getCancelUrl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Url(<span class="string">'demo.list'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getConfirmText</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$this</span>-&gt;t(<span class="string">'Delete'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">submitForm</span><span class="params">(array &amp;<span class="variable">$form</span>, FormStateInterface <span class="variable">$form_state</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Delete and set message</span></span><br><span class="line">    <span class="variable">$this</span>-&gt;entity-&gt;delete();</span><br><span class="line">    drupal_set_message(<span class="variable">$this</span>-&gt;t(<span class="string">'The demo @name has been deleted.'</span>, <span class="keyword">array</span>(<span class="string">'@name'</span> =&gt; <span class="variable">$this</span>-&gt;entity-&gt;name)));</span><br><span class="line"></span><br><span class="line">    <span class="variable">$form_state</span>-&gt;setRedirectUrl(<span class="variable">$this</span>-&gt;getCancelUrl());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如图：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212429_43428.png" alt="FormDelete"></p>
+<h3 id="四、list_builder">四、list builder</h3><p>接下来就该创建管理界面啦！</p>
+<p>在src目录下，touch DemoListBuilder.php</p>
+<p>DemoListBuilder继承<a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Config!Entity!ConfigEntityListBuilder.php/class/ConfigEntityListBuilder/8" target="_blank" rel="external">ConfigEntityListBuilder</a>，实现了三个方法。</p>
+<p>1、buildHeader：创建表格header<br>2、buildRow：创建表格行<br>3、render：重写表格输出的内容，类似于Drupal7的hook</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> *</span><br><span class="line"> * Contains Drupal\demo\DemoListBuilder</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>\<span class="title">Entity</span>\<span class="title">ConfigEntityListBuilder</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityInterface</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoListBuilder</span> <span class="keyword">extends</span> <span class="title">ConfigEntityListBuilder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">buildHeader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="variable">$header</span>[<span class="string">'label'</span>] = <span class="variable">$this</span>-&gt;t(<span class="string">'Name'</span>);</span><br><span class="line">    <span class="variable">$header</span>[<span class="string">'sex'</span>] = <span class="variable">$this</span>-&gt;t(<span class="string">'Sex'</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$header</span> + <span class="keyword">parent</span>::buildHeader();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">buildRow</span><span class="params">(EntityInterface <span class="variable">$entity</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Label</span></span><br><span class="line">    <span class="variable">$row</span>[<span class="string">'label'</span>] = <span class="variable">$this</span>-&gt;getLabel(<span class="variable">$entity</span>);</span><br><span class="line">    <span class="comment">// Sex</span></span><br><span class="line">    <span class="variable">$row</span>[<span class="string">'sex'</span>] = <span class="variable">$entity</span>-&gt;sex;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$row</span> + <span class="keyword">parent</span>::buildRow(<span class="variable">$entity</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="variable">$build</span> = <span class="keyword">parent</span>::render();</span><br><span class="line">    <span class="variable">$build</span>[<span class="string">'#empty'</span>] = <span class="variable">$this</span>-&gt;t(<span class="string">'There are no data available.'</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$build</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如图：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212547_35896.png" alt="ListBuilder"></p>
+<h3 id="五、schema">五、schema</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir config/schema</span><br><span class="line">touch demo.schema.yml</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Schema for the configuration files of the Demo module.</span></span><br><span class="line"></span><br><span class="line">demo.demo.*:</span><br><span class="line">  type: mapping</span><br><span class="line">  label: <span class="string">'Demo'</span></span><br><span class="line">  mapping:</span><br><span class="line">    id:</span><br><span class="line">      type: string</span><br><span class="line">      label: <span class="string">'Demo identifier'</span></span><br><span class="line">    uuid:</span><br><span class="line">      type: string</span><br><span class="line">      label: <span class="string">'UUID'</span></span><br><span class="line">    name:</span><br><span class="line">      type: label</span><br><span class="line">      label: <span class="string">'Name'</span></span><br><span class="line">    sex:</span><br><span class="line">      type: string</span><br><span class="line">      label: <span class="string">'Sex'</span></span><br><span class="line">      translatable: <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<p>schema的命名规则：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(demo module).(demo configuration entity <span class="built_in">type</span>).(all demo configuration entities).</span><br></pre></td></tr></table></figure>
+<p>uuid在这里也可以不用定义，drupal默认会添加。</p>
+<h3 id="六、routing">六、routing</h3><p>定义一些路由：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">demo.list:</span><br><span class="line">  path: <span class="string">'/admin/structure/demos'</span></span><br><span class="line">  defaults:</span><br><span class="line">    _entity_list: <span class="string">'demo'</span></span><br><span class="line">    _title: <span class="string">'Demos'</span></span><br><span class="line">  requirements:</span><br><span class="line">    _permission: <span class="string">'administer site configuration'</span></span><br><span class="line">demo.add:</span><br><span class="line">  path: <span class="string">'/admin/structure/demos/add'</span></span><br><span class="line">  defaults:</span><br><span class="line">    _entity_form: <span class="string">'demo.add'</span></span><br><span class="line">    _title: <span class="string">'Add a new demo'</span></span><br><span class="line">  requirements:</span><br><span class="line">    _permission: <span class="string">'administer site configuration'</span></span><br><span class="line">entity.demo.edit_form:</span><br><span class="line">  path: <span class="string">'/admin/structure/demos/&#123;demo&#125;'</span></span><br><span class="line">  defaults:</span><br><span class="line">    _entity_form: <span class="string">'demo.edit'</span></span><br><span class="line">    _title: <span class="string">'Edit demo'</span></span><br><span class="line">  requirements:</span><br><span class="line">    _permission: <span class="string">'administer site configuration'</span></span><br><span class="line">entity.demo.delete_form:</span><br><span class="line">  path: <span class="string">'/admin/structure/demos/&#123;demo&#125;/delete'</span></span><br><span class="line">  defaults:</span><br><span class="line">    _entity_form: <span class="string">'demo.delete'</span></span><br><span class="line">    _title: <span class="string">'Delete demo'</span></span><br><span class="line">  requirements:</span><br><span class="line">    _permission: <span class="string">'administer site configuration'</span></span><br></pre></td></tr></table></figure>
+<h3 id="七、_links">七、 links</h3><h4 id="1、显示添加按钮在网页上，需要在demo-links-action-yml中定义">1、显示添加按钮在网页上，需要在demo.links.action.yml中定义</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">demo.add:</span><br><span class="line">  route_name: <span class="string">'demo.add'</span></span><br><span class="line">  title: <span class="string">'Add demo'</span></span><br><span class="line">  appears_on:</span><br><span class="line">    - demo.list</span><br></pre></td></tr></table></figure>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212157_21914.png" alt="demo.add"></p>
+<h4 id="2、在admin/structure页面显示demo，需要在demo-links-menu-yml中定义">2、在admin/structure页面显示demo，需要在demo.links.menu.yml中定义</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">demo.list:</span><br><span class="line">  title: Demo</span><br><span class="line">  description: <span class="string">'Administrator the demo entities'</span></span><br><span class="line">  parent: system.admin_structure</span><br><span class="line">  route_name: demo.list</span><br></pre></td></tr></table></figure>
+<p>如图：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212041_77165.png" alt="demo.list"></p>
+<p>参考文章：<br>1、<a href="http://www.slideshare.net/andypost/d8-entity" target="_blank" rel="external">http://www.slideshare.net/andypost/d8-entity</a><br>2、<a href="http://www.sitepoint.com/drupal-8-version-entityfieldquery/" target="_blank" rel="external">http://www.sitepoint.com/drupal-8-version-entityfieldquery/</a><br>3、<a href="https://www.drupal.org/node/1809494" target="_blank" rel="external">https://www.drupal.org/node/1809494</a></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/configuration-entity/" rel="tag">#configuration_entity</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/15/Drupal8-Service-DependencyInjection/" rel="next" title="Drupal8-Service-DependencyInjection">
+                <i class="fa fa-chevron-left"></i> Drupal8-Service-DependencyInjection
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/22/Drupal8-Content-Entity/" rel="prev" title="Drupal8 Content Entity">
+                Drupal8 Content Entity <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/12/21/Drupal8-configuration-Entity/"
+           data-title="Drupal8 Configuration Entity" data-url="http://verynull.com/2015/12/21/Drupal8-configuration-Entity/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/2015060790205_41484.jpeg" alt="RamboLau" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">RamboLau</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">记录生活，分享知识，传播乐趣</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives/">
+              <span class="site-state-item-count">55</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/RamboLau" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、配置实体接口(configuration_entity_interface)"><span class="nav-number">1.</span> <span class="nav-text">一、配置实体接口(configuration entity interface)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、配置实体类(configuration_entity_class)"><span class="nav-number">2.</span> <span class="nav-text">二、配置实体类(configuration entity class)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、实体表单(entity_form)"><span class="nav-number">3.</span> <span class="nav-text">三、实体表单(entity form)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、mkdir_-p_src/Form，并touch_src/Form/DemoForm-php。"><span class="nav-number">3.1.</span> <span class="nav-text">1、mkdir -p src/Form，并touch src/Form/DemoForm.php。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、touch_src/Form/DemoFormDelete-php。"><span class="nav-number">3.2.</span> <span class="nav-text">2、touch src/Form/DemoFormDelete.php。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、list_builder"><span class="nav-number">4.</span> <span class="nav-text">四、list builder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、schema"><span class="nav-number">5.</span> <span class="nav-text">五、schema</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、routing"><span class="nav-number">6.</span> <span class="nav-text">六、routing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、_links"><span class="nav-number">7.</span> <span class="nav-text">七、 links</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、显示添加按钮在网页上，需要在demo-links-action-yml中定义"><span class="nav-number">7.1.</span> <span class="nav-text">1、显示添加按钮在网页上，需要在demo.links.action.yml中定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、在admin/structure页面显示demo，需要在demo-links-menu-yml中定义"><span class="nav-number">7.2.</span> <span class="nav-text">2、在admin/structure页面显示demo，需要在demo.links.menu.yml中定义</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2012 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"176code"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

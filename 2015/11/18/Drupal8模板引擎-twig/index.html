@@ -1,0 +1,1227 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.useso.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="twig," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Rambo's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="一、简介Twig是一个高效、安全并可扩展的PHP模板引擎。
+如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。
+关键特性：
+
+快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Drupal8模板引擎-twig">
+<meta property="og:url" content="http://verynull.com/2015/11/18/Drupal8模板引擎-twig/index.html">
+<meta property="og:site_name" content="Rambo's Blog">
+<meta property="og:description" content="一、简介Twig是一个高效、安全并可扩展的PHP模板引擎。
+如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。
+关键特性：
+
+快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Drupal8模板引擎-twig">
+<meta name="twitter:description" content="一、简介Twig是一个高效、安全并可扩展的PHP模板引擎。
+如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。
+关键特性：
+
+快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Drupal8模板引擎-twig | Rambo's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Rambo's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录生活，分享知识，传播乐趣</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Drupal8模板引擎-twig
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-18T16:35:16+08:00" content="2015-11-18">
+              2015-11-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/18/Drupal8模板引擎-twig/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/18/Drupal8模板引擎-twig/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="一、简介">一、简介</h2><p>Twig是一个高效、安全并可扩展的PHP模板引擎。</p>
+<p>如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。</p>
+<p>关键特性：</p>
+<ul>
+<li>快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。</li>
+<li>安全：Twig会使用一个沙箱模式来运行不信任的模板代码。这使得Twig可以在用户可以修改模板设计的应用中工作良好。</li>
+<li>弹性：Twig试用了弹性的词法和语法分析器。开发者可以定义自己的标记和过滤，并创建自己的DSL。</li>
+</ul>
+<h3 id="需求">需求</h3><p>Twig需要的最小运行环境为PHP <strong>5.2.4</strong></p>
+<h3 id="安装">安装</h3><p>推荐使用Composer安装Twig：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer require <span class="string">"twig/twig:~1.0"</span></span><br></pre></td></tr></table></figure>
+<h3 id="基础API用法">基础API用法</h3><p>本节对Twig PHP API做一个简单介绍。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require_once</span> <span class="string">'/path/to/vendor/autoload.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$loader</span> = <span class="keyword">new</span> Twig_Loader_Array(</span><br><span class="line">    <span class="string">'index'</span> =&gt; <span class="string">'Hello &#123;&#123; name &#125;&#125;!'</span>,</span><br><span class="line">);</span><br><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$twig</span>-&gt;render(<span class="string">'index'</span>, <span class="keyword">array</span>(<span class="string">'name'</span> =&gt; <span class="string">'Fabien'</span>));</span><br></pre></td></tr></table></figure>
+<p>Twig使用一个加载器(Twig_Loader_Array)来定位模板文件，使用一个环境(Twig_Environment)来存储配置，render()方法的第一个参数指定了模板，后面的参数则为渲染提供了变量。 模板一般是保存在文件系统中，所以Twig提供了一个文件系统加载器：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$loader</span> = <span class="keyword">new</span> Twig_Loader_Filesystem(<span class="string">'/path/to/templates'</span>);</span><br><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>, <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'cache'</span> =&gt; <span class="string">'/path/to/compilation_cache'</span>,</span><br><span class="line">));</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$twig</span>-&gt;render(<span class="string">'index.html'</span>, <span class="keyword">array</span>(<span class="string">'name'</span> =&gt; <span class="string">'Fabien'</span>));</span><br></pre></td></tr></table></figure>
+<p>如果没有使用 Composer，可以使用 Twig 的内置加载器：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require_once</span> <span class="string">'/path/to/lib/Twig/Autoloader.php'</span>;</span><br><span class="line">Twig_Autoloader::register();</span><br></pre></td></tr></table></figure>
+<h2 id="二、模板设计者的Twig">二、模板设计者的Twig</h2><p>本文描述了模板引擎中涉及到的语法和语义，对Twig模板的设计会很有帮助。</p>
+<h3 id="概要">概要</h3><p>模板是一个简单的文本文件。它能够生成任何文本格式（HTML, XML, CSV, LaTeX等）。他没有固定的扩展名，html、xml都没关系。</p>
+<p>模板中包含变量和表达式在模板被处理时会被替换为真实的值，tags则对模板的逻辑进行控制。</p>
+<p>下面用一个小例子展示一些基础内容，当然，后面会做进一步的深入。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">      &lt;title&gt;My Webpage&lt;/title&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;ul id=<span class="string">"navigation"</span>&gt;</span><br><span class="line">    &#123;% raw %&#125;</span><br><span class="line">    &#123;% <span class="keyword">for</span> item in navigation %&#125;</span><br><span class="line">        &lt;li&gt;&lt;a href=<span class="string">"&#123;&#123; item.href &#125;&#125;"</span>&gt;&#123;&#123; item.caption &#125;&#125;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">    &#123;% <span class="keyword">endfor</span> %&#125;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">    &#123;% endraw %&#125;</span><br><span class="line">    &lt;h1&gt;My Webpage&lt;/h1&gt;</span><br><span class="line">    &#123;% raw %&#125;</span><br><span class="line">    &#123;&#123; a_variable &#125;&#125;</span><br><span class="line">    &#123;% endraw %&#125;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+上面代码中有两种分隔符：{% ... %}和{{ ... }}。第一种用于执行for循环之类的语句，第二种用于输出表达式结果。
+
+<h3 id="变量">变量</h3><p>应用会把变量传递给模板进行处理。变量自身也可以拥有属性或元素供外部访问。变量的具体形态取决于提供变量的应用。</p>
+<p>可以利用句点（.）来访问变量的属性（相当于PHP对象的属性或方法，或者PHP数组的成员），或者也可以使用下标语法（[]）：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; foo.bar &#125;&#125;</span><br><span class="line">&#123;&#123; foo[<span class="string">'bar'</span>] &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>当属性名字中包含了特别字符（例如“-”会被当做减号处理）的时候，可以使用attribute函数来访问变量的属性：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="comment"># 等价于不能工作的：foo.data-foo #&#125;</span></span><br><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; attribute(foo, <span class="string">'data-foo'</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p><em>大括号是打印指令，而不是变量的组成部分。当在tag中访问变量的时候，不要在Tag中访问变量的时候使用这种语法。</em></p>
+<p>在strict_variables选项为false的时候，如果变量或属性不存在，会返回null；而如果该选项设置为true，这种情况就会抛出错误</p>
+<h3 id="实现">实现</h3><p>foo.bar在PHP这一层次做了如下事情：</p>
+<ul>
+<li>检查foo是不是数组，bar是不是其中的一个有效元素；</li>
+<li>如果不是，且foo是一个对象，检查bar是不是有效的属性；</li>
+<li>如果不是，且foo是一个对象，检查bar是不是有效的方法（即使bar是构造器——所以请使用__construct()）；</li>
+<li>如果不是，且foo是一个对象，检查getBar是不是有效的方法；</li>
+<li>如果不是，且foo是一个对象，检查isBar是不是有效的方法；</li>
+<li>如果都不是，返回null。</li>
+</ul>
+<p>另一方面，foo[‘bar’]只对PHP数组工作 - 检查foo是不是一个数组，bar是不是一个有效元素； - 如果不是，返回null。</p>
+<p><strong>如果要访问变量的动态属性，应该使用attribute()函数。</strong></p>
+<h3 id="全局变量">全局变量</h3><p>模板中随时可以使用如下的变量：</p>
+<ul>
+<li>_self：当前的模板；</li>
+<li>_context：当前上下文</li>
+<li>_charset：当前编码</li>
+</ul>
+<h3 id="设置变量">设置变量</h3><p>可以在代码中为变量赋值。赋值过程使用settag完成：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% set foo = <span class="string">'foo'</span> %&#125;</span><br><span class="line">&#123;% set foo = [<span class="number">1</span>, <span class="number">2</span>] %&#125;</span><br><span class="line">&#123;% set foo = &#123;<span class="string">'foo'</span>: <span class="string">'bar'</span>&#125; %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Filters">Filters</h3><p>变量可以用filters进行修改。Filters和变量之间用管道符（|）进行分隔，可以用括号来包含参数。多个Filter可能进行链式调用——前一个Filter的输出可作为下一个Filter的输入。</p>
+<p>下面的例子清理所有的HTML标记，并做标题大写处理：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; name|striptags|title &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>Filter可以用括号的形式接收参数。这个例子用逗号连接一个列表：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="keyword">list</span>|join(<span class="string">', '</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>要对一段代码使用Filter，可以用filter tag操作：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% filter upper %&#125;</span><br><span class="line">  This text becomes uppercase</span><br><span class="line">&#123;% endfilter %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="函数">函数</h3><p>调用函数可以生成内容。调用函数的方式是：函数名称加括号，括号中可能包含参数。</p>
+<p>例如range函数返回一个递增的整数列表：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">for</span> i in range(<span class="number">0</span>, <span class="number">3</span>) %&#125;</span><br><span class="line">  &#123;&#123; i &#125;&#125;,</span><br><span class="line">&#123;% <span class="keyword">endfor</span> %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>前往<a href="http://twig.sensiolabs.org/doc/functions/index.html" target="_blank" rel="external">functions</a>一节可以学习更多内置函数的内容。</p>
+<h3 id="具名参数">具名参数</h3><p>1.12版中新增</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">for</span> i in range(low=<span class="number">1</span>, high=<span class="number">10</span>, step=<span class="number">2</span>) %&#125;</span><br><span class="line">  &#123;&#123; i &#125;&#125;,</span><br><span class="line">&#123;% <span class="keyword">endfor</span> %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>有了具名参数，传递给模板的参数可以更加明确，让模板更加易用。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; data|convert_encoding(<span class="string">'UTF-8'</span>, <span class="string">'iso-2022-jp'</span>) &#125;&#125;</span><br><span class="line">&#123;<span class="comment"># 相比： #&#125;</span></span><br><span class="line">&#123;&#123; data|convert_encoding(from=<span class="string">'iso-2022-jp'</span>, to=<span class="string">'UTF-8'</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>具名参数还能在不传递某些参数时候直接跳过：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;<span class="comment"># the first argument is the date format, which defaults to the global date format if null is passed #&#125;</span></span><br><span class="line">&#123;&#123; <span class="string">"now"</span>|date(<span class="keyword">null</span>, <span class="string">"Europe/Paris"</span>) &#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment"># or skip the format value by using a named argument for the time zone #&#125;</span></span><br><span class="line">&#123;&#123; <span class="string">"now"</span>|date(timezone=<span class="string">"Europe/Paris"</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>还可以用顺序参数和具名参数夹杂的方式进行调用，这里要保证顺序参数必须比具名参数先出现：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="string">"now"</span>|date(<span class="string">'d/m/Y H:i'</span>, timezone=<span class="string">"Europe/Paris"</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p><em>每个函数和Filter的文档中，如果该函数或者Filter支持具名参数，都会有一节列出所有的参数名称。</em></p>
+<h3 id="控制结构">控制结构</h3>
+控制结构指的是所有能够控制程序流程的元素——条件判断（也就是if/elseif/else）、for循环，以及语句块等。控制结构用{% ... %}包裹
+
+<p>例如，要显示一个users变量中所有的列表成员，使用for：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;Members&lt;/h1&gt;</span><br><span class="line">&lt;ul&gt;</span><br><span class="line">  &#123;% raw %&#125;</span><br><span class="line">  &#123;% <span class="keyword">for</span> user in users %&#125;</span><br><span class="line">      &lt;li&gt;&#123;&#123; user.username|e &#125;&#125;&lt;/li&gt;</span><br><span class="line">  &#123;% <span class="keyword">endfor</span> %&#125;</span><br><span class="line">  &#123;% endraw %&#125;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+<p>可以用if进行条件判断：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;% <span class="keyword">if</span> users|length &gt; <span class="number">0</span> %&#125;</span><br><span class="line">  &lt;ul&gt;</span><br><span class="line">    &#123;% raw %&#125;</span><br><span class="line">    &#123;% <span class="keyword">for</span> user in users %&#125;</span><br><span class="line">      &lt;li&gt;&#123;&#123; user.username|e &#125;&#125;&lt;/li&gt;</span><br><span class="line">    &#123;% <span class="keyword">endfor</span> %&#125;</span><br><span class="line">    &#123;% endraw %&#125;</span><br><span class="line">  &lt;/ul&gt;</span><br><span class="line">&#123;% <span class="keyword">endif</span> %&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://twig.sensiolabs.org/doc/tags/index.html" target="_blank" rel="external">Tags</a>页中描述了各种内置Tag。</p>
+<h3 id="注释">注释</h3><p>在模板中进行注释，使用注释语法`：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;<span class="comment"># 注：禁用这一块东西，不再需要了</span></span><br><span class="line">&#123;% <span class="keyword">for</span> user in users %&#125;</span><br><span class="line">  ...</span><br><span class="line">&#123;% <span class="keyword">endfor</span> %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br><span class="line"><span class="comment">#&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="包含其他模板">包含其他模板</h3><p>include标签用于包含其它模版，并把该模版的渲染结果返回到当前页面：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">include</span> <span class="string">'sidebar.html'</span> %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>缺省状况下，当前的上下文会被传递给被包含的模板。</p>
+<p>传递给被包含模板中的上下文包含当前模板中定义的变量：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">for</span> box in boxes %&#125;</span><br><span class="line">  &#123;% <span class="keyword">include</span> <span class="string">"render_box.html"</span> %&#125;</span><br><span class="line">&#123;% <span class="keyword">endfor</span> %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子中，render_box.html可以访问box变量。</p>
+<p>模板文件名的选取，取决于模板加载器。比如Twig_Loader_Filesystem允许通过文件名访问其他的模板。可以使用子目录来访问其他模板：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">include</span> <span class="string">"sections/articles/sidebar.html"</span> %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="模版继承">模版继承</h3><p>Twig最强大的能力就是继承。这一个能力可以让你建立一个包含所有基础元素的基础模板，并定义可以被子模板覆盖的block。</p>
+<p>这部分内容并不像听起来那么复杂。下面的例子能让你更好的理解这个概念。</p>
+<p>我们创建一个名为base.html的基本模板，在其中定义了一个简单的HTML结构，后面可以用在一个简单的两列布局的页面上：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &#123;% raw %&#125;</span><br><span class="line">    &#123;% block head %&#125;</span><br><span class="line">      &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"style.css"</span> /&gt;</span><br><span class="line">      &lt;title&gt;&#123;% block title %&#125;&#123;% endblock %&#125; - My Webpage&lt;/title&gt;</span><br><span class="line">    &#123;% endblock %&#125;</span><br><span class="line">    &#123;% endraw %&#125;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;div id=<span class="string">"content"</span>&gt;</span><br><span class="line">      &#123;% raw %&#125;</span><br><span class="line">      &#123;% block content %&#125;</span><br><span class="line">      &#123;% endblock %&#125;</span><br><span class="line">      &#123;% endraw %&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div id=<span class="string">"footer"</span>&gt;</span><br><span class="line">      &#123;% raw %&#125;</span><br><span class="line">      &#123;% block footer %&#125;</span><br><span class="line">          &amp;copy; Copyright <span class="number">2011</span> by &lt;a href=<span class="string">"http://domain.invalid/"</span>&gt;you&lt;/a&gt;.</span><br><span class="line">      &#123;% endblock %&#125;</span><br><span class="line">      &#123;% endraw %&#125;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<a href="http://twig.sensiolabs.org/doc/tags/block.html" target="_blank" rel="external">Block标记</a>定义了四个Block，子模板可以对这四个Block进行填充。所有的Block标记的作用就在于告诉模板引擎——子模板可能对模板的这一部分进行覆盖。</p>
+<p>一个子模板看起来大概是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% extends "base.html" %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;Index&#123;% endblock %&#125;</span><br><span class="line">&#123;% block head %&#125;</span><br><span class="line">  &#123;&#123; parent() &#125;&#125;</span><br><span class="line">  &lt;style type="text/css"&gt;</span><br><span class="line">      .important &#123; color: #336699; &#125;</span><br><span class="line">  &lt;/style&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">  &lt;h1&gt;Index&lt;/h1&gt;</span><br><span class="line">  &lt;p class="important"&gt;</span><br><span class="line">      Welcome to my awesome homepage.</span><br><span class="line">  &lt;/p&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>此处的关键就在于<a href="http://twig.sensiolabs.org/doc/tags/extends.html" target="_blank" rel="external">Extends tag</a>。他让模板引擎得知这个模板是“扩展自其他模板”。当模板系统处理这一模板的时候，就会首先定位父模板。Extends标记应该是子模板的第一个标记。</p>
+<p>另外因为子模板中没有定义footer block，所以此处会继续使用父模板的内容。</p>
+<p>也可以用<a href="http://twig.sensiolabs.org/doc/functions/parent.html" target="_blank" rel="external">Parent函数</a>来渲染父模板Block的内容。这一调用会返回父模板中的Block结果：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% block sidebar %&#125;</span><br><span class="line">  &lt;h3&gt;Table Of Contents&lt;/h3&gt;</span><br><span class="line">  ...</span><br><span class="line">  &#123;&#123; <span class="keyword">parent</span>() &#125;&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p><em><a href="http://twig.sensiolabs.org/doc/tags/extends.html" target="_blank" rel="external">extend文档</a>中介绍了更深入的特性，例如Block嵌套、作用域、动态继承以及条件继承等。</em></p>
+<h3 id="HTML转义">HTML转义</h3><p>从模板中生成HTML的时候，存在一种风险：一个变量可能包含了HTML代码，会影响到最终的HTML。有两种方式来解决这个问题：人工转义每一个变量，或者缺省情况下自动转义所有变量。Twig对两种方式都支持，缺省开启第二种。</p>
+<p><em>自动转义只有在escaper扩展激活的情况下才生效。</em></p>
+<ul>
+<li><h4 id="人工转义">人工转义</h4></li>
+</ul>
+<p>如果启用了人工转义，那么对需要进行处理的变量进行转义就成了开发者的责任。那么什么需要被转义呢？答案是所有不信任的变量。人工转义的方法是把变量传送给<a href="http://twig.sensiolabs.org/doc/filters/escape.html" target="_blank" rel="external">escape filter</a>或者e filter进行处理。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; user.username|e &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><h4 id="自动转义">自动转义</h4></li>
+</ul>
+<p>不管是否启用了自动转义，都可以利用<a href="http://twig.sensiolabs.org/doc/tags/autoescape.html" target="_blank" rel="external">autoescape</a>标记来标记模板中的一段内容。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% autoescape %&#125;</span><br><span class="line">  Everything will be automatically escaped in this block (using the HTML strategy)</span><br><span class="line">&#123;% endautoescape %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>缺省情况下，自动转义使用html策略。如果输出内容属于其他上下文，则需要显式的指定其他的转义策略：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% autoescape <span class="string">'js'</span> %&#125;</span><br><span class="line">这个区块中的所有字符都会被自动转义(采用JS策略)</span><br><span class="line">&#123;% endautoescape %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>转义</p>
+</blockquote>
+
+让Twig能够忽略一部分本应当做是block或者变量来处理的东西，是个常见甚至必要的需求。例如想要以原始形态输出{{这样被语法占用的关键字，而不想被当做变量的开始，就可以使用一个小技巧。
+{% endraw %}
+<p>最简单的方式就是使用一个变量表达式：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="string">'&#123;&#123;'</span> &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="宏">宏</h3><p>在版本1.12中出现：支持缺省参数值。</p>
+<p>宏和和其他语言中的函数类似。它可以复用经常使用的HTML片段。</p>
+<p>使用<a href="http://twig.sensiolabs.org/doc/tags/macro.html" target="_blank" rel="external">macro标记</a>可以定义宏。下面是forms.html中的一个小例子：利用宏渲染一个form元素：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% macro input(name, value, type, size) %&#125;</span><br><span class="line">  &lt;input type=<span class="string">"&#123;&#123; type|default('text') &#125;&#125;"</span> name=<span class="string">"&#123;&#123; name &#125;&#125;"</span> value=<span class="string">"&#123;&#123; value|e &#125;&#125;"</span> size=<span class="string">"&#123;&#123; size|default(20) &#125;&#125;"</span> /&gt;</span><br><span class="line">&#123;% endmacro %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>可以在任何模板中定义宏，然后使用<a href="http://twig.sensiolabs.org/doc/tags/import.html" target="_blank" rel="external">import标记</a>进行导入即可：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% import <span class="string">"forms.html"</span> <span class="keyword">as</span> forms %&#125;</span><br><span class="line">&lt;p&gt;&#123;&#123; forms.input(<span class="string">'username'</span>) &#125;&#125;&lt;/p&gt;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>在从其他模板中进行引入的时候，还可以利用From标记为其赋予别名：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% from <span class="string">'forms.html'</span> import input <span class="keyword">as</span> input_field %&#125;</span><br><span class="line">&lt;dl&gt;</span><br><span class="line">  &lt;dt&gt;Username&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;&#123;&#123; input_field(<span class="string">'username'</span>) &#125;&#125;&lt;/dd&gt;</span><br><span class="line">  &lt;dt&gt;Password&lt;/dt&gt;</span><br><span class="line">  &lt;dd&gt;&#123;&#123; input_field(<span class="string">'password'</span>, <span class="string">''</span>, <span class="string">'password'</span>) &#125;&#125;&lt;/dd&gt;</span><br><span class="line">&lt;/dl&gt;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>还可以在为宏指定缺省参数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% macro input(name, value = <span class="string">""</span>, type = <span class="string">"text"</span>, size = <span class="number">20</span>) %&#125;</span><br><span class="line">  &lt;input type=<span class="string">"&#123;&#123; type &#125;&#125;"</span> name=<span class="string">"&#123;&#123; name &#125;&#125;"</span> value=<span class="string">"&#123;&#123; value|e &#125;&#125;"</span> size=<span class="string">"&#123;&#123; size &#125;&#125;"</span> /&gt;</span><br><span class="line">&#123;% endmacro %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="表达式">表达式</h3><p>Twig允许使用表达式，工作方式类似普通的PHP，即使你对PHP没那么熟悉，也可以轻松面对。</p>
+<blockquote>
+<p>运算符优先级按递增顺序排列如下：<br>b-and, b-xor, b-or, or, and, ==, !=, &lt;, &gt;, &gt;=, &lt;=, in, matches, starts with, ends with, .., +, -, ~, <em>, /, //, %, is, *</em>, |, [], and</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% set greeting = <span class="string">'Hello '</span> %&#125;</span><br><span class="line">&#123;% set name = <span class="string">'Fabien'</span> %&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123; greeting ~ name|lower &#125;&#125;   &#123;<span class="comment"># Hello fabien #&#125;</span></span><br><span class="line"></span><br><span class="line">&#123;<span class="comment"># use parenthesis to change precedence #&#125;</span></span><br><span class="line">&#123;&#123; (greeting ~ name)|lower &#125;&#125; &#123;<span class="comment"># hello fabien #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="常量">常量</h4><p>在1.5中新增：支持以名称和表达式作为哈希键</p>
+<p>表达式的最简单形式就是常量了。他是PHP类型的一种实现，包含字符串、数字以及数组。以下是一些例子</p>
+<ul>
+<li>“Hello world”：单引号或双引号之间的内容是字符串。可以在任何需要字符串的情况下使用（例如作为函数或者Filter的参数，或者在extend以及include过程中使用）。</li>
+<li>42 / 42.23：整数和浮点数。有小数点的是浮点数；否则就是整数。</li>
+<li>[“foo”, “bar”]：数组由方括号包含的一组逗号分隔的表达式组成。</li>
+<li>{“foo”: “bar”}：同数组类似，不过是以花括号进行包装。</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;<span class="comment"># keys as string #&#125;</span></span><br><span class="line">&#123; <span class="string">'foo'</span>: <span class="string">'foo'</span>, <span class="string">'bar'</span>: <span class="string">'bar'</span> &#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment"># keys as names (equivalent to the previous hash) -- as of Twig 1.5 #&#125;</span></span><br><span class="line">&#123; foo: <span class="string">'foo'</span>, bar: <span class="string">'bar'</span> &#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment"># keys as integer #&#125;</span></span><br><span class="line">&#123; <span class="number">2</span>: <span class="string">'foo'</span>, <span class="number">4</span>: <span class="string">'bar'</span> &#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment"># keys as expressions (the expression must be enclosed into parentheses) -- as of Twig 1.5 #&#125;</span></span><br><span class="line">&#123; (<span class="number">1</span> + <span class="number">1</span>): <span class="string">'foo'</span>, (a ~ <span class="string">'b'</span>): <span class="string">'bar'</span> &#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>true / false：布尔值，你懂的</li>
+<li>null：表明无特定值。当访问一个不存在的变量时，就会返回null，none是null的别名。</li>
+</ul>
+<p>数组和哈希可以嵌套：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% set foo = [<span class="number">1</span>, &#123;<span class="string">"foo"</span>: <span class="string">"bar"</span>&#125;] %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p><em>字符串使用单双引号对性能没什么影响，但是只有双引号才支持字符串差值。</em></p>
+<h4 id="算数运算符">算数运算符</h4><p>Twig可以进行运算。这个功能很少用得到，不过为了完整起见，还是提供了这个功能。目前支持下列操作符：</p>
+{% raw %}
+
+- +：加法
+- -：减法
+- /：除法
+- %：求余。{{ 11 % 7 }} 等于 4.
+- //：整除，返回两个数相除得到的结果的整数部分。{{ 20 // 7 }}等于2
+- *： 相乘，{{2 * 2}} 返回 4。
+- **：乘方，{{ 2 3}}`等于8。
+
+
+<h4 id="逻辑运算符">逻辑运算符</h4><p>可以用下面的操作符连接多个表达式：</p>
+<ul>
+<li>and：与运算</li>
+<li>or：或运算</li>
+<li>not：非运算</li>
+<li>(expr)：为表达式分组</li>
+</ul>
+<p><em>Twig还支持位操作：（b-and, b-xor 以及 b-or）。</em></p>
+<h4 id="比较运算符">比较运算符</h4><p>Twig支持的比较运算符：==、!=、&lt;、&gt;、&gt;=、&lt;=，还可以对字符串使用starts with或者end with：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> <span class="string">'Fabien'</span> starts with <span class="string">'F'</span> %&#125;</span><br><span class="line">&#123;% <span class="keyword">endif</span> %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% <span class="keyword">if</span> <span class="string">'Fabien'</span> ends with <span class="string">'n'</span> %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p><em>对于复杂的字符串比较，matches操作符提供了正则表达式的匹配能力：</em></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> phone matches <span class="string">'/^[\\d\\.]+$/'</span> %&#125;</span><br><span class="line">&#123;% <span class="keyword">endif</span> %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="包含操作符">包含操作符</h4><p>操作符in提供了包含测试功能。</p>
+<p>如果右侧操作数包含左侧的操作数，则返回true：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;<span class="comment"># returns true #&#125;</span></span><br><span class="line"></span><br><span class="line">&#123;&#123; <span class="number">1</span> in [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] &#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123; <span class="string">'cd'</span> in <span class="string">'abcde'</span> &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>还可以反着用（not in）：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> <span class="number">1</span> not in [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] %&#125;</span><br><span class="line">&#123;<span class="comment"># 等价于 #&#125;</span></span><br><span class="line">&#123;% <span class="keyword">if</span> not (<span class="number">1</span> in [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]) %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试操作符">测试操作符</h4><p>is操作符用于测试。可以用于测试一个变量和表达式，右侧的操作数就是测试的名字：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;<span class="comment"># 检测变量是不是奇数 #&#125;</span></span><br><span class="line">&#123;&#123; name is odd &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>测试也可以接受参数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> post.status is constant(<span class="string">'Post::PUBLISHED'</span>) %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>可以使用is not来进行否定测试：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% <span class="keyword">if</span> post.status is not constant(<span class="string">'Post::PUBLISHED'</span>) %&#125;</span><br><span class="line">&#123;<span class="comment"># 等价于 #&#125;</span></span><br><span class="line">&#123;% <span class="keyword">if</span> not (post.status is constant(<span class="string">'Post::PUBLISHED'</span>)) %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>可以去<a href="http://twig.sensiolabs.org/doc/tests/index.html" target="_blank" rel="external">test</a>页面来了解一下内置的测试。</p>
+<h4 id="其他操作符">其他操作符</h4><p>1.12.0中加入了扩展的三元操作符。</p>
+<ul>
+<li>|：管道符号，应用一个filter</li>
+<li>..：以左右两个操作数为基础生成一个序列</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="number">1.</span>.<span class="number">5</span> &#125;&#125;</span><br><span class="line">&#123;<span class="comment"># 等价于 #&#125;</span></span><br><span class="line">&#123;&#123; range(<span class="number">1</span>, <span class="number">5</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+
+- ~：把所有操作数转换为字符串并连接起来。{{ "Hello " ~ name ~ "!" }}会返回(假设name是'John')Hello John!。
+- .,[]：获取对象的属性
+- ?:：三元操作符
+
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; foo ? <span class="string">'yes'</span> : <span class="string">'no'</span> &#125;&#125;</span><br><span class="line">&#123;<span class="comment"># 在Twig 1.12.0中 #&#125;</span></span><br><span class="line">&#123;&#123; foo ?: <span class="string">'no'</span> &#125;&#125; 等同于 &#123;&#123; foo ? foo : <span class="string">'no'</span> &#125;&#125;</span><br><span class="line">&#123;&#123; foo ? <span class="string">'yes'</span> &#125;&#125; 等同于 &#123;&#123; foo ? <span class="string">'yes'</span> : <span class="string">''</span> &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="字符串插值">字符串插值</h4><p>字符串差值(#{表达式})允许在双引号内的字符串中插入任何有效的表达式。表达式的结果会出现在最终的字符串中：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="string">"foo #&#123;bar&#125; baz"</span> &#125;&#125;</span><br><span class="line">&#123;&#123; <span class="string">"foo #&#123;1 + 2&#125; baz"</span> &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="空白控制">空白控制</h3><p>twig1.1新增tag级别的空白控制</p>
+<p>跟PHP类似，模板标记后面的第一个空行会被自动删除。模板引擎目前已经不再自动清理空白，所有空白（空格、制表符、换行符等）都会原样输出。</p>
+<p>使用<code>spaceless</code>标记可以移出html标记之间的空白：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% spaceless %&#125;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;strong&gt;foo bar&lt;/strong&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&#123;% endspaceless %&#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment"># output will be &lt;div&gt;&lt;strong&gt;foo bar&lt;/strong&gt;&lt;/div&gt; #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>在spaceless标记之外，还可以在每个标记的级别控制空白。在标记上使用空白控制修饰符，可以清除前导或跟随的空白：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% set value = <span class="string">'no spaces'</span> %&#125;</span><br><span class="line">&#123;<span class="comment">#- 取出首位空白 -#&#125;</span></span><br><span class="line">&#123;%- <span class="keyword">if</span> <span class="keyword">true</span> -%&#125;</span><br><span class="line">    &#123;&#123;- value -&#125;&#125;</span><br><span class="line">&#123;%- <span class="keyword">endif</span> -%&#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment"># 输出 'no spaces' #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的例子演示了缺省的空白控制修饰符，以及如何移除标记周围的空白。还可以只清除Tag一边的空白：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% set value = <span class="string">'no spaces'</span> %&#125;</span><br><span class="line">&lt;li&gt;</span><br><span class="line">  &#123;&#123;- value &#125;&#125;</span><br><span class="line">&lt;/li&gt;</span><br><span class="line">&#123;<span class="comment"># 输出 '&lt;li&gt;no spaces&lt;/li&gt;' #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="扩展">扩展</h3><ul>
+<li><p>Twig的扩展很方便。</p>
+</li>
+<li><p>如果你要查找新的标记、filter或者函数，可以浏览官方的<a href="http://github.com/twigphp/Twig-extensions" target="_blank" rel="external">扩展仓库</a>。</p>
+</li>
+<li><p>如果想要创建自己的扩展，请阅读创建<a href="https://drupal.fleeto.us/translation/extending-twig" target="_blank" rel="external">扩展章节</a>。</p>
+</li>
+</ul>
+<h2 id="三、开发者的Twig">三、开发者的Twig</h2><p>本章讲述的是Twig的API，而不是Twig的模板语言。这些内容会对为应用实现模板接口的工作很有帮助，对模板的制作工作就没什么意义了。</p>
+<h3 id="基础">基础</h3><p>Twig的中心对象为<strong>environment</strong>（是Twig_Environment类的实例）。这个类的实例用于存储配置和扩展，并用来从文件系统或者其他位置载入模板。</p>
+<p>绝大多数应用需要在应用初始化的时候，创建一个Twig_Environment对象，然后用它来加载模板。在有些案例中，会有多个环境同时并存，用来处理不同的配置。</p>
+<p>下面举个简单例子，配置Twig来为应用载入模板：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require_once</span> <span class="string">'/path/to/lib/Twig/Autoloader.php'</span>;</span><br><span class="line">Twig_Autoloader::register();</span><br><span class="line"></span><br><span class="line"><span class="variable">$loader</span> = <span class="keyword">new</span> Twig_Loader_Filesystem(<span class="string">'/path/to/templates'</span>);</span><br><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>, <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'cache'</span> =&gt; <span class="string">'/path/to/compilation_cache'</span>,</span><br><span class="line">));</span><br></pre></td></tr></table></figure>
+<p>上面的代码会创建一个缺省设置的环境，然后加载器会去/path/to/templates/目录查找模板。有不同的加载器可以使用，你可以实现自己的加载器用来从数据库或者其他资源中获取模板。</p>
+<p><em>注意，environment的第二个参数是一个数组选项。cache选项声明了一个目录，用于存储Twig编译的模版，以减少解析的开销。这种缓存跟你希望在处理模板过程中加入的缓存是不一样的，所以如果需要自行缓存，请使用其他的PHP缓存库。</em></p>
+<p>要从环境中调用模版，只需要调用<code>loadTemplate</code>函数，函数会返回一个<code>Twig_Template</code>实例</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$template</span> = <span class="variable">$twig</span>-&gt;loadTemplate(<span class="string">'index.html'</span>);</span><br></pre></td></tr></table></figure>
+<p>要渲染带有变量的模版，调用<code>render</code>函数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$template</span>-&gt;render(<span class="keyword">array</span>(<span class="string">'the'</span> =&gt; <span class="string">'variables'</span>, <span class="string">'go'</span> =&gt; <span class="string">'here'</span>));</span><br></pre></td></tr></table></figure>
+<p><em><code>display()</code>方法是用于直接输出模版的快捷方法。</em></p>
+<p>你还可以一气呵成加载和渲染模版：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$twig</span>-&gt;render(<span class="string">'index.html'</span>, <span class="keyword">array</span>(<span class="string">'the'</span> =&gt; <span class="string">'variables'</span>, <span class="string">'go'</span> =&gt; <span class="string">'here'</span>));</span><br></pre></td></tr></table></figure>
+<h3 id="环境选项">环境选项</h3><p>当创建一个新的Twig_Environment实例时，可以创建一个选项数组，作为构造函数的第二个参数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>, <span class="keyword">array</span>(<span class="string">'debug'</span> =&gt; <span class="keyword">true</span>));</span><br></pre></td></tr></table></figure>
+<p>可用的环境选项：</p>
+<ul>
+<li>debug：布尔值，设置为true的时候，生成的模版会带有一个<code>__toString()</code>方法，这个方法可以用来显示生成的Node（默认值false）</li>
+<li>charset：模版的字符集，默认是utf-8</li>
+<li>base_template_class：生成模版时使用的基本模版类，默认Twig_Template</li>
+<li>cache：用于存储缓存的绝对路径名，或者false用于禁用缓存（默认是false）</li>
+<li>auto_reload：布尔值，当用Twig开发时，源代码有修改时就重新编译对于开发者来说是非常必要的。如果不提供一个auto_reload选项，他会从debug选项中取值。</li>
+<li>strict_variables：布尔值，如果设置为false，Twig会忽略无效的变量（无效指的是不存在的变量或者属性/方法），并将其替换为null。如果这个选项设置为true，那么遇到这种情况的时候，Twig会抛出异常。默认值是false</li>
+<li>autoescape：字符串或者布尔值，如果设置为true，HTML的自动转义会默认对所有的模版起效，默认值是true。在Twig 1.8中，可以设置转义策略（html或者js，要关闭可以设置为false）。在Twig 1.9中的转义策略，可以设置为css，url，html_attr，甚至还可以设置为PHP回调函数，该函数需要接受一个模板文件名为参数，且必须返回要使用的转义策略，回调命名应该避免同内置的转义策略冲突。</li>
+<li>optimizations：整型值，一个标记，用于决定采用哪种优化方式（默认是-1，激活所有的优化方式；设置0的话将会禁用）</li>
+</ul>
+<h3 id="加载器">加载器</h3><p>加载器负责从文件系统等资源中加载模版</p>
+<h4 id="编译缓存">编译缓存</h4><p>所有的模版加载器都会在文件系统中缓存编译的模版，已被将来调用。由于模版只编译一次，所以大大地提升了Twig的速度，如果你还使用了PHP加速器，例如APC，性能的提升将会更加的明显。参考上文提到的<code>Twig_Environment</code>中的<code>cache</code>以及<code>auto_reload</code>选项能够获得更多信息。</p>
+<h4 id="内置加载器">内置加载器</h4><p>这里有一个Twig提供的内置加载列表：</p>
+<ul>
+<li><p>Twig_Loader_Filesystem</p>
+<p>1.10新增prependPath()以及命名空间支持</p>
+</li>
+<li><p>Twig_Loader_Filesystem</p>
+<p>从文件系统中加载模版。这个加载器可以在文件系统的目录中找到模版，也是推荐使用的加载器：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$loader</span> = <span class="keyword">new</span> Twig_Loader_Filesystem(<span class="variable">$templateDir</span>);</span><br></pre></td></tr></table></figure>
+<p>它还可以从目录数组中查找模版：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$loader</span> = <span class="keyword">new</span> Twig_Loader_Filesystem(<span class="keyword">array</span>(<span class="variable">$templateDir1</span>, <span class="variable">$templateDir2</span>));</span><br></pre></td></tr></table></figure>
+<p>在这种配置下，Twig会首先在$templateDir1目录下查找模版，如果没有找到，再继续从templateDir2目录下查找。</p>
+<p>你可以通过<code>addPath()</code>和<code>prependPath()</code>方法添加或者追加路径</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$loader</span>-&gt;addPath(<span class="variable">$templateDir3</span>);</span><br><span class="line"><span class="variable">$loader</span>-&gt;prependPath(<span class="variable">$templateDir4</span>);</span><br></pre></td></tr></table></figure>
+<p>filesystem加载器还支持命名空间模版。这一特性将允许用户把模版放在不同的带有命名空间的目录下。</p>
+<p>当使用<code>setPaths()</code>、<code>addPath()</code>以及<code>prependPath()</code>方法时，把命名空间作为第二个参数进行传递（如果没有传递，缺省命名空间为”main”）：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$loader</span>-&gt;addPath(<span class="variable">$templateDir</span>, <span class="string">'admin'</span>);</span><br></pre></td></tr></table></figure>
+<p>命名空间模版可以通过类似于<code>@namespace_name/template_path</code>的注解形式来访问。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span>-&gt;render(<span class="string">'@admin/index.html'</span>, <span class="keyword">array</span>());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Twig_Loader_Array</p>
+<p>Twig_Loader_Array从PHP数组中加载模版</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line"><span class="variable">$loader</span> = <span class="keyword">new</span> Twig_Loader_Array(<span class="keyword">array</span>(</span><br><span class="line"><span class="string">'index.html'</span> =&gt; <span class="string">'Hello &#123;&#123; name &#125;&#125;!'</span>,));</span><br><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$twig</span>-&gt;render(<span class="string">'index.html'</span>, <span class="keyword">array</span>(<span class="string">'name'</span> =&gt; <span class="string">'Fabien'</span>));</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>这个加载器对于单元测试非常有用。这个加载器适合于那些需要把所有的模版都存在在一个单独php文件的小型项目中。</p>
+</li>
+<li><p>Twig_Loader_Chain</p>
+<p>Twig_Loader_Chain委托其它加载器加在模版</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line"><span class="variable">$loader1</span> = <span class="keyword">new</span> Twig_Loader_Array(<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'base.html'</span> =&gt; <span class="string">'&#123;% block content %&#125;&#123;% endblock %&#125;'</span>,</span><br><span class="line">));</span><br><span class="line"><span class="variable">$loader2</span> = <span class="keyword">new</span> Twig_Loader_Array(<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'index.html'</span> =&gt; <span class="string">'&#123;% extends "base.html" %&#125;&#123;% block content %&#125;Hello &#123;&#123; name &#125;&#125;&#123;% endblock %&#125;'</span>,</span><br><span class="line">    <span class="string">'base.html'</span>  =&gt; <span class="string">'Will never be loaded'</span>,</span><br><span class="line">));</span><br><span class="line"></span><br><span class="line"><span class="variable">$loader</span> = <span class="keyword">new</span> Twig_Loader_Chain(<span class="keyword">array</span>(<span class="variable">$loader1</span>, <span class="variable">$loader2</span>));</span><br><span class="line"></span><br><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>当搜索模版的时候，Twig会依次尝试每一个加载器，一旦找到匹配模版，立即返回。当渲染上述例子中的index.html模版时，Twig会在$loader2中加载它，但是对于base.html模版，Twig会从$loader1中加载。</p>
+<p>Twig_Loader_Chain接受任何实现了Twig_LoaderInterface接口的加载器</p>
+<p><em>你还可以通过addLoader()方法添加加载器</em></p>
+</li>
+</ul>
+<h4 id="创建自己的加载器">创建自己的加载器</h4><p>实现了Twig_LoaderInterface接口的加载器：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Twig_LoaderInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Gets the source code of a template, given its name.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @param</span>  string $name string The name of the template to load</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> string The template source code</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getSource</span><span class="params">(<span class="variable">$name</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Gets the cache key to use for the cache for a given template name.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @param</span>  string $name string The name of the template to load</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> string The cache key</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getCacheKey</span><span class="params">(<span class="variable">$name</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Returns true if the template is still fresh.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @param</span> string    $name The template name</span><br><span class="line">   *<span class="phpdoc"> @param</span> timestamp $time The last modification time of the cached template</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">isFresh</span><span class="params">(<span class="variable">$name</span>, <span class="variable">$time</span>)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果当前的缓存模版还是最新的，isFresh()方法必须返回true，否则应该返回最后一次的修改时间，或者直接false</p>
+<p><em>Twig 1.11.0，还可以实现Twig_ExistsLoaderInterface接口，让加载器在同链式加载器协同工作时稍快一些。</em></p>
+<h3 id="使用扩展">使用扩展</h3><p>Twig扩展是打包起来的一些新功能。使用扩展很简单，调用addExtension()方法：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span>-&gt;addExtension(<span class="keyword">new</span> Twig_Extension_Sandbox());</span><br></pre></td></tr></table></figure>
+<p>Twig自带了以下扩展：</p>
+<ul>
+<li><p>Twig_Extension_Core：定义了Twig的所有核心特性</p>
+</li>
+<li><p>Twig_Extension_Escaper：添加自动输出转义，以及代码库可能需要的转义或者反转义</p>
+</li>
+<li><p>Twig_Extension_Sandbox：为Twig环境添加一个默认的沙盒模式，使不信任的可以安全的运行</p>
+</li>
+<li><p>Twig_Extension_Profiler：启用内置的Twig profiler</p>
+</li>
+<li><p>Twig_Extension_Optimizer：编译前优化节点树</p>
+</li>
+</ul>
+<p>核心、转义、以及优化扩展不需要添加到Twig环境中，他们默认就是启用的</p>
+<h3 id="内置扩展">内置扩展</h3><p>这块儿将会描述内置扩展带来的新特性</p>
+<h4 id="核心扩展">核心扩展</h4><p>core扩展定义了Twig的所有核心特性：</p>
+<ul>
+<li><p><a href="http://twig.sensiolabs.org/doc/tags/index.html" target="_blank" rel="external">Tags</a></p>
+</li>
+<li><p><a href="http://twig.sensiolabs.org/doc/filters/index.html" target="_blank" rel="external">Filters</a></p>
+</li>
+<li><p><a href="http://twig.sensiolabs.org/doc/functions/index.html" target="_blank" rel="external">Functions</a></p>
+</li>
+<li><p><a href="http://twig.sensiolabs.org/doc/tests/index.html" target="_blank" rel="external">Tests</a></p>
+</li>
+</ul>
+<h4 id="转义扩展">转义扩展</h4><p>escaper扩展为Twig带来了自动输出转义，它定义了autoescape标记，raw filter。</p>
+<p>自行创建escaper扩展时，你可以打开或者关闭全局的转义策略：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$escaper</span> = <span class="keyword">new</span> Twig_Extension_Escaper(<span class="string">'html'</span>);</span><br><span class="line"><span class="variable">$twig</span>-&gt;addExtension(<span class="variable">$escaper</span>);</span><br></pre></td></tr></table></figure>
+<p>如果设置成html，模版中所有的变量都会转义，除了那些raw filter输出的</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; article.to_html|raw &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>通过使用autoescape标记，你可以改变转移模式（参考<a href="http://twig.sensiolabs.org/doc/tags/autoescape.html" target="_blank" rel="external">autoescape文档</a>）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% autoescape <span class="string">'html'</span> %&#125;</span><br><span class="line">&#123;&#123; <span class="keyword">var</span> &#125;&#125;</span><br><span class="line">&#123;&#123; <span class="keyword">var</span>|raw &#125;&#125;      &#123;<span class="comment"># var 不会被转义 #&#125;</span></span><br><span class="line">&#123;&#123; <span class="keyword">var</span>|escape &#125;&#125;   &#123;<span class="comment"># var 不会被再次转义 #&#125;</span></span><br><span class="line">&#123;% endautoescape %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p><em>autoescape标记对包含进来的模版无效</em></p>
+<p>转义规则是这样实现的：</p>
+<ul>
+<li>模板中的常量（整数、布尔、数组…）会直接当做变量或filter的参数，不会被自动转义：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="string">"Twig&lt;br /&gt;"</span> &#125;&#125; &#123;<span class="comment"># won't be escaped #&#125;</span></span><br><span class="line">&#123;% set text = <span class="string">"Twig&lt;br /&gt;"</span> %&#125;</span><br><span class="line">&#123;&#123; text &#125;&#125; &#123;<span class="comment"># will be escaped #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对于一个结果是常量的表达式，或者一个标记为安全的变量也不会自动转义：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; foo ? <span class="string">"Twig&lt;br /&gt;"</span> : <span class="string">"&lt;br /&gt;Twig"</span> &#125;&#125; &#123;<span class="comment"># won't be escaped #&#125;</span></span><br><span class="line"></span><br><span class="line">&#123;% set text = <span class="string">"Twig&lt;br /&gt;"</span> %&#125;</span><br><span class="line">&#123;&#123; foo ? text : <span class="string">"&lt;br /&gt;Twig"</span> &#125;&#125; &#123;<span class="comment"># will be escaped #&#125;</span></span><br><span class="line"></span><br><span class="line">&#123;% set text = <span class="string">"Twig&lt;br /&gt;"</span> %&#125;</span><br><span class="line">&#123;&#123; foo ? text|raw : <span class="string">"&lt;br /&gt;Twig"</span> &#125;&#125; &#123;<span class="comment"># won't be escaped #&#125;</span></span><br><span class="line"></span><br><span class="line">&#123;% set text = <span class="string">"Twig&lt;br /&gt;"</span> %&#125;</span><br><span class="line">&#123;&#123; foo ? text|escape : <span class="string">"&lt;br /&gt;Twig"</span> &#125;&#125; &#123;<span class="comment"># the result of the expression won't be escaped #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>转义发生在打印之前，filter之后：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="keyword">var</span>|upper &#125;&#125; &#123;<span class="comment"># 等价于 &#123;&#123; var|upper|escape &#125;&#125; #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>raw filter应该在filter链的最后使用：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="keyword">var</span>|raw|upper &#125;&#125; &#123;<span class="comment"># 会转义 #&#125;</span></span><br><span class="line"></span><br><span class="line">&#123;&#123; <span class="keyword">var</span>|upper|raw &#125;&#125; &#123;<span class="comment"># 不转义 #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果最后一个filter在当前上下文中（例如html或者js）被标记为安全，escape和escape(‘html’)被HTML标记为安全，escape(‘js’)被JavaScript标记为安全，raw对所有内容都被标记为安全。</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% autoescape <span class="string">'js'</span> %&#125;</span><br><span class="line">  &#123;&#123; <span class="keyword">var</span>|escape(<span class="string">'html'</span>) &#125;&#125; &#123;<span class="comment"># will be escaped for HTML and JavaScript #&#125;</span></span><br><span class="line">  &#123;&#123; <span class="keyword">var</span> &#125;&#125; &#123;<span class="comment"># will be escaped for JavaScript #&#125;</span></span><br><span class="line">  &#123;&#123; <span class="keyword">var</span>|escape(<span class="string">'js'</span>) &#125;&#125; &#123;<span class="comment"># won't be double-escaped #&#125;</span></span><br><span class="line">&#123;% endautoescape %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+
+*注意自动转义是是在表达式运行之后发生，因此有局限性的。例如当进行连续操作时，{{ foo|raw ~ bar }}因为转义是最后发生的，因此无法给出期待的结果（这里的raw filter没有任何效果）。*
+
+<h4 id="沙盒扩展">沙盒扩展</h4><p>沙箱扩展用于运行不受信任的代码,会限制访问不安全的属性和方法。沙箱安全性由一个策略实例来管理。缺省情况下，Twig会带有一个策略类：Twig_Sandbox_SecurityPolicy。这个类允许把某些标记、Filter、属性以及方法放入白名单：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$tags</span> = <span class="keyword">array</span>(<span class="string">'if'</span>);</span><br><span class="line"><span class="variable">$filters</span> = <span class="keyword">array</span>(<span class="string">'upper'</span>);</span><br><span class="line"><span class="variable">$methods</span> = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'Article'</span> =&gt; <span class="keyword">array</span>(<span class="string">'getTitle'</span>, <span class="string">'getBody'</span>),</span><br><span class="line">);</span><br><span class="line"><span class="variable">$properties</span> = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'Article'</span> =&gt; <span class="keyword">array</span>(<span class="string">'title'</span>, <span class="string">'body'</span>),</span><br><span class="line">);</span><br><span class="line"><span class="variable">$functions</span> = <span class="keyword">array</span>(<span class="string">'range'</span>);</span><br><span class="line"><span class="variable">$policy</span> = <span class="keyword">new</span> Twig_Sandbox_SecurityPolicy(<span class="variable">$tags</span>, <span class="variable">$filters</span>, <span class="variable">$methods</span>, <span class="variable">$properties</span>, <span class="variable">$functions</span>);</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，安全策略只允许使用if标签和upper过滤器。另外，模版只能调用<code>Article</code>对象的<code>getTitle()</code>方法和<code>getBody()</code>方法，只能访问<code>title</code>和<code>body</code>这俩个公共属性。其它的都被禁止访问，如果尝试访问，则会抛出一个<code>Twig_Sandbox_SecurityError</code>异常。</p>
+<p>策略对象是沙盒构造器的第一个参数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sandbox</span> = <span class="keyword">new</span> Twig_Extension_Sandbox(<span class="variable">$policy</span>);</span><br><span class="line"><span class="variable">$twig</span>-&gt;addExtension(<span class="variable">$sandbox</span>);</span><br></pre></td></tr></table></figure>
+<p>默认情况下，沙盒模式处于禁用状态。当包含的模版中含有不可信的代码时，使用<code>sandbox</code>标签激活沙盒模式。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% sandbox %&#125;</span><br><span class="line">  &#123;% <span class="keyword">include</span> <span class="string">'user.html'</span> %&#125;</span><br><span class="line">&#123;% endsandbox %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>你可以通过将扩展构造器的第二个参数传值true来对所有的模版启用沙盒模式：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sandbox</span> = <span class="keyword">new</span> Twig_Extension_Sandbox(<span class="variable">$policy</span>, <span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="简介扩展">简介扩展</h4><p>Twig1.18新增简介扩展</p>
+<p>profiler扩展为Twig模版开启一个profiler，它应该只在开发机器上使用。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$profile</span> = <span class="keyword">new</span> Twig_Profiler_Profile();</span><br><span class="line"><span class="variable">$twig</span>-&gt;addExtension(<span class="keyword">new</span> Twig_Extension_Profiler(<span class="variable">$profile</span>));</span><br><span class="line"></span><br><span class="line"><span class="variable">$dumper</span> = <span class="keyword">new</span> Twig_Profiler_Dumper_Text();</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$dumper</span>-&gt;dump(<span class="variable">$profile</span>);</span><br></pre></td></tr></table></figure>
+<p>一个profile包含了模版，块以及宏扩展的耗时和内存消耗信息。</p>
+<p>你还可以以<a href="https://blackfire.io/" target="_blank" rel="external">blackfire.io</a>兼容格式dump这些数据。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$dumper</span> = <span class="keyword">new</span> Twig_Profiler_Dumper_Blackfire();</span><br><span class="line">file_put_contents(<span class="string">'/path/to/profile.prof'</span>, <span class="variable">$dumper</span>-&gt;dump(<span class="variable">$profile</span>));</span><br></pre></td></tr></table></figure>
+<p>上传并显示它(先创建个<a href="https://blackfire.io/signup" target="_blank" rel="external">免费帐号</a>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">blackfire --slot=<span class="number">7</span> upload /path/to/profile.prof</span><br></pre></td></tr></table></figure>
+<h4 id="优化扩展">优化扩展</h4><p>optimizer扩展会在编译模板之前对节点树进行优化：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span>-&gt;addExtension(<span class="keyword">new</span> Twig_Extension_Optimizer());</span><br></pre></td></tr></table></figure>
+<p>默认情况下，所有的优化都是启用的。你也可以在构造器中传递您需要激活的扩展。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$optimizer</span> = <span class="keyword">new</span> Twig_Extension_Optimizer(Twig_NodeVisitor_Optimizer::OPTIMIZE_FOR);</span><br><span class="line"></span><br><span class="line"><span class="variable">$twig</span>-&gt;addExtension(<span class="variable">$optimizer</span>);</span><br></pre></td></tr></table></figure>
+<p>Twig支持下列优化：</p>
+<ul>
+<li>Twig_NodeVisitor_Optimizer：OPTIMIZE_ALL  默认值，启用所有优化</li>
+<li>Twig_NodeVisitor_Optimizer：OPTIMIZE_NONE  禁用所有的优化，这回减少编译时间，但是会增加执行时间和内存消耗。</li>
+<li>Twig_NodeVisitor_Optimizer::OPTIMIZE_FOR  尽可能减少loop变量的创建，以提高for标记的效率。</li>
+<li>Twig_NodeVisitor_Optimizer::OPTIMIZE_RAW_FILTER  尽可能移出raw filter</li>
+<li>Twig_NodeVisitor_Optimizer::OPTIMIZE_VAR_ACCESS  尽可能的简化编译模版中变量的创建和访问</li>
+</ul>
+<h3 id="异常">异常</h3><p>Twig能抛出的异常：</p>
+<ul>
+<li>Twig_Error：所有异常</li>
+<li>Twig_Error_Syntax：语法错误</li>
+<li>Twig_Error_Runtime：运行时错误（当前实例中不包含某个filter）</li>
+<li>Twig_Error_Loader：模板载入时的异常</li>
+<li>Twig_Sandbox_SecurityError: 沙盒模式下出现了不允许使用的标记，filter或者调用了不允许调用的方法抛出的异常</li>
+</ul>
+<h2 id="扩展Twig">扩展Twig</h2><p><em>本章描述了如何对Twig 1.12进行扩展。如果你在使用一个旧版本，请移步到<a href="http://twig.sensiolabs.org/doc/advanced_legacy.html" target="_blank" rel="external">过往文档</a>继续阅读。</em></p>
+<p>有多重扩展Twig的方法，可以加入额外的标记、Filter、Test、操作符、全局变量以及函数，甚至还能利用Node visitors对解析器本身进行扩展。</p>
+<p><em>本文的第一章节会介绍如何简单地扩展Twig。如果你想要在不同项目中进行复用，或者共享给他人使用，你应该按照接下来章节描述的那样创建一个扩展。</em></p>
+<p>在开始之前，你必须理解不同扩展点的区别及其应用场景。</p>
+<p>首先，你需要记住的是，Twig有两个主要的语法结构：</p>
+
+- {{}}：用来输出一个表达式的结果
+- {%%}：用来执行语句
+
+<p>要理解为什么Twig提供这么多扩展点，先让我们看一下如何实现一个<code>Lorem ipsum</code>生成器。</p>
+<p>你可以使用一个名为<code>lipsum</code>的标记：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% lipsum <span class="number">40</span> %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>这样的确可以起到效果，但是，使用<code>lipsum</code>标记的确不是一个好主意，因为：</p>
+<ul>
+<li>lipsum不是一个语言结构</li>
+<li>这个标记输出了东西</li>
+<li>这个标记不够灵活，不能在表达式中复用</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="string">'some text'</span> ~ &#123;% lipsum <span class="number">40</span> %&#125; ~ <span class="string">'some more text'</span> &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>事实上，你很少会使用标记；不过这也是个好消息——Tag的扩展是Twig扩展方式中最复杂的一种。</p>
+<p>接下来，我们来试试filter的方式：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="number">40</span>|lipsum &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>再一次，它达到了效果，但是却看上去很古怪。filter用来把输入转换成输出，但是这里我们输入了的值是用于指示生成单词的数量——也就是说，40是一个参数，但不是我们转换的目标。</p>
+<p>接下来，我们使用<code>lipsum</code>函数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; lipsum(<span class="number">40</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们也成功了。对于这个例子来说，这个扩展点的选择是合适的。现在可以在任何接受表达式的地方使用它了。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="string">'some text'</span> ~ lipsum(<span class="number">40</span>) ~ <span class="string">'some more text'</span> &#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;% set lipsum = lipsum(<span class="number">40</span>) %&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，还可以使用带有方法的全局对象来生成这些文字：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; text.lipsum(<span class="number">40</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="全局变量-1">全局变量</h3><p>全局变量和其它的模版变量类似，只不过全局变量在所有的模版和宏定义中都有效：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"><span class="variable">$twig</span>-&gt;addGlobal(<span class="string">'text'</span>, <span class="keyword">new</span> Text());</span><br></pre></td></tr></table></figure>
+<p>接下来你就可以在任何地方使用<code>text</code>变量了。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; text.lipsum(<span class="number">40</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Filters-1">Filters</h3><p>创建一个filter就是简单的给一个PHP回调一个名字：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匿名函数</span></span><br><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'rot13'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(<span class="variable">$string</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> str_rot13(<span class="variable">$string</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者一个简单的php函数</span></span><br><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'rot13'</span>, <span class="string">'str_rot13'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者一个类的方法</span></span><br><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'rot13'</span>, <span class="keyword">array</span>(<span class="string">'SomeClass'</span>, <span class="string">'rot13Filter'</span>));</span><br></pre></td></tr></table></figure>
+<p>传递给<code>Twig_SimpleFilter</code>构造器的第一个参数是将要在模版中使用的filter的名字，第二个参数是关于这个参数的php回调函数。</p>
+<p>接下来，将filter加入到你的Twig环境中：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"><span class="variable">$twig</span>-&gt;addFilter(<span class="variable">$filter</span>);</span><br></pre></td></tr></table></figure>
+<p>然后就可以在模版中使用了：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="string">'Twig'</span>|rot13 &#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="comment"># 输出： Gjvt #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>当Twig调用的时候，会把管道符左边的值作为第一个参数，并把括号中的Filter参数作为附加参数传递给回调。</p>
+<p>例如，下面的代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;&#123; <span class="string">'TWIG'</span>|lower &#125;&#125;</span><br><span class="line">&#123;&#123; now|date(<span class="string">'d/m/Y'</span>) &#125;&#125;</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>会被编译成下面这个样子：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span> <span class="keyword">echo</span> strtolower(<span class="string">'TWIG'</span>) <span class="preprocessor">?&gt;</span></span><br><span class="line"><span class="preprocessor">&lt;?php</span> <span class="keyword">echo</span> twig_date_format_filter(<span class="variable">$now</span>, <span class="string">'d/m/Y'</span>) <span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>Twig_SimpleFilter</code>类将选项数组作为它的最后一个参数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'rot13'</span>, <span class="string">'str_rot13'</span>, <span class="variable">$options</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="Filter环境感知">Filter环境感知</h4><p>如果要在filter中访问当前的environment实例，需要在option中设置needs_environment为true；这样Twig就会把当前环境作为第一个参数传给filter：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'rot13'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(Twig_Environment <span class="variable">$env</span>, <span class="variable">$string</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取当前实例的字符集</span></span><br><span class="line">    <span class="variable">$charset</span> = <span class="variable">$env</span>-&gt;getCharset();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> str_rot13(<span class="variable">$string</span>);</span><br><span class="line">&#125;, <span class="keyword">array</span>(<span class="string">'needs_environment'</span> =&gt; <span class="keyword">true</span>));</span><br></pre></td></tr></table></figure>
+<h4 id="Filter上下文感知">Filter上下文感知</h4><p>在Twig中访问上下文，则需要在option中设置needs_context为true，Twig就会吧当前上下文作为第一个参数（如果还设置了needs_environment为true，那么就会是第二个参数）进行传递：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'rot13'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(<span class="variable">$context</span>, <span class="variable">$string</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;, <span class="keyword">array</span>(<span class="string">'needs_context'</span> =&gt; <span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'rot13'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(Twig_Environment <span class="variable">$env</span>, <span class="variable">$context</span>, <span class="variable">$string</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;, <span class="keyword">array</span>(<span class="string">'needs_context'</span> =&gt; <span class="keyword">true</span>, <span class="string">'needs_environment'</span> =&gt; <span class="keyword">true</span>));</span><br></pre></td></tr></table></figure>
+<h4 id="自动转义-1">自动转义</h4><p>如果启用了自动转义，filter的输出会在打印之前被转义。如果你的filter就是作为一个转义器（或者显式的输出HTML以及JavaScript代码），那么就需要输出原文。这种情况下，可以使用is_safe选项：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'nl2br'</span>, <span class="string">'nl2br'</span>, <span class="keyword">array</span>(<span class="string">'is_safe'</span> =&gt; <span class="keyword">array</span>(<span class="string">'html'</span>)));</span><br></pre></td></tr></table></figure>
+<h4 id="参数可变的Filters">参数可变的Filters</h4><p>Twig1.19中新增可变参数filters</p>
+<p>当需要一个filter接收的参数个数可变时，设置<code>is_variadic</code>选项为true；Twig会把余下的参数作为一个数组传递给filter的最后一个参数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'thumbnail'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(<span class="variable">$file</span>, array <span class="variable">$options</span> = array<span class="params">()</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;, <span class="keyword">array</span>(<span class="string">'is_variadic'</span> =&gt; <span class="keyword">true</span>));</span><br></pre></td></tr></table></figure>
+<h4 id="动态Filters">动态Filters</h4><p>名字中带有特殊字符”*“的filter就是一个动态filter：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'*_path'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(<span class="variable">$name</span>, <span class="variable">$arguments</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>上面定义的动态filter将会匹配下述列表：</p>
+<ul>
+<li>product_path</li>
+<li>category_path</li>
+</ul>
+<p>动态Filter能够定义一个或者多个通配符部分：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$filter</span> = <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'*_path_*'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(<span class="variable">$name</span>, <span class="variable">$suffix</span>, <span class="variable">$arguments</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这个Filter能够接受所有的动态值，并摆放在（环境和上下文之后）其他参数之前。例如，对’foo’|a_path_b()的调用，会传递这些参数：(‘a’, ‘b’, ‘foo’)。</p>
+<h3 id="函数-1">函数</h3><p>函数的定义类似于filter，但是你需要创建一个<code>Twig_SimpleFunction</code>的实例：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"><span class="variable">$function</span> = <span class="keyword">new</span> Twig_SimpleFunction(<span class="string">'function_name'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable">$twig</span>-&gt;addFunction(<span class="variable">$function</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="Tests">Tests</h3><p>Tests的定义和filter和函数的定义方法相同，你只需要创建一个<code>Twig_SimpleTest</code>实例：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"><span class="variable">$test</span> = <span class="keyword">new</span> Twig_SimpleTest(<span class="string">'test_name'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable">$twig</span>-&gt;addTest(<span class="variable">$test</span>);</span><br></pre></td></tr></table></figure>
+<p>Tests允许创建自定义的带有逻辑处理的应用来处理布尔值的条件判断。举个简单的例子，创建一个Twig test来检测对象是否是‘red’：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"><span class="variable">$test</span> = <span class="keyword">new</span> Twig_SimpleTest(<span class="string">'red'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(<span class="variable">$value</span>)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$value</span>-&gt;color) &amp;&amp; <span class="variable">$value</span>-&gt;color == <span class="string">'red'</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$value</span>-&gt;paint) &amp;&amp; <span class="variable">$value</span>-&gt;paint == <span class="string">'red'</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable">$twig</span>-&gt;addTest(<span class="variable">$test</span>);</span><br></pre></td></tr></table></figure>
+<p>Test函数只返回true/false。</p>
+<p>当创建Test的时候，可以使用node_class选项来提供自定义的测试编制。如果你的test可以编译成PHP原语，这个办法就很有用了，这个办法在很多Twig的内置Test中使用：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"><span class="variable">$test</span> = <span class="keyword">new</span> Twig_SimpleTest(</span><br><span class="line">    <span class="string">'odd'</span>,</span><br><span class="line">    <span class="keyword">null</span>,</span><br><span class="line">    <span class="keyword">array</span>(<span class="string">'node_class'</span> =&gt; <span class="string">'Twig_Node_Expression_Test_Odd'</span>));</span><br><span class="line"><span class="variable">$twig</span>-&gt;addTest(<span class="variable">$test</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Twig_Node_Expression_Test_Odd</span> <span class="keyword">extends</span> <span class="title">Twig_Node_Expression_Test</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">compile</span><span class="params">(Twig_Compiler <span class="variable">$compiler</span>)</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="variable">$compiler</span></span><br><span class="line">      -&gt;raw(<span class="string">'('</span>)</span><br><span class="line">      -&gt;subcompile(<span class="variable">$this</span>-&gt;getNode(<span class="string">'node'</span>))</span><br><span class="line">      -&gt;raw(<span class="string">' % 2 == 1'</span>)</span><br><span class="line">      -&gt;raw(<span class="string">')'</span>)</span><br><span class="line">    ;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Tags">Tags</h3><p>Twig最令人激动的特性就是可以定义新的语言结构。这也是你需要理解的关于Twig最复杂的关于如何工作的特性。</p>
+<p>让我们创建一个简单的set标记，这个标记用来在模板中定义一个简单变量，这个标记的用法如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">&#123;% set name = <span class="string">"value"</span> %&#125;</span><br><span class="line">&#123;&#123; name &#125;&#125;</span><br><span class="line">&#123;<span class="comment"># 输出 value #&#125;</span></span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+<p>三个步骤即可定义一个新的标记：</p>
+<ul>
+<li>定义一个Token解析器（用来解析模板代码）</li>
+<li>定义一个节点类(用于把解析的结果转换成PHP)</li>
+<li>注册这个标记</li>
+</ul>
+<h4 id="注册一个新的标记">注册一个新的标记</h4><p>简单的调用<code>Twig_Environment</code>实例的<code>addTokenParser</code>方法即可添加一个标记：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"><span class="variable">$twig</span>-&gt;addTokenParser(<span class="keyword">new</span> Project_Set_TokenParser());</span><br></pre></td></tr></table></figure>
+<h4 id="定义一个token解析器">定义一个token解析器</h4><p>来看下代码实例：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Set_TokenParser</span> <span class="keyword">extends</span> <span class="title">Twig_TokenParser</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">parse</span><span class="params">(Twig_Token <span class="variable">$token</span>)</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="variable">$parser</span> = <span class="variable">$this</span>-&gt;parser;</span><br><span class="line">    <span class="variable">$stream</span> = <span class="variable">$parser</span>-&gt;getStream();</span><br><span class="line"></span><br><span class="line">    <span class="variable">$name</span> = <span class="variable">$stream</span>-&gt;expect(Twig_Token::NAME_TYPE)-&gt;getValue();</span><br><span class="line">    <span class="variable">$stream</span>-&gt;expect(Twig_Token::OPERATOR_TYPE, <span class="string">'='</span>);</span><br><span class="line">    <span class="variable">$value</span> = <span class="variable">$parser</span>-&gt;getExpressionParser()-&gt;parseExpression();</span><br><span class="line">    <span class="variable">$stream</span>-&gt;expect(Twig_Token::BLOCK_END_TYPE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Project_Set_Node(<span class="variable">$name</span>, <span class="variable">$value</span>, <span class="variable">$token</span>-&gt;getLine(), <span class="variable">$this</span>-&gt;getTag());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getTag</span><span class="params">()</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'set'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>getTag()</code>方法必须返回我们要解析的标记，这里返回的就是<code>set</code>.</p>
+<p><code>parse()</code>方法在解析器遇到<code>set</code>标记的时候就会被调用。这个方法应该返回一个<code>Twig_Node</code>实例用于显示这个结点。</p>
+<p>Token流（$this-&gt;parser-&gt;getStream()）提供了一系列方法，简化了解析过程：</p>
+<ul>
+<li>getCurrent()：从流中获取当前的token</li>
+<li>next()：移动到流中的下一个Token，并返回之前的一个</li>
+<li>test($type), test($value）或者test($type, $value)：判断当前token是不是某种类型或值（或同时满足）。值可以是一个包含很多值的数组。</li>
+<li>expect($type[, $value[, $message]])：如果当前token不是指定的类型或值，就给出一个语法错误。否则，如果值和类型都正确，则返回当前token，并移动到下一个Token。</li>
+<li>look()：查看但不使用下一个token</li>
+</ul>
+<p>像set标记这样，通过调用<code>parseExpression()</code>完成对表达式的解析。</p>
+<h4 id="定义一个节点">定义一个节点</h4><p>Project_Set_Node类很简单：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Set_Node</span> <span class="keyword">extends</span> <span class="title">Twig_Node</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$name</span>, Twig_Node_Expression <span class="variable">$value</span>, <span class="variable">$line</span>, <span class="variable">$tag</span> = null)</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">parent</span>::__construct(<span class="keyword">array</span>(<span class="string">'value'</span> =&gt; <span class="variable">$value</span>), <span class="keyword">array</span>(<span class="string">'name'</span> =&gt; <span class="variable">$name</span>), <span class="variable">$line</span>, <span class="variable">$tag</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">compile</span><span class="params">(Twig_Compiler <span class="variable">$compiler</span>)</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="variable">$compiler</span></span><br><span class="line">        -&gt;addDebugInfo(<span class="variable">$this</span>)</span><br><span class="line">        -&gt;write(<span class="string">'$context[\''</span>.<span class="variable">$this</span>-&gt;getAttribute(<span class="string">'name'</span>).<span class="string">'\'] = '</span>)</span><br><span class="line">        -&gt;subcompile(<span class="variable">$this</span>-&gt;getNode(<span class="string">'value'</span>))</span><br><span class="line">        -&gt;raw(<span class="string">";\n"</span>)</span><br><span class="line">    ;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译器实现了一套接口和方法用于帮助开发者生成美观易读的PHP代码：</p>
+<ul>
+<li>subcompile()：编译一个结点</li>
+<li>raw()：原文输出字符串</li>
+<li>write()：输出首行缩进的字符串</li>
+<li>string()：输出引用字符</li>
+<li>repr()：输出php结果值</li>
+<li>addDebugInfo()：把与当前节点相关的原始模板文件当作注释添加进来</li>
+<li>indent()：缩进生成的代码</li>
+<li>outdent()：伸出生成的代码</li>
+</ul>
+<h3 id="创建一个扩展">创建一个扩展</h3><p>开发扩展的一个主要目的可能就是为了将经常使用的功能规范称一个可复用的类，比如说，国际化支持。一个扩展可以指定标记、Filter、Test、运算符、全局变量、函数以及Node visitors。</p>
+<p>扩展还可以分离编译时和运行时的代码，加快代码的运行速度。</p>
+<p>大多数时候，创建一个单独的包含所有标记和filters的扩展将对你的项目很有用。</p>
+<p>一个扩展就是一个实现了下面这个接口的类：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Twig_ExtensionInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Initializes the runtime environment.</span><br><span class="line">   *</span><br><span class="line">   * This is where you can load some file that contains filter functions for instance.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @param</span> Twig_Environment $environment The current Twig_Environment instance</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @deprecated</span> since 1.23 (to be removed in 2.0), implement Twig_Extension_InitRuntimeInterace instead</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">initRuntime</span><span class="params">(Twig_Environment <span class="variable">$environment</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Returns the token parser instances to add to the existing list.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> array An array of Twig_TokenParserInterface or Twig_TokenParserBrokerInterface instances</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getTokenParsers</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Returns the node visitor instances to add to the existing list.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> array An array of Twig_NodeVisitorInterface instances</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getNodeVisitors</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Returns a list of filters to add to the existing list.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> array An array of filters</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getFilters</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Returns a list of tests to add to the existing list.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> array An array of tests</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getTests</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Returns a list of functions to add to the existing list.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> array An array of functions</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getFunctions</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Returns a list of operators to add to the existing list.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> array An array of operators</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getOperators</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Returns a list of global variables to add to the existing list.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> array An array of global variables</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @deprecated</span> since 1.23 (to be removed in 2.0), implement Twig_Extension_GlobalsInterface instead</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getGlobals</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Returns the name of the extension.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> string The extension name</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了保持扩展类的整洁与稳定，还可以只继承内置的<code>Twig_Extension</code>类而不需要实现所有的接口。采用这种该方式的话，你只需要实现<code>getName()</code>方法。</p>
+<p><code>getName()</code>方法必须返回这个扩展的唯一标识符</p>
+<p>现在我们来是一个最简单的扩展：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getName</span><span class="params">()</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'project'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">Twig不关心你的扩展存在何处，因为所有的扩展都需要显示的注册。通过调用`Environment`对象的`addExtension()`方法即可注册一个扩展。</span><br><span class="line"></span><br><span class="line">```php</span><br><span class="line"><span class="variable">$twig</span> = <span class="keyword">new</span> Twig_Environment(<span class="variable">$loader</span>);</span><br><span class="line"><span class="variable">$twig</span>-&gt;addExtension(<span class="keyword">new</span> Project_Twig_Extension());</span><br></pre></td></tr></table></figure>
+<h4 id="全局变量-2">全局变量</h4><p>通过调用<code>getGlobals()</code>方法即可以在扩展中注册全局变量：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getGlobals</span><span class="params">()</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'text'</span> =&gt; <span class="keyword">new</span> Text(),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="函数-2">函数</h4><p>通过调用<code>getFunctions()</code>方法即可以在扩展中注册函数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getFunctions</span><span class="params">()</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">        <span class="keyword">new</span> Twig_SimpleFunction(<span class="string">'lipsum'</span>, <span class="string">'generate_lipsum'</span>),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Filters-2">Filters</h4><p>为了将filter添加到一个扩展中，你需要覆写<code>getFilters()</code>方法。这个方法必须返回一个添加到Twig环境的filters数组：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getFilters</span><span class="params">()</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">        <span class="keyword">new</span> Twig_SimpleFilter(<span class="string">'rot13'</span>, <span class="string">'str_rot13'</span>),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="标记">标记</h4><p>通过覆写<code>getTokenParsers()</code>方法就可以将一个标记添加到一个扩展中。这个方法必须返回一个天极到Twig环境的tags数组：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getTokenParsers</span><span class="params">()</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(<span class="keyword">new</span> Project_Set_TokenParser());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="操作符">操作符</h4><p><code>getOperators()</code>方法用来新增新的操作符。下面的例子是如何添加!，||以及&amp;&amp;操作符：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getOperators</span><span class="params">()</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">      <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'!'</span> =&gt; <span class="keyword">array</span>(<span class="string">'precedence'</span> =&gt; <span class="number">50</span>, <span class="string">'class'</span> =&gt; <span class="string">'Twig_Node_Expression_Unary_Not'</span>),</span><br><span class="line">      ),</span><br><span class="line">      <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'||'</span> =&gt; <span class="keyword">array</span>(<span class="string">'precedence'</span> =&gt; <span class="number">10</span>, <span class="string">'class'</span> =&gt; <span class="string">'Twig_Node_Expression_Binary_Or'</span>, <span class="string">'associativity'</span> =&gt; Twig_ExpressionParser::OPERATOR_LEFT),</span><br><span class="line">        <span class="string">'&amp;&amp;'</span> =&gt; <span class="keyword">array</span>(<span class="string">'precedence'</span> =&gt; <span class="number">15</span>, <span class="string">'class'</span> =&gt; <span class="string">'Twig_Node_Expression_Binary_And'</span>, <span class="string">'associativity'</span> =&gt; Twig_ExpressionParser::OPERATOR_LEFT),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Tests-1">Tests</h4><p>getTests()方法用来添加新的Test函数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getTests</span><span class="params">()</span></span><br><span class="line">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">        <span class="keyword">new</span> Twig_SimpleTest(<span class="string">'even'</span>, <span class="string">'twig_test_even'</span>),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/twig/" rel="tag">#twig</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/17/CentOS6-4安装oracle-10g教程/" rel="next" title="CentOS6.4安装oracle 10g教程">
+                <i class="fa fa-chevron-left"></i> CentOS6.4安装oracle 10g教程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/19/Drupal8主题-theme/" rel="prev" title="Drupal8主题(theme)">
+                Drupal8主题(theme) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/11/18/Drupal8模板引擎-twig/"
+           data-title="Drupal8模板引擎-twig" data-url="http://verynull.com/2015/11/18/Drupal8模板引擎-twig/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/2015060790205_41484.jpeg" alt="RamboLau" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">RamboLau</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">记录生活，分享知识，传播乐趣</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives/">
+              <span class="site-state-item-count">55</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/RamboLau" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、简介"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础API用法"><span class="nav-number">1.3.</span> <span class="nav-text">基础API用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、模板设计者的Twig"><span class="nav-number">2.</span> <span class="nav-text">二、模板设计者的Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概要"><span class="nav-number">2.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">2.2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局变量"><span class="nav-number">2.4.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置变量"><span class="nav-number">2.5.</span> <span class="nav-text">设置变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filters"><span class="nav-number">2.6.</span> <span class="nav-text">Filters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">2.7.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具名参数"><span class="nav-number">2.8.</span> <span class="nav-text">具名参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制结构"><span class="nav-number">2.9.</span> <span class="nav-text">控制结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释"><span class="nav-number">2.10.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含其他模板"><span class="nav-number">2.11.</span> <span class="nav-text">包含其他模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模版继承"><span class="nav-number">2.12.</span> <span class="nav-text">模版继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML转义"><span class="nav-number">2.13.</span> <span class="nav-text">HTML转义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#人工转义"><span class="nav-number">2.13.1.</span> <span class="nav-text">人工转义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动转义"><span class="nav-number">2.13.2.</span> <span class="nav-text">自动转义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宏"><span class="nav-number">2.14.</span> <span class="nav-text">宏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表达式"><span class="nav-number">2.15.</span> <span class="nav-text">表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常量"><span class="nav-number">2.15.1.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算数运算符"><span class="nav-number">2.15.2.</span> <span class="nav-text">算数运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑运算符"><span class="nav-number">2.15.3.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#比较运算符"><span class="nav-number">2.15.4.</span> <span class="nav-text">比较运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#包含操作符"><span class="nav-number">2.15.5.</span> <span class="nav-text">包含操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试操作符"><span class="nav-number">2.15.6.</span> <span class="nav-text">测试操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他操作符"><span class="nav-number">2.15.7.</span> <span class="nav-text">其他操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串插值"><span class="nav-number">2.15.8.</span> <span class="nav-text">字符串插值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空白控制"><span class="nav-number">2.16.</span> <span class="nav-text">空白控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">2.17.</span> <span class="nav-text">扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、开发者的Twig"><span class="nav-number">3.</span> <span class="nav-text">三、开发者的Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础"><span class="nav-number">3.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境选项"><span class="nav-number">3.2.</span> <span class="nav-text">环境选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载器"><span class="nav-number">3.3.</span> <span class="nav-text">加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编译缓存"><span class="nav-number">3.3.1.</span> <span class="nav-text">编译缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内置加载器"><span class="nav-number">3.3.2.</span> <span class="nav-text">内置加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建自己的加载器"><span class="nav-number">3.3.3.</span> <span class="nav-text">创建自己的加载器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用扩展"><span class="nav-number">3.4.</span> <span class="nav-text">使用扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内置扩展"><span class="nav-number">3.5.</span> <span class="nav-text">内置扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核心扩展"><span class="nav-number">3.5.1.</span> <span class="nav-text">核心扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转义扩展"><span class="nav-number">3.5.2.</span> <span class="nav-text">转义扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#沙盒扩展"><span class="nav-number">3.5.3.</span> <span class="nav-text">沙盒扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简介扩展"><span class="nav-number">3.5.4.</span> <span class="nav-text">简介扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化扩展"><span class="nav-number">3.5.5.</span> <span class="nav-text">优化扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常"><span class="nav-number">3.6.</span> <span class="nav-text">异常</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展Twig"><span class="nav-number">4.</span> <span class="nav-text">扩展Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局变量-1"><span class="nav-number">4.1.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filters-1"><span class="nav-number">4.2.</span> <span class="nav-text">Filters</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter环境感知"><span class="nav-number">4.2.1.</span> <span class="nav-text">Filter环境感知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter上下文感知"><span class="nav-number">4.2.2.</span> <span class="nav-text">Filter上下文感知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动转义-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">自动转义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数可变的Filters"><span class="nav-number">4.2.4.</span> <span class="nav-text">参数可变的Filters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态Filters"><span class="nav-number">4.2.5.</span> <span class="nav-text">动态Filters</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数-1"><span class="nav-number">4.3.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tests"><span class="nav-number">4.4.</span> <span class="nav-text">Tests</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tags"><span class="nav-number">4.5.</span> <span class="nav-text">Tags</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注册一个新的标记"><span class="nav-number">4.5.1.</span> <span class="nav-text">注册一个新的标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义一个token解析器"><span class="nav-number">4.5.2.</span> <span class="nav-text">定义一个token解析器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义一个节点"><span class="nav-number">4.5.3.</span> <span class="nav-text">定义一个节点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个扩展"><span class="nav-number">4.6.</span> <span class="nav-text">创建一个扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局变量-2"><span class="nav-number">4.6.1.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数-2"><span class="nav-number">4.6.2.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filters-2"><span class="nav-number">4.6.3.</span> <span class="nav-text">Filters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标记"><span class="nav-number">4.6.4.</span> <span class="nav-text">标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作符"><span class="nav-number">4.6.5.</span> <span class="nav-text">操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tests-1"><span class="nav-number">4.6.6.</span> <span class="nav-text">Tests</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2012 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"176code"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
