@@ -229,129 +229,6 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/27/使用gdb调试php-fpm/" itemprop="url">
-                  使用gdb调试php-fpm
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-27T16:17:10+08:00" content="2015-11-27">
-              2015-11-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/27/使用gdb调试php-fpm/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/27/使用gdb调试php-fpm/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>有很多php开发人员经常问我，如果执行php代码的时候出现严重错误的时候，如何快速定位问题。我一般推荐他们用gdb去调试。</p>
-<p>下面用php-fpm的一个段错误来举例说明，如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WARNING: [pool www] child <span class="number">15109</span> exited on signal <span class="number">11</span> (SIGSEGV) after <span class="number">654.485221</span> seconds from start</span><br></pre></td></tr></table></figure>
-<h3 id="1、安装gdb">1、安装gdb</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gdb php-dbg</span><br></pre></td></tr></table></figure>
-<p>有的时候可能需要安装debuginfo相关的库，如:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">debuginfo-install php-fpm</span><br></pre></td></tr></table></figure>
-<h3 id="2、设置coredump">2、设置coredump</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'/tmp/core-%e.%p'</span> &gt; /proc/sys/kernel/core_pattern</span><br><span class="line"><span class="built_in">echo</span> <span class="number">0</span> &gt; /proc/sys/kernel/core_uses_pid</span><br><span class="line"><span class="built_in">ulimit</span> -c unlimited</span><br></pre></td></tr></table></figure>
-<p>当然,coredump的文件格式可以设置为其他的，这里是详细的设置项说明</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">%%  a single % character</span><br><span class="line">%c  core file size soft resource <span class="built_in">limit</span> of crashing process (since</span><br><span class="line">    Linux <span class="number">2.6</span>.<span class="number">24</span>)</span><br><span class="line">%d  dump mode—same as value returned by prctl(<span class="number">2</span>) PR_GET_DUMPABLE</span><br><span class="line">    (since Linux <span class="number">3.7</span>)</span><br><span class="line">%e  executable filename (without path prefix)</span><br><span class="line">%E  pathname of executable, with slashes (<span class="string">'/'</span>) replaced by</span><br><span class="line">    exclamation marks (<span class="string">'!'</span>) (since Linux <span class="number">3.0</span>).</span><br><span class="line">%g  (numeric) real GID of dumped process</span><br><span class="line">%h  hostname (same as nodename returned by uname(<span class="number">2</span>))</span><br><span class="line">%p  PID of dumped process, as seen <span class="keyword">in</span> the PID namespace <span class="keyword">in</span> <span class="built_in">which</span></span><br><span class="line">    the process resides</span><br><span class="line">%P  PID of dumped process, as seen <span class="keyword">in</span> the initial PID namespace</span><br><span class="line">    (since Linux <span class="number">3.12</span>)</span><br><span class="line">%s  number of signal causing dump</span><br><span class="line">%t  time of dump, expressed as seconds since the Epoch,</span><br><span class="line">    <span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> +<span class="number">0000</span> (UTC)</span><br><span class="line">%u  (numeric) real UID of dumped process</span><br></pre></td></tr></table></figure>
-<h3 id="3、设置php-fpm">3、设置php-fpm</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/php-fpm.d/www.conf</span><br></pre></td></tr></table></figure>
-<p>找到关键字 rlimit_core，并修改为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rlimit_core = unlimited</span><br></pre></td></tr></table></figure>
-<p>然后执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/php-fpm --daemonize</span><br></pre></td></tr></table></figure>
-<p>这时就会在/tmp下看到有coredump文件生成了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tmp]<span class="comment"># ls</span></span><br><span class="line">core-php-fpm.<span class="number">7279</span></span><br></pre></td></tr></table></figure>
-<h3 id="4、追踪">4、追踪</h3><p>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdb /usr/sbin/php-fpm /tmp/core-php-fpm.<span class="number">7279</span></span><br></pre></td></tr></table></figure>
-<p>执行bt命令就可以查看详细的错误日志了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(gdb) bt</span><br><span class="line"><span class="comment">#0  _zend_hash_init (ht=0x2b4d1a4f8100, nSize=174762, pDestructor=0, persistent=1 '\001') at /usr/src/debug/php-7.0.0RC8/Zend/zend_hash.c:172</span></span><br><span class="line"><span class="comment">#1  0x00002b4d0d0e87ac in zend_accel_init_shm (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2387</span></span><br><span class="line"><span class="comment">#2  accel_startup (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2640</span></span><br><span class="line"><span class="comment">#3  0x00000000005e8d21 in zend_extension_startup (extension=0x168c810) at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:176</span></span><br><span class="line"><span class="comment">#4  0x00000000005d2293 in zend_llist_apply_with_del (l=0x9dd420, func=0x5e8d10 &lt;zend_extension_startup&gt;) at /usr/src/debug/php-7.0.0RC8/Zend/zend_llist.c:171</span></span><br><span class="line"><span class="comment">#5  0x00000000005e8d07 in zend_startup_extensions () at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:197</span></span><br><span class="line"><span class="comment">#6  0x0000000000580985 in php_module_startup (sf=&lt;value optimized out&gt;, additional_modules=&lt;value optimized out&gt;, num_additional_modules=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/main/main.c:2197</span></span><br><span class="line"><span class="comment">#7  0x000000000067aec5 in php_cgi_startup (sapi_module=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:837</span></span><br><span class="line"><span class="comment">#8  0x000000000067bcfe in main (argc=2, argv=0x7fff1a037498) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:1788</span></span><br></pre></td></tr></table></figure>
-<p>至此，整个追踪过程结束。</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2015/11/21/centos6-6安装Percona-Tokudb/" itemprop="url">
                   centos6.6安装Percona Tokudb
                 </a>
@@ -1903,12 +1780,141 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/16/Drupal8面向对象-OOP/" itemprop="url">
+                  Drupal8面向对象(OOP)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-16T15:16:30+08:00" content="2015-11-16">
+              2015-11-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/16/Drupal8面向对象-OOP/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/16/Drupal8面向对象-OOP/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。<br>OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。</p>
+<h3 id="一、数据类型">一、数据类型</h3><p>什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。<br>但是对于其他的数据类型，如整形(int)等，这种方式就不适用。</p>
+<p>而OOP的优势在于，它允许你自定义数据类型。这些数据类型也称之为”类”，在类中包含一些内部结构，如:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="comment">// 下面是人的成员属性</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$name</span>; <span class="comment">// 人的名子</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$sex</span>; <span class="comment">// 人的性别</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$age</span>; <span class="comment">// 人的年龄</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 构造函数</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>)</span> </span>&#123;</span><br><span class="line">  	<span class="variable">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">  	<span class="variable">$this</span>-&gt;sex = <span class="variable">$sex</span>;</span><br><span class="line">  	<span class="variable">$this</span>-&gt;age = <span class="variable">$age</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">return</span> <span class="variable">$this</span>-&gt;name . <span class="string">'，性别：'</span> . <span class="variable">$this</span>-&gt;sex . <span class="string">'，年龄：'</span> . <span class="variable">$this</span>-&gt;age;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码定义了一个名叫Person的类，包含三个属性$name, $sex, $age，也包含2个方法。实例化如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$name</span> = <span class="string">'王鹏'</span>;</span><br><span class="line"><span class="variable">$sex</span> = <span class="string">'男'</span>;</span><br><span class="line"><span class="variable">$age</span> = <span class="number">30</span>;</span><br><span class="line"><span class="variable">$myperson</span> = <span class="keyword">new</span> Person(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>);</span><br></pre></td></tr></table></figure>
+<p>$myperson现在就是一个对象实例。对于Drupal来说，类和对象的关系就类似内容类型和内容之间的关系。</p>
+<h3 id="二、类的结构(class)">二、类的结构(class)</h3><p>类的概念：类是具有相同属性和服务的一组对象的集合。它为属于该类的所有对象提供了统一的抽象描述，其内部包括属性和服务两个主要部分。在面向对象的编程语言中，类是一个独立的程序单位，它应该有一个类名并包括属性说明和服务说明两个主要部分。</p>
+<p>这段文字是摘抄自google，比较晦涩难懂。<br>简单说，方法是可以在对象上执行的操作。比如在Person类，我们有一个方法叫getPerson()，我们可以通过引用对象调用TA。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$person</span> = <span class="variable">$myperson</span>-&gt;getPerson();</span><br></pre></td></tr></table></figure>
+<p>当然，我们不能用$myperson-&gt;name或$myperson-&gt;sex来引用这些属性。我们先来看一些关键词public、protected，他们定义了方法或者属性的可见性。public方法或者属性可以外部访问调用，如getPerson()。但是protected仅限于在类或子类的内部调用。而private就只能在类自己内部调用，而不能在它的子类中。</p>
+<p>Drupal中一般声明属性protected,方法声明为public或protected，private一般不赞成使用。</p>
+<h3 id="三、接口(interface)">三、接口(interface)</h3><p>接口是一种特殊的抽象类，抽象类又是一种特殊的类，所以接口也是一种特殊的类，为 什么说接口是一种特殊的抽象类呢？如果一个抽象类里面的所有的方法都是抽象方法，那么我们就换一种声明方法使用“接口”；也就是说接口里面所有的方法必须 都是声明为抽象方法，另外接口里面不能声明变量(但可声明常量constant)，而且接口里面所有的成员都是public权限的。所以子类在实现的时候 也一定要使用public权限实限。</p>
+<p>在类中，Person定义的对象大抵是这样：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那如何定义接口呢？<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PersonInterface</span> </span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">PersonInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> __construct(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>);</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">/*..........*/</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这就像用户界面定义了人和程序如何交互，而接口定义了方法和对象的交互过程。当然你不能创建一个接口对象，而必须一个接口类。</p>
+<p>说简单点。就是—-接口定义了方法，类实现了方法。</p>
+<h3 id="四、构造方法(constructor)">四、构造方法(constructor)</h3><p>我们再来看Person类中的方法__construct()，它是用两个下划线作为前缀。这是PHP5中引入的。当创建一个对象的时候，会自动调用构造函数，也就是用new这个关键字实例化对象的时候自动调用构造函数。<br>在一个类中只能声明一个构造方法，而是只有在每次创建对象的时候都会去调用一次构造方法，不能主动的调用这个方法，所以通常用它执行一些有用的初始化任务。比如对成属性在创建对象的时候赋初值。如我们上面的代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$myperson</span> = <span class="keyword">new</span> Person(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>);</span><br></pre></td></tr></table></figure>
+<p>它是如何执行的呢？<br>1、在内存中创建一个Person对象<br>2、用new关键字调用__construct方法<br>3、把Person对象复制给$this属性<br>4、创建一个名为$myperson的变量，他并不是一个对象，他用来处理对象<br>5、把$myperson指向内存中的Person对象</p>
+<p>注意：不要在接口中定义构造方法，这样会导致代码逻辑混乱！</p>
+<h3 id="五、继承(inherit)">五、继承(inherit)</h3><p>继承是OOP的一个重要的特性，继承是子类自动共享父类数据结构和方法的机制，这是类之间的一种关系。如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>)</span> </span>&#123;</span><br><span class="line">    <span class="variable">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">    <span class="variable">$this</span>-&gt;sex = <span class="variable">$sex</span>;</span><br><span class="line">    <span class="variable">$this</span>-&gt;age = <span class="variable">$age</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$mystudent</span> = <span class="keyword">new</span> Student(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>);</span><br></pre></td></tr></table></figure>
+<p>这里声明了Student类是Person的子类，我们这里没有定义getPerson方法，这意味着这个方法继承自Person类，如$mystudent-&gt;getPerson()和$mypeson-&gt;getPerson()执行的结果是一样的。我们这里也没有定义$name, $sex, $age这些属性，他们也是继承自Person父类。</p>
+<p>在C++语言中，一个派生类可以从一个基类派生，也可以从多个基类派生。从一个基类派生的继承称为单继承；从多个基类派生的继承称为多继承。</p>
+<p>但是在PHP和Java语言里面没有多继承，只有单继承，也就是说，一个类只能直接从一个类中继承数据， 这就是我们所说的单继承。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
 
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1949,7 +1955,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">55</span>
+              <span class="site-state-item-count">54</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
