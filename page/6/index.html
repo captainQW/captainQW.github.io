@@ -201,11 +201,109 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/09/24/查看哪些进程占用了swap/" itemprop="url">
+                  查看哪些进程占用了swap
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-09-24T10:22:51+08:00" content="2015-09-24">
+              2015-09-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/09/24/查看哪些进程占用了swap/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/24/查看哪些进程占用了swap/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>这个脚本可以方便的查看哪些进程占用了swap。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##############################################################################</span></span><br><span class="line"><span class="comment"># 脚本功能 ： 列出正在占用swap的进程。</span></span><br><span class="line"><span class="comment">###############################################################################</span></span><br><span class="line">  </span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">"PID\t\tSwap\t\tProc_Name"</span></span><br><span class="line">  </span><br><span class="line"><span class="comment"># 拿出/proc目录下所有以数字为名的目录（进程名是数字才是进程，其他如sys,net等存放的是其他信息）</span></span><br><span class="line"><span class="keyword">for</span> pid <span class="keyword">in</span> `ls <span class="operator">-l</span> /proc | grep ^d | awk <span class="string">'&#123; print $9 &#125;'</span>| grep -v [^<span class="number">0</span>-<span class="number">9</span>]`</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="comment"># 让进程释放swap的方法只有一个：就是重启该进程。或者等其自动释放。放</span></span><br><span class="line">    <span class="comment"># 如果进程会自动释放，那么我们就不会写脚本来找他了，找他都是因为他没有自动释放。</span></span><br><span class="line">    <span class="comment"># 所以我们要列出占用swap并需要重启的进程，但是init这个进程是系统里所有进程的祖先进程</span></span><br><span class="line">    <span class="comment"># 重启init进程意味着重启系统，这是万万不可以的，所以就不必检测他了，以免对系统造成影响。</span></span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$pid</span> <span class="operator">-eq</span> <span class="number">1</span> ];<span class="keyword">then</span> <span class="built_in">continue</span>;<span class="keyword">fi</span></span><br><span class="line">    grep -q <span class="string">"Swap"</span> /proc/<span class="variable">$pid</span>/smaps <span class="number">2</span>&gt;/dev/null</span><br><span class="line">    <span class="keyword">if</span> [ $? <span class="operator">-eq</span> <span class="number">0</span> ];<span class="keyword">then</span></span><br><span class="line">        swap=$(grep Swap /proc/<span class="variable">$pid</span>/smaps \</span><br><span class="line">            | gawk <span class="string">'&#123; sum+=$2;&#125; END&#123; print sum &#125;'</span>)</span><br><span class="line">        proc_name=$(ps aux | grep -w <span class="string">"<span class="variable">$pid</span>"</span> | grep -v grep \</span><br><span class="line">            | awk <span class="string">'&#123; for(i=11;i&lt;=NF;i++)&#123; printf("%s ",$i); &#125;&#125;'</span>)</span><br><span class="line">        <span class="keyword">if</span> [ <span class="variable">$swap</span> <span class="operator">-gt</span> <span class="number">0</span> ];<span class="keyword">then</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">"<span class="variable">$&#123;pid&#125;</span>\t<span class="variable">$&#123;swap&#125;</span>\t<span class="variable">$&#123;proc_name&#125;</span>"</span></span><br><span class="line">        <span class="keyword">fi</span> </span><br><span class="line">    <span class="keyword">fi</span> </span><br><span class="line"><span class="keyword">done</span> | sort -k2 -n | awk -F<span class="string">'\t'</span> <span class="string">'&#123;</span><br><span class="line">    pid[NR]=$1;</span><br><span class="line">    size[NR]=$2;</span><br><span class="line">    name[NR]=$3;</span><br><span class="line">&#125;</span><br><span class="line">END&#123;</span><br><span class="line">    for(id=1;id&lt;=length(pid);id++)</span><br><span class="line">    &#123;</span><br><span class="line">        if(size[id]&lt;1024)</span><br><span class="line">            printf("%-10s\t%15sKB\t%s\n",pid[id],size[id],name[id]);</span><br><span class="line">        else if(size[id]&lt;1048576)</span><br><span class="line">            printf("%-10s\t%15.2fMB\t%s\n",pid[id],size[id]/1024,name[id]);</span><br><span class="line">        else</span><br><span class="line">            printf("%-10s\t%15.2fGB\t%s\n",pid[id],size[id]/1048576,name[id]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;'</span></span><br></pre></td></tr></table></figure>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -790,110 +888,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/05/07/写个脚本压缩JS-CSS/" itemprop="url">
-                  写个脚本压缩JS,CSS
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-05-07T15:00:13+08:00" content="2015-05-07">
-              2015-05-07
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/shell/" itemprop="url" rel="index">
-                    <span itemprop="name">shell</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/05/07/写个脚本压缩JS-CSS/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/07/写个脚本压缩JS-CSS/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>1、下载最新版的yuicompressor.jar<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//github.com/yui/yuicompressor/releases</span></span><br></pre></td></tr></table></figure></p>
-<p>2、遍历目录，压缩JS、CSS<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="keyword">for</span> i in `find path -name <span class="string">"*.css"</span>`;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"compress $i"</span></span><br><span class="line">    java -jar yuicompressor-<span class="number">2.4</span>.8.jar --charset=utf8 -o <span class="variable">$i</span> <span class="variable">$i</span> --nomunge</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -940,7 +934,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">56</span>
+              <span class="site-state-item-count">57</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -954,7 +948,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">46</span>
+              <span class="site-state-item-count">47</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

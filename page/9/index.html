@@ -201,11 +201,111 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/01/20/Drupal7表单提交时出现非法选项解决方案/" itemprop="url">
+                  drupal7表单提交时出现非法选项解决方案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-01-20T20:44:22+08:00" content="2014-01-20">
+              2014-01-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/01/20/Drupal7表单提交时出现非法选项解决方案/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/20/Drupal7表单提交时出现非法选项解决方案/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>有的使用ajax操作表单时，提交时会出现“在请选择xxx元素中的非法选项1。(An illegal choice has been detected ajax call!)”，解决办法很简单，如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">form[<span class="string">'my_dynamic_select'</span>] = <span class="keyword">array</span>(</span><br><span class="line">  … </span><br><span class="line">  <span class="string">'#type'</span> =&gt; <span class="string">'select'</span>,</span><br><span class="line">  <span class="string">'#validated'</span> =&gt; <span class="keyword">TRUE</span>, <span class="comment">// 表单元素添加该行即可。</span></span><br><span class="line">  …</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>为什么要加’#validated’ =&gt; TRUE呢？<br>由于我们使用ajax取得的值，页面加载时并不存在，Drupal会认为这个值时非法的。所以我们要重置表单验证项永远为真，即可完美解决此问题。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -731,112 +831,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/12/11/Drupal导入翻译/" itemprop="url">
-                  Drupal导入翻译
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2013-12-11T17:19:06+08:00" content="2013-12-11">
-              2013-12-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2013/12/11/Drupal导入翻译/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/12/11/Drupal导入翻译/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>有的时候po文件太大，导入的时候会出现503错误。这是因为php请求超时了。还好，有drush,用drush 导入文件非常简单。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drush dl drush_language</span><br></pre></td></tr></table></figure></p>
-<p>Usage</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">drush language-add &lt;langcode&gt;</span><br><span class="line">&gt; Add <span class="keyword">and</span> import a <span class="keyword">new</span> language definition.</span><br><span class="line">drush language-enable &lt;langcode&gt;</span><br><span class="line">&gt; Enable an existing language.</span><br><span class="line">drush language-disable &lt;langcode&gt;</span><br><span class="line">&gt; Disable an enabled language.</span><br><span class="line">drush language-<span class="keyword">default</span> &lt;langcode&gt;</span><br><span class="line">&gt; Assign an enabled language <span class="keyword">as</span> <span class="keyword">default</span>.</span><br><span class="line">drush language-import &lt;langcode&gt; &lt;file.po&gt; [--replace] [--group=&lt;text-group&gt;]</span><br><span class="line">&gt; Import a .po file to a language.</span><br><span class="line">drush language-export &lt;langcode&gt; &lt;file.po&gt; [--group=&lt;text-group&gt;]</span><br><span class="line">&gt; Export a language to a .po file.</span><br></pre></td></tr></table></figure>
-<p>比如导入一个翻译文件，命令如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drush language-import zh-hans xxxx/drupal-<span class="number">7.22</span>.zh-hans.po</span><br></pre></td></tr></table></figure>
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -883,7 +877,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">56</span>
+              <span class="site-state-item-count">57</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -897,7 +891,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">46</span>
+              <span class="site-state-item-count">47</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
