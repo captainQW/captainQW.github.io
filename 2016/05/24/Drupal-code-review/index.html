@@ -295,6 +295,8 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pareviewsh /path/to/module or /path/to/git-repos.git</span><br></pre></td></tr></table></figure>
 <p>phpcs自动修复代码标准</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phpcbf --standard=Drupal --extensions=php,module,inc,install,<span class="built_in">test</span>,profile,theme,js,css,info,txt,md /file/to/drupal/example_module</span><br></pre></td></tr></table></figure>
+<p>在~/.bash_profile中添加别名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> drupalcs=<span class="string">"phpcs --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></span><br><span class="line"><span class="built_in">alias</span> drupalpractice=<span class="string">"phpcs --standard=DrupalPractice --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></span><br><span class="line"><span class="built_in">alias</span> drupalcbf=<span class="string">"phpcbf --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></span><br></pre></td></tr></table></figure>
 <p>具体参照：<a href="https://www.drupal.org/node/1587138" target="_blank" rel="external">https://www.drupal.org/node/1587138</a></p>
 </span>
       
