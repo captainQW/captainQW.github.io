@@ -201,11 +201,113 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/12/Drupal8数据库-database/" itemprop="url">
+                  Drupal8数据库(database)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-12T17:20:15+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/12/Drupal8数据库-database/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Drupal8数据库-database/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>Drupal8的数据库操作函数跟Drupal7没什么变化，但是，在Drupal9(还没开始开发，但是代码注释中已经有)中会把一些函数移除，比如db_add, db_insert, db_query等，见 <a href="https://api.drupal.org/api/drupal/core%21includes%21database.inc/8" title="D8 database" target="_blank" rel="external">Drupal8 database</a>。</p>
+<p>那么在Drupal8中怎么操作数据库呢，推荐使用对象连接。如</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">// Returns a Drupal\Core\Database\Connection object.</span></span><br><span class="line"><span class="variable">$connection</span> = \Drupal::database();</span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$connection</span>-&gt;select(<span class="string">'node'</span>, <span class="string">'n'</span>)</span><br><span class="line">  -&gt;fields(<span class="string">'n'</span>, <span class="keyword">array</span>(<span class="string">'nid'</span>))</span><br><span class="line">  -&gt;execute();</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>等同于</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span> = db_select(<span class="string">'node'</span>, <span class="string">'node'</span>)</span><br><span class="line">  -&gt;fields(<span class="string">'n'</span>, <span class="keyword">array</span>(<span class="string">'nid'</span>))</span><br><span class="line">  -&gt;execute();</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -825,117 +927,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/02/Converting-7-x-modules-to-8-x/" itemprop="url">
-                  Converting 7.x modules to 8.x
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-02T14:10:20+08:00" content="2015-11-02">
-              2015-11-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/02/Converting-7-x-modules-to-8-x/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/02/Converting-7-x-modules-to-8-x/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>本节主要介绍如何把drupal7的模块转化为drupal8。参考资料<a href="https://www.drupal.org/update/modules/7/8" target="_blank" rel="external">https://www.drupal.org/update/modules/7/8</a></p>
-<p>先介绍一个模块drupalmoduleupgrader，他会分析drupal7的模块，并提供升级的指导说明，另外还可以直接升级为drupal8。安装方式也比较简单，如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">drush dl drupalmoduleupgrader</span><br><span class="line"><span class="built_in">cd</span> modules/drupalmoduleupgrader</span><br><span class="line">composer install               <span class="comment">#安装依赖</span></span><br><span class="line">drush en drupalmoduleupgrader  <span class="comment">#启用此模块</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="如何分析？">如何分析？</h3><p>cp一个drupal7的模块到drupal8的modules目录下，执行以下命令分析:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drush dmu-analyze hello_world</span><br></pre></td></tr></table></figure></p>
-<p>会释出一个upgrade-info.html的文件，非常详细的标明哪些API需要修改。</p>
-<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151102/20151102143425_76787.png" alt="upgrade-info.html"></p>
-<h3 id="如何升级？">如何升级？</h3><p>执行命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drush dmu-upgrade hello_world</span><br></pre></td></tr></table></figure></p>
-<p>会自动释出一个drupal8的版本。</p>
-<h3 id="转换原理？">转换原理？</h3><p>使用了pharborist做代码转换，见<a href="https://github.com/grom358/pharborist" target="_blank" rel="external">https://github.com/grom358/pharborist</a></p>
-<p>怎么样？灰常简单吧！</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -982,7 +973,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">59</span>
+              <span class="site-state-item-count">60</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -996,7 +987,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

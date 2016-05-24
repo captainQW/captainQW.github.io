@@ -201,11 +201,117 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/03/21/Drupal7生产环境的一些配置/" itemprop="url">
+                  drupal7生产环境的一些配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-03-21T15:09:59+08:00" content="2015-03-21">
+              2015-03-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/03/21/Drupal7生产环境的一些配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/21/Drupal7生产环境的一些配置/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>由于经常需要配置，这里主要是做一个梳理和整理，免得以后忘记</p>
+<p>1、缓存设置，见文章</p>
+<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//176code.com/tags/apc/</span></span><br></pre></td></tr></table></figure></span>
+</code></pre><p>2、如果站点启用了https，必须在settings.php里做如下设置，不然会导致session问题</p>
+<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$conf</span>[<span class="string">'https'</span>] = <span class="keyword">TRUE</span>;</span><br></pre></td></tr></table></figure></span>
+</code></pre><p>3、如果需要去除所有的报错，则在settings.php里做如下设置 </p>
+<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$conf</span>[<span class="string">'error_level'</span>] = <span class="number">0</span>;</span><br></pre></td></tr></table></figure></span>
+</code></pre><p>4、php.ini设置 date.timezone = Asia/Chongqing</p>
+<p>5、解决跨域问题,在.htaccess里添加如下代码<br>    <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Header set Access-Control-Allow-Origin <span class="string">"*"</span></span><br></pre></td></tr></table></figure></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -744,110 +850,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/04/16/Drupal的gitignore文件/" itemprop="url">
-                  drupal的.gitignore文件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2014-04-16T15:41:19+08:00" content="2014-04-16">
-              2014-04-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/04/16/Drupal的gitignore文件/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/16/Drupal的gitignore文件/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ignore configuration files that may contain sensitive information.</span></span><br><span class="line"><span class="comment">#sites/*/*settings*.php</span></span><br><span class="line">settings.php</span><br><span class="line"><span class="keyword">default</span>.settings.php</span><br><span class="line"></span><br><span class="line">*~</span><br><span class="line">*.*~</span><br><span class="line">*.lock</span><br><span class="line">*.DS_Store</span><br><span class="line">*.swp</span><br><span class="line">*.out</span><br><span class="line">*.swo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ignore paths that contain generated content.</span></span><br><span class="line">cache/</span><br><span class="line">files/</span><br><span class="line">sites<span class="comment">/*/files</span><br><span class="line">sites/*/</span><span class="keyword">private</span></span><br><span class="line">files/.htaccess</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ignore default text files</span></span><br><span class="line">.htaccess</span><br><span class="line">robots.txt</span><br><span class="line">/CHANGELOG.txt</span><br><span class="line">/COPYRIGHT.txt</span><br><span class="line">/INSTALL*.txt</span><br><span class="line">/LICENSE.txt</span><br><span class="line">/MAINTAINERS.txt</span><br><span class="line">/UPGRADE.txt</span><br><span class="line">/README.txt</span><br><span class="line">sites/all/README.txt</span><br><span class="line">sites/all/modules/README.txt</span><br><span class="line">sites/all/themes/README.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ignore everything but the "sites" folder ( for non core developer )</span></span><br><span class="line">web.config</span><br><span class="line">authorize.php</span><br><span class="line">cron.php</span><br><span class="line">index.php</span><br><span class="line">install.php</span><br><span class="line">update.php</span><br><span class="line">xmlrpc.php</span><br><span class="line">/includes</span><br><span class="line">/misc</span><br><span class="line">/modules</span><br><span class="line">/profiles</span><br><span class="line">/scripts</span><br><span class="line">/themes</span><br></pre></td></tr></table></figure>
-<p>把该文件放在/root/目录下。执行以下命令设置到全局选项里。<br>git config —global core.excludesfile /root/.gitignore</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -894,7 +896,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">59</span>
+              <span class="site-state-item-count">60</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -908,7 +910,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

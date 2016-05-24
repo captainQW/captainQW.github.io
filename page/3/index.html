@@ -201,11 +201,151 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/15/Drupal8-Service-DependencyInjection/" itemprop="url">
+                  Drupal8-Service-DependencyInjection
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-15T16:53:05+08:00" content="2015-12-15">
+              2015-12-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/15/Drupal8-Service-DependencyInjection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/15/Drupal8-Service-DependencyInjection/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>先来认识几个名词：</p>
+<p>1、Service</p>
+<p>Drupal8的service帮助代码去耦合，提高重复利用。比如操作数据库，发送mail等。一般来说，service是一个PHP类，包含了一些全局的方法。</p>
+<p>2、Service Container</p>
+<p>Service Container用来管理service。service的类会被注册在container中，来控制访问权限。在自定义模块中，可以用module_name.services.yml来实例化services，进而保存进container对象中。</p>
+<p>3、Dependency Injection</p>
+<p>如果要传递对象给另一个对象，一般用Dependency Injection来去耦。简单点说，一个service只处理一件事情，如果它要调用另外一个service，那么后面的这个service可以注入到前面的service中。</p>
+<p>下文我们以service表示Service，container表示Service Container，DI表示Dependency Injection。</p>
+<h3 id="一、core_services">一、core services</h3><p>Drupal8的核心servive都在<a href="https://api.drupal.org/api/drupal/core%21core.services.yml/8" target="_blank" rel="external">core.services.yml</a>中。</p>
+<p>当然，也可以在module_name.services.yml中自定义service。</p>
+<p>*.services.yml的写法如：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">path.alias_manager:</span><br><span class="line">  class: Drupal\Core\Path\AliasManager</span><br><span class="line">  arguments: ['@path.crud', '@path.alias_whitelist', '@language_manager']</span><br><span class="line">breadcrumb:</span><br><span class="line">  class: Drupal\Core\Breadcrumb\BreadcrumbManager</span><br><span class="line">  arguments: ['@module_handler']</span><br></pre></td></tr></table></figure>
+<p>如要把别的service当作工厂使用，写法如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cache.entity:</span><br><span class="line">  class: Drupal\Core\Cache\CacheBackendInterface</span><br><span class="line">  tags:</span><br><span class="line">    - &#123; name: cache.bin &#125;</span><br><span class="line">  factory: cache_factory:get</span><br><span class="line">  arguments: [entity]</span><br></pre></td></tr></table></figure>
+<p>1、第一行定义了一个唯一的service名称，如果是自定义的模块，必须以模块名作为前缀。<br>2、第二行定义了默认调用的类、工厂类、接口类等。<br>3、arguments带@表示依赖于该service。<br>4、factory表示调用哪个工厂方法。<br>5、tags标签定义了一组关联的service，或指定具有某些相似特性的service。如果定义了service标签，在service类中必须实现相应的接口，如：</p>
+<pre><code>&gt; access_check: 标明路由访问检查service
+&gt; cache.bin: 标明cache bin service
+&gt; event_subscriber: 标明一个事件订阅service。
+&gt; needs_destruction: 标明一个<span class="function"><span class="keyword">destructor</span><span class="params">()</span>方法，通常被调用于一个请求完成时。
+&gt; <span class="title">context_provice</span>:</span> 标明一个<span class="keyword">block</span>上下文提供者。
+&gt; http_client_middleware: 标明该service提供者是一个guzzle中间件。
+</code></pre><h3 id="二、访问service">二、访问service</h3><h4 id="1、全局函数(global_functions)">1、全局函数(global functions)</h4><p>Drupal8的全局类提供了一些静态方法去访问一些通用的service。如Drupal::moduleHandler()将返回模块处理service，Drupal.translation()将返回翻译service。用 Drupal::service()可以获取所有已经定义的service。</p>
+<p>如：访问一个数据库service</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">// Returns a Drupal\Core\Database\Connection object.</span></span><br><span class="line"><span class="variable">$connection</span> = \Drupal::database();</span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$connection</span>-&gt;select(<span class="string">'node'</span>, <span class="string">'n'</span>)</span><br><span class="line">  -&gt;fields(<span class="string">'n'</span>, <span class="keyword">array</span>(<span class="string">'nid'</span>))</span><br><span class="line">  -&gt;execute();</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如：通过\Drupal::service()访问一个date service</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">// Returns a Drupal\Core\Datetime\Date object.</span></span><br><span class="line"><span class="variable">$date</span> = \Drupal::service(<span class="string">'date'</span>);</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如：自定义的demo模块</p>
+<h4 id="2、创建demo-services-yml">2、创建demo.services.yml</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">services:</span><br><span class="line">    demo.demo_service:</span><br><span class="line">        class: Drupal\demo\DemoService</span><br></pre></td></tr></table></figure>
+<h4 id="3、在src目录下创建DemoService-php">3、在src目录下创建DemoService.php</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains Drupal\demo\DemoService.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoService</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$demo_value</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="variable">$this</span>-&gt;demo_value = <span class="string">'Upchuk'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getDemoValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$this</span>-&gt;demo_value;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以直接这样访问demo service</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$service</span> = \Drupal::service(<span class="string">'demo.demo_service'</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="4、重写默认service">4、重写默认service</h4><p>Drupal8允许在自定义的模块中重写已存在的service。如自定义了一个名为demo的模块。</p>
+<p>1)、在demo的src文件中创建一个名为DemoServiceProvider.php文件。</p>
+<p>2)、DemoServiceProvider必须实现<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21DependencyInjection%21ServiceModifierInterface.php/interface/ServiceModifierInterface/8" target="_blank" rel="external"> \Drupal\Core\DependencyInjection\ServiceModifierInterface</a>.</p>
+<p>3)、这个类必须包含一个方法：alter()。这个方法是告诉Drupal用你的类来替代默认的类。如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">alter</span><span class="params">(ContainerBuilder <span class="variable">$container</span>)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Override the language_manager class with a new class.</span></span><br><span class="line">  <span class="variable">$definition</span> = <span class="variable">$container</span>-&gt;getDefinition(<span class="string">'language_manager'</span>);</span><br><span class="line">  <span class="variable">$definition</span>-&gt;setClass(<span class="string">'Drupal\my_module\MyLanguageManager'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三、通过DI访问service">三、通过DI访问service</h3><p>这块比较重要，单独来讲一下。还是以demo模块为例。</p>
+<h4 id="1、创建demo-services-yml">1、创建demo.services.yml</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">services:</span><br><span class="line">    demo.demo_service:</span><br><span class="line">        class: Drupal\demo\DemoService</span><br></pre></td></tr></table></figure>
+<h4 id="2、在src目录下创建DemoService-php">2、在src目录下创建DemoService.php</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains Drupal\demo\DemoService.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoService</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$demo_value</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="variable">$this</span>-&gt;demo_value = <span class="string">'Upchuk'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getDemoValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$this</span>-&gt;demo_value;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="3、创建demo-routing-yml">3、创建demo.routing.yml</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">demo.demo:</span><br><span class="line">  path: <span class="string">'/demo'</span></span><br><span class="line">  defaults:</span><br><span class="line">    _controller: <span class="string">'\Drupal\demo\Controller\DemoController:demo'</span></span><br><span class="line">  requirements:</span><br><span class="line">    _permission: <span class="string">'access content'</span></span><br></pre></td></tr></table></figure>
+<h4 id="4、在src/Controller目录下创建DemoController-php">4、在src/Controller目录下创建DemoController.php</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains \Drupal\demo\Controller\DemoController.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Controller</span>\<span class="title">ControllerBase</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * DemoController.</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoController</span> <span class="keyword">extends</span> <span class="title">ControllerBase</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$demoService</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Class constructor.</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$demoService</span>)</span> </span>&#123;</span><br><span class="line">    <span class="variable">$this</span>-&gt;demoService = <span class="variable">$demoService</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">(ContainerInterface <span class="variable">$container</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">static</span>(</span><br><span class="line">      <span class="variable">$container</span>-&gt;get(<span class="string">'demo.demo_service'</span>)</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Generates an example page.</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">demo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'#markup'</span> =&gt; t(<span class="string">'Hello @value!'</span>, <span class="keyword">array</span>(<span class="string">'@value'</span> =&gt; <span class="variable">$this</span>-&gt;demoService-&gt;getDemoValue())),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>create()方法创建了一个控制器类的实例，参数为container中获取到的service。这样，DemoService实例就可以存储到$demoService中，我们就可以调用getDemoValue()这个方法了。</p>
+<h4 id="5、访问/demo的时候屏幕上就会出现Hello_Upchuk!">5、访问/demo的时候屏幕上就会出现Hello Upchuk!</h4><p>参考文章：<br>1、<a href="https://docs.acquia.com/articles/drupal-8-dependency-injection" target="_blank" rel="external">https://docs.acquia.com/articles/drupal-8-dependency-injection</a><br>2、<a href="http://katbailey.github.io/2013/05/15/dependency-injection-in-drupal-8/" target="_blank" rel="external">http://katbailey.github.io/2013/05/15/dependency-injection-in-drupal-8/</a><br>3、<a href="https://www.drupal.org/node/2133171" target="_blank" rel="external">https://www.drupal.org/node/2133171</a><br>4、<a href="http://redcrackle.com/blog/drupal-8/dependency-injection" target="_blank" rel="external">http://redcrackle.com/blog/drupal-8/dependency-injection</a><br>5、<a href="https://api.drupal.org/api/drupal/core!core.api.php/group/container/8" target="_blank" rel="external">https://api.drupal.org/api/drupal/core!core.api.php/group/container/8</a><br>6、<a href="http://www.sitepoint.com/building-drupal-8-module-configuration-management-service-container/" target="_blank" rel="external">http://www.sitepoint.com/building-drupal-8-module-configuration-management-service-container/</a><br>7、<a href="https://api.drupal.org/api/drupal/core%21core.api.php/group/service_tag/8" target="_blank" rel="external">https://api.drupal.org/api/drupal/core%21core.api.php/group/service_tag/8</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -971,124 +1111,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/21/centos6-6安装Percona-Tokudb/" itemprop="url">
-                  centos6.6安装Percona Tokudb
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-21T20:17:57+08:00" content="2015-11-21">
-              2015-11-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/21/centos6-6安装Percona-Tokudb/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/21/centos6-6安装Percona-Tokudb/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>在percona官网<a href="https://www.percona.com/" target="_blank" rel="external">https://www.percona.com/</a><br>下载带有Tokudb的二进制包，也可以选择源码编译。tokudb有单独的包.<br>我这里下载的是最新的包，5.6.25-73<br>Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101.tar.gz<br>Percona-Server-5.6.25-rel73.1-TokuDB.Linux.x86_64.ssl101.tar.gz</p>
-<h3 id="前期账号创建">前期账号创建</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; groupadd mysql</span><br><span class="line">shell&gt; useradd -g mysql mysql</span><br></pre></td></tr></table></figure>
-<h3 id="解压软件包">解压软件包</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; cd /usr/local</span><br><span class="line">shell&gt; tar -zxvf Percona-Server-<span class="number">5.6</span>.25-rel73.1-Linux.x86_64.ssl101.tar.gz</span><br><span class="line">shell&gt; tar -zxvf Percona-Server-<span class="number">5.6</span>.25-rel73.1-TokuDB.Linux.x86_64.ssl101.tar.gz</span><br><span class="line">shell&gt; ln -s Percona-Server-<span class="number">5.6</span>.25-rel73.1-Linux.x86_64.ssl101 mysql</span><br></pre></td></tr></table></figure>
-<h3 id="设置权限">设置权限</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; cd mysql</span><br><span class="line">shell&gt; chown -R mysql .</span><br><span class="line">shell&gt; chgrp -R mysql .</span><br></pre></td></tr></table></figure>
-<h3 id="创建配置文件/etc/my-cnf">创建配置文件/etc/my.cnf</h3><p>创建存放数据源的目录</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Shell&gt; mkdir -p /<span class="keyword">var</span>/lib/mysql</span><br><span class="line">Shell&gt; mkdir -p /data/mysqldata /data/mysqllog</span><br><span class="line">Shell&gt; chown -R mysql:mysql /<span class="keyword">var</span>/lib/mysql /data/mysqldata /data/mysqllog</span><br></pre></td></tr></table></figure>
-<p>在附件中给出，请参考附配置文件内容</p>
-<h3 id="初始化DB">初始化DB</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Shell&gt; scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf</span><br><span class="line">shell&gt; chown -R root .</span><br></pre></td></tr></table></figure>
-<h3 id="修改系统参数">修改系统参数</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag</span><br><span class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled</span><br><span class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag</span><br></pre></td></tr></table></figure>
-<p>建议写到 /etc/rc.local 中，重启后也可生效</p>
-<h3 id="启动数据库">启动数据库</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; bin/mysqld_safe --user=mysql &amp;</span><br></pre></td></tr></table></figure>
-<h3 id="把启动文件放去自启动中">把启动文件放去自启动中</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</span><br><span class="line">chkconfig --add mysqld</span><br><span class="line">service mysqld start</span><br><span class="line">service mysqld stop</span><br></pre></td></tr></table></figure>
-<p>然后启动。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show engines;</span><br><span class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span><br><span class="line">| Engine             | Support | Comment                                                                    | Transactions | XA   | Savepoints |</span><br><span class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span><br><span class="line">| InnoDB             | <span class="keyword">DEFAULT</span> | Percona-XtraDB, Supports transactions, row-level locking, <span class="keyword">and</span> foreign keys | YES          | YES  | YES        |</span><br><span class="line">| CSV                | YES     | CSV storage engine                                                         | NO           | NO   | NO         |</span><br><span class="line">| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                                      | NO           | NO   | NO         |</span><br><span class="line">| BLACKHOLE          | YES     | /dev/<span class="keyword">null</span> storage engine (anything you write to it disappears)             | NO           | NO   | NO         |</span><br><span class="line">| MEMORY             | YES     | Hash based, stored in memory, useful <span class="keyword">for</span> temporary tables                  | NO           | NO   | NO         |</span><br><span class="line">| TokuDB             | YES     | Tokutek TokuDB Storage Engine with Fractal Tree(tm) Technology             | YES          | YES  | YES        |</span><br><span class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                         | NO           | NO   | NO         |</span><br><span class="line">| ARCHIVE            | YES     | Archive storage engine                                                     | NO           | NO   | NO         |</span><br><span class="line">| MyISAM             | YES     | MyISAM storage engine                                                      | NO           | NO   | NO         |</span><br><span class="line">| FEDERATED          | NO      | Federated MySQL storage engine                                             | <span class="keyword">NULL</span>         | <span class="keyword">NULL</span> | <span class="keyword">NULL</span>       |</span><br><span class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span><br><span class="line"><span class="number">10</span> rows in set (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
-<p>看到上面一行红字就代表数据库支持TokuDB的存储引擎了。</p>
-<p>tokudb安装顺利完成，后附配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mysql]<span class="comment"># cat /etc/my.cnf </span></span><br><span class="line">[mysqld]</span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line">user=mysql</span><br><span class="line"><span class="comment"># Disabling symbolic-links is recommended to prevent assorted security risks</span></span><br><span class="line">symbolic-links=<span class="number">0</span></span><br><span class="line"><span class="comment">#public</span></span><br><span class="line">max_connections=<span class="number">3000</span></span><br><span class="line">max_connect_errors=<span class="number">6000</span></span><br><span class="line">key_buffer_size = <span class="number">384</span>M</span><br><span class="line">low_priority_updates = <span class="number">1</span></span><br><span class="line">back_<span class="built_in">log</span> = <span class="number">1500</span></span><br><span class="line">query_cache_<span class="built_in">type</span> = <span class="number">1</span></span><br><span class="line">query_cache_size = <span class="number">64</span>M</span><br><span class="line">query_cache_<span class="built_in">limit</span> = <span class="number">4</span>M</span><br><span class="line">query_cache_min_res_unit = <span class="number">2</span>k</span><br><span class="line">tmp_table_size = <span class="number">256</span>M</span><br><span class="line"><span class="built_in">read</span>_buffer_size=<span class="number">1</span>M</span><br><span class="line"><span class="built_in">read</span>_rnd_buffer_size = <span class="number">16</span>M</span><br><span class="line">bulk_insert_buffer_size = <span class="number">64</span>M</span><br><span class="line">max_allowed_packet = <span class="number">64</span>M</span><br><span class="line">thread_cache_size = <span class="number">300</span></span><br><span class="line"><span class="comment">#file</span></span><br><span class="line">innodb_file_per_table</span><br><span class="line"><span class="comment">#buffer</span></span><br><span class="line">innodb_buffer_pool_size = <span class="number">2500</span>M</span><br><span class="line">innodb_<span class="built_in">log</span>_buffer_size = <span class="number">64</span>M</span><br><span class="line">join_buffer_size = <span class="number">16</span>M</span><br><span class="line">sort_buffer_size = <span class="number">16</span>M</span><br><span class="line">innodb_max_dirty_pages_pct = <span class="number">90</span></span><br><span class="line">innodb_lock_<span class="built_in">wait</span>_timeout = <span class="number">120</span></span><br><span class="line">innodb_thread_concurrency = <span class="number">16</span></span><br><span class="line">innodb_flush_<span class="built_in">log</span>_at_trx_commit = <span class="number">2</span></span><br><span class="line">character_<span class="built_in">set</span>_server=utf8</span><br><span class="line">init_connect=<span class="string">'SET NAMES utf8'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#tokudb</span></span><br><span class="line">plugin_dir =  /usr/<span class="built_in">local</span>/mysql/lib/mysql/plugin/</span><br><span class="line">plugin_load=ha_tokudb.so</span><br><span class="line"><span class="comment">#把TokuDB datadir以及logdir和MySQL的datadir分开，美观点，也可以不分开，注释掉本行以及下面2行即可</span></span><br><span class="line">tokudb_data-dir = /data/mysqldata</span><br><span class="line">tokudb_<span class="built_in">log</span>-dir = /data/mysqllog</span><br><span class="line"><span class="comment">#TokuDB的行模式，建议用 FAST 就足够了，如果磁盘空间很紧张，建议用 SMALL</span></span><br><span class="line">tokudb_row_format = tokudb_small</span><br><span class="line">tokudb_row_format = tokudb_fast</span><br><span class="line">tokudb_cache_size = <span class="number">2</span>G</span><br><span class="line"><span class="comment">#其他大部分配置其实可以不用修改的，只需要几个关键配置即可</span></span><br><span class="line">tokudb_commit_sync = <span class="number">0</span></span><br><span class="line">tokudb_directio = <span class="number">1</span></span><br><span class="line">tokudb_<span class="built_in">read</span>_block_size = <span class="number">128</span>K</span><br><span class="line">tokudb_<span class="built_in">read</span>_buf_size = <span class="number">128</span>K</span><br><span class="line"></span><br><span class="line">[mysqld_safe]</span><br><span class="line"><span class="built_in">log</span>-error=/var/<span class="built_in">log</span>/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line">malloc_lib = /usr/<span class="built_in">local</span>/mysql/lib/mysql/libjemalloc.so <span class="comment">#只能放在mysqld_safe中，不得报错</span></span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1135,7 +1157,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">59</span>
+              <span class="site-state-item-count">60</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1149,7 +1171,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

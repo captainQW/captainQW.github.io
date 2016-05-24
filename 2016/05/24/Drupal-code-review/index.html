@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="进程," />
+  <meta name="keywords" content="code_review," />
 
 
 
@@ -55,28 +55,21 @@
 
 
 
-<meta name="description" content="并发(Concurrently)和并行(Parallel)是两个不同的概念。借用Go创始人Rob Pike的说法，并发不是并行，并发更好。
-
-并发是一共要处理(deal with)很多事情，并行是一次可以做(do)多少事情。
-
-举个简单的例子，华罗庚泡茶，必须有烧水、洗杯子、拿茶叶等步骤。现在我们想尽快做完这件事，也就是“一共要处理很多事情”，有很多方法可以实现并发，例如请多个人同时做，这就是并行">
+<meta name="description" content="如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的pareview.sh工具。
+1、安装composer12$ curl -sS https://getcomposer.org/installer | php$ mv composer.phar /usr/local/bin/composer
+2、安装Coder (reference: https://www.dr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="并发与并行">
-<meta property="og:url" content="http://verynull.com/2015/10/15/并发与并行/index.html">
+<meta property="og:title" content="Drupal code review">
+<meta property="og:url" content="http://verynull.com/2016/05/24/Drupal-code-review/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
-<meta property="og:description" content="并发(Concurrently)和并行(Parallel)是两个不同的概念。借用Go创始人Rob Pike的说法，并发不是并行，并发更好。
-
-并发是一共要处理(deal with)很多事情，并行是一次可以做(do)多少事情。
-
-举个简单的例子，华罗庚泡茶，必须有烧水、洗杯子、拿茶叶等步骤。现在我们想尽快做完这件事，也就是“一共要处理很多事情”，有很多方法可以实现并发，例如请多个人同时做，这就是并行">
-<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151015/20151015132329_33012.png">
+<meta property="og:description" content="如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的pareview.sh工具。
+1、安装composer12$ curl -sS https://getcomposer.org/installer | php$ mv composer.phar /usr/local/bin/composer
+2、安装Coder (reference: https://www.dr">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="并发与并行">
-<meta name="twitter:description" content="并发(Concurrently)和并行(Parallel)是两个不同的概念。借用Go创始人Rob Pike的说法，并发不是并行，并发更好。
-
-并发是一共要处理(deal with)很多事情，并行是一次可以做(do)多少事情。
-
-举个简单的例子，华罗庚泡茶，必须有烧水、洗杯子、拿茶叶等步骤。现在我们想尽快做完这件事，也就是“一共要处理很多事情”，有很多方法可以实现并发，例如请多个人同时做，这就是并行">
+<meta name="twitter:title" content="Drupal code review">
+<meta name="twitter:description" content="如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的pareview.sh工具。
+1、安装composer12$ curl -sS https://getcomposer.org/installer | php$ mv composer.phar /usr/local/bin/composer
+2、安装Coder (reference: https://www.dr">
 
 
 
@@ -88,7 +81,7 @@
   };
 </script>
 
-  <title> 并发与并行 | Rambo's Blog </title>
+  <title> Drupal code review | Rambo's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -228,7 +221,7 @@
             
             
               
-                并发与并行
+                Drupal code review
               
             
           </h1>
@@ -237,8 +230,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-10-15T11:16:05+08:00" content="2015-10-15">
-              2015-10-15
+            <time itemprop="dateCreated" datetime="2016-05-24T11:34:10+08:00" content="2016-05-24">
+              2016-05-24
             </time>
           </span>
 
@@ -247,8 +240,8 @@
               &nbsp; | &nbsp; 分类于
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
                   </a>
                 </span>
 
@@ -263,8 +256,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/10/15/并发与并行/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/15/并发与并行/" itemprop="commentsCount"></span>
+                <a href="/2016/05/24/Drupal-code-review/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/Drupal-code-review/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -283,17 +276,26 @@
       
 
       
-        <span itemprop="articleBody"><p>并发(Concurrently)和并行(Parallel)是两个不同的概念。借用Go创始人Rob Pike的说法，并发不是并行，并发更好。</p>
-<blockquote>
-<p>并发是一共要处理(deal with)很多事情，并行是一次可以做(do)多少事情。</p>
-</blockquote>
-<p>举个简单的例子，华罗庚泡茶，必须有烧水、洗杯子、拿茶叶等步骤。现在我们想尽快做完这件事，也就是“一共要处理很多事情”，有很多方法可以实现并发，例如请多个人同时做，这就是并行。并行是实现并发的一种方式，但不是唯一的方式。我们一个人也可以实现并发，例如先烧水、然后不用等水烧开就去洗杯子，所以通过调整程序运行方式也可以实现并发。</p>
-<p>大神讲解</p>
-<p>如果还不理解，建议看Rob Pike题为Concurrency is not Parallelism的<a href="http://concur.rspace.googlecode.com/hg/talk/concur.html" target="_blank" rel="external">演讲PPT</a>和<a href="http://blog.golang.org/concurrency-is-not-parallelism" target="_blank" rel="external">演讲视频</a>。</p>
-<p>我把演讲的PPT截图贴出来方便大家理解。</p>
-<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151015/20151015132329_33012.png" alt=""></p>
-<p>总结</p>
-<p>总结一下，并行是实现并发的一种方式，在多核CPU的时代，并行是我们设计高效程序所要考虑的，那么进程是不是越多越好呢？</p>
+        <span itemprop="articleBody"><p>如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的<a href="http://pareview.sh/" target="_blank" rel="external">pareview.sh</a>工具。</p>
+<h3 id="1、安装composer">1、安装composer</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl <span class="operator">-s</span>S https://getcomposer.org/installer | php</span><br><span class="line">$ mv composer.phar /usr/<span class="built_in">local</span>/bin/composer</span><br></pre></td></tr></table></figure>
+<h3 id="2、安装Coder_(reference:_https://www-drupal-org/node/1419988#coder-composer)">2、安装Coder (reference: <a href="https://www.drupal.org/node/1419988#coder-composer" target="_blank" rel="external">https://www.drupal.org/node/1419988#coder-composer</a>)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ composer global require drupal/coder</span><br><span class="line">$ sudo ln <span class="operator">-s</span> ~/.composer/vendor/bin/phpcs /usr/<span class="built_in">local</span>/bin</span><br><span class="line">$ sudo ln <span class="operator">-s</span> ~/.composer/vendor/bin/phpcbf /usr/<span class="built_in">local</span>/bin</span><br><span class="line">$ phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer</span><br></pre></td></tr></table></figure>
+<h3 id="3、安装codespell_(reference:_https://github-com/lucasdemarchi/codespell)">3、安装codespell (reference: <a href="https://github.com/lucasdemarchi/codespell" target="_blank" rel="external">https://github.com/lucasdemarchi/codespell</a>)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get <span class="built_in">help</span>2man -y</span><br><span class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/lucasdemarchi/codespell.git</span><br><span class="line">$ <span class="built_in">cd</span> codespell &amp;&amp; sudo make install</span><br><span class="line">$ sudo cp codespell /usr/<span class="built_in">local</span>/bin</span><br></pre></td></tr></table></figure>
+<p>注：MAC下安装codespell<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo python setup.py install</span><br></pre></td></tr></table></figure></p>
+<h3 id="4、安装DrupalSecure_(reference:_https://www-drupal-org/sandbox/coltrane/1921926)">4、安装DrupalSecure (reference: <a href="https://www.drupal.org/sandbox/coltrane/1921926" target="_blank" rel="external">https://www.drupal.org/sandbox/coltrane/1921926</a>)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update &amp;&amp; sudo apt-get install php-pear</span><br><span class="line">$ sudo pear install PHP_CodeSniffer</span><br><span class="line">$ <span class="built_in">cd</span> $(pear config-get php_dir)/PHP/CodeSniffer/Standards/</span><br><span class="line">$ git <span class="built_in">clone</span> git://git.drupal.org/sandbox/coltrane/<span class="number">1921926</span>.git secure_cs</span><br><span class="line">$ sudo ln -sv ./secure_cs/DrupalSecure ./DrupalSecure</span><br></pre></td></tr></table></figure>
+<p>注：MAC下安装php-pear<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://pear.php.net/go-pear.phar</span><br><span class="line">php go-pear.phar</span><br></pre></td></tr></table></figure></p>
+<h3 id="5、安装ESLint">5、安装ESLint</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g eslint</span><br></pre></td></tr></table></figure>
+<p>在Ubuntu precise （12.04）, 你有可能会遇到以下错误：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm http GET https://registry.npmjs.org/</span><br><span class="line">npm ERR! Error: failed to fetch from registry: </span><br><span class="line">This is because the version supplied by Ubuntu <span class="number">12.04</span> is no longer supported, updating node (and npm with it) resolved the issue.</span><br></pre></td></tr></table></figure>
+<p>首先, 卸载nodejs版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get purge nodejs npm</span><br></pre></td></tr></table></figure>
+<p>启用nodesource’s仓库并进行安装:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="operator">-s</span>L https://deb.nodesource.com/setup | sudo bash -</span><br><span class="line">sudo apt-get install -y nodejs</span><br><span class="line">$ sudo apt-get install nodejs</span><br><span class="line">$ eslint --init <span class="comment"># run for the first time</span></span><br></pre></td></tr></table></figure>
+<h3 id="6、安装pareviewsh">6、安装pareviewsh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">$ sudo wget http://ftp.drupal.org/files/projects/pareviewsh-<span class="number">7</span>.x-<span class="number">1.7</span>.tar.gz</span><br><span class="line">$ sudo tar xzf pareviewsh-<span class="number">7</span>.x-<span class="number">1.7</span>.tar.gz</span><br><span class="line">$ sudo ln <span class="operator">-s</span> /usr/<span class="built_in">local</span>/src/pareviewsh/pareview.sh /usr/<span class="built_in">local</span>/bin/pareviewsh</span><br></pre></td></tr></table></figure>
+<p>查看pareview是否已经安装成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pareviewsh /path/to/module or /path/to/git-repos.git</span><br></pre></td></tr></table></figure>
+<p>phpcs自动修复代码标准</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phpcbf --standard=Drupal --extensions=php,module,inc,install,<span class="built_in">test</span>,profile,theme,js,css,info,txt,md /file/to/drupal/example_module</span><br></pre></td></tr></table></figure>
+<p>具体参照：<a href="https://www.drupal.org/node/1587138" target="_blank" rel="external">https://www.drupal.org/node/1587138</a></p>
 </span>
       
     </div>
@@ -302,7 +304,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/进程/" rel="tag">#进程</a>
+            <a href="/tags/code-review/" rel="tag">#code_review</a>
           
         </div>
       
@@ -311,17 +313,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/24/查看哪些进程占用了swap/" rel="next" title="查看哪些进程占用了swap">
-                <i class="fa fa-chevron-left"></i> 查看哪些进程占用了swap
+              <a href="/2016/05/21/PHP-Trait多重继承的实现/" rel="next" title="PHP Trait多重继承的实现">
+                <i class="fa fa-chevron-left"></i> PHP Trait多重继承的实现
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/02/Drupal8-drush/" rel="prev" title="drush for drupal8">
-                drush for drupal8 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -348,8 +346,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/10/15/并发与并行/"
-           data-title="并发与并行" data-url="http://verynull.com/2015/10/15/并发与并行/">
+      <div class="ds-thread" data-thread-key="2016/05/24/Drupal-code-review/"
+           data-title="Drupal code review" data-url="http://verynull.com/2016/05/24/Drupal-code-review/">
       </div>
     
   </div>
@@ -456,7 +454,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、安装composer"><span class="nav-number">1.</span> <span class="nav-text">1、安装composer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、安装Coder_(reference:_https://www-drupal-org/node/1419988#coder-composer)"><span class="nav-number">2.</span> <span class="nav-text">2、安装Coder (reference: https://www.drupal.org/node/1419988#coder-composer)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、安装codespell_(reference:_https://github-com/lucasdemarchi/codespell)"><span class="nav-number">3.</span> <span class="nav-text">3、安装codespell (reference: https://github.com/lucasdemarchi/codespell)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、安装DrupalSecure_(reference:_https://www-drupal-org/sandbox/coltrane/1921926)"><span class="nav-number">4.</span> <span class="nav-text">4、安装DrupalSecure (reference: https://www.drupal.org/sandbox/coltrane/1921926)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、安装ESLint"><span class="nav-number">5.</span> <span class="nav-text">5、安装ESLint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、安装pareviewsh"><span class="nav-number">6.</span> <span class="nav-text">6、安装pareviewsh</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

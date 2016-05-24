@@ -201,11 +201,130 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/07/14/sublime-text创建快捷注释信息/" itemprop="url">
+                  sublime text创建快捷注释信息
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-07-14T10:18:10+08:00" content="2015-07-14">
+              2015-07-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/14/sublime-text创建快捷注释信息/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/14/sublime-text创建快捷注释信息/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <ul>
+<li>该方式适用于sublime text2和3。</li>
+</ul>
+<h2 id="创建代码片段">创建代码片段</h2><p>点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;snippet&gt;</span><br><span class="line">	&lt;content&gt;&lt;![CDATA[</span><br><span class="line">/**</span><br><span class="line"> * 定义函数</span><br><span class="line"> *</span><br><span class="line"> * 函数功能描述</span><br><span class="line"> * </span><br><span class="line"> * @author panjun.liu &lt;lpj163@gmail.com&gt;</span><br><span class="line"> *</span><br><span class="line"> * @param int <span class="variable">$param1</span>      参数释义</span><br><span class="line"> * @param string <span class="variable">$param2</span>   参数释义</span><br><span class="line"> *</span><br><span class="line"> * @<span class="built_in">return</span> <span class="built_in">integer</span>|string|array</span><br><span class="line">*/</span><br><span class="line">]]&gt;&lt;/content&gt;</span><br><span class="line">	&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</span><br><span class="line"> 	&lt;tabTrigger&gt;phpdoc&lt;/tabTrigger&gt;</span><br><span class="line">	&lt;!-- Optional: Set a scope to <span class="built_in">limit</span> <span class="built_in">where</span> the snippet will trigger --&gt;</span><br><span class="line">	&lt;!-- &lt;scope&gt;source.python&lt;/scope&gt; --&gt;</span><br><span class="line">&lt;/snippet&gt;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注：<br>tabTrigger 此节是可选的配置，默认是被注释掉的。默认 hello 的意思是：如果你在某个文档里输入了单词 hello ，然后按下 Tab 键，接着 hello 就会被替换为1中定义的代码片段。再次按下Tab键，接着snippet会被替换为2中定义的代码片段。</p>
+</blockquote>
+<p>保存到当前用户主目录下的\Sublime Text 3\Packages\User目录中，命名为phpdoc.sublime-snippet(注意：后缀必须为.sublime-snippet)。</p>
+<h2 id="绑定快捷键">绑定快捷键</h2><p>可以将上述的操作绑定到一个快捷键，在不键入任何文本的情况下，直接按快捷键插入代码片段。</p>
+<p>点击菜单栏的 Preferences 的子菜单 Key Binding – User，在打开的文件的方括号内部粘贴如下配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123; <span class="string">"keys"</span>: [<span class="string">"phpdoc"</span>], <span class="string">"command"</span>: <span class="string">"insert_snippet"</span>, <span class="string">"args"</span>: &#123;<span class="string">"name"</span>: <span class="string">"Packages/User/phpdoc.sublime-snippet"</span>&#125; &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>现在简单介绍一下这段配置：</p>
+<ol>
+<li><p>“keys”: [“phpdoc”] 这个定义了触发此命令的快捷键。</p>
+</li>
+<li><p>“command”: “insert_snippet” 这个是需要触发的命令的名字。</p>
+</li>
+<li><p>“args”: {“name”: “Packages/User/phpdoc.sublime-snippet”} 这个是需要传入到上述命令的参数。这里把代码片段文件的相对路径传递过去。</p>
+</li>
+</ol>
+<p>保存配置文件，现在就可以用快捷键插入代码片段了。</p>
+<p>至此，输入phpdoc，然后按tab键就会输出你定义这段注释。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -749,117 +868,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/21/Drupal7生产环境的一些配置/" itemprop="url">
-                  drupal7生产环境的一些配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-03-21T15:09:59+08:00" content="2015-03-21">
-              2015-03-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/03/21/Drupal7生产环境的一些配置/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/21/Drupal7生产环境的一些配置/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>由于经常需要配置，这里主要是做一个梳理和整理，免得以后忘记</p>
-<p>1、缓存设置，见文章</p>
-<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//176code.com/tags/apc/</span></span><br></pre></td></tr></table></figure></span>
-</code></pre><p>2、如果站点启用了https，必须在settings.php里做如下设置，不然会导致session问题</p>
-<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$conf</span>[<span class="string">'https'</span>] = <span class="keyword">TRUE</span>;</span><br></pre></td></tr></table></figure></span>
-</code></pre><p>3、如果需要去除所有的报错，则在settings.php里做如下设置 </p>
-<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$conf</span>[<span class="string">'error_level'</span>] = <span class="number">0</span>;</span><br></pre></td></tr></table></figure></span>
-</code></pre><p>4、php.ini设置 date.timezone = Asia/Chongqing</p>
-<p>5、解决跨域问题,在.htaccess里添加如下代码<br>    <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Header set Access-Control-Allow-Origin <span class="string">"*"</span></span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -906,7 +914,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">59</span>
+              <span class="site-state-item-count">60</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -920,7 +928,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-count">50</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
