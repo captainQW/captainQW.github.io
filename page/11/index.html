@@ -58,7 +58,7 @@
 <meta name="description" content="记录生活，分享知识，传播乐趣">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Rambo's Blog">
-<meta property="og:url" content="http://verynull.com/tags/form/index.html">
+<meta property="og:url" content="http://verynull.com/page/11/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="记录生活，分享知识，传播乐趣">
 <meta name="twitter:card" content="summary">
@@ -75,7 +75,7 @@
   };
 </script>
 
-  <title> 标签: form | Rambo's Blog </title>
+  <title> Rambo's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -96,7 +96,9 @@
 
 
 
-  <div class="container one-column ">
+  <div class="container one-column 
+   page-home 
+">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -193,47 +195,133 @@
       <div class="main-inner">
         <div id="content" class="content">
           
+  <section id="posts" class="posts-expand">
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        form
-        <small>标签</small>
-      </h2>
-    </div>
+    
+
+    
+    
+      
+      
+
+      
+    
 
     
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
 
-      <h1 class="post-title">
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2015/11/12/Drupal8-form/" itemprop="url">
-              
-                <span itemprop="name">drupal8表单(form)</span>
-              
-            </a>
         
-      </h1>
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/12/11/php获取raw-post-data数据/" itemprop="url">
+                  PHP获取Raw POST Data数据
+                </a>
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-11-12T17:15:23+08:00"
-              content="2015-11-12" >
-          11-12
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2013-12-11T16:05:05+08:00" content="2013-12-11">
+              2013-12-11
+            </time>
+          </span>
 
-    </header>
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/12/11/php获取raw-post-data数据/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/12/11/php获取raw-post-data数据/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>通常在做网站开发的时候，接收POST数组通过$_POST即可获取，但是如果把一段 XML 文本直接作为POST DATA提交到服务器时，$_POST是一个空数组，如：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST http:<span class="comment">//www.example.com -H "Accept:application/json" -d '&#123;"ip":"8.8.4.4"&#125;'</span></span><br></pre></td></tr></table></figure></p>
+<p>如何解决这个问题呢，PHP提供了解析Raw POST data的方法，见<a href="http://www.php.net/manual/en/reserved.variables.httprawpostdata.php，用法如下：" target="_blank" rel="external">http://www.php.net/manual/en/reserved.variables.httprawpostdata.php，用法如下：</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$postdata</span> = file_get_contents(<span class="string">"php://input"</span>);</span><br></pre></td></tr></table></figure>
+<p>解释一下，php://input 是一个资源标识，用 file_get_contents 从这个资源中获取的内容，就是原始的 Raw POST Data。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </article>
 
 
     
-  </div>
+
+  </section>
 
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span>
+  </nav>
+
 
 
         </div>
@@ -369,12 +457,6 @@
 
   
   
-  
-    <script type="text/javascript">
-      postMotionOptions = {stagger: 100, drag: true};
-    </script>
-  
-
 
   
     
