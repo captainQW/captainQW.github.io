@@ -201,11 +201,137 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/08/mariaDB和Percona的引擎tokudb性能测试/" itemprop="url">
+                  MariaDB和Percona的引擎tokudb性能对比测试
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-08T20:30:12+08:00" content="2015-11-08">
+              2015-11-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/08/mariaDB和Percona的引擎tokudb性能测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/08/mariaDB和Percona的引擎tokudb性能测试/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>MariaDB和Mysql对比（配置4核4G）:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome to the MySQL monitor.  Commands end with ; <span class="keyword">or</span> \g.</span><br><span class="line">Your MySQL connection id is <span class="number">2</span></span><br><span class="line">Server version: <span class="number">5.6</span>.25-<span class="number">73.1</span> Percona Server (GPL), Release <span class="number">73.1</span>, Revision <span class="number">07</span>b797f</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Welcome to the MariaDB monitor.  Commands end with ; <span class="keyword">or</span> \g.</span><br><span class="line">Your MariaDB connection id is <span class="number">4</span></span><br><span class="line">Server version: <span class="number">10.0</span>.14-MariaDB MariaDB Server</span><br></pre></td></tr></table></figure>
+<h3 id="1、MariaDB导入数据：">1、MariaDB导入数据：</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [billing]&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_innodb FIELDS TERMINATED BY <span class="string">'\t'</span>;</span><br><span class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">1</span> min <span class="number">18.02</span> sec)</span><br><span class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></span><br><span class="line"></span><br><span class="line">MariaDB [billing]&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_tokudb FIELDS TERMINATED BY <span class="string">'\t'</span>;</span><br><span class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">36.83</span> sec)                                 </span><br><span class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></span><br></pre></td></tr></table></figure>
+<p>Mysql导入数据：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_innodb FIELDS TERMINATED BY <span class="string">'\t'</span>;</span><br><span class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">1</span> min <span class="number">10.75</span> sec)</span><br><span class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></span><br><span class="line"></span><br><span class="line">mysql&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_tokudb FIELDS TERMINATED BY <span class="string">'\t'</span>;</span><br><span class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">33.35</span> sec)</span><br><span class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></span><br></pre></td></tr></table></figure></p>
+<p>总结：<br>1）、MariaDB导入数据比Mysql要慢一点<br>2）、TokuDB导入数据比InnoDB速度快一倍<br>3）、TokuDB采用多CPU并发导入</p>
+<h3 id="2、MariaDB存储空间">2、MariaDB存储空间</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost billing]<span class="comment"># ll -h</span></span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">1.5</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">16</span> cloud_innodb.frm</span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">568</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">40</span> cloud_innodb.ibd</span><br><span class="line"></span><br><span class="line">[root@localhost mysqldata]<span class="comment"># ll -h</span></span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">26</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">31</span> _billing_cloud_tokudb_main_172d_1_1b_B_0.tokudb</span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">64</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">31</span> _billing_cloud_tokudb_status_1729_1_1b.tokudb</span><br></pre></td></tr></table></figure>
+<p>Mysql存储空间<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost billing]<span class="comment"># ll -h </span></span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">8.9</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">17</span> cloud_innodb.frm</span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">568</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">36</span> cloud_innodb.ibd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@localhost mysqldata]<span class="comment"># ll -h</span></span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">26</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">37</span> _billing_cloud_tokudb_main_8be1_1_1c_B_0.tokudb</span><br><span class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">64</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">37</span> _billing_cloud_tokudb_status_8bde_1_1c.tokudb</span><br></pre></td></tr></table></figure></p>
+<p>总结：<br>1）、 MariaDB和Mysql在采用相同引擎的时候存储空间相同<br>2）、 TokuDB的压缩有很多种，上面采用tokudb_lzma,压缩比例最大，但非常消耗CPU，内存<br>3）、 TokuDB和InnoDB从上面的例子来看压缩比率是1：20左右，如果都是整型数据，压缩比率在1：4左右。</p>
+<h3 id="3、MariaDB查询速度">3、MariaDB查询速度</h3><p>重启第一次查询<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [billing]&gt; select count(*) from cloud_innodb;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|   <span class="number">641098</span> |</span><br><span class="line">+----------+</span><br><span class="line"><span class="number">1</span> row in set (<span class="number">0.58</span> sec)</span><br><span class="line"></span><br><span class="line">MariaDB [billing]&gt; select count(*) from cloud_tokudb;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|   <span class="number">641098</span> |</span><br><span class="line">+----------+</span><br><span class="line"><span class="number">1</span> row in set (<span class="number">16.55</span> sec)</span><br></pre></td></tr></table></figure></p>
+<p>清缓存（reset query cache）<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [billing]&gt; reset query cache;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.02</span> sec)</span><br><span class="line"></span><br><span class="line">MariaDB [billing]&gt; select count(*) from cloud_innodb;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|   <span class="number">641098</span> |</span><br><span class="line">+----------+</span><br><span class="line"><span class="number">1</span> row in set (<span class="number">0.42</span> sec)</span><br><span class="line"></span><br><span class="line">MariaDB [billing]&gt; select count(*) from cloud_tokudb;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|   <span class="number">641098</span> |</span><br><span class="line">+----------+</span><br><span class="line"><span class="number">1</span> row in set (<span class="number">0.43</span> sec)</span><br></pre></td></tr></table></figure></p>
+<p>Mysql查询速度<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select count(*) from cloud_innodb;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|   <span class="number">641098</span> |</span><br><span class="line">+----------+</span><br><span class="line"><span class="number">1</span> row in set (<span class="number">0.66</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select count(*) from cloud_tokudb;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|   <span class="number">641098</span> |</span><br><span class="line">+----------+</span><br><span class="line"><span class="number">1</span> row in set (<span class="number">13.74</span> sec)</span><br></pre></td></tr></table></figure></p>
+<p>清缓存（reset query cache）<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; reset query cache;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.03</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select count(*) from cloud_innodb;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|   <span class="number">641098</span> |</span><br><span class="line">+----------+</span><br><span class="line"><span class="number">1</span> row in set (<span class="number">0.38</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select count(*) from cloud_tokudb;</span><br><span class="line">+----------+</span><br><span class="line">| count(*) |</span><br><span class="line">+----------+</span><br><span class="line">|   <span class="number">641098</span> |</span><br><span class="line">+----------+</span><br><span class="line"><span class="number">1</span> row in set (<span class="number">0.49</span> sec)</span><br></pre></td></tr></table></figure></p>
+<p>总结：<br>1）、 查询速度MariaDB和Mysql速度差不多<br>2）、 第一次查询的时候InnoDB和TokuDB速度相差很大<br>3）、 清缓存后查询差不多</p>
+<h3 id="4、并发查询">4、并发查询</h3><p>MariaDB：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></span><br><span class="line">Benchmark</span><br><span class="line">	Average number of seconds to run all queries: <span class="number">0.509</span> seconds</span><br><span class="line">	Minimum number of seconds to run all queries: <span class="number">0.509</span> seconds</span><br><span class="line">	Maximum number of seconds to run all queries: <span class="number">0.509</span> seconds</span><br><span class="line">	Number of clients running queries: <span class="number">1000</span></span><br><span class="line">	Average number of queries per client: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></span><br><span class="line">Benchmark</span><br><span class="line">	Average number of seconds to run all queries: <span class="number">0.600</span> seconds</span><br><span class="line">	Minimum number of seconds to run all queries: <span class="number">0.600</span> seconds</span><br><span class="line">	Maximum number of seconds to run all queries: <span class="number">0.600</span> seconds</span><br><span class="line">	Number of clients running queries: <span class="number">1000</span></span><br><span class="line">	Average number of queries per client: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></span><br><span class="line">Benchmark</span><br><span class="line">	Average number of seconds to run all queries: <span class="number">0.901</span> seconds</span><br><span class="line">	Minimum number of seconds to run all queries: <span class="number">0.901</span> seconds</span><br><span class="line">	Maximum number of seconds to run all queries: <span class="number">0.901</span> seconds</span><br><span class="line">	Number of clients running queries: <span class="number">1000</span></span><br><span class="line">	Average number of queries per client: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></span><br><span class="line">Benchmark</span><br><span class="line">	Average number of seconds to run all queries: <span class="number">1.028</span> seconds</span><br><span class="line">	Minimum number of seconds to run all queries: <span class="number">1.028</span> seconds</span><br><span class="line">	Maximum number of seconds to run all queries: <span class="number">1.028</span> seconds</span><br><span class="line">	Number of clients running queries: <span class="number">1000</span></span><br><span class="line">	Average number of queries per client: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>Mysql：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></span><br><span class="line">Benchmark</span><br><span class="line">	Average number of seconds to run all queries: <span class="number">0.496</span> seconds</span><br><span class="line">	Minimum number of seconds to run all queries: <span class="number">0.496</span> seconds</span><br><span class="line">	Maximum number of seconds to run all queries: <span class="number">0.496</span> seconds</span><br><span class="line">	Number of clients running queries: <span class="number">1000</span></span><br><span class="line">	Average number of queries per client: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></span><br><span class="line">Benchmark</span><br><span class="line">	Average number of seconds to run all queries: <span class="number">0.483</span> seconds</span><br><span class="line">	Minimum number of seconds to run all queries: <span class="number">0.483</span> seconds</span><br><span class="line">	Maximum number of seconds to run all queries: <span class="number">0.483</span> seconds</span><br><span class="line">	Number of clients running queries: <span class="number">1000</span></span><br><span class="line">	Average number of queries per client: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></span><br><span class="line">Benchmark</span><br><span class="line">	Average number of seconds to run all queries: <span class="number">1.231</span> seconds</span><br><span class="line">	Minimum number of seconds to run all queries: <span class="number">1.231</span> seconds</span><br><span class="line">	Maximum number of seconds to run all queries: <span class="number">1.231</span> seconds</span><br><span class="line">	Number of clients running queries: <span class="number">1000</span></span><br><span class="line">	Average number of queries per client: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></span><br><span class="line">Benchmark</span><br><span class="line">	Average number of seconds to run all queries: <span class="number">0.739</span> seconds</span><br><span class="line">	Minimum number of seconds to run all queries: <span class="number">0.739</span> seconds</span><br><span class="line">	Maximum number of seconds to run all queries: <span class="number">0.739</span> seconds</span><br><span class="line">	Number of clients running queries: <span class="number">1000</span></span><br><span class="line">	Average number of queries per client: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>总结<br>1）、 并发查询两数据相差不是很大<br>2）、 Tokudb查询速度在MariaDB中比InnoDB引擎慢一点，但在Mysql中比InnoDB引擎速度还快（网上说的TokuDB查询速度不行，没有验证出来，不知道真正在线速度怎么样，按理说压缩后的数据应该查询要慢于没有压缩的数据）</p>
+<h3 id="5、_批量更新">5、 批量更新</h3><p>MariaDB<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[billing]&gt; update  cloud_innodb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</span><br><span class="line">Query OK, <span class="number">81099</span> rows affected (<span class="number">5.71</span> sec)</span><br><span class="line">Rows matched: <span class="number">81099</span>  Changed: <span class="number">81099</span>  Warnings: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>MariaDB<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[billing]&gt; update  cloud_tokudb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</span><br><span class="line">Query OK, <span class="number">81099</span> rows affected (<span class="number">3.46</span> sec)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; update  cloud_innodb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</span><br><span class="line">Query OK, <span class="number">80952</span> rows affected (<span class="number">5.32</span> sec)</span><br><span class="line">Rows matched: <span class="number">81099</span>  Changed: <span class="number">80952</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">mysql&gt; update  cloud_tokudb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</span><br><span class="line">Query OK, <span class="number">80952</span> rows affected (<span class="number">3.40</span> sec)</span><br><span class="line">Rows matched: <span class="number">81099</span>  Changed: <span class="number">80952</span>  Warnings: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>总结<br>1）、两数据库性能差不多<br>2）、批量更新感觉TokuDB速度比InnoDB速度快（和网上说的又不一样）</p>
+<h3 id="6、DDL操作对比">6、DDL操作对比</h3><p>添加索引<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [billing]&gt; create index idx_uid on cloud_innodb(uid);</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">12.23</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">MariaDB [billing]&gt; create index idx_uid on cloud_tokudb(uid);</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">29.51</span> sec)                                   </span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">mysql&gt; create index idx_uid on cloud_innodb(uid);</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">15.48</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">mysql&gt; create index idx_uid on cloud_tokudb(uid);</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">31.10</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>删除索引<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [billing]&gt; drop index idx_uid on cloud_innodb;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.05</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">MariaDB [billing]&gt; drop index idx_uid on cloud_tokudb;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.09</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">mysql&gt; drop index idx_uid on cloud_innodb;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.07</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">mysql&gt; drop index idx_uid on cloud_tokudb;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.13</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>添加字段<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [billing]&gt; alter table cloud_innodb add column test_flag varchar(<span class="number">20</span>);</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">20.06</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">MariaDB [billing]&gt; alter table cloud_tokudb add column test_flag varchar(<span class="number">20</span>);</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.16</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">mysql&gt; alter table cloud_innodb add column test_flag varchar(<span class="number">20</span>);</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">31.07</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">mysql&gt; alter table cloud_tokudb add column test_flag varchar(<span class="number">20</span>);</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.23</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>删除字段<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [billing]&gt; alter table cloud_innodb drop column test_flag;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">19.48</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">MariaDB [billing]&gt; alter table cloud_tokudb drop column test_flag;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.23</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">mysql&gt; alter table cloud_innodb drop column test_flag;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">55.31</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br><span class="line"></span><br><span class="line">mysql&gt; alter table cloud_tokudb drop column test_flag;</span><br><span class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1.28</span> sec)</span><br><span class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>总结<br>1、MariaDB的DDL操作比Mysql的快<br>2、InnoDB的添加索引比TokuDB的快<br>3、删除索引两个引擎都很快<br>4、添加字段TokuDB非常快，InnoDB很慢<br>5、删除字段TokuDB非常快，InnoDB很慢</p>
+<h1 id="网上的一些总结">网上的一些总结</h1><p>总结：<br>TokuDB优点<br>1，online ddl 非常给力，特别是对字段的修改非常快<br>2，压缩比非常高通常都能达到7,8倍的压缩比<br>3，完全支持ACID事物的四大特性<br>TokuDB缺点<br>1，响应时间相对较长<br>2，online ddl 对text,blob等类型的字段不适用<br>3，没有合适的备份工具，只能通过mysqldump进行逻辑备份<br>建议适用场景：<br>1，访问频率不高的数据或历史数据归档<br>2，表非常大并且时不时还需要进行ddl操作</p>
+<p>特点：<br>1.插入性能快20~80倍；<br>2.压缩数据减少存储空间；<br>3.数据量可以扩展到几个TB；<br>4.不会产生索引碎片；<br>5.支持hot column addition ， hot indexing， mvcc；<br>如何考虑使用：<br>1.如果要存储blob，不要使用tokuDB，因为他的记录不能太大；<br>2.如果记录数过亿，使用tokuDB；<br>3.如果注重update的性能，不要使用tokuDB，他没有innodb快；<br>4.如果要存储旧的记录，使用tokuDB；<br>5.如果要缩小数据占用的存储空间，使用tokuDB；</p>
+<p>总结：<br>TokuDB的优点：1、高压缩比 2、高insert性能 3、增删字段秒级。<br>TokuDB的缺点：1、cpu usr态消耗高 2、响应时间变长。</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -821,128 +947,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/08/17/Drupal7-WEB性能优化/" itemprop="url">
-                  drupal7 WEB性能优化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-08-17T11:11:30+08:00" content="2015-08-17">
-              2015-08-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/08/17/Drupal7-WEB性能优化/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/17/Drupal7-WEB性能优化/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <ul>
-<li>一、DNS prefetch</li>
-</ul>
-<p>DNS 作为互联网的基础协议，其解析的速度似乎容易被网站优化人员忽视。现在浏览器厂商已经有在针对 DNS 进行优化，典型的一次 DNS 解析耗费 20-120 毫秒，减少 DNS 解析数是个优化的方式，而能够缩减 DNS 解析的时间也是有经济效益的事情。这就是浏览器厂商重视 DNS Prefetching 的主要原因。DNS Prefetching 对于性能的收益可以简单的用”DNS 同步请求到异步”来解释，也就是具有此属性的域名不需要用户点击链接就在后台解析，而域名解析和内容载入是串行的网络操作，所以这个方式能减少用户的等待时间，提升用户体验。</p>
-<p>Google Chrome 内置就有 DNS Prefetching 技术 ，而 Firefox 3.5 也引入了这一 新特性。至于 IE，貌似还未支持。</p>
-<p>Drupal如何起dns prefetch呢? 先上一段代码.</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * hook_html_head_alter()</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">themename_html_head_alter</span><span class="params">(&amp;<span class="variable">$header</span>)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Enable prefetching.</span></span><br><span class="line">  <span class="variable">$header</span>[<span class="string">'dns_prefetch_control'</span>] = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'#type'</span> =&gt; <span class="string">'html_tag'</span>,</span><br><span class="line">    <span class="string">'#tag'</span> =&gt; <span class="string">'meta'</span>,</span><br><span class="line">    <span class="string">'#attributes'</span> =&gt; <span class="keyword">array</span>(<span class="string">'http-equiv'</span> =&gt; <span class="string">'x-dns-prefetch-control'</span>, <span class="string">'content'</span> =&gt; <span class="string">'on'</span>),</span><br><span class="line">    <span class="string">'#weight'</span> =&gt; -<span class="number">10001</span>,</span><br><span class="line">  );  </span><br><span class="line">  </span><br><span class="line">  <span class="variable">$dns_prefetch_domains</span> = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'www.google.cn'</span>,</span><br><span class="line">    <span class="string">'www.baidu.com'</span>,</span><br><span class="line">  );</span><br><span class="line">  <span class="keyword">foreach</span> (<span class="variable">$dns_prefetch_domains</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>) &#123;</span><br><span class="line">    <span class="variable">$header</span>[<span class="string">'dns_prefetch_control_'</span> . <span class="variable">$key</span>] = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'html_tag'</span>,</span><br><span class="line">      <span class="string">'#tag'</span> =&gt; <span class="string">'link'</span>,</span><br><span class="line">      <span class="string">'#attributes'</span> =&gt; <span class="keyword">array</span>(<span class="string">'rel'</span> =&gt; <span class="string">'dns-prefetch'</span>, <span class="string">'href'</span> =&gt; <span class="string">'//'</span> . drupal_strip_dangerous_protocols(trim(<span class="variable">$value</span>))),</span><br><span class="line">    );     </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>打开浏览器，就可以看到如下的输出：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta content=<span class="string">"on"</span> http-equiv=<span class="string">"x-dns-prefetch-control"</span>&gt;</span><br><span class="line">&lt;link href=<span class="string">"//www.google.cn"</span> rel=<span class="string">"dns-prefetch"</span>&gt;</span><br><span class="line">&lt;link href=<span class="string">"//www.baidu.com"</span> rel=<span class="string">"dns-prefetch"</span>&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>二、启用压缩<br>压缩的目的是让传输的数据变得更小。我们的线上代码（JS、CSS 和 HTML）都会做压缩，图片也会做压缩（PNGOUT、Pngcrush、JpegOptim、Gifsicle 等）。对于文本文件，在服务端发送响应之前进行 GZip 压缩也很重要，通常压缩后的文本大小会减小到原来的 1/4 - 1/3。对代码进行内容压缩已经有成熟的工具和标准流程了，而服务端的 GZip 更是标配，所以「压缩」是一项收益投入比很高的优化手段。</li>
-</ul>
-<ul>
-<li><p>三、使用 HTTP 缓存<br>任何一个 WEB 项目，要提高性能，各个环节的缓存必不可少。利用好 HTTP 协议的缓存机制，可以大幅减少传输数据，减少请求，这又是一项收益投入比超高的优化手段。这里把之前我写的 HTTP/1.1 缓存机制介绍翻出来：<br>首先，服务端可以通过响应头里的 Last-Modified（最后修改时间） 或者 ETag（内容特征） 标记实体。浏览器会存下这些标记，并在下次请求时带上 If-Modified-Since: 上次 Last-Modified 的内容 或 If-None-Match: 上次 ETag 的内容，询问服务端资源是否过期。如果服务端发现并没有过期，直接返回一个状态码为 304、正文为空的响应，告知浏览器使用本地缓存；如果资源有更新，服务端返回状态码 200、新的 Last-Modified、Etag 和正文。这个过程被称之为 HTTP 的协商缓存，通常也叫做弱缓存。<br>可以看到协商缓存并不会节省连接数，但是在缓存生效时，会大幅减小传输内容（304 响应没有正文，一般只有几百字节）。另外为什么有两个响应头都可以用来实现协商缓存呢？这是因为一开始用的 Last-Modified 有两个问题：1）只能精确到秒，1 秒内的多次变化反映不出来；2）时间采用绝对值，如果服务端 / 客户端时间不对都可能导致缓存失效。HTTP/1.1 并没有规定 ETag 的生成规则，而一般实现者都是对资源内容做摘要，能解决前面两个问题。<br>另外一种缓存机制是服务端通过响应头告诉浏览器，在什么时间之前（Expires）或在多长时间之内（Cache-Control: Max-age=xxx），不要再请求服务器了。这个机制我们通常称之为 HTTP 的强缓存。<br>一旦资源命中强缓存规则后，再次访问完全没有 HTTP 请求（Chrome 开发者工具的 Network 面板依然会显示请求，但是会注明 from cache；Firefox 的 firebug 也类似，会注明 BFCache），这会大幅提升性能。所以我们一般会对 CSS、JS、图片等资源使用强缓存，而入口文件（HTML）一般使用协商缓存或不缓存，这样可以通过修改入口文件中对强缓存资源的引入 URL 来达到即时更新的目的。<br>这里也解释下为什么有了 Expire，还要有 Cache-Control。也有两个原因：1）Cache-Control 功能更强大，对缓存的控制能力更强；2）Cache-Control 采用的 max-age 是相对时间，不受服务端 / 客户端时间不对的影响。<br>另外关于浏览器的刷新（F5 / cmd + r）和强刷（Ctrl + F5 / shift + cmd +r）：普通刷新会使用协商缓存，忽略强缓存；强刷会忽略浏览器所有缓存（并且请求头会携带 Cache-Control:no-cache 和 Pragma:no-cache，用来通知所有中间节点忽略缓存）。只有从地址栏或收藏夹输入网址、点击链接等情况下，浏览器才会使用强缓存。</p>
-</li>
-<li><p>四、使用HTTP2<br>1、HTTP/2 的 Server Push 机制，可以让重要的 JS、CSS 等资源尽快加载，从而不再需要 HTTP/1 中「将重要资源内联在页面头部」的优化方案了。</p>
-<p>2、HTTP/2 支持了多路复用，HTTP 连接变得十分廉价，之前为了节省连接数所采用的类似于「资源合并、资源内联」等优化手段不再需要了。多路复用可以在一个 TCP 连接上建立大量 HTTP 连接，也就不存在 HTTP 连接数限制了，HTTP/1 中常见的「静态域名」优化策略不但用不上了，还会带来负面影响，需要去掉。另外，HTTP/2 的头部压缩功能也能大幅减少 HTTP 协议头部带来的开销。</p>
-</li>
-<li><p>五、使用CDN<br>  国内比较好的CDN服务商如VeryCloud等。</p>
-</li>
-</ul>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -989,7 +993,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1003,7 +1007,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">51</span>
+              <span class="site-state-item-count">52</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
