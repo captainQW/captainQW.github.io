@@ -1,0 +1,739 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.useso.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="angularjs,drupal8," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Rambo's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="Drupal8中使用AngularJS首先我们需要一个基础模块引入并启动angular
+OK，先创建一个模块，我们起名叫cloud_angular
+在cloud_angular中，我们新建目录libs，里面存放所有与angular相关的库文件，js目录，里面存放angular的启动js：app.js
+接着，定义angular的library，就像这样：
+1cloud_angular.angular">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Drupal8中使用AngularJS">
+<meta property="og:url" content="http://verynull.com/2016/06/06/Drupal8-angularJS/index.html">
+<meta property="og:site_name" content="Rambo's Blog">
+<meta property="og:description" content="Drupal8中使用AngularJS首先我们需要一个基础模块引入并启动angular
+OK，先创建一个模块，我们起名叫cloud_angular
+在cloud_angular中，我们新建目录libs，里面存放所有与angular相关的库文件，js目录，里面存放angular的启动js：app.js
+接着，定义angular的library，就像这样：
+1cloud_angular.angular">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20160606/dir.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Drupal8中使用AngularJS">
+<meta name="twitter:description" content="Drupal8中使用AngularJS首先我们需要一个基础模块引入并启动angular
+OK，先创建一个模块，我们起名叫cloud_angular
+在cloud_angular中，我们新建目录libs，里面存放所有与angular相关的库文件，js目录，里面存放angular的启动js：app.js
+接着，定义angular的library，就像这样：
+1cloud_angular.angular">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Drupal8中使用AngularJS | Rambo's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Rambo's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录生活，分享知识，传播乐趣</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Drupal8中使用AngularJS
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-06-06T11:51:00+08:00" content="2016-06-06">
+              2016-06-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/06/Drupal8-angularJS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/06/Drupal8-angularJS/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="Drupal8中使用AngularJS">Drupal8中使用AngularJS</h2><p>首先我们需要一个基础模块引入并启动<code>angular</code></p>
+<p>OK，先创建一个模块，我们起名叫<code>cloud_angular</code></p>
+<p>在<code>cloud_angular</code>中，我们新建目录<code>libs</code>，里面存放所有与<code>angular</code>相关的库文件，<code>js</code>目录，里面存放angular的启动js：<code>app.js</code></p>
+<p>接着，定义angular的library，就像这样：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cloud_angular.angular:&#10;  version: VERSION&#10;  css:&#10;    angular:&#10;      libs/angular-loading-bar/build/loading-bar.css: &#123;&#125;&#10;  js:&#10;    libs/angular/angular.js: &#123;&#125;&#10;    libs/angular-animate/angular-animate.js: &#123;&#125;&#10;    libs/angular-ui-router/release/angular-ui-router.js: &#123;&#125;&#10;    libs/oclazyload/dist/ocLazyLoad.js: &#123;&#125;&#10;    libs/angular-loading-bar/build/loading-bar.js: &#123;&#125;&#10;    js/app.js: &#123;&#125;&#10;  dependencies:&#10;    - core/drupalSettings&#10;    - core/drupal</span><br></pre></td></tr></table></figure>
+<p>保存为<code>cloud_angular.libraries.yml</code>文件</p>
+<p>最后，打开<code>cloud_angular.module</code>，实现<code>page</code>的<code>hook</code>，引入上面定义的库，就像下面这样：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Implements hook_preprocess_page().</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cloud_angular_preprocess_page</span><span class="params">(&amp;<span class="variable">$variables</span>)</span> </span>&#123;</span><br><span class="line">  <span class="variable">$variables</span>[<span class="string">'#attached'</span>][<span class="string">'library'</span>][] = <span class="string">'cloud_angular/cloud_angular.angular'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们在启用<code>cloud_angular</code>模块的时候，就全局加载了<code>angular</code></p>
+<hr>
+<p>好了，有了<code>angular</code>的启动支撑模块，接下来看下其它模块怎么使用<code>angular</code></p>
+<p>举个例子，用户模块，命名：<code>cloud_user</code>，我们定义一个路由<code>profile/console</code>，用于显示用户的控制台首页(俗称dashboard)</p>
+<p>按照drupa8的路由定义规则，我们需要新建一个文件<code>cloud_user.routing.yml</code>定义路由：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cloud_user.console:&#10;  path: &#39;/profile/console&#39;&#10;  defaults:&#10;    _controller: &#39;\Drupal\cloud_user\Controller\UserController::console&#39;&#10;    _title: &#39;&#25511;&#21046;&#21488;&#39318;&#39029;&#39;&#10;  requirements:&#10;    _permission: &#39;access content&#39;</span><br></pre></td></tr></table></figure>
+<p>接着，在<code>cloud_user</code>模块下新建<code>src</code>目录及其子目录<code>Controller</code>，里面存放路由指定的控制器文件<code>UserController.php</code>，就像下面这样：</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160606/dir.png" alt="cloud_user模块目录解构"></p>
+<p>控制器代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> *<span class="phpdoc"> @contains</span> \Drupal\cloud_user\Controller\UserController.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">cloud_user</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Controller</span>\<span class="title">ControllerBase</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Database</span>\<span class="title">Connection</span>; </span><br><span class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserController</span> <span class="keyword">extends</span> <span class="title">ControllerBase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$database</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$userPath</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$database</span>)</span> </span>&#123;</span><br><span class="line">    <span class="variable">$this</span>-&gt;database = <span class="variable">$database</span>;</span><br><span class="line">    <span class="variable">$this</span>-&gt;userPath = drupal_get_path(<span class="string">'module'</span>, <span class="string">'cloud_user'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">(ContainerInterface <span class="variable">$container</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">static</span>(</span><br><span class="line">      <span class="variable">$container</span>-&gt;get(<span class="string">'database'</span>)</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">console</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="variable">$build</span> = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'#theme'</span> =&gt; <span class="string">'cloud_common'</span>,</span><br><span class="line">    );</span><br><span class="line">    <span class="comment">// 这里我们把用户模块的路径传递到前端</span></span><br><span class="line">    <span class="variable">$build</span>[<span class="string">'#attached'</span>][<span class="string">'drupalSettings'</span>][<span class="string">'userPath'</span>] = <span class="variable">$this</span>-&gt;userPath;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$build</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>cloud_common</code>的theme模版<code>cloud-common.html.twig</code>统一输出是</p>
+<figure class="highlight twig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">ui-view</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>用于angular前端路由加载模版</p>
+<p>接着，在<code>cloud_user</code>模块下新建<code>scripts</code>目录及其子目录<code>controller</code>和<code>directive</code>，对了，在<code>scripts</code>目录下新建文件<code>user.route.js</code>，用于定义用户模块的前端路由：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">(angular, drupalSettings)</span> </span>&#123;</span><br><span class="line"><span class="pi">  'use strict'</span>;</span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * @name verycloud</span><br><span class="line">   * @description all user's ng route here.</span><br><span class="line">   *</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">var</span> verycloud = angular.module(<span class="string">'verycloud'</span>);</span><br><span class="line">  verycloud.config([<span class="string">'$stateProvider'</span>, <span class="function"><span class="keyword">function</span><span class="params">($stateProvider)</span> </span>&#123;</span><br><span class="line">    $stateProvider</span><br><span class="line">      .state(<span class="string">'dashboard'</span>, &#123;</span><br><span class="line">        url: <span class="string">'/profile'</span>,</span><br><span class="line">        templateUrl: <span class="string">'dashboard/container.html'</span>,</span><br><span class="line">        resolve: &#123;</span><br><span class="line">          loadMyFile: <span class="function"><span class="keyword">function</span><span class="params">($ocLazyLoad)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> $ocLazyLoad.load(&#123;</span><br><span class="line">              name: <span class="string">'console'</span>,</span><br><span class="line">              files: [</span><br><span class="line">                drupalSettings.userPath + <span class="string">'/scripts/directive/header/header.js'</span></span><br><span class="line">              ]</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        abstract: <span class="literal">true</span></span><br><span class="line">      &#125;)</span><br><span class="line">      .state(<span class="string">'dashboard.console'</span>, &#123;</span><br><span class="line">        url: <span class="string">'/console'</span>,</span><br><span class="line">        templateUrl: <span class="string">'dashboard/dashboard.html'</span>,</span><br><span class="line">        controller: <span class="string">'ConsoleCtrl'</span>,</span><br><span class="line">        resolve: &#123;</span><br><span class="line">          loadMyFile: <span class="function"><span class="keyword">function</span><span class="params">($ocLazyLoad)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> $ocLazyLoad.load(&#123;</span><br><span class="line">              name: <span class="string">'console'</span>,</span><br><span class="line">              files: [</span><br><span class="line">                drupalSettings.userPath + <span class="string">'/scripts/controller/consoleController.js'</span></span><br><span class="line">              ]</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;]);</span><br><span class="line">&#125;)(angular, drupalSettings);</span><br></pre></td></tr></table></figure>
+<p>接下来将这个路由文件定义成库，保存为<code>cloud_user.libraries.yml</code>，</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cloud_user.user_route:&#10;  version: VERSION&#10;  js:&#10;    scripts/user.route.js: &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，回到<code>angular</code>的支撑模块<code>cloud_angular</code>，打开<code>cloud_angular.module</code>文件，在<code>hook_page</code>中引入用户模块的js库文件，就像下面这样：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Implements hook_preprocess_page().</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cloud_angular_preprocess_page</span><span class="params">(&amp;<span class="variable">$variables</span>)</span> </span>&#123;</span><br><span class="line">  <span class="variable">$variables</span>[<span class="string">'#attached'</span>][<span class="string">'library'</span>][] = <span class="string">'cloud_angular/cloud_angular.angular'</span>;</span><br><span class="line">  <span class="variable">$variables</span>[<span class="string">'#attached'</span>][<span class="string">'library'</span>][] = <span class="string">'cloud_user/cloud_user.user_route'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启用<code>cloud_user</code>模块，尝试访问’profile/console’</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/angularjs/" rel="tag">#angularjs</a>
+          
+            <a href="/tags/drupal8/" rel="tag">#drupal8</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/03/Drupal8功能测试/" rel="next" title="Drupal8功能测试">
+                <i class="fa fa-chevron-left"></i> Drupal8功能测试
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/06/Drupal8-angularJS/"
+           data-title="Drupal8中使用AngularJS" data-url="http://verynull.com/2016/06/06/Drupal8-angularJS/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/2015060790205_41484.jpeg" alt="RamboLau" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">RamboLau</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">记录生活，分享知识，传播乐趣</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives/">
+              <span class="site-state-item-count">64</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/RamboLau" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Drupal8中使用AngularJS"><span class="nav-number">1.</span> <span class="nav-text">Drupal8中使用AngularJS</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2012 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"176code"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

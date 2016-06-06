@@ -201,6 +201,135 @@
 
     
     
+      
+      
+
+      
+    
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/25/Mysql-5-7-x安装/" itemprop="url">
+                  mysql-5.7.x安装
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-04-25T13:23:29+08:00" content="2016-04-25">
+              2016-04-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/25/Mysql-5-7-x安装/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/25/Mysql-5-7-x安装/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h3 id="1、添加yum源">1、添加yum源</h3><h4 id="wget">wget</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On RHEL/CentOS <span class="number">7</span> ---------------</span><br><span class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On RHEL/CentOS <span class="number">6</span> ---------------</span><br><span class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On RHEL/CentOS <span class="number">5</span> ---------------</span><br><span class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-el5-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On Fedora <span class="number">23</span> ---------------</span><br><span class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-fc23-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On Fedora <span class="number">22</span> ---------------</span><br><span class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-fc22-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On Fedora <span class="number">21</span> ---------------</span><br><span class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-fc21-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<h4 id="安装">安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On RHEL/CentOS <span class="number">7</span> ---------------</span><br><span class="line"><span class="comment"># yum localinstall mysql57-community-release-el7-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On RHEL/CentOS <span class="number">6</span> ---------------</span><br><span class="line"><span class="comment"># yum localinstall mysql57-community-release-el6-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On RHEL/CentOS <span class="number">5</span> ---------------</span><br><span class="line"><span class="comment"># yum localinstall mysql57-community-release-el5-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On Fedora <span class="number">23</span> ---------------</span><br><span class="line"><span class="comment"># dnf localinstall mysql57-community-release-fc23-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On Fedora <span class="number">22</span> ---------------</span><br><span class="line"><span class="comment"># dnf localinstall mysql57-community-release-fc22-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--------------- On Fedora <span class="number">21</span> ---------------</span><br><span class="line"><span class="comment"># yum localinstall mysql57-community-release-fc21-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
+<h4 id="校验源">校验源</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum repolist enabled | grep "mysql.*-community.*"</span></span><br><span class="line"><span class="comment"># dnf repolist enabled | grep "mysql.*-community.*"      [On Fedora 22+ versions]</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://static.verycloud.cn/sites/default/files/images/Verify-MySQL-Yum-Repository.png" alt="Verify-MySQL-Yum-Repository"></p>
+<h3 id="2、安装mysql">2、安装mysql</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install mysql-community-server mysql mysql-libs mysql-devel</span></span><br><span class="line"><span class="comment"># dnf install mysql-community-server mysql mysql-libs mysql-devel     [On Fedora 22+ versions]</span></span><br></pre></td></tr></table></figure>
+<h3 id="3、开启mysql">3、开启mysql</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld start</span><br></pre></td></tr></table></figure>
+<p>查看mysql版本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql --version</span></span><br><span class="line">mysql  Ver <span class="number">14.14</span> Distrib <span class="number">5.7</span>.<span class="number">12</span>, <span class="keyword">for</span> Linux (x86_64) using  EditLine wrapper</span><br></pre></td></tr></table></figure></p>
+<h3 id="4、配置mysql">4、配置mysql</h3><h4 id="查看默认密码">查看默认密码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># grep 'temporary password' /var/log/mysqld.log</span></span><br></pre></td></tr></table></figure>
+<p>执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql_secure_installation</span></span><br></pre></td></tr></table></figure></p>
+<p>配置示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">Securing the MySQL server deployment.</span><br><span class="line"></span><br><span class="line">Enter password <span class="keyword">for</span> user root: Enter New Root Password</span><br><span class="line"></span><br><span class="line">VALIDATE PASSWORD PLUGIN can be used to <span class="built_in">test</span> passwords</span><br><span class="line">and improve security. It checks the strength of password</span><br><span class="line">and allows the users to <span class="built_in">set</span> only those passwords <span class="built_in">which</span> are</span><br><span class="line">secure enough. Would you like to setup VALIDATE PASSWORD plugin?</span><br><span class="line"></span><br><span class="line">Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No: y</span><br><span class="line"></span><br><span class="line">There are three levels of password validation policy:</span><br><span class="line"></span><br><span class="line">LOW    Length &gt;= <span class="number">8</span></span><br><span class="line">MEDIUM Length &gt;= <span class="number">8</span>, numeric, mixed <span class="keyword">case</span>, and special characters</span><br><span class="line">STRONG Length &gt;= <span class="number">8</span>, numeric, mixed <span class="keyword">case</span>, special characters and dictionary                  file</span><br><span class="line"></span><br><span class="line">Please enter <span class="number">0</span> = LOW, <span class="number">1</span> = MEDIUM and <span class="number">2</span> = STRONG: <span class="number">2</span></span><br><span class="line">Using existing password <span class="keyword">for</span> root.</span><br><span class="line"></span><br><span class="line">Estimated strength of the password: <span class="number">50</span> </span><br><span class="line">Change the password <span class="keyword">for</span> root ? ((Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</span><br><span class="line"></span><br><span class="line">New password: Set New MySQL Password</span><br><span class="line"></span><br><span class="line">Re-enter new password: Re-enter New MySQL Password</span><br><span class="line"></span><br><span class="line">Estimated strength of the password: <span class="number">100</span> </span><br><span class="line">Do you wish to <span class="built_in">continue</span> with the password provided?(Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</span><br><span class="line">By default, a MySQL installation has an anonymous user,</span><br><span class="line">allowing anyone to <span class="built_in">log</span> into MySQL without having to have</span><br><span class="line">a user account created <span class="keyword">for</span> them. This is intended only <span class="keyword">for</span></span><br><span class="line">testing, and to make the installation go a bit smoother.</span><br><span class="line">You should remove them before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line">Remove anonymous users? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Normally, root should only be allowed to connect from</span><br><span class="line"><span class="string">'localhost'</span>. This ensures that someone cannot guess at</span><br><span class="line">the root password from the network.</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line">By default, MySQL comes with a database named <span class="string">'test'</span> that</span><br><span class="line">anyone can access. This is also intended only <span class="keyword">for</span> testing,</span><br><span class="line">and should be removed before moving into a production</span><br><span class="line">environment.</span><br><span class="line"></span><br><span class="line">Remove <span class="built_in">test</span> database and access to it? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</span><br><span class="line"> - Dropping <span class="built_in">test</span> database...</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line"> - Removing privileges on <span class="built_in">test</span> database...</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line">Reloading the privilege tables will ensure that all changes</span><br><span class="line">made so far will take effect immediately.</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</span><br><span class="line">Success.</span><br><span class="line"></span><br><span class="line">All <span class="keyword">done</span>!</span><br></pre></td></tr></table></figure>
+<p>至此，安装完成！</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -1009,135 +1138,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/23/Drupal8-routing/" itemprop="url">
-                  Drupal8 Routing
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-12-23T16:01:09+08:00" content="2015-12-23">
-              2015-12-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/12/23/Drupal8-routing/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/23/Drupal8-routing/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>Drupal8的路由控制系统跟Drupal7完全不同，在drupal7中，路由一般是定义在module文件的hook_menu中，如链接、访问控制、回调方法等。而drupal8由于包含了Symfony2的路由组件（Symfony2 Routing component），一般定义在{module_name}.routing.yml中。</p>
-<p>本文介绍如何创建一个路由控制器，并如何使用依赖注入(DI)。</p>
-<p>下面这张图非常明了的说明了他们之间的关系。</p>
-<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223201522_69597.png" alt="D8-routing"></p>
-<p>本文github： <a href="https://github.com/RamboLau/drupal8-demos/tree/master/routing_example" target="_blank" rel="external">https://github.com/RamboLau/drupal8-demos/tree/master/routing_example</a></p>
-<h3 id="一、静态路由(Static_Routes)">一、静态路由(Static Routes)</h3><h4 id="1、Drupal7路由">1、Drupal7路由</h4><p>在Drupal7中，通过hook_menu来管理路由，但是这就导致代码的耦合性太高，如果要提供丰富的返回格式，如JSON, XML or HTML，就无能为力了！</p>
-<p>如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Implements hook_menu()</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">routing_example_menu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="variable">$items</span>[<span class="string">'hello'</span>] = <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'title'</span> =&gt; <span class="string">'Hello World'</span>,</span><br><span class="line">    <span class="string">'description'</span> =&gt; <span class="string">"hello world page"</span>,</span><br><span class="line">    <span class="string">'route_name'</span> =&gt; <span class="string">'helloWorldPage'</span>, </span><br><span class="line">    <span class="string">'type'</span> =&gt; MENU_LOCAL_TASK,</span><br><span class="line">  );</span><br><span class="line">  <span class="keyword">return</span> <span class="variable">$items</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Implements hook_permission().</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">routing_example_permission</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'access hello world'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'title'</span> =&gt; t(<span class="string">'Access hello world page'</span>),</span><br><span class="line">    ),</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="2、Drupal8路由">2、Drupal8路由</h4><h5 id="routing_example-routing-yml">routing_example.routing.yml</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">routing_example.example_controller_index:</span><br><span class="line">  path: <span class="string">'/routing_example/index/hello/&#123;name&#125;'</span></span><br><span class="line">  defaults:</span><br><span class="line">    _controller: <span class="string">'\Drupal\routing_example\Controller\BaseController::index'</span></span><br><span class="line">    _title: <span class="string">'hello world'</span></span><br><span class="line">  requirements:</span><br><span class="line">    _permission: <span class="string">'access content'</span></span><br><span class="line"></span><br><span class="line">routing_example.example_controller_dependency_injection:</span><br><span class="line">  path: <span class="string">'/routing_example/dependency_injection'</span></span><br><span class="line">  defaults:</span><br><span class="line">    _controller: <span class="string">'\Drupal\routing_example\Controller\ExampleDependencyInjectionController::index'</span></span><br><span class="line">    _title: <span class="string">'hello world'</span></span><br><span class="line">  requirements:</span><br><span class="line">    _permission: <span class="string">'access content'</span></span><br></pre></td></tr></table></figure>
-<h5 id="src/Controller/BaseController-php">src/Controller/BaseController.php</h5><p>这是一个普通的Controller类，通过访问/routing_example/index/hello/{name}调用index，输出Implement method: index with parameter(s): $name。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains \Drupal\routing_example\Controller\BaseController.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">routing_example</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Controller</span>\<span class="title">ControllerBase</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Class BaseController.</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @package</span> Drupal\routing_example\Controller</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseController</span> <span class="keyword">extends</span> <span class="title">ControllerBase</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Index.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> string</span><br><span class="line">   *   Return Hello string.</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">(<span class="variable">$name</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line">        <span class="string">'#type'</span> =&gt; <span class="string">'markup'</span>,</span><br><span class="line">        <span class="string">'#markup'</span> =&gt; <span class="variable">$this</span>-&gt;t(<span class="string">"Implement method: index with parameter(s): $name"</span>)</span><br><span class="line">    ];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h5 id="src/Controller/ExampleDependencyInjectionController-php">src/Controller/ExampleDependencyInjectionController.php</h5><p>这是一个依赖注入的Controler类，我们这里以访问数据库为例。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains \Drupal\routing_example\Controller\ExampleDependencyInjectionController.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">routing_example</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInjectionInterface</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Database</span>\<span class="title">Connection</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Class ExampleDependencyInjectionController.</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @package</span> Drupal\routing_example\Controller</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleDependencyInjectionController</span> <span class="keyword">implements</span>  <span class="title">ContainerInjectionInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * The database connection.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @var</span> \Drupal\Core\Database\Connection;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$database</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Constructs a \Drupal\routing_example\Controller\ExampleDependencyInjectionController object.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @param</span> \Drupal\Core\Database\Connection $database</span><br><span class="line">   *   The database connection.</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(Connection <span class="variable">$database</span>)</span> </span>&#123;</span><br><span class="line">    <span class="variable">$this</span>-&gt;database = <span class="variable">$database</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">(ContainerInterface <span class="variable">$container</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">static</span>(<span class="variable">$container</span>-&gt;get(<span class="string">'database'</span>));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Displays a list of nodes.</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// query the database</span></span><br><span class="line">    <span class="variable">$result</span> = <span class="variable">$this</span>-&gt;database-&gt;query(<span class="string">'SELECT * from &#123;node&#125; WHERE nid = 1'</span>)-&gt;fetchAll();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'markup'</span>,</span><br><span class="line">      <span class="string">'#markup'</span> =&gt; json_encode(<span class="variable">$result</span>),</span><br><span class="line">    ];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>访问 <a href="http://127.0.0.1/routing_example/dependency_injection" target="_blank" rel="external">http://127.0.0.1/routing_example/dependency_injection</a></p>
-<p>输出：</p>
-<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223205139_89300.png" alt="DI"></p>
-<h3 id="二、动态路由(Dynamic_Routes)">二、动态路由(Dynamic Routes)</h3><p>静态路由我们一般是在{module_name}.routing.yml中指定，那么如何定义动态路由呢？</p>
-<h4 id="1、Drupal7动态路由">1、Drupal7动态路由</h4><p>一般是通过foreach hook_menu实现，如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Implements hook_menu().</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">routing_example_menu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="variable">$items</span> = <span class="keyword">array</span>();</span><br><span class="line">  <span class="keyword">foreach</span> (routing_example_types() <span class="keyword">as</span> <span class="variable">$type</span>) &#123;</span><br><span class="line">    <span class="variable">$items</span>[<span class="string">'routing_example/add/'</span> . <span class="variable">$type</span>-&gt;machine_name] = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'title'</span> =&gt; <span class="variable">$type</span>-&gt;title,</span><br><span class="line">      <span class="string">'page callback'</span> =&gt; <span class="string">'routing_example_type_add_page'</span>,</span><br><span class="line">      <span class="string">'access arguments'</span> =&gt; <span class="string">'create '</span> . <span class="variable">$type</span>-&gt;type,</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="variable">$items</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2、Drupal8动态路由">2、Drupal8动态路由</h4><p>在D8中，我们推荐使用RouteSubscriber来实现动态路由。</p>
-<h5 id="routing_example-routing-yml-1">routing_example.routing.yml</h5><p>添加：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">route_callbacks:</span><br><span class="line">  - <span class="string">'\Drupal\routing_example\Routing\ExampleRoutes::routes'</span></span><br></pre></td></tr></table></figure>
-<h5 id="src/Routing/ExampleRoutes-php">src/Routing/ExampleRoutes.php</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains \Drupal\routing_example\Routing\ExampleRoutes.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">routing_example</span>\<span class="title">Routing</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">Routing</span>\<span class="title">Route</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">Routing</span>\<span class="title">RouteCollection</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Defines dynamic routes.</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleRoutes</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">routes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="variable">$route_collection</span> = <span class="keyword">new</span> RouteCollection();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Dynamically routing.</span></span><br><span class="line">    <span class="variable">$route</span> = <span class="keyword">new</span> Route(</span><br><span class="line">      <span class="string">'routing_example/add/dynamic_route'</span>,</span><br><span class="line">      <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'_controller'</span> =&gt; <span class="string">'\Drupal\routing_example\Controller\ExampleDependencyInjectionController::index'</span>,</span><br><span class="line">        <span class="string">'_title'</span> =&gt; <span class="string">'Hello'</span></span><br><span class="line">      ),</span><br><span class="line">      <span class="comment">// Route requirements:</span></span><br><span class="line">      <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'_permission'</span>  =&gt; <span class="string">'access content'</span>,</span><br><span class="line">      )</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Add the route under the name 'example.content'.</span></span><br><span class="line">    <span class="variable">$route_collection</span>-&gt;add(<span class="string">'routing_example.add.dynamic_route'</span>, <span class="variable">$route</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$route_collection</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>访问：<a href="http://127.0.0.1/routing_example/add/dynamic_route" target="_blank" rel="external">http://127.0.0.1/routing_example/add/dynamic_route</a></p>
-<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151224/20151224154334_42518.png" alt="dynamic_route"></p>
-<p>动态路由还有很多高级的玩法，比如使用Entity Storage等，后续再来介绍。</p>
-<p>参考文章：<br>1、<a href="https://www.drupal.org/developing/api/8/routing" target="_blank" rel="external">https://www.drupal.org/developing/api/8/routing</a><br>2、<a href="https://www.drupal.org/node/2116767" target="_blank" rel="external">https://www.drupal.org/node/2116767</a><br>3、<a href="https://www.drupal.org/node/2092643" target="_blank" rel="external">https://www.drupal.org/node/2092643</a><br>4、<a href="http://www.sitepoint.com/build-drupal-8-module-routing-controllers-menu-links/" target="_blank" rel="external">http://www.sitepoint.com/build-drupal-8-module-routing-controllers-menu-links/</a><br>5、<a href="http://www.slideshare.net/ygerasimov/drupal-8-routing" target="_blank" rel="external">http://www.slideshare.net/ygerasimov/drupal-8-routing</a><br>6、<a href="https://www.previousnext.com.au/blog/using-drupal-8s-new-route-controllers" target="_blank" rel="external">https://www.previousnext.com.au/blog/using-drupal-8s-new-route-controllers</a><br>7、<a href="https://www.previousnext.com.au/blog/dynamic-routes-drupal-8-routesubscriber" target="_blank" rel="external">https://www.previousnext.com.au/blog/dynamic-routes-drupal-8-routesubscriber</a><br>8、<a href="https://www.drupal.org/node/2122201" target="_blank" rel="external">https://www.drupal.org/node/2122201</a></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1184,21 +1184,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">63</span>
+              <span class="site-state-item-count">64</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories/">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">52</span>
+              <span class="site-state-item-count">53</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
