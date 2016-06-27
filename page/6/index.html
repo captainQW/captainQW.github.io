@@ -201,11 +201,119 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/12/Drupal8-form/" itemprop="url">
+                  drupal8表单(form)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-12T17:15:23+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/12/Drupal8-form/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Drupal8-form/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>这里简单做下Entity Form的实现，包括调用模板输出form.<br>详情请访问俺的github，链接地址： <a href="https://github.com/aboutblankchina/drupal8_test" target="_blank" rel="external">https://github.com/aboutblankchina/drupal8_test</a></p>
+<p>1、首先创建相关文件<br>[$install_path]/modules/hello_world/lib/Drupal/hello_world/Entity/Hello.php<br>注：该文件定义实例（Entity）</p>
+<p>如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Definition of Drupal\hello_world\Entity\Hello.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">hello_world</span>\<span class="title">Entity</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">ContentEntityBase</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityStorageControllerInterface</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Field</span>\<span class="title">FieldDefinition</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Language</span>\<span class="title">Language</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Session</span>\<span class="title">AccountInterface</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Defines the hello entity class.</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @EntityType</span>(</span><br><span class="line"> *   id = "hello",</span><br><span class="line"> *   label =<span class="phpdoc"> @Translation</span>("Hello"),</span><br><span class="line"> *   controllers = &#123;</span><br><span class="line"> *     "storage" = "Drupal\Core\Entity\FieldableDatabaseStorageController",</span><br><span class="line"> *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",</span><br><span class="line"> *     "form" = &#123;</span><br><span class="line"> *       "default" = "Drupal\hello_world\HelloWorldFormController",</span><br><span class="line"> *     &#125;,</span><br><span class="line"> *   &#125;,</span><br><span class="line"> *   base_table = "node",</span><br><span class="line"> *   entity_keys = &#123;</span><br><span class="line"> *     "id" = "nid",</span><br><span class="line"> *     "label" = "title",</span><br><span class="line"> *     "uuid" = "uuid"</span><br><span class="line"> *   &#125;,</span><br><span class="line"> *   links = &#123;</span><br><span class="line"> *     "edit-form" = "hello.edit",</span><br><span class="line"> *   &#125;</span><br><span class="line"> * )</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Hello</span> <span class="keyword">extends</span> <span class="title">ContentEntityBase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>需要说明的是，上面的一部分注释(Annotation)是必须使用的，这是symfony的标准。<br>Symfony2框架中大量使用了Annotation：从缓存的定义到路由的配置，甚至到表结构的定义，处处都使用了Annotation功能。你甚至可以根据规范编写自己的Annotation。所以在使用Symfony2开发程序时，复杂的逻辑会变成一行行清晰的注释，程序的流程控制将变得非常简单。<br>详细见 <a href="https://api.drupal.org/api/drupal/core!modules!system!system.api.php/group/annotation/8" target="_blank" rel="external">https://api.drupal.org/api/drupal/core!modules!system!system.api.php/group/annotation/8</a> 。</p>
+<p>2、在hello_world.routing.yml中增加一行</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hello.edit:</span><br><span class="line">  path: <span class="string">'/hello/edit'</span></span><br><span class="line">  defaults:</span><br><span class="line">    _entity_form: <span class="string">'hello.default'</span></span><br><span class="line">  requirements:</span><br><span class="line">    _permission: <span class="string">'access hello world'</span></span><br></pre></td></tr></table></figure>
+<p>3、创建文件 lib/Drupal/hello_world/HelloWorldFormController.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Definition of Drupal\hello_world\HelloWorldFormController.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">hello_world</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Component</span>\<span class="title">Utility</span>\<span class="title">NestedArray</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Datetime</span>\<span class="title">DrupalDateTime</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">ContentEntityFormController</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Language</span>\<span class="title">Language</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Component</span>\<span class="title">Utility</span>\<span class="title">String</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Form controller for the node edit forms.</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloWorldFormController</span> <span class="keyword">extends</span> <span class="title">ContentEntityFormController</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">form</span><span class="params">(array <span class="variable">$form</span>, array &amp;<span class="variable">$form_state</span>)</span> </span>&#123;</span><br><span class="line">    <span class="variable">$form</span> = <span class="keyword">parent</span>::form(<span class="variable">$form</span>, <span class="variable">$form_state</span>); <span class="variable">$entity</span> = <span class="variable">$this</span>-&gt;entity;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$form</span>[<span class="string">'#title'</span>] = <span class="string">'这里写入网页标题'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable">$form</span>[<span class="string">'title'</span>] = <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'textfield'</span>,</span><br><span class="line">      <span class="string">'#title'</span> =&gt; t(<span class="string">'Title'</span>),</span><br><span class="line">      <span class="string">'#default_value'</span> =&gt; <span class="variable">$entity</span>-&gt;title-&gt;value,</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果要用模板输出。则这样调用</span></span><br><span class="line">    <span class="variable">$form</span>[<span class="string">'#theme'</span>] = <span class="string">'hello_world_form'</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$form</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">(array <span class="variable">$form</span>, array &amp;<span class="variable">$form_state</span>)</span> </span>&#123; </span><br><span class="line">    <span class="variable">$entity</span> = <span class="variable">$this</span>-&gt;entity;</span><br><span class="line">    <span class="variable">$entity</span>-&gt;save();</span><br><span class="line">    drupal_set_message(<span class="string">"hello saved"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">delete</span><span class="params">(array <span class="variable">$form</span>, array &amp;<span class="variable">$form_state</span>)</span> </span>&#123; </span><br><span class="line">    <span class="variable">$entity</span> = <span class="variable">$this</span>-&gt;entity;</span><br><span class="line">    <span class="variable">$entity</span>-&gt;delete();</span><br><span class="line">    drupal_set_message(<span class="string">"hello has been deleted."</span>); </span><br><span class="line">    <span class="variable">$form_sate</span>[<span class="string">'redirect_route'</span>][<span class="string">'route_name'</span>] = <span class="string">'&lt;front&gt;'</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、如果要使用模板输出，则要定义hook_theme</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Implements hook_theme().</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello_world_theme</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'hello_world_form'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">      <span class="string">'render element'</span> =&gt; <span class="string">'form'</span>,</span><br><span class="line">      <span class="string">'template'</span> =&gt; <span class="string">'hello-world-form'</span>,</span><br><span class="line">    ),</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问<a href="http://localhost/drupal8/hello/edit就可以看到表单了。" target="_blank" rel="external">http://localhost/drupal8/hello/edit就可以看到表单了。</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -823,123 +931,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/02/Drupal8-drush/" itemprop="url">
-                  drush for drupal8
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-02T13:54:20+08:00" content="2015-11-02">
-              2015-11-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/02/Drupal8-drush/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/02/Drupal8-drush/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>文档见<a href="http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。" target="_blank" rel="external">http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。</a></p>
-<h2 id="1、安装composer">1、安装composer</h2><p>作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。<br>composer的安装比较简单。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="operator">-s</span>S https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer</span><br></pre></td></tr></table></figure>
-<p>vim ~/.bashrc 并添加一条 export PATH=”$HOME/.composer/vendor/bin:$PATH”。</p>
-<h2 id="2、安装drush">2、安装drush</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create and/or navigate to a path for the single Composer Drush install.</span></span><br><span class="line">mkdir --parents /opt/drush-<span class="number">8</span>.x</span><br><span class="line"><span class="built_in">cd</span> /opt/drush-<span class="number">8</span>.x</span><br><span class="line"><span class="comment"># Initialise a new Composer project that requires Drush.</span></span><br><span class="line">composer init --require=drush/drush:<span class="number">8</span>.* -n</span><br><span class="line"><span class="comment"># Configure the path Composer should use for the Drush vendor binaries.</span></span><br><span class="line">composer config bin-dir /usr/<span class="built_in">local</span>/bin</span><br><span class="line"><span class="comment"># Install Drush. </span></span><br><span class="line">composer install</span><br></pre></td></tr></table></figure>
-<p>安装完，如果有Unable to load autoload.php…的错误，编辑</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/<span class="built_in">local</span>/drush/drush/drush/includes/preflight.inc</span><br></pre></td></tr></table></figure>
-<p>查找$global_vendor_path，修改为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$global_vendor_path</span> = DRUSH_BASE_PATH . <span class="string">'/../vendor/autoload.php'</span>;</span><br></pre></td></tr></table></figure>
-<p>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drush version</span><br></pre></td></tr></table></figure>
-<p>如果显示</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Drush Version:  <span class="number">8.1</span>.<span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>则安装成功。</p>
-<p>为什么要安装drush?因为drush是一款非常优秀的drupal管理工具，drupal离不开drush。<br>下文将讲解如何把drupal7的模块转化为drupal8的模块。</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -986,7 +977,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">64</span>
+              <span class="site-state-item-count">65</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1000,7 +991,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">53</span>
+              <span class="site-state-item-count">54</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
