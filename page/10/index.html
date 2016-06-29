@@ -201,11 +201,110 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/04/16/Drupal的gitignore文件/" itemprop="url">
+                  drupal的.gitignore文件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-04-16T15:41:19+08:00" content="2014-04-16">
+              2014-04-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/04/16/Drupal的gitignore文件/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/16/Drupal的gitignore文件/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ignore configuration files that may contain sensitive information.</span></span><br><span class="line"><span class="comment">#sites/*/*settings*.php</span></span><br><span class="line">settings.php</span><br><span class="line"><span class="keyword">default</span>.settings.php</span><br><span class="line"></span><br><span class="line">*~</span><br><span class="line">*.*~</span><br><span class="line">*.lock</span><br><span class="line">*.DS_Store</span><br><span class="line">*.swp</span><br><span class="line">*.out</span><br><span class="line">*.swo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ignore paths that contain generated content.</span></span><br><span class="line">cache/</span><br><span class="line">files/</span><br><span class="line">sites<span class="comment">/*/files</span><br><span class="line">sites/*/</span><span class="keyword">private</span></span><br><span class="line">files/.htaccess</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ignore default text files</span></span><br><span class="line">.htaccess</span><br><span class="line">robots.txt</span><br><span class="line">/CHANGELOG.txt</span><br><span class="line">/COPYRIGHT.txt</span><br><span class="line">/INSTALL*.txt</span><br><span class="line">/LICENSE.txt</span><br><span class="line">/MAINTAINERS.txt</span><br><span class="line">/UPGRADE.txt</span><br><span class="line">/README.txt</span><br><span class="line">sites/all/README.txt</span><br><span class="line">sites/all/modules/README.txt</span><br><span class="line">sites/all/themes/README.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ignore everything but the "sites" folder ( for non core developer )</span></span><br><span class="line">web.config</span><br><span class="line">authorize.php</span><br><span class="line">cron.php</span><br><span class="line">index.php</span><br><span class="line">install.php</span><br><span class="line">update.php</span><br><span class="line">xmlrpc.php</span><br><span class="line">/includes</span><br><span class="line">/misc</span><br><span class="line">/modules</span><br><span class="line">/profiles</span><br><span class="line">/scripts</span><br><span class="line">/themes</span><br></pre></td></tr></table></figure>
+<p>把该文件放在/root/目录下。执行以下命令设置到全局选项里。<br>git config —global core.excludesfile /root/.gitignore</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -733,108 +832,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/12/11/我的vim配色/" itemprop="url">
-                  我的vim配色
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2013-12-11T20:04:03+08:00" content="2013-12-11">
-              2013-12-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2013/12/11/我的vim配色/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/12/11/我的vim配色/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">" Vim color file - blank</span><br><span class="line">"</span> Generated by http:<span class="comment">//bytefluent.com/vivify 2013-09-24</span></span><br><span class="line">set background=dark</span><br><span class="line"><span class="keyword">if</span> version &gt; <span class="number">580</span></span><br><span class="line">	hi clear</span><br><span class="line">	<span class="keyword">if</span> exists(<span class="string">"syntax_on"</span>)</span><br><span class="line">		syntax reset</span><br><span class="line">	<span class="keyword">endif</span></span><br><span class="line"><span class="keyword">endif</span></span><br><span class="line"></span><br><span class="line">set t_Co=<span class="number">256</span></span><br><span class="line">let g:colors_name = <span class="string">"blank"</span></span><br><span class="line"></span><br><span class="line">hi IncSearch guifg=<span class="comment">#C4BE89 guibg=#000000 guisp=#000000 gui=NONE ctermfg=186 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi WildMenu guifg=<span class="comment">#66D9EF guibg=#000000 guisp=#000000 gui=NONE ctermfg=81 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi SignColumn guifg=<span class="comment">#A6E22E guibg=#232526 guisp=#232526 gui=NONE ctermfg=112 ctermbg=235 cterm=NONE</span></span><br><span class="line">hi SpecialComment guifg=<span class="comment">#465457 guibg=NONE guisp=NONE gui=bold ctermfg=240 ctermbg=NONE cterm=bold</span></span><br><span class="line">hi Typedef guifg=<span class="comment">#66D9EF guibg=NONE guisp=NONE gui=NONE ctermfg=81 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi Title guifg=<span class="comment">#ef5939 guibg=NONE guisp=NONE gui=NONE ctermfg=209 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi Folded guifg=<span class="comment">#00CD00 guibg=NONE  guisp=NONE gui=NONE ctermfg=240 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi PreCondit guifg=<span class="comment">#A6E22E guibg=NONE guisp=NONE gui=bold ctermfg=112 ctermbg=NONE cterm=bold</span></span><br><span class="line">hi <span class="keyword">Include</span> guifg=<span class="comment">#A6E22E guibg=NONE guisp=NONE gui=NONE ctermfg=112 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi Float guifg=<span class="comment">#AE81FF guibg=NONE guisp=NONE gui=NONE ctermfg=141 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi StatusLineNC guifg=<span class="comment">#cccccc guibg=#1874CD guisp=#145b7d gui=NONE ctermfg=8 ctermbg=232 cterm=NONE</span></span><br><span class="line"><span class="string">"hi CTagsMember -- no settings --</span><br><span class="line">hi NonText guifg=#BCBCBC guibg=#3B3A32 guisp=#3B3A32 gui=NONE ctermfg=250 ctermbg=237 cterm=NONE</span><br><span class="line">"</span>hi CTagsGlobalConstant -- no settings --</span><br><span class="line">hi DiffText guifg=NONE guibg=<span class="comment">#4C4745 guisp=#4C4745 gui=bold,italic ctermfg=NONE ctermbg=239 cterm=bold</span></span><br><span class="line">hi ErrorMsg guifg=<span class="comment">#F92672 guibg=#232526 guisp=#232526 gui=bold ctermfg=197 ctermbg=235 cterm=bold</span></span><br><span class="line">hi Ignore guifg=<span class="comment">#808080 guibg=#272822 guisp=#272822 gui=NONE ctermfg=8 ctermbg=235 cterm=NONE</span></span><br><span class="line">hi Debug guifg=<span class="comment">#BCA3A3 guibg=NONE guisp=NONE gui=bold ctermfg=138 ctermbg=NONE cterm=bold</span></span><br><span class="line">hi PMenuSbar guifg=NONE guibg=<span class="comment">#080808 guisp=#080808 gui=NONE ctermfg=NONE ctermbg=232 cterm=NONE</span></span><br><span class="line">hi Identifier guifg=<span class="comment">#FD971F guibg=NONE guisp=NONE gui=NONE ctermfg=208 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi SpecialChar guifg=<span class="comment">#F92672 guibg=NONE guisp=NONE gui=bold ctermfg=197 ctermbg=NONE cterm=bold</span></span><br><span class="line">hi Conditional guifg=<span class="comment">#F92672 guibg=NONE guisp=NONE gui=bold ctermfg=197 ctermbg=NONE cterm=bold</span></span><br><span class="line">hi StorageClass guifg=<span class="comment">#FD971F guibg=NONE guisp=NONE gui=italic ctermfg=208 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi Todo guifg=<span class="comment">#FFFF00 guibg=#272822 guisp=#272822 gui=bold ctermfg=15 ctermbg=235 cterm=bold</span></span><br><span class="line">hi Special guifg=<span class="comment">#66D9EF guibg=#272822 guisp=#272822 gui=italic ctermfg=81 ctermbg=235 cterm=NONE</span></span><br><span class="line">hi LineNr guifg=<span class="comment">#BCBCBC guibg=#3B3A32 guisp=#3B3A32 gui=NONE ctermfg=250 ctermbg=237 cterm=NONE</span></span><br><span class="line">hi StatusLine guifg=<span class="comment">#455354 guibg=#F8F8F2 guisp=#F8F8F2 gui=NONE ctermfg=240 ctermbg=230 cterm=NONE</span></span><br><span class="line">hi Normal guifg=<span class="comment">#F8F8F2 guibg=#272822 guisp=#272822 gui=NONE ctermfg=230 ctermbg=235 cterm=NONE</span></span><br><span class="line">hi Label guifg=<span class="comment">#E6DB74 guibg=NONE guisp=NONE gui=NONE ctermfg=185 ctermbg=NONE cterm=NONE</span></span><br><span class="line"><span class="string">"hi CTagsImport -- no settings --</span><br><span class="line">hi PMenuSel guifg=NONE guibg=#808080 guisp=#808080 gui=NONE ctermfg=NONE ctermbg=8 cterm=NONE</span><br><span class="line">hi Search guifg=#ffffff guibg=#fcaf17 guisp=#fcaf17 gui=NONE ctermfg=15 ctermbg=240 cterm=NONE</span><br><span class="line">"</span>hi CTagsGlobalVariable -- no settings --</span><br><span class="line">hi Delimiter guifg=<span class="comment">#8F8F8F guibg=NONE guisp=NONE gui=NONE ctermfg=245 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi Statement guifg=<span class="comment">#F92672 guibg=NONE guisp=NONE gui=bold ctermfg=197 ctermbg=NONE cterm=bold</span></span><br><span class="line"><span class="string">"hi SpellRare -- no settings --</span><br><span class="line">"</span>hi EnumerationValue -- no settings --</span><br><span class="line">hi Comment guifg=<span class="comment">#b8a969 guibg=NONE guisp=NONE gui=NONE ctermfg=143 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi Character guifg=<span class="comment">#E6DB74 guibg=NONE guisp=NONE gui=NONE ctermfg=185 ctermbg=NONE cterm=NONE</span></span><br><span class="line"><span class="string">"hi TabLineSel -- no settings --</span><br><span class="line">hi Number guifg=#AE81FF guibg=NONE guisp=NONE gui=NONE ctermfg=141 ctermbg=NONE cterm=NONE</span><br><span class="line">hi Boolean guifg=#AE81FF guibg=NONE guisp=NONE gui=NONE ctermfg=141 ctermbg=NONE cterm=NONE</span><br><span class="line">hi Operator guifg=#F92672 guibg=NONE guisp=NONE gui=NONE ctermfg=197 ctermbg=NONE cterm=NONE</span><br><span class="line">hi CursorLine guifg=NONE guibg=#3E3D32 guisp=#3E3D32 gui=NONE ctermfg=NONE ctermbg=237 cterm=NONE</span><br><span class="line">"</span>hi Union -- no settings --</span><br><span class="line"><span class="string">"hi TabLineFill -- no settings --</span><br><span class="line">hi Question guifg=#66D9EF guibg=NONE guisp=NONE gui=NONE ctermfg=81 ctermbg=NONE cterm=NONE</span><br><span class="line">hi WarningMsg guifg=#FFFFFF guibg=#333333 guisp=#333333 gui=bold ctermfg=15 ctermbg=236 cterm=bold</span><br><span class="line">hi VisualNOS guifg=NONE guibg=#403D3D guisp=#403D3D gui=NONE ctermfg=NONE ctermbg=238 cterm=NONE</span><br><span class="line">hi DiffDelete guifg=#960050 guibg=#1E0010 guisp=#1E0010 gui=NONE ctermfg=89 ctermbg=53 cterm=NONE</span><br><span class="line">hi ModeMsg guifg=#E6DB74 guibg=NONE guisp=NONE gui=NONE ctermfg=185 ctermbg=NONE cterm=NONE</span><br><span class="line">hi CursorColumn guifg=NONE guibg=#3E3D32 guisp=#3E3D32 gui=NONE ctermfg=NONE ctermbg=237 cterm=NONE</span><br><span class="line">hi Define guifg=#66D9EF guibg=NONE guisp=NONE gui=NONE ctermfg=81 ctermbg=NONE cterm=NONE</span><br><span class="line">hi Function guifg=#A6E22E guibg=NONE guisp=NONE gui=NONE ctermfg=112 ctermbg=NONE cterm=NONE</span><br><span class="line">hi FoldColumn guifg=#465457 guibg=#000000 guisp=#000000 gui=NONE ctermfg=240 ctermbg=NONE cterm=NONE</span><br><span class="line">hi PreProc guifg=#A6E22E guibg=NONE guisp=NONE gui=NONE ctermfg=112 ctermbg=NONE cterm=NONE</span><br><span class="line">"</span>hi EnumerationName -- no settings --</span><br><span class="line">hi Visual guifg=NONE guibg=<span class="comment">#403D3D guisp=#403D3D gui=NONE ctermfg=NONE ctermbg=238 cterm=NONE</span></span><br><span class="line">hi MoreMsg guifg=<span class="comment">#E6DB74 guibg=NONE guisp=NONE gui=NONE ctermfg=185 ctermbg=NONE cterm=NONE</span></span><br><span class="line"><span class="string">"hi SpellCap -- no settings --</span><br><span class="line">hi VertSplit guifg=#CCCCCC guibg=#080808 guisp=#080808 gui=bold ctermfg=8 ctermbg=232 cterm=bold</span><br><span class="line">hi Exception guifg=#A6E22E guibg=NONE guisp=NONE gui=bold ctermfg=112 ctermbg=NONE cterm=bold</span><br><span class="line">hi Keyword guifg=#F92672 guibg=NONE guisp=NONE gui=bold ctermfg=197 ctermbg=NONE cterm=bold</span><br><span class="line">hi Type guifg=#66D9EF guibg=NONE guisp=NONE gui=NONE ctermfg=81 ctermbg=NONE cterm=NONE</span><br><span class="line">hi DiffChange guifg=#89807D guibg=#4C4745 guisp=#4C4745 gui=NONE ctermfg=245 ctermbg=239 cterm=NONE</span><br><span class="line">hi Cursor guifg=#000000 guibg=#F8F8F0 guisp=#F8F8F0 gui=NONE ctermfg=NONE ctermbg=230 cterm=NONE</span><br><span class="line">"</span>hi SpellLocal -- no settings --</span><br><span class="line">hi Error guifg=<span class="comment">#960050 guibg=#1E0010 guisp=#1E0010 gui=NONE ctermfg=89 ctermbg=53 cterm=NONE</span></span><br><span class="line">hi PMenu guifg=<span class="comment">#66D9EF guibg=#000000 guisp=#000000 gui=NONE ctermfg=81 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi SpecialKey guifg=<span class="comment">#66D9EF guibg=NONE guisp=NONE gui=italic ctermfg=81 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi Constant guifg=<span class="comment">#AE81FF guibg=NONE guisp=NONE gui=bold ctermfg=141 ctermbg=NONE cterm=bold</span></span><br><span class="line"><span class="string">"hi DefinedName -- no settings --</span><br><span class="line">hi Tag guifg=#F92672 guibg=NONE guisp=NONE gui=italic ctermfg=197 ctermbg=NONE cterm=NONE</span><br><span class="line">hi String guifg=#E6DB74 guibg=NONE guisp=NONE gui=NONE ctermfg=185 ctermbg=NONE cterm=NONE</span><br><span class="line">hi PMenuThumb guifg=#66D9EF guibg=NONE guisp=NONE gui=NONE ctermfg=81 ctermbg=NONE cterm=NONE</span><br><span class="line">hi MatchParen guifg=#000000 guibg=#FD971F guisp=#FD971F gui=bold ctermfg=NONE ctermbg=208 cterm=bold</span><br><span class="line">"</span>hi LocalVariable -- no settings --</span><br><span class="line">hi Repeat guifg=<span class="comment">#F92672 guibg=NONE guisp=NONE gui=bold ctermfg=197 ctermbg=NONE cterm=bold</span></span><br><span class="line"><span class="string">"hi SpellBad -- no settings --</span><br><span class="line">"</span>hi CTagsClass -- no settings --</span><br><span class="line">hi Directory guifg=<span class="comment">#A6E22E guibg=NONE guisp=NONE gui=bold ctermfg=112 ctermbg=NONE cterm=bold</span></span><br><span class="line">hi Structure guifg=<span class="comment">#66D9EF guibg=NONE guisp=NONE gui=NONE ctermfg=81 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi Macro guifg=<span class="comment">#C4BE89 guibg=NONE guisp=NONE gui=italic ctermfg=186 ctermbg=NONE cterm=NONE</span></span><br><span class="line">hi Underlined guifg=<span class="comment">#808080 guibg=NONE guisp=NONE gui=underline ctermfg=8 ctermbg=NONE cterm=underline</span></span><br><span class="line">hi DiffAdd guifg=NONE guibg=<span class="comment">#13354A guisp=#13354A gui=NONE ctermfg=NONE ctermbg=23 cterm=NONE</span></span><br><span class="line"><span class="string">"hi TabLine -- no settings --</span><br><span class="line">"</span>hi clear -- no settings --</span><br></pre></td></tr></table></figure>
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -881,7 +878,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">65</span>
+              <span class="site-state-item-count">66</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -895,7 +892,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">54</span>
+              <span class="site-state-item-count">55</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
