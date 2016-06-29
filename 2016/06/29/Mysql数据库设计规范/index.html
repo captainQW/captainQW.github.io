@@ -56,17 +56,26 @@
 
 
 <meta name="description" content="一、命名规范[数据库环境介绍]通常来讲，各个互联网公司的数据库分为5个数据库环境：
-1234567891. dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; 2. qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; 3. sim: 模拟环境, 开发可读写, 通过web">
+
+dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; 
+qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; 
+sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会先在这">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mysql数据库设计规范">
 <meta property="og:url" content="http://verynull.com/2016/06/29/Mysql数据库设计规范/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="一、命名规范[数据库环境介绍]通常来讲，各个互联网公司的数据库分为5个数据库环境：
-1234567891. dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; 2. qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; 3. sim: 模拟环境, 开发可读写, 通过web">
+
+dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; 
+qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; 
+sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会先在这">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql数据库设计规范">
 <meta name="twitter:description" content="一、命名规范[数据库环境介绍]通常来讲，各个互联网公司的数据库分为5个数据库环境：
-1234567891. dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; 2. qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; 3. sim: 模拟环境, 开发可读写, 通过web">
+
+dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; 
+qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; 
+sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会先在这">
 
 
 
@@ -274,7 +283,13 @@
 
       
         <span itemprop="articleBody"><h1 id="一、命名规范">一、命名规范</h1><h3 id="[数据库环境介绍]">[数据库环境介绍]</h3><p>通常来讲，各个互联网公司的数据库分为5个数据库环境：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. dev : 开发环境, 开发可读写,可修改表结构; 常用的<span class="number">163</span>的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; </span><br><span class="line"></span><br><span class="line"><span class="number">2</span>. qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; </span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会先在这个环境上进行预执行， 这个环境也可供部署上线演练或压力测试使用 可以读写;</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>. real: 生产数据库从库（准实时同步）,只读环境,不允许修改数据,不允许修改表结构; 供线上问题查找,数据查询等使用;</span><br><span class="line"></span><br><span class="line"><span class="number">5</span>. online: 线上环境;开发人员不允许直接在线上环境进行数据库操作,如果需要操作必须找DBA进行操作并进行相应记录;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; </li>
+<li>qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; </li>
+<li>sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会先在这个环境上进行预执行， 这个环境也可供部署上线演练或压力测试使用 可以读写;</li>
+<li>real: 生产数据库从库（准实时同步）,只读环境,不允许修改数据,不允许修改表结构; 供线上问题查找,数据查询等使用;</li>
+<li>online: 线上环境;开发人员不允许直接在线上环境进行数据库操作,如果需要操作必须找DBA进行操作并进行相应记录;</li>
+</ol>
 <p>这些环境的机器，一定要做到权限划分明确，读写帐号分离，并且有辨识度，能区分具体业务。例如用户名w_wap, r_wap 能看出来，读写帐号是wap应用的。</p>
 <h3 id="[数据库命名规范]">[数据库命名规范]</h3><ol>
 <li>尽量简洁明义，能够一眼看出来这个数据库是用来做什么的；</li>
