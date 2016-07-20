@@ -201,15 +201,120 @@
 
     
     
+
+    
       
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/20/Drupal8数据库-database/" itemprop="url">
+                  Drupal8数据库(database)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-07-20T22:20:15+08:00" content="2016-07-20">
+              2016-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/20/Drupal8数据库-database/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/20/Drupal8数据库-database/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
-        
-        
-        
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>Drupal8的数据库操作函数跟Drupal7没什么变化，但是，在Drupal9(还没开始开发，但是代码注释中已经有)中会把一些函数移除，比如db_add, db_insert, db_query等，见 <a href="https://api.drupal.org/api/drupal/core%21includes%21database.inc/8" title="D8 database" target="_blank" rel="external">Drupal8 database</a>。</p>
+<h2 id="Select">Select</h2><h3 id="Get_single_value:">Get single value:</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span> = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;addField(<span class="string">'nfd'</span>, <span class="string">'nid'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;condition(<span class="string">'nfd.title'</span>, <span class="string">'Potato'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;range(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line"><span class="variable">$nid</span> = <span class="variable">$query</span>-&gt;execute()-&gt;fetchField();</span><br></pre></td></tr></table></figure>
+<h3 id="Get_single_row:">Get single row:</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span> = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;fields(<span class="string">'nfd'</span>, [<span class="string">'nid'</span>, <span class="string">'title'</span>]);</span><br><span class="line"><span class="variable">$query</span>-&gt;condition(<span class="string">'nfd.type'</span>, <span class="string">'vegetable'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;range(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line"><span class="variable">$vegetable</span> = <span class="variable">$query</span>-&gt;execute()-&gt;fetchAssoc();</span><br></pre></td></tr></table></figure>
+<h3 id="Using_db_like:">Using db like:</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span> = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;fields(<span class="string">'nfd'</span>, [<span class="string">'nid'</span>, <span class="string">'title'</span>]);</span><br><span class="line"><span class="variable">$query</span>-&gt;condition(<span class="string">'nfd.type'</span>, <span class="string">'vegetable'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;condition(<span class="string">'nfd.title'</span>, <span class="variable">$query</span>-&gt;escapeLike(<span class="string">'ca'</span>) . <span class="string">'%'</span>, <span class="string">'LIKE'</span>);</span><br><span class="line"><span class="variable">$vegetable</span> = <span class="variable">$query</span>-&gt;execute()-&gt;fetchAllKeyed();</span><br></pre></td></tr></table></figure>
+<h3 id="Get_several_rows_with_JOIN:">Get several rows with JOIN:</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span> = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;fields(<span class="string">'nfd'</span>, [<span class="string">'nid'</span>, <span class="string">'title'</span>]);</span><br><span class="line"><span class="variable">$query</span>-&gt;addField(<span class="string">'ufd'</span>, <span class="string">'name'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;join(<span class="string">'users_field_data'</span>, <span class="string">'ufd'</span>, <span class="string">'ufd.uid = nfd.uid'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;condition(<span class="string">'nfd.type'</span>, <span class="string">'vegetable'</span>);</span><br><span class="line"><span class="variable">$vegetable</span> = <span class="variable">$query</span>-&gt;execute()-&gt;fetchAllAssoc(<span class="string">'nid'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Insert">Insert</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span> = \Drupal::database()-&gt;insert(<span class="string">'flood'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;fields([</span><br><span class="line">  <span class="string">'event'</span>,</span><br><span class="line">  <span class="string">'identifier'</span></span><br><span class="line">]);</span><br><span class="line"><span class="variable">$query</span>-&gt;values([</span><br><span class="line">  <span class="string">'My event'</span>,</span><br><span class="line">  <span class="string">'My indentifier'</span></span><br><span class="line">]);</span><br><span class="line"><span class="variable">$query</span>-&gt;execute();</span><br></pre></td></tr></table></figure>
+<p>注：values可以调用多次，如<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span>-&gt;values([</span><br><span class="line">  <span class="string">'My event'</span>,</span><br><span class="line">  <span class="string">'My indentifier'</span></span><br><span class="line">])</span><br><span class="line">-&gt;values([</span><br><span class="line">  <span class="string">'My event1'</span>,</span><br><span class="line">  <span class="string">'My indentifier1'</span></span><br><span class="line">]);</span><br></pre></td></tr></table></figure></p>
+<h2 id="Update">Update</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span> = \Drupal::database()-&gt;update(<span class="string">'flood'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;fields([</span><br><span class="line">  <span class="string">'identifier'</span> =&gt; <span class="string">'My new identifier'</span></span><br><span class="line">]);</span><br><span class="line"><span class="variable">$query</span>-&gt;condition(<span class="string">'event'</span>, <span class="string">'My event'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;execute();</span><br></pre></td></tr></table></figure>
+<h2 id="Upsert">Upsert</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span> = \Drupal::database()-&gt;upsert(<span class="string">'flood'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;fields([</span><br><span class="line">  <span class="string">'fid'</span>,</span><br><span class="line">  <span class="string">'identifier'</span>,</span><br><span class="line">]);</span><br><span class="line"><span class="variable">$query</span>-&gt;values([</span><br><span class="line">  <span class="number">1</span>,</span><br><span class="line">  <span class="string">'My indentifier for upsert'</span></span><br><span class="line">]);</span><br><span class="line"><span class="variable">$query</span>-&gt;key(<span class="string">'fid'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;execute();</span><br></pre></td></tr></table></figure>
+<p>注：upsert，顾名思义就是update+insert的作用。<br>根据条件判断有无记录，有的话就更新记录，没有的话就插入一条记录。</p>
+<p>key()用来定义一个已经存在的row, 必须是一个unique类型，不然会永远是Insert操作.</p>
+<h3 id="Delete">Delete</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$query</span> = \Drupal::database()-&gt;delete(<span class="string">'flood'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;condition(<span class="string">'event'</span>, <span class="string">'My event'</span>);</span><br><span class="line"><span class="variable">$query</span>-&gt;execute();</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -885,130 +990,6 @@
 </li>
 </ul>
 <p>执行run，结果如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Failed asserting that <span class="number">1.0019685039370079</span> matches expected <span class="number">1</span>.</span><br><span class="line">Expected :<span class="number">1</span></span><br><span class="line">Actual   :<span class="number">1.001968503937</span></span><br></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/24/Drupal-code-review/" itemprop="url">
-                  Drupal code review
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-05-24T11:34:10+08:00" content="2016-05-24">
-              2016-05-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/24/Drupal-code-review/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/Drupal-code-review/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的<a href="http://pareview.sh/" target="_blank" rel="external">pareview.sh</a>工具。</p>
-<h3 id="1、安装composer">1、安装composer</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl <span class="operator">-s</span>S https://getcomposer.org/installer | php</span><br><span class="line">$ mv composer.phar /usr/<span class="built_in">local</span>/bin/composer</span><br></pre></td></tr></table></figure>
-<h3 id="2、安装Coder_(reference:_https://www-drupal-org/node/1419988#coder-composer)">2、安装Coder (reference: <a href="https://www.drupal.org/node/1419988#coder-composer" target="_blank" rel="external">https://www.drupal.org/node/1419988#coder-composer</a>)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ composer global require drupal/coder</span><br><span class="line">$ sudo ln <span class="operator">-s</span> ~/.composer/vendor/bin/phpcs /usr/<span class="built_in">local</span>/bin</span><br><span class="line">$ sudo ln <span class="operator">-s</span> ~/.composer/vendor/bin/phpcbf /usr/<span class="built_in">local</span>/bin</span><br><span class="line">$ phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer</span><br></pre></td></tr></table></figure>
-<h3 id="3、安装codespell_(reference:_https://github-com/lucasdemarchi/codespell)">3、安装codespell (reference: <a href="https://github.com/lucasdemarchi/codespell" target="_blank" rel="external">https://github.com/lucasdemarchi/codespell</a>)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get <span class="built_in">help</span>2man -y</span><br><span class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/lucasdemarchi/codespell.git</span><br><span class="line">$ <span class="built_in">cd</span> codespell &amp;&amp; sudo make install</span><br><span class="line">$ sudo cp codespell /usr/<span class="built_in">local</span>/bin</span><br></pre></td></tr></table></figure>
-<p>注：MAC下安装codespell<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo python setup.py install</span><br></pre></td></tr></table></figure></p>
-<h3 id="4、安装DrupalSecure_(reference:_https://www-drupal-org/sandbox/coltrane/1921926)">4、安装DrupalSecure (reference: <a href="https://www.drupal.org/sandbox/coltrane/1921926" target="_blank" rel="external">https://www.drupal.org/sandbox/coltrane/1921926</a>)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update &amp;&amp; sudo apt-get install php-pear</span><br><span class="line">$ sudo pear install PHP_CodeSniffer</span><br><span class="line">$ <span class="built_in">cd</span> $(pear config-get php_dir)/PHP/CodeSniffer/Standards/</span><br><span class="line">$ git <span class="built_in">clone</span> git://git.drupal.org/sandbox/coltrane/<span class="number">1921926</span>.git secure_cs</span><br><span class="line">$ sudo ln -sv ./secure_cs/DrupalSecure ./DrupalSecure</span><br></pre></td></tr></table></figure>
-<p>注：MAC下安装php-pear<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://pear.php.net/go-pear.phar</span><br><span class="line">php go-pear.phar</span><br></pre></td></tr></table></figure></p>
-<h3 id="5、安装ESLint">5、安装ESLint</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g eslint</span><br></pre></td></tr></table></figure>
-<p>在Ubuntu precise （12.04）, 你有可能会遇到以下错误：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm http GET https://registry.npmjs.org/</span><br><span class="line">npm ERR! Error: failed to fetch from registry: </span><br><span class="line">This is because the version supplied by Ubuntu <span class="number">12.04</span> is no longer supported, updating node (and npm with it) resolved the issue.</span><br></pre></td></tr></table></figure>
-<p>首先, 卸载nodejs版本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get purge nodejs npm</span><br></pre></td></tr></table></figure>
-<p>启用nodesource’s仓库并进行安装:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="operator">-s</span>L https://deb.nodesource.com/setup | sudo bash -</span><br><span class="line">sudo apt-get install -y nodejs</span><br><span class="line">$ sudo apt-get install nodejs</span><br><span class="line">$ eslint --init <span class="comment"># run for the first time</span></span><br></pre></td></tr></table></figure>
-<h3 id="6、安装pareviewsh">6、安装pareviewsh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">$ sudo wget http://ftp.drupal.org/files/projects/pareviewsh-<span class="number">7</span>.x-<span class="number">1.7</span>.tar.gz</span><br><span class="line">$ sudo tar xzf pareviewsh-<span class="number">7</span>.x-<span class="number">1.7</span>.tar.gz</span><br><span class="line">$ sudo ln <span class="operator">-s</span> /usr/<span class="built_in">local</span>/src/pareviewsh/pareview.sh /usr/<span class="built_in">local</span>/bin/pareviewsh</span><br></pre></td></tr></table></figure>
-<p>查看pareview是否已经安装成功</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pareviewsh /path/to/module or /path/to/git-repos.git</span><br></pre></td></tr></table></figure>
-<p>phpcs自动修复代码标准</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phpcbf --standard=Drupal --extensions=php,module,inc,install,<span class="built_in">test</span>,profile,theme,js,css,info,txt,md /file/to/drupal/example_module</span><br></pre></td></tr></table></figure>
-<p>在~/.bash_profile中添加别名</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// Check Drupal coding standards</span><br><span class="line"><span class="built_in">alias</span> drupalcs=<span class="string">"phpcs --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></span><br><span class="line"></span><br><span class="line">// Check Drupal best practices</span><br><span class="line"><span class="built_in">alias</span> drupalpractice=<span class="string">"phpcs --standard=DrupalPractice --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></span><br><span class="line"></span><br><span class="line">// Automatically fix coding standards</span><br><span class="line"><span class="built_in">alias</span> drupalcbf=<span class="string">"phpcbf --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></span><br></pre></td></tr></table></figure>
-<p>参照文章：<br>1、<a href="https://www.drupal.org/node/1587138" target="_blank" rel="external">https://www.drupal.org/node/1587138</a><br>2、<a href="https://www.drupal.org/node/1419988" target="_blank" rel="external">https://www.drupal.org/node/1419988</a><br>3、<a href="https://www.drupal.org/node/172169" target="_blank" rel="external">https://www.drupal.org/node/172169</a><br>4、<a href="https://www.drupal.org/project/pareviewsh" target="_blank" rel="external">https://www.drupal.org/project/pareviewsh</a><br>5、<a href="https://www.drupal.org/project/coder" target="_blank" rel="external">https://www.drupal.org/project/coder</a></p>
 
             
           </span>
