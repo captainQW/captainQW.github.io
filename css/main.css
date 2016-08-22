@@ -522,6 +522,11 @@ pre code {
 .highlight .line {
   height: 20px;
 }
+.code pre .line {
+    white-space: normal;
+    word-break: break-all;
+    word-wrap: break-word;
+}
 .gist {
   margin: 20px 0;
   border-style: solid;
