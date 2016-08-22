@@ -201,11 +201,147 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/02/Drupal8单元测试/" itemprop="url">
+                  Drupal8单元测试
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-06-02T16:01:57+08:00" content="2016-06-02">
+              2016-06-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/02/Drupal8单元测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/Drupal8单元测试/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>单元测试在编程中是非常重要的，而我更倾向于去对那些有意义的错误做测试。<br>在Drupal8中，可以借助phpstorm来帮助进行单元测试。</p>
+<h2 id="一、phpstorm配置">一、phpstorm配置</h2><h3 id="1）、针对项目进行设置：">1）、针对项目进行设置：</h3><blockquote>
+<p>1、选中 PhpStorm &gt; Preferences &gt; Languages &amp; Frameworks &gt; PHP &gt; PHPUnit &gt; Local<br>Window 操作系统是：File &gt; Settings …<br>2、选择 PHPUnit Library &gt; Use custom autoloader<br>3、导航到 /vendor/autoload.php<br>4、选择 Test Runner &gt; Default configuration file<br>5、导航到 /core/phpunit.xml.dist<br>6、点击 Save</p>
+</blockquote>
+<p>在右上方看到 For current project。接下来完成下面的步骤：</p>
+<blockquote>
+<p>1、运行： Run &gt; Edit Configurations<br>2、点击 + 图标，选择 PHPUnit<br>3、提供一个名称，例如 Drupal 8: All Tests<br>4、在配置文件内选择 Test Runner &gt; Defined<br>5、保存</p>
+</blockquote>
+<p>在右上角，选择你的运行配置，按下绿色箭头。也可以操作 Run &gt; Run Drupal 8: All Tests 。</p>
+<p>说明：</p>
+<blockquote>
+<p>如果提示“Interpreter is not specified or invalid”，<br>要去 PhpStorm &gt; Preferences &gt; Languages &amp; Frameworks &gt; PHP 设置下 PHP 解释器。</p>
+</blockquote>
+<p>当你运行测试时，你会在 PhpStorm 内看到一个新窗口，列出了测试结果。默认情况，通过的测试不会显示出来。你可以操作窗口左上角的 Hide passed 图标显示通过的测试。</p>
+<h3 id="2)、测试一个指定区域">2)、测试一个指定区域</h3><p>PHPUnit 将运行很多测试。要把测试区域限制为一个文件夹（我们的模块）可以象下面这样做：</p>
+<blockquote>
+<p>1、运行： Run &gt; Edit Configurations<br>2、点击 + 图标选择 PHPUnit<br>3、提供个名称，例如 Drupal 8: Test Example<br>4、选择 Test Runner &gt; Test Scope &gt; Directory<br>5、浏览 test_example 模块<br>6、点击 Save</p>
+</blockquote>
+<h2 id="二、添加单元测试">二、添加单元测试</h2><p>要进行单元测试，必须在[module_name]/tests/srs/Unit/下创建一个以Test.php结尾的文件。一般都是继承UnitTestCase这个类来创建测试，这个测试类的namespace必须为Drupal\Test[module_name]\Unit。</p>
+<p>接下来，我们来书写代码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim tests/src/Unit/TestExampleConversionsTest.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> *</span><br><span class="line"> * Contains \Drupal\Tests\test_example\Unit\TestExampleConversionsTest.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">test_example</span>\<span class="title">Unit</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">UnitTestCase</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Demonstrates how to write tests.</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @group</span> test_example</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestExampleConversionsTest</span> <span class="keyword">extends</span> <span class="title">UnitTestCase</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * &#123;@inheritdoc&#125;</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setUp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">parent</span>::setUp();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Convert Celsius to Fahrenheit</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @param</span> $temp</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> int</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">celsiusToFahrenheit</span><span class="params">(<span class="variable">$temp</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="variable">$temp</span> * (<span class="number">9</span>/<span class="number">5</span>)) + <span class="number">32</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Convert centimeter to inches.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @param</span> $length</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @return</span> int</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">centimeterToInch</span><span class="params">(<span class="variable">$length</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$length</span> / <span class="number">2.54</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * A simple test that tests our celsiusToFahrenheit() function.</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testOneConversion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Confirm that 0C = 31F.</span></span><br><span class="line">    <span class="variable">$this</span>-&gt;assertEquals(<span class="number">31</span>, <span class="variable">$this</span>-&gt;celsiusToFahrenheit(<span class="number">0</span>));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试方法<br>每个测试方法必须以test开头。</li>
+<li>断言<br>断言决定测试是否通过，比较常用的一些断言函数如assertTrue、assertFalse、assertEquals等。<br>文档见 <a href="https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html" target="_blank" rel="external">https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html</a></li>
+<li>setUp()<br>每次测试之前都会执行setUp方法，我们可以创建一个变成或实例。</li>
+</ul>
+<h2 id="三、执行单元测试">三、执行单元测试</h2><p>输出如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Failed asserting that <span class="number">32.0</span> matches expected <span class="number">31</span>.</span><br><span class="line">Expected :<span class="number">31</span></span><br><span class="line">Actual   :<span class="number">32</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="四、较复杂的单元测试">四、较复杂的单元测试</h2><p>如果要做比较复杂的单元测试，一个简单的办法是用setUp方法，另一个方案就是使用data provider.</p>
+<h3 id="1)、data_provider">1)、data provider</h3><p>PHPUnit中的data provider是为测试方法提供配置的方法，并返回一个测试用例数组。</p>
+<p>本例中，我们创建一个data provider叫 providerCentimetersToInches。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">* Provides data for the testCentimetersToInches method.</span><br><span class="line">*</span><br><span class="line">*<span class="phpdoc"> @return</span> array</span><br><span class="line">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">providerCentimetersToInches</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [</span><br><span class="line">    [<span class="number">2.545</span>,<span class="number">1</span>],</span><br><span class="line">    [<span class="number">254</span>,<span class="number">100</span>],</span><br><span class="line">    [<span class="number">0</span>,<span class="number">0</span>],</span><br><span class="line">    [-<span class="number">2.54</span>,-<span class="number">1</span>],</span><br><span class="line">  ];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line">* Tests centimetersToInches method.</span><br><span class="line">*</span><br><span class="line">*<span class="phpdoc"> @dataProvider</span> providerCentimetersToInches</span><br><span class="line">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testCentimetersToInches</span><span class="params">(<span class="variable">$length</span>, <span class="variable">$expectedValue</span>)</span> </span>&#123;</span><br><span class="line">  <span class="variable">$this</span>-&gt;assertEquals(<span class="variable">$expectedValue</span>, <span class="variable">$this</span>-&gt;centimeterToInch(<span class="variable">$length</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Data Provider注解<br>在测试方法上使用 @dataProvider 注解来连接这个data provider。</p>
+</li>
+<li><p>Data Provider参数<br>在测试方法中可以添加参数，在上面的测试方法中，我们在数组内传递了两个值，那么在上面的测试方法中有两个对应的参数。</p>
+</li>
+</ul>
+<p>执行run，结果如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Failed asserting that <span class="number">1.0019685039370079</span> matches expected <span class="number">1</span>.</span><br><span class="line">Expected :<span class="number">1</span></span><br><span class="line">Actual   :<span class="number">1.001968503937</span></span><br></pre></td></tr></table></figure></p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -964,151 +1100,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/29/tpcc测试mysql性能/" itemprop="url">
-                  tpcc测试mysql性能
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-29T17:05:25+08:00" content="2016-01-29">
-              2016-01-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/29/tpcc测试mysql性能/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/29/tpcc测试mysql性能/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>TPC-C是专门针对联机交易处理系统（OLTP系统）的规范，一般情况下我们也把这类系统称为业务处理系统。<br>tpcc-mysql是percona基于TPC-C(下面简写成TPCC)衍生出来的产品，专用于MySQL基准测试。其源码放在launchpad上，用bazaar管理，项目地址：<a href="https://code.launchpad.net/~percona-dev/perconatools/tpcc-mysql。" target="_blank" rel="external">https://code.launchpad.net/~percona-dev/perconatools/tpcc-mysql。</a></p>
-<p>也可以用叶金荣的版本，<a href="https://github.com/yejr/tpcc-mysql-autoinc-pk。" target="_blank" rel="external">https://github.com/yejr/tpcc-mysql-autoinc-pk。</a></p>
-<p>tpcc-mysql的业务逻辑及其相关的几个表作用如下：</p>
-<p>New-Order：新订单，一次完整的订单事务，几乎涉及到全部表<br>Payment：支付，主要对应 orders、history 表<br>Order-Status：订单状态，主要对应 orders、order_line 表<br>Delivery：发货，主要对应 order_line 表<br>Stock-Level：库存，主要对应 stock 表</p>
-<p>其他相关表：<br>客户：主要对应 customer 表<br>地区：主要对应 district 表<br>商品：主要对应 item 表<br>仓库：主要对应 warehouse 表</p>
-<h3 id="一、编译安装">一、编译安装</h3><p>编译非常简单，只需要一个 make 即可。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp/tpcc-mysql/src</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
-<p>如果 make 没有报错，就会在 /tmp/tpcc-mysql 下生成 tpcc 二进制命令行工具 tpcc_load、 tpcc_start</p>
-<h3 id="二、TPCC测试前准备">二、TPCC测试前准备</h3><p>初始化测试库环境</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp/tpcc-mysql</span><br><span class="line">mysqladmin create tpcc</span><br><span class="line">mysql -uroot -proot tpcc &lt; create_table.sql</span><br></pre></td></tr></table></figure>
-<p>tpcc_load用法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tpcc_load [server] [DB] [user] [pass] [warehouse]</span><br><span class="line"></span><br><span class="line">OR</span><br><span class="line"></span><br><span class="line">tpcc_load [server] [DB] [user] [pass] [warehouse] [part] [min_wh] [max_wh]</span><br></pre></td></tr></table></figure>
-<p>选项 warehouse 意为指定测试库下的仓库数量。</p>
-<p>真实测试场景中，仓库数一般不建议少于100个，视服务器硬件配置而定，如果是配备了SSD或者PCIE SSD这种高IOPS设备的话，建议最少不低于1000个。</p>
-<p>执行下面的命令，开始灌入测试数据：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp/tpcc-mysql</span><br><span class="line">./tpcc_load localhost tpcc tpcc_user <span class="string">"tpcc_password"</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
-<p>在这里，需要注意的是 tpcc 默认会读取 /var/lib/mysql/mysql.sock 这个socket 文件。<br>因此，如果你的 socket 文件不在相应路径的话，可以做个软连接，或者通过TCP/IP的方式连接测试服务器，例如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp/tpcc-mysql</span><br><span class="line">./tpcc_load <span class="number">1.2</span>.<span class="number">3.4</span>:<span class="number">3306</span> tpcc1000 tpcc_user <span class="string">"tpcc_password"</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
-<p>加载测试数据时长视仓库数量而定，若过程比较久需要稍加耐心等待。</p>
-<p>tpcc_load其实是可以并行加载的，一方面是可以区分 ITEMS、WAREHOUSE、CUSTOMER、ORDERS 四个维度的数据并行加载。<br>另外，比如最终想加载1000个 warehouse的话，也可以分开成1000个并发并行加载的。看下 tpcc_load 工具的参数就知道了：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">usage: tpcc_load [server] [DB] [user] [pass] [warehouse]</span><br><span class="line">OR</span><br><span class="line">tpcc_load [server] [DB] [user] [pass] [warehouse] [part] [min_wh] [max_wh]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>[part]: 1=ITEMS 2=WAREHOUSE 3=CUSTOMER 4=ORDERS<br>本来想自己写个并行加载脚本的，后来发现万能的github上已经有人做好了，我就直接拿来用了，这是项目链接 <a href="https://gist.github.com/sh2/3458844" target="_blank" rel="external">tpcc_load_parallel.sh</a>，加载效率至少提升10倍以上。</li>
-</ul>
-<p>二、进行TPCC测试<br>tpcc_start 工具用于tpcc压测，其用法如下：</p>
-<p>tpcc_start -h server_host -P port -d database_name -u mysql_user \<br> -p mysql_password -w warehouses -c connections -r warmup_time \<br> -l running_time -i report_interval -f report_file</p>
-<p>几个选项稍微解释下：<br>-w 指定仓库数量<br>-c 指定并发连接数<br>-r 指定开始测试前进行warmup的时间，进行预热后，测试效果更好<br>-l 指定测试持续时间<br>-i  指定生成报告间隔时长<br>-f 指定生成的报告文件名</p>
-<p>现在我们来开启一个测试案例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tpcc_start -hlocalhost <span class="operator">-d</span> tpcc1000 -u tpcc_user -p <span class="string">"tpcc_password"</span> \</span><br><span class="line"> -w <span class="number">1000</span> -c <span class="number">32</span> -r <span class="number">120</span> <span class="operator">-l</span> <span class="number">3600</span> \</span><br><span class="line"> <span class="operator">-f</span> tpcc_mysql_20140921.log &gt;&gt; tpcc_<span class="keyword">case</span>X_20140921.log <span class="number">2</span>&gt;&amp;<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>即：模拟 1000个仓库规模，并发 16个线程进行测试，热身时间为 60秒, 压测时间为 1小时。</p>
-<p>真实测试场景中，建议预热时间不小于5分钟，持续压测时长不小于30分钟，否则测试数据可能不具参考意义。</p>
-<h3 id="三、TPCC测试结果解读：">三、TPCC测试结果解读：</h3><p>发起测试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./tpcc_start -h <span class="number">1.2</span>.<span class="number">3.4</span> -P <span class="number">3306</span> <span class="operator">-d</span> tpcc10 -u tpcc -p tpcc \</span><br><span class="line"> -w <span class="number">10</span> -c <span class="number">64</span> -r <span class="number">30</span> <span class="operator">-l</span> <span class="number">120</span> \</span><br><span class="line"> <span class="operator">-f</span> tpcclog_201409211538_64_THREADS.log &gt;&gt; tpcc_noaid_2_20140921_64.log <span class="number">2</span>&gt;&amp;<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>测试结果输出如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">-- 本轮tpcc压测的一些基本信息</span><br><span class="line">***************************************</span><br><span class="line">*** <span class="comment">###easy### TPC-C Load Generator ***</span></span><br><span class="line">***************************************</span><br><span class="line">option h with value <span class="string">'1.2.3.4'</span>   -- 主机</span><br><span class="line">option P with value <span class="string">'3306'</span>             -- 端口</span><br><span class="line">option d with value <span class="string">'tpcc10'</span>         -- 数据库</span><br><span class="line">option u with value <span class="string">'tpcc'</span>             -- 账号</span><br><span class="line">option p with value <span class="string">'tpcc'</span>             -- 密码</span><br><span class="line">option w with value <span class="string">'10'</span>                 -- 仓库数</span><br><span class="line">option c with value <span class="string">'64'</span>                 -- 并发线程数</span><br><span class="line">option r with value <span class="string">'30'</span>                 -- 数据预热时长</span><br><span class="line">option l with value <span class="string">'120'</span>               -- 压测时长</span><br><span class="line">option f with value <span class="string">'tpcclog_20140921_64_THREADS.res'</span>  -- 输出报告日志文件</span><br><span class="line"></span><br><span class="line">     [server]: <span class="number">1.2</span>.<span class="number">3.4</span></span><br><span class="line">     [port]: <span class="number">3306</span></span><br><span class="line">     [DBname]: tpcc10</span><br><span class="line">       [user]: tpcc</span><br><span class="line">       [pass]: tpcc</span><br><span class="line">  [warehouse]: <span class="number">10</span></span><br><span class="line"> [connection]: <span class="number">64</span></span><br><span class="line">     [rampup]: <span class="number">30</span> (sec.)</span><br><span class="line">    [measure]: <span class="number">120</span> (sec.)</span><br><span class="line"></span><br><span class="line">RAMP-UP TIME.(<span class="number">30</span> sec.)</span><br><span class="line"></span><br><span class="line">-- 预热结束，开始进行压测</span><br><span class="line">MEASURING START.</span><br><span class="line"></span><br><span class="line">-- 每<span class="number">10</span>秒钟输出一次压测数据</span><br><span class="line">  <span class="number">10</span>, <span class="number">8376</span>(<span class="number">0</span>):<span class="number">2.744</span>|<span class="number">3.211</span>, <span class="number">8374</span>(<span class="number">0</span>):<span class="number">0.523</span>|<span class="number">1.626</span>, <span class="number">838</span>(<span class="number">0</span>):<span class="number">0.250</span>|<span class="number">0.305</span>, <span class="number">837</span>(<span class="number">0</span>):<span class="number">3.241</span>|<span class="number">3.518</span>, <span class="number">839</span>(<span class="number">0</span>):<span class="number">9.086</span>|<span class="number">10.676</span></span><br><span class="line">  <span class="number">20</span>, <span class="number">8294</span>(<span class="number">0</span>):<span class="number">2.175</span>|<span class="number">2.327</span>, <span class="number">8292</span>(<span class="number">0</span>):<span class="number">0.420</span>|<span class="number">0.495</span>, <span class="number">829</span>(<span class="number">0</span>):<span class="number">0.206</span>|<span class="number">0.243</span>, <span class="number">827</span>(<span class="number">0</span>):<span class="number">2.489</span>|<span class="number">2.593</span>, <span class="number">827</span>(<span class="number">0</span>):<span class="number">7.214</span>|<span class="number">7.646</span></span><br><span class="line">…</span><br><span class="line"> <span class="number">110</span>, <span class="number">8800</span>(<span class="number">0</span>):<span class="number">2.149</span>|<span class="number">2.458</span>, <span class="number">8792</span>(<span class="number">0</span>):<span class="number">0.424</span>|<span class="number">0.710</span>, <span class="number">879</span>(<span class="number">0</span>):<span class="number">0.207</span>|<span class="number">0.244</span>, <span class="number">878</span>(<span class="number">0</span>):<span class="number">2.461</span>|<span class="number">2.556</span>, <span class="number">878</span>(<span class="number">0</span>):<span class="number">7.042</span>|<span class="number">7.341</span></span><br><span class="line"> <span class="number">120</span>, <span class="number">8819</span>(<span class="number">0</span>):<span class="number">2.147</span>|<span class="number">2.327</span>, <span class="number">8820</span>(<span class="number">0</span>):<span class="number">0.424</span>|<span class="number">0.568</span>, <span class="number">882</span>(<span class="number">0</span>):<span class="number">0.208</span>|<span class="number">0.237</span>, <span class="number">881</span>(<span class="number">0</span>):<span class="number">2.483</span>|<span class="number">2.561</span>, <span class="number">883</span>(<span class="number">0</span>):<span class="number">7.025</span>|<span class="number">7.405</span></span><br><span class="line">-- 以逗号分隔，共<span class="number">6</span>列</span><br><span class="line">-- 第一列，第N次<span class="number">10</span>秒</span><br><span class="line">-- 第二列，新订单成功执行压测的次数(推迟执行压测的次数):<span class="number">90</span>%事务的响应时间|本轮测试最大响应时间，新订单事务数也被认为是总有效事务数的指标</span><br><span class="line">-- 第三列，支付业务成功执行次数(推迟执行次数):<span class="number">90</span>%事务的响应时间|本轮测试最大响应时间</span><br><span class="line">-- 第四列，订单状态业务的结果，后面几个的意义同上</span><br><span class="line">-- 第五列，物流发货业务的结果，后面几个的意义同上</span><br><span class="line">-- 第六列，库存仓储业务的结果，后面几个的意义同上</span><br><span class="line"></span><br><span class="line">-- 压测结束</span><br><span class="line">STOPPING THREADS................................................................</span><br><span class="line"></span><br><span class="line">   -- 第一次结果统计</span><br><span class="line">  [<span class="number">0</span>] sc:<span class="number">100589</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span>    -- New-Order，新订单业务成功(success,简写sc)次数，延迟(late,简写lt)次数，重试(retry,简写rt)次数，失败(failure,简写fl)次数</span><br><span class="line">  [<span class="number">1</span>] sc:<span class="number">100552</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span>    -- Payment，支付业务统计，其他同上</span><br><span class="line">  [<span class="number">2</span>] sc:<span class="number">10059</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span>    -- Order-Status，订单状态业务统计，其他同上</span><br><span class="line">  [<span class="number">3</span>] sc:<span class="number">10057</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span>    -- Delivery，发货业务统计，其他同上</span><br><span class="line">  [<span class="number">4</span>] sc:<span class="number">10058</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span>    -- Stock-Level，库存业务统计，其他同上</span><br><span class="line"> <span class="keyword">in</span> <span class="number">120</span> sec.</span><br><span class="line"></span><br><span class="line">    -- 第二次统计结果，其他同上</span><br><span class="line">  [<span class="number">0</span>] sc:<span class="number">100590</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span> </span><br><span class="line">  [<span class="number">1</span>] sc:<span class="number">100582</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span> </span><br><span class="line">  [<span class="number">2</span>] sc:<span class="number">10059</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span> </span><br><span class="line">  [<span class="number">3</span>] sc:<span class="number">10057</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span> </span><br><span class="line">  [<span class="number">4</span>] sc:<span class="number">10059</span>  lt:<span class="number">0</span>  rt:<span class="number">0</span>  fl:<span class="number">0</span> </span><br><span class="line"></span><br><span class="line"> (all must be [OK])       -- 下面所有业务逻辑结果都必须为 OK 才行</span><br><span class="line"> [transaction percentage]</span><br><span class="line">        Payment: <span class="number">43.47</span>% (&gt;=<span class="number">43.0</span>%) [OK]      -- 支付成功次数(上述统计结果中 sc + lt)必须大于<span class="number">43.0</span>%，否则结果为NG，而不是OK</span><br><span class="line">   Order-Status: <span class="number">4.35</span>% (&gt;= <span class="number">4.0</span>%) [OK]       -- 订单状态，其他同上</span><br><span class="line">       Delivery: <span class="number">4.35</span>% (&gt;= <span class="number">4.0</span>%) [OK]       -- 发货，其他同上</span><br><span class="line">    Stock-Level: <span class="number">4.35</span>% (&gt;= <span class="number">4.0</span>%) [OK]       -- 库存，其他同上</span><br><span class="line"> [response time (at least <span class="number">90</span>% passed)]      -- 响应耗时指标必须超过<span class="number">90</span>%通过才行</span><br><span class="line">      New-Order: <span class="number">100.00</span>%  [OK]              -- 下面几个响应耗时指标全部 <span class="number">100</span>% 通过</span><br><span class="line">        Payment: <span class="number">100.00</span>%  [OK]</span><br><span class="line">   Order-Status: <span class="number">100.00</span>%  [OK]</span><br><span class="line">       Delivery: <span class="number">100.00</span>%  [OK]</span><br><span class="line">    Stock-Level: <span class="number">100.00</span>%  [OK]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                 <span class="number">50294.500</span> TpmC                      -- TpmC结果值（每分钟事务数，该值是第一次统计结果中的新订单事务数除以总耗时分钟数，例如本例中是：<span class="number">100589</span>/<span class="number">2</span> = <span class="number">50294.500</span>）</span><br></pre></td></tr></table></figure>
-<p>script目录下的一些脚本主要是一些性能数据采集以及分析的，可以自行摸索下怎么用。</p>
-<p>参考文章：<br>1、<a href="http://imysql.com/2014/10/10/tpcc-mysql-full-user-manual.shtml" target="_blank" rel="external">http://imysql.com/2014/10/10/tpcc-mysql-full-user-manual.shtml</a><br>2、<a href="https://github.com/yejr/tpcc-mysql-autoinc-pk" target="_blank" rel="external">https://github.com/yejr/tpcc-mysql-autoinc-pk</a></p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1149,7 +1146,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">67</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

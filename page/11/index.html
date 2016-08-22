@@ -201,11 +201,112 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/12/31/drupal-error-cannot-call-overloaded-function-for-non-object/" itemprop="url">
+                  Drupal error - Cannot call overloaded function for non-object
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2013-12-31T13:35:34+08:00" content="2013-12-31">
+              2013-12-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/12/31/drupal-error-cannot-call-overloaded-function-for-non-object/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/12/31/drupal-error-cannot-call-overloaded-function-for-non-object/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
-    
+        
+          <span itemprop="articleBody">
+            
+              <p>今天在测试API的时候，apache总是会莫名其妙的报<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHP Fatal error: Cannot call overloaded <span class="function"><span class="keyword">function</span> <span class="title">for</span> <span class="title">non</span>-<span class="title">object</span> <span class="title">in</span> /<span class="title">var</span>/<span class="title">www</span>/<span class="title">html</span>/<span class="title">includes</span>/<span class="title">database</span>/<span class="title">query</span>.<span class="title">inc</span> <span class="title">on</span> <span class="title">line</span> 331</span></span><br></pre></td></tr></table></figure></p>
+<p>找了很久的资料，发现可以配置apache的CoreDumpDirectory命令，其实就是把apache的内核目录放到其他目录下。如/tmp/apache_core，并给apache_core文件给予chown apache:apache /tmp/apache_core的权限。这样可以解决问题。</p>
+<p>但是需要注意：<br>该命令会导致tmp文件越来越大。</p>
+<p>使用以下命里进行调试<br>gdb /usr/bin/httpd /tmp/apache_core/core</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -733,118 +834,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/12/11/php获取raw-post-data数据/" itemprop="url">
-                  PHP获取Raw POST Data数据
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2013-12-11T16:05:05+08:00" content="2013-12-11">
-              2013-12-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/PHP/" itemprop="url" rel="index">
-                    <span itemprop="name">PHP</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2013/12/11/php获取raw-post-data数据/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/12/11/php获取raw-post-data数据/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>通常在做网站开发的时候，接收POST数组通过$_POST即可获取，但是如果把一段 XML 文本直接作为POST DATA提交到服务器时，$_POST是一个空数组，如：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST http:<span class="comment">//www.example.com -H "Accept:application/json" -d '&#123;"ip":"8.8.4.4"&#125;'</span></span><br></pre></td></tr></table></figure></p>
-<p>如何解决这个问题呢，PHP提供了解析Raw POST data的方法，见<a href="http://www.php.net/manual/en/reserved.variables.httprawpostdata.php，用法如下：" target="_blank" rel="external">http://www.php.net/manual/en/reserved.variables.httprawpostdata.php，用法如下：</a></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$postdata</span> = file_get_contents(<span class="string">"php://input"</span>);</span><br></pre></td></tr></table></figure>
-<p>解释一下，php://input 是一个资源标识，用 file_get_contents 从这个资源中获取的内容，就是原始的 Raw POST Data。</p>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -885,7 +880,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">66</span>
+              <span class="site-state-item-count">67</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
