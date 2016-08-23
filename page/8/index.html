@@ -574,6 +574,121 @@
             
               
                 
+                <a class="post-title-link" href="/2015/06/24/infiniDB安装配置/" itemprop="url">
+                  infiniDB安装配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-06-24T13:48:03+08:00" content="2015-06-24">
+              2015-06-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/24/infiniDB安装配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/24/infiniDB安装配置/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>infiniDB是为大数据而生的列式数据库，适合做统计分析，如SUM,AVG,MAX,MIN等。笔者没有研究过infoBright，貌似需要收费，并且社区版本不支持DML。</p>
+<p>总结了一些infiniDB的特点:<br>1、所有字段的默认值都为NULL，不需要设置其他值。<br>2、不需要创建索引，不需要优化表<br>3、多线程设计，查询时完美利用多CPU<br>4、高并发:理论上无并发的限制,只受制于服务器的容量<br>5、DML(可以视为是SQL的子集)支持 : 语句insert, update, delete<br>6、数据存储方面主要是按列拆，按行(范围)拆，核心算法是hash join，跟oracle很类似。<br>    具体有以下几方面：<br>    1）、Block : 8k的数据块,有Logical Block ID,大小不能定制,但预读的数目可以定制<br>    2）、Extent : 一个逻辑空间尺寸,存在于一个或多个的称为segment文件的物理文件中. extent大小受1)默认的行数2)一个列的数据类型, 如默认行数是8M,对一字节数据类型来说,Extent大小就是8M; 对于8字节数据类型来说,就是64M;对于可变长数据类型来说也是64M.当一个Extent满了,一个新的Extent就会被创建出来.<br>    3）、Segment File : 当一个Segment文件达到它的Extent包含的最大数目,一个新的Segment文件就会被创建出来<br>    4）、Partition : 与row-based DB不同之处在于它是一个逻辑上的对象.由一个或多个Segment文件组成. 一个列的partition数目是不限的.</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624140759_49711.png" alt="数据存储示例图"></p>
+<blockquote>
+<p>安装过程：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、访问https://github.com/infinidb/infinidb/blob/<span class="number">4.6</span>.<span class="number">2</span>-<span class="number">1</span>/INSTALL，按照帮助文档进行安装，笔者安装的版本是<span class="number">4.6</span>.<span class="number">2</span></span><br><span class="line"></span><br><span class="line">或者：</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /root</span><br><span class="line">git <span class="built_in">clone</span> http://github.com/infinidb/mysql</span><br><span class="line">git <span class="built_in">clone</span> http://github.com/infinidb/infinidb</span><br><span class="line">-- or --</span><br><span class="line">tar -zxf &lt;srcfile&gt;</span><br><span class="line"><span class="built_in">cd</span> mysql</span><br><span class="line">./configure --prefix=/data/mysql/</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">cd</span> ../infinidb</span><br><span class="line">./configure --prefix=/data/</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">注意：root下的文件夹名称必须为infinidb和mysql，否则编译的时候会报错。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、安装完以后执行/usr/<span class="built_in">local</span>/Calpont/bin/postConfigure进行配置，按默认就行</span><br><span class="line"><span class="number">3</span>、设置一些别名， . /usr/<span class="built_in">local</span>/Calpont/bin/calpontAlias</span><br><span class="line"><span class="number">4</span>、直接访问idbmysql进入管理。</span><br></pre></td></tr></table></figure>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624141731_29245.jpg" alt="idbmysql"></p>
+<blockquote>
+<p>测试</p>
+</blockquote>
+<p>10亿条数据count:<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624141741_84796.jpg" alt="10亿条数据count速度"></p>
+<p>性能杠杠滴！</p>
+
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/05/07/写个脚本压缩JS-CSS/" itemprop="url">
                   写个脚本压缩JS,CSS
                 </a>
