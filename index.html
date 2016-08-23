@@ -201,15 +201,6 @@
 
     
     
-      
-      
-        
-        
-        
-      
-
-      
-    
 
     
       
@@ -331,7 +322,13 @@
 <p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">24</span>G     billing</span><br></pre></td></tr></table></figure></p>
 <p>压缩比相差不多。</p>
 <p>结果：<br>1、infiniDB会使用所有CPU，而clickhouse最多使用10个。<br>2、clickhouse在大数据量的时候，处理速度还是比较令人满意的。<br>3、clickhouse在导入数据的时候，查询会被卡住，而infiniDB不会。<br>4、infiniDB性能更好。</p>
-<p>附对比图：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160822/20160822222132_99553.png" alt="对比图"></p>
+<p>附对比图：<br>这里clickhouse是Log引擎。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160822/20160822222132_99553.png" alt="对比图"></p>
+<hr>
+<p>以为俄罗斯网友提醒,MergeTree引擎比Log引擎更高效，因为Log引擎会全表扫描，而MergeTree的结构是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">xxxx@ubuntu:/opt/clickhouse$ ls data/monitor/billing_mergetree</span><br><span class="line"><span class="number">19700101</span>_19700107_2_9820_10     <span class="number">20150829</span>_20150831_10964_10994_2  <span class="number">20160101</span>_20160131_10_11360_30     <span class="number">20160401</span>_20160430_12_9964_31      <span class="number">20160609</span>_20160613_11302_11350_4  <span class="number">20160808</span>_20160820_10972_11250_2</span><br><span class="line"><span class="number">20150325</span>_20150331_4_9822_23     <span class="number">20150901</span>_20150930_1030_11316_50  <span class="number">20160201</span>_20160229_244_10606_27    <span class="number">20160401</span>_20160430_9982_11362_10   <span class="number">20160701</span>_20160731_308_8668_14    <span class="number">20160820</span>_20160820_11260_11260_0</span><br><span class="line"><span class="number">20150401</span>_20150430_16_9932_57    <span class="number">20151001</span>_20151031_8_11352_39     <span class="number">20160220</span>_20160229_10618_10788_10  <span class="number">20160501</span>_20160531_530_11042_23    <span class="number">20160701</span>_20160731_8678_10786_12  <span class="number">20160820</span>_20160820_11266_11266_0</span><br><span class="line"><span class="number">20150501</span>_20150531_102_10032_75  <span class="number">20151009</span>_20151011_11356_11356_0  <span class="number">20160229</span>_20160229_10804_10812_1   <span class="number">20160528</span>_20160531_11056_11124_6   <span class="number">20160731</span>_20160731_10798_10798_0  detached</span><br><span class="line"><span class="number">20150601</span>_20150630_202_10344_53  <span class="number">20151101</span>_20151130_328_10702_43   <span class="number">20160301</span>_20160331_774_10958_31    <span class="number">20160531</span>_20160531_11142_11142_0   <span class="number">20160801</span>_20160820_1002_8170_5</span><br><span class="line"><span class="number">20150701</span>_20150731_506_10668_56  <span class="number">20151130</span>_20151130_10710_10710_0  <span class="number">20160309</span>_20160331_10970_11332_18  <span class="number">20160601</span>_20160617_11002_11298_13  <span class="number">20160801</span>_20160820_8184_9732_3</span><br><span class="line"><span class="number">20150801</span>_20150831_786_10952_54  <span class="number">20151201</span>_20151231_728_11202_38   <span class="number">20160331</span>_20160331_11336_11336_0   <span class="number">20160601</span>_20160630_6_10984_19      <span class="number">20160801</span>_20160820_9740_10962_2</span><br></pre></td></tr></table></figure>
+<p>这种存储结构就是把每个月的数据单独放置在一个文件夹中，这样就避免了全表扫描。</p>
+<p>附对比图:<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160823/20160823104806_34122.png" alt="对比图"></p>
+<p>结论：<br>clickhouse速度更快！</p>
 
             
           </span>
