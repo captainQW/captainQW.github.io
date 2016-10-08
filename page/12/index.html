@@ -229,6 +229,112 @@
             
               
                 
+                <a class="post-title-link" href="/2013/12/11/Drush的安装配置和应用/" itemprop="url">
+                  Drush的安装配置和应用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2013-12-11T16:50:14+08:00" content="2013-12-11">
+              2013-12-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/12/11/Drush的安装配置和应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/12/11/Drush的安装配置和应用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h3 id="安装方法">安装方法</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pear channel-update pear.php.net</span><br><span class="line">pear channel-discover pear.drush.org</span><br><span class="line">pear install drush/drush</span><br></pre></td></tr></table></figure>
+<p>用drush help即可查看相关命令。</p>
+<h3 id="经常使用的几个命令">经常使用的几个命令</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">drush cc all: 清除缓存</span><br><span class="line">drush updb: 更新数据库.</span><br><span class="line">drush up或者 drush pm-update更新核心代码或者模块.</span><br><span class="line"></span><br><span class="line">drush up的备份代码默认在 ~/drush-backups </span><br><span class="line">cd  ~/drush-backups 即可看到原来的代码</span><br></pre></td></tr></table></figure>
+<h3 id="打印Drupal函数">打印Drupal函数</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drush ev <span class="string">"print_r(module_implements('menu'))"</span></span><br></pre></td></tr></table></figure>
+<h3 id="执行php代码">执行php代码</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drush php-<span class="keyword">eval</span> <span class="string">'print_r(file("/xxxx.log"));'</span></span><br></pre></td></tr></table></figure>
+            
+          </span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/12/11/php获取raw-post-data数据/" itemprop="url">
                   PHP获取Raw POST Data数据
                 </a>
@@ -360,21 +466,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">67</span>
+              <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories/">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">56</span>
+              <span class="site-state-item-count">57</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
