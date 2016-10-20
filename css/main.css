@@ -522,11 +522,6 @@ pre code {
 .highlight .line {
   height: 20px;
 }
-.code pre .line {
-    white-space: normal;
-    word-break: break-all;
-    word-wrap: break-word;
-}
 .gist {
   margin: 20px 0;
   border-style: solid;
@@ -966,7 +961,7 @@ body {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffe9d4;
+  background: #2fdaff;
 }
 .sidebar-nav {
   margin: 0 0 20px;
@@ -1230,6 +1225,11 @@ body {
   .post-body .highlight .gutter pre {
     padding-right: 10px;
   }
+  .post-body .code pre .line {
+    white-space: normal;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
 }
 .posts-expand .post-title {
   font-size: 26px;
@@ -1414,20 +1414,6 @@ body {
   transition-delay: 0s;
   transition-property: border;
   border-bottom: 1px dashed #ccc;
-}
-#rewardButton span {
-    display: inline-block;
-    width: 80px;
-    height: 35px;
-    border-radius: 5px;
-    color: #fff;
-    font-weight: 400;
-    font-style: normal;
-    font-variant: normal;
-    font-stretch: normal;
-    font-size: 18px;
-    font-family: "Microsoft Yahei";
-    background: #f44336;
 }
 .posts-collapse .post-header::before {
   content: " ";
