@@ -278,6 +278,33 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/share/fonts/win/ </span><br><span class="line">  下载微软雅黑字体: </span><br><span class="line">  wget https://nipao.googlecode.com/files/msyh.ttf -O /usr/share/fonts/win/msyh.ttf </span><br><span class="line">  建立字体索引，更新字体缓存: </span><br><span class="line">  <span class="built_in">cd</span> /usr/share/fonts/win/ </span><br><span class="line">  mkfontscale </span><br><span class="line">  mkfontdir </span><br><span class="line">  <span class="built_in">fc</span>-cache</span><br></pre></td></tr></table></figure></span>
       
     </div>
+    
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>生活不止眼前的苟且,还有那片海</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://static.verycloud.cn/sites/default/files/pic/image/20161020/2016102091823_83552.jpg" alt="RamboLau WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://static.verycloud.cn/sites/default/files/pic/image/20161020/2016102091754_15328.jpg" alt="RamboLau Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+      
+    </div>
 
     <footer class="post-footer">
       
