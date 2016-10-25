@@ -229,6 +229,150 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/12/Drupal8注解-Annotations-语法/" itemprop="url">
+                  Drupal8注解(Annotations)语法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-12T10:35:46+08:00" content="2015-12-12">
+              2015-12-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/12/Drupal8注解-Annotations-语法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/12/Drupal8注解-Annotations-语法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>写过java代码的同学，相信大家对注解都不陌生。有些PHP框架也是支持注解的，如Symfony2使用注解定义路由规则，Doctrine使用注解来添加ORM元数据。PHP注解RFC见<a href="https://wiki.php.net/rfc/annotations" title="rfc" target="_blank" rel="external">rfc-annotations</a>。</p>
+<p>Drupal8的注解依照<a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html" target="_blank" rel="external">Doctrine</a>的规范。</p>
+<p>本文主要对Drupal8中所用到的注解做分析，欢迎拍砖交流！</p>
+<h3 id="一、注解的争议">一、注解的争议</h3><p>目前对注解的争议主要有这么几点。</p>
+<h4 id="1、如何区分注解和注释？">1、如何区分注解和注释？</h4><h4 id="2、为什么要把业务逻辑放在注释中？难道他们不是一个核心语言语义的一部分？">2、为什么要把业务逻辑放在注释中？难道他们不是一个核心语言语义的一部分？</h4><h4 id="3、注解和注释代码容易混淆，如果开发人员忘记定义了注解，程序并不会报错，但是可能不会像预期的工作。">3、注解和注释代码容易混淆，如果开发人员忘记定义了注解，程序并不会报错，但是可能不会像预期的工作。</h4><h4 id="4、注解不好测试、调试。">4、注解不好测试、调试。</h4><h3 id="二、注解的优势">二、注解的优势</h3><h4 id="1、不用写很多代码就可以实现注入。如：">1、不用写很多代码就可以实现注入。如：</h4><p>我们要把weapon对象注入到soldier实例中。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Weapon</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">shoot</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"... shooting ..."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Soldier</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$weapon</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setWeapon</span><span class="params">(<span class="variable">$weapon</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;weapon = <span class="variable">$weapon</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">fight</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;weapon-&gt;shoot();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要实现这个功能，要这样写代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$weapon</span> = <span class="keyword">new</span> Weapon();</span><br><span class="line"></span><br><span class="line"><span class="variable">$soldier</span> = <span class="keyword">new</span> Soldier();</span><br><span class="line"><span class="variable">$soldier</span>-&gt;setWeapon(<span class="variable">$weapon</span>); </span><br><span class="line"><span class="variable">$soldier</span>-&gt;fight();</span><br></pre></td></tr></table></figure>
+<p>如果我们用注解，就变得简单多了：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Soldier</span> </span>&#123;  </span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     *<span class="phpdoc"> @inject</span> $weapon Weapon</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setWeapon</span><span class="params">(<span class="variable">$weapon</span>)</span> </span>&#123;</span><br><span class="line">        <span class="variable">$this</span>-&gt;weapon = <span class="variable">$weapon</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只需要2行代码就可以了</span></span><br><span class="line"><span class="variable">$soldier</span> = <span class="keyword">new</span> Soldier();</span><br><span class="line"><span class="variable">$soldier</span>-&gt;fight();</span><br></pre></td></tr></table></figure>
+<h4 id="2、Drupal8执行时，内存使用大大减少。在Drupal7中，通过hook定义元数据，这样就导致每个请求都需要把所有的模块加载到内存中，而Drupal8仅解析注解，并加载进内存，这样就可以占用很小的内存。">2、Drupal8执行时，内存使用大大减少。在Drupal7中，通过hook定义元数据，这样就导致每个请求都需要把所有的模块加载到内存中，而Drupal8仅解析注解，并加载进内存，这样就可以占用很小的内存。</h4><h3 id="三、语法">三、语法</h3><p>注解的数据结构是类似json key-value。<br>让我们来看text模块的TextDefaultFormatter.php文件中的定义。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Plugin implementation of the 'text_default' formatter.</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @FieldFormatter</span>(</span><br><span class="line"> *   id = "text_default",</span><br><span class="line"> *   label =<span class="phpdoc"> @Translation</span>("Default"),</span><br><span class="line"> *   field_types = &#123;</span><br><span class="line"> *     "text",</span><br><span class="line"> *     "text_long",</span><br><span class="line"> *     "text_with_summary"</span><br><span class="line"> *   &#125;,</span><br><span class="line"> *   quickedit = &#123;</span><br><span class="line"> *     "editor" = "plain_text"</span><br><span class="line"> *   &#125;</span><br><span class="line"> * )</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextDefaultFormatter</span> <span class="keyword">extends</span> <span class="title">FormatterBase</span> </span>&#123;  </span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>以下是一些规范：</p>
+<h4 id="1、必须以一个唯一的id开始，类似Drupal7的machine_name">1、必须以一个唯一的id开始，类似Drupal7的machine name</h4><h4 id="2、顶级的Keys可以使用双引号">2、顶级的Keys可以使用双引号</h4><h4 id="3、下级的Keys必须使用双引号">3、下级的Keys必须使用双引号</h4><h4 id="4、必须使用双引号，单引号会造成语法错误">4、必须使用双引号，单引号会造成语法错误</h4><h4 id="5、value允许的数据类型">5、value允许的数据类型</h4><pre><code>&gt; 字符串(<span class="type">string</span>)：必须使用双引号,如<span class="string">"foo"</span>，使用一对双引号包含双引号字符，如<span class="string">"The "</span><span class="string">"On"</span><span class="string">" value "</span>
+&gt; 数字(<span class="type">number</span>)：不能使用引号，如果使用引号，会被解析成字符串
+&gt; 布尔型(bool)：不能使用引号，如果使用引号，会被解析成字符串
+&gt; <span class="type">list</span>：必须使用花括号，末尾不能使用逗号。如
+</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">field_types = &#123;</span><br><span class="line">	<span class="string">"text"</span>,</span><br><span class="line">	<span class="string">"text_long"</span>,</span><br><span class="line">	<span class="string">"text_with_summary"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>&gt; <span class="built_in">map</span>: 必须使用花括号，<span class="variable">key</span>-value用＝号分割，默认不能使用逗号。如：    
+</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">quickedit = &#123;</span><br><span class="line">	<span class="string">"editor"</span> = <span class="string">"plain_text"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code><span class="blockquote">&gt; 允许定义常量</span>
+</code></pre><h3 id="四、自定义注解类">四、自定义注解类</h3><p>Drupal8中的一些基础plugin如entity,views等会被自动加载。当然，你可以在自定义的类中给plugin提供文档和参数。</p>
+<p>我们还是以text模块举例说明，在text/src/Plugin/field/formatter/TextPlainFormatter.php中定义了plaintext，并且自定义了一个叫FieldFormatter的注解类。</p>
+<p>注意：所有的注解类都是继承自 \Drupal\Component\Annotation\Plugin。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Plugin implementation of the 'text_plain' formatter.</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @FieldFormatter</span>(</span><br><span class="line"> *   id = "text_plain",</span><br><span class="line"> *   label =<span class="phpdoc"> @Translation</span>("Plain text"),</span><br><span class="line"> *   field_types = &#123;</span><br><span class="line"> *     "text",</span><br><span class="line"> *     "text_long",</span><br><span class="line"> *     "text_with_summary"</span><br><span class="line"> *   &#125;,</span><br><span class="line"> *   edit = &#123;</span><br><span class="line"> *     "editor" = "direct"</span><br><span class="line"> *   &#125;</span><br><span class="line"> * )</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextPlainFormatter</span> </span>&#123;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="五、自定义插件类型中使用注解">五、自定义插件类型中使用注解</h3><p>如果你想在自定义plugin类型中使用注解，可以用AnnotatedClassDiscovery类。</p>
+<p>AnnotatedClassDiscovery构造函数的第一个参数是这个plugin类型所存放的目录结构。</p>
+<p>如下面的代码，plugin在目录$module/src/Plugin/field/formatter中。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Plugin</span>\<span class="title">Discovery</span>\<span class="title">AnnotatedClassDiscovery</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormatterPluginManager</span> <span class="keyword">extends</span> <span class="title">PluginManagerBase</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Constructs a FormatterPluginManager object.</span><br><span class="line">   *</span><br><span class="line">   *<span class="phpdoc"> @param</span> array $namespaces</span><br><span class="line">   *   An array of paths keyed by their corresponding namespaces.</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(array <span class="variable">$namespaces</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// This is the essential line you have to use in your manager.</span></span><br><span class="line">    <span class="variable">$this</span>-&gt;discovery = <span class="keyword">new</span> AnnotatedClassDiscovery(<span class="string">'Plugin/field/formatter'</span>, <span class="variable">$namespaces</span>);</span><br><span class="line">    <span class="comment">// Every other line is a good practice.</span></span><br><span class="line">    <span class="variable">$this</span>-&gt;discovery = <span class="keyword">new</span> ProcessDecorator(<span class="variable">$this</span>-&gt;discovery, [<span class="variable">$this</span>, <span class="string">'processDefinition'</span>]);</span><br><span class="line">    <span class="variable">$this</span>-&gt;discovery = <span class="keyword">new</span> AlterDecorator(<span class="variable">$this</span>-&gt;discovery, <span class="string">'field_formatter_info'</span>);</span><br><span class="line">    <span class="variable">$this</span>-&gt;discovery = <span class="keyword">new</span> CacheDecorator(<span class="variable">$this</span>-&gt;discovery, <span class="string">'field_formatter_types'</span>, <span class="string">'field'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注入的命名空间来自于依赖注入容器，如FieldBundle：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * Contains Drupal\field\FieldBundle.</span><br><span class="line"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">field</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerBuilder</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">HttpKernel</span>\<span class="title">Bundle</span>\<span class="title">Bundle</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Field dependency injection container.</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FieldBundle</span> <span class="keyword">extends</span> <span class="title">Bundle</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * Overrides Symfony\Component\HttpKernel\Bundle\Bundle::build().</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">build</span><span class="params">(ContainerBuilder <span class="variable">$container</span>)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Register the plugin managers for our plugin types with the dependency injection container.</span></span><br><span class="line">    <span class="variable">$container</span>-&gt;register(<span class="string">'plugin.manager.field.widget'</span>, <span class="string">'Drupal\field\Plugin\Type\Widget\WidgetPluginManager'</span>)</span><br><span class="line">      -&gt;addArgument(<span class="string">'%container.namespaces%'</span>);</span><br><span class="line">    <span class="variable">$container</span>-&gt;register(<span class="string">'plugin.manager.field.formatter'</span>, <span class="string">'Drupal\field\Plugin\Type\Formatter\FormatterPluginManager'</span>)</span><br><span class="line">      -&gt;addArgument(<span class="string">'%container.namespaces%'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>要调用自定义的plugin管理器，需要在构造函数调用的时候注入命名空间。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"> <span class="variable">$type</span> = <span class="keyword">new</span> CustomPluginManager(\Drupal::getContainer()-&gt;getParameter(<span class="string">'container.namespaces'</span>)); </span><br><span class="line"><span class="preprocessor">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="六、Entity注解">六、Entity注解</h3><p>Entity类型不管是配置还是内容实体都必须用注解定义。</p>
+<p>如：core/modules/user/src/Entity/User.php:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * Defines the user entity class.</span><br><span class="line"> *</span><br><span class="line"> * The base table name here is plural, despite Drupal table naming standards,</span><br><span class="line"> * because "user" is a reserved word in many databases.</span><br><span class="line"> *</span><br><span class="line"> *<span class="phpdoc"> @ContentEntityType</span>(</span><br><span class="line"> *   id = "user",</span><br><span class="line"> *   label =<span class="phpdoc"> @Translation</span>("User"),</span><br><span class="line"> *   handlers = &#123;</span><br><span class="line"> *     "storage" = "Drupal\user\UserStorage",</span><br><span class="line"> *     "storage_schema" = "Drupal\user\UserStorageSchema",</span><br><span class="line"> *     "access" = "Drupal\user\UserAccessControlHandler",</span><br><span class="line"> *     "list_builder" = "Drupal\user\UserListBuilder",</span><br><span class="line"> *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",</span><br><span class="line"> *     "views_data" = "Drupal\user\UserViewsData",</span><br><span class="line"> *     "route_provider" = &#123;</span><br><span class="line"> *       "html" = "Drupal\user\Entity\UserRouteProvider",</span><br><span class="line"> *     &#125;,</span><br><span class="line"> *     "form" = &#123;</span><br><span class="line"> *       "default" = "Drupal\user\ProfileForm",</span><br><span class="line"> *       "cancel" = "Drupal\user\Form\UserCancelForm",</span><br><span class="line"> *       "register" = "Drupal\user\RegisterForm"</span><br><span class="line"> *     &#125;,</span><br><span class="line"> *     "translation" = "Drupal\user\ProfileTranslationHandler"</span><br><span class="line"> *   &#125;,</span><br><span class="line"> *   admin_permission = "administer user",</span><br><span class="line"> *   base_table = "users",</span><br><span class="line"> *   data_table = "users_field_data",</span><br><span class="line"> *   label_callback = "user_format_name",</span><br><span class="line"> *   translatable = TRUE,</span><br><span class="line"> *   entity_keys = &#123;</span><br><span class="line"> *     "id" = "uid",</span><br><span class="line"> *     "langcode" = "langcode",</span><br><span class="line"> *     "uuid" = "uuid"</span><br><span class="line"> *   &#125;,</span><br><span class="line"> *   links = &#123;</span><br><span class="line"> *     "canonical" = "/user/&#123;user&#125;",</span><br><span class="line"> *     "edit-form" = "/user/&#123;user&#125;/edit",</span><br><span class="line"> *     "cancel-form" = "/user/&#123;user&#125;/cancel",</span><br><span class="line"> *     "collection" = "/admin/people",</span><br><span class="line"> *   &#125;,</span><br><span class="line"> *   field_ui_base_route = "entity.user.admin_form",</span><br><span class="line"> * )</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">ContentEntityBase</span> <span class="keyword">implements</span> <span class="title">UserInterface</span> </span>&#123;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>@ConfigEntityType继承自Drupal\Core\Config\Entity\ConfigEntityBase类。</p>
+<p>参考文章：<br>1、<a href="https://www.drupal.org/node/1882526" target="_blank" rel="external">https://www.drupal.org/node/1882526</a><br>2、<a href="https://www.drupal.org/node/2207559" target="_blank" rel="external">https://www.drupal.org/node/2207559</a><br>3、<a href="https://www.drupal.org/node/1638040" target="_blank" rel="external">https://www.drupal.org/node/1638040</a><br>4、<a href="http://lakshminp-lakshminp.rhcloud.com/annotations-in-drupal-8/" target="_blank" rel="external">http://lakshminp-lakshminp.rhcloud.com/annotations-in-drupal-8/</a><br>5、<a href="https://docs.phalconphp.com/zh/latest/reference/annotations.html" target="_blank" rel="external">https://docs.phalconphp.com/zh/latest/reference/annotations.html</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/11/Drupal8命名空间-Namespace/" itemprop="url">
                   Drupal8命名空间(Namespace)
                 </a>
@@ -959,523 +1103,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/19/Drupal8主题-theme/" itemprop="url">
-                  Drupal8主题(theme)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-19T16:35:16+08:00" content="2015-11-19">
-              2015-11-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/19/Drupal8主题-theme/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/19/Drupal8主题-theme/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h2 id="Drupal8中的Twig">Drupal8中的Twig</h2><p>Drupal8中Twig替换了PHPTemplate作为默认的模板引擎，导致的结果之一就是模版的后缀由原来的.tpl.php变成了.html.twig</p>
-<h3 id="搜索Twig模版中的变量">搜索Twig模版中的变量</h3><p>在使用Twig模版的时候，大部分的变量都已注释的形式写在了模版中。然后，当我们新增了变量，我们就需要一个可以搜索到当前模版所有变量的方法。Twig提供了<code>dump</code>函数。</p>
-<p><code>dump</code>函数并不会打印所有的输出，除非开启了debug。</p>
-<p><code>dump</code>函数用于打印单个变量的信息或者模版中的所有变量。</p>
-<h4 id="单个变量">单个变量</h4><p>如果你的模版中有一个title变量，下面在你的模版中dump出这个变量的内容：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;<span class="collection">&#123; dump<span class="list">(<span class="keyword">title</span>)</span> &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<h4 id="模版中的所有变量">模版中的所有变量</h4><p>要打印出模版中的所有的变量，你可以：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;<span class="collection">&#123; dump<span class="list">()</span> &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<p>要打印出变量的键：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;<span class="collection">&#123; dump<span class="list">(<span class="keyword">_context</span>|keys)</span> &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<p>PS: 这里的_context是一全局变量，指当前模版中所有的上下文和变量，比如通过theme函数传递的变量，preprocess函数处理的变量，或者调用set设置的变量。</p>
-<p><strong>全局变量：</strong></p>
-<ul>
-<li>_context 当前模版中所有的上下文和变量</li>
-<li>_charset 只当前的编码方式</li>
-</ul>
-<h4 id="慎用dump()">慎用dump()</h4><p><code>dump()</code>函数虽然可以输出所有的变量，但是却带来了巨大的内存消耗，故你可以循环<code>_context</code>来查看所有的键：</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">ol</span>&gt;</span></span><br><span class="line">  </span><span class="template_tag">&#123;% <span class="keyword">for</span> key, value <span class="keyword">in</span> _context  %&#125;</span><span class="xml"></span><br><span class="line">    <span class="tag">&lt;<span class="title">li</span>&gt;</span></span><span class="variable">&#123;&#123; key &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="title">li</span>&gt;</span></span><br><span class="line">  </span><span class="template_tag">&#123;% <span class="keyword">endfor</span> %&#125;</span><span class="xml"></span><br><span class="line"><span class="tag">&lt;/<span class="title">ol</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>接下来再加上一些条件判断，就可以看到你需要的变量了。</p>
-<h2 id="Drupal8主题">Drupal8主题</h2><h3 id="模版命名惯例">模版命名惯例</h3><p>Drupal是按照一定的命名惯例来加载模版的，这就方便开发者可以覆盖原有的模版。当然，记得清除缓存。</p>
-<h4 id="HTML">HTML</h4><p>HTML模版提供了包括head，title以及body标签等基础结构的html页面。</p>
-<p>基础模版：html.html.twig(位于：core/modules/system/templates/html.html.twig)</p>
-<p>下面是一些你可以覆盖的基础模版的例子：</p>
-<ol>
-<li>html—internalviewpath.html.twig</li>
-<li>html—node—id.html.twig</li>
-<li>html.html.twig</li>
-</ol>
-<h4 id="Page">Page</h4><p>模版名称模式：page—[front|internal/path].html.twig</p>
-<p>基础模版：page.html.twig(位于: core/modules/system/templates/page.html.twig)</p>
-<p>下面是page模版的模版建议，举个例子“<a href="http://www.example.com/node/1/edit”：" target="_blank" rel="external">http://www.example.com/node/1/edit”：</a></p>
-<ol>
-<li>page—node—edit.html.twig</li>
-<li>page—node—1.html.twig</li>
-<li>page—node.html.twig</li>
-<li>page.html.twig</li>
-</ol>
-<h4 id="Regions">Regions</h4><p>模版名称模式：region—[region].html.twig</p>
-<p>基础模版：region.html.twig(位于: core/modules/system/templates/region.html.twig)</p>
-<p>当一个页面的区域中有内容时，系统会从区块系统或者一个类似于<code>hook_page_build()</code>的方法中调用区域模版。</p>
-<h4 id="Blocks">Blocks</h4><p>模版名称模式：block—[module|-delta]].html.twig</p>
-<p>基础模版：block.html.twig (位于: core/modules/block/templates/block.html.twig)</p>
-<ol>
-<li>block—module—delta.html.twig</li>
-<li>block—module.html.twig</li>
-<li>block.html.twig</li>
-</ol>
-<p>这里的module就是模块名，delta是模块给区块设置的内部id标识</p>
-<h4 id="Nodes">Nodes</h4><p>模版名称模式：node—[type|nodeid]—[viewmode].html.twig<br>基础模版：node.html.twig (位于: core/modules/node/templates/node.html.twig)</p>
-<p>模版建议：</p>
-<ol>
-<li>node—nodeid—viewmode.html.twig</li>
-<li>node—nodeid.html.twig</li>
-<li>node—type—viewmode.html.twig</li>
-<li>node—type.html.twig</li>
-<li>node—viewmode.html.twig</li>
-<li>node.html.twig</li>
-</ol>
-<h4 id="Forums">Forums</h4><p>模版名称模式：forums—[[container|topic]—forumID].html.twig</p>
-<p>基础模版： forums.html.twig (位于: core/modules/forum/templates/forums.html.twig)</p>
-<p>模版建议：</p>
-<ul>
-<li><p>论坛容器：</p>
-<ol>
-<li>forums—containers—forumID.html.twig</li>
-<li>forums—forumID.html.twig</li>
-<li>forums—containers.html.twig</li>
-<li>forums.html.twig</li>
-</ol>
-</li>
-<li><p>论坛主题内容</p>
-<ol>
-<li>forums—topics—forumID.html.twig</li>
-<li>forums—forumID.html.twig</li>
-<li>forums—topics.html.twig</li>
-<li>forums.html.twig</li>
-</ol>
-</li>
-</ul>
-<h3 id="PHPTemplate与Twig主题范例的比较">PHPTemplate与Twig主题范例的比较</h3><p>接下来，看下PHPTemplate与Twig的区别。</p>
-<h4 id="关于Twig">关于Twig</h4><p>Twig是基于php的编译模版语言。当你的页面需要渲染显示的时候，Twig引擎会找到对应的模版并把它编译成php模版，存放在sites/default/files/php_storage/目录下。</p>
-<h5 id="1-Docblock">1.Docblock</h5><p>PHPTemplate：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> </span><br><span class="line"><span class="comment">/** </span><br><span class="line"> *<span class="phpdoc"> @file</span></span><br><span class="line"> * File description</span><br><span class="line"> */</span></span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig：</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="comment"># </span></span><br><span class="line">/<span class="keyword">*</span><span class="keyword">*</span> </span><br><span class="line"> <span class="keyword">*</span> <span class="comment">@file</span></span><br><span class="line"> <span class="keyword">*</span> File description</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line"><span class="comment">#&#125;</span></span><br></pre></td></tr></table></figure>
-<h5 id="2-文件和函数名">2.文件和函数名</h5><p>PHPTemplate文件：node—article.tpl.php<br>Twig文件：node—article.html.twig</p>
-<p>PHPTemplate函数：theme_node_links()<br>Twig文件：node-links.html.twig</p>
-<h5 id="3-变量">3.变量</h5><p><strong>输出一个变量</strong></p>
-<p>PHPTemplate: </p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"content"</span>&gt;</span><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">print</span> <span class="variable">$content</span>; <span class="preprocessor">?&gt;</span></span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"content"</span>&gt;</span></span><span class="expression">&#123;&#123; <span class="variable">content</span> &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>输出一个哈希键值</strong></p>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">print</span> <span class="variable">$item</span>[<span class="string">'#item'</span>][<span class="string">'alt'</span>]; <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="expression">&#123;&#123; <span class="variable">item</span>['<span class="begin-block">#item</span>']<span class="variable">.alt</span> &#125;&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p><strong>变量赋值</strong></p>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="variable">$custom_var</span> = <span class="variable">$content</span>-&gt;comments; <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight twig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% <span class="keyword">set</span> custom_var = content.comments %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p><strong>数组初始化</strong></p>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line">  <span class="variable">$args</span> = <span class="keyword">array</span>(<span class="string">'!author'</span> =&gt; <span class="variable">$author</span>, <span class="string">'!date'</span> =&gt; <span class="variable">$created</span>);</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="preprocessor">%</span> set args = &#123;<span class="string">'!author'</span>: author, <span class="string">'!date'</span>: created&#125; <span class="preprocessor">%</span>&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="4-条件判断">4.条件判断</h5><p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">if</span> (<span class="variable">$content</span>-&gt;comments): <span class="keyword">endif</span>; <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% <span class="keyword">if</span> content.comments %&#125;</span><span class="xml"> </span><span class="template_tag">&#123;% <span class="keyword">endif</span> %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">if</span> (!<span class="keyword">empty</span>(<span class="variable">$content</span>-&gt;comments)): <span class="keyword">endif</span>; <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% <span class="keyword">if</span> content.comments is not <span class="keyword">empty</span> %&#125;</span><span class="xml"> </span><span class="template_tag">&#123;% <span class="keyword">endif</span> %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$content</span>-&gt;comments)): <span class="keyword">endif</span>; <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% <span class="keyword">if</span> content.comments is defined %&#125;</span><span class="xml"> </span><span class="template_tag">&#123;% <span class="keyword">endif</span> %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">if</span> (<span class="variable">$count</span> &gt; <span class="number">0</span>): <span class="keyword">endif</span>; <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% <span class="keyword">if</span> count &gt; 0 %&#125;</span><span class="xml"> </span><span class="template_tag">&#123;% <span class="keyword">endif</span> %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<h5 id="5-控制结构">5.控制结构</h5><p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">foreach</span> (<span class="variable">$users</span> <span class="keyword">as</span> <span class="variable">$user</span>) &#123;&#125; <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% <span class="keyword">for</span> user <span class="keyword">in</span> users %&#125;</span><span class="xml"> </span><span class="template_tag">&#123;% <span class="keyword">endfor</span> %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<h5 id="6-过滤">6.过滤</h5><p><strong>check_plain：</strong></p>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">print</span> check_plain(<span class="variable">$title</span>); <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="variable">&#123;&#123; title<span class="filter">|<span class="keyword">striptags</span></span> &#125;&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p><strong>Translate：</strong></p>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">print</span> t(<span class="string">'Home'</span>); <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="expression">&#123;&#123; '<span class="variable">Home</span>'|<span class="variable">t</span> &#125;&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p><strong>Translate with substitutions:</strong></p>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line">  <span class="keyword">print</span> t(<span class="string">'Welcome, @username'</span>, <span class="keyword">array</span>(<span class="string">'@username'</span> =&gt; <span class="variable">$user</span>-&gt;name));</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="expression">&#123;&#123; '<span class="variable">Welcome</span>, @<span class="variable">username</span>'|<span class="variable">t</span>(&#123; '@<span class="variable">username</span>': <span class="variable">user.name</span> &#125;) &#125;&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p>Drupal8 Twig(采用<a href="https://drupal.org/node/2047135" target="_blank" rel="external">trans</a>标签扩展)</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% set username = user.name %&#125;</span><span class="xml"></span><br><span class="line"></span><span class="template_tag">&#123;% <span class="keyword">trans</span> %&#125;</span><span class="xml"></span><br><span class="line">  Welcome, </span><span class="variable">&#123;&#123; username &#125;&#125;</span><span class="xml"></span><br><span class="line"></span><span class="template_tag">&#123;% endtrans %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p><strong>implode:</strong></p>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">echo</span> implode(<span class="string">', '</span>, <span class="variable">$usernames</span>); <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;<span class="collection">&#123; usernames | join<span class="list">(<span class="keyword">'</span>, ')</span> &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<p>PHPTemplate的例子中$usernames需要是一个字符串数组。原生的Twig也需要$usernames是一个字符串数组。但是Drupal8中的twig还可以是一个可以渲染的数组对象。这就是Drupal8中的twig与原生twig的本质区别。Drupal8中的twig可以“打印”出纯文本和可渲染的数组。</p>
-<p>举个例子：</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% <span class="keyword">set</span> numbers = [&#123;<span class="string">'#markup'</span>: <span class="string">'One'</span>&#125;, &#123;<span class="string">'#markup'</span>:<span class="string">'Two'</span>&#125;, &#123;<span class="string">'#markup'</span>:<span class="string">'Three'</span>&#125;] %&#125;</span><br><span class="line">&#123;&#123; numbers &#125;&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的例子中，每一个数据项都是以逗号相隔的。但是，输出的结果却是：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OneTwoThree</span><br></pre></td></tr></table></figure>
-<p><strong>Escape：</strong></p>
-<p>PHPTemplate:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">echo</span> check_plain(<span class="variable">$title</span>); <span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>原生Twig:</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="expression">&#123;&#123; <span class="variable">title</span>|<span class="variable">e</span> &#125;&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p>Drupal 8 Twig2:</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;<span class="collection">&#123; title &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<h5 id="7-空白">7.空白</h5><figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"body"</span>&gt;</span></span><br><span class="line">  </span><span class="expression">&#123;&#123;<span class="variable">-</span> <span class="variable">block.content</span> <span class="variable">-</span>&#125;&#125;</span><span class="xml"></span><br><span class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>类似于</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"body"</span>&gt;</span></span><span class="expression">&#123;&#123; <span class="variable">block.content</span> &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="debug_twig模版">debug twig模版</h3><p>twig模版引擎提供了一个debug工具。</p>
-<h4 id="启用debugging">启用debugging</h4><p>在sites/default/services.yml启用Twig Debugging。</p>
-<p>设置debug变量为true</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">parameters:</span></span><br><span class="line">  twig.<span class="string">config:</span></span><br><span class="line"><span class="label">    debug:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h4 id="自动加载编译的模版">自动加载编译的模版</h4><p>出于性能考虑，Twig模版被编译成一个PHP类存放在磁盘上，但这意味着默认情况下，你的模版不会在你做出更改时发生刷新。为了使Twig模版可以自动刷新，启用<code>services.yml</code>中的deubg选项。欲知详情，参见：<a href="https://drupal.org/node/1903374" target="_blank" rel="external">https://drupal.org/node/1903374</a></p>
-<p><strong>打印所有的变量</strong></p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;# 打印所有的变量 #&#125;</span></span><br><span class="line"><span class="collection">&#123;<span class="collection">&#123; dump<span class="list">()</span> &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;# 打印单个变量 #&#125;</span></span><br><span class="line"><span class="collection">&#123;<span class="collection">&#123; dump<span class="list">(<span class="keyword"><span class="built_in">var</span></span>)</span> &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<h3 id="Filters—-修改Twig模版中的变量">Filters—-修改Twig模版中的变量</h3><p>Twig中的Filters用于修改变量。Filters和变量之间用管道符号(|)分隔，还可能带点可选的参数。多个filters可以链式的连在一起，前一个的输出作为下一个的输入。</p>
-<p>例如：</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="expression">&#123;&#123; <span class="variable">ponies</span>|<span class="variable">safe</span>_<span class="variable">join</span>(<span class="string">", "</span>)|<span class="variable">lower</span>&#125;&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p>Drupal的Twig模版中使用的filter由所有的Twig引擎自带的filter和drupal中的几个特殊的filters组成。</p>
-<h4 id="Twig_filters">Twig filters</h4><p>详见：<a href="http://twig.sensiolabs.org/doc/filters/index.html" target="_blank" rel="external">twig filter列表</a></p>
-<h4 id="Drupal自身的filters">Drupal自身的filters</h4><p>Drupal中的filters是在<code>Drupal\Core\Template\TwigExtension::getFilters().</code>中声明的。</p>
-<h5 id="翻译filters">翻译filters</h5><p><strong>t</strong></p>
-<p>t filter调用Drupal的t函数翻译给定的字符串，可用于任何字符串。</p>
-<p>例如：</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"</span></span></span><span class="expression">&#123;&#123; <span class="variable">url</span>('&lt;<span class="variable">front</span>&gt;') &#125;&#125;</span><span class="xml"><span class="tag"><span class="value">"</span> <span class="attribute">title</span>=<span class="value">"</span></span></span><span class="expression">&#123;&#123; '<span class="variable">Home</span>'|<span class="variable">t</span> &#125;&#125;</span><span class="xml"><span class="tag"><span class="value">"</span> <span class="attribute">rel</span>=<span class="value">"home"</span> <span class="attribute">class</span>=<span class="value">"site-logo"</span>&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>placeholder输出安全的html并使用<code>drupal_placeholder()</code>进行格式化输出成强调文本。</p>
-<p>例如：</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% <span class="keyword">trans</span> %&#125;</span><span class="xml">Submitted on </span><span class="variable">&#123;&#123; date<span class="filter">|placeholder</span> &#125;&#125;</span><span class="xml"></span><span class="template_tag">&#123;% endtrans %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;<span class="collection">&#123; var1|t &#125;</span>&#125;</span></span><br><span class="line"><span class="collection">&#123;<span class="collection">&#123; var1|placeholder &#125;</span>&#125;</span></span><br><span class="line"><span class="collection">&#123;% trans %&#125;</span><span class="collection">&#123;<span class="collection">&#123; var1 &#125;</span>&#125;</span><span class="collection">&#123;% endtrans %&#125;</span></span><br></pre></td></tr></table></figure>
-<p>尽可能避免使用|raw filter，特别是你正在输出一些用户输入的数据的时候。详见<a href="https://www.drupal.org/node/2296163" target="_blank" rel="external">https://www.drupal.org/node/2296163</a>：</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="expression">&#123;&#123; <span class="variable">var</span>1|<span class="variable">raw</span> &#125;&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<h5 id="额外的filters">额外的filters</h5><p><strong>drupal_escape</strong></p>
-<p>drupal_escape用于将一个字符串进行安全处理后进行插入操作并输出显示，它替代了twig默认的escape filter。参见<a href="https://api.drupal.org/api/drupal/core%21themes%21engines%21twig%21twig.engine/function/twig_drupal_escape_filter/8" target="_blank" rel="external">twig_drupal_escape_filter</a></p>
-<p><strong>safe_join</strong></p>
-<p>safe_join将几个字符串用给定的分隔符连接在一块儿。</p>
-<p>例如：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;<span class="collection">&#123; items|safe_join<span class="list">(<span class="keyword">'</span>, ')</span> &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<p><strong>without</strong></p>
-<p>without会创建出当前这个可以渲染的数组的拷贝，但是会把传入的参数当作键，删除键关联的所有子元素。但是，当前这个数组不受影响，依旧可以打印出子元素。详见：<a href="https://api.drupal.org/api/drupal/core%21themes%21engines%21twig%21twig.engine/function/twig_without/8" target="_blank" rel="external">twig_without</a></p>
-<p>例如：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;# 打印content变量，除了content.links #&#125;</span></span><br><span class="line"><span class="collection">&#123;<span class="collection">&#123; content|without<span class="list">(<span class="keyword">'links'</span>)</span> &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<p><strong>clean_class</strong></p>
-<p>clean_class filter会处理出一个安全的可用的html类名。详见：<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21Html.php/function/Html%3A%3AgetClass/8" target="_blank" rel="external">Html::getClass()</a></p>
-<p><strong>clean_id</strong></p>
-<p>clean_id filter会处理出一个安全的可用的html id。详见：<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21Html.php/function/Html%3A%3AgetId/8" target="_blank" rel="external">Html:getID()</a></p>
-<p><strong>format_date</strong></p>
-<p>format_date filter格式化日期字符串，详见：<a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Datetime!DateFormatter.php/function/DateFormatter%3A%3Aformat/8" target="_blank" rel="external">DateFormatter::format()</a></p>
-<h3 id="Functions—-Twig模版中的函数">Functions—-Twig模版中的函数</h3><p><strong>url()</strong></p>
-<p><strong>path()</strong></p>
-<p><strong>url_from_path()</strong></p>
-<p><strong>link($text, $url, $attributes)</strong></p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="expression">&#123;&#123; <span class="variable">link</span>(<span class="variable">item.title</span>, <span class="variable">item.url</span>, &#123; '<span class="variable">class</span>':['<span class="variable">foo</span>', '<span class="variable">bar</span>', '<span class="variable">baz</span>']&#125; ) &#125;&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<p><strong>file_url($uri)</strong></p>
-<p>路径参数需要是相对网站根目录的相对路径，将会返回这个文件的绝对路径。</p>
-<p><strong>attach_library()</strong></p>
-<h3 id="Twig最佳实践—-预处理函数和模版">Twig最佳实践—-预处理函数和模版</h3><p>为了使Drupal8的主题性能最大化，以及更加的定制化，请遵照如下的最佳实践方式：</p>
-<h4 id="使用预处理函数返回可渲染数组">使用预处理函数返回可渲染数组</h4><p>总是通过预处理函数返回可渲染数组，而不是调用<code>theme()</code>或者<code>drupal_render()</code>函数。</p>
-<p>Twig会自动渲染，故没有必要调用<code>theme()</code>或者<code>drupal_render()</code>函数。此外，为了比直接输出已经渲染的html代码更具定制化，渲染数组应该传递给模版。</p>
-<p>从预处理函数中删除<code>theme()</code>函数：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">// 之前，直接把渲染的html传递给模版</span></span><br><span class="line"><span class="variable">$variables</span>[<span class="string">'table'</span>] = theme(<span class="string">'table'</span>, <span class="keyword">array</span>(<span class="string">'header'</span> =&gt; <span class="variable">$header</span>, <span class="string">'rows'</span> =&gt; <span class="variable">$rows</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 之后，把渲染数组传递给模版</span></span><br><span class="line"><span class="variable">$variables</span>[<span class="string">'table'</span>] = <span class="keyword">array</span>(</span><br><span class="line">  <span class="string">'#theme'</span> =&gt; <span class="string">'table'</span>,</span><br><span class="line">  <span class="string">'#header'</span> =&gt; <span class="variable">$header</span>,</span><br><span class="line">  <span class="string">'#rows'</span> =&gt; <span class="variable">$rows</span>,</span><br><span class="line">);</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>从预处理函数中删除<code>drupal_render()</code>函数就是不再调用它：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">// 之前</span></span><br><span class="line"><span class="variable">$variables</span>[<span class="string">'teaser'</span>] = drupal_render(<span class="variable">$node_teaser</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 之后</span></span><br><span class="line"><span class="variable">$variables</span>[<span class="string">'teaser'</span>] = <span class="variable">$node_teaser</span>;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>通常情况下，<code>drupal_render()</code>函数是在添加表格数据的时候调用。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="comment">// 之前</span></span><br><span class="line"><span class="variable">$row</span>[] = drupal_render(<span class="variable">$display</span>[<span class="string">'title'</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 之后  </span></span><br><span class="line"><span class="variable">$row</span>[][<span class="string">'data'</span>] = <span class="variable">$display</span>[<span class="string">'title'</span>];</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h4 id="在模版中调用filters和工具函数">在模版中调用filters和工具函数</h4><p>举个例子：</p>
-<p><strong>之前的做法：</strong></p>
-<p>预处理函数中：</p>
-<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$variables[<span class="symbol">'no_content_text'</span>] = t(<span class="symbol">'You</span> have not created any content types yet. <span class="type">Go</span> <span class="keyword">to</span> the &lt;a href=<span class="string">"@create-content"</span>&gt;content <span class="keyword">type</span> creation page&lt;/a&gt; <span class="keyword">to</span> add a <span class="keyword">new</span> content <span class="keyword">type</span>.<span class="char">', array('</span>@create-content' =&gt; url(<span class="symbol">'admin</span>/structure/types/add')));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>模版中：</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">p</span>&gt;</span></span><span class="expression">&#123;&#123; <span class="variable">no</span>_<span class="variable">content</span>_<span class="variable">text</span> &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="title">p</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>现在的做法：</strong></p>
-<p>模版中：</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">p</span>&gt;</span></span><span class="expression">&#123;&#123; '<span class="variable">You</span> <span class="variable">have</span> <span class="variable">not</span> <span class="variable">created</span> <span class="variable">any</span> <span class="variable">content</span> <span class="variable">types</span> <span class="variable">yet.</span> <span class="variable">Go</span> <span class="variable">to</span> <span class="variable">the</span> &lt;<span class="variable">a</span> <span class="variable">href</span>=<span class="string">"@create-content"</span>&gt;<span class="variable">content</span> <span class="variable">type</span> <span class="variable">creation</span> <span class="variable">page</span>&lt;<span class="end-block">/a</span>&gt; <span class="variable">to</span> <span class="variable">add</span> <span class="variable">a</span> <span class="variable">new</span> <span class="variable">content</span> <span class="variable">type.</span>'|<span class="variable">t</span>(&#123;'@<span class="variable">create-content</span>': <span class="variable">url</span>('<span class="variable">admin</span><span class="end-block">/structure</span><span class="end-block">/types</span><span class="end-block">/add</span>')&#125;) &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="title">p</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h4 id="显示/隐藏_&amp;_删除drupal_render_children和element_children">显示/隐藏 &amp; 删除drupal_render_children和element_children</h4><p>在原始的模版中，如果调用了<code>hide()</code>函数，而且<code>drupal_render_children</code>函数用于输出”剩下的“数据，我们将需要在预处理的时候把这些数据拆分成单个变量。</p>
-<p><strong>之前(PHPTemplate模版)：</strong></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line">  hide(<span class="variable">$form</span>[<span class="string">'advanced'</span>]);</span><br><span class="line">  hide(<span class="variable">$form</span>[<span class="string">'actions'</span>]);</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br><span class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"layout-node-form clearfix"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"layout-region layout-region-node-main"</span>&gt;</span></span><br><span class="line">    <span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">print</span> drupal_render_children(<span class="variable">$form</span>); <span class="preprocessor">?&gt;</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"layout-region layout-region-node-secondary"</span>&gt;</span></span><br><span class="line">    <span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">print</span> render(<span class="variable">$form</span>[<span class="string">'advanced'</span>]); <span class="preprocessor">?&gt;</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"layout-region layout-region-node-footer"</span>&gt;</span></span><br><span class="line">    <span class="php"><span class="preprocessor">&lt;?php</span> <span class="keyword">print</span> render(<span class="variable">$form</span>[<span class="string">'actions'</span>]); <span class="preprocessor">?&gt;</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><strong>之后(预处理)：</strong></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">template_preprocess_node_edit_form</span><span class="params">(&amp;<span class="variable">$variables</span>)</span> </span>&#123;</span><br><span class="line">  <span class="variable">$form</span> = <span class="variable">$variables</span>[<span class="string">'form'</span>];</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// @todo Update this once drupal.org/node/1920886 is resolved.</span></span><br><span class="line">  <span class="variable">$variables</span>[<span class="string">'advanced'</span>] = <span class="variable">$form</span>[<span class="string">'advanced'</span>];</span><br><span class="line">  <span class="variable">$variables</span>[<span class="string">'actions'</span>] = <span class="variable">$form</span>[<span class="string">'actions'</span>];</span><br><span class="line">  <span class="keyword">unset</span>(<span class="variable">$form</span>[<span class="string">'advanced'</span>], <span class="variable">$form</span>[<span class="string">'actions'</span>]);</span><br><span class="line">  <span class="variable">$variables</span>[<span class="string">'form'</span>] = drupal_render_children(<span class="variable">$form</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>之后(Twig模版)：</strong></p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"layout-node-form clearfix"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"layout-region layout-region-node-main"</span>&gt;</span></span><br><span class="line">    </span><span class="expression">&#123;&#123; <span class="variable">form</span>|<span class="variable">without</span>('<span class="variable">advanced</span>', '<span class="variable">actions</span>') &#125;&#125;</span><span class="xml"></span><br><span class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"layout-region layout-region-node-secondary"</span>&gt;</span></span><br><span class="line">    </span><span class="expression">&#123;&#123; <span class="variable">form.advanced</span> &#125;&#125;</span><span class="xml"></span><br><span class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"layout-region layout-region-node-footer"</span>&gt;</span></span><br><span class="line">    </span><span class="expression">&#123;&#123; <span class="variable">form.actions</span> &#125;&#125;</span><span class="xml"></span><br><span class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="创建Drupal8的主题">创建Drupal8的主题</h2><h3 id="以一个-info-yml文件开始定义一个主题">以一个.info.yml文件开始定义一个主题</h3><p>创建drupal8主题的第一步，就是创建一个THEMENAME.info.yml文件。有一点很重要，.info.yml文件中的“type”键需要设置成“theme”。</p>
-<h4 id="创建一个-info-yml文件">创建一个.info.yml文件</h4><p>在主题文件夹的根目录创建.info.yml文件。文件夹的名字应该保持与.info.yml文件名相同。所以，如果你的主题命名为“Fluffiness”，那么文件夹的名字就是“fluffiness”，而.info.yml文件的名字是“fluffiness/fluffiness.info.yml”。</p>
-<p>例如：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">name</span>: Fluffiness</span><br><span class="line"><span class="attribute">type</span>: theme</span><br><span class="line"><span class="attribute">description</span>: A cuddly theme that offers extra fluffiness.</span><br><span class="line"><span class="attribute">core</span>: <span class="number">8</span>.x</span><br><span class="line"><span class="attribute">libraries</span>:</span><br><span class="line">  - fluffiness/global-styling</span><br><span class="line"><span class="attribute">stylesheets-remove</span>:</span><br><span class="line">  - <span class="string">'@classy/css/components/tabs.css'</span></span><br><span class="line">  - core/assets/vendor/normalize-css/normalize.css</span><br><span class="line"><span class="attribute">regions</span>:</span><br><span class="line">  <span class="attribute">header</span>: Header</span><br><span class="line">  <span class="attribute">content</span>: Content</span><br><span class="line">  <span class="attribute">sidebar_first</span>: <span class="string">'Sidebar first'</span></span><br><span class="line">  <span class="attribute">footer</span>: Footer</span><br></pre></td></tr></table></figure>
-<p>在你的drupal站点中，核心提供的主题包含着很多.info.yml文件可以供你查阅实例。</p>
-<h4 id="配置文件中的键释义">配置文件中的键释义</h4><ul>
-<li>name: Fluffiness  必选。显示在站点外观页面的，可读主题名</li>
-<li>description: An extra cuddly Drupal theme available in grey and blue  必选，主题描述，也会显示在站点外观管理页面</li>
-<li>type: theme  必选项，扩展类型，比如：module, theme 或者 profile。对于主题，这里设置成“theme”</li>
-<li>base theme: classy  可以从另一个主题继承其资源的主题</li>
-<li>core: 8.x  必选，当前主题兼容的Drupal版本</li>
-<li>version: 8.x-1.0</li>
-<li>screenshot: fluffiness.png</li>
-<li><p>libraries:</p>
-<ul>
-<li><p>fluffiness/global-styling</p>
-<p>当主题启用时，为所有的页面加载资源库文件，包括css和js</p>
-<p>例如：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">global-<span class="string">styling:</span></span><br><span class="line"><span class="label">  version:</span> <span class="number">1.</span>x</span><br><span class="line"><span class="label">  css:</span></span><br><span class="line"><span class="label">    theme:</span></span><br><span class="line">      css/style.<span class="string">css:</span> &#123;&#125;</span><br><span class="line">      css/print.<span class="string">css:</span> &#123; <span class="string">media:</span> print &#125;</span><br></pre></td></tr></table></figure>
-<p>当html解析时，就会是：</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">href=</span><span class="string">"css/style.css"</span> <span class="variable">media=</span><span class="string">"all"</span> /&gt;</span><br><span class="line">&lt;link <span class="variable">rel=</span><span class="string">"stylesheet"</span> <span class="variable">href=</span><span class="string">"css/print.css"</span> <span class="variable">media=</span><span class="string">"print"</span> /&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>stylesheets-remove:</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-<span class="ruby"> core/assets/vendor/normalize-css/normalize.css <span class="comment"># 1</span></span><br><span class="line"></span>-<span class="ruby"> <span class="string">'@classy/css/components/tabs.css'</span> <span class="comment"># 2</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong></p>
-<ol>
-<li>stylesheets-remove键定义需要删除的样式，需要设置成完全路径。</li>
-<li>为了方式Drupal核心的资源（例如，jQuery UI的css文件）被删除，请设置为完全路径。此外，为了避免当前这个文件属于某个模块或者主题提供的库的，可以使用token。注意，如果使用token，由于@会被当成YAML，请记得使用引号。</li>
-</ol>
-</li>
-<li><p>regions:</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">header</span>: <span class="string">Header</span></span><br><span class="line"><span class="attribute">content</span>: <span class="string">Content # required!</span></span><br><span class="line"><span class="attribute">sidebar_first</span>: <span class="string">'Sidebar first'</span></span><br><span class="line"><span class="attribute">footer</span>: <span class="string">Footer</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="主题文件夹的结构">主题文件夹的结构</h3><p>主题就是定了视图层的许多文件的集合。.info.yml文件是必须的，下面会列出一个典型的主题文件夹中所包含的文件和文件夹。</p>
-<h4 id="主题的位置">主题的位置</h4><p>主题必须放置在Drupal安装根目录的“themes”文件夹中。注意，核心的主题，例如：Bartik和Seven位于core/themes文件夹下。</p>
-<p>一个好的建议是，创建一个名为“contrib”的文件夹用于存放下载的贡献主题，而“custom”文件夹用于存放自定义的主题。</p>
-<p>主体名称必须小写。</p>
-<h4 id="Drupal的目录结构：">Drupal的目录结构：</h4><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">|-core</span></span><br><span class="line"><span class="string">|  |-modules</span></span><br><span class="line"><span class="string">|  |-themes</span></span><br><span class="line"><span class="string">|  |  |-bartik</span></span><br><span class="line"><span class="string">|  |  |-seven</span></span><br><span class="line">..</span><br><span class="line"><span class="string">|-modules</span></span><br><span class="line"><span class="string">|-themes</span></span><br><span class="line"><span class="string">|  |-contrib</span></span><br><span class="line"><span class="string">|  |  |-zen</span></span><br><span class="line"><span class="string">|  |  |-basic</span></span><br><span class="line"><span class="string">|  |  |-bluemarine</span></span><br><span class="line"><span class="string">|  |-custom</span></span><br><span class="line"><span class="string">|  |  |-fluffiness</span></span><br></pre></td></tr></table></figure>
-<h4 id="主题文件夹结构，假设主题名称是：fluffiness">主题文件夹结构，假设主题名称是：fluffiness</h4><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">|-fluffiness.breakpoints.yml</span></span><br><span class="line"><span class="string">|-fluffiness.info.yml</span></span><br><span class="line"><span class="string">|-fluffiness.libraries.yml</span></span><br><span class="line"><span class="string">|-fluffiness.theme</span></span><br><span class="line"><span class="string">|-config</span></span><br><span class="line"><span class="string">|  |-install</span></span><br><span class="line"><span class="string">|  |  |-fluffiness.settings.yml</span></span><br><span class="line"><span class="string">|  |-schema</span></span><br><span class="line"><span class="string">|  |  |-fluffiness.schema.yml</span></span><br><span class="line"><span class="string">|-css</span></span><br><span class="line"><span class="string">|  |-style.css</span></span><br><span class="line"><span class="string">|-js</span></span><br><span class="line"><span class="string">|  |-fluffiness.js</span></span><br><span class="line"><span class="string">|-images</span></span><br><span class="line"><span class="string">|  |-buttons.png</span></span><br><span class="line"><span class="string">|-logo.png</span></span><br><span class="line"><span class="string">|-screenshot.png</span></span><br><span class="line"><span class="string">|-templates</span></span><br><span class="line"><span class="string">|  |-maintenance-page.html.twig</span></span><br><span class="line"><span class="string">|  |-node.html.twig</span></span><br></pre></td></tr></table></figure>
-<p>下面，介绍一下主题文件夹中的通用文件。</p>
-<h4 id="*-info-yml">*.info.yml</h4><p>主题必须包含*.info.yml文件，此文件定义了meta数据，样式，还有区块和区域信息。</p>
-<h4 id="*-libraries-yml">*.libraries.yml</h4><p>*.libraries.yml文件用于主题启用时需要加载的定义js和css库，详情<a href="https://www.drupal.org/theme-guide/8/adding-javascript" target="_blank" rel="external">点击这里</a></p>
-<h4 id="*-breakpoints-yml">*.breakpoints.yml</h4><p>响应式设计相关的设置，详见：<a href="https://www.drupal.org/documentation/modules/breakpoint" target="_blank" rel="external">*.breakpoints.yml设置</a></p>
-<h4 id="*-theme">*.theme</h4><p>*.theme文件是一个php文件，包含了所有的逻辑处理代码和输出前的预处理。</p>
-<h4 id="css/">css/</h4><p>一个好的建议就是将css文件存放在“css”自目录下。</p>
-<h4 id="js/">js/</h4><p>存放着主题需要的js文件。</p>
-<h4 id="images/">images/</h4><p>存放主题需要的图片</p>
-<h4 id="screenshot-png">screenshot.png</h4><p>主题的预览图</p>
-<h4 id="templates/">templates/</h4><h4 id="核心主题Bartik的目录结构：">核心主题Bartik的目录结构：</h4><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">|-bartik.breakpoints.yml</span></span><br><span class="line"><span class="string">|-bartik.info.yml</span></span><br><span class="line"><span class="string">|-bartik.libraries.yml</span></span><br><span class="line"><span class="string">|-bartik.theme</span></span><br><span class="line"><span class="string">|-color</span></span><br><span class="line"><span class="string">|  |-color.inc</span></span><br><span class="line"><span class="string">|  |-preview.css</span></span><br><span class="line"><span class="string">|  |-preview.html</span></span><br><span class="line"><span class="string">|  |-preview.js</span></span><br><span class="line"><span class="string">|-config</span></span><br><span class="line"><span class="string">|  |-schema</span></span><br><span class="line"><span class="string">|  |  |-bartik.schema.yml</span></span><br><span class="line"><span class="string">|-css</span></span><br><span class="line"><span class="string">|  |-base</span></span><br><span class="line"><span class="string">|  |  |-elements.css</span></span><br><span class="line"><span class="string">|  |-components</span></span><br><span class="line"><span class="string">|  |  |-block.css</span></span><br><span class="line"><span class="string">|  |  |-book.css</span></span><br><span class="line"><span class="string">|  |  |-breadcrumb.css</span></span><br><span class="line">...</span><br><span class="line"><span class="string">|  |-colors.css</span></span><br><span class="line"><span class="string">|  |-layout.css</span></span><br><span class="line"><span class="string">|  |-maintenance-page.css</span></span><br><span class="line"><span class="string">|  |-print.css</span></span><br><span class="line"><span class="string">|-images</span></span><br><span class="line"><span class="string">|  |-add.png</span></span><br><span class="line"><span class="string">|  |-required.svg</span></span><br><span class="line"><span class="string">|  |-tabs-border.png</span></span><br><span class="line"><span class="string">|-logo.svg</span></span><br><span class="line"><span class="string">|-screenshot.png</span></span><br><span class="line"><span class="string">|-templates</span></span><br><span class="line"><span class="string">|  |-block--search-form-block.html.twig</span></span><br><span class="line"><span class="string">|  |-block--system-branding-block.html.twig</span></span><br><span class="line"><span class="string">|  |-block--system-menu-block.html.twig</span></span><br><span class="line"><span class="string">|  |-block.html.twig</span></span><br><span class="line"><span class="string">|  |-comment.html.twig</span></span><br><span class="line"><span class="string">|  |-field--taxonomy-term-reference.html.twig</span></span><br><span class="line"><span class="string">|  |-maintenance-page.html.twig</span></span><br><span class="line"><span class="string">|  |-node.html.twig</span></span><br><span class="line"><span class="string">|  |-page.html.twig</span></span><br><span class="line"><span class="string">|  |-status-messages.html.twig</span></span><br></pre></td></tr></table></figure>
-<h3 id="为主题添加区域">为主题添加区域</h3><p>为主题添加区域需要两步：</p>
-<ul>
-<li>在主题文件.info.yml中添加区域的meta-data</li>
-<li>编辑page.html.twig文件打印新的区域</li>
-</ul>
-<h4 id="info文件中添加区域">info文件中添加区域</h4><p>区域定义成ragions键的子元素：</p>
-<figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Regions</span></span><br><span class="line">regions:</span><br><span class="line">  header: <span class="string">'Header'</span></span><br><span class="line">  <span class="literal">content</span>: <span class="string">'Content'</span></span><br><span class="line">  footer: <span class="string">'Footer'</span></span><br></pre></td></tr></table></figure>
-<p>Region 键应是个字符串，可以包含下划线“_”。</p>
-<h4 id="模版中添加区域">模版中添加区域</h4><p>为了显示区域中的内容，你需要确定新的区域也添加到了page.html.twig模版中。</p>
-<p>例如：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">header</span>: <span class="string">'Header'</span></span><br></pre></td></tr></table></figure>
-<p>模版中输出：</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">&#123;<span class="collection">&#123; page.header &#125;</span>&#125;</span></span><br></pre></td></tr></table></figure>
-<p>此外，你可以把它们当成是Twig模版的普通变量，可以再任何需要的地方打印输出。</p>
-<h4 id="默认区域">默认区域</h4><p>可以在<a href="https://api.drupal.org/api/drupal/core%21modules%21system%21templates%21page.html.twig/8" target="_blank" rel="external">page.html.twig模版文档</a>中查阅默认的区域</p>
-<ol>
-<li>page.header</li>
-<li>page.primary_menu</li>
-<li>page.secondary_menu</li>
-<li>page.highlighted</li>
-<li>page.help</li>
-<li>page.content</li>
-<li>page.sidebar_first</li>
-<li>page.sidebar_second</li>
-<li>page.footer</li>
-<li>page.breadcrumb</li>
-</ol>
-<h3 id="Drupal8主题中添加样式和js">Drupal8主题中添加样式和js</h3><h4 id="与Drupal7主题的区别">与Drupal7主题的区别</h4><p><strong>有四个比较重要的区别：</strong></p>
-<ol>
-<li>去掉了THEME.info文件，取而代之的是THEME.info.yml文件</li>
-<li>THEME.info.yml文件中的stylesheets属性不复存在，改为库的方式引入</li>
-<li>THEME.info.yml文件中的scripts属性不复存在，改为库的方式引入</li>
-<li>每一个页面的js只在需要时才加载，默认情况下，Drupal对于匿名用户不会需要js。这意味着，jquery不会再在每个页面自动加载了。因此，如果你的主题需要jquery或者其它的js，你需要通过“声明依赖关系”来告诉Drupal这个js需要加载</li>
-</ol>
-<p><strong> 加载css/js的步骤：</strong></p>
-<ol>
-<li>将css或者js保存到一个文件</li>
-<li>定义一个包含js和css文件的“library”</li>
-<li>在钩子中，把这个库追加给渲染数组</li>
-</ol>
-<h4 id="定义一个库">定义一个库</h4><p>在主题文件夹中创建*.libraries.yml文件来添加库（假设你的主题名称是<code>fluffiness</code>，那么文件名就是<code>fluffiness.libraries.yml</code>）。每一个库，都是css和js文件的详情列表：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cuddly-<span class="string">slider:</span></span><br><span class="line"><span class="label">  version:</span> <span class="number">1.</span>x</span><br><span class="line"><span class="label">  css:</span></span><br><span class="line"><span class="label">    theme:</span></span><br><span class="line">      css/cuddly-slider.<span class="string">css:</span> &#123;&#125;</span><br><span class="line"><span class="label">  js:</span></span><br><span class="line">    js/cuddly-slider.<span class="string">js:</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>这个例子中，假设<code>cuddly-slider.js</code>文件位于主题的js子目录中。</p>
-<p>然后，需要记住的是，默认情况下，Drupal8不会在每一个页面加载jquery；只在需要时加载。因此，我们需要自己声明，主题的<code>cuddly-slider</code>库依赖<code>jQuery</code>。</p>
-<p>因此，为了保证上例的<code>js/cuddly-slider.js</code>可用，我们需要更新下：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cuddly-<span class="string">slider:</span></span><br><span class="line"><span class="label">  version:</span> <span class="number">1.</span>x</span><br><span class="line"><span class="label">  css:</span></span><br><span class="line"><span class="label">    theme:</span></span><br><span class="line">      css/cuddly-slider.<span class="string">css:</span> &#123;&#125;</span><br><span class="line"><span class="label">  js:</span></span><br><span class="line">    js/cuddly-slider.<span class="string">js:</span> &#123;&#125;</span><br><span class="line"><span class="label">  dependencies:</span></span><br><span class="line">    - core/jquery</span><br></pre></td></tr></table></figure>
-<p>当然，库也可以只包含css，或者只包含js。大部分的主题可能会有一个<code>global-styling</code>库，用于全局加载样式文件：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">global-<span class="string">styling:</span></span><br><span class="line"><span class="label">  version:</span> <span class="number">1.</span>x</span><br><span class="line"><span class="label">  css:</span></span><br><span class="line"><span class="label">    theme:</span></span><br><span class="line">      css/layout.<span class="string">css:</span> &#123;&#125;</span><br><span class="line">      css/style.<span class="string">css:</span> &#123;&#125;</span><br><span class="line">      css/colors.<span class="string">css:</span> &#123;&#125;</span><br><span class="line">      css/print.<span class="string">css:</span> &#123; <span class="string">media:</span> print &#125;</span><br></pre></td></tr></table></figure>
-<p>而且，正如你所想，库中定义的css的顺序就是将来加载的顺序。</p>
-<p>在Drupal7中，你可以把媒体查询属性(screen, print, all)作为<code>stylesheets</code>属性的子键，而现在你可以把它当作值定义，例如：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">css</span>/<span class="tag">print</span><span class="class">.css</span>: &#123; <span class="attribute">media</span>: print &#125;</span><br></pre></td></tr></table></figure>
-<p>现在默认情况下，所有的js文件都在页脚加载。</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">js-<span class="string">header:</span></span><br><span class="line"><span class="label">  header:</span> <span class="literal">true</span></span><br><span class="line"><span class="label">  js:</span></span><br><span class="line">    header.<span class="string">js:</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">js-<span class="string">footer:</span></span><br><span class="line"><span class="label">  js:</span></span><br><span class="line">    footer.<span class="string">js:</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>你得设置<code>header</code>属性为true。</p>
-<h4 id="覆盖扩展库">覆盖扩展库</h4><p>那些定义在<code>*.libraries.yml</code>文件中的库可以通过主题的<code>*.info.yml</code>文件中的<code>libraries-override</code>和<code>libraries-extend</code>项进行覆写和扩展。</p>
-<p><strong>libraries-override</strong></p>
-<p><code>libraries-override</code>是定义在库中，主题用来操作css/js的一种方式，包括删除、替换或者删除css/js。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">libraries-override:</span><br><span class="line">  <span class="comment"># Replace an entire library.</span></span><br><span class="line">  core/drupal.collapse: mytheme/collapse</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Replace an asset with another.</span></span><br><span class="line">  subtheme/library:</span><br><span class="line">    css:</span><br><span class="line">      theme:</span><br><span class="line">        css/layout.css: css/<span class="keyword">my</span>-layout.css</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Remove an asset.</span></span><br><span class="line">  drupal/dialog:</span><br><span class="line">    css:</span><br><span class="line">      theme:</span><br><span class="line">        dialog.theme.css: <span class="constant">false</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Remove an entire library.</span></span><br><span class="line">  core/modernizr: <span class="constant">false</span></span><br></pre></td></tr></table></figure>
-<p><strong>libraries-extend</strong></p>
-<p><em>libraries-extend</em>为主题提供了一种可以修改库的方式。比如，添加额外的主题依赖的库。</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Extend drupal.user: add assets from classy's user libraries.</span><br><span class="line">libraries-extend:</span><br><span class="line">  core/drupal.user: </span><br><span class="line">    -<span class="ruby"> classy/user1</span><br><span class="line"></span>    -<span class="ruby"> classy/user2</span></span><br></pre></td></tr></table></figure>
-<h4 id="追加库到页面中">追加库到页面中</h4><p><strong>在Twig模版中追加库</strong></p>
-<p>通过调用twig的方法，<code>attach_library()</code>可以在twig模版中追加库，例如：</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="expression">&#123;&#123; <span class="variable">attach</span>_<span class="variable">library</span>('<span class="variable">fluffiness</span><span class="end-block">/cuddly-slider</span>') &#125;&#125;</span><span class="xml"></span><br><span class="line"><span class="tag">&lt;<span class="title">div</span>&gt;</span>Some fluffy markup </span><span class="expression">&#123;&#123; <span class="variable">message</span> &#125;&#125;</span><span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>追加给所有的页面</strong></p>
-<p>为了所有页面都加载这个库，需要在主题的<code>*.info.yml</code>文件中，<code>libraries</code>键的下面声明：</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">name:</span> Example</span><br><span class="line"><span class="label">type:</span> theme</span><br><span class="line"><span class="label">core:</span> <span class="number">8.</span><span class="built_in">x</span></span><br><span class="line"><span class="label">libraries:</span></span><br><span class="line">  - fluffiness/cuddly-slider</span><br></pre></td></tr></table></figure>
-<h4 id="为一组页面添加库">为一组页面添加库</h4><p>在大部分情况下，你可能不希望所有的页面加载你的库，而是部分页面加载。举个例子来说，你可能只想在某个特定的区块中加载，或者用户访问某个节点类型时加载。</p>
-<p>主题可以通过实现<code>THEME_preprocess_HOOK()</code>方法达到这个效果。</p>
-<p>例如，你想要在维护页面追加你的库，“HOOK”就是“maintenance_page”，然后你的方法就是：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fluffiness_preprocess_maintenance_page</span><span class="params">(&amp;<span class="variable">$variables</span>)</span> </span>&#123;</span><br><span class="line">  <span class="variable">$variables</span>[<span class="string">'#attached'</span>][<span class="string">'library'</span>][] = <span class="string">'fluffiness/cuddly-slider'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>你也可以为主题的其它hook做同样的事情，当然你的函数中也可以包含逻辑处理。</p>
-<p><strong>重要提示</strong>：最通用的用法是根据当前的路由来加载库：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fluffiness_preprocess_page</span><span class="params">(&amp;<span class="variable">$variables</span>)</span> </span>&#123;</span><br><span class="line">  <span class="variable">$variables</span>[<span class="string">'#cache'</span>][<span class="string">'contexts'</span>][] = <span class="string">'route'</span>;</span><br><span class="line">  <span class="keyword">if</span> (\Drupal::routeMatch()-&gt;getRouteName() === <span class="string">'entity.node.preview'</span>) &#123;</span><br><span class="line">    <span class="variable">$variables</span>[<span class="string">'#attached'</span>][<span class="string">'library'</span>][] = <span class="string">'fluffiness/node-preview'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h4 id="添加可定制的js">添加可定制的js</h4><p>在某些情况下，你可能想要根据某些php计算信息来加载js。</p>
-<p>在这种情况下，像之前一样，创建一个js文件并追加进来，再通过<code>drupalSettings</code>(替换Drupal7中的<code>Drupal.settings</code>)追加一些js设置项并由追加的js文件读取这些设置项。然后，为了使<code>drupalSettings</code>在我们的js文件中生效，我们得像引入jQuery一样操作：我们得在依赖中定义。</p>
-<p>就像这样：</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cuddly-slider:</span><br><span class="line">  version: 1.x</span><br><span class="line">  js:</span><br><span class="line">    js/cuddly-slider.js: &#123;&#125;</span><br><span class="line">  dependencies:</span><br><span class="line">    -<span class="ruby"> core/jquery</span><br><span class="line"></span>    -<span class="ruby"> core/drupalSettings</span></span><br></pre></td></tr></table></figure>
-<p>以及</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fluffiness_page_attachments_alter</span><span class="params">(&amp;<span class="variable">$page</span>)</span> </span>&#123;</span><br><span class="line">  <span class="variable">$page</span>[<span class="string">'#attached'</span>][<span class="string">'library'</span>][] = <span class="string">'fluffiness/cuddly-slider'</span>;</span><br><span class="line">  <span class="variable">$page</span>[<span class="string">'#attached'</span>][<span class="string">'drupalSettings'</span>][<span class="string">'fluffiness'</span>][<span class="string">'cuddlySlider'</span>][<span class="string">'foo'</span>] = <span class="string">'bar'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="preprocessor">?&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>这样<code>cuddly-slider.js</code>就可以访问<code>drupalSettings.fluffiness.cuddlySlider.foo</code>了(这里 === ‘bar’)。</p>
-<h3 id="在模版中使用attributes">在模版中使用attributes</h3><p>attributes是一个在每个twig模版中都有效的对象。attributes用来存储所有的父容器的相关属性，并提供有用的方法给开发者处理这些数据。</p>
-<h4 id="Attribute的方法">Attribute的方法</h4><p><strong>attributes.addClass()</strong></p>
-<p>单个类：</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">div</span></span></span><span class="expression">&#123;&#123;<span class="variable">attributes.addClass</span>('<span class="variable">my-class</span>')&#125;&#125;</span><span class="xml"><span class="tag">&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>多个类：</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="preprocessor">%</span></span><br><span class="line">  set classes = [</span><br><span class="line">    <span class="string">'red'</span>,</span><br><span class="line">    <span class="string">'green'</span>,</span><br><span class="line">  ]</span><br><span class="line"><span class="preprocessor">%</span>&#125;</span><br><span class="line">&lt;div&#123;&#123; attributes.addClass<span class="comment">(classes)</span> &#125;&#125;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<p>将会输出：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"red green"</span>&gt;&lt;/<span class="keyword">div</span>&gt;.</span><br></pre></td></tr></table></figure>
-<p><em>html标签与twig语法之间不能有任何空格！</em></p>
-<p><strong>attributes.removeClass()</strong></p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">&#123;#classes = [ 'red', 'green', 'blue' ] #&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">div</span></span></span><span class="expression">&#123;&#123; <span class="variable">attributes.addClass</span>(<span class="variable">classes</span>)<span class="variable">.removeClass</span>('<span class="variable">green</span>') &#125;&#125;</span><span class="xml"><span class="tag">&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>将会输出：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"red blue"</span>&gt;&lt;/<span class="keyword">div</span>&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>attributes.setAttribute($attribute, $value)</strong></p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">div</span></span></span><span class="expression">&#123;&#123; <span class="variable">attributes.setAttribute</span>('<span class="variable">id</span>', '<span class="variable">myID</span>') &#125;&#125;</span><span class="xml"><span class="tag">&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>将会输出：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"myID"</span>&gt;&lt;/<span class="keyword">div</span>&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>attributes.removeAttribute($attribute, $value)</strong></p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">div</span></span></span><span class="expression">&#123;&#123; <span class="variable">attributes.removeAttribute</span>('<span class="variable">id</span>') &#125;&#125;</span><span class="xml"><span class="tag">&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p><strong>attributes.hasClass($class)</strong></p>
-<figure class="highlight twig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template_tag">&#123;% <span class="keyword">if</span> <span class="function"><span class="keyword">attribute</span>.</span>hasClass(‘myClass') %&#125;</span><span class="xml"></span><br><span class="line"> </span><span class="comment">&#123;# do stuff #&#125;</span><span class="xml"></span><br><span class="line"></span><span class="template_tag">&#123;% <span class="keyword">endif</span> %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<h4 id="其它有用的代码片段">其它有用的代码片段</h4><p><strong>链式</strong></p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="preprocessor">%</span> set classes = [<span class="string">'red'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>] <span class="preprocessor">%</span>&#125;</span><br><span class="line">&#123;<span class="preprocessor">%</span> set my_id = <span class="string">'specific-id'</span> <span class="preprocessor">%</span>&#125;</span><br><span class="line">&#123;<span class="preprocessor">%</span> set image_src = <span class="string">'https://www.drupal.org/files/powered-blue-135x42.png'</span> <span class="preprocessor">%</span>&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">img</span></span></span><span class="expression">&#123;&#123; <span class="variable">attributes.addClass</span>(<span class="variable">classes</span>)<span class="variable">.removeClass</span>('<span class="variable">green</span>')<span class="variable">.setAttribute</span>('<span class="variable">id</span>', <span class="variable">my</span>_<span class="variable">id</span>)<span class="variable">.setAttribute</span>('<span class="variable">src</span>', <span class="variable">image</span>_<span class="variable">src</span>) &#125;&#125;</span><span class="xml"><span class="tag">&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>将会输出：</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="variable">id=</span><span class="string">"specific-id"</span> <span class="variable">class=</span><span class="string">"red blue"</span> <span class="variable">src=</span><span class="string">"https://www.drupal.org/files/powered-blue-135x42.png"</span>&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>使用without filter</strong></p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">”myclass</span> </span></span><span class="expression">&#123;&#123; <span class="variable">attributes.class</span> &#125;&#125;</span><span class="xml"><span class="tag">”</span></span><span class="expression">&#123;&#123;<span class="variable">attributes</span>|<span class="variable">without</span>(‘<span class="variable">class</span>’) &#125;&#125;</span><span class="xml"><span class="tag">&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="Drupal6,_7,_8主题区别">Drupal6, 7, 8主题区别</h3><p>这里列出的是比较重要的Drupal8中的主题变化</p>
-<ol>
-<li>Drupal8默认输出html5</li>
-<li>除了jQuery2.x之外，Drupal8还引入更多的前端框架，例如：<a href="http://modernizr.com/" target="_blank" rel="external">Modernizr</a>，<a href="http://underscorejs.org/" target="_blank" rel="external">Underscore.js</a>，以及<a href="http://backbonejs.org/" target="_blank" rel="external">Backbone.js</a>。</li>
-<li>Drupal8引入了Twig，替换了原来的默认模板引擎PHPTemplate。</li>
-<li>Drupal8处于性能考虑，默认启用了类似css、js合并之类的默认特性。</li>
-<li>在drupal6和drupal7中，可以调用<code>drupal_add_css()</code>和<code>drupal_add_js()</code>函数添加css或者js，现在替换成了在渲染数组中追加<code>#attached</code>属性调用库的方法。</li>
-<li>Drupal8不再支持IE6、7、8，启用jQuery2.0，支持现代HTML5/CSS3浏览器。</li>
-<li>Drupal8不支持那些不支持SVG的浏览器(包括IE8和安卓浏览器2.3)。</li>
-<li>Drupal8的css中，减少了id的使用。</li>
-<li>Drupal8的css结构(文件结构)基于<a href="https://smacss.com/" target="_blank" rel="external">SMACSS</a>和<a href="http://bem.info/" target="_blank" rel="external">BEM</a></li>
-<li>Drupal8将预处理函数中的css类移到了Twig模版中。</li>
-</ol>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1522,21 +1149,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories/">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">57</span>
+              <span class="site-state-item-count">59</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
