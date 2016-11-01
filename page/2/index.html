@@ -229,6 +229,118 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/27/MacOS-查看网络端口情况/" itemprop="url">
+                  MacOS 查看网络端口情况
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-06-27T15:17:17+08:00" content="2016-06-27">
+              2016-06-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/MacOS/" itemprop="url" rel="index">
+                    <span itemprop="name">MacOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/27/MacOS-查看网络端口情况/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/27/MacOS-查看网络端口情况/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h3 id="查看端口是否打开">查看端口是否打开</h3><h4 id="使用_netstat_命令">使用 netstat 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a. `netstat -nat | grep &lt;端口号&gt;`  , 如命令 `netstat -nat | grep <span class="number">3306</span>`</span><br><span class="line">b. `netstat -nat |grep LISTEN`</span><br></pre></td></tr></table></figure>
+<h4 id="使用_lsof_命令">使用 lsof 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yongfu-pro at yongfu-pro.local in ~ [22:39:32]</span></span><br><span class="line">$ lsof -n -P -i TCP <span class="operator">-s</span> TCP:LISTEN</span><br><span class="line">COMMAND PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</span><br><span class="line">php-fpm <span class="number">387</span> yongfu-pro    <span class="number">6</span>u  IPv4 <span class="number">0</span>x6d7f5d3c3a615679      <span class="number">0</span>t0  TCP <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">9000</span> (LISTEN)</span><br><span class="line">Dropbox <span class="number">413</span> yongfu-pro   <span class="number">26</span>u  IPv4 <span class="number">0</span>x6d7f5d3c445e2c09      <span class="number">0</span>t0  TCP *:<span class="number">17500</span> (LISTEN)</span><br><span class="line">php-fpm <span class="number">418</span> yongfu-pro    <span class="number">0</span>u  IPv4 <span class="number">0</span>x6d7f5d3c3a615679      <span class="number">0</span>t0  TCP <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">9000</span> (LISTEN)</span><br><span class="line">php-fpm <span class="number">419</span> yongfu-pro    <span class="number">0</span>u  IPv4 <span class="number">0</span>x6d7f5d3c3a615679      <span class="number">0</span>t0  TCP <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">9000</span> (LISTEN)</span><br><span class="line">php-fpm <span class="number">420</span> yongfu-pro    <span class="number">0</span>u  IPv4 <span class="number">0</span>x6d7f5d3c3a615679      <span class="number">0</span>t0  TCP <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">9000</span> (LISTEN)</span><br><span class="line">stunnel <span class="number">586</span> yongfu-pro    <span class="number">9</span>u  IPv4 <span class="number">0</span>x6d7f5d3c439ff679      <span class="number">0</span>t0  TCP <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">1997</span> (LISTEN)</span><br><span class="line"></span><br><span class="line">lsof命令可以列出当前的所有网络情况， 此命令的解释如下：</span><br><span class="line">-n 表示主机以ip地址显示</span><br><span class="line">-P 表示端口以数字形式显示，默认为端口名称</span><br><span class="line">-i 意义较多，具体 man lsof, 主要是用来过滤lsof的输出结果</span><br><span class="line"><span class="operator">-s</span> 和 -i 配合使用，用于过滤输出</span><br></pre></td></tr></table></figure>
+<h4 id="使用telnet_命令">使用telnet 命令</h4><p>检查本机的3306端口是否打开， 如下<br>telnet 127.0.0.1 3306<br>若该端口没有打开，则会自动退出，并显示如下内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Trying <span class="number">127.0</span>.<span class="number">0.1</span>...</span><br><span class="line">telnet: connect to address <span class="number">127.0</span>.<span class="number">0.1</span>: Connection refused</span><br><span class="line">telnet: Unable to connect to remote host</span><br></pre></td></tr></table></figure>
+<p>若该端口为已打开的状态，则会一直保持连接。</p>
+<h4 id="使用_nc_命令">使用 nc 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yongfu at yf-mac.local in ~ [9:33:14]</span></span><br><span class="line">$ nc  -w <span class="number">10</span> -n -z <span class="number">127.0</span>.<span class="number">0.1</span> <span class="number">1990</span>-<span class="number">1999</span></span><br><span class="line">Connection to <span class="number">127.0</span>.<span class="number">0.1</span> port <span class="number">1997</span> [tcp/*] succeeded!</span><br><span class="line">Connection to <span class="number">127.0</span>.<span class="number">0.1</span> port <span class="number">1998</span> [tcp/*] succeeded!</span><br><span class="line"></span><br><span class="line">-w <span class="number">10</span>  表示等待连接时间为<span class="number">10</span>秒</span><br><span class="line">-n 尽量将端口号名称转换为端口号数字</span><br><span class="line">-z 对需要检查的端口没有输入输出，用于端口扫描模式</span><br><span class="line"><span class="number">127.0</span>.<span class="number">0.1</span>  需要检查的ip地址</span><br><span class="line"><span class="number">1990</span>-<span class="number">1999</span>  可以是一个端口，也可以是一段端口</span><br><span class="line"> 返回结果为开放的端口， 如本例中的 <span class="number">1997</span> 和 <span class="number">1998</span> 端口</span><br></pre></td></tr></table></figure>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/06/Drupal8-angularJS/" itemprop="url">
                   Drupal8中使用AngularJS
                 </a>
@@ -1045,121 +1157,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/21/PHP-Trait多重继承的实现/" itemprop="url">
-                  PHP Trait多重继承的实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-05-21T14:13:20+08:00" content="2016-05-21">
-              2016-05-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/PHP/" itemprop="url" rel="index">
-                    <span itemprop="name">PHP</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/21/PHP-Trait多重继承的实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/21/PHP-Trait多重继承的实现/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>官方地址：<br><a href="http://php.net/manual/en/language.oop5.traits.php" target="_blank" rel="external">http://php.net/manual/en/language.oop5.traits.php</a></p>
-<p>自 PHP 5.4.0 起，PHP 实现了代码复用的一个方法，称为 traits。</p>
-<p>Traits 是一种为类似 PHP 的单继承语言而准备的代码复用机制。Trait 为了减少单继承语言的限制，使开发人员能够自由地在不同层次结构内独立的类中复用方法集。Traits 和类组合的语义是定义了一种方式来减少复杂性，避免传统多继承和混入类（Mixin）相关的典型问题。</p>
-<p>Trait 和一个类相似，但仅仅旨在用细粒度和一致的方式来组合功能。Trait 不能通过它自身来实例化。它为传统继承增加了水平特性的组合；也就是说，应用类的成员不需要继承。</p>
-<p>在我理解说白了就是在继承类链中隔离了子类继承父类的某些特性（就是子类“要用父类的特性的时候”，如果trait有，就优先调用trait的方法、属性等）。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">&lt;?php</span></span><br><span class="line"><span class="keyword">trait</span> MyTrait</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$var</span> = <span class="string">"MyTrait_var"</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$var1</span> = <span class="string">"MyTrait_var"</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$this</span>-&gt;var.PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">a</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"a"</span>.PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">MyInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAbstract</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$var2</span> = <span class="string">"MyAbstract_var"</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">use</span> <span class="title">MyTrait</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"b"</span>.PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> <span class="keyword">extends</span> <span class="title">MyAbstract</span> <span class="keyword">implements</span> <span class="title">MyInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$var3</span> = <span class="string">"MyClass_var"</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//也可以在这里引用，不区分继承关系</span></span><br><span class="line">    <span class="comment">//use MyTrait;</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">c</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"c"</span>.PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="variable">$class</span> = <span class="keyword">new</span> MyClass();</span><br><span class="line"><span class="variable">$class</span>-&gt;a();</span><br><span class="line"><span class="variable">$class</span>-&gt;b();</span><br><span class="line"><span class="variable">$class</span>-&gt;c();</span><br></pre></td></tr></table></figure>
-<p>输出结果<br>MyTrait_var<br>a<br>b<br>c</p>
-<p>总结：</p>
-<p>从本质上说，trait和include文件的概念差不多<br>trait可以更加方便的实现代码复用，因为我们用继承关系实现的无法在父类中访问子类的private属性与方法，而trait就和把代码直接写在对象里效果一样。<br>使用trait时候应该坚决避免命名冲突，尤其是同时使用多个trait时。<br>如果产生了命名冲突，如果两者的可见性、初始值、static与否完全相同，则trait中的会覆盖掉对象中的，并抛出E_STRICT错误，否则会抛出E_COMPILE_ERROR错误，终止编译。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1206,7 +1203,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-count">70</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1220,7 +1217,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">59</span>
+              <span class="site-state-item-count">60</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

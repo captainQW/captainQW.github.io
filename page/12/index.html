@@ -229,6 +229,117 @@
             
               
                 
+                <a class="post-title-link" href="/2013/12/11/Drupal-apc缓存配置策略/" itemprop="url">
+                  Drupal apc缓存配置策略
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2013-12-11T17:38:28+08:00" content="2013-12-11">
+              2013-12-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/12/11/Drupal-apc缓存配置策略/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/12/11/Drupal-apc缓存配置策略/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>今天发现在如果开起来 apc缓存。并开启缓存页面（不从数据库拿）,匿名用户会返回500。。。。<br>配置代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$conf</span>[<span class="string">'page_cache_without_database'</span>] = <span class="keyword">TRUE</span>;</span><br></pre></td></tr></table></figure>
+<p>通过追踪代码，发现drupal针对匿名用户并没有设置缓存。那用apc缓存了当然会有问题，修改代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="number">1</span>) &#123;</span><br><span class="line">  <span class="variable">$conf</span>[<span class="string">'cache_backends'</span>] = <span class="keyword">array</span>(<span class="string">'sites/all/modules/apc/drupal_apc_cache.inc'</span>);</span><br><span class="line">  <span class="keyword">if</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// Use APC by default (cache everything.)</span></span><br><span class="line">    <span class="variable">$conf</span>[<span class="string">'cache_default_class'</span>] = <span class="string">'DrupalAPCCache'</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="number">1</span>) &#123;</span><br><span class="line">      <span class="comment">// Page cache without database and module hooks (approx twice as fast.)</span></span><br><span class="line">      <span class="variable">$conf</span>[<span class="string">'page_cache_invoke_hooks'</span>] = <span class="keyword">FALSE</span>;</span><br><span class="line">      <span class="variable">$conf</span>[<span class="string">'page_cache_without_database'</span>] = <span class="keyword">TRUE</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Use APC for "cache" and "bootstrap" only.</span></span><br><span class="line">    <span class="variable">$conf</span>[<span class="string">'cache_class_cache'</span>] = <span class="string">'DrupalAPCCache'</span>;</span><br><span class="line">    <span class="variable">$conf</span>[<span class="string">'cache_class_cache_bootstrap'</span>] = <span class="string">'DrupalAPCCache'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>问题解决. </p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/12/11/Drupal导入翻译/" itemprop="url">
                   Drupal导入翻译
                 </a>
@@ -584,7 +695,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-count">70</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -598,7 +709,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">59</span>
+              <span class="site-state-item-count">60</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

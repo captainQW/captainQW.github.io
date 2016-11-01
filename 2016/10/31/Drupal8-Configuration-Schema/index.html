@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="oop," />
+  <meta name="keywords" content="configuration schema," />
 
 
 
@@ -55,18 +55,24 @@
 
 
 
-<meta name="description" content="这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。
-一、数据类型什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。但是对于">
+<meta name="description" content="Drupal 8中configuration schema是用来描述配置文件的结构的. 它应用于:定型配置以确保数据一致性(see StorableConfigBase::castValue())
+自动持久化实体属性的配置 (see ConfigEntityBase::toArray())
+自动生成用户界面的翻译配置 (see the core module)
+1、一个简单的示例如下:123456">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Drupal8面向对象(OOP)">
-<meta property="og:url" content="http://verynull.com/2015/11/16/Drupal8面向对象-OOP/index.html">
+<meta property="og:title" content="drupal8 configuration schema">
+<meta property="og:url" content="http://verynull.com/2016/10/31/Drupal8-Configuration-Schema/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
-<meta property="og:description" content="这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。
-一、数据类型什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。但是对于">
+<meta property="og:description" content="Drupal 8中configuration schema是用来描述配置文件的结构的. 它应用于:定型配置以确保数据一致性(see StorableConfigBase::castValue())
+自动持久化实体属性的配置 (see ConfigEntityBase::toArray())
+自动生成用户界面的翻译配置 (see the core module)
+1、一个简单的示例如下:123456">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Drupal8面向对象(OOP)">
-<meta name="twitter:description" content="这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。
-一、数据类型什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。但是对于">
+<meta name="twitter:title" content="drupal8 configuration schema">
+<meta name="twitter:description" content="Drupal 8中configuration schema是用来描述配置文件的结构的. 它应用于:定型配置以确保数据一致性(see StorableConfigBase::castValue())
+自动持久化实体属性的配置 (see ConfigEntityBase::toArray())
+自动生成用户界面的翻译配置 (see the core module)
+1、一个简单的示例如下:123456">
 
 
 
@@ -78,7 +84,7 @@
   };
 </script>
 
-  <title> Drupal8面向对象(OOP) | Rambo's Blog </title>
+  <title> drupal8 configuration schema | Rambo's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -218,7 +224,7 @@
             
             
               
-                Drupal8面向对象(OOP)
+                drupal8 configuration schema
               
             
           </h1>
@@ -227,8 +233,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-11-16T15:16:30+08:00" content="2015-11-16">
-              2015-11-16
+            <time itemprop="dateCreated" datetime="2016-10-31T16:39:15+08:00" content="2016-10-31">
+              2016-10-31
             </time>
           </span>
 
@@ -253,8 +259,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/11/16/Drupal8面向对象-OOP/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/16/Drupal8面向对象-OOP/" itemprop="commentsCount"></span>
+                <a href="/2016/10/31/Drupal8-Configuration-Schema/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/31/Drupal8-Configuration-Schema/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -273,33 +279,23 @@
       
 
       
-        <span itemprop="articleBody"><p>这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。<br>OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。</p>
-<h3 id="一、数据类型">一、数据类型</h3><p>什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。<br>但是对于其他的数据类型，如整形(int)等，这种方式就不适用。</p>
-<p>而OOP的优势在于，它允许你自定义数据类型。这些数据类型也称之为”类”，在类中包含一些内部结构，如:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span><br><span class="line"></span>&#123;</span><br><span class="line">  <span class="comment">// 下面是人的成员属性</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$name</span>; <span class="comment">// 人的名子</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$sex</span>; <span class="comment">// 人的性别</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="variable">$age</span>; <span class="comment">// 人的年龄</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 构造函数</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>)</span> </span>&#123;</span><br><span class="line">  	<span class="variable">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">  	<span class="variable">$this</span>-&gt;sex = <span class="variable">$sex</span>;</span><br><span class="line">  	<span class="variable">$this</span>-&gt;age = <span class="variable">$age</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">return</span> <span class="variable">$this</span>-&gt;name . <span class="string">'，性别：'</span> . <span class="variable">$this</span>-&gt;sex . <span class="string">'，年龄：'</span> . <span class="variable">$this</span>-&gt;age;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码定义了一个名叫Person的类，包含三个属性$name, $sex, $age，也包含2个方法。实例化如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$name</span> = <span class="string">'王鹏'</span>;</span><br><span class="line"><span class="variable">$sex</span> = <span class="string">'男'</span>;</span><br><span class="line"><span class="variable">$age</span> = <span class="number">30</span>;</span><br><span class="line"><span class="variable">$myperson</span> = <span class="keyword">new</span> Person(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>);</span><br></pre></td></tr></table></figure>
-<p>$myperson现在就是一个对象实例。对于Drupal来说，类和对象的关系就类似内容类型和内容之间的关系。</p>
-<h3 id="二、类的结构(class)">二、类的结构(class)</h3><p>类的概念：类是具有相同属性和服务的一组对象的集合。它为属于该类的所有对象提供了统一的抽象描述，其内部包括属性和服务两个主要部分。在面向对象的编程语言中，类是一个独立的程序单位，它应该有一个类名并包括属性说明和服务说明两个主要部分。</p>
-<p>这段文字是摘抄自google，比较晦涩难懂。<br>简单说，方法是可以在对象上执行的操作。比如在Person类，我们有一个方法叫getPerson()，我们可以通过引用对象调用TA。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$person</span> = <span class="variable">$myperson</span>-&gt;getPerson();</span><br></pre></td></tr></table></figure>
-<p>当然，我们不能用$myperson-&gt;name或$myperson-&gt;sex来引用这些属性。我们先来看一些关键词public、protected，他们定义了方法或者属性的可见性。public方法或者属性可以外部访问调用，如getPerson()。但是protected仅限于在类或子类的内部调用。而private就只能在类自己内部调用，而不能在它的子类中。</p>
-<p>Drupal中一般声明属性protected,方法声明为public或protected，private一般不赞成使用。</p>
-<h3 id="三、接口(interface)">三、接口(interface)</h3><p>接口是一种特殊的抽象类，抽象类又是一种特殊的类，所以接口也是一种特殊的类，为 什么说接口是一种特殊的抽象类呢？如果一个抽象类里面的所有的方法都是抽象方法，那么我们就换一种声明方法使用“接口”；也就是说接口里面所有的方法必须 都是声明为抽象方法，另外接口里面不能声明变量(但可声明常量constant)，而且接口里面所有的成员都是public权限的。所以子类在实现的时候 也一定要使用public权限实限。</p>
-<p>在类中，Person定义的对象大抵是这样：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>那如何定义接口呢？<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PersonInterface</span> </span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">PersonInterface</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> __construct(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>);</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">/*..........*/</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这就像用户界面定义了人和程序如何交互，而接口定义了方法和对象的交互过程。当然你不能创建一个接口对象，而必须一个接口类。</p>
-<p>说简单点。就是—-接口定义了方法，类实现了方法。</p>
-<h3 id="四、构造方法(constructor)">四、构造方法(constructor)</h3><p>我们再来看Person类中的方法__construct()，它是用两个下划线作为前缀。这是PHP5中引入的。当创建一个对象的时候，会自动调用构造函数，也就是用new这个关键字实例化对象的时候自动调用构造函数。<br>在一个类中只能声明一个构造方法，而是只有在每次创建对象的时候都会去调用一次构造方法，不能主动的调用这个方法，所以通常用它执行一些有用的初始化任务。比如对成属性在创建对象的时候赋初值。如我们上面的代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$myperson</span> = <span class="keyword">new</span> Person(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>);</span><br></pre></td></tr></table></figure>
-<p>它是如何执行的呢？<br>1、在内存中创建一个Person对象<br>2、用new关键字调用__construct方法<br>3、把Person对象复制给$this属性<br>4、创建一个名为$myperson的变量，他并不是一个对象，他用来处理对象<br>5、把$myperson指向内存中的Person对象</p>
-<p>注意：不要在接口中定义构造方法，这样会导致代码逻辑混乱！</p>
-<h3 id="五、继承(inherit)">五、继承(inherit)</h3><p>继承是OOP的一个重要的特性，继承是子类自动共享父类数据结构和方法的机制，这是类之间的一种关系。如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>)</span> </span>&#123;</span><br><span class="line">    <span class="variable">$this</span>-&gt;name = <span class="variable">$name</span>;</span><br><span class="line">    <span class="variable">$this</span>-&gt;sex = <span class="variable">$sex</span>;</span><br><span class="line">    <span class="variable">$this</span>-&gt;age = <span class="variable">$age</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$mystudent</span> = <span class="keyword">new</span> Student(<span class="variable">$name</span>, <span class="variable">$sex</span>, <span class="variable">$age</span>);</span><br></pre></td></tr></table></figure>
-<p>这里声明了Student类是Person的子类，我们这里没有定义getPerson方法，这意味着这个方法继承自Person类，如$mystudent-&gt;getPerson()和$mypeson-&gt;getPerson()执行的结果是一样的。我们这里也没有定义$name, $sex, $age这些属性，他们也是继承自Person父类。</p>
-<p>在C++语言中，一个派生类可以从一个基类派生，也可以从多个基类派生。从一个基类派生的继承称为单继承；从多个基类派生的继承称为多继承。</p>
-<p>但是在PHP和Java语言里面没有多继承，只有单继承，也就是说，一个类只能直接从一个类中继承数据， 这就是我们所说的单继承。</p>
+        <span itemprop="articleBody"><p>Drupal 8中configuration schema是用来描述配置文件的结构的. 它应用于:<br>定型配置以确保数据一致性<br>(see StorableConfigBase::castValue())</p>
+<p>自动持久化实体属性的配置<br> (see ConfigEntityBase::toArray())</p>
+<p>自动生成用户界面的翻译配置<br> (see the core module)</p>
+<p>1、一个简单的示例<br>如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">config/install/my_module.settings.yml</span><br><span class="line">type: warning</span><br><span class="line">message: <span class="string">'Hello!'</span></span><br><span class="line">langcode: en</span><br><span class="line"></span><br><span class="line">config/schema/my_module.schema.yml</span><br><span class="line">my_module.settings:</span><br><span class="line">  type: config_object</span><br><span class="line">  mapping:</span><br><span class="line">    type:</span><br><span class="line">	  type: string</span><br><span class="line">	  label: <span class="string">'Message type'</span></span><br><span class="line">	message:</span><br><span class="line">	  type: label</span><br><span class="line">	  label: <span class="string">'Message text'</span></span><br><span class="line">	langcode:</span><br><span class="line">	  type: string</span><br><span class="line">	  label: <span class="string">'Language code'</span></span><br></pre></td></tr></table></figure></p>
+<p>需要说明的是，my_module.schema.yml我们可以认为是一个自定义的数据结构体，而my_module.settings.yml则是给这个自定义的数据结构体定义了默认值，<br>在my_module.schema.yml中我们可以看到这个数据结构体中定义了一个mapping结构体(可以简单的认为是一个数组类型)，这个数组有三个key，分别是type、message、langcode，<br>前面说了my_module.settings.yml是给my_module.schema.yml这个数据结构体定义了默认值，我们可以看到在my_module.settings.yml中type的默认值是warning,message的默认值<br>是’Hello!’,langcode的默认值是en,值的注意的一点是，一个schema.yml文件可以定义多个数据结构体，但是每一个的数据结构体的root元素必须与settings.yml文件的文件名一致，<br>比如上面的两个文件settings.yml文件的文件名是my_module.settings.yml，my_module.schema.yml的root元素的名称就是my_module.settings。</p>
+<p>2、schema中常用的数据类型<br>基本类型：<br>boolean，<br>integer，<br>float，<br>string，<br>uri，<br>email</p>
+<p>列表类型：<br>mapping(知道key是什么)，<br>sequence(不知道key的具体值)</p>
+<p>常见的子类型：<br>label: 短标签<br>text: 长文本<br>config_object: object根元素类型<br>config_entity: entity根元素类型</p>
+<p>子类型化<br>所有configuration schema的子类型都是从现有的类型演化而来.<br>早些时候的简单示例子类型config_object (mapping的一个子类型) 可以进一步自定义key。<br>configuration schema根节点的数据类型一般都是config_object或者config_entity。</p>
+<p>3、关于动态类型[%parent]<br>确切的数据类型可能不会知道，而且还有类型取决于数据的可能性，configuration schema同样支持基于数据的类型。假设Message的类型可能取决于数据的类型：无论Message是一个列表<br>或者是一个简单的警告。让我们用 ‘multiple’ 来定义列表情况,用 ‘warning’ 来表示一个单行的警告。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">config/install/my_module.message.single.yml</span><br><span class="line">type: warning</span><br><span class="line">message: <span class="string">'Hello!'</span></span><br><span class="line">langcode: en</span><br><span class="line"></span><br><span class="line">config/install/my_module.message.multiple.yml</span><br><span class="line">type: multiple</span><br><span class="line">message:</span><br><span class="line"> -<span class="string">'Hello!'</span></span><br><span class="line"> -<span class="string">'Hi!'</span> </span><br><span class="line">langcode: en</span><br><span class="line"></span><br><span class="line">config/schema/my_module.schema.yml</span><br><span class="line">my_module.message.*:</span><br><span class="line"> type: config_object </span><br><span class="line"> mapping:</span><br><span class="line">  type:</span><br><span class="line">   type: string</span><br><span class="line">   label: <span class="string">'Message type'</span></span><br><span class="line">  message:</span><br><span class="line">   type: my_module_message.[%<span class="keyword">parent</span>.type]</span><br><span class="line"> langcode:	</span><br><span class="line">   type: string</span><br><span class="line">   label: <span class="string">'Language code'</span></span><br><span class="line"></span><br><span class="line">my_module_message.warning:</span><br><span class="line"> type: string</span><br><span class="line"></span><br><span class="line">my_module_message.multiple:</span><br><span class="line"> type: sequence</span><br><span class="line"> label: <span class="string">'Messages'</span></span><br><span class="line"> sequence:</span><br><span class="line">  type: string</span><br><span class="line">  label: <span class="string">'Message'</span></span><br></pre></td></tr></table></figure></p>
+<p>首先看my_module.schema.yml这个文件，’my_module.message.*’用了通配符定义结构体，所以它适用于一组配置名称。所以我们看到分别有my_module.message.single.yml跟my_module.message.multiple.yml<br>这两个配置文件。接着往下看my_module.schema.yml，’type: my_module_message.[%parent.type]’ message的类型用了动态元素[%parent.type]来定义，所以在下面我们看到了my_module_message.warning跟<br>my_module_message.multiple两个类型定义，无论是my_module_message.warning还是my_module_message.multiple的前缀都是跟my_module_message.[%parent.type]的前缀一致的，另外需要注意的是内部节点的<br>名称要避免与根节点相同以免造成冲突。</p>
+<p>4、关于动态类型 [type]<br>如果想要在已有的数据下面定义你自己不同的数据类型 那么[type]将会变的非常有用.<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">config/install/my_module.message.single.yml</span><br><span class="line"> message: </span><br><span class="line">  type: warning</span><br><span class="line">  value: <span class="string">'Hello!'</span></span><br><span class="line"> langcode: en</span><br><span class="line"> </span><br><span class="line">config/install/my_module.message.multiple.yml</span><br><span class="line"> message:</span><br><span class="line">  type: multiple </span><br><span class="line">  value:</span><br><span class="line">   -<span class="string">'Hello!'</span></span><br><span class="line">   -<span class="string">'Hi!'</span></span><br><span class="line"> langcode: en</span><br><span class="line"></span><br><span class="line">config/schema/my_module.schema.yml</span><br><span class="line">my_module.message.*:</span><br><span class="line"> type: config_object</span><br><span class="line"> mapping:</span><br><span class="line">  message:</span><br><span class="line">   type: my_module_message.[type]</span><br><span class="line">  […]</span><br><span class="line">  </span><br><span class="line">my_module_message.warning:</span><br><span class="line"> type: mapping</span><br><span class="line"> […]</span><br><span class="line"> </span><br><span class="line">my_module_message.multiple:</span><br><span class="line"> type: mapping</span><br><span class="line"> […]</span><br></pre></td></tr></table></figure></p>
+<p>首先看my_module.schema.yml文件用[type]来动态定义message的类型，所以my_module.schema.yml这个文件中我们又看到了my_module_message.warning跟my_module_message.multiple这两个定义类型，<br>需要说明的是无论是my_module_message.warning还是my_module_message.multiple它们的类型都是mapping类型，那么它们对应的值也必须mapping类型，我们再来看my_module.message.single.yml跟<br>my_module.message.multiple.yml两个文件，message的值也是mapping类型。<br>你同样可以定义一个包含相同的key，例如’type’的 基础类型,并且继承这个基础的类型你可以扩展任何自定义类型的key。</p>
+<p>5、关于动态类型[%key]</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">config/install/my_module.messages.yml</span><br><span class="line">messages: </span><br><span class="line"> <span class="string">'single:1'</span>: <span class="string">'Hello!'</span></span><br><span class="line"> <span class="string">'single:2'</span>: <span class="string">'Hi!'</span></span><br><span class="line"> <span class="string">'multiple:1'</span>:</span><br><span class="line">  -<span class="string">'Good morning!'</span></span><br><span class="line">  -<span class="string">'Good night!'</span></span><br><span class="line">langcode: en</span><br></pre></td></tr></table></figure>
+<p>这是一个任意消息元素的列表.<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">config/schema/my_module.schema.yml</span><br><span class="line"> my_module.messages:</span><br><span class="line">  type: config_object</span><br><span class="line">  mapping:		</span><br><span class="line">   messages:</span><br><span class="line">    type: sequence</span><br><span class="line">    label:<span class="string">'Messages'</span>				</span><br><span class="line">    sequence:				</span><br><span class="line">     type: my_module_message.[%key] </span><br><span class="line">   langcode:</span><br><span class="line">    type: string</span><br><span class="line">    label: <span class="string">'Language code'</span></span><br><span class="line"> </span><br><span class="line"> my_module_message.single:*:</span><br><span class="line">  type: string</span><br><span class="line">  label: <span class="string">'Message'</span></span><br><span class="line"></span><br><span class="line"> my_module_message.multiple:*:</span><br><span class="line">  type: sequence</span><br><span class="line">  label: <span class="string">'Messages'</span></span><br><span class="line">  sequence:</span><br><span class="line">   type: string</span><br><span class="line">   label: <span class="string">'Message'</span></span><br></pre></td></tr></table></figure></p>
+<p>首先看config/schema/my_module.schema.yml，messages的类型是sequence，而sequence的类型则是以my_module_message为前缀的动态类型，再往下看定义了my_module_message.single:<em>:跟<br>my_module_message.multiple:</em>:两个结构类型，这两个类型对应的messages值分别是以’single:<em>‘跟’multiple:</em>‘为前缀的，所以我们在config/install/my_module.messages.yml这个文件中<br>看到了’single:<em>‘跟’multiple:</em>‘为前缀的的messages的默认值</p>
 </span>
       
     </div>
@@ -335,7 +331,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/oop/" rel="tag">#oop</a>
+            <a href="/tags/configuration-schema/" rel="tag">#configuration schema</a>
           
         </div>
       
@@ -344,17 +340,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/11/12/Drupal8-form/" rel="next" title="drupal8表单(form)">
-                <i class="fa fa-chevron-left"></i> drupal8表单(form)
+              <a href="/2016/10/24/windows下安装配置drupalconsole/" rel="next" title="windows下安装配置drupalconsole">
+                <i class="fa fa-chevron-left"></i> windows下安装配置drupalconsole
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/17/CentOS6-4安装oracle-10g教程/" rel="prev" title="CentOS6.4安装oracle 10g教程">
-                CentOS6.4安装oracle 10g教程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -381,8 +373,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/11/16/Drupal8面向对象-OOP/"
-           data-title="Drupal8面向对象(OOP)" data-url="http://verynull.com/2015/11/16/Drupal8面向对象-OOP/">
+      <div class="ds-thread" data-thread-key="2016/10/31/Drupal8-Configuration-Schema/"
+           data-title="drupal8 configuration schema" data-url="http://verynull.com/2016/10/31/Drupal8-Configuration-Schema/">
       </div>
     
   </div>
@@ -489,7 +481,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、数据类型"><span class="nav-number">1.</span> <span class="nav-text">一、数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、类的结构(class)"><span class="nav-number">2.</span> <span class="nav-text">二、类的结构(class)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、接口(interface)"><span class="nav-number">3.</span> <span class="nav-text">三、接口(interface)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、构造方法(constructor)"><span class="nav-number">4.</span> <span class="nav-text">四、构造方法(constructor)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、继承(inherit)"><span class="nav-number">5.</span> <span class="nav-text">五、继承(inherit)</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
