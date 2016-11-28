@@ -63,6 +63,7 @@
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="今天在测试API的时候，apache总是会莫名其妙的报1PHP Fatal error: Cannot call overloaded function for non-object in /var/www/html/includes/database/query.inc on line 331
 找了很久的资料，发现可以配置apache的CoreDumpDirectory命令，其实就是把apach">
+<meta property="og:updated_time" content="2015-05-07T06:34:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Drupal error - Cannot call overloaded function for non-object">
 <meta name="twitter:description" content="今天在测试API的时候，apache总是会莫名其妙的报1PHP Fatal error: Cannot call overloaded function for non-object in /var/www/html/includes/database/query.inc on line 331
@@ -273,7 +274,7 @@
       
 
       
-        <span itemprop="articleBody"><p>今天在测试API的时候，apache总是会莫名其妙的报<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHP Fatal error: Cannot call overloaded <span class="function"><span class="keyword">function</span> <span class="title">for</span> <span class="title">non</span>-<span class="title">object</span> <span class="title">in</span> /<span class="title">var</span>/<span class="title">www</span>/<span class="title">html</span>/<span class="title">includes</span>/<span class="title">database</span>/<span class="title">query</span>.<span class="title">inc</span> <span class="title">on</span> <span class="title">line</span> 331</span></span><br></pre></td></tr></table></figure></p>
+        <span itemprop="articleBody"><p>今天在测试API的时候，apache总是会莫名其妙的报<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PHP Fatal error: Cannot call overloaded <span class="function"><span class="keyword">function</span> <span class="title">for</span> <span class="title">non</span>-<span class="title">object</span> <span class="title">in</span> /<span class="title">var</span>/<span class="title">www</span>/<span class="title">html</span>/<span class="title">includes</span>/<span class="title">database</span>/<span class="title">query</span>.<span class="title">inc</span> <span class="title">on</span> <span class="title">line</span> 331</span></div></pre></td></tr></table></figure></p>
 <p>找了很久的资料，发现可以配置apache的CoreDumpDirectory命令，其实就是把apache的内核目录放到其他目录下。如/tmp/apache_core，并给apache_core文件给予chown apache:apache /tmp/apache_core的权限。这样可以解决问题。</p>
 <p>但是需要注意：<br>该命令会导致tmp文件越来越大。</p>
 <p>使用以下命里进行调试<br>gdb /usr/bin/httpd /tmp/apache_core/core</p>
@@ -403,7 +404,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -417,7 +418,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">60</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

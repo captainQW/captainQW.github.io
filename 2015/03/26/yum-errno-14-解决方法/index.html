@@ -63,6 +63,7 @@
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="今天在安装supervisor的时候，报如下错误
 1234567[root@admin yum.repos.d]# yum repolistLoaded plugins: fastestmirrorDetermining fastest mirrors  http://balabala/repodata/repomd.xml: [Errno 14] problem making ssl conne">
+<meta property="og:updated_time" content="2015-03-26T02:54:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="yum Errno 14 解决方法">
 <meta name="twitter:description" content="今天在安装supervisor的时候，报如下错误
@@ -274,9 +275,9 @@
 
       
         <span itemprop="articleBody"><p>今天在安装supervisor的时候，报如下错误</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@admin yum.repos.d]<span class="comment"># yum repolist</span></span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Determining fastest mirrors  </span><br><span class="line">http:<span class="comment">//balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection</span></span><br><span class="line">Trying other mirror.</span><br><span class="line">http:<span class="comment">//balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection</span></span><br><span class="line">Trying other mirror.</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@admin yum.repos.d]<span class="comment"># yum repolist</span></div><div class="line">Loaded plugins: fastestmirror</div><div class="line">Determining fastest mirrors  </div><div class="line">http:<span class="comment">//balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection</span></div><div class="line">Trying other mirror.</div><div class="line">http:<span class="comment">//balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection</span></div><div class="line">Trying other mirror.</div></pre></td></tr></table></figure>
 <p>排查应该是ssl证书问题有关，网上查了资料发现需要安装 ca-certificates 才行。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ca-certificates -y</span><br></pre></td></tr></table></figure></span>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install ca-certificates -y</div></pre></td></tr></table></figure></span>
       
     </div>
     
@@ -402,7 +403,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -416,7 +417,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">60</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

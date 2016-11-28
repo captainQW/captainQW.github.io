@@ -66,10 +66,12 @@
 <meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624140759_49711.png">
 <meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624141731_29245.jpg">
 <meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624141741_84796.jpg">
+<meta property="og:updated_time" content="2016-08-22T23:11:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="infiniDB安装配置">
 <meta name="twitter:description" content="infiniDB是为大数据而生的列式数据库，适合做统计分析，如SUM,AVG,MAX,MIN等。笔者没有研究过infoBright，貌似需要收费，并且社区版本不支持DML。
 总结了一些infiniDB的特点:1、所有字段的默认值都为NULL，不需要设置其他值。2、不需要创建索引，不需要优化表3、多线程设计，查询时完美利用多CPU4、高并发:理论上无并发的限制,只受制于服务器的容量5、DML(可以视">
+<meta name="twitter:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624140759_49711.png">
 
 
 
@@ -282,7 +284,7 @@
 <blockquote>
 <p>安装过程：</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、访问https://github.com/infinidb/infinidb/blob/<span class="number">4.6</span>.<span class="number">2</span>-<span class="number">1</span>/INSTALL，按照帮助文档进行安装，笔者安装的版本是<span class="number">4.6</span>.<span class="number">2</span></span><br><span class="line"></span><br><span class="line">或者：</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /root</span><br><span class="line">git <span class="built_in">clone</span> http://github.com/infinidb/mysql</span><br><span class="line">git <span class="built_in">clone</span> http://github.com/infinidb/infinidb</span><br><span class="line">-- or --</span><br><span class="line">tar -zxf &lt;srcfile&gt;</span><br><span class="line"><span class="built_in">cd</span> mysql</span><br><span class="line">./configure --prefix=/data/mysql/</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">cd</span> ../infinidb</span><br><span class="line">./configure --prefix=/data/</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">注意：root下的文件夹名称必须为infinidb和mysql，否则编译的时候会报错。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、安装完以后执行/usr/<span class="built_in">local</span>/Calpont/bin/postConfigure进行配置，按默认就行</span><br><span class="line"><span class="number">3</span>、设置一些别名， . /usr/<span class="built_in">local</span>/Calpont/bin/calpontAlias</span><br><span class="line"><span class="number">4</span>、直接访问idbmysql进入管理。</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">1、访问https://github.com/infinidb/infinidb/blob/4.6.2-1/INSTALL，按照帮助文档进行安装，笔者安装的版本是4.6.2</div><div class="line"></div><div class="line">或者：</div><div class="line"></div><div class="line"><span class="built_in">cd</span> /root</div><div class="line">git <span class="built_in">clone</span> http://github.com/infinidb/mysql</div><div class="line">git <span class="built_in">clone</span> http://github.com/infinidb/infinidb</div><div class="line">-- or --</div><div class="line">tar -zxf &lt;srcfile&gt;</div><div class="line"><span class="built_in">cd</span> mysql</div><div class="line">./configure --prefix=/data/mysql/</div><div class="line">make</div><div class="line">make install</div><div class="line"><span class="built_in">cd</span> ../infinidb</div><div class="line">./configure --prefix=/data/</div><div class="line">make</div><div class="line">make install</div><div class="line"></div><div class="line">注意：root下的文件夹名称必须为infinidb和mysql，否则编译的时候会报错。</div><div class="line"></div><div class="line">2、安装完以后执行/usr/<span class="built_in">local</span>/Calpont/bin/postConfigure进行配置，按默认就行</div><div class="line">3、设置一些别名， . /usr/<span class="built_in">local</span>/Calpont/bin/calpontAlias</div><div class="line">4、直接访问idbmysql进入管理。</div></pre></td></tr></table></figure>
 <p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624141731_29245.jpg" alt="idbmysql"></p>
 <blockquote>
 <p>测试</p>
@@ -415,7 +417,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -429,7 +431,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">60</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

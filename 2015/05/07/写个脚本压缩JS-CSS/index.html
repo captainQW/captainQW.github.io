@@ -63,6 +63,7 @@
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="1、下载最新版的yuicompressor.jar1https://github.com/yui/yuicompressor/releases
 2、遍历目录，压缩JS、CSS123456#!/bin/bashfor i in `find path -name &quot;*.css&quot;`;do    echo &quot;compress $i&quot;    java -jar yuicompressor-2.4.8.jar">
+<meta property="og:updated_time" content="2015-06-24T05:40:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="写个脚本压缩JS,CSS">
 <meta name="twitter:description" content="1、下载最新版的yuicompressor.jar1https://github.com/yui/yuicompressor/releases
@@ -273,8 +274,8 @@
       
 
       
-        <span itemprop="articleBody"><p>1、下载最新版的yuicompressor.jar<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//github.com/yui/yuicompressor/releases</span></span><br></pre></td></tr></table></figure></p>
-<p>2、遍历目录，压缩JS、CSS<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="keyword">for</span> i in `find path -name <span class="string">"*.css"</span>`;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"compress $i"</span></span><br><span class="line">    java -jar yuicompressor-<span class="number">2.4</span>.8.jar --charset=utf8 -o <span class="variable">$i</span> <span class="variable">$i</span> --nomunge</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+        <span itemprop="articleBody"><p>1、下载最新版的yuicompressor.jar<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https:<span class="comment">//github.com/yui/yuicompressor/releases</span></div></pre></td></tr></table></figure></p>
+<p>2、遍历目录，压缩JS、CSS<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/bin/bash</span></div><div class="line"><span class="keyword">for</span> i in `find path -name <span class="string">"*.css"</span>`;</div><div class="line"><span class="keyword">do</span></div><div class="line">    <span class="keyword">echo</span> <span class="string">"compress $i"</span></div><div class="line">    java -jar yuicompressor<span class="number">-2.4</span><span class="number">.8</span>.jar --charset=utf8 -o $i $i --nomunge</div><div class="line">done</div></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -401,7 +402,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -415,7 +416,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">60</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

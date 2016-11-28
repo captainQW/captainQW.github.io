@@ -63,6 +63,7 @@
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="用phantomjs去截取中文页面的网站可能会出现乱码的情况，也就是截图中中文的位置全是方框。解决办法就是安装字体。在centos中执行：yum install bitmap-fonts bitmap-fonts-cjk在ubuntu/debian中执行：sudo apt-get install xfonts-wqy这样再去截图中文的页面就不会出现一堆的方框了。
 如果需要使用微软雅黑字体，可以这样">
+<meta property="og:updated_time" content="2015-12-01T05:14:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="phantomjs中文问题">
 <meta name="twitter:description" content="用phantomjs去截取中文页面的网站可能会出现乱码的情况，也就是截图中中文的位置全是方框。解决办法就是安装字体。在centos中执行：yum install bitmap-fonts bitmap-fonts-cjk在ubuntu/debian中执行：sudo apt-get install xfonts-wqy这样再去截图中文的页面就不会出现一堆的方框了。
@@ -275,7 +276,7 @@
       
         <span itemprop="articleBody"><p>用phantomjs去截取中文页面的网站可能会出现乱码的情况，也就是截图中中文的位置全是方框。<br>解决办法就是安装字体。<br>在centos中执行：yum install bitmap-fonts bitmap-fonts-cjk<br>在ubuntu/debian中执行：sudo apt-get install xfonts-wqy<br>这样再去截图中文的页面就不会出现一堆的方框了。</p>
 <p>如果需要使用微软雅黑字体，可以这样操作：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/share/fonts/win/ </span><br><span class="line">  下载微软雅黑字体: </span><br><span class="line">  wget https://nipao.googlecode.com/files/msyh.ttf -O /usr/share/fonts/win/msyh.ttf </span><br><span class="line">  建立字体索引，更新字体缓存: </span><br><span class="line">  <span class="built_in">cd</span> /usr/share/fonts/win/ </span><br><span class="line">  mkfontscale </span><br><span class="line">  mkfontdir </span><br><span class="line">  <span class="built_in">fc</span>-cache</span><br></pre></td></tr></table></figure></span>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mkdir /usr/share/fonts/win/ </div><div class="line">  下载微软雅黑字体: </div><div class="line">  wget https://nipao.googlecode.com/files/msyh.ttf -O /usr/share/fonts/win/msyh.ttf </div><div class="line">  建立字体索引，更新字体缓存: </div><div class="line">  <span class="built_in">cd</span> /usr/share/fonts/win/ </div><div class="line">  mkfontscale </div><div class="line">  mkfontdir </div><div class="line">  <span class="built_in">fc</span>-cache</div></pre></td></tr></table></figure></span>
       
     </div>
     
@@ -401,7 +402,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -415,7 +416,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">60</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

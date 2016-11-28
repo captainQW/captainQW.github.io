@@ -63,6 +63,7 @@
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="通常在做网站开发的时候，接收POST数组通过$_POST即可获取，但是如果把一段 XML 文本直接作为POST DATA提交到服务器时，$_POST是一个空数组，如：1curl -X POST http://www.example.com -H &quot;Accept:application/json&quot; -d &apos;&amp;#123;&quot;ip&quot;:&quot;8.8.4.4&quot;&amp;#125;&apos;
 如何解决这个问题呢，PHP提供了解析R">
+<meta property="og:updated_time" content="2013-12-11T08:41:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP获取Raw POST Data数据">
 <meta name="twitter:description" content="通常在做网站开发的时候，接收POST数组通过$_POST即可获取，但是如果把一段 XML 文本直接作为POST DATA提交到服务器时，$_POST是一个空数组，如：1curl -X POST http://www.example.com -H &quot;Accept:application/json&quot; -d &apos;&amp;#123;&quot;ip&quot;:&quot;8.8.4.4&quot;&amp;#125;&apos;
@@ -273,9 +274,9 @@
       
 
       
-        <span itemprop="articleBody"><p>通常在做网站开发的时候，接收POST数组通过$_POST即可获取，但是如果把一段 XML 文本直接作为POST DATA提交到服务器时，$_POST是一个空数组，如：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST http:<span class="comment">//www.example.com -H "Accept:application/json" -d '&#123;"ip":"8.8.4.4"&#125;'</span></span><br></pre></td></tr></table></figure></p>
+        <span itemprop="articleBody"><p>通常在做网站开发的时候，接收POST数组通过$_POST即可获取，但是如果把一段 XML 文本直接作为POST DATA提交到服务器时，$_POST是一个空数组，如：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -X POST http:<span class="comment">//www.example.com -H "Accept:application/json" -d '&#123;"ip":"8.8.4.4"&#125;'</span></div></pre></td></tr></table></figure></p>
 <p>如何解决这个问题呢，PHP提供了解析Raw POST data的方法，见<a href="http://www.php.net/manual/en/reserved.variables.httprawpostdata.php，用法如下：" target="_blank" rel="external">http://www.php.net/manual/en/reserved.variables.httprawpostdata.php，用法如下：</a></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$postdata</span> = file_get_contents(<span class="string">"php://input"</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$postdata = file_get_contents(<span class="string">"php://input"</span>);</div></pre></td></tr></table></figure>
 <p>解释一下，php://input 是一个资源标识，用 file_get_contents 从这个资源中获取的内容，就是原始的 Raw POST Data。</p>
 </span>
       
@@ -399,7 +400,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -413,7 +414,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">60</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

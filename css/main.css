@@ -961,7 +961,7 @@ body {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff7ab1;
+  background: #e7ffff;
 }
 .sidebar-nav {
   margin: 0 0 20px;
@@ -1842,15 +1842,16 @@ body {
 }
 #rewardButton span {
   display: inline-block;
-  width: 80px;
-  height: 35px;
-  border-radius: 5px;
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
   color: #fff;
-  font-weight: 400;
   font-style: normal;
   font-variant: normal;
+  font-weight: 400;
   font-stretch: normal;
-  font-size: 18px;
+  font-size: 35px;
+  line-height: 75px;
   font-family: "Microsoft Yahei";
   background: #f44336;
 }

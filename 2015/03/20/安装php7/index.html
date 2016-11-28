@@ -65,6 +65,7 @@
 <meta property="og:description" content="推荐用阿里云主机，访问国外飞速。
 1git clone https://git.php.net/repository/php-src.git
 1yum install -y gcc gcc-c++  make zlib zlib-devel pcre pcre-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-dev">
+<meta property="og:updated_time" content="2015-07-20T02:55:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安装php7">
 <meta name="twitter:description" content="推荐用阿里云主机，访问国外飞速。
@@ -277,17 +278,17 @@
 
       
         <span itemprop="articleBody"><p>推荐用阿里云主机，访问国外飞速。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://git.php.net/repository/php-src.git</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y gcc gcc-c++  make zlib zlib-devel pcre pcre-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers curl-devel libXpm-devel libc-client-devel re2c bison bison-devel libmcrypt libmcrypt-devel libcurl libcurl-devel</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./buildconf</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/php7 --with-config-file-path=/usr/<span class="built_in">local</span>/php7/etc --with-mcrypt=/usr/include --with-mysql-sock=/var/lib/mysql/mysql.sock --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-gd --with-iconv --with-zlib --enable-xml --enable-mysqlnd --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --enable-mbregex --enable-fpm --enable-mbstring --enable-ftp --enable-gd-native-ttf --with-openssl --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --without-pear --with-gettext --enable-session --with-curl --with-jpeg-dir --with-freetype-dir --enable-opcache --enable-debug</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://git.php.net/repository/php-src.git</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install -y gcc gcc-c++  make zlib zlib-devel pcre pcre-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers curl-devel libXpm-devel libc-client-devel re2c bison bison-devel libmcrypt libmcrypt-devel libcurl libcurl-devel</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./buildconf</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./configure --prefix=/usr/<span class="built_in">local</span>/php7 --with-config-file-path=/usr/<span class="built_in">local</span>/php7/etc --with-mcrypt=/usr/include --with-mysql-sock=/var/lib/mysql/mysql.sock --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-gd --with-iconv --with-zlib --enable-xml --enable-mysqlnd --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --enable-mbregex --enable-fpm --enable-mbstring --enable-ftp --enable-gd-native-ttf --with-openssl --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --without-pear --with-gettext --enable-session --with-curl --with-jpeg-dir --with-freetype-dir --enable-opcache --enable-debug</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
 <blockquote>
 <p>软连接 ln -s /usr/local/php7/bin/php /usr/bin/php</p>
 <p>在安装目录下有两个php的配置项，php.ini-development和php.ini-production,一个是开发环境用的，一个线上环境用的，改名php.ini并移到/usr/local/php/etc目录。</p>
 <p>php -v</p>
 </blockquote>
-<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">PHP <span class="number">7.0</span>.0-dev (cli) (built: Mar <span class="number">20</span> <span class="number">2015</span> <span class="number">20</span>:<span class="number">04</span>:<span class="number">04</span>) </span><br><span class="line">Copyright (c) <span class="number">1997</span>-<span class="number">2015</span> The PHP Group</span><br><span class="line">Zend Engine v3.0.0-dev, Copyright (c) <span class="number">1998</span>-<span class="number">2015</span> Zend Technologies</span><br></pre></td></tr></table></figure></span>
+<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">PHP <span class="number">7.0</span><span class="number">.0</span>-dev (cli) (built: Mar <span class="number">20</span> <span class="number">2015</span> <span class="number">20</span>:<span class="number">04</span>:<span class="number">04</span>) </div><div class="line">Copyright (c) <span class="number">1997</span><span class="number">-2015</span> The PHP Group</div><div class="line">Zend Engine v3<span class="number">.0</span><span class="number">.0</span>-dev, Copyright (c) <span class="number">1998</span><span class="number">-2015</span> Zend Technologies</div></pre></td></tr></table></figure></span>
 </code></pre></span>
       
     </div>
@@ -414,7 +415,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -428,7 +429,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">60</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

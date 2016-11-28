@@ -73,6 +73,7 @@
 1$conf[&apos;https&apos;] = TRUE;
 3、如果需要去除所有的报错，则在settings.php里做如下设置 
 1$conf[&apos;error_lev">
+<meta property="og:updated_time" content="2015-06-24T05:41:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="drupal7生产环境的一些配置">
 <meta name="twitter:description" content="由于经常需要配置，这里主要是做一个梳理和整理，免得以后忘记
@@ -290,13 +291,13 @@
       
         <span itemprop="articleBody"><p>由于经常需要配置，这里主要是做一个梳理和整理，免得以后忘记</p>
 <p>1、缓存设置，见文章</p>
-<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//176code.com/tags/apc/</span></span><br></pre></td></tr></table></figure></span>
+<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http:<span class="comment">//176code.com/tags/apc/</span></div></pre></td></tr></table></figure></span>
 </code></pre><p>2、如果站点启用了https，必须在settings.php里做如下设置，不然会导致session问题</p>
-<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$conf</span>[<span class="string">'https'</span>] = <span class="keyword">TRUE</span>;</span><br></pre></td></tr></table></figure></span>
+<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$conf[<span class="string">'https'</span>] = <span class="keyword">TRUE</span>;</div></pre></td></tr></table></figure></span>
 </code></pre><p>3、如果需要去除所有的报错，则在settings.php里做如下设置 </p>
-<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$conf</span>[<span class="string">'error_level'</span>] = <span class="number">0</span>;</span><br></pre></td></tr></table></figure></span>
+<pre><code><span class="comment"><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$conf[<span class="string">'error_level'</span>] = <span class="number">0</span>;</div></pre></td></tr></table></figure></span>
 </code></pre><p>4、php.ini设置 date.timezone = Asia/Chongqing</p>
-<p>5、解决跨域问题,在.htaccess里添加如下代码<br>    <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Header set Access-Control-Allow-Origin <span class="string">"*"</span></span><br></pre></td></tr></table></figure></p>
+<p>5、解决跨域问题,在.htaccess里添加如下代码<br>    <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Header set Access-Control-Allow-Origin <span class="string">"*"</span></div></pre></td></tr></table></figure></p>
 </span>
       
     </div>
@@ -423,7 +424,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -437,7 +438,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">60</span>
+              <span class="site-state-item-count">61</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
