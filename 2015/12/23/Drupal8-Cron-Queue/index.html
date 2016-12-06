@@ -57,16 +57,18 @@
 
 <meta name="description" content="Drupal中的Queue(队列)用于处理比较耗时的任务，一般是通过系统的Cron来触发。
 本文github：https://github.com/RamboLau/drupal8-demos/tree/master/queue_example
-一、Drupal7 QueueDrupal7一般是通过hook_cron_queue_info()这个钩子来实现，如：
-12345678910111213">
+###一、Drupal7 Queue
+Drupal7一般是通过hook_cron_queue_info()这个钩子来实现，如：
+1234567891011">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Drupal8 Cron Queue">
 <meta property="og:url" content="http://verynull.com/2015/12/23/Drupal8-Cron-Queue/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="Drupal中的Queue(队列)用于处理比较耗时的任务，一般是通过系统的Cron来触发。
 本文github：https://github.com/RamboLau/drupal8-demos/tree/master/queue_example
-一、Drupal7 QueueDrupal7一般是通过hook_cron_queue_info()这个钩子来实现，如：
-12345678910111213">
+###一、Drupal7 Queue
+Drupal7一般是通过hook_cron_queue_info()这个钩子来实现，如：
+1234567891011">
 <meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151225/20151225142932_68268.png">
 <meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151225/20151225143322_46779.png">
 <meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151225/20151225143400_63877.png">
@@ -75,8 +77,9 @@
 <meta name="twitter:title" content="Drupal8 Cron Queue">
 <meta name="twitter:description" content="Drupal中的Queue(队列)用于处理比较耗时的任务，一般是通过系统的Cron来触发。
 本文github：https://github.com/RamboLau/drupal8-demos/tree/master/queue_example
-一、Drupal7 QueueDrupal7一般是通过hook_cron_queue_info()这个钩子来实现，如：
-12345678910111213">
+###一、Drupal7 Queue
+Drupal7一般是通过hook_cron_queue_info()这个钩子来实现，如：
+1234567891011">
 <meta name="twitter:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151225/20151225142932_68268.png">
 
 
@@ -286,13 +289,18 @@
       
         <span itemprop="articleBody"><p>Drupal中的Queue(队列)用于处理比较耗时的任务，一般是通过系统的Cron来触发。</p>
 <p>本文github：<a href="https://github.com/RamboLau/drupal8-demos/tree/master/queue_example" target="_blank" rel="external">https://github.com/RamboLau/drupal8-demos/tree/master/queue_example</a></p>
-<h3 id="一、Drupal7_Queue">一、Drupal7 Queue</h3><p>Drupal7一般是通过hook_cron_queue_info()这个钩子来实现，如：</p>
+<p>###一、Drupal7 Queue</p>
+<p>Drupal7一般是通过hook_cron_queue_info()这个钩子来实现，如：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Implements hook_cron().</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">queue_example_cron</span><span class="params">()</span> </span>&#123;</div><div class="line">  $queue = DrupalQueue::get(<span class="string">'example_queue'</span>);</div><div class="line"></div><div class="line">  <span class="keyword">foreach</span>(example_data() <span class="keyword">as</span> $item) &#123;</div><div class="line">    $queue-&gt;createItem($item);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Implements hook_cron_queue_info().</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">queue_example_cron_queue_info</span><span class="params">()</span> </span>&#123;</div><div class="line">  $queues = <span class="keyword">array</span>();</div><div class="line"></div><div class="line">  $queues[<span class="string">'example_queue'</span>] = <span class="keyword">array</span>(</div><div class="line">    <span class="string">'worker callback'</span> =&gt; <span class="string">'example_queue_worker'</span>, <span class="comment">// queue调用的函数</span></div><div class="line">    <span class="string">'time'</span> =&gt; <span class="number">60</span>, <span class="comment">//每次运行时，可供消耗的最长时间，单位是秒</span></div><div class="line">  );</div><div class="line"></div><div class="line">  <span class="keyword">return</span> $queues;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="二、Drupal8_Queue">二、Drupal8 Queue</h3><p>Drupal8的Queue(队列)是通过QueueWorker这个插件来实现的。</p>
-<h4 id="1、src/Plugin/QueueWorker/ExampleQueue-php">1、src/Plugin/QueueWorker/ExampleQueue.php</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains Drupal\queue_example\Plugin\QueueWorker\ExampleQueue</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">queue_example</span>\<span class="title">Plugin</span>\<span class="title">QueueWorker</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Queue</span>\<span class="title">QueueWorkerBase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@QueueWorker</span>(</div><div class="line"> *   id = "example_queue",</div><div class="line"> *   title = <span class="doctag">@Translation</span>("example queue"),</div><div class="line"> *   cron = &#123;"time" = 10&#125;</div><div class="line"> * )</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleQueue</span> <span class="keyword">extends</span> <span class="title">QueueWorkerBase</span> </span>&#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">processItem</span><span class="params">($data)</span> </span>&#123;</div><div class="line">    <span class="comment">// Process data here.</span></div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> \<span class="keyword">Exception</span>(<span class="string">'Process data '</span> . json_encode($data));</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<h4 id="2、queue_example-module">2、queue_example.module</h4><p>要执行queue，必选实现hook_cron这个钩子。</p>
+<p>###二、Drupal8 Queue</p>
+<p>Drupal8的Queue(队列)是通过QueueWorker这个插件来实现的。</p>
+<p>####1、src/Plugin/QueueWorker/ExampleQueue.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains Drupal\queue_example\Plugin\QueueWorker\ExampleQueue</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">queue_example</span>\<span class="title">Plugin</span>\<span class="title">QueueWorker</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Queue</span>\<span class="title">QueueWorkerBase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@QueueWorker</span>(</div><div class="line"> *   id = "example_queue",</div><div class="line"> *   title = <span class="doctag">@Translation</span>("example queue"),</div><div class="line"> *   cron = &#123;"time" = 10&#125;</div><div class="line"> * )</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleQueue</span> <span class="keyword">extends</span> <span class="title">QueueWorkerBase</span> </span>&#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">processItem</span><span class="params">($data)</span> </span>&#123;</div><div class="line">    <span class="comment">// Process data here.</span></div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> \<span class="keyword">Exception</span>(<span class="string">'Process data '</span> . json_encode($data));</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>####2、queue_example.module</p>
+<p>要执行queue，必选实现hook_cron这个钩子。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Implements hook_cron().</div><div class="line"> *</div><div class="line"> * <span class="doctag">@see</span> \Drupal\queue_example\Plugin\QueueWorker\ExampleQueue</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">queue_example_cron</span><span class="params">()</span> </span>&#123;</div><div class="line">  $queue = \Drupal::queue(<span class="string">'example_queue'</span>, <span class="keyword">TRUE</span>);</div><div class="line">  $item = [ <span class="string">'entity_type'</span> =&gt; <span class="string">'node'</span>, <span class="string">'id'</span> =&gt; <span class="number">1</span> ];</div><div class="line">  $queue-&gt;createItem($item);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="3、结果">3、结果</h4><p>1）、访问<a href="http://127.0.0.1/drupal8/admin/config/system/cron执行cron" target="_blank" rel="external">http://127.0.0.1/drupal8/admin/config/system/cron执行cron</a><br>2）、打开phpmyadmin，查看queue表</p>
+<p>####3、结果</p>
+<p>1）、访问<a href="http://127.0.0.1/drupal8/admin/config/system/cron执行cron" target="_blank" rel="external">http://127.0.0.1/drupal8/admin/config/system/cron执行cron</a><br>2）、打开phpmyadmin，查看queue表</p>
 <p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151225/20151225142932_68268.png" alt="queue"></p>
 <p>3）、访问<a href="http://127.0.0.1/drupal8/admin/reports/dblog，就可以看到我们在processItem方法中抛出的异常了。" target="_blank" rel="external">http://127.0.0.1/drupal8/admin/reports/dblog，就可以看到我们在processItem方法中抛出的异常了。</a></p>
 <p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151225/20151225143322_46779.png" alt="dblog"></p>
@@ -424,7 +432,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -438,7 +446,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -487,7 +495,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、Drupal7_Queue"><span class="nav-number">1.</span> <span class="nav-text">一、Drupal7 Queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Drupal8_Queue"><span class="nav-number">2.</span> <span class="nav-text">二、Drupal8 Queue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、src/Plugin/QueueWorker/ExampleQueue-php"><span class="nav-number">2.1.</span> <span class="nav-text">1、src/Plugin/QueueWorker/ExampleQueue.php</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、queue_example-module"><span class="nav-number">2.2.</span> <span class="nav-text">2、queue_example.module</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、结果"><span class="nav-number">2.3.</span> <span class="nav-text">3、结果</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

@@ -56,21 +56,24 @@
 
 
 <meta name="description" content="文档见http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。
-1、安装composer作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。composer的安装比较简单。
-1curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/b">
+##1、安装composer
+作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。composer的安装比较简单。
+1curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/us">
 <meta property="og:type" content="article">
 <meta property="og:title" content="drush for drupal8">
 <meta property="og:url" content="http://verynull.com/2015/11/02/Drupal8-drush/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="文档见http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。
-1、安装composer作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。composer的安装比较简单。
-1curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/b">
+##1、安装composer
+作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。composer的安装比较简单。
+1curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/us">
 <meta property="og:updated_time" content="2016-05-23T09:00:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="drush for drupal8">
 <meta name="twitter:description" content="文档见http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。
-1、安装composer作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。composer的安装比较简单。
-1curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/b">
+##1、安装composer
+作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。composer的安装比较简单。
+1curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/us">
 
 
 
@@ -278,10 +281,12 @@
 
       
         <span itemprop="articleBody"><p>文档见<a href="http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。" target="_blank" rel="external">http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。</a></p>
-<h2 id="1、安装composer">1、安装composer</h2><p>作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。<br>composer的安装比较简单。</p>
+<p>##1、安装composer</p>
+<p>作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。<br>composer的安装比较简单。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl <span class="_">-s</span>S https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer</div></pre></td></tr></table></figure>
 <p>vim ~/.bashrc 并添加一条 export PATH=”$HOME/.composer/vendor/bin:$PATH”。</p>
-<h2 id="2、安装drush">2、安装drush</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Create and/or navigate to a path for the single Composer Drush install.</span></div><div class="line">mkdir --parents /opt/drush-8.x</div><div class="line"><span class="built_in">cd</span> /opt/drush-8.x</div><div class="line"><span class="comment"># Initialise a new Composer project that requires Drush.</span></div><div class="line">composer init --require=drush/drush:8.* -n</div><div class="line"><span class="comment"># Configure the path Composer should use for the Drush vendor binaries.</span></div><div class="line">composer config bin-dir /usr/<span class="built_in">local</span>/bin</div><div class="line"><span class="comment"># Install Drush. </span></div><div class="line">composer install</div></pre></td></tr></table></figure>
+<p>##2、安装drush</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Create and/or navigate to a path for the single Composer Drush install.</span></div><div class="line">mkdir --parents /opt/drush-8.x</div><div class="line"><span class="built_in">cd</span> /opt/drush-8.x</div><div class="line"><span class="comment"># Initialise a new Composer project that requires Drush.</span></div><div class="line">composer init --require=drush/drush:8.* -n</div><div class="line"><span class="comment"># Configure the path Composer should use for the Drush vendor binaries.</span></div><div class="line">composer config bin-dir /usr/<span class="built_in">local</span>/bin</div><div class="line"><span class="comment"># Install Drush. </span></div><div class="line">composer install</div></pre></td></tr></table></figure>
 <p>安装完，如果有Unable to load autoload.php…的错误，编辑</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /usr/<span class="built_in">local</span>/drush/drush/drush/includes/preflight.inc</div></pre></td></tr></table></figure>
 <p>查找$global_vendor_path，修改为</p>
@@ -418,7 +423,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +437,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -481,7 +486,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、安装composer"><span class="nav-number">1.</span> <span class="nav-text">1、安装composer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、安装drush"><span class="nav-number">2.</span> <span class="nav-text">2、安装drush</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

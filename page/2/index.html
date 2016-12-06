@@ -201,11 +201,157 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/22/infinidb与clickhouse对比/" itemprop="url">
+                  infiniDB与clickhouse对比
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-08-22T13:55:37+08:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/22/infinidb与clickhouse对比/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/infinidb与clickhouse对比/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
+        
+          <span itemprop="articleBody">
+            
+              <p>机器配置：</p>
+<p>测试机：    dell R510<br>cpu：     xeon E5620<em>2<br>RAID卡：    H700<br>系统    ：ubuntu 14.04<br>内核：    Linux ubuntu 4.2.0-27-generic<br>raid级别：    raid0<br>文件系统：    ext4<br>硬盘：     SSD 240G</em>2<br>IP：    192.168.112.73</p>
+<p>一、安装<br>1、infiniDB的安装见 <a href="http://verynull.com/2015/06/24/infiniDB安装配置/">http://verynull.com/2015/06/24/infiniDB安装配置/</a></p>
+<p>2、clickhouse安装<br>只支持ubutu14.04,16.04，12.04，但是我在16.04上没有安装起来。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4<span class="comment"># optional</span></div><div class="line"></div><div class="line">sudo mkdir -p /etc/apt/sources.list.d</div><div class="line"><span class="built_in">echo</span> <span class="string">"deb http://repo.yandex.ru/clickhouse/trusty stable main"</span> |</div><div class="line">sudo tee /etc/apt/sources.list.d/clickhouse.list</div><div class="line">sudo apt-get update</div><div class="line"></div><div class="line">sudo apt-get install clickhouse-server-common clickhouse-client</div><div class="line"></div><div class="line">sudo service clickhouse-server start</div><div class="line">clickhouse-client</div></pre></td></tr></table></figure></p>
+<p>3、就安装过程而言，clickhouse方便很多，infiniDB要编译老半天。</p>
+<p>二、性能测试</p>
+<p>1、创建表</p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `billing` (</div><div class="line">`did` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`hit` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`reqs` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`rx` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`tx` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`logtime` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`tpr` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span></div><div class="line">) ENGINE=infiniDB DEFAULT CHARSET=latin1</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE billing (id Int32,did Int32,hit Int64,reqs Int64,rx Int64,tx Int64,logtime Int64,tpr Int64) ENGINE=Log;</div></pre></td></tr></table></figure></p>
+<p>2、导入csv数据</p>
+<p>csv格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">106,9,10,123,11858014,1467133200,330,0</div><div class="line">122,0,2,506,621,1467133200,150,0</div><div class="line">124,112,249,1131297,1899996,1467133200,49,0</div><div class="line">127,3,12,64257,88503,1467133200,66,0</div></pre></td></tr></table></figure></p>
+<p>数据量9000万,大小4.5G。</p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /data/mysql/bin/mysql --defaults-file=/data/mysql/my.cnf --local-infile -u root monitor <span class="_">-e</span> <span class="string">"load data local infile '/root/1.txt' into table billing FIELDS TERMINATED BY ',';"</span></div></pre></td></tr></table></figure></p>
+<p>耗时：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">0.60user </div><div class="line">2.50system </div><div class="line">4:14.61elapsed 1%CPU (0avgtext+0avgdata 3640maxresident)k</div><div class="line">0inputs+0outputs (0major+227minor)pagefaults 0swaps</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat 1.txt | clickhouse-client --query=<span class="string">"INSERT INTO monitor.monitor_data FORMAT CSV"</span>;</div></pre></td></tr></table></figure></p>
+<p>耗时：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">real1m6.809s</div><div class="line">user1m26.720s</div><div class="line">sys 0m6.724s</div></pre></td></tr></table></figure></p>
+<p>clickhouse导入速度明显快很多。</p>
+<p>3、查询速度</p>
+<p>SQL:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT logtime, SUM(hit) as hit, SUM(reqs) as reqs, SUM(rx) as rx,SUM(tx) as tx, round(avg(tpr)) as tpr FROM billingWHERE did &gt; 0AND logtime &gt;= 1467302400 AND logtime &lt;= 1469980799 GROUP BY logtime ORDER BY l</div><div class="line">ogtime;</div></pre></td></tr></table></figure></p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (1.26 sec)</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 2.676 sec. Processed 91.80 million rows, 4.77 GB (34.30 million rows/s., 1.78 GB/s.)</div></pre></td></tr></table></figure></p>
+<p>infiniDB速度较快。</p>
+<p>4、2亿数据对比</p>
+<p>SQL同上</p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (2.24 sec)</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 4.215 sec. Processed 183.61 million rows, 9.55 GB (43.56 million rows/s., 2.26 GB/s.)</div></pre></td></tr></table></figure></p>
+<p>infiniDB较快。</p>
+<p>5、10亿数据对比</p>
+<p>SQL同上</p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (9.58 sec)</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 17.040 sec. Processed 1.01 billion rows, 52.51 GB (56.67 million rows/s., 2.95 GB/s.)</div></pre></td></tr></table></figure></p>
+<p>infiniDB更快。</p>
+<p>6、count对比<br>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+------------+</div><div class="line">| count(*) |</div><div class="line">+------------+</div><div class="line">| 1009844583 |</div><div class="line">+------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (6.14 sec)</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">SELECT count(*)</div><div class="line">FROM billing </div><div class="line"></div><div class="line">┌────count()─┐</div><div class="line">│ 1009844583 │</div><div class="line">└────────────┘</div><div class="line"></div><div class="line">1 rows <span class="keyword">in</span> set. Elapsed: 1.120 sec. Processed 1.01 billion rows, 4.04 GB (901.82 million rows/s., 3.61 GB/s.)</div></pre></td></tr></table></figure></p>
+<p>7、压缩比<br>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">22G billing</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">24G billing</div></pre></td></tr></table></figure></p>
+<p>压缩比相差不多。</p>
+<p>结果：<br>1、infiniDB会使用所有CPU，而clickhouse最多使用10个。<br>2、clickhouse在大数据量的时候，处理速度还是比较令人满意的。<br>3、clickhouse在导入数据的时候，查询会被卡住，而infiniDB不会。<br>4、infiniDB性能更好。</p>
+<p>附对比图：<br>这里clickhouse是Log引擎。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160822/20160822222132_99553.png" alt="对比图"></p>
+<hr>
+<p>经一位俄罗斯网友提醒,MergeTree引擎比Log引擎更高效，因为Log引擎会全表扫描，而MergeTree的结构是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">xxxx@ubuntu:/opt/clickhouse$ ls data/monitor/billing_mergetree</div><div class="line">20150829_20150831_10964_10994_2</div><div class="line">20160101_20160131_10_11360_30 </div><div class="line">20160401_20160430_12_9964_31</div><div class="line">20160609_20160613_11302_11350_4</div><div class="line">20160808_20160820_10972_11250_2</div><div class="line">20150325_20150331_4_9822_23 </div><div class="line">20150901_20150930_1030_11316_50</div><div class="line">20160201_20160229_244_10606_27</div><div class="line">20160401_20160430_9982_11362_10 </div><div class="line">20160701_20160731_308_8668_14 </div><div class="line">20160820_20160820_11260_11260_0</div><div class="line">20150401_20150430_16_9932_57</div><div class="line">20151001_20151031_8_11352_39 </div><div class="line">20160220_20160229_10618_10788_10</div><div class="line">20160501_20160531_530_11042_23</div><div class="line">20160701_20160731_8678_10786_12</div><div class="line">20160820_20160820_11266_11266_0</div><div class="line">20150501_20150531_102_10032_75</div><div class="line">20151009_20151011_11356_11356_0</div><div class="line">20160229_20160229_10804_10812_1 </div><div class="line">20160528_20160531_11056_11124_6 </div><div class="line">20160731_20160731_10798_10798_0</div><div class="line">detached</div></pre></td></tr></table></figure>
+<p>这种存储结构就是把每个月的数据单独放置在一个文件夹中，这样就避免了全表扫描。</p>
+<p>附对比图:<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160823/20160823113203_30109.png" alt="对比图"></p>
+<p>结论：<br>clickhouse速度更快！</p>
+
+            
+          </span>
+        
+      
+    </div>
     
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -290,17 +436,26 @@
           <span itemprop="articleBody">
             
               <p>Drupal8的数据库操作函数跟Drupal7没什么变化，但是，在Drupal9(还没开始开发，但是代码注释中已经有)中会把一些函数移除，比如db_add, db_insert, db_query等，见 <a href="https://api.drupal.org/api/drupal/core%21includes%21database.inc/8" title="D8 database" target="_blank" rel="external">Drupal8 database</a>。</p>
-<h2 id="Select">Select</h2><h3 id="Get_single_value:">Get single value:</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</div><div class="line">$query-&gt;addField(<span class="string">'nfd'</span>, <span class="string">'nid'</span>);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.title'</span>, <span class="string">'Potato'</span>);</div><div class="line">$query-&gt;range(<span class="number">0</span>, <span class="number">1</span>);</div><div class="line">$nid = $query-&gt;execute()-&gt;fetchField();</div></pre></td></tr></table></figure>
-<h3 id="Get_single_row:">Get single row:</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</div><div class="line">$query-&gt;fields(<span class="string">'nfd'</span>, [<span class="string">'nid'</span>, <span class="string">'title'</span>]);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.type'</span>, <span class="string">'vegetable'</span>);</div><div class="line">$query-&gt;range(<span class="number">0</span>, <span class="number">1</span>);</div><div class="line">$vegetable = $query-&gt;execute()-&gt;fetchAssoc();</div></pre></td></tr></table></figure>
-<h3 id="Using_db_like:">Using db like:</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</div><div class="line">$query-&gt;fields(<span class="string">'nfd'</span>, [<span class="string">'nid'</span>, <span class="string">'title'</span>]);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.type'</span>, <span class="string">'vegetable'</span>);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.title'</span>, $query-&gt;escapeLike(<span class="string">'ca'</span>) . <span class="string">'%'</span>, <span class="string">'LIKE'</span>);</div><div class="line">$vegetable = $query-&gt;execute()-&gt;fetchAllKeyed();</div></pre></td></tr></table></figure>
-<h3 id="Get_several_rows_with_JOIN:">Get several rows with JOIN:</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</div><div class="line">$query-&gt;fields(<span class="string">'nfd'</span>, [<span class="string">'nid'</span>, <span class="string">'title'</span>]);</div><div class="line">$query-&gt;addField(<span class="string">'ufd'</span>, <span class="string">'name'</span>);</div><div class="line">$query-&gt;join(<span class="string">'users_field_data'</span>, <span class="string">'ufd'</span>, <span class="string">'ufd.uid = nfd.uid'</span>);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.type'</span>, <span class="string">'vegetable'</span>);</div><div class="line">$vegetable = $query-&gt;execute()-&gt;fetchAllAssoc(<span class="string">'nid'</span>);</div></pre></td></tr></table></figure>
-<h2 id="Insert">Insert</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;insert(<span class="string">'flood'</span>);</div><div class="line">$query-&gt;fields([</div><div class="line">  <span class="string">'event'</span>,</div><div class="line">  <span class="string">'identifier'</span></div><div class="line">]);</div><div class="line">$query-&gt;values([</div><div class="line">  <span class="string">'My event'</span>,</div><div class="line">  <span class="string">'My indentifier'</span></div><div class="line">]);</div><div class="line">$query-&gt;execute();</div></pre></td></tr></table></figure>
+<p>##Select</p>
+<p>###Get single value:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</div><div class="line">$query-&gt;addField(<span class="string">'nfd'</span>, <span class="string">'nid'</span>);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.title'</span>, <span class="string">'Potato'</span>);</div><div class="line">$query-&gt;range(<span class="number">0</span>, <span class="number">1</span>);</div><div class="line">$nid = $query-&gt;execute()-&gt;fetchField();</div></pre></td></tr></table></figure>
+<p>###Get single row:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</div><div class="line">$query-&gt;fields(<span class="string">'nfd'</span>, [<span class="string">'nid'</span>, <span class="string">'title'</span>]);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.type'</span>, <span class="string">'vegetable'</span>);</div><div class="line">$query-&gt;range(<span class="number">0</span>, <span class="number">1</span>);</div><div class="line">$vegetable = $query-&gt;execute()-&gt;fetchAssoc();</div></pre></td></tr></table></figure>
+<p>###Using db like:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</div><div class="line">$query-&gt;fields(<span class="string">'nfd'</span>, [<span class="string">'nid'</span>, <span class="string">'title'</span>]);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.type'</span>, <span class="string">'vegetable'</span>);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.title'</span>, $query-&gt;escapeLike(<span class="string">'ca'</span>) . <span class="string">'%'</span>, <span class="string">'LIKE'</span>);</div><div class="line">$vegetable = $query-&gt;execute()-&gt;fetchAllKeyed();</div></pre></td></tr></table></figure>
+<p>###Get several rows with JOIN:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;select(<span class="string">'node_field_data'</span>, <span class="string">'nfd'</span>);</div><div class="line">$query-&gt;fields(<span class="string">'nfd'</span>, [<span class="string">'nid'</span>, <span class="string">'title'</span>]);</div><div class="line">$query-&gt;addField(<span class="string">'ufd'</span>, <span class="string">'name'</span>);</div><div class="line">$query-&gt;join(<span class="string">'users_field_data'</span>, <span class="string">'ufd'</span>, <span class="string">'ufd.uid = nfd.uid'</span>);</div><div class="line">$query-&gt;condition(<span class="string">'nfd.type'</span>, <span class="string">'vegetable'</span>);</div><div class="line">$vegetable = $query-&gt;execute()-&gt;fetchAllAssoc(<span class="string">'nid'</span>);</div></pre></td></tr></table></figure>
+<p>##Insert</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;insert(<span class="string">'flood'</span>);</div><div class="line">$query-&gt;fields([</div><div class="line">  <span class="string">'event'</span>,</div><div class="line">  <span class="string">'identifier'</span></div><div class="line">]);</div><div class="line">$query-&gt;values([</div><div class="line">  <span class="string">'My event'</span>,</div><div class="line">  <span class="string">'My indentifier'</span></div><div class="line">]);</div><div class="line">$query-&gt;execute();</div></pre></td></tr></table></figure>
 <p>注：values可以调用多次，如<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$query-&gt;values([</div><div class="line">  <span class="string">'My event'</span>,</div><div class="line">  <span class="string">'My indentifier'</span></div><div class="line">])</div><div class="line">-&gt;values([</div><div class="line">  <span class="string">'My event1'</span>,</div><div class="line">  <span class="string">'My indentifier1'</span></div><div class="line">]);</div></pre></td></tr></table></figure></p>
-<h2 id="Update">Update</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;update(<span class="string">'flood'</span>);</div><div class="line">$query-&gt;fields([</div><div class="line">  <span class="string">'identifier'</span> =&gt; <span class="string">'My new identifier'</span></div><div class="line">]);</div><div class="line">$query-&gt;condition(<span class="string">'event'</span>, <span class="string">'My event'</span>);</div><div class="line">$query-&gt;execute();</div></pre></td></tr></table></figure>
-<h2 id="Upsert">Upsert</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;upsert(<span class="string">'flood'</span>);</div><div class="line">$query-&gt;fields([</div><div class="line">  <span class="string">'fid'</span>,</div><div class="line">  <span class="string">'identifier'</span>,</div><div class="line">]);</div><div class="line">$query-&gt;values([</div><div class="line">  <span class="number">1</span>,</div><div class="line">  <span class="string">'My indentifier for upsert'</span></div><div class="line">]);</div><div class="line">$query-&gt;key(<span class="string">'fid'</span>);</div><div class="line">$query-&gt;execute();</div></pre></td></tr></table></figure>
+<p>##Update</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;update(<span class="string">'flood'</span>);</div><div class="line">$query-&gt;fields([</div><div class="line">  <span class="string">'identifier'</span> =&gt; <span class="string">'My new identifier'</span></div><div class="line">]);</div><div class="line">$query-&gt;condition(<span class="string">'event'</span>, <span class="string">'My event'</span>);</div><div class="line">$query-&gt;execute();</div></pre></td></tr></table></figure>
+<p>##Upsert</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;upsert(<span class="string">'flood'</span>);</div><div class="line">$query-&gt;fields([</div><div class="line">  <span class="string">'fid'</span>,</div><div class="line">  <span class="string">'identifier'</span>,</div><div class="line">]);</div><div class="line">$query-&gt;values([</div><div class="line">  <span class="number">1</span>,</div><div class="line">  <span class="string">'My indentifier for upsert'</span></div><div class="line">]);</div><div class="line">$query-&gt;key(<span class="string">'fid'</span>);</div><div class="line">$query-&gt;execute();</div></pre></td></tr></table></figure>
 <p>注：upsert，顾名思义就是update+insert的作用。<br>根据条件判断有无记录，有的话就更新记录，没有的话就插入一条记录。</p>
 <p>key()用来定义一个已经存在的row, 必须是unique类型，不然永远执行Insert操作.</p>
-<h3 id="Delete">Delete</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;delete(<span class="string">'flood'</span>);</div><div class="line">$query-&gt;condition(<span class="string">'event'</span>, <span class="string">'My event'</span>);</div><div class="line">$query-&gt;execute();</div></pre></td></tr></table></figure>
+<p>###Delete</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$query = \Drupal::database()-&gt;delete(<span class="string">'flood'</span>);</div><div class="line">$query-&gt;condition(<span class="string">'event'</span>, <span class="string">'My event'</span>);</div><div class="line">$query-&gt;execute();</div></pre></td></tr></table></figure>
 
             
           </span>
@@ -407,7 +562,9 @@
         
           <span itemprop="articleBody">
             
-              <h1 id="一、命名规范">一、命名规范</h1><h3 id="[数据库环境介绍]">[数据库环境介绍]</h3><p>通常来讲，各个互联网公司的数据库分为5个数据库环境：</p>
+              <p>#一、命名规范</p>
+<p>###[数据库环境介绍]</p>
+<p>通常来讲，各个互联网公司的数据库分为5个数据库环境：</p>
 <ol>
 <li>dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; </li>
 <li>qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; </li>
@@ -416,15 +573,17 @@
 <li>online: 线上环境;开发人员不允许直接在线上环境进行数据库操作,如果需要操作必须找DBA进行操作并进行相应记录;</li>
 </ol>
 <p>这些环境的机器，一定要做到权限划分明确，读写帐号分离，并且有辨识度，能区分具体业务。例如用户名w_wap, r_wap 能看出来，读写帐号是wap应用的。</p>
-<h3 id="[数据库命名规范]">[数据库命名规范]</h3><ol>
+<p>###[数据库命名规范]</p>
+<ol>
 <li>尽量简洁明义，能够一眼看出来这个数据库是用来做什么的；</li>
 <li>使用名词作为数据库名称，并且只用英文，不用中文拼音；</li>
 <li>使用英文字母，全部小写，控制在3-7个字母以内；</li>
 <li>如果有多个单词，则使用下划线隔开，不建义驼峰命名；<br>例如，每个公司都有crm业务，那就叫做xx_crm, 字符集统一utf8。字符集踩过的坑很多，为了通用性统一utf8。<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create database xx_crm default character <span class="built_in">set</span>=utf8;</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="[表命名规范]">[表命名规范]</h3><ol>
-<li>具备统一前缀，对相关功能的表应当使用相同前缀，如acl<em>xxx，house_xxx,ppc_xxx；其中前缀通常为这个表的模块或依赖主实体对象的名字，通常来讲表名为：业务</em>动作<em>类型，或是业务</em>类型；</li>
+<p>###[表命名规范]</p>
+<ol>
+<li>具备统一前缀，对相关功能的表应当使用相同前缀，如acl_xxx，house_xxx,ppc<em>xxx；其中前缀通常为这个表的模块或依赖主实体对象的名字，通常来讲表名为：业务</em>动作<em>类型，或是业务</em>类型；</li>
 <li>表名使用英文小写单词，如果有多个单词则使用下划线隔开；<br>3.表名简介，使用常见单词，避免使用长单词和生僻词；</li>
 <li>表引擎取决于实际应用场景及当前数据库中的已经存在的存储引擎；日志及报表类表建议用myisam，与交易，审核，金额相关的表建议用innodb引擎。总体来讲数据库默认innodb；</li>
 <li>数据表必须有主键，且建议均使用auto_increment的id作为主键（与业务无关）,和业务相关的要做为唯一索引；</li>
@@ -434,7 +593,8 @@
 <li>职责相近的表，命名规则应该相同；如合同申请，账户信息，交友相关等；<br>举个例子，一张在线冲值记录表：user_bank_deposit 这个就非常符合标准，如果叫做userBankDeposit或是user_chongzhi，就非常不友好。</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `house_refresh_log` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT <span class="string">'自增ID'</span>,</div><div class="line">  `fangid` int(11) NOT NULL COMMENT <span class="string">'房贴子ID'</span>,</div><div class="line">  `refresh_time` int(11) NOT NULL COMMENT <span class="string">'刷新时间'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `fangid` (`fangid`)</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=<span class="string">'房刷新记录表'</span></div></pre></td></tr></table></figure>
-<h3 id="[字段命名规范]">[字段命名规范]</h3><ol>
+<p>###[字段命名规范]</p>
+<ol>
 <li>数据库字段命名与表名命名类似：</li>
 <li>使用小写英文单词，如果有多个单词使用下划线隔开；</li>
 <li>使用简单单词，避免生僻词；</li>
@@ -448,7 +608,9 @@
 <li>text字段尽量少用，或是拆到冗余表中；</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `wanted_post` (</div><div class="line">  `id` int(10) NOT NULL AUTO_INCREMENT,</div><div class="line">  `puid` int(10) unsigned NOT NULL,</div><div class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">'发贴用户的id'</span>,</div><div class="line">  `username` varchar(50) NOT NULL COMMENT <span class="string">'发贴用户的用户名'</span>,</div><div class="line">  `city` smallint(4) NOT NULL COMMENT <span class="string">'所在城市'</span>,</div><div class="line">  `ip` bigint(14) NOT NULL COMMENT <span class="string">'发帖人的ip'</span>,</div><div class="line">  `district_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在区域的id'</span>,</div><div class="line">  `district_name` varchar(20) NOT NULL COMMENT <span class="string">'行政区名字'</span>,</div><div class="line">  `street_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在街道(地标)的id'</span>,</div><div class="line">  `street_name` varchar(20) NOT NULL COMMENT <span class="string">'小区名字'</span>,</div><div class="line">  `title` varchar(255) NOT NULL COMMENT <span class="string">'帖子的标题'</span>,</div><div class="line">  `description` text NOT NULL COMMENT <span class="string">'帖子详情描述'</span>,</div><div class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">'用户发帖时间,数据创建的时间,使用整型存储'</span>,</div><div class="line">  `refresh_at` int(11) NOT NULL COMMENT <span class="string">'帖子被修改的时间,整型存储'</span>,</div><div class="line">  `show_time` int(11) NOT NULL COMMENT <span class="string">'帖子显示时间'</span>,</div><div class="line">  `age_max` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最小年龄'</span>,</div><div class="line">  `age_min` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最大年龄'</span>,</div><div class="line">  `post_refresh_at` int(11) NOT NULL COMMENT <span class="string">'刷新时间'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `idx_puid` (`puid`),</div><div class="line">  KEY `user_id_index` (`user_id`),</div><div class="line">  KEY `post_at_index` (`post_at`),</div><div class="line">  KEY `refresh_at_index` (`refresh_at`),</div><div class="line">  KEY `show_time_index` (`show_time`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT=<span class="string">'招聘帖子表'</span></div></pre></td></tr></table></figure>
-<h1 id="二、表设计原则">二、表设计原则</h1><h3 id="[职责分离原则]">[职责分离原则]</h3><p>职责分离原则是指在设计的时候应当考虑到数据的产生，聚合使用等原则，每个系统干自己能干的事情，每个系统只干自己的事情。一个数据表应该放在哪个系统中，通常取决于几点：</p>
+<p>#二、表设计原则</p>
+<p>###[职责分离原则]</p>
+<p>职责分离原则是指在设计的时候应当考虑到数据的产生，聚合使用等原则，每个系统干自己能干的事情，每个系统只干自己的事情。一个数据表应该放在哪个系统中，通常取决于几点：</p>
 <ol>
 <li><p>谁产生这个信息：通常情况下谁产生了这个数据应当对此数据负责；也就是考虑该数据的创建，发展，销毁等全生命周期的定义，并将这个定义维护起来提供给消费者作为消费原则；</p>
 </li>
@@ -461,7 +623,8 @@
 <p>举个最常见贴子与评论的例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `wanted_post` (</div><div class="line">  `id` int(10) NOT NULL AUTO_INCREMENT,</div><div class="line">  `puid` int(10) unsigned NOT NULL,</div><div class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">'发贴用户的id'</span>,</div><div class="line">  `username` varchar(50) NOT NULL COMMENT <span class="string">'发贴用户的用户名'</span>,</div><div class="line">  `city` smallint(4) NOT NULL COMMENT <span class="string">'所在城市'</span>,</div><div class="line">  `ip` bigint(14) NOT NULL COMMENT <span class="string">'发帖人的ip'</span>,</div><div class="line">  `district_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在区域的id'</span>,</div><div class="line">  `district_name` varchar(20) NOT NULL COMMENT <span class="string">'行政区名字'</span>,</div><div class="line">  `street_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在街道(地标)的id'</span>,</div><div class="line">  `street_name` varchar(20) NOT NULL COMMENT <span class="string">'小区名字'</span>,</div><div class="line">  `title` varchar(255) NOT NULL COMMENT <span class="string">'帖子的标题'</span>,</div><div class="line">  `description` text NOT NULL COMMENT <span class="string">'帖子详情描述'</span>,</div><div class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">'用户发帖时间,数据创建的时间,使用整型存储'</span>,</div><div class="line">  `refresh_at` int(11) NOT NULL COMMENT <span class="string">'帖子被修改的时间,整型存储'</span>,</div><div class="line">  `show_time` int(11) NOT NULL COMMENT <span class="string">'帖子显示时间'</span>,</div><div class="line">  `age_max` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最小年龄'</span>,</div><div class="line">  `age_min` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最大年龄'</span>,</div><div class="line">  `post_refresh_at` int(11) NOT NULL COMMENT <span class="string">'刷新时间'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `idx_puid` (`puid`),</div><div class="line">  KEY `user_id_index` (`user_id`),</div><div class="line">  KEY `post_at_index` (`post_at`),</div><div class="line">  KEY `refresh_at_index` (`refresh_at`),</div><div class="line">  KEY `show_time_index` (`show_time`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT=<span class="string">'招聘帖子表'</span></div><div class="line"></div><div class="line"></div><div class="line">CREATE TABLE `wanted_post_comment_99` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `puid` int(10) unsigned NOT NULL,</div><div class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">'评论用户ID'</span>,</div><div class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">'评论时间'</span>,</div><div class="line">  `detail` text NOT NULL COMMENT <span class="string">'评论详情'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  KEY `user_id_index` (`user_id`),</div><div class="line">  KEY `puidid_index` (`puid`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT=<span class="string">'招聘评论分表99'</span></div></pre></td></tr></table></figure></p>
 <p>由于评论表数据量很大，在预先做好分表，按贴子puid分成100张子表，那么当前详情页涉及sql如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select * from wanted_post <span class="built_in">where</span> puid=xxxx;</div><div class="line">select * from wanted_post_comment_99 <span class="built_in">where</span> puid=xxxx;</div></pre></td></tr></table></figure></p>
 <p>这是一个简化的模型，评论多了，还要涉及分页，不可能一次性全取出来。对于上面的场景，严格尊守高内聚，低耦合的原则，不会存储冗余数据。相比较还有一种文档型数据库，例如mongo，就可以将评论与贴子存放在一起，访问的时候只需一次顺序IO操作。整体来讲表设计，要按照职责划分原则。</p>
-<h3 id="[在线处理与分析分离]">[在线处理与分析分离]</h3><ol>
+<p>###[在线处理与分析分离]</p>
+<ol>
 <li>为了保障线上数据处理的性能，将一些分析相关的数据及分析结果，应当使用单独的库来进行存储，避免在数据分析的时候导致业务数据吞吐量下降，引起系统问题。</li>
 <li>专门用于存放离线报表数据，并提供线上数据查询方法，建议将统计结果，汇总的数据都从在线处理数据库中移走。</li>
 </ol>
@@ -471,11 +634,13 @@
 <p>将请求指向不同slave ，这种方法简单高效，缺点是数据量增大就玩不转。</p>
 <p>建立离线报表库，专门存放统计结果，这样将计算与展示异步处理，缺点是对于实时业务响应不好。</p>
 <p>实时拉取mysql row binlog，做数据的异构处理(tungsten, canal)，将增量结果处理后(storm)，保存在数据库中，基本实时。</p>
-<h3 id="[事务与日志分离]">[事务与日志分离]</h3><p>用户生成内容和用户行为日志要分开，这一点很好理解，举两个例子：</p>
+<p>###[事务与日志分离]</p>
+<p>用户生成内容和用户行为日志要分开，这一点很好理解，举两个例子：</p>
 <p>游戏DB里存放玩家的基础信息，装备，属性，好友列表等等，这些放到数据库里面。但是玩家的行为日志，比如消耗金币，今天下过哪些副本，买过什么顶级装备，这些属于行为日志，应该单独存放并分析处理。 </p>
 <p>对于web用记，有好多用户置顶，刷新，竞价，展示等行为，要求实时并且量很大，一定要和贴子分开。</p>
 <p>行为日志，需要做分析处理，并且由于时效性不宜存储在mysql中，后期维护就是地雷。</p>
-<h3 id="[历史可追溯]">[历史可追溯]</h3><p>在数据库设计的时候为了保障数据是可追溯的，应当遵循一些简单的约定，事后方便数据的查询和统计：</p>
+<p>###[历史可追溯]</p>
+<p>在数据库设计的时候为了保障数据是可追溯的，应当遵循一些简单的约定，事后方便数据的查询和统计：</p>
 <ol>
 <li><p>对于状态数据，应当设计相应状态的字段来保存该数据的最后状态，同时记录下来该数据的初始创建人，时间以及该数据的最后修改人和修改时间；所以在交易数据（如订单合同），广告数据，账户表等都应该默认有状态（status），创建人（creator/creator_name），创建时间（created_at），最后修改人（modifier/modifier_name），最后修改时间（modified_at）等字段用来表明数据的当前状态，创建信息及修改信息。</p>
 </li>
@@ -590,12 +755,17 @@
         
           <span itemprop="articleBody">
             
-              <h3 id="查看端口是否打开">查看端口是否打开</h3><h4 id="使用_netstat_命令">使用 netstat 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a. `netstat -nat | grep &lt;端口号&gt;`  , 如命令 `netstat -nat | grep 3306`</div><div class="line">b. `netstat -nat |grep LISTEN`</div></pre></td></tr></table></figure>
-<h4 id="使用_lsof_命令">使用 lsof 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yongfu-pro at yongfu-pro.local in ~ [22:39:32]</span></div><div class="line">$ lsof -n -P -i TCP <span class="_">-s</span> TCP:LISTEN</div><div class="line">COMMAND PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</div><div class="line">php-fpm 387 yongfu-pro    6u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">Dropbox 413 yongfu-pro   26u  IPv4 0x6d7f5d3c445e2c09      0t0  TCP *:17500 (LISTEN)</div><div class="line">php-fpm 418 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">php-fpm 419 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">php-fpm 420 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">stunnel 586 yongfu-pro    9u  IPv4 0x6d7f5d3c439ff679      0t0  TCP 127.0.0.1:1997 (LISTEN)</div><div class="line"></div><div class="line">lsof命令可以列出当前的所有网络情况， 此命令的解释如下：</div><div class="line">-n 表示主机以ip地址显示</div><div class="line">-P 表示端口以数字形式显示，默认为端口名称</div><div class="line">-i 意义较多，具体 man lsof, 主要是用来过滤lsof的输出结果</div><div class="line"><span class="_">-s</span> 和 -i 配合使用，用于过滤输出</div></pre></td></tr></table></figure>
-<h4 id="使用telnet_命令">使用telnet 命令</h4><p>检查本机的3306端口是否打开， 如下<br>telnet 127.0.0.1 3306<br>若该端口没有打开，则会自动退出，并显示如下内容：</p>
+              <p>###查看端口是否打开</p>
+<p>####使用 netstat 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a. `netstat -nat | grep &lt;端口号&gt;`  , 如命令 `netstat -nat | grep 3306`</div><div class="line">b. `netstat -nat |grep LISTEN`</div></pre></td></tr></table></figure>
+<p>####使用 lsof 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yongfu-pro at yongfu-pro.local in ~ [22:39:32]</span></div><div class="line">$ lsof -n -P -i TCP <span class="_">-s</span> TCP:LISTEN</div><div class="line">COMMAND PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</div><div class="line">php-fpm 387 yongfu-pro    6u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">Dropbox 413 yongfu-pro   26u  IPv4 0x6d7f5d3c445e2c09      0t0  TCP *:17500 (LISTEN)</div><div class="line">php-fpm 418 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">php-fpm 419 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">php-fpm 420 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">stunnel 586 yongfu-pro    9u  IPv4 0x6d7f5d3c439ff679      0t0  TCP 127.0.0.1:1997 (LISTEN)</div><div class="line"></div><div class="line">lsof命令可以列出当前的所有网络情况， 此命令的解释如下：</div><div class="line">-n 表示主机以ip地址显示</div><div class="line">-P 表示端口以数字形式显示，默认为端口名称</div><div class="line">-i 意义较多，具体 man lsof, 主要是用来过滤lsof的输出结果</div><div class="line"><span class="_">-s</span> 和 -i 配合使用，用于过滤输出</div></pre></td></tr></table></figure>
+<p>####使用telnet 命令</p>
+<p>检查本机的3306端口是否打开， 如下<br>telnet 127.0.0.1 3306<br>若该端口没有打开，则会自动退出，并显示如下内容：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Trying 127.0.0.1...</div><div class="line">telnet: connect to address 127.0.0.1: Connection refused</div><div class="line">telnet: Unable to connect to remote host</div></pre></td></tr></table></figure>
 <p>若该端口为已打开的状态，则会一直保持连接。</p>
-<h4 id="使用_nc_命令">使用 nc 命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yongfu at yf-mac.local in ~ [9:33:14]</span></div><div class="line">$ nc  -w 10 -n -z 127.0.0.1 1990-1999</div><div class="line">Connection to 127.0.0.1 port 1997 [tcp/*] succeeded!</div><div class="line">Connection to 127.0.0.1 port 1998 [tcp/*] succeeded!</div><div class="line"></div><div class="line">-w 10  表示等待连接时间为10秒</div><div class="line">-n 尽量将端口号名称转换为端口号数字</div><div class="line">-z 对需要检查的端口没有输入输出，用于端口扫描模式</div><div class="line">127.0.0.1  需要检查的ip地址</div><div class="line">1990-1999  可以是一个端口，也可以是一段端口</div><div class="line"> 返回结果为开放的端口， 如本例中的 1997 和 1998 端口</div></pre></td></tr></table></figure>
+<p>####使用 nc 命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yongfu at yf-mac.local in ~ [9:33:14]</span></div><div class="line">$ nc  -w 10 -n -z 127.0.0.1 1990-1999</div><div class="line">Connection to 127.0.0.1 port 1997 [tcp/*] succeeded!</div><div class="line">Connection to 127.0.0.1 port 1998 [tcp/*] succeeded!</div><div class="line"></div><div class="line">-w 10  表示等待连接时间为10秒</div><div class="line">-n 尽量将端口号名称转换为端口号数字</div><div class="line">-z 对需要检查的端口没有输入输出，用于端口扫描模式</div><div class="line">127.0.0.1  需要检查的ip地址</div><div class="line">1990-1999  可以是一个端口，也可以是一段端口</div><div class="line"> 返回结果为开放的端口， 如本例中的 1997 和 1998 端口</div></pre></td></tr></table></figure>
 
             
           </span>
@@ -702,7 +872,7 @@
         
           <span itemprop="articleBody">
             
-              <h2 id="Drupal8中使用AngularJS">Drupal8中使用AngularJS</h2><p>首先我们需要一个基础模块引入并启动<code>angular</code></p>
+              <h2 id="Drupal8中使用AngularJS"><a href="#Drupal8中使用AngularJS" class="headerlink" title="Drupal8中使用AngularJS"></a>Drupal8中使用AngularJS</h2><p>首先我们需要一个基础模块引入并启动<code>angular</code></p>
 <p>OK，先创建一个模块，我们起名叫<code>cloud_angular</code></p>
 <p>在<code>cloud_angular</code>中，我们新建目录<code>libs</code>，里面存放所有与<code>angular</code>相关的库文件，<code>js</code>目录，里面存放angular的启动js：<code>app.js</code></p>
 <p>接着，定义angular的library，就像这样：</p>
@@ -721,7 +891,7 @@
 <p>控制器代码如下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * <span class="doctag">@contains</span> \Drupal\cloud_user\Controller\UserController.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">cloud_user</span>\<span class="title">Controller</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Controller</span>\<span class="title">ControllerBase</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Database</span>\<span class="title">Connection</span>; </div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserController</span> <span class="keyword">extends</span> <span class="title">ControllerBase</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">protected</span> $database;</div><div class="line"></div><div class="line">  <span class="keyword">protected</span> $userPath;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($database)</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;database = $database;</div><div class="line">    <span class="keyword">$this</span>-&gt;userPath = drupal_get_path(<span class="string">'module'</span>, <span class="string">'cloud_user'</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">(ContainerInterface $container)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">static</span>(</div><div class="line">      $container-&gt;get(<span class="string">'database'</span>)</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">console</span><span class="params">()</span> </span>&#123;</div><div class="line">    $build = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'#theme'</span> =&gt; <span class="string">'cloud_common'</span>,</div><div class="line">    );</div><div class="line">    <span class="comment">// 这里我们把用户模块的路径传递到前端</span></div><div class="line">    $build[<span class="string">'#attached'</span>][<span class="string">'drupalSettings'</span>][<span class="string">'userPath'</span>] = <span class="keyword">$this</span>-&gt;userPath;</div><div class="line">    <span class="keyword">return</span> $build;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><code>cloud_common</code>的theme模版<code>cloud-common.html.twig</code>统一输出是</p>
-<figure class="highlight twig"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ui-view</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight twig"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div ui-view&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
 <p>用于angular前端路由加载模版</p>
 <p>接着，在<code>cloud_user</code>模块下新建<code>scripts</code>目录及其子目录<code>controller</code>和<code>directive</code>，对了，在<code>scripts</code>目录下新建文件<code>user.route.js</code>，用于定义用户模块的前端路由：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">angular, drupalSettings</span>) </span>&#123;</div><div class="line"><span class="meta">  'use strict'</span>;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * @name verycloud</div><div class="line">   * @description all user's ng route here.</div><div class="line">   *</div><div class="line">   */</div><div class="line">  <span class="keyword">var</span> verycloud = angular.module(<span class="string">'verycloud'</span>);</div><div class="line">  verycloud.config([<span class="string">'$stateProvider'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$stateProvider</span>) </span>&#123;</div><div class="line">    $stateProvider</div><div class="line">      .state(<span class="string">'dashboard'</span>, &#123;</div><div class="line">        <span class="attr">url</span>: <span class="string">'/profile'</span>,</div><div class="line">        <span class="attr">templateUrl</span>: <span class="string">'dashboard/container.html'</span>,</div><div class="line">        <span class="attr">resolve</span>: &#123;</div><div class="line">          <span class="attr">loadMyFile</span>: <span class="function"><span class="keyword">function</span>(<span class="params">$ocLazyLoad</span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> $ocLazyLoad.load(&#123;</div><div class="line">              <span class="attr">name</span>: <span class="string">'console'</span>,</div><div class="line">              <span class="attr">files</span>: [</div><div class="line">                drupalSettings.userPath + <span class="string">'/scripts/directive/header/header.js'</span></div><div class="line">              ]</div><div class="line">            &#125;)</div><div class="line">          &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="attr">abstract</span>: <span class="literal">true</span></div><div class="line">      &#125;)</div><div class="line">      .state(<span class="string">'dashboard.console'</span>, &#123;</div><div class="line">        <span class="attr">url</span>: <span class="string">'/console'</span>,</div><div class="line">        <span class="attr">templateUrl</span>: <span class="string">'dashboard/dashboard.html'</span>,</div><div class="line">        <span class="attr">controller</span>: <span class="string">'ConsoleCtrl'</span>,</div><div class="line">        <span class="attr">resolve</span>: &#123;</div><div class="line">          <span class="attr">loadMyFile</span>: <span class="function"><span class="keyword">function</span>(<span class="params">$ocLazyLoad</span>) </span>&#123;</div><div class="line">            <span class="keyword">return</span> $ocLazyLoad.load(&#123;</div><div class="line">              <span class="attr">name</span>: <span class="string">'console'</span>,</div><div class="line">              <span class="attr">files</span>: [</div><div class="line">                drupalSettings.userPath + <span class="string">'/scripts/controller/consoleController.js'</span></div><div class="line">              ]</div><div class="line">            &#125;)</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;);</div><div class="line">  &#125;]);</div><div class="line">&#125;)(angular, drupalSettings);</div></pre></td></tr></table></figure>
@@ -837,13 +1007,14 @@
           <span itemprop="articleBody">
             
               <p>Drupal8的功能测试必须要有一个正在运行的站点，并且安装了simpleTest核心模块。<br>本文的测试用例实现的功能为：<br>向user实体增加一个字段，然后检查用户里是否存在这个字段。</p>
-<h2 id="一、PHPUnit和SimpleTest功能测试(BrowserTestBase_/_WebTestBase)">一、PHPUnit和SimpleTest功能测试(BrowserTestBase / WebTestBase)</h2><p>以后的功能测试都是使用phpUnit和BrowserTestBase，Drupal8中很多模块还在用WebTestBase.</p>
+<p>##一、PHPUnit和SimpleTest功能测试(BrowserTestBase / WebTestBase)<br>以后的功能测试都是使用phpUnit和BrowserTestBase，Drupal8中很多模块还在用WebTestBase.</p>
 <p>BrowserTestBase的主要限制是不能使用JavaScript和AJAX。<br>如果需要测试它们，建议先用WebTestBase。</p>
-<h3 id="1、定义字段">1、定义字段</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim config/install/field.field.user.user.test_status.yml</div></pre></td></tr></table></figure>
+<p>###1、定义字段</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim config/install/field.field.user.user.test_status.yml</div></pre></td></tr></table></figure>
 <p>编辑文件内容为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">langcode: en</div><div class="line">status: <span class="keyword">true</span></div><div class="line">dependencies:</div><div class="line">  config:</div><div class="line">    - field.storage.user.test_status</div><div class="line">id: user.user.test_status</div><div class="line">field_name: test_status</div><div class="line">entity_type: user</div><div class="line">bundle: user</div><div class="line">label: test_status</div><div class="line">description: <span class="string">''</span></div><div class="line">required: <span class="keyword">false</span></div><div class="line">translatable: <span class="keyword">false</span></div><div class="line">default_value:</div><div class="line">  -</div><div class="line">    value: <span class="number">0</span></div><div class="line">default_value_callback: <span class="string">''</span></div><div class="line">settings:</div><div class="line">  on_label: <span class="string">'On'</span></div><div class="line">  off_label: <span class="string">'Off'</span></div><div class="line">field_type: boolean</div></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim config/install/field.storage.user.test_status.yml</div></pre></td></tr></table></figure>
 <p>编辑内容为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">langcode: en</div><div class="line">status: <span class="keyword">true</span></div><div class="line">dependencies:</div><div class="line">  module:</div><div class="line">    - user</div><div class="line">id: user.test_status</div><div class="line">field_name: test_status</div><div class="line">entity_type: user</div><div class="line">type: boolean</div><div class="line">settings: &#123;  &#125;</div><div class="line">module: test_example</div><div class="line">locked: <span class="keyword">false</span></div><div class="line">cardinality: <span class="number">1</span></div><div class="line">translatable: <span class="keyword">true</span></div><div class="line">indexes: &#123;  &#125;</div><div class="line">persist_with_no_fields: <span class="keyword">false</span></div></pre></td></tr></table></figure></p>
-<h3 id="2、创建功能测试">2、创建功能测试</h3><p>必须在tests/src/Functional/内创建一个以 Test.php 结尾的文件。<br>创建一个继承 BrowserTestBase 的类创建测试。<br>我们也使用 Drupal\Tests[module_name]\Functional 作为所有测试类的namespace。</p>
+<p>###2、创建功能测试<br>必须在tests/src/Functional/内创建一个以 Test.php 结尾的文件。<br>创建一个继承 BrowserTestBase 的类创建测试。<br>我们也使用 Drupal\Tests[module_name]\Functional 作为所有测试类的namespace。</p>
 <p>编辑src/Functional/TestExampleUserTest.php</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> *</div><div class="line"> * Contains \Drupal\Tests\test_example\Functional\TestExampleUserTest.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">test_example</span>\<span class="title">Functional</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">simpletest</span>\<span class="title">BrowserTestBase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Check if our user field works.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@group</span> test_example</div><div class="line"> * <span class="doctag">@runTestsInSeparateProcesses</span></div><div class="line"> * <span class="doctag">@preserveGlobalState</span> disabled</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestExampleUserTest</span> <span class="keyword">extends</span> <span class="title">BrowserTestBase</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * <span class="doctag">@var</span> \Drupal\user\Entity\User.</div><div class="line">   */</div><div class="line">  <span class="keyword">protected</span> $user;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Enabled modules</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> $modules = [<span class="string">'test_example'</span>];</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setUp</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">parent</span>::setUp();</div><div class="line"></div><div class="line">    <span class="keyword">$this</span>-&gt;user = <span class="keyword">$this</span>-&gt;drupalCreateUser();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Test that the user has a test_status field.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testUserHasTestStatusField</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;assertTrue(in_array(<span class="string">'test_status'</span>, array_keys(<span class="keyword">$this</span>-&gt;user-&gt;getFieldDefinitions())));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <ul>
@@ -853,13 +1024,14 @@
 <li>测试方法<br>和单元测试一样，方法必须以test开头。</li>
 <li>断言语句<br>和单元测试一样。在上面这个测试用例，我们检查用户实体里是否存在test_status这个字段。</li>
 </ul>
-<h3 id="3、执行功能测试">3、执行功能测试</h3><p>首先设置一下phpstrom</p>
+<p>###3、执行功能测试<br>首先设置一下phpstrom</p>
 <ul>
 <li>打开 PhpStorm</li>
 <li>在 Command Line 部分，编辑 Environment  变量。</li>
 <li>设置SIMPLETEST_BASE_URL 和值（站点URL)。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160603/20160603111934_95639.jpg" alt="PhpStorm 功能测试"></li>
 </ul>
-<h2 id="二、Ajax功能测试-SimpleTest">二、Ajax功能测试-SimpleTest</h2><p>phpUnit和simpleTest的主要区别是：</p>
+<p>##二、Ajax功能测试-SimpleTest</p>
+<p>phpUnit和simpleTest的主要区别是：</p>
 <ul>
 <li>文件命名和名字空间</li>
 </ul>
@@ -895,157 +1067,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/02/Drupal8单元测试/" itemprop="url">
-                  Drupal8单元测试
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-06-02T16:01:57+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/02/Drupal8单元测试/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/Drupal8单元测试/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>单元测试在编程中是非常重要的，而我更倾向于去对那些有意义的错误做测试。<br>在Drupal8中，可以借助phpstorm来帮助进行单元测试。</p>
-<h2 id="一、phpstorm配置">一、phpstorm配置</h2><h3 id="1）、针对项目进行设置：">1）、针对项目进行设置：</h3><blockquote>
-<p>1、选中 PhpStorm &gt; Preferences &gt; Languages &amp; Frameworks &gt; PHP &gt; PHPUnit &gt; Local<br>Window 操作系统是：File &gt; Settings …<br>2、选择 PHPUnit Library &gt; Use custom autoloader<br>3、导航到 /vendor/autoload.php<br>4、选择 Test Runner &gt; Default configuration file<br>5、导航到 /core/phpunit.xml.dist<br>6、点击 Save</p>
-</blockquote>
-<p>在右上方看到 For current project。接下来完成下面的步骤：</p>
-<blockquote>
-<p>1、运行： Run &gt; Edit Configurations<br>2、点击 + 图标，选择 PHPUnit<br>3、提供一个名称，例如 Drupal 8: All Tests<br>4、在配置文件内选择 Test Runner &gt; Defined<br>5、保存</p>
-</blockquote>
-<p>在右上角，选择你的运行配置，按下绿色箭头。也可以操作 Run &gt; Run Drupal 8: All Tests 。</p>
-<p>说明：</p>
-<blockquote>
-<p>如果提示“Interpreter is not specified or invalid”，<br>要去 PhpStorm &gt; Preferences &gt; Languages &amp; Frameworks &gt; PHP 设置下 PHP 解释器。</p>
-</blockquote>
-<p>当你运行测试时，你会在 PhpStorm 内看到一个新窗口，列出了测试结果。默认情况，通过的测试不会显示出来。你可以操作窗口左上角的 Hide passed 图标显示通过的测试。</p>
-<h3 id="2)、测试一个指定区域">2)、测试一个指定区域</h3><p>PHPUnit 将运行很多测试。要把测试区域限制为一个文件夹（我们的模块）可以象下面这样做：</p>
-<blockquote>
-<p>1、运行： Run &gt; Edit Configurations<br>2、点击 + 图标选择 PHPUnit<br>3、提供个名称，例如 Drupal 8: Test Example<br>4、选择 Test Runner &gt; Test Scope &gt; Directory<br>5、浏览 test_example 模块<br>6、点击 Save</p>
-</blockquote>
-<h2 id="二、添加单元测试">二、添加单元测试</h2><p>要进行单元测试，必须在[module_name]/tests/srs/Unit/下创建一个以Test.php结尾的文件。一般都是继承UnitTestCase这个类来创建测试，这个测试类的namespace必须为Drupal\Test[module_name]\Unit。</p>
-<p>接下来，我们来书写代码。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim tests/src/Unit/TestExampleConversionsTest.php</div></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> *</div><div class="line"> * Contains \Drupal\Tests\test_example\Unit\TestExampleConversionsTest.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">test_example</span>\<span class="title">Unit</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">UnitTestCase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Demonstrates how to write tests.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@group</span> test_example</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestExampleConversionsTest</span> <span class="keyword">extends</span> <span class="title">UnitTestCase</span> </span>&#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setUp</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">parent</span>::setUp();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Convert Celsius to Fahrenheit</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> $temp</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> int</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">celsiusToFahrenheit</span><span class="params">($temp)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> ($temp * (<span class="number">9</span>/<span class="number">5</span>)) + <span class="number">32</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Convert centimeter to inches.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> $length</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> int</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">centimeterToInch</span><span class="params">($length)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> $length / <span class="number">2.54</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * A simple test that tests our celsiusToFahrenheit() function.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testOneConversion</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Confirm that 0C = 31F.</span></div><div class="line">    <span class="keyword">$this</span>-&gt;assertEquals(<span class="number">31</span>, <span class="keyword">$this</span>-&gt;celsiusToFahrenheit(<span class="number">0</span>));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>测试方法<br>每个测试方法必须以test开头。</li>
-<li>断言<br>断言决定测试是否通过，比较常用的一些断言函数如assertTrue、assertFalse、assertEquals等。<br>文档见 <a href="https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html" target="_blank" rel="external">https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html</a></li>
-<li>setUp()<br>每次测试之前都会执行setUp方法，我们可以创建一个变成或实例。</li>
-</ul>
-<h2 id="三、执行单元测试">三、执行单元测试</h2><p>输出如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Failed asserting that 32.0 matches expected 31.</div><div class="line">Expected :31</div><div class="line">Actual   :32</div></pre></td></tr></table></figure></p>
-<h2 id="四、较复杂的单元测试">四、较复杂的单元测试</h2><p>如果要做比较复杂的单元测试，一个简单的办法是用setUp方法，另一个方案就是使用data provider.</p>
-<h3 id="1)、data_provider">1)、data provider</h3><p>PHPUnit中的data provider是为测试方法提供配置的方法，并返回一个测试用例数组。</p>
-<p>本例中，我们创建一个data provider叫 providerCentimetersToInches。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* Provides data for the testCentimetersToInches method.</div><div class="line">*</div><div class="line">* <span class="doctag">@return</span> array</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">providerCentimetersToInches</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">return</span> [</div><div class="line">    [<span class="number">2.545</span>,<span class="number">1</span>],</div><div class="line">    [<span class="number">254</span>,<span class="number">100</span>],</div><div class="line">    [<span class="number">0</span>,<span class="number">0</span>],</div><div class="line">    [<span class="number">-2.54</span>,<span class="number">-1</span>],</div><div class="line">  ];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* Tests centimetersToInches method.</div><div class="line">*</div><div class="line">* <span class="doctag">@dataProvider</span> providerCentimetersToInches</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testCentimetersToInches</span><span class="params">($length, $expectedValue)</span> </span>&#123;</div><div class="line">  <span class="keyword">$this</span>-&gt;assertEquals($expectedValue, <span class="keyword">$this</span>-&gt;centimeterToInch($length));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>Data Provider注解<br>在测试方法上使用 @dataProvider 注解来连接这个data provider。</p>
-</li>
-<li><p>Data Provider参数<br>在测试方法中可以添加参数，在上面的测试方法中，我们在数组内传递了两个值，那么在上面的测试方法中有两个对应的参数。</p>
-</li>
-</ul>
-<p>执行run，结果如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Failed asserting that 1.0019685039370079 matches expected 1.</div><div class="line">Expected :1</div><div class="line">Actual   :1.001968503937</div></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1086,7 +1113,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1100,7 +1127,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

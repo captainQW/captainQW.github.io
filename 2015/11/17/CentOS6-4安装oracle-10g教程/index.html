@@ -55,16 +55,16 @@
 
 
 
-<meta name="description" content="一、硬件要求1、内存 &amp;amp; swapMinimum: 1 GB of RAMRecommended: 2 GB of RAM or more
+<meta name="description" content="##一、硬件要求1、内存 &amp;amp; swapMinimum: 1 GB of RAMRecommended: 2 GB of RAM or more
 检查内存情况12grep MemTotal /proc/meminfogrep SwapTotal /proc/meminfo
-2、硬盘由于CentOS安装后差不多有4~5G，再加上Oracle等等的安装，所以请准备至少10G的硬盘空间。检查磁盘情况1">
+2、硬盘由于CentOS安装后差不多有4~5G，再加上Oracle等等的安装，所以请准备至少10G的硬盘空间。检查磁盘情">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS6.4安装oracle 10g教程">
 <meta property="og:url" content="http://verynull.com/2015/11/17/CentOS6-4安装oracle-10g教程/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
-<meta property="og:description" content="一、硬件要求1、内存 &amp;amp; swapMinimum: 1 GB of RAMRecommended: 2 GB of RAM or more
+<meta property="og:description" content="##一、硬件要求1、内存 &amp;amp; swapMinimum: 1 GB of RAMRecommended: 2 GB of RAM or more
 检查内存情况12grep MemTotal /proc/meminfogrep SwapTotal /proc/meminfo
-2、硬盘由于CentOS安装后差不多有4~5G，再加上Oracle等等的安装，所以请准备至少10G的硬盘空间。检查磁盘情况1">
+2、硬盘由于CentOS安装后差不多有4~5G，再加上Oracle等等的安装，所以请准备至少10G的硬盘空间。检查磁盘情">
 <meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211127_56147.png">
 <meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211509_28032.jpg">
 <meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211724_11378.jpg">
@@ -108,9 +108,9 @@
 <meta property="og:updated_time" content="2015-11-18T14:15:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS6.4安装oracle 10g教程">
-<meta name="twitter:description" content="一、硬件要求1、内存 &amp;amp; swapMinimum: 1 GB of RAMRecommended: 2 GB of RAM or more
+<meta name="twitter:description" content="##一、硬件要求1、内存 &amp;amp; swapMinimum: 1 GB of RAMRecommended: 2 GB of RAM or more
 检查内存情况12grep MemTotal /proc/meminfogrep SwapTotal /proc/meminfo
-2、硬盘由于CentOS安装后差不多有4~5G，再加上Oracle等等的安装，所以请准备至少10G的硬盘空间。检查磁盘情况1">
+2、硬盘由于CentOS安装后差不多有4~5G，再加上Oracle等等的安装，所以请准备至少10G的硬盘空间。检查磁盘情">
 <meta name="twitter:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211127_56147.png">
 
 
@@ -318,13 +318,13 @@
       
 
       
-        <span itemprop="articleBody"><h2 id="一、硬件要求">一、硬件要求</h2><p>1、内存 &amp; swap<br>Minimum: 1 GB of RAM<br>Recommended: 2 GB of RAM or more<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211127_56147.png" alt="硬件要求"></p>
+        <span itemprop="articleBody"><p>##一、硬件要求<br>1、内存 &amp; swap<br>Minimum: 1 GB of RAM<br>Recommended: 2 GB of RAM or more<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211127_56147.png" alt="硬件要求"></p>
 <p>检查内存情况<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">grep MemTotal /proc/meminfo</div><div class="line">grep SwapTotal /proc/meminfo</div></pre></td></tr></table></figure></p>
 <p>2、硬盘<br>由于CentOS安装后差不多有4~5G，再加上Oracle等等的安装，所以请准备至少10G的硬盘空间。<br>检查磁盘情况<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df -h</div></pre></td></tr></table></figure></p>
 <p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211509_28032.jpg" alt="df-h"></p>
-<h2 id="二、软件">二、软件</h2><p>系统平台：CentOS 6.3(x86_64)<br>CentOS-6.3-x86_64-bin-DVD1.iso<br>Oracle版本：Oracle 10g R2<br>10201_database_linux_x86_64.cpio</p>
-<h2 id="三、系统安装注意">三、系统安装注意</h2><p>系统安装时一定要安装桌面模式，否则无法安装oracle，另外请勿开启SELinux，oracle官方不建议使用SELinux，CentOS 的防火墙也请暂时关闭，减少安装时的困扰。为防止Oracle安装过程中出现乱码，建议使用英文作为系统语言，进行Oracle的安装工作。<br>本文中所描述的系统命令，未经特殊标示，均为“#”代表root权限，“$”代表oracle权限。</p>
-<h2 id="四、安装Oracle前的系统准备工作">四、安装Oracle前的系统准备工作</h2><p>首先，请先以root账号登入作一些前置设定作业。<br>1、关闭防火墙、禁用SELinux<br>setup<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211724_11378.jpg" alt="setup"></p>
+<p>##二、软件<br>系统平台：CentOS 6.3(x86_64)<br>CentOS-6.3-x86_64-bin-DVD1.iso<br>Oracle版本：Oracle 10g R2<br>10201_database_linux_x86_64.cpio</p>
+<p>##三、系统安装注意<br>系统安装时一定要安装桌面模式，否则无法安装oracle，另外请勿开启SELinux，oracle官方不建议使用SELinux，CentOS 的防火墙也请暂时关闭，减少安装时的困扰。为防止Oracle安装过程中出现乱码，建议使用英文作为系统语言，进行Oracle的安装工作。<br>本文中所描述的系统命令，未经特殊标示，均为“#”代表root权限，“$”代表oracle权限。</p>
+<p>##四、安装Oracle前的系统准备工作<br>首先，请先以root账号登入作一些前置设定作业。<br>1、关闭防火墙、禁用SELinux<br>setup<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211724_11378.jpg" alt="setup"></p>
 <p>vi /etc/selinux/config<br>修改SELINUX=disabled，然后重启。<br>如果不想重启系统，使用命令setenforce 0<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211852_74451.jpg" alt="setenforce"></p>
 <p>2、安装依赖包<br>Oracle官方文档要求的安装包：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212103_24755.jpg" alt="oracle安装依赖包"></p>
 <p>查看Oracle相关包是否已经安装：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212212_30050.jpg" alt="oracle相关包"></p>
@@ -360,7 +360,7 @@
 <p>修改并加入以下內容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> ORACLE_BASE=/home/app/oracle</div><div class="line"><span class="built_in">export</span> ORACLE_HOME=<span class="variable">$ORACLE_BASE</span>/product/10.2.0/db_1</div><div class="line"><span class="built_in">export</span> ORACLE_SID=pltest02</div><div class="line"><span class="built_in">export</span> PATH=.:<span class="variable">$&#123;PATH&#125;</span>:<span class="variable">$HOME</span>/bin:<span class="variable">$ORACLE_HOME</span>/bin</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;PATH&#125;</span>:/usr/bin:/bin:/usr/bin/X11:/usr/<span class="built_in">local</span>/bin</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;PATH&#125;</span>:<span class="variable">$ORACLE_BASE</span>/common/oracle/bin</div><div class="line"><span class="built_in">export</span> ORACLE_TERM=xterm</div><div class="line"><span class="built_in">export</span> TNS_ADMIN=<span class="variable">$ORACLE_HOME</span>/network/admin</div><div class="line"><span class="built_in">export</span> ORA_NLS10=<span class="variable">$ORACLE_HOME</span>/nls/data</div><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH32=<span class="variable">$ORACLE_HOME</span>/lib32</div><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$ORACLE_HOME</span>/lib</div><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>:<span class="variable">$ORACLE_HOME</span>/oracm/lib</div><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>:/lib:/usr/lib:/usr/<span class="built_in">local</span>/lib</div><div class="line"><span class="built_in">export</span> CLASSPATH=<span class="variable">$ORACLE_HOME</span>/jre</div><div class="line"><span class="built_in">export</span> CLASSPATH=<span class="variable">$&#123;CLASSPATH&#125;</span>:<span class="variable">$ORACLE_HOME</span>/jlib</div><div class="line"><span class="built_in">export</span> CLASSPATH=<span class="variable">$&#123;CLASSPATH&#125;</span>:<span class="variable">$ORACLE_HOME</span>/rdbms/jlib</div><div class="line"><span class="built_in">export</span> CLASSPATH=<span class="variable">$&#123;CLASSPATH&#125;</span>:<span class="variable">$ORACLE_HOME</span>/network/jlib</div><div class="line"><span class="built_in">export</span> THREADS_FLAG=native</div><div class="line"><span class="built_in">export</span> TEMP=/tmp</div><div class="line"><span class="built_in">export</span> TMPDIR=/tmp</div><div class="line"><span class="built_in">export</span> NLS_LANG=AMERICAN_AMERICA.ZHS16GBK</div></pre></td></tr></table></figure></p>
 <p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214338_80244.jpg" alt="export"></p>
 <p>保存后使用如下命令，使设置生效：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> /home/oracle/.bash_profile</div></pre></td></tr></table></figure></p>
-<h2 id="五、安装Oracle，并进行相关设置">五、安装Oracle，并进行相关设置</h2><p>1、解压缩安装文件<br>将下载的10201_database_linux_x86_64.cpio放至即将安装oracle的文件夹/opt/oracle<br>回到终端模式并且进入到oracle文件夹：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /opt/oracle</div></pre></td></tr></table></figure></p>
+<p>##五、安装Oracle，并进行相关设置<br>1、解压缩安装文件<br>将下载的10201_database_linux_x86_64.cpio放至即将安装oracle的文件夹/opt/oracle<br>回到终端模式并且进入到oracle文件夹：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /opt/oracle</div></pre></td></tr></table></figure></p>
 <p>解压缩10201_database_linux_x86_64.cpio<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cpio -idmv &lt; 10201_database_linux_x86_64.cpio</div></pre></td></tr></table></figure></p>
 <p>接着会看到一连串的解压缩动作。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214635_35567.jpg" alt="解压缩"></p>
 <p>解压缩完成会在同一个文件夹中看到database的文件夹，请进入到database文件夹中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> database</div></pre></td></tr></table></figure></p>
@@ -527,7 +527,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -541,7 +541,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -590,7 +590,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、硬件要求"><span class="nav-number">1.</span> <span class="nav-text">一、硬件要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、软件"><span class="nav-number">2.</span> <span class="nav-text">二、软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、系统安装注意"><span class="nav-number">3.</span> <span class="nav-text">三、系统安装注意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、安装Oracle前的系统准备工作"><span class="nav-number">4.</span> <span class="nav-text">四、安装Oracle前的系统准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、安装Oracle，并进行相关设置"><span class="nav-number">5.</span> <span class="nav-text">五、安装Oracle，并进行相关设置</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

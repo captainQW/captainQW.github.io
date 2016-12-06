@@ -56,18 +56,18 @@
 
 
 <meta name="description" content="这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。
-一、数据类型什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。但是对于">
+###一、数据类型什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。但">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Drupal8面向对象(OOP)">
 <meta property="og:url" content="http://verynull.com/2015/11/16/Drupal8面向对象-OOP/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。
-一、数据类型什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。但是对于">
+###一、数据类型什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。但">
 <meta property="og:updated_time" content="2015-12-23T09:38:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Drupal8面向对象(OOP)">
 <meta name="twitter:description" content="这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。
-一、数据类型什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。但是对于">
+###一、数据类型什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。但">
 
 
 
@@ -275,28 +275,28 @@
 
       
         <span itemprop="articleBody"><p>这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。<br>OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。</p>
-<h3 id="一、数据类型">一、数据类型</h3><p>什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。<br>但是对于其他的数据类型，如整形(int)等，这种方式就不适用。</p>
+<p>###一、数据类型<br>什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。<br>但是对于其他的数据类型，如整形(int)等，这种方式就不适用。</p>
 <p>而OOP的优势在于，它允许你自定义数据类型。这些数据类型也称之为”类”，在类中包含一些内部结构，如:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></div><div class="line">&#123;</div><div class="line">  <span class="comment">// 下面是人的成员属性</span></div><div class="line">  <span class="keyword">protected</span> $name; <span class="comment">// 人的名子</span></div><div class="line">  <span class="keyword">protected</span> $sex; <span class="comment">// 人的性别</span></div><div class="line">  <span class="keyword">protected</span> $age; <span class="comment">// 人的年龄</span></div><div class="line"></div><div class="line">  <span class="comment">// 构造函数</span></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name, $sex, $age)</span> </span>&#123;</div><div class="line">  	<span class="keyword">$this</span>-&gt;name = $name;</div><div class="line">  	<span class="keyword">$this</span>-&gt;sex = $sex;</div><div class="line">  	<span class="keyword">$this</span>-&gt;age = $age;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</div><div class="line">  	<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;name . <span class="string">'，性别：'</span> . <span class="keyword">$this</span>-&gt;sex . <span class="string">'，年龄：'</span> . <span class="keyword">$this</span>-&gt;age;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这段代码定义了一个名叫Person的类，包含三个属性$name, $sex, $age，也包含2个方法。实例化如下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$name = <span class="string">'王鹏'</span>;</div><div class="line">$sex = <span class="string">'男'</span>;</div><div class="line">$age = <span class="number">30</span>;</div><div class="line">$myperson = <span class="keyword">new</span> Person($name, $sex, $age);</div></pre></td></tr></table></figure>
 <p>$myperson现在就是一个对象实例。对于Drupal来说，类和对象的关系就类似内容类型和内容之间的关系。</p>
-<h3 id="二、类的结构(class)">二、类的结构(class)</h3><p>类的概念：类是具有相同属性和服务的一组对象的集合。它为属于该类的所有对象提供了统一的抽象描述，其内部包括属性和服务两个主要部分。在面向对象的编程语言中，类是一个独立的程序单位，它应该有一个类名并包括属性说明和服务说明两个主要部分。</p>
+<p>###二、类的结构(class)<br>类的概念：类是具有相同属性和服务的一组对象的集合。它为属于该类的所有对象提供了统一的抽象描述，其内部包括属性和服务两个主要部分。在面向对象的编程语言中，类是一个独立的程序单位，它应该有一个类名并包括属性说明和服务说明两个主要部分。</p>
 <p>这段文字是摘抄自google，比较晦涩难懂。<br>简单说，方法是可以在对象上执行的操作。比如在Person类，我们有一个方法叫getPerson()，我们可以通过引用对象调用TA。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$person = $myperson-&gt;getPerson();</div></pre></td></tr></table></figure>
 <p>当然，我们不能用$myperson-&gt;name或$myperson-&gt;sex来引用这些属性。我们先来看一些关键词public、protected，他们定义了方法或者属性的可见性。public方法或者属性可以外部访问调用，如getPerson()。但是protected仅限于在类或子类的内部调用。而private就只能在类自己内部调用，而不能在它的子类中。</p>
 <p>Drupal中一般声明属性protected,方法声明为public或protected，private一般不赞成使用。</p>
-<h3 id="三、接口(interface)">三、接口(interface)</h3><p>接口是一种特殊的抽象类，抽象类又是一种特殊的类，所以接口也是一种特殊的类，为 什么说接口是一种特殊的抽象类呢？如果一个抽象类里面的所有的方法都是抽象方法，那么我们就换一种声明方法使用“接口”；也就是说接口里面所有的方法必须 都是声明为抽象方法，另外接口里面不能声明变量(但可声明常量constant)，而且接口里面所有的成员都是public权限的。所以子类在实现的时候 也一定要使用public权限实限。</p>
+<p>###三、接口(interface)<br>接口是一种特殊的抽象类，抽象类又是一种特殊的类，所以接口也是一种特殊的类，为 什么说接口是一种特殊的抽象类呢？如果一个抽象类里面的所有的方法都是抽象方法，那么我们就换一种声明方法使用“接口”；也就是说接口里面所有的方法必须 都是声明为抽象方法，另外接口里面不能声明变量(但可声明常量constant)，而且接口里面所有的成员都是public权限的。所以子类在实现的时候 也一定要使用public权限实限。</p>
 <p>在类中，Person定义的对象大抵是这样：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;...&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>那如何定义接口呢？<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PersonInterface</span> </span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">PersonInterface</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> __construct($name, $sex, $age);</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">/*..........*/</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>这就像用户界面定义了人和程序如何交互，而接口定义了方法和对象的交互过程。当然你不能创建一个接口对象，而必须一个接口类。</p>
-<p>说简单点。就是—-接口定义了方法，类实现了方法。</p>
-<h3 id="四、构造方法(constructor)">四、构造方法(constructor)</h3><p>我们再来看Person类中的方法__construct()，它是用两个下划线作为前缀。这是PHP5中引入的。当创建一个对象的时候，会自动调用构造函数，也就是用new这个关键字实例化对象的时候自动调用构造函数。<br>在一个类中只能声明一个构造方法，而是只有在每次创建对象的时候都会去调用一次构造方法，不能主动的调用这个方法，所以通常用它执行一些有用的初始化任务。比如对成属性在创建对象的时候赋初值。如我们上面的代码：</p>
+<p>说简单点。就是—接口定义了方法，类实现了方法。</p>
+<p>###四、构造方法(constructor)<br>我们再来看Person类中的方法__construct()，它是用两个下划线作为前缀。这是PHP5中引入的。当创建一个对象的时候，会自动调用构造函数，也就是用new这个关键字实例化对象的时候自动调用构造函数。<br>在一个类中只能声明一个构造方法，而是只有在每次创建对象的时候都会去调用一次构造方法，不能主动的调用这个方法，所以通常用它执行一些有用的初始化任务。比如对成属性在创建对象的时候赋初值。如我们上面的代码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$myperson = <span class="keyword">new</span> Person($name, $sex, $age);</div></pre></td></tr></table></figure>
 <p>它是如何执行的呢？<br>1、在内存中创建一个Person对象<br>2、用new关键字调用__construct方法<br>3、把Person对象复制给$this属性<br>4、创建一个名为$myperson的变量，他并不是一个对象，他用来处理对象<br>5、把$myperson指向内存中的Person对象</p>
 <p>注意：不要在接口中定义构造方法，这样会导致代码逻辑混乱！</p>
-<h3 id="五、继承(inherit)">五、继承(inherit)</h3><p>继承是OOP的一个重要的特性，继承是子类自动共享父类数据结构和方法的机制，这是类之间的一种关系。如：</p>
+<p>###五、继承(inherit)<br>继承是OOP的一个重要的特性，继承是子类自动共享父类数据结构和方法的机制，这是类之间的一种关系。如：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name, $sex, $age)</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;name = $name;</div><div class="line">    <span class="keyword">$this</span>-&gt;sex = $sex;</div><div class="line">    <span class="keyword">$this</span>-&gt;age = $age;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$mystudent = <span class="keyword">new</span> Student($name, $sex, $age);</div></pre></td></tr></table></figure>
 <p>这里声明了Student类是Person的子类，我们这里没有定义getPerson方法，这意味着这个方法继承自Person类，如$mystudent-&gt;getPerson()和$mypeson-&gt;getPerson()执行的结果是一样的。我们这里也没有定义$name, $sex, $age这些属性，他们也是继承自Person父类。</p>
 <p>在C++语言中，一个派生类可以从一个基类派生，也可以从多个基类派生。从一个基类派生的继承称为单继承；从多个基类派生的继承称为多继承。</p>
@@ -427,7 +427,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -441,7 +441,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -490,7 +490,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、数据类型"><span class="nav-number">1.</span> <span class="nav-text">一、数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、类的结构(class)"><span class="nav-number">2.</span> <span class="nav-text">二、类的结构(class)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、接口(interface)"><span class="nav-number">3.</span> <span class="nav-text">三、接口(interface)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、构造方法(constructor)"><span class="nav-number">4.</span> <span class="nav-text">四、构造方法(constructor)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、继承(inherit)"><span class="nav-number">5.</span> <span class="nav-text">五、继承(inherit)</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

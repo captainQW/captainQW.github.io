@@ -283,7 +283,7 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="CSS格式">CSS格式</h1><h2 id="空白">空白</h2><blockquote>
+        <span itemprop="articleBody"><h1 id="CSS格式"><a href="#CSS格式" class="headerlink" title="CSS格式"></a>CSS格式</h1><h2 id="空白"><a href="#空白" class="headerlink" title="空白"></a>空白</h2><blockquote>
 <p>缩进</p>
 </blockquote>
 <p>不要使用tab键进行缩进，采用2个空格进行缩进。</p>
@@ -303,7 +303,7 @@
 <p>行尾绝不能有任何空白(空白或者tab)。所有的文件应该以单个空白行结尾。</p>
 <p>文件应该以Unix行尾格式结尾(<code>\n</code>或者<code>LF</code>)，同时也是MAC OS X的默认方式，不要使用windows的行尾格式(<code>\r\n</code>或者<code>CRLF</code>)</p>
 <p>小提示：文本编辑启用<code>show invisibles</code>。</p>
-<h2 id="注释">注释</h2><blockquote>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><blockquote>
 <p>文件注释</p>
 </blockquote>
 <p>每一个文件应该以注释开头，注释中写明文件的用途。例如：</p>
@@ -320,7 +320,7 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.example</span> &#123;</div><div class="line">  <span class="comment">/* Override the default margins. */</span></div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* This is a variant of the .example component. */</span></div><div class="line"><span class="selector-class">.example--item</span> &#123;</div><div class="line">  <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>将注释直接放在属性或者它的规则集前面，并保持与它所属的属性或者规则集相同的缩进。</p>
 <p>如果注释用于描述一个规则集，记得在规则集前面添加一空白行。</p>
-<h2 id="格式">格式</h2><p>CSS格式规范确保代码的可读性，注释的清晰性，最大化减少意外错误的情况。</p>
+<h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><p>CSS格式规范确保代码的可读性，注释的清晰性，最大化减少意外错误的情况。</p>
 <blockquote>
 <p>规则集</p>
 </blockquote>
@@ -373,7 +373,7 @@
 <li>px值直接加在起始大括号之后。</li>
 </ul>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">media</span> screen and (min-width: <span class="number">28.125rem</span>) &#123; <span class="comment">/* 450px */</span></div><div class="line">  <span class="selector-id">#page</span> &#123;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">1.25rem</span>;</div><div class="line">    <span class="attribute">margin-right</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">margin-right</span>: <span class="number">1.25rem</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="杂项">杂项</h2><blockquote>
+<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><blockquote>
 <p>@charset语句</p>
 </blockquote>
 <p>字符集语句(例如：<code>@charset &quot;UTF-8&quot;;</code>)只在css文件最开头的时候才会生效。当Drupal的css合并器合并多个css文件到一个文件时，Drupal会忽略<code>@charset</code>语句。这就意味着，CSS文件不必要加<code>@charset</code>语句。CSS文件默认编码是<code>UTF-8</code>。任何CSS注释或者属性值必须以<code>UTF-8</code>编码。</p>
@@ -382,7 +382,7 @@
 </blockquote>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * @file</div><div class="line"> * Layouts for this theme.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Column layout with horizontal scroll.</div><div class="line"> *</div><div class="line"> * This creates a single row of full-height, non-wrapping columns that can be</div><div class="line"> * browsed horizontally within their parent.</div><div class="line"> *</div><div class="line"> * Example HTML:</div><div class="line"> *</div><div class="line"> * &lt;div class="grid"&gt;</div><div class="line"> *   &lt;div class="cell cell-3"&gt;&lt;/div&gt;</div><div class="line"> *   &lt;div class="cell cell-3"&gt;&lt;/div&gt;</div><div class="line"> *   &lt;div class="cell cell-3"&gt;&lt;/div&gt;</div><div class="line"> * &lt;/div&gt;</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Grid container</div><div class="line"> *</div><div class="line"> * Must only contain '.cell' children.</div><div class="line"> */</div><div class="line"><span class="selector-class">.grid</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">  <span class="comment">/* Remove inter-cell whitespace */</span></div><div class="line">  <span class="attribute">font-size</span>: <span class="number">0</span>;</div><div class="line">  <span class="comment">/* Prevent inline-block cells wrapping */</span></div><div class="line">  <span class="attribute">white-space</span>: nowrap;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Grid cells</div><div class="line"> *</div><div class="line"> * No explicit width by default. Extend with '.cell-n' classes.</div><div class="line"> */</div><div class="line"><span class="selector-class">.cell</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">overflow</span>: hidden;</div><div class="line">  <span class="attribute">box-sizing</span>: border-box;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">  <span class="comment">/* Set the inter-cell spacing */</span></div><div class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">10px</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0.625rem</span>;</div><div class="line">  <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#333</span>;</div><div class="line">  <span class="attribute">vertical-align</span>: top;</div><div class="line">  <span class="comment">/* Reset white-space */</span></div><div class="line">  <span class="attribute">white-space</span>: normal;</div><div class="line">  <span class="comment">/* Reset font-size */</span></div><div class="line">  <span class="attribute">font-size</span>: <span class="number">16px</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1rem</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* Cell states */</span></div><div class="line"><span class="selector-class">.cell</span><span class="selector-class">.is-animating</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#fffdec</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* Cell dimensions */</span></div><div class="line"><span class="selector-class">.cell-1</span> &#123; <span class="attribute">width</span>: <span class="number">10%</span>; &#125;</div><div class="line"><span class="selector-class">.cell-2</span> &#123; <span class="attribute">width</span>: <span class="number">20%</span>; &#125;</div><div class="line"><span class="selector-class">.cell-3</span> &#123; <span class="attribute">width</span>: <span class="number">30%</span>; &#125;</div><div class="line"><span class="selector-class">.cell-4</span> &#123; <span class="attribute">width</span>: <span class="number">40%</span>; &#125;</div><div class="line"><span class="selector-class">.cell-5</span> &#123; <span class="attribute">width</span>: <span class="number">50%</span>; &#125;</div><div class="line"></div><div class="line"><span class="comment">/* Cell modifiers */</span></div><div class="line"><span class="selector-class">.cell--detail</span>,</div><div class="line"><span class="selector-class">.cell--important</span> &#123;</div><div class="line">  <span class="attribute">border-width</span>: <span class="number">4px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <hr>
-<h1 id="CSS架构">CSS架构</h1><h2 id="目标">目标</h2><blockquote>
+<h1 id="CSS架构"><a href="#CSS架构" class="headerlink" title="CSS架构"></a>CSS架构</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><blockquote>
 <p>可预期性</p>
 </blockquote>
 <p>CSS代码具有易读性，容易理解。修改时只修改你需要的而不会发生其它错误。</p>
@@ -397,7 +397,7 @@
 <blockquote>
 <p>可扩展</p>
 </blockquote>
-<h2 id="最佳实践">最佳实践</h2><blockquote>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><blockquote>
 <p>避免依赖HTML结构</p>
 </blockquote>
 <ul>
@@ -593,7 +593,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -607,7 +607,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

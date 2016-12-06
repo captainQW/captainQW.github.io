@@ -55,28 +55,34 @@
 
 
 
-<meta name="description" content="一、命名规范[数据库环境介绍]通常来讲，各个互联网公司的数据库分为5个数据库环境：
+<meta name="description" content="#一、命名规范
+###[数据库环境介绍]
+通常来讲，各个互联网公司的数据库分为5个数据库环境：
 
 dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; 
 qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; 
-sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会先在这">
+sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mysql数据库设计规范">
 <meta property="og:url" content="http://verynull.com/2016/06/29/Mysql数据库设计规范/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
-<meta property="og:description" content="一、命名规范[数据库环境介绍]通常来讲，各个互联网公司的数据库分为5个数据库环境：
+<meta property="og:description" content="#一、命名规范
+###[数据库环境介绍]
+通常来讲，各个互联网公司的数据库分为5个数据库环境：
 
 dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; 
 qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; 
-sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会先在这">
+sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求">
 <meta property="og:updated_time" content="2016-06-29T07:56:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql数据库设计规范">
-<meta name="twitter:description" content="一、命名规范[数据库环境介绍]通常来讲，各个互联网公司的数据库分为5个数据库环境：
+<meta name="twitter:description" content="#一、命名规范
+###[数据库环境介绍]
+通常来讲，各个互联网公司的数据库分为5个数据库环境：
 
 dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; 
 qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; 
-sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会先在这">
+sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求">
 
 
 
@@ -283,7 +289,9 @@ sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会�
       
 
       
-        <span itemprop="articleBody"><h1 id="一、命名规范">一、命名规范</h1><h3 id="[数据库环境介绍]">[数据库环境介绍]</h3><p>通常来讲，各个互联网公司的数据库分为5个数据库环境：</p>
+        <span itemprop="articleBody"><p>#一、命名规范</p>
+<p>###[数据库环境介绍]</p>
+<p>通常来讲，各个互联网公司的数据库分为5个数据库环境：</p>
 <ol>
 <li>dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; </li>
 <li>qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构; </li>
@@ -292,15 +300,17 @@ sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会�
 <li>online: 线上环境;开发人员不允许直接在线上环境进行数据库操作,如果需要操作必须找DBA进行操作并进行相应记录;</li>
 </ol>
 <p>这些环境的机器，一定要做到权限划分明确，读写帐号分离，并且有辨识度，能区分具体业务。例如用户名w_wap, r_wap 能看出来，读写帐号是wap应用的。</p>
-<h3 id="[数据库命名规范]">[数据库命名规范]</h3><ol>
+<p>###[数据库命名规范]</p>
+<ol>
 <li>尽量简洁明义，能够一眼看出来这个数据库是用来做什么的；</li>
 <li>使用名词作为数据库名称，并且只用英文，不用中文拼音；</li>
 <li>使用英文字母，全部小写，控制在3-7个字母以内；</li>
 <li>如果有多个单词，则使用下划线隔开，不建义驼峰命名；<br>例如，每个公司都有crm业务，那就叫做xx_crm, 字符集统一utf8。字符集踩过的坑很多，为了通用性统一utf8。<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create database xx_crm default character <span class="built_in">set</span>=utf8;</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="[表命名规范]">[表命名规范]</h3><ol>
-<li>具备统一前缀，对相关功能的表应当使用相同前缀，如acl<em>xxx，house_xxx,ppc_xxx；其中前缀通常为这个表的模块或依赖主实体对象的名字，通常来讲表名为：业务</em>动作<em>类型，或是业务</em>类型；</li>
+<p>###[表命名规范]</p>
+<ol>
+<li>具备统一前缀，对相关功能的表应当使用相同前缀，如acl_xxx，house_xxx,ppc<em>xxx；其中前缀通常为这个表的模块或依赖主实体对象的名字，通常来讲表名为：业务</em>动作<em>类型，或是业务</em>类型；</li>
 <li>表名使用英文小写单词，如果有多个单词则使用下划线隔开；<br>3.表名简介，使用常见单词，避免使用长单词和生僻词；</li>
 <li>表引擎取决于实际应用场景及当前数据库中的已经存在的存储引擎；日志及报表类表建议用myisam，与交易，审核，金额相关的表建议用innodb引擎。总体来讲数据库默认innodb；</li>
 <li>数据表必须有主键，且建议均使用auto_increment的id作为主键（与业务无关）,和业务相关的要做为唯一索引；</li>
@@ -310,7 +320,8 @@ sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会�
 <li>职责相近的表，命名规则应该相同；如合同申请，账户信息，交友相关等；<br>举个例子，一张在线冲值记录表：user_bank_deposit 这个就非常符合标准，如果叫做userBankDeposit或是user_chongzhi，就非常不友好。</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `house_refresh_log` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT <span class="string">'自增ID'</span>,</div><div class="line">  `fangid` int(11) NOT NULL COMMENT <span class="string">'房贴子ID'</span>,</div><div class="line">  `refresh_time` int(11) NOT NULL COMMENT <span class="string">'刷新时间'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `fangid` (`fangid`)</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=<span class="string">'房刷新记录表'</span></div></pre></td></tr></table></figure>
-<h3 id="[字段命名规范]">[字段命名规范]</h3><ol>
+<p>###[字段命名规范]</p>
+<ol>
 <li>数据库字段命名与表名命名类似：</li>
 <li>使用小写英文单词，如果有多个单词使用下划线隔开；</li>
 <li>使用简单单词，避免生僻词；</li>
@@ -324,7 +335,9 @@ sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会�
 <li>text字段尽量少用，或是拆到冗余表中；</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `wanted_post` (</div><div class="line">  `id` int(10) NOT NULL AUTO_INCREMENT,</div><div class="line">  `puid` int(10) unsigned NOT NULL,</div><div class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">'发贴用户的id'</span>,</div><div class="line">  `username` varchar(50) NOT NULL COMMENT <span class="string">'发贴用户的用户名'</span>,</div><div class="line">  `city` smallint(4) NOT NULL COMMENT <span class="string">'所在城市'</span>,</div><div class="line">  `ip` bigint(14) NOT NULL COMMENT <span class="string">'发帖人的ip'</span>,</div><div class="line">  `district_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在区域的id'</span>,</div><div class="line">  `district_name` varchar(20) NOT NULL COMMENT <span class="string">'行政区名字'</span>,</div><div class="line">  `street_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在街道(地标)的id'</span>,</div><div class="line">  `street_name` varchar(20) NOT NULL COMMENT <span class="string">'小区名字'</span>,</div><div class="line">  `title` varchar(255) NOT NULL COMMENT <span class="string">'帖子的标题'</span>,</div><div class="line">  `description` text NOT NULL COMMENT <span class="string">'帖子详情描述'</span>,</div><div class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">'用户发帖时间,数据创建的时间,使用整型存储'</span>,</div><div class="line">  `refresh_at` int(11) NOT NULL COMMENT <span class="string">'帖子被修改的时间,整型存储'</span>,</div><div class="line">  `show_time` int(11) NOT NULL COMMENT <span class="string">'帖子显示时间'</span>,</div><div class="line">  `age_max` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最小年龄'</span>,</div><div class="line">  `age_min` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最大年龄'</span>,</div><div class="line">  `post_refresh_at` int(11) NOT NULL COMMENT <span class="string">'刷新时间'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `idx_puid` (`puid`),</div><div class="line">  KEY `user_id_index` (`user_id`),</div><div class="line">  KEY `post_at_index` (`post_at`),</div><div class="line">  KEY `refresh_at_index` (`refresh_at`),</div><div class="line">  KEY `show_time_index` (`show_time`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT=<span class="string">'招聘帖子表'</span></div></pre></td></tr></table></figure>
-<h1 id="二、表设计原则">二、表设计原则</h1><h3 id="[职责分离原则]">[职责分离原则]</h3><p>职责分离原则是指在设计的时候应当考虑到数据的产生，聚合使用等原则，每个系统干自己能干的事情，每个系统只干自己的事情。一个数据表应该放在哪个系统中，通常取决于几点：</p>
+<p>#二、表设计原则</p>
+<p>###[职责分离原则]</p>
+<p>职责分离原则是指在设计的时候应当考虑到数据的产生，聚合使用等原则，每个系统干自己能干的事情，每个系统只干自己的事情。一个数据表应该放在哪个系统中，通常取决于几点：</p>
 <ol>
 <li><p>谁产生这个信息：通常情况下谁产生了这个数据应当对此数据负责；也就是考虑该数据的创建，发展，销毁等全生命周期的定义，并将这个定义维护起来提供给消费者作为消费原则；</p>
 </li>
@@ -337,7 +350,8 @@ sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会�
 <p>举个最常见贴子与评论的例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `wanted_post` (</div><div class="line">  `id` int(10) NOT NULL AUTO_INCREMENT,</div><div class="line">  `puid` int(10) unsigned NOT NULL,</div><div class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">'发贴用户的id'</span>,</div><div class="line">  `username` varchar(50) NOT NULL COMMENT <span class="string">'发贴用户的用户名'</span>,</div><div class="line">  `city` smallint(4) NOT NULL COMMENT <span class="string">'所在城市'</span>,</div><div class="line">  `ip` bigint(14) NOT NULL COMMENT <span class="string">'发帖人的ip'</span>,</div><div class="line">  `district_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在区域的id'</span>,</div><div class="line">  `district_name` varchar(20) NOT NULL COMMENT <span class="string">'行政区名字'</span>,</div><div class="line">  `street_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在街道(地标)的id'</span>,</div><div class="line">  `street_name` varchar(20) NOT NULL COMMENT <span class="string">'小区名字'</span>,</div><div class="line">  `title` varchar(255) NOT NULL COMMENT <span class="string">'帖子的标题'</span>,</div><div class="line">  `description` text NOT NULL COMMENT <span class="string">'帖子详情描述'</span>,</div><div class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">'用户发帖时间,数据创建的时间,使用整型存储'</span>,</div><div class="line">  `refresh_at` int(11) NOT NULL COMMENT <span class="string">'帖子被修改的时间,整型存储'</span>,</div><div class="line">  `show_time` int(11) NOT NULL COMMENT <span class="string">'帖子显示时间'</span>,</div><div class="line">  `age_max` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最小年龄'</span>,</div><div class="line">  `age_min` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最大年龄'</span>,</div><div class="line">  `post_refresh_at` int(11) NOT NULL COMMENT <span class="string">'刷新时间'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `idx_puid` (`puid`),</div><div class="line">  KEY `user_id_index` (`user_id`),</div><div class="line">  KEY `post_at_index` (`post_at`),</div><div class="line">  KEY `refresh_at_index` (`refresh_at`),</div><div class="line">  KEY `show_time_index` (`show_time`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT=<span class="string">'招聘帖子表'</span></div><div class="line"></div><div class="line"></div><div class="line">CREATE TABLE `wanted_post_comment_99` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `puid` int(10) unsigned NOT NULL,</div><div class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">'评论用户ID'</span>,</div><div class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">'评论时间'</span>,</div><div class="line">  `detail` text NOT NULL COMMENT <span class="string">'评论详情'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  KEY `user_id_index` (`user_id`),</div><div class="line">  KEY `puidid_index` (`puid`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT=<span class="string">'招聘评论分表99'</span></div></pre></td></tr></table></figure></p>
 <p>由于评论表数据量很大，在预先做好分表，按贴子puid分成100张子表，那么当前详情页涉及sql如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select * from wanted_post <span class="built_in">where</span> puid=xxxx;</div><div class="line">select * from wanted_post_comment_99 <span class="built_in">where</span> puid=xxxx;</div></pre></td></tr></table></figure></p>
 <p>这是一个简化的模型，评论多了，还要涉及分页，不可能一次性全取出来。对于上面的场景，严格尊守高内聚，低耦合的原则，不会存储冗余数据。相比较还有一种文档型数据库，例如mongo，就可以将评论与贴子存放在一起，访问的时候只需一次顺序IO操作。整体来讲表设计，要按照职责划分原则。</p>
-<h3 id="[在线处理与分析分离]">[在线处理与分析分离]</h3><ol>
+<p>###[在线处理与分析分离]</p>
+<ol>
 <li>为了保障线上数据处理的性能，将一些分析相关的数据及分析结果，应当使用单独的库来进行存储，避免在数据分析的时候导致业务数据吞吐量下降，引起系统问题。</li>
 <li>专门用于存放离线报表数据，并提供线上数据查询方法，建议将统计结果，汇总的数据都从在线处理数据库中移走。</li>
 </ol>
@@ -347,11 +361,13 @@ sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会�
 <p>将请求指向不同slave ，这种方法简单高效，缺点是数据量增大就玩不转。</p>
 <p>建立离线报表库，专门存放统计结果，这样将计算与展示异步处理，缺点是对于实时业务响应不好。</p>
 <p>实时拉取mysql row binlog，做数据的异构处理(tungsten, canal)，将增量结果处理后(storm)，保存在数据库中，基本实时。</p>
-<h3 id="[事务与日志分离]">[事务与日志分离]</h3><p>用户生成内容和用户行为日志要分开，这一点很好理解，举两个例子：</p>
+<p>###[事务与日志分离]</p>
+<p>用户生成内容和用户行为日志要分开，这一点很好理解，举两个例子：</p>
 <p>游戏DB里存放玩家的基础信息，装备，属性，好友列表等等，这些放到数据库里面。但是玩家的行为日志，比如消耗金币，今天下过哪些副本，买过什么顶级装备，这些属于行为日志，应该单独存放并分析处理。 </p>
 <p>对于web用记，有好多用户置顶，刷新，竞价，展示等行为，要求实时并且量很大，一定要和贴子分开。</p>
 <p>行为日志，需要做分析处理，并且由于时效性不宜存储在mysql中，后期维护就是地雷。</p>
-<h3 id="[历史可追溯]">[历史可追溯]</h3><p>在数据库设计的时候为了保障数据是可追溯的，应当遵循一些简单的约定，事后方便数据的查询和统计：</p>
+<p>###[历史可追溯]</p>
+<p>在数据库设计的时候为了保障数据是可追溯的，应当遵循一些简单的约定，事后方便数据的查询和统计：</p>
 <ol>
 <li><p>对于状态数据，应当设计相应状态的字段来保存该数据的最后状态，同时记录下来该数据的初始创建人，时间以及该数据的最后修改人和修改时间；所以在交易数据（如订单合同），广告数据，账户表等都应该默认有状态（status），创建人（creator/creator_name），创建时间（created_at），最后修改人（modifier/modifier_name），最后修改时间（modified_at）等字段用来表明数据的当前状态，创建信息及修改信息。</p>
 </li>
@@ -486,7 +502,7 @@ sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -500,7 +516,7 @@ sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会�
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -549,7 +565,7 @@ sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求时，会�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、命名规范"><span class="nav-number">1.</span> <span class="nav-text">一、命名规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#[数据库环境介绍]"><span class="nav-number">1.0.1.</span> <span class="nav-text">[数据库环境介绍]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#[数据库命名规范]"><span class="nav-number">1.0.2.</span> <span class="nav-text">[数据库命名规范]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#[表命名规范]"><span class="nav-number">1.0.3.</span> <span class="nav-text">[表命名规范]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#[字段命名规范]"><span class="nav-number">1.0.4.</span> <span class="nav-text">[字段命名规范]</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、表设计原则"><span class="nav-number">2.</span> <span class="nav-text">二、表设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#[职责分离原则]"><span class="nav-number">2.0.1.</span> <span class="nav-text">[职责分离原则]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#[在线处理与分析分离]"><span class="nav-number">2.0.2.</span> <span class="nav-text">[在线处理与分析分离]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#[事务与日志分离]"><span class="nav-number">2.0.3.</span> <span class="nav-text">[事务与日志分离]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#[历史可追溯]"><span class="nav-number">2.0.4.</span> <span class="nav-text">[历史可追溯]</span></a></li></ol></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

@@ -201,11 +201,120 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/07/31/SQLite-database-disk-image-is-malformed-解决方法/" itemprop="url">
+                  Drupal SQLite: database disk image is malformed 解决方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-07-31T13:22:07+08:00" content="2015-07-31">
+              2015-07-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/31/SQLite-database-disk-image-is-malformed-解决方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/31/SQLite-database-disk-image-is-malformed-解决方法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
+        
+          <span itemprop="articleBody">
+            
+              <p>我碰到的这种情况，并不是网上说的磁盘坏了。而是由于频繁读写，并且有BLOB大数据频繁读写。</p>
+<p>解决办法就是通过导出导入方式对损坏的库文件作恢复。</p>
+<p>首先导出数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sqlite3 my.sqlite3</div><div class="line">sqlite&gt;.output tmp.sql</div><div class="line">sqlite&gt;.dump</div><div class="line">sqlite&gt;.quit</div></pre></td></tr></table></figure>
+<p>再导入到一个新库中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sqlite3 new.sqlite3</div><div class="line">sqlite&gt;.read tmp.sql</div><div class="line">sqlite&gt;.quit</div></pre></td></tr></table></figure>
+<p>覆盖new.sqlite文件到sites/default/files/.ht.sqlite即可。</p>
+<p>另外，如果只是临时数据，可以放到/dev/shm，就是内存数据库啦。。。</p>
+
+            
+          </span>
+        
+      
+    </div>
     
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -292,12 +401,12 @@
               <ul>
 <li>该方式适用于sublime text2和3。</li>
 </ul>
-<h2 id="创建代码片段">创建代码片段</h2><p>点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;snippet&gt;</div><div class="line">	&lt;content&gt;&lt;![CDATA[</div><div class="line">/**</div><div class="line"> * 定义函数</div><div class="line"> *</div><div class="line"> * 函数功能描述</div><div class="line"> * </div><div class="line"> * @author panjun.liu &lt;lpj163@gmail.com&gt;</div><div class="line"> *</div><div class="line"> * @param int <span class="variable">$param1</span>      参数释义</div><div class="line"> * @param string <span class="variable">$param2</span>   参数释义</div><div class="line"> *</div><div class="line"> * @<span class="built_in">return</span> <span class="built_in">integer</span>|string|array</div><div class="line">*/</div><div class="line">]]&gt;&lt;/content&gt;</div><div class="line">	&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</div><div class="line"> 	&lt;tabTrigger&gt;phpdoc&lt;/tabTrigger&gt;</div><div class="line">	&lt;!-- Optional: Set a scope to <span class="built_in">limit</span> <span class="built_in">where</span> the snippet will trigger --&gt;</div><div class="line">	&lt;!-- &lt;scope&gt;source.python&lt;/scope&gt; --&gt;</div><div class="line">&lt;/snippet&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="创建代码片段"><a href="#创建代码片段" class="headerlink" title="创建代码片段"></a>创建代码片段</h2><p>点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;snippet&gt;</div><div class="line">	&lt;content&gt;&lt;![CDATA[</div><div class="line">/**</div><div class="line"> * 定义函数</div><div class="line"> *</div><div class="line"> * 函数功能描述</div><div class="line"> * </div><div class="line"> * @author panjun.liu &lt;lpj163@gmail.com&gt;</div><div class="line"> *</div><div class="line"> * @param int <span class="variable">$param1</span>      参数释义</div><div class="line"> * @param string <span class="variable">$param2</span>   参数释义</div><div class="line"> *</div><div class="line"> * @<span class="built_in">return</span> <span class="built_in">integer</span>|string|array</div><div class="line">*/</div><div class="line">]]&gt;&lt;/content&gt;</div><div class="line">	&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</div><div class="line"> 	&lt;tabTrigger&gt;phpdoc&lt;/tabTrigger&gt;</div><div class="line">	&lt;!-- Optional: Set a scope to <span class="built_in">limit</span> <span class="built_in">where</span> the snippet will trigger --&gt;</div><div class="line">	&lt;!-- &lt;scope&gt;source.python&lt;/scope&gt; --&gt;</div><div class="line">&lt;/snippet&gt;</div></pre></td></tr></table></figure></p>
 <blockquote>
 <p>注：<br>tabTrigger 此节是可选的配置，默认是被注释掉的。默认 hello 的意思是：如果你在某个文档里输入了单词 hello ，然后按下 Tab 键，接着 hello 就会被替换为1中定义的代码片段。再次按下Tab键，接着snippet会被替换为2中定义的代码片段。</p>
 </blockquote>
 <p>保存到当前用户主目录下的\Sublime Text 3\Packages\User目录中，命名为phpdoc.sublime-snippet(注意：后缀必须为.sublime-snippet)。</p>
-<h2 id="绑定快捷键">绑定快捷键</h2><p>可以将上述的操作绑定到一个快捷键，在不键入任何文本的情况下，直接按快捷键插入代码片段。</p>
+<h2 id="绑定快捷键"><a href="#绑定快捷键" class="headerlink" title="绑定快捷键"></a>绑定快捷键</h2><p>可以将上述的操作绑定到一个快捷键，在不键入任何文本的情况下，直接按快捷键插入代码片段。</p>
 <p>点击菜单栏的 Preferences 的子菜单 Key Binding – User，在打开的文件的方括号内部粘贴如下配置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">	&#123; <span class="string">"keys"</span>: [<span class="string">"phpdoc"</span>], <span class="string">"command"</span>: <span class="string">"insert_snippet"</span>, <span class="string">"args"</span>: &#123;<span class="string">"name"</span>: <span class="string">"Packages/User/phpdoc.sublime-snippet"</span>&#125; &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
 <p>现在简单介绍一下这段配置：</p>
@@ -418,12 +527,12 @@
           <span itemprop="articleBody">
             
               <p>同步服务器192.168.1.100<br>接收服务器192.168.1.200<br>即把192.168.1.100的代码备份到192.168.1.200。</p>
-<h1 id="192-168-1-100上的配置如下：">192.168.1.100上的配置如下：</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">yum install rsync inotify-tools</div><div class="line"></div><div class="line">crontab <span class="_">-e</span></div><div class="line">*/59 * * * * /bin/sh /usr/<span class="built_in">local</span>/scripts/rsync.sh &gt;&gt; /var/<span class="built_in">log</span>/rsync.log</div><div class="line">即每小时的第59分钟同步代码</div></pre></td></tr></table></figure>
-<h1 id="/usr/local/scripts/rsync-sh脚本内容如下">/usr/local/scripts/rsync.sh脚本内容如下</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh </span></div><div class="line">SRC=/var/www/html/ <span class="comment">#记得在最后面加/不然RYNC会自动增加一层目录 </span></div><div class="line">DES=rsync_data <span class="comment">#192.168.1.200认证的模块名，后面会说明</span></div><div class="line">IP=192.168.1.200</div><div class="line">USER=backup </div><div class="line">INWT=/usr/bin/inotifywait </div><div class="line">RSYNC=/usr/bin/rsync </div><div class="line"><span class="variable">$RSYNC</span> -auzviL --delete --progress --password-file=/root/rsync.pwd <span class="variable">$SRC</span> <span class="variable">$USER</span>@<span class="variable">$IP</span>::<span class="variable">$DES</span></div></pre></td></tr></table></figure>
+<h1 id="192-168-1-100上的配置如下："><a href="#192-168-1-100上的配置如下：" class="headerlink" title="192.168.1.100上的配置如下："></a>192.168.1.100上的配置如下：</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">yum install rsync inotify-tools</div><div class="line"></div><div class="line">crontab <span class="_">-e</span></div><div class="line">*/59 * * * * /bin/sh /usr/<span class="built_in">local</span>/scripts/rsync.sh &gt;&gt; /var/<span class="built_in">log</span>/rsync.log</div><div class="line">即每小时的第59分钟同步代码</div></pre></td></tr></table></figure>
+<h1 id="usr-local-scripts-rsync-sh脚本内容如下"><a href="#usr-local-scripts-rsync-sh脚本内容如下" class="headerlink" title="/usr/local/scripts/rsync.sh脚本内容如下"></a>/usr/local/scripts/rsync.sh脚本内容如下</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh </span></div><div class="line">SRC=/var/www/html/ <span class="comment">#记得在最后面加/不然RYNC会自动增加一层目录 </span></div><div class="line">DES=rsync_data <span class="comment">#192.168.1.200认证的模块名，后面会说明</span></div><div class="line">IP=192.168.1.200</div><div class="line">USER=backup </div><div class="line">INWT=/usr/bin/inotifywait </div><div class="line">RSYNC=/usr/bin/rsync </div><div class="line"><span class="variable">$RSYNC</span> -auzviL --delete --progress --password-file=/root/rsync.pwd <span class="variable">$SRC</span> <span class="variable">$USER</span>@<span class="variable">$IP</span>::<span class="variable">$DES</span></div></pre></td></tr></table></figure>
 <blockquote>
 <p>rsync 选项说明<br> -a 称为归档模式，执行以下操作<br>递归模式<br>保留符号链接<br>保留权限<br>保留时间标记<br>保留用户名及组名<br>-z 开启压缩<br>-v 详情输出<br>-u 选项可以排除被修改过的目的文件<br>-L 把软连接文件夹同步过来<br>查看每个文件的传输进程,用 –-progress 参数<br>删除在目的文件夹中创建的文件,用 –-delete 参数</p>
 </blockquote>
-<h1 id="192-168-1-200上的配置如下：">192.168.1.200上的配置如下：</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">yum install rsync</div><div class="line"></div><div class="line">vim /etc/rsyncd.conf</div><div class="line">uid=root </div><div class="line">gid=root </div><div class="line">max connections=36000 </div><div class="line">use chroot=no </div><div class="line"><span class="built_in">log</span> file=/var/<span class="built_in">log</span>/rsyncd.log </div><div class="line">pid file=/var/run/rsyncd.pid </div><div class="line">lock file=/var/run/rsyncd.lock </div><div class="line">[rsync_data] </div><div class="line">path=/data/192.168.1.100/ <span class="comment">#192.168.1.100是一个必须存在的目录</span></div><div class="line">comment = 192.168.1.100</div><div class="line">ignore errors = yes</div><div class="line"><span class="built_in">read</span> only = no </div><div class="line">hosts allow = 192.168.1.100</div></pre></td></tr></table></figure>
+<h1 id="192-168-1-200上的配置如下："><a href="#192-168-1-200上的配置如下：" class="headerlink" title="192.168.1.200上的配置如下："></a>192.168.1.200上的配置如下：</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">yum install rsync</div><div class="line"></div><div class="line">vim /etc/rsyncd.conf</div><div class="line">uid=root </div><div class="line">gid=root </div><div class="line">max connections=36000 </div><div class="line">use chroot=no </div><div class="line"><span class="built_in">log</span> file=/var/<span class="built_in">log</span>/rsyncd.log </div><div class="line">pid file=/var/run/rsyncd.pid </div><div class="line">lock file=/var/run/rsyncd.lock </div><div class="line">[rsync_data] </div><div class="line">path=/data/192.168.1.100/ <span class="comment">#192.168.1.100是一个必须存在的目录</span></div><div class="line">comment = 192.168.1.100</div><div class="line">ignore errors = yes</div><div class="line"><span class="built_in">read</span> only = no </div><div class="line">hosts allow = 192.168.1.100</div></pre></td></tr></table></figure>
 <p>rsync启动脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#! /bin/sh</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># chkconfig:   2345 50 50</span></div><div class="line"><span class="comment"># description: The rsync daemon</span></div><div class="line"></div><div class="line"><span class="comment"># source function library</span></div><div class="line"> . /etc/rc.d/init.d/<span class="built_in">functions</span></div><div class="line"></div><div class="line">PROG=<span class="string">'/usr/bin/rsync'</span></div><div class="line">BASE=<span class="variable">$&#123;0##*/&#125;</span></div><div class="line"></div><div class="line"><span class="comment"># Adapt the --config parameter to point to your rsync daemon configuration</span></div><div class="line"><span class="comment"># The config file must contain following line:</span></div><div class="line"><span class="comment">#  pid file = /var/run/&lt;filename&gt;.pid</span></div><div class="line"><span class="comment"># Where &lt;filename&gt; is the filename of the init script (= this file)</span></div><div class="line">OPTIONS=<span class="string">"--daemon --config=/etc/rsyncd.conf"</span></div><div class="line"></div><div class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></div><div class="line">  start)</div><div class="line">    <span class="built_in">echo</span> -n $<span class="string">"Starting <span class="variable">$BASE</span>: "</span></div><div class="line">    daemon --check <span class="variable">$BASE</span> <span class="variable">$PROG</span> <span class="variable">$OPTIONS</span></div><div class="line">    RETVAL=$?</div><div class="line">    [ <span class="variable">$RETVAL</span> <span class="_">-eq</span> 0 ] &amp;&amp; touch /var/lock/subsys/<span class="variable">$BASE</span></div><div class="line">    <span class="built_in">echo</span></div><div class="line">    ;;</div><div class="line">  stop)</div><div class="line">    <span class="built_in">echo</span> -n $<span class="string">"Shutting down <span class="variable">$BASE</span>: "</span></div><div class="line">    killproc <span class="variable">$BASE</span></div><div class="line">    RETVAL=$?</div><div class="line">    [ <span class="variable">$RETVAL</span> <span class="_">-eq</span> 0 ] &amp;&amp; rm <span class="_">-f</span> /var/lock/subsys/<span class="variable">$BASE</span></div><div class="line">    <span class="built_in">echo</span></div><div class="line">    ;;</div><div class="line">  restart|force-reload)</div><div class="line">    <span class="variable">$0</span> stop</div><div class="line">    sleep 1</div><div class="line">    <span class="variable">$0</span> start</div><div class="line">    ;;</div><div class="line">  *)</div><div class="line">    <span class="built_in">echo</span> <span class="string">"Usage: <span class="variable">$0</span> &#123;start|stop|restart|force-reload&#125;"</span> &gt;&amp;2</div><div class="line">    <span class="built_in">exit</span> 1</div><div class="line">    ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line"></div><div class="line"><span class="built_in">exit</span> 0</div></pre></td></tr></table></figure></p>
 <p>至此，同步就算完成。可以tailf /var/log/rsync.log查看同步日志。</p>
 
@@ -788,121 +897,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/26/yum-errno-14-解决方法/" itemprop="url">
-                  yum Errno 14 解决方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-03-26T10:51:49+08:00" content="2015-03-26">
-              2015-03-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/03/26/yum-errno-14-解决方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/26/yum-errno-14-解决方法/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>今天在安装supervisor的时候，报如下错误</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@admin yum.repos.d]<span class="comment"># yum repolist</span></div><div class="line">Loaded plugins: fastestmirror</div><div class="line">Determining fastest mirrors  </div><div class="line">http:<span class="comment">//balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection</span></div><div class="line">Trying other mirror.</div><div class="line">http:<span class="comment">//balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection</span></div><div class="line">Trying other mirror.</div></pre></td></tr></table></figure>
-<p>排查应该是ssl证书问题有关，网上查了资料发现需要安装 ca-certificates 才行。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install ca-certificates -y</div></pre></td></tr></table></figure>
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -943,7 +943,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -957,7 +957,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

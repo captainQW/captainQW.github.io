@@ -224,6 +224,140 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/06/使用safari对webview进行调试/" itemprop="url">
+                  使用safari对webview进行调试
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-12-06T13:01:47+08:00" content="2016-12-06">
+              2016-12-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/06/使用safari对webview进行调试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/06/使用safari对webview进行调试/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>在web开发的过程中，抓包、调试页面样式、查看请求头是很常用的技巧。其实在iOS开发中，这些技巧也能用（无论是模拟器还是真机），不过我们需要用到mac自带的浏览器Safari。所以，本文将讲解如何使用Safari对iOS程序中的webview进行调试。</p>
+<p>环境信息：<br>Mac OS X 10.10.1<br>Xcode 6.1.1<br>iOS 8.1</p>
+<ol>
+<li>打开模拟器（真机）的开发者模式</li>
+</ol>
+<p>【设置】-&gt;【Safari】-&gt;【高级】-&gt;【Web检查器】打开</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/images/ios-user-safari-debug-webview-4.png" alt="打开iphone设备中的web检查器"><br>打开iphone设备中的web检查器</p>
+<ol>
+<li>打开Mac上Safari的开发者模式</li>
+</ol>
+<p>【Safari】-&gt;【偏好设置】-&gt;【高级】-&gt;【在菜单栏中显示“开发”菜单】勾选</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/images/ios-user-safari-debug-webview-2.png" alt="打开Safari中的开发者模式"><br>打开Safari中的开发者模式</p>
+<ol>
+<li>写一个webview并加载一个网页</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#import "ViewController.h"</span></div><div class="line">@interfaceViewController ()</div><div class="line"></div><div class="line">@property (strong, nonatomic) UIWebView *webView;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation ViewController</div><div class="line"></div><div class="line"> - (void)viewDidLoad &#123;</div><div class="line">    </div><div class="line">    [superviewDidLoad];</div><div class="line">    // Do any additional setup after loading the view, typically from a nib.</div><div class="line">    </div><div class="line">    _webView = [[UIWebViewalloc] initWithFrame:self.view.bounds];</div><div class="line">    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@<span class="string">"http://www.baidu.com"</span>]]];</div><div class="line">    [self.view addSubview:_webView];</div><div class="line"> &#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<ol>
+<li>在模拟器（真机）中打开webview应用，并打开Safari查看网络信息</li>
+</ol>
+<p>【开发】-&gt;【iOS Simulator】-&gt;【正在调试的网站】</p>
+<p>注意：必须要webview在加载网页时，打开Safari才可以看到调试模式。</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/images/ios-user-safari-debug-webview-6.png" alt="打开Safari中的调试"><br>打开Safari中的调试<br>在弹出的调试窗口中，可以看到当前正在加载网页的各种信息，包括源码、请求头、图片、加载的资源与脚本、控制台输出等。并且它和web前端的调试方式相同，你可以直接修改网页的CSS样式，对网页布局等进行修改，而不用重新运行整个App。</p>
+<ol>
+<li>修改web样式</li>
+</ol>
+<p>将光标选中到要修改的样式，进行修改后，可以直接在模拟器中看到修改后的效果。</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/images/ios-user-safari-debug-webview-3.png" alt="直接修改webview中的样式"></p>
+<p>这样就可以直接修改webview中的样式。</p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/27/vue在drupal中的模块化开发/" itemprop="url">
                   vue在drupal中的模块化开发
                 </a>
@@ -299,7 +433,7 @@
 <p>主题下新建个目录<code>src</code>用于存放<code>vue</code>的组件，以及启动<code>js</code>文件<code>main.js</code></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></div><div class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">'vue-router'</span></div><div class="line"><span class="keyword">import</span> Resource <span class="keyword">from</span> <span class="string">'vue-resource'</span></div><div class="line"></div><div class="line"><span class="comment">// Contrib.</span></div><div class="line"><span class="keyword">import</span> ElementUI <span class="keyword">from</span> <span class="string">'element-ui'</span></div><div class="line"><span class="keyword">import</span> <span class="string">'element-ui/lib/theme-default/index.css'</span></div><div class="line"></div><div class="line"><span class="comment">// Voss.</span></div><div class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span></div><div class="line"><span class="keyword">import</span> Notfound <span class="keyword">from</span> <span class="string">'./pages/base/404'</span></div><div class="line"><span class="keyword">import</span> Organization <span class="keyword">from</span> <span class="string">'./pages/base/Organization'</span></div><div class="line"><span class="keyword">import</span> Region <span class="keyword">from</span> <span class="string">'./pages/base/Region'</span></div><div class="line"><span class="keyword">import</span> Position <span class="keyword">from</span> <span class="string">'./pages/base/Position'</span></div><div class="line"><span class="keyword">import</span> Education <span class="keyword">from</span> <span class="string">'./pages/base/Education'</span></div><div class="line"><span class="keyword">import</span> CompanyAuthority <span class="keyword">from</span> <span class="string">'./pages/base/CompanyAuthority'</span></div><div class="line"><span class="keyword">import</span> CompanyAuthorityConfig <span class="keyword">from</span> <span class="string">'./pages/base/CompanyAuthorityConfig'</span></div><div class="line"><span class="keyword">import</span> Memory <span class="keyword">from</span> <span class="string">'./pages/base/Memory'</span></div><div class="line"><span class="keyword">import</span> Variables <span class="keyword">from</span> <span class="string">'./pages/base/Variables'</span></div><div class="line"></div><div class="line"><span class="comment">// vuex store</span></div><div class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></div><div class="line"></div><div class="line">Vue.use(Router)</div><div class="line">Vue.use(Resource)</div><div class="line">Vue.use(ElementUI)</div><div class="line"></div><div class="line"><span class="comment">// 全局闭包，公用函数库，也可以放置到vuex2.0中</span></div><div class="line">global.$fn = &#123;</div><div class="line">  <span class="comment">// 获取url中的参数，允许默认值的设定</span></div><div class="line">  getparam (name, defaultValue) &#123;</div><div class="line">    <span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'(^|&amp;)'</span> + name + <span class="string">'=([^&amp;]*)(&amp;|$)'</span>)</div><div class="line">    <span class="keyword">let</span> r = <span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).match(reg)</div><div class="line">    <span class="keyword">return</span> (!r) ? ((!defaultValue) ? <span class="string">''</span> : defaultValue) : <span class="built_in">unescape</span>(r[<span class="number">2</span>])</div><div class="line">  &#125;,</div><div class="line">  init () &#123;</div><div class="line">    <span class="comment">// 登录或注销后需要清空cache</span></div><div class="line">    <span class="comment">// store.commit('isAuth', false)</span></div><div class="line">    <span class="comment">// this.csrf.requestToken()</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 随机字符串</span></div><div class="line">  getCode (n) &#123;</div><div class="line">    <span class="keyword">let</span> chars = <span class="string">'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span></div><div class="line">    <span class="keyword">let</span> res = <span class="string">''</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">      res += chars[<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * chars.length)]</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> res</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// cache 机制</span></div><div class="line">  cache: [],</div><div class="line">  <span class="comment">// 默认300秒数据缓存时间</span></div><div class="line">  exp: <span class="number">300</span>,</div><div class="line">  getCache (url) &#123;</div><div class="line">    <span class="keyword">let</span> json = <span class="keyword">this</span>.cache[url]</div><div class="line">    <span class="keyword">return</span> (json &amp;&amp; (json.exp &gt;= <span class="keyword">this</span>.timestamp())) ? json.data : <span class="literal">null</span></div><div class="line">  &#125;,</div><div class="line">  setCache (url, data, exp) &#123;</div><div class="line">    <span class="comment">// 默认300秒,&#123;data,exp&#125;</span></div><div class="line">    <span class="keyword">this</span>.cache[url] = &#123;<span class="attr">data</span>: data, <span class="attr">exp</span>: <span class="keyword">this</span>.timestamp() + ((!exp) ? <span class="keyword">this</span>.exp : exp)&#125;</div><div class="line">    <span class="comment">// console.log(this.cache)</span></div><div class="line">  &#125;,</div><div class="line">  httprl (method, url, sendData) &#123;</div><div class="line">    <span class="keyword">var</span> options = &#123;</div><div class="line">      <span class="attr">headers</span>: &#123;</div><div class="line">        <span class="string">'Content-Type'</span>: <span class="string">'application/json;charset=utf-8'</span>,</div><div class="line">        <span class="string">'Accept'</span>: <span class="string">'application/json'</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// handel get method.</span></div><div class="line">    <span class="keyword">if</span> (method === <span class="string">'GET'</span> || method === <span class="string">'get'</span>) &#123;</div><div class="line">      options.params = sendData</div><div class="line">      <span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">        Vue.http.get(url, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">          <span class="keyword">var</span> data = result.data</div><div class="line">          resolve(data)</div><div class="line">        &#125;, (error) =&gt; &#123;</div><div class="line">          reject(error)</div><div class="line">        &#125;)</div><div class="line">      &#125;)</div><div class="line">      <span class="keyword">return</span> promise</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="comment">// handle post put delete method.</span></div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.csrf.isExpired()) &#123;</div><div class="line">        <span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">          global.$fn.csrf.requestToken().then(<span class="function"><span class="keyword">function</span> (<span class="params">token</span>) </span>&#123;</div><div class="line">            options.headers[<span class="string">'X-CSRF-Token'</span>] = token</div><div class="line">            <span class="keyword">switch</span> (method) &#123;</div><div class="line">              <span class="keyword">case</span> <span class="string">'post'</span>:</div><div class="line">              <span class="keyword">case</span> <span class="string">'POST'</span>:</div><div class="line">                Vue.http.post(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                  resolve(result.data)</div><div class="line">                &#125;, (error) =&gt; &#123;</div><div class="line">                  reject(error)</div><div class="line">                &#125;)</div><div class="line">                <span class="keyword">break</span></div><div class="line">              <span class="keyword">case</span> <span class="string">'put'</span>:</div><div class="line">              <span class="keyword">case</span> <span class="string">'PUT'</span>:</div><div class="line">                Vue.http.put(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                  resolve(result.data)</div><div class="line">                &#125;, (error) =&gt; &#123;</div><div class="line">                  reject(error)</div><div class="line">                &#125;)</div><div class="line">                <span class="keyword">break</span></div><div class="line">              <span class="keyword">case</span> <span class="string">'del'</span>:</div><div class="line">              <span class="keyword">case</span> <span class="string">'DEL'</span>:</div><div class="line">                Vue.http.delete(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                  resolve(result.data)</div><div class="line">                &#125;, (error) =&gt; &#123;</div><div class="line">                  reject(error)</div><div class="line">                &#125;)</div><div class="line">                <span class="keyword">break</span></div><div class="line">            &#125;</div><div class="line">          &#125;)</div><div class="line">        &#125;)</div><div class="line">        <span class="keyword">return</span> promise</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        options.headers[<span class="string">'X-CSRF-Token'</span>] = <span class="keyword">this</span>.csrf.getToken()</div><div class="line">        <span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">          <span class="keyword">switch</span> (method) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">'post'</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">'POST'</span>:</div><div class="line">              Vue.http.post(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                resolve(result.data)</div><div class="line">              &#125;, (error) =&gt; &#123;</div><div class="line">                reject(error)</div><div class="line">              &#125;)</div><div class="line">              <span class="keyword">break</span></div><div class="line">            <span class="keyword">case</span> <span class="string">'put'</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">'PUT'</span>:</div><div class="line">              Vue.http.put(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                resolve(result.data)</div><div class="line">              &#125;, (error) =&gt; &#123;</div><div class="line">                reject(error)</div><div class="line">              &#125;)</div><div class="line">              <span class="keyword">break</span></div><div class="line">            <span class="keyword">case</span> <span class="string">'del'</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">'DEL'</span>:</div><div class="line">              Vue.http.delete(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                resolve(result.data)</div><div class="line">              &#125;, (error) =&gt; &#123;</div><div class="line">                reject(error)</div><div class="line">              &#125;)</div><div class="line">              <span class="keyword">break</span></div><div class="line">          &#125;</div><div class="line">        &#125;)</div><div class="line">        <span class="keyword">return</span> promise</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">csrf</span>: &#123;</div><div class="line">    <span class="attr">getToken</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> store.state.csrf.token</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">getExpire</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> store.state.csrf.expire</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">nowTime</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>()</div><div class="line">      <span class="keyword">return</span> date.getTime()</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">isExpired</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">let</span> csrfToken = global.$fn.csrf.getToken()</div><div class="line">      <span class="keyword">let</span> tokenExpire = global.$fn.csrf.getExpire()</div><div class="line">      <span class="keyword">let</span> nowTime = global.$fn.csrf.nowTime()</div><div class="line">      <span class="keyword">return</span> (csrfToken === <span class="literal">undefined</span> || !csrfToken.length || (nowTime &gt;= tokenExpire))</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">requestToken</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">        Vue.http.get(<span class="string">'rest/session/token'</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params">result</span>) </span>&#123;</div><div class="line">          store.state.csrf.token = result.data</div><div class="line">          store.state.csrf.expire = global.$fn.csrf.nowTime() + store.state.csrf_token_expire * <span class="number">1000</span></div><div class="line">          resolve(result.data)</div><div class="line">        &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</div><div class="line">          <span class="built_in">console</span>.error(<span class="string">'Error! Fail to get csrf token!'</span>)</div><div class="line">          <span class="built_in">console</span>.error(error)</div><div class="line">          reject(error)</div><div class="line">        &#125;)</div><div class="line">      &#125;)</div><div class="line">      <span class="keyword">return</span> promise</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  toast (mode, title) &#123;</div><div class="line">    store.commit(<span class="string">'toast'</span>, &#123;</div><div class="line">      <span class="attr">id</span>: <span class="keyword">new</span> <span class="built_in">Date</span>().getTime(),</div><div class="line">      <span class="attr">title</span>: (title &amp;&amp; title.length) &gt; <span class="number">0</span> ? title : <span class="string">'操作完成'</span>,</div><div class="line">      <span class="attr">mode</span>: mode</div><div class="line">    &#125;)</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 时间戳</span></div><div class="line">  timestamp () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.floor(<span class="keyword">new</span> <span class="built_in">Date</span>().getTime() / <span class="number">1000</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">global.$fn.httprl('POST', 'api/login', &#123;</div><div class="line">  username: 'agent', password: '123.com'</div><div class="line">&#125;).then(</div><div class="line">  (result) =&gt; &#123;</div><div class="line">    console.log(result)</div><div class="line">  &#125;)</div><div class="line">*/</div><div class="line"><span class="keyword">const</span> routes = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">'/base/organization'</span>,</div><div class="line">    <span class="attr">component</span>: Organization,</div><div class="line">    <span class="attr">meta</span>: &#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'组织架构'</span></div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">'/base/organization/department'</span>,</div><div class="line">    <span class="attr">component</span>: Organization,</div><div class="line">    <span class="attr">meta</span>: &#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'部门'</span></div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">'/404'</span>,</div><div class="line">    <span class="attr">component</span>: Notfound</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">'*'</span>,</div><div class="line">    <span class="attr">redirect</span>: <span class="string">'/404'</span></div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> Router(&#123;</div><div class="line">  <span class="attr">base</span>: <span class="string">'/profile/'</span>,</div><div class="line">  <span class="attr">mode</span>: <span class="string">'history'</span>,</div><div class="line">  <span class="attr">linkActiveClass</span>: <span class="string">'is-active'</span>, <span class="comment">// router-link active样式</span></div><div class="line">  <span class="comment">/*</span></div><div class="line">  由于本项目采用内滚动布局，此处代码无效，需要自行hack vue-router获得此能力</div><div class="line">  saveScrollPosition: true,</div><div class="line">  scrollBehavior (to, from, savedPosition) &#123;</div><div class="line">  &#125;,</div><div class="line">  */</div><div class="line">  routes <span class="comment">// short for routes: routes</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// if (store.getters.getIsAuth || !to.meta.auth) &#123;</span></div><div class="line">  <span class="comment">//  next()</span></div><div class="line">  <span class="comment">// &#125; else &#123;</span></div><div class="line">  <span class="comment">// 判断是否登录，（可以通过接口，Vuex状态 token）</span></div><div class="line">  <span class="comment">// 没有登录走下面逻辑</span></div><div class="line">  <span class="built_in">document</span>.title = to.meta.title + <span class="string">' '</span> + <span class="string">'| 后台管理'</span></div><div class="line">  <span class="keyword">if</span> (global.$fn.csrf.isExpired()) &#123;</div><div class="line">    global.$fn.csrf.requestToken()</div><div class="line">  &#125;</div><div class="line">  next()</div><div class="line">  <span class="comment">// &#125;</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">  router,</div><div class="line">  <span class="attr">render</span>: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</div><div class="line">&#125;).$mount(<span class="string">'#app'</span>)</div></pre></td></tr></table></figure>
 <p><code>src</code>目录下新建个文件<code>App.vue</code>，作为应用的主文件</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"app-container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">xheader</span>&gt;</span><span class="tag">&lt;/<span class="name">xheader</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">sidebar</span>&gt;</span><span class="tag">&lt;/<span class="name">sidebar</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main-content"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">router-view</span> <span class="attr">keep-alive</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">transition</span> <span class="attr">name</span>=<span class="string">"fade"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">modal</span> <span class="attr">v-show</span>=<span class="string">"isModal"</span> @<span class="attr">closemodal</span>=<span class="string">"closeModal()"</span> <span class="attr">:mode</span>=<span class="string">"modalinfo.mode"</span> <span class="attr">:title</span>=<span class="string">"modalinfo.title"</span>" <span class="attr">:content</span>=<span class="string">"modalinfo.content"</span> <span class="attr">:width</span>=<span class="string">"modalinfo.width"</span> <span class="attr">:ok</span>=<span class="string">"modalinfo.ok"</span>" <span class="attr">:cancel</span>=<span class="string">"modalinfo.cancel"</span>&gt;</span><span class="tag">&lt;/<span class="name">modal</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">// vuex全局数据</span></div><div class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></div><div class="line"><span class="keyword">import</span> Xheader <span class="keyword">from</span> <span class="string">'./components/header'</span></div><div class="line"><span class="keyword">import</span> Sidebar <span class="keyword">from</span> <span class="string">'./components/sidebar'</span></div><div class="line"><span class="keyword">import</span> &#123; Modal &#125; <span class="keyword">from</span> <span class="string">'./components/modal'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  <span class="attr">store</span>: store,</div><div class="line">  <span class="attr">components</span>: &#123;</div><div class="line">    Modal,</div><div class="line">    Xheader,</div><div class="line">    Sidebar</div><div class="line">  &#125;,</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">modalinfo</span>: &#123;</div><div class="line">        <span class="attr">mode</span>: <span class="string">'alert'</span>,</div><div class="line">        <span class="attr">title</span>: <span class="string">''</span>,</div><div class="line">        <span class="attr">content</span>: <span class="string">''</span>,</div><div class="line">        <span class="attr">callback</span>: <span class="literal">null</span></div><div class="line">      &#125;</div><div class="line">      <span class="comment">// data</span></div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">computed</span>: &#123;</div><div class="line">    isModal () &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.getModal</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*</span></div><div class="line">    isAuth () &#123;</div><div class="line">      return this.$store.getters.getIsAuth</div><div class="line">    &#125;,</div><div class="line">    toastArray () &#123;</div><div class="line">      return this.$store.getters.getToast</div><div class="line">    &#125;,</div><div class="line">    preloaderShow () &#123;</div><div class="line">      return this.$store.getters.getPreloader</div><div class="line">    &#125;</div><div class="line">    */</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">methods</span>: &#123;</div><div class="line">    showModal (mode, title, content, width, ok, cancel) &#123;</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'mode'</span>, mode)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'title'</span>, title)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'content'</span>, content)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'width'</span>, width)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'ok'</span>, ok)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'cancel'</span>, cancel)</div><div class="line">      store.commit(<span class="string">'modal'</span>, <span class="literal">true</span>)</div><div class="line">    &#125;,</div><div class="line">    closeModal () &#123;</div><div class="line">      store.commit(<span class="string">'modal'</span>, <span class="literal">false</span>)</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  mounted () &#123;</div><div class="line">    <span class="comment">// let ico = require('./assets/images/vueico.png')</span></div><div class="line">    <span class="comment">// let icon = require('./assets/images/vuelogo.png')</span></div><div class="line"></div><div class="line">    <span class="comment">// document.getElementById('linkIcon').href = ico</span></div><div class="line">    <span class="comment">// document.getElementById('linkAppIcon').href = icon</span></div><div class="line"></div><div class="line">    <span class="built_in">window</span>.applicationCache.addEventListener(<span class="string">'updateready'</span>, (e) =&gt; &#123;</div><div class="line">      <span class="keyword">if</span> (<span class="built_in">window</span>.applicationCache.status === <span class="built_in">window</span>.applicationCache.UPDATEREADY) &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'system update'</span>)</div><div class="line">        <span class="built_in">window</span>.location.reload()</div><div class="line">      &#125;</div><div class="line">    &#125;, <span class="literal">false</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">lang</span>=<span class="string">"less"</span>&gt;</span><span class="undefined"></span></div><div class="line">  @import './lancer.less';</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"app-container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">xheader</span>&gt;</span><span class="tag">&lt;/<span class="name">xheader</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">sidebar</span>&gt;</span><span class="tag">&lt;/<span class="name">sidebar</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main-content"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">router-view</span> <span class="attr">keep-alive</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">transition</span> <span class="attr">name</span>=<span class="string">"fade"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">modal</span> <span class="attr">v-show</span>=<span class="string">"isModal"</span> @<span class="attr">closemodal</span>=<span class="string">"closeModal()"</span> <span class="attr">:mode</span>=<span class="string">"modalinfo.mode"</span> <span class="attr">:title</span>=<span class="string">"modalinfo.title"</span>" <span class="attr">:content</span>=<span class="string">"modalinfo.content"</span> <span class="attr">:width</span>=<span class="string">"modalinfo.width"</span> <span class="attr">:ok</span>=<span class="string">"modalinfo.ok"</span>" <span class="attr">:cancel</span>=<span class="string">"modalinfo.cancel"</span>&gt;</span><span class="tag">&lt;/<span class="name">modal</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">// vuex全局数据</span></div><div class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></div><div class="line"><span class="keyword">import</span> Xheader <span class="keyword">from</span> <span class="string">'./components/header'</span></div><div class="line"><span class="keyword">import</span> Sidebar <span class="keyword">from</span> <span class="string">'./components/sidebar'</span></div><div class="line"><span class="keyword">import</span> &#123; Modal &#125; <span class="keyword">from</span> <span class="string">'./components/modal'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  <span class="attr">store</span>: store,</div><div class="line">  <span class="attr">components</span>: &#123;</div><div class="line">    Modal,</div><div class="line">    Xheader,</div><div class="line">    Sidebar</div><div class="line">  &#125;,</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">modalinfo</span>: &#123;</div><div class="line">        <span class="attr">mode</span>: <span class="string">'alert'</span>,</div><div class="line">        <span class="attr">title</span>: <span class="string">''</span>,</div><div class="line">        <span class="attr">content</span>: <span class="string">''</span>,</div><div class="line">        <span class="attr">callback</span>: <span class="literal">null</span></div><div class="line">      &#125;</div><div class="line">      <span class="comment">// data</span></div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">computed</span>: &#123;</div><div class="line">    isModal () &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.getModal</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*</span></div><div class="line">    isAuth () &#123;</div><div class="line">      return this.$store.getters.getIsAuth</div><div class="line">    &#125;,</div><div class="line">    toastArray () &#123;</div><div class="line">      return this.$store.getters.getToast</div><div class="line">    &#125;,</div><div class="line">    preloaderShow () &#123;</div><div class="line">      return this.$store.getters.getPreloader</div><div class="line">    &#125;</div><div class="line">    */</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">methods</span>: &#123;</div><div class="line">    showModal (mode, title, content, width, ok, cancel) &#123;</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'mode'</span>, mode)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'title'</span>, title)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'content'</span>, content)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'width'</span>, width)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'ok'</span>, ok)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'cancel'</span>, cancel)</div><div class="line">      store.commit(<span class="string">'modal'</span>, <span class="literal">true</span>)</div><div class="line">    &#125;,</div><div class="line">    closeModal () &#123;</div><div class="line">      store.commit(<span class="string">'modal'</span>, <span class="literal">false</span>)</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  mounted () &#123;</div><div class="line">    <span class="comment">// let ico = require('./assets/images/vueico.png')</span></div><div class="line">    <span class="comment">// let icon = require('./assets/images/vuelogo.png')</span></div><div class="line"></div><div class="line">    <span class="comment">// document.getElementById('linkIcon').href = ico</span></div><div class="line">    <span class="comment">// document.getElementById('linkAppIcon').href = icon</span></div><div class="line"></div><div class="line">    <span class="built_in">window</span>.applicationCache.addEventListener(<span class="string">'updateready'</span>, (e) =&gt; &#123;</div><div class="line">      <span class="keyword">if</span> (<span class="built_in">window</span>.applicationCache.status === <span class="built_in">window</span>.applicationCache.UPDATEREADY) &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'system update'</span>)</div><div class="line">        <span class="built_in">window</span>.location.reload()</div><div class="line">      &#125;</div><div class="line">    &#125;, <span class="literal">false</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">lang</span>=<span class="string">"less"</span>&gt;</span><span class="css"></span></div><div class="line">  @<span class="keyword">import</span> <span class="string">'./lancer.less'</span>;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>哦，对了，还有对应的<code>css</code>文件，当然这里可以直接用<code>less</code>文件，gulp监控任务会自动编译成css文件</p>
 <p>这里我们直接<code>import</code>引入<code>less</code>文件，基于相对路径</p>
 
@@ -408,13 +542,13 @@
         
           <span itemprop="articleBody">
             
-              <h2 id="一、什么是vue">一、什么是vue</h2><p><a href="https://cn.vuejs.org/" target="_blank" rel="external">点击这里</a>跳转vue官网</p>
+              <h2 id="一、什么是vue"><a href="#一、什么是vue" class="headerlink" title="一、什么是vue"></a>一、什么是vue</h2><p><a href="https://cn.vuejs.org/" target="_blank" rel="external">点击这里</a>跳转vue官网</p>
 <p>Vue.js（读音 /vjuː/, 类似于 view） 是一套构建用户界面的 渐进式框架。与其他重量级框架不同的是，Vue 采用自底向上增量开发的设计。</p>
 <p>Vue 的核心库只关注视图层，并且非常容易学习，非常容易与其它库或已有项目整合。</p>
-<h2 id="二、drupal融合vue">二、drupal融合vue</h2><p>OK，新建一个模块，<code>cloud_system</code>，初始化一个<code>vue</code>在<code>drupal</code>中的根模版，如下：</p>
+<h2 id="二、drupal融合vue"><a href="#二、drupal融合vue" class="headerlink" title="二、drupal融合vue"></a>二、drupal融合vue</h2><p>OK，新建一个模块，<code>cloud_system</code>，初始化一个<code>vue</code>在<code>drupal</code>中的根模版，如下：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main-content"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>这样，所有的路由都输出这个模版，之后前端路由解析填充<code>router-view</code></p>
-<h2 id="三、vue的模块化开发">三、vue的模块化开发</h2><p>详见<strong>vue在drupal中的模块化开发</strong></p>
+<h2 id="三、vue的模块化开发"><a href="#三、vue的模块化开发" class="headerlink" title="三、vue的模块化开发"></a>三、vue的模块化开发</h2><p>详见<strong>vue在drupal中的模块化开发</strong></p>
 
             
           </span>
@@ -644,12 +778,12 @@
         
           <span itemprop="articleBody">
             
-              <h3 id="drupalconsole是啥">drupalconsole是啥</h3><blockquote>
+              <h3 id="drupalconsole是啥"><a href="#drupalconsole是啥" class="headerlink" title="drupalconsole是啥"></a>drupalconsole是啥</h3><blockquote>
 <p>The new CLI for Drupal. A tool to generate boilerplate code, interact with and debug Drupal.</p>
 </blockquote>
 <p>以上是官网的简介，总而言之是为drupal8而生的一个命令行工具</p>
 <p><a href="https://drupalconsole.com/" target="_blank" rel="external">这里是官网</a></p>
-<h3 id="drupalconsole在windows下的安装">drupalconsole在windows下的安装</h3><p>本篇仅介绍在windows下的安装配置，linux请参见官网</p>
+<h3 id="drupalconsole在windows下的安装"><a href="#drupalconsole在windows下的安装" class="headerlink" title="drupalconsole在windows下的安装"></a>drupalconsole在windows下的安装</h3><p>本篇仅介绍在windows下的安装配置，linux请参见官网</p>
 <p>1、下载<code>drupalconsole</code></p>
 <p><a href="https://drupalconsole.com/installer" target="_blank" rel="external">点击这里</a>下载<code>drupalconsole</code>，更名<code>drupal</code></p>
 <p>2、找个目录给他安顿</p>
@@ -769,13 +903,13 @@
 
       
         
-          <h2 id="文件编码">文件编码</h2><p>前端开发涉及的所文件统一使用<code>utf-8</code>编码</p>
-<h2 id="文件命名规则">文件命名规则</h2><p>全部小写方式，以下划线分隔</p>
+          <h2 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h2><p>前端开发涉及的所文件统一使用<code>utf-8</code>编码</p>
+<h2 id="文件命名规则"><a href="#文件命名规则" class="headerlink" title="文件命名规则"></a>文件命名规则</h2><p>全部小写方式，以下划线分隔</p>
 <p>例：my_project</p>
 <blockquote>
 <p>特例：drupal中的模版文件</p>
 </blockquote>
-<h2 id="HTML">HTML</h2><h3 id="语法">语法</h3><ul>
+<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><ul>
 <li>缩进使用2个空格；</li>
 <li>嵌套的节点应该缩进；</li>
 <li>在属性上，使用双引号，不要使用单引号；</li>
@@ -811,163 +945,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/22/infinidb与clickhouse对比/" itemprop="url">
-                  infiniDB与clickhouse对比
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-08-22T13:55:37+08:00" content="2016-08-22">
-              2016-08-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/22/infinidb与clickhouse对比/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/infinidb与clickhouse对比/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>机器配置：</p>
-<p>测试机：    dell R510<br>cpu：     xeon E5620<em>2<br>RAID卡：    H700<br>系统    ：ubuntu 14.04<br>内核：    Linux ubuntu 4.2.0-27-generic<br>raid级别：    raid0<br>文件系统：    ext4<br>硬盘：     SSD 240G</em>2<br>IP：    192.168.112.73</p>
-<p>一、安装<br>1、infiniDB的安装见 <a href="http://verynull.com/2015/06/24/infiniDB安装配置/">http://verynull.com/2015/06/24/infiniDB安装配置/</a></p>
-<p>2、clickhouse安装<br>只支持ubutu14.04,16.04，12.04，但是我在16.04上没有安装起来。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4<span class="comment"># optional</span></div><div class="line"></div><div class="line">sudo mkdir -p /etc/apt/sources.list.d</div><div class="line"><span class="built_in">echo</span> <span class="string">"deb http://repo.yandex.ru/clickhouse/trusty stable main"</span> |</div><div class="line">sudo tee /etc/apt/sources.list.d/clickhouse.list</div><div class="line">sudo apt-get update</div><div class="line"></div><div class="line">sudo apt-get install clickhouse-server-common clickhouse-client</div><div class="line"></div><div class="line">sudo service clickhouse-server start</div><div class="line">clickhouse-client</div></pre></td></tr></table></figure></p>
-<p>3、就安装过程而言，clickhouse方便很多，infiniDB要编译老半天。</p>
-<p>二、性能测试</p>
-<p>1、创建表</p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `billing` (</div><div class="line">`did` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`hit` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`reqs` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`rx` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`tx` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`logtime` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`tpr` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span></div><div class="line">) ENGINE=infiniDB DEFAULT CHARSET=latin1</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE billing (id Int32,did Int32,hit Int64,reqs Int64,rx Int64,tx Int64,logtime Int64,tpr Int64) ENGINE=Log;</div></pre></td></tr></table></figure></p>
-<p>2、导入csv数据</p>
-<p>csv格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">106,9,10,123,11858014,1467133200,330,0</div><div class="line">122,0,2,506,621,1467133200,150,0</div><div class="line">124,112,249,1131297,1899996,1467133200,49,0</div><div class="line">127,3,12,64257,88503,1467133200,66,0</div></pre></td></tr></table></figure></p>
-<p>数据量9000万,大小4.5G。</p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /data/mysql/bin/mysql --defaults-file=/data/mysql/my.cnf --local-infile -u root monitor <span class="_">-e</span> <span class="string">"load data local infile '/root/1.txt' into table billing FIELDS TERMINATED BY ',';"</span></div></pre></td></tr></table></figure></p>
-<p>耗时：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">0.60user </div><div class="line">2.50system </div><div class="line">4:14.61elapsed 1%CPU (0avgtext+0avgdata 3640maxresident)k</div><div class="line">0inputs+0outputs (0major+227minor)pagefaults 0swaps</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat 1.txt | clickhouse-client --query=<span class="string">"INSERT INTO monitor.monitor_data FORMAT CSV"</span>;</div></pre></td></tr></table></figure></p>
-<p>耗时：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">real1m6.809s</div><div class="line">user1m26.720s</div><div class="line">sys 0m6.724s</div></pre></td></tr></table></figure></p>
-<p>clickhouse导入速度明显快很多。</p>
-<p>3、查询速度</p>
-<p>SQL:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT logtime, SUM(hit) as hit, SUM(reqs) as reqs, SUM(rx) as rx,SUM(tx) as tx, round(avg(tpr)) as tpr FROM billingWHERE did &gt; 0AND logtime &gt;= 1467302400 AND logtime &lt;= 1469980799 GROUP BY logtime ORDER BY l</div><div class="line">ogtime;</div></pre></td></tr></table></figure></p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (1.26 sec)</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 2.676 sec. Processed 91.80 million rows, 4.77 GB (34.30 million rows/s., 1.78 GB/s.)</div></pre></td></tr></table></figure></p>
-<p>infiniDB速度较快。</p>
-<p>4、2亿数据对比</p>
-<p>SQL同上</p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (2.24 sec)</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 4.215 sec. Processed 183.61 million rows, 9.55 GB (43.56 million rows/s., 2.26 GB/s.)</div></pre></td></tr></table></figure></p>
-<p>infiniDB较快。</p>
-<p>5、10亿数据对比</p>
-<p>SQL同上</p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (9.58 sec)</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 17.040 sec. Processed 1.01 billion rows, 52.51 GB (56.67 million rows/s., 2.95 GB/s.)</div></pre></td></tr></table></figure></p>
-<p>infiniDB更快。</p>
-<p>6、count对比<br>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+------------+</div><div class="line">| count(*) |</div><div class="line">+------------+</div><div class="line">| 1009844583 |</div><div class="line">+------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (6.14 sec)</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">SELECT count(*)</div><div class="line">FROM billing </div><div class="line"></div><div class="line">┌────count()─┐</div><div class="line">│ 1009844583 │</div><div class="line">└────────────┘</div><div class="line"></div><div class="line">1 rows <span class="keyword">in</span> set. Elapsed: 1.120 sec. Processed 1.01 billion rows, 4.04 GB (901.82 million rows/s., 3.61 GB/s.)</div></pre></td></tr></table></figure></p>
-<p>7、压缩比<br>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">22G billing</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">24G billing</div></pre></td></tr></table></figure></p>
-<p>压缩比相差不多。</p>
-<p>结果：<br>1、infiniDB会使用所有CPU，而clickhouse最多使用10个。<br>2、clickhouse在大数据量的时候，处理速度还是比较令人满意的。<br>3、clickhouse在导入数据的时候，查询会被卡住，而infiniDB不会。<br>4、infiniDB性能更好。</p>
-<p>附对比图：<br>这里clickhouse是Log引擎。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160822/20160822222132_99553.png" alt="对比图"></p>
-<hr>
-<p>经一位俄罗斯网友提醒,MergeTree引擎比Log引擎更高效，因为Log引擎会全表扫描，而MergeTree的结构是这样的：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">xxxx@ubuntu:/opt/clickhouse$ ls data/monitor/billing_mergetree</div><div class="line">20150829_20150831_10964_10994_2</div><div class="line">20160101_20160131_10_11360_30 </div><div class="line">20160401_20160430_12_9964_31</div><div class="line">20160609_20160613_11302_11350_4</div><div class="line">20160808_20160820_10972_11250_2</div><div class="line">20150325_20150331_4_9822_23 </div><div class="line">20150901_20150930_1030_11316_50</div><div class="line">20160201_20160229_244_10606_27</div><div class="line">20160401_20160430_9982_11362_10 </div><div class="line">20160701_20160731_308_8668_14 </div><div class="line">20160820_20160820_11260_11260_0</div><div class="line">20150401_20150430_16_9932_57</div><div class="line">20151001_20151031_8_11352_39 </div><div class="line">20160220_20160229_10618_10788_10</div><div class="line">20160501_20160531_530_11042_23</div><div class="line">20160701_20160731_8678_10786_12</div><div class="line">20160820_20160820_11266_11266_0</div><div class="line">20150501_20150531_102_10032_75</div><div class="line">20151009_20151011_11356_11356_0</div><div class="line">20160229_20160229_10804_10812_1 </div><div class="line">20160528_20160531_11056_11124_6 </div><div class="line">20160731_20160731_10798_10798_0</div><div class="line">detached</div></pre></td></tr></table></figure>
-<p>这种存储结构就是把每个月的数据单独放置在一个文件夹中，这样就避免了全表扫描。</p>
-<p>附对比图:<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160823/20160823113203_30109.png" alt="对比图"></p>
-<p>结论：<br>clickhouse速度更快！</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1008,7 +991,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1022,7 +1005,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

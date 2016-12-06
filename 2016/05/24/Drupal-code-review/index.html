@@ -56,21 +56,24 @@
 
 
 <meta name="description" content="如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的pareview.sh工具。
-1、安装composer12$ curl -sS https://getcomposer.org/installer | php$ mv composer.phar /usr/local/bin/composer
-2、安装Coder (reference: https://www.dr">
+###1、安装composer
+12$ curl -sS https://getcomposer.org/installer | php$ mv composer.phar /usr/local/bin/composer
+###2、安装Coder (reference: https:/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Drupal code review">
 <meta property="og:url" content="http://verynull.com/2016/05/24/Drupal-code-review/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
 <meta property="og:description" content="如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的pareview.sh工具。
-1、安装composer12$ curl -sS https://getcomposer.org/installer | php$ mv composer.phar /usr/local/bin/composer
-2、安装Coder (reference: https://www.dr">
+###1、安装composer
+12$ curl -sS https://getcomposer.org/installer | php$ mv composer.phar /usr/local/bin/composer
+###2、安装Coder (reference: https:/">
 <meta property="og:updated_time" content="2016-05-24T06:17:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Drupal code review">
 <meta name="twitter:description" content="如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的pareview.sh工具。
-1、安装composer12$ curl -sS https://getcomposer.org/installer | php$ mv composer.phar /usr/local/bin/composer
-2、安装Coder (reference: https://www.dr">
+###1、安装composer
+12$ curl -sS https://getcomposer.org/installer | php$ mv composer.phar /usr/local/bin/composer
+###2、安装Coder (reference: https:/">
 
 
 
@@ -278,20 +281,26 @@
 
       
         <span itemprop="articleBody"><p>如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的<a href="http://pareview.sh/" target="_blank" rel="external">pareview.sh</a>工具。</p>
-<h3 id="1、安装composer">1、安装composer</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl <span class="_">-s</span>S https://getcomposer.org/installer | php</div><div class="line">$ mv composer.phar /usr/<span class="built_in">local</span>/bin/composer</div></pre></td></tr></table></figure>
-<h3 id="2、安装Coder_(reference:_https://www-drupal-org/node/1419988#coder-composer)">2、安装Coder (reference: <a href="https://www.drupal.org/node/1419988#coder-composer" target="_blank" rel="external">https://www.drupal.org/node/1419988#coder-composer</a>)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ composer global require drupal/coder</div><div class="line">$ sudo ln <span class="_">-s</span> ~/.composer/vendor/bin/phpcs /usr/<span class="built_in">local</span>/bin</div><div class="line">$ sudo ln <span class="_">-s</span> ~/.composer/vendor/bin/phpcbf /usr/<span class="built_in">local</span>/bin</div><div class="line">$ phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer</div></pre></td></tr></table></figure>
-<h3 id="3、安装codespell_(reference:_https://github-com/lucasdemarchi/codespell)">3、安装codespell (reference: <a href="https://github.com/lucasdemarchi/codespell" target="_blank" rel="external">https://github.com/lucasdemarchi/codespell</a>)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get <span class="built_in">help</span>2man -y</div><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/lucasdemarchi/codespell.git</div><div class="line">$ <span class="built_in">cd</span> codespell &amp;&amp; sudo make install</div><div class="line">$ sudo cp codespell /usr/<span class="built_in">local</span>/bin</div></pre></td></tr></table></figure>
+<p>###1、安装composer</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl <span class="_">-s</span>S https://getcomposer.org/installer | php</div><div class="line">$ mv composer.phar /usr/<span class="built_in">local</span>/bin/composer</div></pre></td></tr></table></figure>
+<p>###2、安装Coder (reference: <a href="https://www.drupal.org/node/1419988#coder-composer" target="_blank" rel="external">https://www.drupal.org/node/1419988#coder-composer</a>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ composer global require drupal/coder</div><div class="line">$ sudo ln <span class="_">-s</span> ~/.composer/vendor/bin/phpcs /usr/<span class="built_in">local</span>/bin</div><div class="line">$ sudo ln <span class="_">-s</span> ~/.composer/vendor/bin/phpcbf /usr/<span class="built_in">local</span>/bin</div><div class="line">$ phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer</div></pre></td></tr></table></figure>
+<p>###3、安装codespell (reference: <a href="https://github.com/lucasdemarchi/codespell" target="_blank" rel="external">https://github.com/lucasdemarchi/codespell</a>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get <span class="built_in">help</span>2man -y</div><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/lucasdemarchi/codespell.git</div><div class="line">$ <span class="built_in">cd</span> codespell &amp;&amp; sudo make install</div><div class="line">$ sudo cp codespell /usr/<span class="built_in">local</span>/bin</div></pre></td></tr></table></figure>
 <p>注：MAC下安装codespell<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo python setup.py install</div></pre></td></tr></table></figure></p>
-<h3 id="4、安装DrupalSecure_(reference:_https://www-drupal-org/sandbox/coltrane/1921926)">4、安装DrupalSecure (reference: <a href="https://www.drupal.org/sandbox/coltrane/1921926" target="_blank" rel="external">https://www.drupal.org/sandbox/coltrane/1921926</a>)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update &amp;&amp; sudo apt-get install php-pear</div><div class="line">$ sudo pear install PHP_CodeSniffer</div><div class="line">$ <span class="built_in">cd</span> $(pear config-get php_dir)/PHP/CodeSniffer/Standards/</div><div class="line">$ git <span class="built_in">clone</span> git://git.drupal.org/sandbox/coltrane/1921926.git secure_cs</div><div class="line">$ sudo ln -sv ./secure_cs/DrupalSecure ./DrupalSecure</div></pre></td></tr></table></figure>
+<p>###4、安装DrupalSecure (reference: <a href="https://www.drupal.org/sandbox/coltrane/1921926" target="_blank" rel="external">https://www.drupal.org/sandbox/coltrane/1921926</a>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update &amp;&amp; sudo apt-get install php-pear</div><div class="line">$ sudo pear install PHP_CodeSniffer</div><div class="line">$ <span class="built_in">cd</span> $(pear config-get php_dir)/PHP/CodeSniffer/Standards/</div><div class="line">$ git <span class="built_in">clone</span> git://git.drupal.org/sandbox/coltrane/1921926.git secure_cs</div><div class="line">$ sudo ln -sv ./secure_cs/DrupalSecure ./DrupalSecure</div></pre></td></tr></table></figure>
 <p>注：MAC下安装php-pear<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget http://pear.php.net/go-pear.phar</div><div class="line">php go-pear.phar</div></pre></td></tr></table></figure></p>
-<h3 id="5、安装ESLint">5、安装ESLint</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install -g eslint</div></pre></td></tr></table></figure>
+<p>###5、安装ESLint</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install -g eslint</div></pre></td></tr></table></figure>
 <p>在Ubuntu precise （12.04）, 你有可能会遇到以下错误：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm http GET https://registry.npmjs.org/</div><div class="line">npm ERR! Error: failed to fetch from registry: </div><div class="line">This is because the version supplied by Ubuntu 12.04 is no longer supported, updating node (and npm with it) resolved the issue.</div></pre></td></tr></table></figure>
 <p>首先, 卸载nodejs版本</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get purge nodejs npm</div></pre></td></tr></table></figure>
 <p>启用nodesource’s仓库并进行安装:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl <span class="_">-s</span>L https://deb.nodesource.com/setup | sudo bash -</div><div class="line">sudo apt-get install -y nodejs</div><div class="line">$ sudo apt-get install nodejs</div><div class="line">$ eslint --init <span class="comment"># run for the first time</span></div></pre></td></tr></table></figure>
-<h3 id="6、安装pareviewsh">6、安装pareviewsh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</div><div class="line">$ sudo wget http://ftp.drupal.org/files/projects/pareviewsh-7.x-1.7.tar.gz</div><div class="line">$ sudo tar xzf pareviewsh-7.x-1.7.tar.gz</div><div class="line">$ sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/src/pareviewsh/pareview.sh /usr/<span class="built_in">local</span>/bin/pareviewsh</div></pre></td></tr></table></figure>
+<p>###6、安装pareviewsh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</div><div class="line">$ sudo wget http://ftp.drupal.org/files/projects/pareviewsh-7.x-1.7.tar.gz</div><div class="line">$ sudo tar xzf pareviewsh-7.x-1.7.tar.gz</div><div class="line">$ sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/src/pareviewsh/pareview.sh /usr/<span class="built_in">local</span>/bin/pareviewsh</div></pre></td></tr></table></figure>
 <p>查看pareview是否已经安装成功</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pareviewsh /path/to/module or /path/to/git-repos.git</div></pre></td></tr></table></figure>
 <p>phpcs自动修复代码标准</p>
@@ -425,7 +434,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -439,7 +448,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -488,7 +497,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、安装composer"><span class="nav-number">1.</span> <span class="nav-text">1、安装composer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、安装Coder_(reference:_https://www-drupal-org/node/1419988#coder-composer)"><span class="nav-number">2.</span> <span class="nav-text">2、安装Coder (reference: https://www.drupal.org/node/1419988#coder-composer)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、安装codespell_(reference:_https://github-com/lucasdemarchi/codespell)"><span class="nav-number">3.</span> <span class="nav-text">3、安装codespell (reference: https://github.com/lucasdemarchi/codespell)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、安装DrupalSecure_(reference:_https://www-drupal-org/sandbox/coltrane/1921926)"><span class="nav-number">4.</span> <span class="nav-text">4、安装DrupalSecure (reference: https://www.drupal.org/sandbox/coltrane/1921926)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、安装ESLint"><span class="nav-number">5.</span> <span class="nav-text">5、安装ESLint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、安装pareviewsh"><span class="nav-number">6.</span> <span class="nav-text">6、安装pareviewsh</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
