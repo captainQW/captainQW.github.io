@@ -286,29 +286,19 @@
             
               <p>在web开发的过程中，抓包、调试页面样式、查看请求头是很常用的技巧。其实在iOS开发中，这些技巧也能用（无论是模拟器还是真机），不过我们需要用到mac自带的浏览器Safari。所以，本文将讲解如何使用Safari对iOS程序中的webview进行调试。</p>
 <p>环境信息：<br>Mac OS X 10.10.1<br>Xcode 6.1.1<br>iOS 8.1</p>
-<ol>
-<li>打开模拟器（真机）的开发者模式</li>
-</ol>
+<p>1、打开模拟器（真机）的开发者模式</p>
 <p>【设置】-&gt;【Safari】-&gt;【高级】-&gt;【Web检查器】打开</p>
 <p><img src="https://static.verycloud.cn/sites/default/files/images/ios-user-safari-debug-webview-4.png" alt="打开iphone设备中的web检查器"><br>打开iphone设备中的web检查器</p>
-<ol>
-<li>打开Mac上Safari的开发者模式</li>
-</ol>
+<p>2、打开Mac上Safari的开发者模式</p>
 <p>【Safari】-&gt;【偏好设置】-&gt;【高级】-&gt;【在菜单栏中显示“开发”菜单】勾选</p>
 <p><img src="https://static.verycloud.cn/sites/default/files/images/ios-user-safari-debug-webview-2.png" alt="打开Safari中的开发者模式"><br>打开Safari中的开发者模式</p>
-<ol>
-<li>写一个webview并加载一个网页</li>
-</ol>
+<p>3、写一个webview并加载一个网页</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#import "ViewController.h"</span></div><div class="line">@interfaceViewController ()</div><div class="line"></div><div class="line">@property (strong, nonatomic) UIWebView *webView;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation ViewController</div><div class="line"></div><div class="line"> - (void)viewDidLoad &#123;</div><div class="line">    </div><div class="line">    [superviewDidLoad];</div><div class="line">    // Do any additional setup after loading the view, typically from a nib.</div><div class="line">    </div><div class="line">    _webView = [[UIWebViewalloc] initWithFrame:self.view.bounds];</div><div class="line">    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@<span class="string">"http://www.baidu.com"</span>]]];</div><div class="line">    [self.view addSubview:_webView];</div><div class="line"> &#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
-<ol>
-<li>在模拟器（真机）中打开webview应用，并打开Safari查看网络信息</li>
-</ol>
+<p>4、在模拟器（真机）中打开webview应用，并打开Safari查看网络信息</p>
 <p>【开发】-&gt;【iOS Simulator】-&gt;【正在调试的网站】</p>
 <p>注意：必须要webview在加载网页时，打开Safari才可以看到调试模式。</p>
 <p><img src="https://static.verycloud.cn/sites/default/files/images/ios-user-safari-debug-webview-6.png" alt="打开Safari中的调试"><br>打开Safari中的调试<br>在弹出的调试窗口中，可以看到当前正在加载网页的各种信息，包括源码、请求头、图片、加载的资源与脚本、控制台输出等。并且它和web前端的调试方式相同，你可以直接修改网页的CSS样式，对网页布局等进行修改，而不用重新运行整个App。</p>
-<ol>
-<li>修改web样式</li>
-</ol>
+<p>5、修改web样式</p>
 <p>将光标选中到要修改的样式，进行修改后，可以直接在模拟器中看到修改后的效果。</p>
 <p><img src="https://static.verycloud.cn/sites/default/files/images/ios-user-safari-debug-webview-3.png" alt="直接修改webview中的样式"></p>
 <p>这样就可以直接修改webview中的样式。</p>

@@ -397,6 +397,604 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/16/Drupal8面向对象-OOP/" itemprop="url">
+                  Drupal8面向对象(OOP)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-16T15:16:30+08:00" content="2015-11-16">
+              2015-11-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/16/Drupal8面向对象-OOP/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/16/Drupal8面向对象-OOP/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。<br>OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。</p>
+<p>###一、数据类型<br>什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。<br>但是对于其他的数据类型，如整形(int)等，这种方式就不适用。</p>
+<p>而OOP的优势在于，它允许你自定义数据类型。这些数据类型也称之为”类”，在类中包含一些内部结构，如:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></div><div class="line">&#123;</div><div class="line">  <span class="comment">// 下面是人的成员属性</span></div><div class="line">  <span class="keyword">protected</span> $name; <span class="comment">// 人的名子</span></div><div class="line">  <span class="keyword">protected</span> $sex; <span class="comment">// 人的性别</span></div><div class="line">  <span class="keyword">protected</span> $age; <span class="comment">// 人的年龄</span></div><div class="line"></div><div class="line">  <span class="comment">// 构造函数</span></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name, $sex, $age)</span> </span>&#123;</div><div class="line">  	<span class="keyword">$this</span>-&gt;name = $name;</div><div class="line">  	<span class="keyword">$this</span>-&gt;sex = $sex;</div><div class="line">  	<span class="keyword">$this</span>-&gt;age = $age;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</div><div class="line">  	<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;name . <span class="string">'，性别：'</span> . <span class="keyword">$this</span>-&gt;sex . <span class="string">'，年龄：'</span> . <span class="keyword">$this</span>-&gt;age;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码定义了一个名叫Person的类，包含三个属性$name, $sex, $age，也包含2个方法。实例化如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$name = <span class="string">'王鹏'</span>;</div><div class="line">$sex = <span class="string">'男'</span>;</div><div class="line">$age = <span class="number">30</span>;</div><div class="line">$myperson = <span class="keyword">new</span> Person($name, $sex, $age);</div></pre></td></tr></table></figure>
+<p>$myperson现在就是一个对象实例。对于Drupal来说，类和对象的关系就类似内容类型和内容之间的关系。</p>
+<p>###二、类的结构(class)<br>类的概念：类是具有相同属性和服务的一组对象的集合。它为属于该类的所有对象提供了统一的抽象描述，其内部包括属性和服务两个主要部分。在面向对象的编程语言中，类是一个独立的程序单位，它应该有一个类名并包括属性说明和服务说明两个主要部分。</p>
+<p>这段文字是摘抄自google，比较晦涩难懂。<br>简单说，方法是可以在对象上执行的操作。比如在Person类，我们有一个方法叫getPerson()，我们可以通过引用对象调用TA。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$person = $myperson-&gt;getPerson();</div></pre></td></tr></table></figure>
+<p>当然，我们不能用$myperson-&gt;name或$myperson-&gt;sex来引用这些属性。我们先来看一些关键词public、protected，他们定义了方法或者属性的可见性。public方法或者属性可以外部访问调用，如getPerson()。但是protected仅限于在类或子类的内部调用。而private就只能在类自己内部调用，而不能在它的子类中。</p>
+<p>Drupal中一般声明属性protected,方法声明为public或protected，private一般不赞成使用。</p>
+<p>###三、接口(interface)<br>接口是一种特殊的抽象类，抽象类又是一种特殊的类，所以接口也是一种特殊的类，为 什么说接口是一种特殊的抽象类呢？如果一个抽象类里面的所有的方法都是抽象方法，那么我们就换一种声明方法使用“接口”；也就是说接口里面所有的方法必须 都是声明为抽象方法，另外接口里面不能声明变量(但可声明常量constant)，而且接口里面所有的成员都是public权限的。所以子类在实现的时候 也一定要使用public权限实限。</p>
+<p>在类中，Person定义的对象大抵是这样：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;...&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>那如何定义接口呢？<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PersonInterface</span> </span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">PersonInterface</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> __construct($name, $sex, $age);</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">/*..........*/</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这就像用户界面定义了人和程序如何交互，而接口定义了方法和对象的交互过程。当然你不能创建一个接口对象，而必须一个接口类。</p>
+<p>说简单点。就是—接口定义了方法，类实现了方法。</p>
+<p>###四、构造方法(constructor)<br>我们再来看Person类中的方法__construct()，它是用两个下划线作为前缀。这是PHP5中引入的。当创建一个对象的时候，会自动调用构造函数，也就是用new这个关键字实例化对象的时候自动调用构造函数。<br>在一个类中只能声明一个构造方法，而是只有在每次创建对象的时候都会去调用一次构造方法，不能主动的调用这个方法，所以通常用它执行一些有用的初始化任务。比如对成属性在创建对象的时候赋初值。如我们上面的代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$myperson = <span class="keyword">new</span> Person($name, $sex, $age);</div></pre></td></tr></table></figure>
+<p>它是如何执行的呢？<br>1、在内存中创建一个Person对象<br>2、用new关键字调用__construct方法<br>3、把Person对象复制给$this属性<br>4、创建一个名为$myperson的变量，他并不是一个对象，他用来处理对象<br>5、把$myperson指向内存中的Person对象</p>
+<p>注意：不要在接口中定义构造方法，这样会导致代码逻辑混乱！</p>
+<p>###五、继承(inherit)<br>继承是OOP的一个重要的特性，继承是子类自动共享父类数据结构和方法的机制，这是类之间的一种关系。如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name, $sex, $age)</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;name = $name;</div><div class="line">    <span class="keyword">$this</span>-&gt;sex = $sex;</div><div class="line">    <span class="keyword">$this</span>-&gt;age = $age;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$mystudent = <span class="keyword">new</span> Student($name, $sex, $age);</div></pre></td></tr></table></figure>
+<p>这里声明了Student类是Person的子类，我们这里没有定义getPerson方法，这意味着这个方法继承自Person类，如$mystudent-&gt;getPerson()和$mypeson-&gt;getPerson()执行的结果是一样的。我们这里也没有定义$name, $sex, $age这些属性，他们也是继承自Person父类。</p>
+<p>在C++语言中，一个派生类可以从一个基类派生，也可以从多个基类派生。从一个基类派生的继承称为单继承；从多个基类派生的继承称为多继承。</p>
+<p>但是在PHP和Java语言里面没有多继承，只有单继承，也就是说，一个类只能直接从一个类中继承数据， 这就是我们所说的单继承。</p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/12/Drupal8-form/" itemprop="url">
+                  drupal8表单(form)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-12T17:15:23+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/12/Drupal8-form/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Drupal8-form/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>这里简单做下Entity Form的实现，包括调用模板输出form.<br>详情请访问俺的github，链接地址： <a href="https://github.com/aboutblankchina/drupal8_test" target="_blank" rel="external">https://github.com/aboutblankchina/drupal8_test</a></p>
+<p>1、首先创建相关文件<br>[$install_path]/modules/hello_world/lib/Drupal/hello_world/Entity/Hello.php<br>注：该文件定义实例（Entity）</p>
+<p>如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Definition of Drupal\hello_world\Entity\Hello.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">hello_world</span>\<span class="title">Entity</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">ContentEntityBase</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityStorageControllerInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Field</span>\<span class="title">FieldDefinition</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Language</span>\<span class="title">Language</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Session</span>\<span class="title">AccountInterface</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Defines the hello entity class.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@EntityType</span>(</div><div class="line"> *   id = "hello",</div><div class="line"> *   label = <span class="doctag">@Translation</span>("Hello"),</div><div class="line"> *   controllers = &#123;</div><div class="line"> *     "storage" = "Drupal\Core\Entity\FieldableDatabaseStorageController",</div><div class="line"> *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",</div><div class="line"> *     "form" = &#123;</div><div class="line"> *       "default" = "Drupal\hello_world\HelloWorldFormController",</div><div class="line"> *     &#125;,</div><div class="line"> *   &#125;,</div><div class="line"> *   base_table = "node",</div><div class="line"> *   entity_keys = &#123;</div><div class="line"> *     "id" = "nid",</div><div class="line"> *     "label" = "title",</div><div class="line"> *     "uuid" = "uuid"</div><div class="line"> *   &#125;,</div><div class="line"> *   links = &#123;</div><div class="line"> *     "edit-form" = "hello.edit",</div><div class="line"> *   &#125;</div><div class="line"> * )</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Hello</span> <span class="keyword">extends</span> <span class="title">ContentEntityBase</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>需要说明的是，上面的一部分注释(Annotation)是必须使用的，这是symfony的标准。<br>Symfony2框架中大量使用了Annotation：从缓存的定义到路由的配置，甚至到表结构的定义，处处都使用了Annotation功能。你甚至可以根据规范编写自己的Annotation。所以在使用Symfony2开发程序时，复杂的逻辑会变成一行行清晰的注释，程序的流程控制将变得非常简单。<br>详细见 <a href="https://api.drupal.org/api/drupal/core!modules!system!system.api.php/group/annotation/8" target="_blank" rel="external">https://api.drupal.org/api/drupal/core!modules!system!system.api.php/group/annotation/8</a> 。</p>
+<p>2、在hello_world.routing.yml中增加一行</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">hello.edit:</div><div class="line">  path: <span class="string">'/hello/edit'</span></div><div class="line">  defaults:</div><div class="line">    _entity_form: <span class="string">'hello.default'</span></div><div class="line">  requirements:</div><div class="line">    _permission: <span class="string">'access hello world'</span></div></pre></td></tr></table></figure>
+<p>3、创建文件 lib/Drupal/hello_world/HelloWorldFormController.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Definition of Drupal\hello_world\HelloWorldFormController.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">hello_world</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Component</span>\<span class="title">Utility</span>\<span class="title">NestedArray</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Datetime</span>\<span class="title">DrupalDateTime</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">ContentEntityFormController</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Language</span>\<span class="title">Language</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Component</span>\<span class="title">Utility</span>\<span class="title">String</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Form controller for the node edit forms.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloWorldFormController</span> <span class="keyword">extends</span> <span class="title">ContentEntityFormController</span> </span>&#123;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">form</span><span class="params">(array $form, array &amp;$form_state)</span> </span>&#123;</div><div class="line">    $form = <span class="keyword">parent</span>::form($form, $form_state); $entity = <span class="keyword">$this</span>-&gt;entity;</div><div class="line"></div><div class="line">    $form[<span class="string">'#title'</span>] = <span class="string">'这里写入网页标题'</span>;</div><div class="line"></div><div class="line">    $form[<span class="string">'title'</span>] = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'textfield'</span>,</div><div class="line">      <span class="string">'#title'</span> =&gt; t(<span class="string">'Title'</span>),</div><div class="line">      <span class="string">'#default_value'</span> =&gt; $entity-&gt;title-&gt;value,</div><div class="line">    );</div><div class="line"></div><div class="line">    <span class="comment">// 如果要用模板输出。则这样调用</span></div><div class="line">    $form[<span class="string">'#theme'</span>] = <span class="string">'hello_world_form'</span>;</div><div class="line">    <span class="keyword">return</span> $form;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">(array $form, array &amp;$form_state)</span> </span>&#123; </div><div class="line">    $entity = <span class="keyword">$this</span>-&gt;entity;</div><div class="line">    $entity-&gt;save();</div><div class="line">    drupal_set_message(<span class="string">"hello saved"</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">delete</span><span class="params">(array $form, array &amp;$form_state)</span> </span>&#123; </div><div class="line">    $entity = <span class="keyword">$this</span>-&gt;entity;</div><div class="line">    $entity-&gt;delete();</div><div class="line">    drupal_set_message(<span class="string">"hello has been deleted."</span>); </div><div class="line">    $form_sate[<span class="string">'redirect_route'</span>][<span class="string">'route_name'</span>] = <span class="string">'&lt;front&gt;'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>4、如果要使用模板输出，则要定义hook_theme</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Implements hook_theme().</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello_world_theme</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">    <span class="string">'hello_world_form'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">      <span class="string">'render element'</span> =&gt; <span class="string">'form'</span>,</div><div class="line">      <span class="string">'template'</span> =&gt; <span class="string">'hello-world-form'</span>,</div><div class="line">    ),</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>访问<a href="http://localhost/drupal8/hello/edit就可以看到表单了。" target="_blank" rel="external">http://localhost/drupal8/hello/edit就可以看到表单了。</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/12/Drupal8模块-module-开发/" itemprop="url">
+                  Drupal8模块(module)开发
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-12T17:07:28+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/12/Drupal8模块-module-开发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Drupal8模块-module-开发/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/12/Drupal8和symfony2/" itemprop="url">
+                  Drupal8和symfony2
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-12T10:46:27+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/12/Drupal8和symfony2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Drupal8和symfony2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/08/mariaDB和Percona的引擎tokudb性能测试/" itemprop="url">
+                  MariaDB和Percona的引擎tokudb性能对比测试
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-08T20:30:12+08:00" content="2015-11-08">
+              2015-11-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/08/mariaDB和Percona的引擎tokudb性能测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/08/mariaDB和Percona的引擎tokudb性能测试/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>MariaDB和Mysql对比（配置4核4G）:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Welcome to the MySQL monitor.  Commands end with ; <span class="keyword">or</span> \g.</div><div class="line">Your MySQL connection id is <span class="number">2</span></div><div class="line">Server version: <span class="number">5.6</span><span class="number">.25</span><span class="number">-73.1</span> Percona Server (GPL), Release <span class="number">73.1</span>, Revision <span class="number">07</span>b797f</div></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Welcome to the MariaDB monitor.  Commands end with ; <span class="keyword">or</span> \g.</div><div class="line">Your MariaDB connection id is <span class="number">4</span></div><div class="line">Server version: <span class="number">10.0</span><span class="number">.14</span>-MariaDB MariaDB Server</div></pre></td></tr></table></figure>
+<p>###1、MariaDB导入数据：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_innodb FIELDS TERMINATED BY <span class="string">'\t'</span>;</div><div class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">1</span> min <span class="number">18.02</span> sec)</div><div class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_tokudb FIELDS TERMINATED BY <span class="string">'\t'</span>;</div><div class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">36.83</span> sec)                                 </div><div class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></div></pre></td></tr></table></figure></p>
+<p>Mysql导入数据：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_innodb FIELDS TERMINATED BY <span class="string">'\t'</span>;</div><div class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">1</span> min <span class="number">10.75</span> sec)</div><div class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></div><div class="line"></div><div class="line">mysql&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_tokudb FIELDS TERMINATED BY <span class="string">'\t'</span>;</div><div class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">33.35</span> sec)</div><div class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></div></pre></td></tr></table></figure></p>
+<p>总结：<br>1）、MariaDB导入数据比Mysql要慢一点<br>2）、TokuDB导入数据比InnoDB速度快一倍<br>3）、TokuDB采用多CPU并发导入</p>
+<p>###2、MariaDB存储空间<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@localhost billing]<span class="comment"># ll -h</span></div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">1.5</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">16</span> cloud_innodb.frm</div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">568</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">40</span> cloud_innodb.ibd</div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># ll -h</span></div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">26</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">31</span> _billing_cloud_tokudb_main_172d_1_1b_B_0.tokudb</div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">64</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">31</span> _billing_cloud_tokudb_status_1729_1_1b.tokudb</div></pre></td></tr></table></figure></p>
+<p>Mysql存储空间<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@localhost billing]<span class="comment"># ll -h </span></div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">8.9</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">17</span> cloud_innodb.frm</div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">568</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">36</span> cloud_innodb.ibd</div><div class="line"></div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># ll -h</span></div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">26</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">37</span> _billing_cloud_tokudb_main_8be1_1_1c_B_0.tokudb</div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">64</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">37</span> _billing_cloud_tokudb_status_8bde_1_1c.tokudb</div></pre></td></tr></table></figure></p>
+<p>总结：<br>1）、 MariaDB和Mysql在采用相同引擎的时候存储空间相同<br>2）、 TokuDB的压缩有很多种，上面采用tokudb_lzma,压缩比例最大，但非常消耗CPU，内存<br>3）、 TokuDB和InnoDB从上面的例子来看压缩比率是1：20左右，如果都是整型数据，压缩比率在1：4左右。</p>
+<p>###3、MariaDB查询速度<br>重启第一次查询<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; select count(*) from cloud_innodb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.58</span> sec)</div><div class="line"></div><div class="line">MariaDB [billing]&gt; select count(*) from cloud_tokudb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">16.55</span> sec)</div></pre></td></tr></table></figure></p>
+<p>清缓存（reset query cache）<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; reset query cache;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.02</span> sec)</div><div class="line"></div><div class="line">MariaDB [billing]&gt; select count(*) from cloud_innodb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.42</span> sec)</div><div class="line"></div><div class="line">MariaDB [billing]&gt; select count(*) from cloud_tokudb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.43</span> sec)</div></pre></td></tr></table></figure></p>
+<p>Mysql查询速度<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select count(*) from cloud_innodb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.66</span> sec)</div><div class="line"></div><div class="line">mysql&gt; select count(*) from cloud_tokudb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">13.74</span> sec)</div></pre></td></tr></table></figure></p>
+<p>清缓存（reset query cache）<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">mysql&gt; reset query cache;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.03</span> sec)</div><div class="line"></div><div class="line">mysql&gt; select count(*) from cloud_innodb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.38</span> sec)</div><div class="line"></div><div class="line">mysql&gt; select count(*) from cloud_tokudb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.49</span> sec)</div></pre></td></tr></table></figure></p>
+<p>总结：<br>1）、 查询速度MariaDB和Mysql速度差不多<br>2）、 第一次查询的时候InnoDB和TokuDB速度相差很大<br>3）、 清缓存后查询差不多</p>
+<p>###4、并发查询<br>MariaDB：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.509</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.509</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.509</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.600</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.600</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.600</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.901</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.901</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.901</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">1.028</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">1.028</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">1.028</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>Mysql：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.496</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.496</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.496</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.483</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.483</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.483</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">1.231</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">1.231</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">1.231</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.739</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.739</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.739</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>总结<br>1）、 并发查询两数据相差不是很大<br>2）、 Tokudb查询速度在MariaDB中比InnoDB引擎慢一点，但在Mysql中比InnoDB引擎速度还快（网上说的TokuDB查询速度不行，没有验证出来，不知道真正在线速度怎么样，按理说压缩后的数据应该查询要慢于没有压缩的数据）</p>
+<p>###5、 批量更新</p>
+<p>MariaDB<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[billing]&gt; update  cloud_innodb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</div><div class="line">Query OK, <span class="number">81099</span> rows affected (<span class="number">5.71</span> sec)</div><div class="line">Rows matched: <span class="number">81099</span>  Changed: <span class="number">81099</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>MariaDB<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[billing]&gt; update  cloud_tokudb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</div><div class="line">Query OK, <span class="number">81099</span> rows affected (<span class="number">3.46</span> sec)</div></pre></td></tr></table></figure></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; update  cloud_innodb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</div><div class="line">Query OK, <span class="number">80952</span> rows affected (<span class="number">5.32</span> sec)</div><div class="line">Rows matched: <span class="number">81099</span>  Changed: <span class="number">80952</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; update  cloud_tokudb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</div><div class="line">Query OK, <span class="number">80952</span> rows affected (<span class="number">3.40</span> sec)</div><div class="line">Rows matched: <span class="number">81099</span>  Changed: <span class="number">80952</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure>
+<p>总结<br>1）、两数据库性能差不多<br>2）、批量更新感觉TokuDB速度比InnoDB速度快（和网上说的又不一样）</p>
+<p>###6、DDL操作对比<br>添加索引<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; create index idx_uid on cloud_innodb(uid);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">12.23</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; create index idx_uid on cloud_tokudb(uid);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">29.51</span> sec)                                   </div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; create index idx_uid on cloud_innodb(uid);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">15.48</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; create index idx_uid on cloud_tokudb(uid);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">31.10</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>删除索引<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; drop index idx_uid on cloud_innodb;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.05</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; drop index idx_uid on cloud_tokudb;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.09</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; drop index idx_uid on cloud_innodb;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.07</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; drop index idx_uid on cloud_tokudb;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.13</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>添加字段<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; alter table cloud_innodb add column test_flag varchar(<span class="number">20</span>);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">20.06</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; alter table cloud_tokudb add column test_flag varchar(<span class="number">20</span>);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.16</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; alter table cloud_innodb add column test_flag varchar(<span class="number">20</span>);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">31.07</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; alter table cloud_tokudb add column test_flag varchar(<span class="number">20</span>);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.23</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>删除字段<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; alter table cloud_innodb drop column test_flag;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">19.48</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; alter table cloud_tokudb drop column test_flag;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.23</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; alter table cloud_innodb drop column test_flag;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">55.31</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; alter table cloud_tokudb drop column test_flag;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1.28</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>总结<br>1、MariaDB的DDL操作比Mysql的快<br>2、InnoDB的添加索引比TokuDB的快<br>3、删除索引两个引擎都很快<br>4、添加字段TokuDB非常快，InnoDB很慢<br>5、删除字段TokuDB非常快，InnoDB很慢</p>
+<h1 id="网上的一些总结"><a href="#网上的一些总结" class="headerlink" title="网上的一些总结"></a>网上的一些总结</h1><p>总结：<br>TokuDB优点<br>1，online ddl 非常给力，特别是对字段的修改非常快<br>2，压缩比非常高通常都能达到7,8倍的压缩比<br>3，完全支持ACID事物的四大特性<br>TokuDB缺点<br>1，响应时间相对较长<br>2，online ddl 对text,blob等类型的字段不适用<br>3，没有合适的备份工具，只能通过mysqldump进行逻辑备份<br>建议适用场景：<br>1，访问频率不高的数据或历史数据归档<br>2，表非常大并且时不时还需要进行ddl操作</p>
+<p>特点：<br>1.插入性能快20~80倍；<br>2.压缩数据减少存储空间；<br>3.数据量可以扩展到几个TB；<br>4.不会产生索引碎片；<br>5.支持hot column addition ， hot indexing， mvcc；<br>如何考虑使用：<br>1.如果要存储blob，不要使用tokuDB，因为他的记录不能太大；<br>2.如果记录数过亿，使用tokuDB；<br>3.如果注重update的性能，不要使用tokuDB，他没有innodb快；<br>4.如果要存储旧的记录，使用tokuDB；<br>5.如果要缩小数据占用的存储空间，使用tokuDB；</p>
+<p>总结：<br>TokuDB的优点：1、高压缩比 2、高insert性能 3、增删字段秒级。<br>TokuDB的缺点：1、cpu usr态消耗高 2、响应时间变长。</p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
 
   </section>
 
