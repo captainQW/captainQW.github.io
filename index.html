@@ -201,15 +201,132 @@
 
     
     
+
+    
       
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/20/Mariadb-ColumnStore数据库测试/" itemprop="url">
+                  Mariadb ColumnStore数据库测试
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-12-20T15:06:53+08:00" content="2016-12-20">
+              2016-12-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/20/Mariadb-ColumnStore数据库测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/20/Mariadb-ColumnStore数据库测试/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
-        
-        
-        
       
 
       
+        
+          <span itemprop="articleBody">
+            
+              <p>顾名思义，就是Mariadb为了大数据而开发的列式数据库。后来发现，这货就是InfiniDB的翻版，InfiniDB被MariaDB收购了以后重新开发的新版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show engines;</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Engine             | Support | Comment                                                                                          | Transactions | XA   | Savepoints |</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Columnstore        | YES     | Columnstore storage engine                                                                       | YES          | NO   | NO         |</div><div class="line">| MRG_MyISAM         | YES     | Collection of identical MyISAM tables                                                            | NO           | NO   | NO         |</div><div class="line">| CSV                | YES     | CSV storage engine                                                                               | NO           | NO   | NO         |</div><div class="line">| MyISAM             | YES     | MyISAM storage engine                                                                            | NO           | NO   | NO         |</div><div class="line">| MEMORY             | YES     | Hash based, stored <span class="keyword">in</span> memory, useful <span class="keyword">for</span> temporary tables                                        | NO           | NO   | NO         |</div><div class="line">| InfiniDB           | YES     | Columnstore storage engine (deprecated: use columnstore)                                         | YES          | NO   | NO         |</div><div class="line">| InnoDB             | DEFAULT | Percona-XtraDB, Supports transactions, row-level locking, foreign keys and encryption <span class="keyword">for</span> tables | YES          | YES  | YES        |</div><div class="line">| SEQUENCE           | YES     | Generated tables filled with sequential values                                                   | YES          | NO   | YES        |</div><div class="line">| Aria               | YES     | Crash-safe tables with MyISAM heritage                                                           | NO           | NO   | NO         |</div><div class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                                               | NO           | NO   | NO         |</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">10 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
+<p>还能看到InfiniDB引擎的影子。</p>
+<p>测试环境：<br>centos 6.6 8核8G<br>ssd 100G<br>mariadb columnstore 1.0.6 GA</p>
+<p>1、安装</p>
+<p>安装依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yum -y install expect perl perl-DBI openssl zlib perl-DBD-MySQL cmake</span></div></pre></td></tr></table></figure></p>
+<p>必须要boost1.50以上版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># wget https://static.verycloud.cn/rpm/boost_1_55_0.tgz</span></div><div class="line"><span class="comment"># wget https://static.verycloud.cn/rpm/mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span></div></pre></td></tr></table></figure>
+<p>安装boost.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># tar -zxvf boost_1_55_0.tgz</span></div><div class="line"><span class="comment"># tar -zxvf mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span></div><div class="line"><span class="comment"># cd boost_1_55_0 </span></div><div class="line"><span class="comment"># ./bootstrap.sh --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log --prefix=/usr </span></div><div class="line"><span class="comment"># ./b2 install</span></div></pre></td></tr></table></figure></p>
+<p>安装mariadb columnstore.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># rpm -ivh mariadb-columnstore-1.0.6-1-x86_64-centos6-*</span></div></pre></td></tr></table></figure></p>
+<p>2、初始化<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /usr/local/mariadb/columnstore/bin/post-install</span></div></pre></td></tr></table></figure></p>
+<p>这时会提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">The next step is:</div><div class="line"></div><div class="line">/usr/<span class="built_in">local</span>/mariadb/columnstore/bin/postConfigure</div></pre></td></tr></table></figure></p>
+<p>执行，完成安装，选择single server<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /usr/local/mariadb/columnstore/bin/postConfigure</span></div></pre></td></tr></table></figure></p>
+<p>生成别名<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># . /data/mariadb/columnstore/bin/columnstoreAlias</span></div></pre></td></tr></table></figure></p>
+<p>执行 mcsmysql，会看到提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</div><div class="line">Your MariaDB connection id is 5</div><div class="line">Server version: 10.1.19-MariaDB Columnstore 1.0.6-1</div><div class="line"></div><div class="line">Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.</div><div class="line"></div><div class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input statement.</div><div class="line"></div><div class="line">MariaDB [(none)]&gt;</div></pre></td></tr></table></figure></p>
+<p>说明安装成功了！</p>
+<p>3、数据导入</p>
+<p>执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># mcsmysql --local-infile</span></div><div class="line"><span class="comment"># LOAD DATA LOCAL INFILE '/root/data.txt' INTO TABLE your_table FIELDS TERMINATED BY '\t';</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Query OK, 95981370 rows affected (6 min 8.62 sec)    </div><div class="line">Records: 95981370  Deleted: 0  Skipped: 0  Warnings: 0</div></pre></td></tr></table></figure>
+<p>导入1亿条数据要6分钟。</p>
+
+            
+          </span>
+        
+      
+    </div>
     
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -823,127 +940,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/07/web开发规范/" itemprop="url">
-                  web开发规范
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-10-07T21:55:39+08:00" content="2016-10-07">
-              2016-10-07
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/web/" itemprop="url" rel="index">
-                    <span itemprop="name">web</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/07/web开发规范/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/07/web开发规范/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <h2 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h2><p>前端开发涉及的所文件统一使用<code>utf-8</code>编码</p>
-<h2 id="文件命名规则"><a href="#文件命名规则" class="headerlink" title="文件命名规则"></a>文件命名规则</h2><p>全部小写方式，以下划线分隔</p>
-<p>例：my_project</p>
-<blockquote>
-<p>特例：drupal中的模版文件</p>
-</blockquote>
-<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><ul>
-<li>缩进使用2个空格；</li>
-<li>嵌套的节点应该缩进；</li>
-<li>在属性上，使用双引号，不要使用单引号；</li>
-<li>属性名全小写，用中划线做分隔符；</li>
-<li>不要在自动闭合标签结尾处使用斜线（<a href="http://dev.w3.org/html5/spec-author-view/syntax.html#syntax-start-tag">HTML5 规范</a> 指出他们是可选的）；</li>
-<li>不要忽略可选的关闭标签，例：<code>&lt;/li&gt;</code> 和 <code>&lt;/body&gt;</code>。</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Page title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/company_logo.png"</span> <span class="attr">alt</span>=<span class="string">"Company"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"hello-world"</span>&gt;</span>Hello, world!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/07/web开发规范/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -990,7 +986,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">73</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1004,7 +1000,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">63</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
