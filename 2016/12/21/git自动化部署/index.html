@@ -37,7 +37,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="ColumnStore," />
+  <meta name="keywords" content="git," />
 
 
 
@@ -55,19 +55,24 @@
 
 
 
-<meta name="description" content="顾名思义，就是Mariadb为了大数据而开发的列式数据库。后来发现，这货就是InfiniDB的翻版，InfiniDB被MariaDB收购了以后重新开发的新版本。
-12345678910111213141516MariaDB [(none)]&amp;gt; show engines;+--------------------+---------+------------------------------">
+<meta name="description" content="gitlab和github都支持通过webhook自动部署，本文使用gitlab+webhook的方式实现自动化部署项目。
+1、填写回调URL随便在gitlab上找一个项目，填写回调URL，如果有Push请求，gitlab会自动回调你填写的这个地址。
+2、开发服务器配置一般php是通过php-fpm来运行，而php-fpm一般由apache用户来运行。确保clone下来的仓库权限比如为apache">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mariadb ColumnStore数据库测试">
-<meta property="og:url" content="http://verynull.com/2016/12/20/Mariadb-ColumnStore数据库测试/index.html">
+<meta property="og:title" content="git自动化部属">
+<meta property="og:url" content="http://verynull.com/2016/12/21/git自动化部署/index.html">
 <meta property="og:site_name" content="Rambo's Blog">
-<meta property="og:description" content="顾名思义，就是Mariadb为了大数据而开发的列式数据库。后来发现，这货就是InfiniDB的翻版，InfiniDB被MariaDB收购了以后重新开发的新版本。
-12345678910111213141516MariaDB [(none)]&amp;gt; show engines;+--------------------+---------+------------------------------">
-<meta property="og:updated_time" content="2016-12-20T07:41:11.000Z">
+<meta property="og:description" content="gitlab和github都支持通过webhook自动部署，本文使用gitlab+webhook的方式实现自动化部署项目。
+1、填写回调URL随便在gitlab上找一个项目，填写回调URL，如果有Push请求，gitlab会自动回调你填写的这个地址。
+2、开发服务器配置一般php是通过php-fpm来运行，而php-fpm一般由apache用户来运行。确保clone下来的仓库权限比如为apache">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20161221/2016122175313_33517.png">
+<meta property="og:updated_time" content="2016-12-21T00:02:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mariadb ColumnStore数据库测试">
-<meta name="twitter:description" content="顾名思义，就是Mariadb为了大数据而开发的列式数据库。后来发现，这货就是InfiniDB的翻版，InfiniDB被MariaDB收购了以后重新开发的新版本。
-12345678910111213141516MariaDB [(none)]&amp;gt; show engines;+--------------------+---------+------------------------------">
+<meta name="twitter:title" content="git自动化部属">
+<meta name="twitter:description" content="gitlab和github都支持通过webhook自动部署，本文使用gitlab+webhook的方式实现自动化部署项目。
+1、填写回调URL随便在gitlab上找一个项目，填写回调URL，如果有Push请求，gitlab会自动回调你填写的这个地址。
+2、开发服务器配置一般php是通过php-fpm来运行，而php-fpm一般由apache用户来运行。确保clone下来的仓库权限比如为apache">
+<meta name="twitter:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20161221/2016122175313_33517.png">
 
 
 
@@ -79,7 +84,7 @@
   };
 </script>
 
-  <title> Mariadb ColumnStore数据库测试 | Rambo's Blog </title>
+  <title> git自动化部属 | Rambo's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -219,7 +224,7 @@
             
             
               
-                Mariadb ColumnStore数据库测试
+                git自动化部属
               
             
           </h1>
@@ -228,8 +233,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-12-20T15:06:53+08:00" content="2016-12-20">
-              2016-12-20
+            <time itemprop="dateCreated" datetime="2016-12-21T07:47:36+08:00" content="2016-12-21">
+              2016-12-21
             </time>
           </span>
 
@@ -238,8 +243,8 @@
               &nbsp; | &nbsp; 分类于
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -254,8 +259,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/12/20/Mariadb-ColumnStore数据库测试/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/20/Mariadb-ColumnStore数据库测试/" itemprop="commentsCount"></span>
+                <a href="/2016/12/21/git自动化部署/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/21/git自动化部署/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -274,26 +279,18 @@
       
 
       
-        <span itemprop="articleBody"><p>顾名思义，就是Mariadb为了大数据而开发的列式数据库。后来发现，这货就是InfiniDB的翻版，InfiniDB被MariaDB收购了以后重新开发的新版本。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show engines;</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Engine             | Support | Comment                                                                                          | Transactions | XA   | Savepoints |</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Columnstore        | YES     | Columnstore storage engine                                                                       | YES          | NO   | NO         |</div><div class="line">| MRG_MyISAM         | YES     | Collection of identical MyISAM tables                                                            | NO           | NO   | NO         |</div><div class="line">| CSV                | YES     | CSV storage engine                                                                               | NO           | NO   | NO         |</div><div class="line">| MyISAM             | YES     | MyISAM storage engine                                                                            | NO           | NO   | NO         |</div><div class="line">| MEMORY             | YES     | Hash based, stored <span class="keyword">in</span> memory, useful <span class="keyword">for</span> temporary tables                                        | NO           | NO   | NO         |</div><div class="line">| InfiniDB           | YES     | Columnstore storage engine (deprecated: use columnstore)                                         | YES          | NO   | NO         |</div><div class="line">| InnoDB             | DEFAULT | Percona-XtraDB, Supports transactions, row-level locking, foreign keys and encryption <span class="keyword">for</span> tables | YES          | YES  | YES        |</div><div class="line">| SEQUENCE           | YES     | Generated tables filled with sequential values                                                   | YES          | NO   | YES        |</div><div class="line">| Aria               | YES     | Crash-safe tables with MyISAM heritage                                                           | NO           | NO   | NO         |</div><div class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                                               | NO           | NO   | NO         |</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">10 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
-<p>还能看到InfiniDB引擎的影子。</p>
-<p>测试环境：<br>centos 6.6 8核8G<br>ssd 100G<br>mariadb columnstore 1.0.6 GA</p>
-<p>1、安装</p>
-<p>安装依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yum -y install expect perl perl-DBI openssl zlib perl-DBD-MySQL cmake</span></div></pre></td></tr></table></figure></p>
-<p>必须要boost1.50以上版本。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># wget https://static.verycloud.cn/rpm/boost_1_55_0.tgz</span></div><div class="line"><span class="comment"># wget https://static.verycloud.cn/rpm/mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span></div></pre></td></tr></table></figure>
-<p>安装boost.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># tar -zxvf boost_1_55_0.tgz</span></div><div class="line"><span class="comment"># tar -zxvf mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span></div><div class="line"><span class="comment"># cd boost_1_55_0 </span></div><div class="line"><span class="comment"># ./bootstrap.sh --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log --prefix=/usr </span></div><div class="line"><span class="comment"># ./b2 install</span></div></pre></td></tr></table></figure></p>
-<p>安装mariadb columnstore.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># rpm -ivh mariadb-columnstore-1.0.6-1-x86_64-centos6-*</span></div></pre></td></tr></table></figure></p>
-<p>2、初始化<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /usr/local/mariadb/columnstore/bin/post-install</span></div></pre></td></tr></table></figure></p>
-<p>这时会提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">The next step is:</div><div class="line"></div><div class="line">/usr/<span class="built_in">local</span>/mariadb/columnstore/bin/postConfigure</div></pre></td></tr></table></figure></p>
-<p>执行，完成安装，选择single server<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /usr/local/mariadb/columnstore/bin/postConfigure</span></div></pre></td></tr></table></figure></p>
-<p>生成别名<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># . /data/mariadb/columnstore/bin/columnstoreAlias</span></div></pre></td></tr></table></figure></p>
-<p>执行 mcsmysql，会看到提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</div><div class="line">Your MariaDB connection id is 5</div><div class="line">Server version: 10.1.19-MariaDB Columnstore 1.0.6-1</div><div class="line"></div><div class="line">Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.</div><div class="line"></div><div class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input statement.</div><div class="line"></div><div class="line">MariaDB [(none)]&gt;</div></pre></td></tr></table></figure></p>
-<p>说明安装成功了！</p>
-<p>3、数据导入</p>
-<p>执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># mcsmysql --local-infile</span></div><div class="line"><span class="comment"># LOAD DATA LOCAL INFILE '/root/data.txt' INTO TABLE your_table FIELDS TERMINATED BY '\t';</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Query OK, 95981370 rows affected (6 min 8.62 sec)    </div><div class="line">Records: 95981370  Deleted: 0  Skipped: 0  Warnings: 0</div></pre></td></tr></table></figure>
-<p>导入1亿条数据要6分钟。</p>
+        <span itemprop="articleBody"><p>gitlab和github都支持通过webhook自动部署，本文使用gitlab+webhook的方式实现自动化部署项目。</p>
+<p>1、填写回调URL<br>随便在gitlab上找一个项目，填写回调URL，如果有Push请求，gitlab会自动回调你填写的这个地址。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20161221/2016122175313_33517.png" alt="回调地址"></p>
+<p>2、开发服务器配置<br>一般php是通过php-fpm来运行，而php-fpm一般由apache用户来运行。确保clone下来的仓库权限比如为apache.<br>可通过如下命令进行修改</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># chown apache:apache you_project * -R</span></div></pre></td></tr></table></figure>
+<p>创建apache用户的.ssh文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -u apache ssh-keygen -t rsa</div></pre></td></tr></table></figure></p>
+<p>3、测试<br>在本地commit一个提交.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># git ci -am 'test webhook'</span></div><div class="line"><span class="comment"># git push origin dev</span></div></pre></td></tr></table></figure>
+<p>在开发服务器上查看日志<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># tail -f /var/log/php-fpm/www-error.log</span></div></pre></td></tr></table></figure></p>
+<p>可以看到<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[20-Dec-2016 23:00:59 Asia/Chongqing] Array</div><div class="line">(</div><div class="line">    [0] =&gt; From git.xxx.cn:your_project/project_name</div><div class="line">    [1] =&gt;  * branch            master     -&gt; FETCH_HEAD</div><div class="line">    [2] =&gt; Updating c02949b..f8c52c5</div><div class="line">    [3] =&gt; Fast-forward</div><div class="line">    [4] =&gt;  webhook.php |   42 ++++++++++++++++++++++++++++++++++++++++++</div><div class="line">    [5] =&gt;  1 files changed, 42 insertions(+), 0 deletions(-)</div><div class="line">    [6] =&gt;  create mode 100644 webhook.php</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>搞定！</p>
+<p>附、webhook.php源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$event = $_SERVER[<span class="string">'HTTP_X_GITLAB_EVENT'</span>];</div><div class="line">	$client_ip = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</div><div class="line">	$access_ip = <span class="keyword">array</span>(<span class="string">'192.168.112.151'</span>);</div><div class="line">	</div><div class="line">	<span class="comment">// access ip</span></div><div class="line">	<span class="keyword">if</span> (!in_array($client_ip, $access_ip))&#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"Invalid ip [&#123;$client_ip&#125;]"</span>.PHP_EOL;</div><div class="line">    <span class="keyword">exit</span>(<span class="number">0</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span>($event == <span class="string">'Push Hook'</span>)&#123;</div><div class="line">	    <span class="comment">// get json data</span></div><div class="line">	    $input = file_get_contents(<span class="string">"php://input"</span>);</div><div class="line">	    $json  = json_decode($input, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">	    <span class="keyword">if</span>($json[<span class="string">'project'</span>][<span class="string">'name'</span>] != <span class="string">'portal'</span>)&#123;</div><div class="line">	        <span class="keyword">exit</span>(<span class="number">0</span>);</div><div class="line">	    &#125;</div><div class="line"></div><div class="line">	    $branch = $json[<span class="string">'ref'</span>];</div><div class="line">	    <span class="keyword">switch</span>($branch)&#123;</div><div class="line">	        <span class="keyword">case</span> <span class="string">'refs/heads/dev'</span>:</div><div class="line">	            exec(<span class="string">"cd /var/www/html/voss/portal/;/usr/bin/git pull origin dev 2&gt;&amp;1"</span>, $output, $result);</div><div class="line">	            error_log(print_r(<span class="string">'pull dev'</span>, <span class="keyword">true</span>));</div><div class="line">	            error_log(print_r($output, <span class="keyword">true</span>));</div><div class="line">	            error_log(print_r($result, <span class="keyword">true</span>));</div><div class="line">	            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">	        <span class="keyword">default</span>:</div><div class="line">	        	  exec(<span class="string">"cd /var/www/html/voss/portal/;/usr/bin/git pull origin master 2&gt;&amp;1"</span>, $output, $result);</div><div class="line">	        	  error_log(print_r(<span class="string">'pull master'</span>, <span class="keyword">true</span>));</div><div class="line">	        	  	            error_log(print_r($output, <span class="keyword">true</span>));</div><div class="line">	            error_log(print_r($result, <span class="keyword">true</span>));</div><div class="line">	            <span class="keyword">break</span>;</div><div class="line">	    &#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -329,7 +326,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ColumnStore/" rel="tag">#ColumnStore</a>
+            <a href="/tags/git/" rel="tag">#git</a>
           
         </div>
       
@@ -338,17 +335,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/06/使用safari对webview进行调试/" rel="next" title="使用safari对webview进行调试">
-                <i class="fa fa-chevron-left"></i> 使用safari对webview进行调试
+              <a href="/2016/12/20/Mariadb-ColumnStore数据库测试/" rel="next" title="Mariadb ColumnStore数据库测试">
+                <i class="fa fa-chevron-left"></i> Mariadb ColumnStore数据库测试
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/12/21/git自动化部署/" rel="prev" title="git自动化部属">
-                git自动化部属 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -375,8 +368,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/12/20/Mariadb-ColumnStore数据库测试/"
-           data-title="Mariadb ColumnStore数据库测试" data-url="http://verynull.com/2016/12/20/Mariadb-ColumnStore数据库测试/">
+      <div class="ds-thread" data-thread-key="2016/12/21/git自动化部署/"
+           data-title="git自动化部属" data-url="http://verynull.com/2016/12/21/git自动化部署/">
       </div>
     
   </div>

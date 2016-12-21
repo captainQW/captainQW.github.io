@@ -224,6 +224,112 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/12/Drupal8和symfony2/" itemprop="url">
+                  Drupal8和symfony2
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-12T10:46:27+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/12/Drupal8和symfony2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Drupal8和symfony2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/08/mariaDB和Percona的引擎tokudb性能测试/" itemprop="url">
                   MariaDB和Percona的引擎tokudb性能对比测试
                 </a>
@@ -880,113 +986,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/24/查看哪些进程占用了swap/" itemprop="url">
-                  查看哪些进程占用了swap
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-09-24T10:22:51+08:00" content="2015-09-24">
-              2015-09-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/09/24/查看哪些进程占用了swap/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/24/查看哪些进程占用了swap/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>这个脚本可以方便的查看哪些进程占用了swap。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="comment">##############################################################################</span></div><div class="line"><span class="comment"># 脚本功能 ： 列出正在占用swap的进程。</span></div><div class="line"><span class="comment">###############################################################################</span></div><div class="line">  </div><div class="line"><span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"PID\t\tSwap\t\tProc_Name"</span></div><div class="line">  </div><div class="line"><span class="comment"># 拿出/proc目录下所有以数字为名的目录（进程名是数字才是进程，其他如sys,net等存放的是其他信息）</span></div><div class="line"><span class="keyword">for</span> pid <span class="keyword">in</span> `ls <span class="_">-l</span> /proc | grep ^d | awk <span class="string">'&#123; print $9 &#125;'</span>| grep -v [^0-9]`</div><div class="line"><span class="keyword">do</span></div><div class="line">    <span class="comment"># 让进程释放swap的方法只有一个：就是重启该进程。或者等其自动释放。放</span></div><div class="line">    <span class="comment"># 如果进程会自动释放，那么我们就不会写脚本来找他了，找他都是因为他没有自动释放。</span></div><div class="line">    <span class="comment"># 所以我们要列出占用swap并需要重启的进程，但是init这个进程是系统里所有进程的祖先进程</span></div><div class="line">    <span class="comment"># 重启init进程意味着重启系统，这是万万不可以的，所以就不必检测他了，以免对系统造成影响。</span></div><div class="line">    <span class="keyword">if</span> [ <span class="variable">$pid</span> <span class="_">-eq</span> 1 ];<span class="keyword">then</span> <span class="built_in">continue</span>;<span class="keyword">fi</span></div><div class="line">    grep -q <span class="string">"Swap"</span> /proc/<span class="variable">$pid</span>/smaps 2&gt;/dev/null</div><div class="line">    <span class="keyword">if</span> [ $? <span class="_">-eq</span> 0 ];<span class="keyword">then</span></div><div class="line">        swap=$(grep Swap /proc/<span class="variable">$pid</span>/smaps \</div><div class="line">            | gawk <span class="string">'&#123; sum+=$2;&#125; END&#123; print sum &#125;'</span>)</div><div class="line">        proc_name=$(ps aux | grep -w <span class="string">"<span class="variable">$pid</span>"</span> | grep -v grep \</div><div class="line">            | awk <span class="string">'&#123; for(i=11;i&lt;=NF;i++)&#123; printf("%s ",$i); &#125;&#125;'</span>)</div><div class="line">        <span class="keyword">if</span> [ <span class="variable">$swap</span> <span class="_">-gt</span> 0 ];<span class="keyword">then</span></div><div class="line">            <span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"<span class="variable">$&#123;pid&#125;</span>\t<span class="variable">$&#123;swap&#125;</span>\t<span class="variable">$&#123;proc_name&#125;</span>"</span></div><div class="line">        <span class="keyword">fi</span> </div><div class="line">    <span class="keyword">fi</span> </div><div class="line"><span class="keyword">done</span> | sort -k2 -n | awk -F<span class="string">'\t'</span> <span class="string">'&#123;</span></div><div class="line">    pid[NR]=$1;</div><div class="line">    size[NR]=$2;</div><div class="line">    name[NR]=$3;</div><div class="line">&#125;</div><div class="line">END&#123;</div><div class="line">    for(id=1;id&lt;=length(pid);id++)</div><div class="line">    &#123;</div><div class="line">        if(size[id]&lt;1024)</div><div class="line">            printf("%-10s\t%15sKB\t%s\n",pid[id],size[id],name[id]);</div><div class="line">        else if(size[id]&lt;1048576)</div><div class="line">            printf("%-10s\t%15.2fMB\t%s\n",pid[id],size[id]/1024,name[id]);</div><div class="line">        else</div><div class="line">            printf("%-10s\t%15.2fGB\t%s\n",pid[id],size[id]/1048576,name[id]);</div><div class="line">    &#125;</div><div class="line">&#125;'</div></pre></td></tr></table></figure>
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1033,7 +1032,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">74</span>
+              <span class="site-state-item-count">75</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1047,7 +1046,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">63</span>
+              <span class="site-state-item-count">64</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
