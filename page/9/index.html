@@ -229,6 +229,361 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/02/Converting-7-x-modules-to-8-x/" itemprop="url">
+                  Converting 7.x modules to 8.x
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-02T14:10:20+08:00" content="2015-11-02">
+              2015-11-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/02/Converting-7-x-modules-to-8-x/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/02/Converting-7-x-modules-to-8-x/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>本节主要介绍如何把drupal7的模块转化为drupal8。参考资料<a href="https://www.drupal.org/update/modules/7/8" target="_blank" rel="external">https://www.drupal.org/update/modules/7/8</a></p>
+<p>先介绍一个模块drupalmoduleupgrader，他会分析drupal7的模块，并提供升级的指导说明，另外还可以直接升级为drupal8。安装方式也比较简单，如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">drush dl drupalmoduleupgrader</div><div class="line"><span class="built_in">cd</span> modules/drupalmoduleupgrader</div><div class="line">composer install               <span class="comment">#安装依赖</span></div><div class="line">drush en drupalmoduleupgrader  <span class="comment">#启用此模块</span></div></pre></td></tr></table></figure></p>
+<p>###如何分析？<br>cp一个drupal7的模块到drupal8的modules目录下，执行以下命令分析:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">drush dmu-analyze hello_world</div></pre></td></tr></table></figure></p>
+<p>会释出一个upgrade-info.html的文件，非常详细的标明哪些API需要修改。</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151102/20151102143425_76787.png" alt="upgrade-info.html"></p>
+<p>###如何升级？<br>执行命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">drush dmu-upgrade hello_world</div></pre></td></tr></table></figure></p>
+<p>会自动释出一个drupal8的版本。</p>
+<p>###转换原理？<br>使用了pharborist做代码转换，见<a href="https://github.com/grom358/pharborist" target="_blank" rel="external">https://github.com/grom358/pharborist</a></p>
+<p>怎么样？灰常简单吧！</p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/02/Drupal8-drush/" itemprop="url">
+                  drush for drupal8
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-02T13:54:20+08:00" content="2015-11-02">
+              2015-11-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/02/Drupal8-drush/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/02/Drupal8-drush/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>文档见<a href="http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。" target="_blank" rel="external">http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。</a></p>
+<p>##1、安装composer</p>
+<p>作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。<br>composer的安装比较简单。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl <span class="_">-s</span>S https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer</div></pre></td></tr></table></figure>
+<p>vim ~/.bashrc 并添加一条 export PATH=”$HOME/.composer/vendor/bin:$PATH”。</p>
+<p>##2、安装drush</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Create and/or navigate to a path for the single Composer Drush install.</span></div><div class="line">mkdir --parents /opt/drush-8.x</div><div class="line"><span class="built_in">cd</span> /opt/drush-8.x</div><div class="line"><span class="comment"># Initialise a new Composer project that requires Drush.</span></div><div class="line">composer init --require=drush/drush:8.* -n</div><div class="line"><span class="comment"># Configure the path Composer should use for the Drush vendor binaries.</span></div><div class="line">composer config bin-dir /usr/<span class="built_in">local</span>/bin</div><div class="line"><span class="comment"># Install Drush. </span></div><div class="line">composer install</div></pre></td></tr></table></figure>
+<p>安装完，如果有Unable to load autoload.php…的错误，编辑</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /usr/<span class="built_in">local</span>/drush/drush/drush/includes/preflight.inc</div></pre></td></tr></table></figure>
+<p>查找$global_vendor_path，修改为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$global_vendor_path</span> = DRUSH_BASE_PATH . <span class="string">'/../vendor/autoload.php'</span>;</div></pre></td></tr></table></figure>
+<p>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">drush version</div></pre></td></tr></table></figure>
+<p>如果显示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Drush Version:  8.1.2</div></pre></td></tr></table></figure>
+<p>则安装成功。</p>
+<p>为什么要安装drush?因为drush是一款非常优秀的drupal管理工具，drupal离不开drush。<br>下文将讲解如何把drupal7的模块转化为drupal8的模块。</p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/10/15/并发与并行/" itemprop="url">
+                  并发与并行
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-10-15T11:16:05+08:00" content="2015-10-15">
+              2015-10-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/10/15/并发与并行/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/15/并发与并行/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>并发(Concurrently)和并行(Parallel)是两个不同的概念。借用Go创始人Rob Pike的说法，并发不是并行，并发更好。</p>
+<blockquote>
+<p>并发是一共要处理(deal with)很多事情，并行是一次可以做(do)多少事情。</p>
+</blockquote>
+<p>举个简单的例子，华罗庚泡茶，必须有烧水、洗杯子、拿茶叶等步骤。现在我们想尽快做完这件事，也就是“一共要处理很多事情”，有很多方法可以实现并发，例如请多个人同时做，这就是并行。并行是实现并发的一种方式，但不是唯一的方式。我们一个人也可以实现并发，例如先烧水、然后不用等水烧开就去洗杯子，所以通过调整程序运行方式也可以实现并发。</p>
+<p>大神讲解</p>
+<p>如果还不理解，建议看Rob Pike题为Concurrency is not Parallelism的<a href="http://concur.rspace.googlecode.com/hg/talk/concur.html" target="_blank" rel="external">演讲PPT</a>和<a href="http://blog.golang.org/concurrency-is-not-parallelism" target="_blank" rel="external">演讲视频</a>。</p>
+<p>我把演讲的PPT截图贴出来方便大家理解。</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151015/20151015132329_33012.png" alt=""></p>
+<p>总结</p>
+<p>总结一下，并行是实现并发的一种方式，在多核CPU的时代，并行是我们设计高效程序所要考虑的，那么进程是不是越多越好呢？</p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/09/24/查看哪些进程占用了swap/" itemprop="url">
                   查看哪些进程占用了swap
                 </a>
@@ -555,368 +910,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/14/sublime-text创建快捷注释信息/" itemprop="url">
-                  sublime text创建快捷注释信息
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-07-14T10:18:10+08:00" content="2015-07-14">
-              2015-07-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/07/14/sublime-text创建快捷注释信息/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/14/sublime-text创建快捷注释信息/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <ul>
-<li>该方式适用于sublime text2和3。</li>
-</ul>
-<h2 id="创建代码片段"><a href="#创建代码片段" class="headerlink" title="创建代码片段"></a>创建代码片段</h2><p>点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;snippet&gt;</div><div class="line">	&lt;content&gt;&lt;![CDATA[</div><div class="line">/**</div><div class="line"> * 定义函数</div><div class="line"> *</div><div class="line"> * 函数功能描述</div><div class="line"> * </div><div class="line"> * @author panjun.liu &lt;lpj163@gmail.com&gt;</div><div class="line"> *</div><div class="line"> * @param int <span class="variable">$param1</span>      参数释义</div><div class="line"> * @param string <span class="variable">$param2</span>   参数释义</div><div class="line"> *</div><div class="line"> * @<span class="built_in">return</span> <span class="built_in">integer</span>|string|array</div><div class="line">*/</div><div class="line">]]&gt;&lt;/content&gt;</div><div class="line">	&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</div><div class="line"> 	&lt;tabTrigger&gt;phpdoc&lt;/tabTrigger&gt;</div><div class="line">	&lt;!-- Optional: Set a scope to <span class="built_in">limit</span> <span class="built_in">where</span> the snippet will trigger --&gt;</div><div class="line">	&lt;!-- &lt;scope&gt;source.python&lt;/scope&gt; --&gt;</div><div class="line">&lt;/snippet&gt;</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>注：<br>tabTrigger 此节是可选的配置，默认是被注释掉的。默认 hello 的意思是：如果你在某个文档里输入了单词 hello ，然后按下 Tab 键，接着 hello 就会被替换为1中定义的代码片段。再次按下Tab键，接着snippet会被替换为2中定义的代码片段。</p>
-</blockquote>
-<p>保存到当前用户主目录下的\Sublime Text 3\Packages\User目录中，命名为phpdoc.sublime-snippet(注意：后缀必须为.sublime-snippet)。</p>
-<h2 id="绑定快捷键"><a href="#绑定快捷键" class="headerlink" title="绑定快捷键"></a>绑定快捷键</h2><p>可以将上述的操作绑定到一个快捷键，在不键入任何文本的情况下，直接按快捷键插入代码片段。</p>
-<p>点击菜单栏的 Preferences 的子菜单 Key Binding – User，在打开的文件的方括号内部粘贴如下配置：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">	&#123; <span class="string">"keys"</span>: [<span class="string">"phpdoc"</span>], <span class="string">"command"</span>: <span class="string">"insert_snippet"</span>, <span class="string">"args"</span>: &#123;<span class="string">"name"</span>: <span class="string">"Packages/User/phpdoc.sublime-snippet"</span>&#125; &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
-<p>现在简单介绍一下这段配置：</p>
-<ol>
-<li><p>“keys”: [“phpdoc”] 这个定义了触发此命令的快捷键。</p>
-</li>
-<li><p>“command”: “insert_snippet” 这个是需要触发的命令的名字。</p>
-</li>
-<li><p>“args”: {“name”: “Packages/User/phpdoc.sublime-snippet”} 这个是需要传入到上述命令的参数。这里把代码片段文件的相对路径传递过去。</p>
-</li>
-</ol>
-<p>保存配置文件，现在就可以用快捷键插入代码片段了。</p>
-<p>至此，输入phpdoc，然后按tab键就会输出你定义这段注释。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/04/rsync主备代码同步/" itemprop="url">
-                  rsync主备代码同步
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-07-04T10:00:54+08:00" content="2015-07-04">
-              2015-07-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/07/04/rsync主备代码同步/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/04/rsync主备代码同步/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>同步服务器192.168.1.100<br>接收服务器192.168.1.200<br>即把192.168.1.100的代码备份到192.168.1.200。</p>
-<h1 id="192-168-1-100上的配置如下："><a href="#192-168-1-100上的配置如下：" class="headerlink" title="192.168.1.100上的配置如下："></a>192.168.1.100上的配置如下：</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">yum install rsync inotify-tools</div><div class="line"></div><div class="line">crontab <span class="_">-e</span></div><div class="line">*/59 * * * * /bin/sh /usr/<span class="built_in">local</span>/scripts/rsync.sh &gt;&gt; /var/<span class="built_in">log</span>/rsync.log</div><div class="line">即每小时的第59分钟同步代码</div></pre></td></tr></table></figure>
-<h1 id="usr-local-scripts-rsync-sh脚本内容如下"><a href="#usr-local-scripts-rsync-sh脚本内容如下" class="headerlink" title="/usr/local/scripts/rsync.sh脚本内容如下"></a>/usr/local/scripts/rsync.sh脚本内容如下</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh </span></div><div class="line">SRC=/var/www/html/ <span class="comment">#记得在最后面加/不然RYNC会自动增加一层目录 </span></div><div class="line">DES=rsync_data <span class="comment">#192.168.1.200认证的模块名，后面会说明</span></div><div class="line">IP=192.168.1.200</div><div class="line">USER=backup </div><div class="line">INWT=/usr/bin/inotifywait </div><div class="line">RSYNC=/usr/bin/rsync </div><div class="line"><span class="variable">$RSYNC</span> -auzviL --delete --progress --password-file=/root/rsync.pwd <span class="variable">$SRC</span> <span class="variable">$USER</span>@<span class="variable">$IP</span>::<span class="variable">$DES</span></div></pre></td></tr></table></figure>
-<blockquote>
-<p>rsync 选项说明<br> -a 称为归档模式，执行以下操作<br>递归模式<br>保留符号链接<br>保留权限<br>保留时间标记<br>保留用户名及组名<br>-z 开启压缩<br>-v 详情输出<br>-u 选项可以排除被修改过的目的文件<br>-L 把软连接文件夹同步过来<br>查看每个文件的传输进程,用 –-progress 参数<br>删除在目的文件夹中创建的文件,用 –-delete 参数</p>
-</blockquote>
-<h1 id="192-168-1-200上的配置如下："><a href="#192-168-1-200上的配置如下：" class="headerlink" title="192.168.1.200上的配置如下："></a>192.168.1.200上的配置如下：</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">yum install rsync</div><div class="line"></div><div class="line">vim /etc/rsyncd.conf</div><div class="line">uid=root </div><div class="line">gid=root </div><div class="line">max connections=36000 </div><div class="line">use chroot=no </div><div class="line"><span class="built_in">log</span> file=/var/<span class="built_in">log</span>/rsyncd.log </div><div class="line">pid file=/var/run/rsyncd.pid </div><div class="line">lock file=/var/run/rsyncd.lock </div><div class="line">[rsync_data] </div><div class="line">path=/data/192.168.1.100/ <span class="comment">#192.168.1.100是一个必须存在的目录</span></div><div class="line">comment = 192.168.1.100</div><div class="line">ignore errors = yes</div><div class="line"><span class="built_in">read</span> only = no </div><div class="line">hosts allow = 192.168.1.100</div></pre></td></tr></table></figure>
-<p>rsync启动脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#! /bin/sh</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># chkconfig:   2345 50 50</span></div><div class="line"><span class="comment"># description: The rsync daemon</span></div><div class="line"></div><div class="line"><span class="comment"># source function library</span></div><div class="line"> . /etc/rc.d/init.d/<span class="built_in">functions</span></div><div class="line"></div><div class="line">PROG=<span class="string">'/usr/bin/rsync'</span></div><div class="line">BASE=<span class="variable">$&#123;0##*/&#125;</span></div><div class="line"></div><div class="line"><span class="comment"># Adapt the --config parameter to point to your rsync daemon configuration</span></div><div class="line"><span class="comment"># The config file must contain following line:</span></div><div class="line"><span class="comment">#  pid file = /var/run/&lt;filename&gt;.pid</span></div><div class="line"><span class="comment"># Where &lt;filename&gt; is the filename of the init script (= this file)</span></div><div class="line">OPTIONS=<span class="string">"--daemon --config=/etc/rsyncd.conf"</span></div><div class="line"></div><div class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></div><div class="line">  start)</div><div class="line">    <span class="built_in">echo</span> -n $<span class="string">"Starting <span class="variable">$BASE</span>: "</span></div><div class="line">    daemon --check <span class="variable">$BASE</span> <span class="variable">$PROG</span> <span class="variable">$OPTIONS</span></div><div class="line">    RETVAL=$?</div><div class="line">    [ <span class="variable">$RETVAL</span> <span class="_">-eq</span> 0 ] &amp;&amp; touch /var/lock/subsys/<span class="variable">$BASE</span></div><div class="line">    <span class="built_in">echo</span></div><div class="line">    ;;</div><div class="line">  stop)</div><div class="line">    <span class="built_in">echo</span> -n $<span class="string">"Shutting down <span class="variable">$BASE</span>: "</span></div><div class="line">    killproc <span class="variable">$BASE</span></div><div class="line">    RETVAL=$?</div><div class="line">    [ <span class="variable">$RETVAL</span> <span class="_">-eq</span> 0 ] &amp;&amp; rm <span class="_">-f</span> /var/lock/subsys/<span class="variable">$BASE</span></div><div class="line">    <span class="built_in">echo</span></div><div class="line">    ;;</div><div class="line">  restart|force-reload)</div><div class="line">    <span class="variable">$0</span> stop</div><div class="line">    sleep 1</div><div class="line">    <span class="variable">$0</span> start</div><div class="line">    ;;</div><div class="line">  *)</div><div class="line">    <span class="built_in">echo</span> <span class="string">"Usage: <span class="variable">$0</span> &#123;start|stop|restart|force-reload&#125;"</span> &gt;&amp;2</div><div class="line">    <span class="built_in">exit</span> 1</div><div class="line">    ;;</div><div class="line"><span class="keyword">esac</span></div><div class="line"></div><div class="line"><span class="built_in">exit</span> 0</div></pre></td></tr></table></figure></p>
-<p>至此，同步就算完成。可以tailf /var/log/rsync.log查看同步日志。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/06/24/infiniDB安装配置/" itemprop="url">
-                  infiniDB安装配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-06-24T13:48:03+08:00" content="2015-06-24">
-              2015-06-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/06/24/infiniDB安装配置/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/24/infiniDB安装配置/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>infiniDB是为大数据而生的列式数据库，适合做统计分析，如SUM,AVG,MAX,MIN等。笔者没有研究过infoBright，貌似需要收费，并且社区版本不支持DML。</p>
-<p>总结了一些infiniDB的特点:<br>1、所有字段的默认值都为NULL，不需要设置其他值。<br>2、不需要创建索引，不需要优化表<br>3、多线程设计，查询时完美利用多CPU<br>4、高并发:理论上无并发的限制,只受制于服务器的容量<br>5、DML(可以视为是SQL的子集)支持 : 语句insert, update, delete<br>6、数据存储方面主要是按列拆，按行(范围)拆，核心算法是hash join，跟oracle很类似。<br>    具体有以下几方面：<br>    1）、Block : 8k的数据块,有Logical Block ID,大小不能定制,但预读的数目可以定制<br>    2）、Extent : 一个逻辑空间尺寸,存在于一个或多个的称为segment文件的物理文件中. extent大小受1)默认的行数2)一个列的数据类型, 如默认行数是8M,对一字节数据类型来说,Extent大小就是8M; 对于8字节数据类型来说,就是64M;对于可变长数据类型来说也是64M.当一个Extent满了,一个新的Extent就会被创建出来.<br>    3）、Segment File : 当一个Segment文件达到它的Extent包含的最大数目,一个新的Segment文件就会被创建出来<br>    4）、Partition : 与row-based DB不同之处在于它是一个逻辑上的对象.由一个或多个Segment文件组成. 一个列的partition数目是不限的.</p>
-<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624140759_49711.png" alt="数据存储示例图"></p>
-<blockquote>
-<p>安装过程：</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">1、访问https://github.com/infinidb/infinidb/blob/4.6.2-1/INSTALL，按照帮助文档进行安装，笔者安装的版本是4.6.2</div><div class="line"></div><div class="line">或者：</div><div class="line"></div><div class="line"><span class="built_in">cd</span> /root</div><div class="line">git <span class="built_in">clone</span> http://github.com/infinidb/mysql</div><div class="line">git <span class="built_in">clone</span> http://github.com/infinidb/infinidb</div><div class="line">-- or --</div><div class="line">tar -zxf &lt;srcfile&gt;</div><div class="line"><span class="built_in">cd</span> mysql</div><div class="line">./configure --prefix=/data/mysql/</div><div class="line">make</div><div class="line">make install</div><div class="line"><span class="built_in">cd</span> ../infinidb</div><div class="line">./configure --prefix=/data/</div><div class="line">make</div><div class="line">make install</div><div class="line"></div><div class="line">注意：root下的文件夹名称必须为infinidb和mysql，否则编译的时候会报错。</div><div class="line"></div><div class="line">2、安装完以后执行/usr/<span class="built_in">local</span>/Calpont/bin/postConfigure进行配置，按默认就行</div><div class="line">3、设置一些别名， . /usr/<span class="built_in">local</span>/Calpont/bin/calpontAlias</div><div class="line">4、直接访问idbmysql进入管理。</div></pre></td></tr></table></figure>
-<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624141731_29245.jpg" alt="idbmysql"></p>
-<blockquote>
-<p>测试</p>
-</blockquote>
-<p>10亿条数据count:<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624141741_84796.jpg" alt="10亿条数据count速度"></p>
-<p>性能杠杠滴！</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -963,21 +956,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">75</span>
+              <span class="site-state-item-count">78</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories/">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">64</span>
+              <span class="site-state-item-count">65</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -1030,7 +1023,7 @@
         <div class="copyright" >
   
   &copy;  2012 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>
