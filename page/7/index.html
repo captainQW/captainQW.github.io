@@ -229,6 +229,262 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/27/使用gdb调试php-fpm/" itemprop="url">
+                  使用gdb调试php-fpm
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-27T16:17:10+08:00" content="2015-11-27">
+              2015-11-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/27/使用gdb调试php-fpm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/27/使用gdb调试php-fpm/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>有很多php开发人员经常问我，如果执行php代码的时候出现严重错误的时候，如何快速定位问题。我一般推荐他们用gdb去调试。</p>
+<p>下面用php-fpm的一个段错误来举例说明，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WARNING: [pool www] child 15109 exited on signal 11 (SIGSEGV) after 654.485221 seconds from start</div></pre></td></tr></table></figure>
+<p>###1、安装gdb</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install gdb php-dbg</div></pre></td></tr></table></figure>
+<p>有的时候可能需要安装debuginfo相关的库，如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">debuginfo-install php-fpm</div></pre></td></tr></table></figure>
+<p>###2、设置coredump</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">'/tmp/core-%e.%p'</span> &gt; /proc/sys/kernel/core_pattern</div><div class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/core_uses_pid</div><div class="line"><span class="built_in">ulimit</span> -c unlimited</div></pre></td></tr></table></figure>
+<p>当然,coredump的文件格式可以设置为其他的，这里是详细的设置项说明</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">%%  a single % character</div><div class="line">%c  core file size soft resource <span class="built_in">limit</span> of crashing process (since</div><div class="line">    Linux 2.6.24)</div><div class="line">%d  dump mode—same as value returned by prctl(2) PR_GET_DUMPABLE</div><div class="line">    (since Linux 3.7)</div><div class="line">%e  executable filename (without path prefix)</div><div class="line">%E  pathname of executable, with slashes (<span class="string">'/'</span>) replaced by</div><div class="line">    exclamation marks (<span class="string">'!'</span>) (since Linux 3.0).</div><div class="line">%g  (numeric) real GID of dumped process</div><div class="line">%h  hostname (same as nodename returned by uname(2))</div><div class="line">%p  PID of dumped process, as seen <span class="keyword">in</span> the PID namespace <span class="keyword">in</span> <span class="built_in">which</span></div><div class="line">    the process resides</div><div class="line">%P  PID of dumped process, as seen <span class="keyword">in</span> the initial PID namespace</div><div class="line">    (since Linux 3.12)</div><div class="line">%s  number of signal causing dump</div><div class="line">%t  time of dump, expressed as seconds since the Epoch,</div><div class="line">    1970-01-01 00:00:00 +0000 (UTC)</div><div class="line">%u  (numeric) real UID of dumped process</div></pre></td></tr></table></figure>
+<p>###3、设置php-fpm</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/php-fpm.d/www.conf</div></pre></td></tr></table></figure>
+<p>找到关键字 rlimit_core，并修改为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rlimit_core = unlimited</div></pre></td></tr></table></figure>
+<p>然后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/sbin/php-fpm --daemonize</div></pre></td></tr></table></figure>
+<p>这时就会在/tmp下看到有coredump文件生成了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@localhost tmp]<span class="comment"># ls</span></div><div class="line">core-php-fpm.7279</div></pre></td></tr></table></figure>
+<p>###4、追踪<br>执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gdb /usr/sbin/php-fpm /tmp/core-php-fpm.7279</div></pre></td></tr></table></figure>
+<p>执行bt命令就可以查看详细的错误日志了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(gdb) bt</div><div class="line"><span class="comment">#0  _zend_hash_init (ht=0x2b4d1a4f8100, nSize=174762, pDestructor=0, persistent=1 '\001') at /usr/src/debug/php-7.0.0RC8/Zend/zend_hash.c:172</span></div><div class="line"><span class="comment">#1  0x00002b4d0d0e87ac in zend_accel_init_shm (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2387</span></div><div class="line"><span class="comment">#2  accel_startup (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2640</span></div><div class="line"><span class="comment">#3  0x00000000005e8d21 in zend_extension_startup (extension=0x168c810) at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:176</span></div><div class="line"><span class="comment">#4  0x00000000005d2293 in zend_llist_apply_with_del (l=0x9dd420, func=0x5e8d10 &lt;zend_extension_startup&gt;) at /usr/src/debug/php-7.0.0RC8/Zend/zend_llist.c:171</span></div><div class="line"><span class="comment">#5  0x00000000005e8d07 in zend_startup_extensions () at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:197</span></div><div class="line"><span class="comment">#6  0x0000000000580985 in php_module_startup (sf=&lt;value optimized out&gt;, additional_modules=&lt;value optimized out&gt;, num_additional_modules=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/main/main.c:2197</span></div><div class="line"><span class="comment">#7  0x000000000067aec5 in php_cgi_startup (sapi_module=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:837</span></div><div class="line"><span class="comment">#8  0x000000000067bcfe in main (argc=2, argv=0x7fff1a037498) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:1788</span></div></pre></td></tr></table></figure>
+<p>至此，整个追踪过程结束。</p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/21/centos6-6安装Percona-Tokudb/" itemprop="url">
+                  centos6.6安装Percona Tokudb
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-21T20:17:57+08:00" content="2015-11-21">
+              2015-11-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/21/centos6-6安装Percona-Tokudb/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/21/centos6-6安装Percona-Tokudb/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>在percona官网<a href="https://www.percona.com/" target="_blank" rel="external">https://www.percona.com/</a><br>下载带有Tokudb的二进制包，也可以选择源码编译。tokudb有单独的包.<br>我这里下载的是最新的包，5.6.25-73<br>Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101.tar.gz<br>Percona-Server-5.6.25-rel73.1-TokuDB.Linux.x86_64.ssl101.tar.gz</p>
+<p>###前期账号创建<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; groupadd mysql</div><div class="line">shell&gt; useradd -g mysql mysql</div></pre></td></tr></table></figure></p>
+<p>###解压软件包<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">shell&gt; cd /usr/local</div><div class="line">shell&gt; tar -zxvf Percona-Server<span class="number">-5.6</span><span class="number">.25</span>-rel73<span class="number">.1</span>-Linux.x86_64.ssl101.tar.gz</div><div class="line">shell&gt; tar -zxvf Percona-Server<span class="number">-5.6</span><span class="number">.25</span>-rel73<span class="number">.1</span>-TokuDB.Linux.x86_64.ssl101.tar.gz</div><div class="line">shell&gt; ln -s Percona-Server<span class="number">-5.6</span><span class="number">.25</span>-rel73<span class="number">.1</span>-Linux.x86_64.ssl101 mysql</div></pre></td></tr></table></figure></p>
+<p>###设置权限<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt; cd mysql</div><div class="line">shell&gt; chown -R mysql .</div><div class="line">shell&gt; chgrp -R mysql .</div></pre></td></tr></table></figure></p>
+<p>###创建配置文件/etc/my.cnf<br>创建存放数据源的目录</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Shell&gt; mkdir -p /<span class="keyword">var</span>/lib/mysql</div><div class="line">Shell&gt; mkdir -p /data/mysqldata /data/mysqllog</div><div class="line">Shell&gt; chown -R mysql:mysql /<span class="keyword">var</span>/lib/mysql /data/mysqldata /data/mysqllog</div></pre></td></tr></table></figure>
+<p>在附件中给出，请参考附配置文件内容</p>
+<p>###初始化DB</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Shell&gt; scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf</div><div class="line">shell&gt; chown -R root .</div></pre></td></tr></table></figure>
+<p>###修改系统参数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag</div></pre></td></tr></table></figure>
+<p>建议写到 /etc/rc.local 中，重启后也可生效</p>
+<p>###启动数据库</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell&gt; bin/mysqld_safe --user=mysql &amp;</div></pre></td></tr></table></figure>
+<p>###把启动文件放去自启动中</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</div><div class="line">chkconfig --add mysqld</div><div class="line">service mysqld start</div><div class="line">service mysqld stop</div></pre></td></tr></table></figure>
+<p>然后启动。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show engines;</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Engine             | Support | Comment                                                                    | Transactions | XA   | Savepoints |</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| InnoDB             | <span class="keyword">DEFAULT</span> | Percona-XtraDB, Supports transactions, row-level locking, <span class="keyword">and</span> foreign keys | YES          | YES  | YES        |</div><div class="line">| CSV                | YES     | CSV storage engine                                                         | NO           | NO   | NO         |</div><div class="line">| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                                      | NO           | NO   | NO         |</div><div class="line">| BLACKHOLE          | YES     | /dev/<span class="keyword">null</span> storage engine (anything you write to it disappears)             | NO           | NO   | NO         |</div><div class="line">| MEMORY             | YES     | Hash based, stored in memory, useful <span class="keyword">for</span> temporary tables                  | NO           | NO   | NO         |</div><div class="line">| TokuDB             | YES     | Tokutek TokuDB Storage Engine with Fractal Tree(tm) Technology             | YES          | YES  | YES        |</div><div class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                         | NO           | NO   | NO         |</div><div class="line">| ARCHIVE            | YES     | Archive storage engine                                                     | NO           | NO   | NO         |</div><div class="line">| MyISAM             | YES     | MyISAM storage engine                                                      | NO           | NO   | NO         |</div><div class="line">| FEDERATED          | NO      | Federated MySQL storage engine                                             | <span class="keyword">NULL</span>         | <span class="keyword">NULL</span> | <span class="keyword">NULL</span>       |</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line"><span class="number">10</span> rows in set (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>看到上面一行红字就代表数据库支持TokuDB的存储引擎了。</p>
+<p>tokudb安装顺利完成，后附配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">[root@localhost mysql]<span class="comment"># cat /etc/my.cnf </span></div><div class="line">[mysqld]</div><div class="line">datadir=/var/lib/mysql</div><div class="line">socket=/var/lib/mysql/mysql.sock</div><div class="line">user=mysql</div><div class="line"><span class="comment"># Disabling symbolic-links is recommended to prevent assorted security risks</span></div><div class="line">symbolic-links=0</div><div class="line"><span class="comment">#public</span></div><div class="line">max_connections=3000</div><div class="line">max_connect_errors=6000</div><div class="line">key_buffer_size = 384M</div><div class="line">low_priority_updates = 1</div><div class="line">back_log = 1500</div><div class="line">query_cache_type = 1</div><div class="line">query_cache_size = 64M</div><div class="line">query_cache_limit = 4M</div><div class="line">query_cache_min_res_unit = 2k</div><div class="line">tmp_table_size = 256M</div><div class="line">read_buffer_size=1M</div><div class="line">read_rnd_buffer_size = 16M</div><div class="line">bulk_insert_buffer_size = 64M</div><div class="line">max_allowed_packet = 64M</div><div class="line">thread_cache_size = 300</div><div class="line"><span class="comment">#file</span></div><div class="line">innodb_file_per_table</div><div class="line"><span class="comment">#buffer</span></div><div class="line">innodb_buffer_pool_size = 2500M</div><div class="line">innodb_log_buffer_size = 64M</div><div class="line">join_buffer_size = 16M</div><div class="line">sort_buffer_size = 16M</div><div class="line">innodb_max_dirty_pages_pct = 90</div><div class="line">innodb_lock_wait_timeout = 120</div><div class="line">innodb_thread_concurrency = 16</div><div class="line">innodb_flush_log_at_trx_commit = 2</div><div class="line">character_set_server=utf8</div><div class="line">init_connect=<span class="string">'SET NAMES utf8'</span></div><div class="line"></div><div class="line"><span class="comment">#tokudb</span></div><div class="line">plugin_dir =  /usr/<span class="built_in">local</span>/mysql/lib/mysql/plugin/</div><div class="line">plugin_load=ha_tokudb.so</div><div class="line"><span class="comment">#把TokuDB datadir以及logdir和MySQL的datadir分开，美观点，也可以不分开，注释掉本行以及下面2行即可</span></div><div class="line">tokudb_data-dir = /data/mysqldata</div><div class="line">tokudb_log-dir = /data/mysqllog</div><div class="line"><span class="comment">#TokuDB的行模式，建议用 FAST 就足够了，如果磁盘空间很紧张，建议用 SMALL</span></div><div class="line">tokudb_row_format = tokudb_small</div><div class="line">tokudb_row_format = tokudb_fast</div><div class="line">tokudb_cache_size = 2G</div><div class="line"><span class="comment">#其他大部分配置其实可以不用修改的，只需要几个关键配置即可</span></div><div class="line">tokudb_commit_sync = 0</div><div class="line">tokudb_directio = 1</div><div class="line">tokudb_read_block_size = 128K</div><div class="line">tokudb_read_buf_size = 128K</div><div class="line"></div><div class="line">[mysqld_safe]</div><div class="line"><span class="built_in">log</span>-error=/var/<span class="built_in">log</span>/mysqld.log</div><div class="line">pid-file=/var/run/mysqld/mysqld.pid</div><div class="line">malloc_lib = /usr/<span class="built_in">local</span>/mysql/lib/mysql/libjemalloc.so <span class="comment">#只能放在mysqld_safe中，不得报错</span></div></pre></td></tr></table></figure></p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/20/centos6-6安装mariadb10-Tokudb/" itemprop="url">
                   centos6.6安装mariadb10 Tokudb
                 </a>
@@ -1655,256 +1911,6 @@
 <p>执行画面如上图。<br>执行完后，回到安装窗口按下OK完成所有的oracle安装。安装完成会出现以下画面。安装<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220520_19858.jpg" alt="安装"></p>
 <p>此时，您可以以上述网址，作为测试，登入账号可以为sys或system<br><a href="http://CentOS-Oracle:5560/isqlplus" target="_blank" rel="external">http://CentOS-Oracle:5560/isqlplus</a><br><a href="http://CentOS-Oracle:5560/isqlplus/dba" target="_blank" rel="external">http://CentOS-Oracle:5560/isqlplus/dba</a><br><a href="http://CentOS-Oracle:1158/em" target="_blank" rel="external">http://CentOS-Oracle:1158/em</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220623_26138.jpg" alt="安装"></p>
 <p>以上画面都成功代表oracle已经正常安装了。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/16/Drupal8面向对象-OOP/" itemprop="url">
-                  Drupal8面向对象(OOP)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-16T15:16:30+08:00" content="2015-11-16">
-              2015-11-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/16/Drupal8面向对象-OOP/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/16/Drupal8面向对象-OOP/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。<br>OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc…)，这里仅对Drupal中常见的一些概念做一下介绍。</p>
-<p>###一、数据类型<br>什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。<br>但是对于其他的数据类型，如整形(int)等，这种方式就不适用。</p>
-<p>而OOP的优势在于，它允许你自定义数据类型。这些数据类型也称之为”类”，在类中包含一些内部结构，如:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></div><div class="line">&#123;</div><div class="line">  <span class="comment">// 下面是人的成员属性</span></div><div class="line">  <span class="keyword">protected</span> $name; <span class="comment">// 人的名子</span></div><div class="line">  <span class="keyword">protected</span> $sex; <span class="comment">// 人的性别</span></div><div class="line">  <span class="keyword">protected</span> $age; <span class="comment">// 人的年龄</span></div><div class="line"></div><div class="line">  <span class="comment">// 构造函数</span></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name, $sex, $age)</span> </span>&#123;</div><div class="line">  	<span class="keyword">$this</span>-&gt;name = $name;</div><div class="line">  	<span class="keyword">$this</span>-&gt;sex = $sex;</div><div class="line">  	<span class="keyword">$this</span>-&gt;age = $age;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</div><div class="line">  	<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;name . <span class="string">'，性别：'</span> . <span class="keyword">$this</span>-&gt;sex . <span class="string">'，年龄：'</span> . <span class="keyword">$this</span>-&gt;age;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这段代码定义了一个名叫Person的类，包含三个属性$name, $sex, $age，也包含2个方法。实例化如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$name = <span class="string">'王鹏'</span>;</div><div class="line">$sex = <span class="string">'男'</span>;</div><div class="line">$age = <span class="number">30</span>;</div><div class="line">$myperson = <span class="keyword">new</span> Person($name, $sex, $age);</div></pre></td></tr></table></figure>
-<p>$myperson现在就是一个对象实例。对于Drupal来说，类和对象的关系就类似内容类型和内容之间的关系。</p>
-<p>###二、类的结构(class)<br>类的概念：类是具有相同属性和服务的一组对象的集合。它为属于该类的所有对象提供了统一的抽象描述，其内部包括属性和服务两个主要部分。在面向对象的编程语言中，类是一个独立的程序单位，它应该有一个类名并包括属性说明和服务说明两个主要部分。</p>
-<p>这段文字是摘抄自google，比较晦涩难懂。<br>简单说，方法是可以在对象上执行的操作。比如在Person类，我们有一个方法叫getPerson()，我们可以通过引用对象调用TA。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$person = $myperson-&gt;getPerson();</div></pre></td></tr></table></figure>
-<p>当然，我们不能用$myperson-&gt;name或$myperson-&gt;sex来引用这些属性。我们先来看一些关键词public、protected，他们定义了方法或者属性的可见性。public方法或者属性可以外部访问调用，如getPerson()。但是protected仅限于在类或子类的内部调用。而private就只能在类自己内部调用，而不能在它的子类中。</p>
-<p>Drupal中一般声明属性protected,方法声明为public或protected，private一般不赞成使用。</p>
-<p>###三、接口(interface)<br>接口是一种特殊的抽象类，抽象类又是一种特殊的类，所以接口也是一种特殊的类，为 什么说接口是一种特殊的抽象类呢？如果一个抽象类里面的所有的方法都是抽象方法，那么我们就换一种声明方法使用“接口”；也就是说接口里面所有的方法必须 都是声明为抽象方法，另外接口里面不能声明变量(但可声明常量constant)，而且接口里面所有的成员都是public权限的。所以子类在实现的时候 也一定要使用public权限实限。</p>
-<p>在类中，Person定义的对象大抵是这样：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;...&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>那如何定义接口呢？<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PersonInterface</span> </span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">PersonInterface</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> __construct($name, $sex, $age);</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getPerson</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">/*..........*/</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这就像用户界面定义了人和程序如何交互，而接口定义了方法和对象的交互过程。当然你不能创建一个接口对象，而必须一个接口类。</p>
-<p>说简单点。就是—接口定义了方法，类实现了方法。</p>
-<p>###四、构造方法(constructor)<br>我们再来看Person类中的方法__construct()，它是用两个下划线作为前缀。这是PHP5中引入的。当创建一个对象的时候，会自动调用构造函数，也就是用new这个关键字实例化对象的时候自动调用构造函数。<br>在一个类中只能声明一个构造方法，而是只有在每次创建对象的时候都会去调用一次构造方法，不能主动的调用这个方法，所以通常用它执行一些有用的初始化任务。比如对成属性在创建对象的时候赋初值。如我们上面的代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$myperson = <span class="keyword">new</span> Person($name, $sex, $age);</div></pre></td></tr></table></figure>
-<p>它是如何执行的呢？<br>1、在内存中创建一个Person对象<br>2、用new关键字调用__construct方法<br>3、把Person对象复制给$this属性<br>4、创建一个名为$myperson的变量，他并不是一个对象，他用来处理对象<br>5、把$myperson指向内存中的Person对象</p>
-<p>注意：不要在接口中定义构造方法，这样会导致代码逻辑混乱！</p>
-<p>###五、继承(inherit)<br>继承是OOP的一个重要的特性，继承是子类自动共享父类数据结构和方法的机制，这是类之间的一种关系。如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name, $sex, $age)</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;name = $name;</div><div class="line">    <span class="keyword">$this</span>-&gt;sex = $sex;</div><div class="line">    <span class="keyword">$this</span>-&gt;age = $age;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$mystudent = <span class="keyword">new</span> Student($name, $sex, $age);</div></pre></td></tr></table></figure>
-<p>这里声明了Student类是Person的子类，我们这里没有定义getPerson方法，这意味着这个方法继承自Person类，如$mystudent-&gt;getPerson()和$mypeson-&gt;getPerson()执行的结果是一样的。我们这里也没有定义$name, $sex, $age这些属性，他们也是继承自Person父类。</p>
-<p>在C++语言中，一个派生类可以从一个基类派生，也可以从多个基类派生。从一个基类派生的继承称为单继承；从多个基类派生的继承称为多继承。</p>
-<p>但是在PHP和Java语言里面没有多继承，只有单继承，也就是说，一个类只能直接从一个类中继承数据， 这就是我们所说的单继承。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/12/Drupal8-form/" itemprop="url">
-                  drupal8表单(form)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-12T17:15:23+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/12/Drupal8-form/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Drupal8-form/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>这里简单做下Entity Form的实现，包括调用模板输出form.<br>详情请访问俺的github，链接地址： <a href="https://github.com/aboutblankchina/drupal8_test" target="_blank" rel="external">https://github.com/aboutblankchina/drupal8_test</a></p>
-<p>1、首先创建相关文件<br>[$install_path]/modules/hello_world/lib/Drupal/hello_world/Entity/Hello.php<br>注：该文件定义实例（Entity）</p>
-<p>如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Definition of Drupal\hello_world\Entity\Hello.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">hello_world</span>\<span class="title">Entity</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">ContentEntityBase</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityStorageControllerInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Field</span>\<span class="title">FieldDefinition</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Language</span>\<span class="title">Language</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Session</span>\<span class="title">AccountInterface</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Defines the hello entity class.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@EntityType</span>(</div><div class="line"> *   id = "hello",</div><div class="line"> *   label = <span class="doctag">@Translation</span>("Hello"),</div><div class="line"> *   controllers = &#123;</div><div class="line"> *     "storage" = "Drupal\Core\Entity\FieldableDatabaseStorageController",</div><div class="line"> *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",</div><div class="line"> *     "form" = &#123;</div><div class="line"> *       "default" = "Drupal\hello_world\HelloWorldFormController",</div><div class="line"> *     &#125;,</div><div class="line"> *   &#125;,</div><div class="line"> *   base_table = "node",</div><div class="line"> *   entity_keys = &#123;</div><div class="line"> *     "id" = "nid",</div><div class="line"> *     "label" = "title",</div><div class="line"> *     "uuid" = "uuid"</div><div class="line"> *   &#125;,</div><div class="line"> *   links = &#123;</div><div class="line"> *     "edit-form" = "hello.edit",</div><div class="line"> *   &#125;</div><div class="line"> * )</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Hello</span> <span class="keyword">extends</span> <span class="title">ContentEntityBase</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>需要说明的是，上面的一部分注释(Annotation)是必须使用的，这是symfony的标准。<br>Symfony2框架中大量使用了Annotation：从缓存的定义到路由的配置，甚至到表结构的定义，处处都使用了Annotation功能。你甚至可以根据规范编写自己的Annotation。所以在使用Symfony2开发程序时，复杂的逻辑会变成一行行清晰的注释，程序的流程控制将变得非常简单。<br>详细见 <a href="https://api.drupal.org/api/drupal/core!modules!system!system.api.php/group/annotation/8" target="_blank" rel="external">https://api.drupal.org/api/drupal/core!modules!system!system.api.php/group/annotation/8</a> 。</p>
-<p>2、在hello_world.routing.yml中增加一行</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">hello.edit:</div><div class="line">  path: <span class="string">'/hello/edit'</span></div><div class="line">  defaults:</div><div class="line">    _entity_form: <span class="string">'hello.default'</span></div><div class="line">  requirements:</div><div class="line">    _permission: <span class="string">'access hello world'</span></div></pre></td></tr></table></figure>
-<p>3、创建文件 lib/Drupal/hello_world/HelloWorldFormController.php</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Definition of Drupal\hello_world\HelloWorldFormController.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">hello_world</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Component</span>\<span class="title">Utility</span>\<span class="title">NestedArray</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Datetime</span>\<span class="title">DrupalDateTime</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">ContentEntityFormController</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Language</span>\<span class="title">Language</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Component</span>\<span class="title">Utility</span>\<span class="title">String</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Form controller for the node edit forms.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HelloWorldFormController</span> <span class="keyword">extends</span> <span class="title">ContentEntityFormController</span> </span>&#123;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">form</span><span class="params">(array $form, array &amp;$form_state)</span> </span>&#123;</div><div class="line">    $form = <span class="keyword">parent</span>::form($form, $form_state); $entity = <span class="keyword">$this</span>-&gt;entity;</div><div class="line"></div><div class="line">    $form[<span class="string">'#title'</span>] = <span class="string">'这里写入网页标题'</span>;</div><div class="line"></div><div class="line">    $form[<span class="string">'title'</span>] = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'textfield'</span>,</div><div class="line">      <span class="string">'#title'</span> =&gt; t(<span class="string">'Title'</span>),</div><div class="line">      <span class="string">'#default_value'</span> =&gt; $entity-&gt;title-&gt;value,</div><div class="line">    );</div><div class="line"></div><div class="line">    <span class="comment">// 如果要用模板输出。则这样调用</span></div><div class="line">    $form[<span class="string">'#theme'</span>] = <span class="string">'hello_world_form'</span>;</div><div class="line">    <span class="keyword">return</span> $form;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">(array $form, array &amp;$form_state)</span> </span>&#123; </div><div class="line">    $entity = <span class="keyword">$this</span>-&gt;entity;</div><div class="line">    $entity-&gt;save();</div><div class="line">    drupal_set_message(<span class="string">"hello saved"</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">delete</span><span class="params">(array $form, array &amp;$form_state)</span> </span>&#123; </div><div class="line">    $entity = <span class="keyword">$this</span>-&gt;entity;</div><div class="line">    $entity-&gt;delete();</div><div class="line">    drupal_set_message(<span class="string">"hello has been deleted."</span>); </div><div class="line">    $form_sate[<span class="string">'redirect_route'</span>][<span class="string">'route_name'</span>] = <span class="string">'&lt;front&gt;'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>4、如果要使用模板输出，则要定义hook_theme</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Implements hook_theme().</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello_world_theme</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">    <span class="string">'hello_world_form'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">      <span class="string">'render element'</span> =&gt; <span class="string">'form'</span>,</div><div class="line">      <span class="string">'template'</span> =&gt; <span class="string">'hello-world-form'</span>,</div><div class="line">    ),</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>访问<a href="http://localhost/drupal8/hello/edit就可以看到表单了。" target="_blank" rel="external">http://localhost/drupal8/hello/edit就可以看到表单了。</a></p>
 
             
           </span>

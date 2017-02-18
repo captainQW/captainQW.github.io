@@ -229,6 +229,430 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/24/Drupal-code-review/" itemprop="url">
+                  Drupal code review
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-24T11:34:10+08:00" content="2016-05-24">
+              2016-05-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/24/Drupal-code-review/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/Drupal-code-review/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的<a href="http://pareview.sh/" target="_blank" rel="external">pareview.sh</a>工具。</p>
+<p>###1、安装composer</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl <span class="_">-s</span>S https://getcomposer.org/installer | php</div><div class="line">$ mv composer.phar /usr/<span class="built_in">local</span>/bin/composer</div></pre></td></tr></table></figure>
+<p>###2、安装Coder (reference: <a href="https://www.drupal.org/node/1419988#coder-composer" target="_blank" rel="external">https://www.drupal.org/node/1419988#coder-composer</a>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ composer global require drupal/coder</div><div class="line">$ sudo ln <span class="_">-s</span> ~/.composer/vendor/bin/phpcs /usr/<span class="built_in">local</span>/bin</div><div class="line">$ sudo ln <span class="_">-s</span> ~/.composer/vendor/bin/phpcbf /usr/<span class="built_in">local</span>/bin</div><div class="line">$ phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer</div></pre></td></tr></table></figure>
+<p>###3、安装codespell (reference: <a href="https://github.com/lucasdemarchi/codespell" target="_blank" rel="external">https://github.com/lucasdemarchi/codespell</a>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get <span class="built_in">help</span>2man -y</div><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/lucasdemarchi/codespell.git</div><div class="line">$ <span class="built_in">cd</span> codespell &amp;&amp; sudo make install</div><div class="line">$ sudo cp codespell /usr/<span class="built_in">local</span>/bin</div></pre></td></tr></table></figure>
+<p>注：MAC下安装codespell<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo python setup.py install</div></pre></td></tr></table></figure></p>
+<p>###4、安装DrupalSecure (reference: <a href="https://www.drupal.org/sandbox/coltrane/1921926" target="_blank" rel="external">https://www.drupal.org/sandbox/coltrane/1921926</a>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update &amp;&amp; sudo apt-get install php-pear</div><div class="line">$ sudo pear install PHP_CodeSniffer</div><div class="line">$ <span class="built_in">cd</span> $(pear config-get php_dir)/PHP/CodeSniffer/Standards/</div><div class="line">$ git <span class="built_in">clone</span> git://git.drupal.org/sandbox/coltrane/1921926.git secure_cs</div><div class="line">$ sudo ln -sv ./secure_cs/DrupalSecure ./DrupalSecure</div></pre></td></tr></table></figure>
+<p>注：MAC下安装php-pear<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget http://pear.php.net/go-pear.phar</div><div class="line">php go-pear.phar</div></pre></td></tr></table></figure></p>
+<p>###5、安装ESLint</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install -g eslint</div></pre></td></tr></table></figure>
+<p>在Ubuntu precise （12.04）, 你有可能会遇到以下错误：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm http GET https://registry.npmjs.org/</div><div class="line">npm ERR! Error: failed to fetch from registry: </div><div class="line">This is because the version supplied by Ubuntu 12.04 is no longer supported, updating node (and npm with it) resolved the issue.</div></pre></td></tr></table></figure>
+<p>首先, 卸载nodejs版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get purge nodejs npm</div></pre></td></tr></table></figure>
+<p>启用nodesource’s仓库并进行安装:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl <span class="_">-s</span>L https://deb.nodesource.com/setup | sudo bash -</div><div class="line">sudo apt-get install -y nodejs</div><div class="line">$ sudo apt-get install nodejs</div><div class="line">$ eslint --init <span class="comment"># run for the first time</span></div></pre></td></tr></table></figure>
+<p>###6、安装pareviewsh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</div><div class="line">$ sudo wget http://ftp.drupal.org/files/projects/pareviewsh-7.x-1.7.tar.gz</div><div class="line">$ sudo tar xzf pareviewsh-7.x-1.7.tar.gz</div><div class="line">$ sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/src/pareviewsh/pareview.sh /usr/<span class="built_in">local</span>/bin/pareviewsh</div></pre></td></tr></table></figure>
+<p>查看pareview是否已经安装成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pareviewsh /path/to/module or /path/to/git-repos.git</div></pre></td></tr></table></figure>
+<p>phpcs自动修复代码标准</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">phpcbf --standard=Drupal --extensions=php,module,inc,install,<span class="built_in">test</span>,profile,theme,js,css,info,txt,md /file/to/drupal/example_module</div></pre></td></tr></table></figure>
+<p>在~/.bash_profile中添加别名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// Check Drupal coding standards</div><div class="line"><span class="built_in">alias</span> drupalcs=<span class="string">"phpcs --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></div><div class="line"></div><div class="line">// Check Drupal best practices</div><div class="line"><span class="built_in">alias</span> drupalpractice=<span class="string">"phpcs --standard=DrupalPractice --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></div><div class="line"></div><div class="line">// Automatically fix coding standards</div><div class="line"><span class="built_in">alias</span> drupalcbf=<span class="string">"phpcbf --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></div></pre></td></tr></table></figure>
+<p>参照文章：<br>1、<a href="https://www.drupal.org/node/1587138" target="_blank" rel="external">https://www.drupal.org/node/1587138</a><br>2、<a href="https://www.drupal.org/node/1419988" target="_blank" rel="external">https://www.drupal.org/node/1419988</a><br>3、<a href="https://www.drupal.org/node/172169" target="_blank" rel="external">https://www.drupal.org/node/172169</a><br>4、<a href="https://www.drupal.org/project/pareviewsh" target="_blank" rel="external">https://www.drupal.org/project/pareviewsh</a><br>5、<a href="https://www.drupal.org/project/coder" target="_blank" rel="external">https://www.drupal.org/project/coder</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/24/Drupal8-css-guide/" itemprop="url">
+                  drupal8-css-guide
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-24T10:14:35+08:00" content="2016-05-24">
+              2016-05-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/24/Drupal8-css-guide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/Drupal8-css-guide/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h1 id="CSS格式"><a href="#CSS格式" class="headerlink" title="CSS格式"></a>CSS格式</h1><h2 id="空白"><a href="#空白" class="headerlink" title="空白"></a>空白</h2><blockquote>
+<p>缩进</p>
+</blockquote>
+<p>不要使用tab键进行缩进，采用2个空格进行缩进。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">media</span> print &#123;</div><div class="line">  <span class="comment">/* This line is indented with 2 spaces, 2 spaces x 1 level of indentation. */</span></div><div class="line">  <span class="selector-class">.example</span> &#123;</div><div class="line">    <span class="comment">/* This line is indented with 4 spaces, 2 spaces x 2 levels of indentation. */</span></div><div class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>空白行</p>
+</blockquote>
+<ul>
+<li>通常，规则块之间不需要空白行作为分隔</li>
+<li>如果规则块之前有单行或者块级注释，那么需要在注释之前空白行</li>
+<li>如果两个规则块之间没有空白行，那么必然具有逻辑关系。如果没有的话，需要添加空白行。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* A comment describing the ruleset. */</span></div><div class="line"><span class="selector-class">.selector-1</span>,</div><div class="line"><span class="selector-class">.selector-2</span>,</div><div class="line"><span class="selector-class">.selector-3</span><span class="selector-attr">[type="text"]</span> &#123;</div><div class="line">  <span class="attribute">-webkit-box-sizing</span>: border-box;</div><div class="line">     <span class="attribute">-moz-box-sizing</span>: border-box;</div><div class="line">          <span class="attribute">box-sizing</span>: border-box;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">font-family</span>: Times, <span class="string">"Times New Roman"</span>, sans-serif;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#333</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#fff</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(#fff, rgba(0, 0, 0, 0.8));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * A longer comment describing this ruleset. Note</div><div class="line"> * the blank line before the docblock.</div><div class="line"> */</div><div class="line"><span class="selector-class">.selector-4</span>,</div><div class="line"><span class="selector-class">.selector-5</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: lime;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* This logical grouping of rulesets has no interleaving blank lines. */</span></div><div class="line"><span class="selector-class">.profile</span> &#123;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">16px</span> <span class="number">0</span>;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">1rem</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.profile__picture</span> &#123;</div><div class="line">  <span class="attribute">float</span>: right; <span class="comment">/* LTR */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>行尾</p>
+</blockquote>
+<p>行尾绝不能有任何空白(空白或者tab)。所有的文件应该以单个空白行结尾。</p>
+<p>文件应该以Unix行尾格式结尾(<code>\n</code>或者<code>LF</code>)，同时也是MAC OS X的默认方式，不要使用windows的行尾格式(<code>\r\n</code>或者<code>CRLF</code>)</p>
+<p>小提示：文本编辑启用<code>show invisibles</code>。</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><blockquote>
+<p>文件注释</p>
+</blockquote>
+<p>每一个文件应该以注释开头，注释中写明文件的用途。例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * @file</div><div class="line"> * Short description describing the file.</div><div class="line"> *</div><div class="line"> * The first sentence of the long description starts here and continues on this</div><div class="line"> * line for a while finally concluding here at the end of this paragraph.</div><div class="line"> */</div></pre></td></tr></table></figure>
+<blockquote>
+<p>多行注释</p>
+</blockquote>
+<p>当用于描述一个或者一组规则集的时候，注释应该遵循Doxygen注释风格(也被称作”docblock”)</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Short description using Doxygen-style comment format.</div><div class="line"> *</div><div class="line"> * The first sentence of the long description starts here and continues on this</div><div class="line"> * line for a while finally concluding here at the end of this paragraph.</div><div class="line"> *</div><div class="line"> * The long description is ideal for more detailed explanations and</div><div class="line"> * documentation. It can include example HTML, URLs, or any other information</div><div class="line"> * that is deemed necessary or useful.</div><div class="line"> */</div><div class="line"><span class="selector-class">.example-rule</span> &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>单行注释</p>
+</blockquote>
+<p>当用于描述一个属性或者一个规则集的时候，注释应该控制在80个字符并遵循简单CSS注释风格。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.example</span> &#123;</div><div class="line">  <span class="comment">/* Override the default margins. */</span></div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* This is a variant of the .example component. */</span></div><div class="line"><span class="selector-class">.example--item</span> &#123;</div><div class="line">  <span class="attribute">display</span>: inline;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将注释直接放在属性或者它的规则集前面，并保持与它所属的属性或者规则集相同的缩进。</p>
+<p>如果注释用于描述一个规则集，记得在规则集前面添加一空白行。</p>
+<h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><p>CSS格式规范确保代码的可读性，注释的清晰性，最大化减少意外错误的情况。</p>
+<blockquote>
+<p>规则集</p>
+</blockquote>
+<ul>
+<li>每个选择器独占一行，即使有多个逗号相隔的选择器。</li>
+<li>起始大括号<code>{</code>与选择器保持同行(如果有多个就与最后一个选择器保持同一行)，并以单个空格相隔。</li>
+<li>结束大括号<code>}</code>保持与规则集中选择器的第一个字符保同一列。</li>
+<li>每一行样式规则都应该相对于它的选择器进行缩进。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.selector-alpha</span>,</div><div class="line"><span class="selector-class">.selector-beta</span> &#123;</div><div class="line">  <span class="attribute">counter-reset</span>: section;</div><div class="line">  <span class="attribute">text-transform</span>: small-caps;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>属性</p>
+</blockquote>
+<ul>
+<li>属性名后面紧跟着<code>:</code>，然后是一个空格，接着是属性值。</li>
+<li>每行样式规则以<code>;</code>结尾，包括规则集中的最后一条样式规则。</li>
+<li>十六进制的颜色请使用小写，如果可能的话，使用速写，例如：<code>#aaa</code>。</li>
+<li>对于需要引号的属性值，请使用双引号，例如：<code>font-family: &quot;Arial Black&quot;, Arial, sans-serif; and content: &quot; &quot;;</code>。</li>
+<li>如果属性值不要求带有引号，那就不加引号。例如：<code>background-image: url(path/image.png)</code>，不需要写成<code>background-image: url(&quot;path/image.png&quot;)</code>。</li>
+<li>使用rem作为单位替代px，除非它造成了意外的效果。</li>
+<li>选择器中的属性值加双引号，例如：<code>input[type=&quot;checkbox&quot;]</code>。</li>
+<li>对于0值，不需要带单位。例如：<code>margin: 0;</code>，代替<code>margin: 0px;</code>。</li>
+<li>每一个<code>,</code>后面跟一个空格。</li>
+<li>括号两边不要加空格，例如：<code>color: rgba(0, 0, 0, 0.8);</code>。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*  Basic syntax */</span></div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">block</span>;</div><div class="line"></div><div class="line"><span class="comment">/* </span></div><div class="line"> * Use shorthand syntax for hexadecimal colors when possible</div><div class="line"> * Always use lowercase</div><div class="line"> */</div><div class="line"><span class="selector-tag">color</span>: <span class="selector-id">#fff</span>;</div><div class="line"><span class="selector-tag">color</span>: <span class="selector-id">#df7dcf</span>;</div><div class="line"></div><div class="line"><span class="comment">/* Use double quotes instead of single quotes */</span></div><div class="line"><span class="selector-tag">font-family</span>: "<span class="selector-tag">Frutiger</span> <span class="selector-tag">Ultra</span>";</div><div class="line"></div><div class="line"><span class="comment">/* Do not attach units to zero-values */</span></div><div class="line"><span class="selector-tag">text-shadow</span>: 0 0 2<span class="selector-tag">px</span> <span class="selector-id">#ddd</span>;</div><div class="line"></div><div class="line"><span class="comment">/* </span></div><div class="line"> * Use rem units preceded by px units for a safe fallback,</div><div class="line"> * unless it creates an undesired effect.</div><div class="line"> */</div><div class="line"><span class="selector-tag">font-size</span>: 24<span class="selector-tag">px</span>;</div><div class="line"><span class="selector-tag">font-size</span>: 1<span class="selector-class">.5rem</span>;</div><div class="line"></div><div class="line"><span class="comment">/* Spaces MUST follow commas in property or function values */</span></div><div class="line"><span class="selector-tag">color</span>: <span class="selector-tag">rgba</span>(0, 136, 18, 0<span class="selector-class">.8</span>)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>属性声明顺序</p>
+</blockquote>
+<ol>
+<li>Positioning：position, float, clear, top, right, bottom, left, direction, and z-index</li>
+<li>Box model：display, [(max|min)-]height, [(max|min)-]width, margin, padding, border 以及它们对应的可变样式规则(例如：margin-top等.)，以及box-sizing</li>
+<li>其它</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.selector</span> &#123;</div><div class="line">  <span class="comment">/* Positioning declarations */</span></div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">z-index</span>: <span class="number">10</span>;</div><div class="line">  <span class="comment">/* Box model declarations */</span></div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">10px</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0.625rem</span>;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#333</span>;</div><div class="line">  <span class="comment">/* Other declarations */</span></div><div class="line">  <span class="attribute">background</span>: <span class="number">#000</span>;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</div><div class="line">  <span class="attribute">font-family</span>: sans-serif;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">18px</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1.125rem</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>特例</p>
+</blockquote>
+<p>单行样式规则块，起始大括号的后面以及结束大括号的后面包含一个空格。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.selector-1</span> &#123; <span class="attribute">width</span>: <span class="number">10%</span>; &#125;</div><div class="line"><span class="selector-class">.selector-2</span> &#123; <span class="attribute">width</span>: <span class="number">20%</span>; &#125;</div><div class="line"><span class="selector-class">.selector-3</span> &#123; <span class="attribute">width</span>: <span class="number">30%</span>; &#125;</div></pre></td></tr></table></figure>
+<p>很长的，逗号相隔的属性值例如，<code>gradients</code>或者<code>shadows</code>，可能占据多行。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.selector</span> &#123;</div><div class="line">  <span class="attribute">background-image</span>:</div><div class="line">    <span class="built_in">linear-gradient</span>(#fff, #ccc),</div><div class="line">    <span class="built_in">linear-gradient</span>(#f3c, #4ec);</div><div class="line">  <span class="attribute">box-shadow</span>:</div><div class="line">    <span class="number">1px</span> <span class="number">1px</span> <span class="number">1px</span> <span class="number">#000</span>,</div><div class="line">    <span class="number">2px</span> <span class="number">2px</span> <span class="number">1px</span> <span class="number">1px</span> <span class="number">#ccc</span> inset;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Media Queries</p>
+</blockquote>
+<p>Media queries的写法遵从规则集的写法。</p>
+<ul>
+<li>media feature和值之间加个空格。</li>
+<li>所有的值以rem为单位。</li>
+<li>px值直接加在起始大括号之后。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">media</span> screen and (min-width: <span class="number">28.125rem</span>) &#123; <span class="comment">/* 450px */</span></div><div class="line">  <span class="selector-id">#page</span> &#123;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">margin-left</span>: <span class="number">1.25rem</span>;</div><div class="line">    <span class="attribute">margin-right</span>: <span class="number">20px</span>;</div><div class="line">    <span class="attribute">margin-right</span>: <span class="number">1.25rem</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><blockquote>
+<p>@charset语句</p>
+</blockquote>
+<p>字符集语句(例如：<code>@charset &quot;UTF-8&quot;;</code>)只在css文件最开头的时候才会生效。当Drupal的css合并器合并多个css文件到一个文件时，Drupal会忽略<code>@charset</code>语句。这就意味着，CSS文件不必要加<code>@charset</code>语句。CSS文件默认编码是<code>UTF-8</code>。任何CSS注释或者属性值必须以<code>UTF-8</code>编码。</p>
+<blockquote>
+<p>综合例子：</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * @file</div><div class="line"> * Layouts for this theme.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Column layout with horizontal scroll.</div><div class="line"> *</div><div class="line"> * This creates a single row of full-height, non-wrapping columns that can be</div><div class="line"> * browsed horizontally within their parent.</div><div class="line"> *</div><div class="line"> * Example HTML:</div><div class="line"> *</div><div class="line"> * &lt;div class="grid"&gt;</div><div class="line"> *   &lt;div class="cell cell-3"&gt;&lt;/div&gt;</div><div class="line"> *   &lt;div class="cell cell-3"&gt;&lt;/div&gt;</div><div class="line"> *   &lt;div class="cell cell-3"&gt;&lt;/div&gt;</div><div class="line"> * &lt;/div&gt;</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Grid container</div><div class="line"> *</div><div class="line"> * Must only contain '.cell' children.</div><div class="line"> */</div><div class="line"><span class="selector-class">.grid</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">  <span class="comment">/* Remove inter-cell whitespace */</span></div><div class="line">  <span class="attribute">font-size</span>: <span class="number">0</span>;</div><div class="line">  <span class="comment">/* Prevent inline-block cells wrapping */</span></div><div class="line">  <span class="attribute">white-space</span>: nowrap;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Grid cells</div><div class="line"> *</div><div class="line"> * No explicit width by default. Extend with '.cell-n' classes.</div><div class="line"> */</div><div class="line"><span class="selector-class">.cell</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">overflow</span>: hidden;</div><div class="line">  <span class="attribute">box-sizing</span>: border-box;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">  <span class="comment">/* Set the inter-cell spacing */</span></div><div class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">10px</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0.625rem</span>;</div><div class="line">  <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#333</span>;</div><div class="line">  <span class="attribute">vertical-align</span>: top;</div><div class="line">  <span class="comment">/* Reset white-space */</span></div><div class="line">  <span class="attribute">white-space</span>: normal;</div><div class="line">  <span class="comment">/* Reset font-size */</span></div><div class="line">  <span class="attribute">font-size</span>: <span class="number">16px</span>;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1rem</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* Cell states */</span></div><div class="line"><span class="selector-class">.cell</span><span class="selector-class">.is-animating</span> &#123;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#fffdec</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* Cell dimensions */</span></div><div class="line"><span class="selector-class">.cell-1</span> &#123; <span class="attribute">width</span>: <span class="number">10%</span>; &#125;</div><div class="line"><span class="selector-class">.cell-2</span> &#123; <span class="attribute">width</span>: <span class="number">20%</span>; &#125;</div><div class="line"><span class="selector-class">.cell-3</span> &#123; <span class="attribute">width</span>: <span class="number">30%</span>; &#125;</div><div class="line"><span class="selector-class">.cell-4</span> &#123; <span class="attribute">width</span>: <span class="number">40%</span>; &#125;</div><div class="line"><span class="selector-class">.cell-5</span> &#123; <span class="attribute">width</span>: <span class="number">50%</span>; &#125;</div><div class="line"></div><div class="line"><span class="comment">/* Cell modifiers */</span></div><div class="line"><span class="selector-class">.cell--detail</span>,</div><div class="line"><span class="selector-class">.cell--important</span> &#123;</div><div class="line">  <span class="attribute">border-width</span>: <span class="number">4px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h1 id="CSS架构"><a href="#CSS架构" class="headerlink" title="CSS架构"></a>CSS架构</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><blockquote>
+<p>可预期性</p>
+</blockquote>
+<p>CSS代码具有易读性，容易理解。修改时只修改你需要的而不会发生其它错误。</p>
+<blockquote>
+<p>可重用</p>
+</blockquote>
+<p>CSS规则足够简约和解耦，以便可以快速从已经存在的部分构建新的组件。</p>
+<blockquote>
+<p>可维护</p>
+</blockquote>
+<p>我们会一直添加新的组件和特性，我们需要保证添加的时候会很容易，不需要破坏原有的样式解构。</p>
+<blockquote>
+<p>可扩展</p>
+</blockquote>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><blockquote>
+<p>避免依赖HTML结构</p>
+</blockquote>
+<ul>
+<li>CSS应该定义某个元素在任何位置出现时应该显示的样子</li>
+<li>为元素标记class，不要在CSS中使用id选择器</li>
+<li>保证选择器足够短。最优的选择器就是一个class或者一个元素</li>
+<li>有时候multi-part选择器很实用。例如：</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">  * Add a horizontal rule between adjacent list rows</div><div class="line">  *</div><div class="line">  * Could be part of an implementation of the Pears “slats” component:</div><div class="line">  * http://pea.rs/content/slats-html5 </div><div class="line">  */</div><div class="line"><span class="selector-class">.slat</span> + <span class="selector-class">.slat</span> &#123;</div><div class="line">  <span class="attribute">border-top</span>: <span class="number">1px</span> solid <span class="number">#cccccc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然而，需要注意的是：</p>
+<ol>
+<li>在multi-part选择器中尽量避免原生标记，例如：<code>div</code>, <code>span</code></li>
+<li>如果可能的话避免出现后代选择器(例如：<code>.my-list li</code>)，特别是一个组件包含另一个组件的时候</li>
+<li>避免出现2个以上的组合。下面这个例子就很糟糕：<code>.my-list &gt; li &gt; a</code></li>
+<li>如果怀疑的话，直接给元素加一个class或者加上样式</li>
+</ol>
+<blockquote>
+<p>使用组件自己的class命名组件元素</p>
+</blockquote>
+<p>为了避免依赖html标签结构，更加明确地定义一个组件元素，可以给组件加上以<code>_</code>相连的组件名。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.component</span> &#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">/* Component elements */</span></div><div class="line"><span class="selector-class">.component__header</span> &#123;&#125;</div><div class="line"><span class="selector-class">.component__body</span> &#123;&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用修饰class扩展组件</p>
+</blockquote>
+<p>例如：</p>
+<p>CSS</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 按钮组件 */</span></div><div class="line"><span class="selector-class">.button</span> &#123;</div><div class="line">  <span class="comment">/* styles */</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* 按钮修饰类 */</span></div><div class="line"><span class="selector-class">.button--primary</span> &#123;</div><div class="line">  <span class="comment">/* modifications and additions */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>HTML</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Button variant is created by applying both component and modifier classes --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"button button--primary"</span>&gt;</span>Save<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>分离出相关的css</p>
+</blockquote>
+<p>组件的职责不是为了站点的定位和布局。不要应用<code>width</code>和<code>height</code>，除非那个元素原生带有这些属性(例如：img)。</p>
+<p>避免使用js改变内联样式。例如，状态的变化，这时候就该定义一个名为<code>is-active</code>的class用于描述状态的变化。</p>
+<p>Drupal8使用<a href="https://smacss.com/book/" target="_blank" rel="external">SMACSS</a>系统类归类css规则：</p>
+<ul>
+<li>Base</li>
+</ul>
+<p>Base由只渲染html元素的样式规则组成，例如用于CSS reset或者<a href="http://necolas.github.com/normalize.css/" target="_blank" rel="external">Normalize.css</a>。Base中不应该包含任何类选择器。</p>
+<ul>
+<li>Layout</li>
+</ul>
+<p>页面元素布局，例如grid系统</p>
+<ul>
+<li>Component</li>
+</ul>
+<p>可重用、独立的UI元素。</p>
+<ul>
+<li>State</li>
+</ul>
+<p>处理组件显示变化的样式集。通常，是在用户与页面交互时触发的样式变化，例如：hover，打开一个模态框等。主要方式有：</p>
+<ul>
+<li>自定义class，以前缀’.is-‘开头，例如：<code>.is-transitioning</code>, <code>.is-open</code></li>
+<li>伪类，例如：<code>:hover</code>、 <code>:checked</code></li>
+<li>以状态语义作为属性的html元素，。例如：<code>details[open]</code></li>
+<li><p>media queries</p>
+</li>
+<li><p>Theme</p>
+</li>
+</ul>
+<p>纯粹的可见样式，例如：<code>border</code>，<code>box-shadow</code>，<code>colors</code>，backgrounds，font properties等</p>
+<blockquote>
+<p>类名格式</p>
+</blockquote>
+<p>类名应该使用全称而不是缩写。例如：<code>class=&quot;button&quot;</code>而不是<code>class=&quot;btn&quot;</code></p>
+<p>组件的类名应该使用<code>-</code>分隔两个单词，例如：<code>class=&quot;button-group&quot;</code>，而不是<code>class=&quot;buttongroup&quot;</code></p>
+<blockquote>
+<p>原文地址，<a href="https://www.drupal.org/node/1887862" target="_blank" rel="external">请戳这里</a></p>
+</blockquote>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/21/PHP-Trait多重继承的实现/" itemprop="url">
                   PHP Trait多重继承的实现
                 </a>
@@ -690,462 +1114,6 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">-- 本轮tpcc压测的一些基本信息</div><div class="line">***************************************</div><div class="line">*** <span class="comment">###easy### TPC-C Load Generator ***</span></div><div class="line">***************************************</div><div class="line">option h with value <span class="string">'1.2.3.4'</span>   -- 主机</div><div class="line">option P with value <span class="string">'3306'</span>             -- 端口</div><div class="line">option d with value <span class="string">'tpcc10'</span>         -- 数据库</div><div class="line">option u with value <span class="string">'tpcc'</span>             -- 账号</div><div class="line">option p with value <span class="string">'tpcc'</span>             -- 密码</div><div class="line">option w with value <span class="string">'10'</span>                 -- 仓库数</div><div class="line">option c with value <span class="string">'64'</span>                 -- 并发线程数</div><div class="line">option r with value <span class="string">'30'</span>                 -- 数据预热时长</div><div class="line">option l with value <span class="string">'120'</span>               -- 压测时长</div><div class="line">option f with value <span class="string">'tpcclog_20140921_64_THREADS.res'</span>  -- 输出报告日志文件</div><div class="line"></div><div class="line">     [server]: 1.2.3.4</div><div class="line">     [port]: 3306</div><div class="line">     [DBname]: tpcc10</div><div class="line">       [user]: tpcc</div><div class="line">       [pass]: tpcc</div><div class="line">  [warehouse]: 10</div><div class="line"> [connection]: 64</div><div class="line">     [rampup]: 30 (sec.)</div><div class="line">    [measure]: 120 (sec.)</div><div class="line"></div><div class="line">RAMP-UP TIME.(30 sec.)</div><div class="line"></div><div class="line">-- 预热结束，开始进行压测</div><div class="line">MEASURING START.</div><div class="line"></div><div class="line">-- 每10秒钟输出一次压测数据</div><div class="line">  10, 8376(0):2.744|3.211, 8374(0):0.523|1.626, 838(0):0.250|0.305, 837(0):3.241|3.518, 839(0):9.086|10.676</div><div class="line">  20, 8294(0):2.175|2.327, 8292(0):0.420|0.495, 829(0):0.206|0.243, 827(0):2.489|2.593, 827(0):7.214|7.646</div><div class="line">…</div><div class="line"> 110, 8800(0):2.149|2.458, 8792(0):0.424|0.710, 879(0):0.207|0.244, 878(0):2.461|2.556, 878(0):7.042|7.341</div><div class="line"> 120, 8819(0):2.147|2.327, 8820(0):0.424|0.568, 882(0):0.208|0.237, 881(0):2.483|2.561, 883(0):7.025|7.405</div><div class="line">-- 以逗号分隔，共6列</div><div class="line">-- 第一列，第N次10秒</div><div class="line">-- 第二列，新订单成功执行压测的次数(推迟执行压测的次数):90%事务的响应时间|本轮测试最大响应时间，新订单事务数也被认为是总有效事务数的指标</div><div class="line">-- 第三列，支付业务成功执行次数(推迟执行次数):90%事务的响应时间|本轮测试最大响应时间</div><div class="line">-- 第四列，订单状态业务的结果，后面几个的意义同上</div><div class="line">-- 第五列，物流发货业务的结果，后面几个的意义同上</div><div class="line">-- 第六列，库存仓储业务的结果，后面几个的意义同上</div><div class="line"></div><div class="line">-- 压测结束</div><div class="line">STOPPING THREADS................................................................</div><div class="line"></div><div class="line">   -- 第一次结果统计</div><div class="line">  [0] sc:100589  lt:0  rt:0  fl:0    -- New-Order，新订单业务成功(success,简写sc)次数，延迟(late,简写lt)次数，重试(retry,简写rt)次数，失败(failure,简写fl)次数</div><div class="line">  [1] sc:100552  lt:0  rt:0  fl:0    -- Payment，支付业务统计，其他同上</div><div class="line">  [2] sc:10059  lt:0  rt:0  fl:0    -- Order-Status，订单状态业务统计，其他同上</div><div class="line">  [3] sc:10057  lt:0  rt:0  fl:0    -- Delivery，发货业务统计，其他同上</div><div class="line">  [4] sc:10058  lt:0  rt:0  fl:0    -- Stock-Level，库存业务统计，其他同上</div><div class="line"> <span class="keyword">in</span> 120 sec.</div><div class="line"></div><div class="line">    -- 第二次统计结果，其他同上</div><div class="line">  [0] sc:100590  lt:0  rt:0  fl:0 </div><div class="line">  [1] sc:100582  lt:0  rt:0  fl:0 </div><div class="line">  [2] sc:10059  lt:0  rt:0  fl:0 </div><div class="line">  [3] sc:10057  lt:0  rt:0  fl:0 </div><div class="line">  [4] sc:10059  lt:0  rt:0  fl:0 </div><div class="line"></div><div class="line"> (all must be [OK])       -- 下面所有业务逻辑结果都必须为 OK 才行</div><div class="line"> [transaction percentage]</div><div class="line">        Payment: 43.47% (&gt;=43.0%) [OK]      -- 支付成功次数(上述统计结果中 sc + lt)必须大于43.0%，否则结果为NG，而不是OK</div><div class="line">   Order-Status: 4.35% (&gt;= 4.0%) [OK]       -- 订单状态，其他同上</div><div class="line">       Delivery: 4.35% (&gt;= 4.0%) [OK]       -- 发货，其他同上</div><div class="line">    Stock-Level: 4.35% (&gt;= 4.0%) [OK]       -- 库存，其他同上</div><div class="line"> [response time (at least 90% passed)]      -- 响应耗时指标必须超过90%通过才行</div><div class="line">      New-Order: 100.00%  [OK]              -- 下面几个响应耗时指标全部 100% 通过</div><div class="line">        Payment: 100.00%  [OK]</div><div class="line">   Order-Status: 100.00%  [OK]</div><div class="line">       Delivery: 100.00%  [OK]</div><div class="line">    Stock-Level: 100.00%  [OK]</div><div class="line"></div><div class="line"></div><div class="line">                 50294.500 TpmC                      -- TpmC结果值（每分钟事务数，该值是第一次统计结果中的新订单事务数除以总耗时分钟数，例如本例中是：100589/2 = 50294.500）</div></pre></td></tr></table></figure>
 <p>script目录下的一些脚本主要是一些性能数据采集以及分析的，可以自行摸索下怎么用。</p>
 <p>参考文章：<br>1、<a href="http://imysql.com/2014/10/10/tpcc-mysql-full-user-manual.shtml" target="_blank" rel="external">http://imysql.com/2014/10/10/tpcc-mysql-full-user-manual.shtml</a><br>2、<a href="https://github.com/yejr/tpcc-mysql-autoinc-pk" target="_blank" rel="external">https://github.com/yejr/tpcc-mysql-autoinc-pk</a></p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/29/sysbench测试mysql性能/" itemprop="url">
-                  sysbench测试mysql性能
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-29T16:15:54+08:00" content="2016-01-29">
-              2016-01-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/29/sysbench测试mysql性能/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/29/sysbench测试mysql性能/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>sysbench是一个模块化的、跨平台、多线程基准测试工具，主要用于评估测试各种不同系统参数下的数据库负载情况。关于这个项目的详细介绍请看：<a href="https://launchpad.net/sysbench。" target="_blank" rel="external">https://launchpad.net/sysbench。</a><br>它主要包括以下几种方式的测试：<br>1、cpu性能<br>2、磁盘io性能<br>3、调度程序性能<br>4、内存分配及传输速度<br>5、POSIX线程性能<br>6、数据库性能(OLTP基准测试)<br>目前sysbench主要支持 MySQL,pgsql,oracle 这3种数据库。</p>
-<p>###一、安装</p>
-<p>环境：</p>
-<p>centos 6.7<br>mysql  5.7.10</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">yum install automake gcc gcc-c++ libtool mysql-devel</div><div class="line"></div><div class="line">git <span class="built_in">clone</span> https://github.com/akopytov/sysbench.git</div><div class="line"></div><div class="line">./autogen.sh</div><div class="line">./configure</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
-<p>如果想要让 sysbench 支持 pgsql/oracle 的话，就需要在编译的时候加上参数<br>–with-pgsql<br>或者<br>–with-oracle<br>这2个参数默认是关闭的，只有 MySQL 是默认支持的。</p>
-<p>###二、测试</p>
-<p>#####1、cpu性能测试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysbench --test=cpu --cpu-max-prime=20000 run</div></pre></td></tr></table></figure>
-<p>cpu测试主要是进行素数的加法运算，在上面的例子中，指定了最大的素数为 20000，自己可以根据机器cpu的性能来适当调整数值。</p>
-<p>#####2、线程测试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysbench --test=threads --num-threads=64 --thread-yields=100 --thread-locks=2 run</div></pre></td></tr></table></figure>
-<p>#####3、磁盘IO性能测试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw prepare</div><div class="line">sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw run</div><div class="line">sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw cleanup</div></pre></td></tr></table></figure>
-<p>上述参数指定了最大创建16个线程，创建的文件总大小为3G，文件读写模式为随机读。</p>
-<p>#####4、内存测试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysbench --test=memory --memory-block-size=8k --memory-total-size=4G run</div></pre></td></tr></table></figure>
-<p>上述参数指定了本次测试整个过程是在内存中传输 4G 的数据量，每个 block 大小为 8K。</p>
-<p>#####5、OLTP测试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysbench --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-user=root --mysql-password=root  --test=/root/sysbench/sysbench/tests/db/oltp.lua --oltp_tables_count=10 --oltp-table-size=100000 --rand-init=on prepare</div></pre></td></tr></table></figure>
-<p>关于这几个参数的解释：</p>
-<p>–test=tests/db/oltp.lua 表示调用 tests/db/oltp.lua 脚本进行 oltp 模式测试<br>–oltp_tables_count=10 表示会生成 10 个测试表<br>–oltp-table-size=100000 表示每个测试表填充数据量为 100000<br>–rand-init=on 表示每个测试表都是用随机数据来填充的<br>如果在本机，也可以使用 –mysql-socket 指定 socket 文件来连接。加载测试数据时长视数据量而定，若过程比较久需要稍加耐心等待。</p>
-<p>真实测试场景中，数据表建议不低于10个，单表数据量不低于500万行，当然了，要视服务器硬件配置而定。如果是配备了SSD或者PCIE SSD这种高IOPS设备的话，则建议单表数据量最少不低于1亿行。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sysbench --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-user=root \</div><div class="line">--mysql-password=root --test=/root/sysbench/sysbench/tests/db/oltp.lua --oltp_tables_count=10 \</div><div class="line">--oltp-table-size=10000000 --num-threads=8 --oltp-read-only=off \</div><div class="line">--report-interval=10 --rand-type=uniform --max-time=3600 \</div><div class="line"> --max-requests=0 --percentile=99 run &gt;&gt; /tmp/sysbench_oltpX_8.log</div></pre></td></tr></table></figure>
-<p>参数解释：<br>–num-threads=8 表示发起 8个并发连接<br>–oltp-read-only=off 表示不要进行只读测试，也就是会采用读写混合模式测试<br>–report-interval=10 表示每10秒输出一次测试进度报告<br>–rand-type=uniform 表示随机类型为固定模式，其他几个可选随机模式：uniform(固定),gaussian(高斯),special(特定的),pareto(帕累托)<br>–max-time=120 表示最大执行时长为 120秒<br>–max-requests=0 表示总请求数为 0，因为上面已经定义了总执行时长，所以总请求数可以设定为 0；也可以只设定总请求数，不设定最大执行时长<br>–percentile=99 表示设定采样比例，默认是 95%，即丢弃1%的长请求，在剩余的99%里取最大值</p>
-<p>即：模拟 对10个表并发OLTP测试，每个表1000万行记录，持续压测时间为 1小时。</p>
-<p>真实测试场景中，建议持续压测时长不小于30分钟，否则测试数据可能不具参考意义。</p>
-<p>#####6、测试结果解读</p>
-<p>测试结果解读如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">sysbench 0.5:  multi-threaded system evaluation benchmark</div><div class="line"></div><div class="line">Running the <span class="built_in">test</span> with following options:</div><div class="line">Number of threads: 8</div><div class="line">Report intermediate results every 10 second(s)</div><div class="line">Random number generator seed is 0 and will be ignored</div><div class="line"></div><div class="line"></div><div class="line">Threads started!</div><div class="line">-- 每10秒钟报告一次测试结果，tps、每秒读、每秒写、99%以上的响应时长统计</div><div class="line">[  10s] threads: 8, tps: 1111.51, reads/s: 15568.42, writes/s: 4446.13, response time: 9.95ms (99%)</div><div class="line">[  20s] threads: 8, tps: 1121.90, reads/s: 15709.62, writes/s: 4487.80, response time: 9.78ms (99%)</div><div class="line">[  30s] threads: 8, tps: 1120.00, reads/s: 15679.10, writes/s: 4480.20, response time: 9.84ms (99%)</div><div class="line">[  40s] threads: 8, tps: 1114.20, reads/s: 15599.39, writes/s: 4456.30, response time: 9.90ms (99%)</div><div class="line">[  50s] threads: 8, tps: 1114.00, reads/s: 15593.60, writes/s: 4456.70, response time: 9.84ms (99%)</div><div class="line">[  60s] threads: 8, tps: 1119.30, reads/s: 15671.60, writes/s: 4476.50, response time: 9.99ms (99%)</div><div class="line">OLTP <span class="built_in">test</span> statistics:</div><div class="line">    queries performed:</div><div class="line">        <span class="built_in">read</span>:                            938224    -- 读总数</div><div class="line">        write:                           268064    -- 写总数</div><div class="line">        other:                           134032    -- 其他操作总数(SELECT、INSERT、UPDATE、DELETE之外的操作，例如COMMIT等)</div><div class="line">        total:                           1340320    -- 全部总数</div><div class="line">    transactions:                        67016  (1116.83 per sec.)    -- 总事务数(每秒事务数)</div><div class="line">    deadlocks:                           0      (0.00 per sec.)    -- 发生死锁总数</div><div class="line">    <span class="built_in">read</span>/write requests:                 1206288 (20103.01 per sec.)    -- 读写总数(每秒读写次数)</div><div class="line">    other operations:                    134032 (2233.67 per sec.)    -- 其他操作总数(每秒其他操作次数)</div><div class="line"></div><div class="line">General statistics:    -- 一些统计结果</div><div class="line">    total time:                          60.0053s    -- 总耗时</div><div class="line">    total number of events:              67016    -- 共发生多少事务数</div><div class="line">    total time taken by event execution: 479.8171s    -- 所有事务耗时相加(不考虑并行因素)</div><div class="line">    response time:    -- 响应时长统计</div><div class="line">         min:                                  4.27ms    -- 最小耗时</div><div class="line">         avg:                                  7.16ms    -- 平均耗时</div><div class="line">         max:                                 13.80ms    -- 最长耗时</div><div class="line">         approx.  99 percentile:               9.88ms    -- 超过99%平均耗时</div><div class="line"></div><div class="line">Threads fairness:</div><div class="line">    events (avg/stddev):           8377.0000/44.33</div><div class="line">    execution time (avg/stddev):   59.9771/0.00</div></pre></td></tr></table></figure>
-<p>参考文章：<br>1、<a href="http://imysql.com/2014/10/17/sysbench-full-user-manual.shtml" target="_blank" rel="external">http://imysql.com/2014/10/17/sysbench-full-user-manual.shtml</a><br>2、<a href="http://imysql.com/2015/07/28/mysql-benchmark-reference.shtml" target="_blank" rel="external">http://imysql.com/2015/07/28/mysql-benchmark-reference.shtml</a></p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/26/Drupal8相对Drupal7的变化/" itemprop="url">
-                  Drupal8相对Drupal7的变化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-12-26T10:49:45+08:00" content="2015-12-26">
-              2015-12-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/12/26/Drupal8相对Drupal7的变化/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/26/Drupal8相对Drupal7的变化/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><p>Drupal 8已经正式发布，与Drupal 7相比，Drupal 8在实现机制上发生了根本性的改变。最本质的改变，应该就是从主要以面向过程的编码方式转为了主要以面向对象的编码方式。虽然Drupal 8仍然保留了部分面向过程的文件，比如.module文件，但是可以预见，在Drupal 9中，这些面向过程的代码将被全部移除，所以在使用Drupal 8做开发的时候，应该尽量避免引用面向过程的代码，以免从Drupal 8升级到Drupal 9的过程中增加不必要的麻烦。</p>
-<p>本文将从模块开发的角度（而非其他角度，比如网站编辑、性能优劣等）讨论Drupal 8 与Drupal 7的不同之处，通过对Drupal 8的研究，我将Drupal 8模块开发与Drupal 7的不同点概括为以下几点：</p>
-<ol>
-<li>目录结构；</li>
-<li>配置文件；</li>
-<li>路由方式；</li>
-<li>主题；</li>
-<li>表单；</li>
-<li>钩子机制在Drupal 8中的变化及实现；</li>
-<li>Drupal 8中的新增机制。</li>
-</ol>
-<p>下面将详细论述这些不同点。</p>
-<h3 id="2、目录结构"><a href="#2、目录结构" class="headerlink" title="2、目录结构"></a>2、目录结构</h3><p>Drupal 7的目录结构为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">|-includes</div><div class="line">|-misc</div><div class="line">|-modules</div><div class="line">|-scripts</div><div class="line">|-sites</div><div class="line">|  |-all</div><div class="line">|  |  |-modules</div><div class="line">|  |  |-themes</div><div class="line">|  |-default</div><div class="line">|-themes</div></pre></td></tr></table></figure>
-<p>Drupal 8的目录结构为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">|-core</div><div class="line">|  |-assets</div><div class="line">|  |-config</div><div class="line">|  |-includes</div><div class="line">|  |-lib</div><div class="line">|  |-misc</div><div class="line">|  |-modules</div><div class="line">|  |-profiles</div><div class="line">|  |-scripts</div><div class="line">|  |-themes</div><div class="line">|-modules</div><div class="line">|-sites</div><div class="line">|  |-default</div><div class="line">|-themes</div><div class="line">|-vendor</div></pre></td></tr></table></figure>
-<p>可以看出，Drupal 8与Drupal 7的目录结构大不相同，在Drupal7中核心的代码都直接放在根目录下，比如includes等，核心模块放在根目录下的modules目录下，核心主题放在根目录下的themes目录下。用户自定义或者第三方的模块放在sites\all\modules、主题放在sites\all\themes目录下。</p>
-<p>而在Drupal 8里面，核心的东西都被移到根目录下的core目录下，原来用来放核心模块和主题的modules、themes目录分别用来放用户自定义的模块和主题。按照约定俗称的规则，一般在modules目录下新建contrib和custom目录，分别用来放贡献和自定义模块。</p>
-<h3 id="2、配置文件"><a href="#2、配置文件" class="headerlink" title="2、配置文件"></a>2、配置文件</h3><p>在Drupal模块开发中，很多功能的实现都要靠配置文件来实现，比如模块的基本信息在Drupal 7中就必须配置在*.info文件中。在Drupal 8中，配置文件的使用得到了进一步的扩充，可以说，Drupal 8的几乎所有功能都离不开配置文件。</p>
-<p>但是同时配置文件的格式也与Drupal 7有所不同。Drupal 7中的配置文件主要是.info文件，.info文件采用使用等号隔开的键值对的形式配置信息，例如模块信息的配置文件demo.info：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">core            = &quot;7.x&quot;</div><div class="line">description     = &quot;Demo Module&quot;</div><div class="line">dependencies[] = system </div><div class="line">name            = &quot;demo&quot;</div><div class="line">package         = &quot;demo&quot;</div><div class="line">version = &quot;7.x-1.0&quot;</div></pre></td></tr></table></figure>
-<p>Drupal 8中配置文件广泛使用yaml格式的文件，例如模块信息的配置文件demo.info.yml:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">name: demo</div><div class="line">type: module</div><div class="line">description: &quot;demo module&quot;</div><div class="line">package: demo</div><div class="line">core: 8.x</div><div class="line">dependencies:</div><div class="line">  - rest</div></pre></td></tr></table></figure>
-<p>对比Drupal 7和Drupal 8的配置文件，不难看出，里面的内容基本一致，所不同的只是文件格式的不同。需要注意的是Drupal 8的配置文件后缀名都是.yml，表明这是一个yaml文件。Drupal 8的模块配置信息比Drupal 7的多一项type: module，这是因为Drupal 8的主题也是用同样格式的配置文件，为了区分这是一个主题还是模块，该项是必须的。</p>
-<p>Drupal 8 不仅需要模块信息配置文件，还需要各种其他的配置文件，比如后面将要讲到的路由配置文件*.routing.yml、服务配置文件*.services.yml等。</p>
-<h3 id="3、路由方式"><a href="#3、路由方式" class="headerlink" title="3、路由方式"></a>3、路由方式</h3><p>Drupal 7和Drupal 8的路由也存在很大的区别。Drupal 7 使用Hook的方式，而Drupal 8使用Symfony框架的路由配置文件的方式。本文只讨论Drupal 8和Drupal 7 的不同之处，更深入的介绍请参考<a href="http://verynull.com/2015/12/23/Drupal8-routing/" title="Drupal8路由">http://verynull.com/2015/12/23/Drupal8-routing/</a>和<a href="http://verynull.com/2015/12/23/Drupal8-Controller/" title="Drupal8控制器">http://verynull.com/2015/12/23/Drupal8-Controller/</a></p>
-<p>Drupal 7需要在module_name.module中实现hook_menu钩子来将某个url和请求处理方法关联起来，示例代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo_menu</span><span class="params">()</span> </span>&#123;</div><div class="line">  $items = <span class="keyword">array</span>();</div><div class="line"></div><div class="line">  $items[<span class="string">'demo'</span>] = <span class="keyword">array</span>(</div><div class="line">    <span class="string">'title'</span> =&gt; <span class="string">'示例'</span>,</div><div class="line">    <span class="string">'page callback'</span> =&gt; <span class="string">'theme'</span>,</div><div class="line">    <span class="string">'page arguments'</span> =&gt; <span class="keyword">array</span>(<span class="string">'demo'</span>),</div><div class="line">    <span class="string">'access callback'</span> =&gt; <span class="string">'user_is_logged_in'</span>,</div><div class="line">    <span class="string">'type'</span> =&gt; MENU_CALLBACK</div><div class="line">  );</div><div class="line">  <span class="keyword">return</span> $items;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上述代码表示，当用户访问/demo路径时。调用theme方法渲染demo主题，主题需要在hook_theme中注册，这一点Drupal 8没有变化。</p>
-<p>实现同样的功能，Drupal 8 首先需要配置module_name.routing.yml，将路径和控制器中的某个action关联起来，然后编写控制器，实现里面的action。这里需要提到一个概念MVC，MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码。Drupal 8里面的控制器就是MVC中controller，用于衔接界面（view）和数据（model），即在控制器里面，接收参数，然后读取数据，传递给界面，最后返回给终端用户。</p>
-<p>example.rounting.yml格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">example.demo:</div><div class="line">  path: &apos;/demo/&#123;name&#125;&apos;</div><div class="line">  defaults:</div><div class="line">    _controller: &apos;\Drupal\example\Controller\ExampleController::demo&apos;</div><div class="line">    _title: &apos;test drupal 8 routing&apos;</div><div class="line">  requirements:</div><div class="line">    _permission: &apos;access content&apos;</div></pre></td></tr></table></figure>
-<p>example.demo为路由的机读名称，格式为”模块名.路由”，path是实际的url路径，其中{name}，表示参数，该参数会传递给action，参数名称就是name。</p>
-<p>defaults下有的_controller: ‘\Drupal\example\Controller\ExampleController::demo’表示控制器为\Drupal\example\Controller\ExampleController，action为demo方法。</p>
-<p>defaults下的_title: ‘test drupal 8 routing’表示页面标题为：test drupal 8 routing。</p>
-<p>requirements下的_permission表示可以访问该路径的权限。</p>
-<p>ExampleController的代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains ExampleController</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">example</span>\<span class="title">Controller</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Controller</span>\<span class="title">ControllerBase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Provides route responses for example.module.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleController</span> <span class="keyword">extends</span> <span class="title">ControllerBase</span> </span>&#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * 展示hello &#123;name&#125;.</div><div class="line">   * <span class="doctag">@param</span> $name</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> array</div><div class="line">   *</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">demo</span><span class="params">($name)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">      <span class="string">'#markup'</span> =&gt; t(<span class="string">'Hello '</span> . $name),</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当完成上述代码后，清除缓存，在浏览器中访问<a href="http://yourdomain/demo/World，界面就会显示Hello" target="_blank" rel="external">http://yourdomain/demo/World，界面就会显示Hello</a> World。example.info.yml、example.routing.yml和ExampleController就构成了Drupal 8中的一个最基本模块，一般来说，这三类文件是必须的。</p>
-<h3 id="4、主题"><a href="#4、主题" class="headerlink" title="4、主题"></a>4、主题</h3><p>Drupal 8和Drupal 7相比，主题上也发生了本质的变化，首先是主题引擎的变化，其次是配置方式的变化，最后是js、css引入方式的变化。本文只讨论Drupal 8 与Drupal 7主题的不同之处，主题更深入的介绍请参考<a href="http://verynull.com/2015/11/19/Drupal8主题-theme/" title="Drupal8主题">http://verynull.com/2015/11/19/Drupal8主题-theme/</a>和<a href="http://verynull.com/2015/11/18/Drupal8模板引擎-twig/" title="Drupal8的模板引擎-twig">http://verynull.com/2015/11/18/Drupal8模板引擎-twig/</a>。</p>
-<h4 id="4-1、模板引擎的变化"><a href="#4-1、模板引擎的变化" class="headerlink" title="4.1、模板引擎的变化"></a>4.1、模板引擎的变化</h4><p>Drupal 7使用的模板引擎是PHPTemplate，该模板引擎的特点是模板里面可以写php代码。这种模板的缺点显而易见，可能会产生XSS和SQL注入等攻击，如下代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">echo</span> $name;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>如果$name = ‘&lt;script&gt;js语句&lt;/script&gt;’，这样输出到页面中就会执行script标签中的js代码，这样就会被黑客利用来攻击网站。</p>
-<p>而Drupal 8则使用twig模板引擎，twig模板相对于PHPTemplate引擎，主要有以下有点：</p>
-<ol>
-<li>快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。</li>
-<li>安全：Twig会使用一个沙箱模式来运行不信任的模板代码。这使得Twig可以在用户可以修改模板设计的应用中工作良好。</li>
-<li>弹性：Twig试用了弹性的词法和语法分析器。开发者可以定义自己的标记和过滤，并创建自己的DSL。</li>
-</ol>
-<p>可以看出，twig里面不能写php代码，他有一套自己的语法，并且最终被编译为php，运行在安全沙箱中，一句话，就是安全。像上面的输出变量，在twig中如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; name &#125;&#125;</div></pre></td></tr></table></figure>
-<p>这样会自动把不安全的字符过滤掉。下面来比较PHPTemplate和twig的典型的不同之处。</p>
-<p>1.后缀名</p>
-<p>PHPTemplate的后缀名是.tpl.php，twig的后缀名为.html.twig.</p>
-<p>2.变量</p>
-<p>输出一个变量</p>
-<p>PHPTemplate:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div class="content"&gt;&lt;?php print $content; ?&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
-<p>Twig:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;content&quot;&gt;&#123;&#123; content &#125;&#125;&lt;/div&gt;</div></pre></td></tr></table></figure></p>
-<p>输出一个哈希键值</p>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> <span class="keyword">print</span> $item[<span class="string">'#item'</span>][<span class="string">'alt'</span>]; <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; item[&apos;#item&apos;].alt &#125;&#125;</div></pre></td></tr></table></figure>
-<p>变量赋值</p>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> $custom_var = $content-&gt;comments; <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% set custom_var = content.comments %&#125;</div></pre></td></tr></table></figure>
-<p>数组初始化</p>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">  $args = <span class="keyword">array</span>(<span class="string">'!author'</span> =&gt; $author, <span class="string">'!date'</span> =&gt; $created);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% set args = &#123;&apos;!author&apos;: author, &apos;!date&apos;: created&#125;</div></pre></td></tr></table></figure>
-<p>3.条件判断</p>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span> ($content-&gt;comments): <span class="keyword">endif</span>; <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% if content.comments %&#125; &#123;% endif %&#125;</div></pre></td></tr></table></figure>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span> (!<span class="keyword">empty</span>($content-&gt;comments)): <span class="keyword">endif</span>; <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% if content.comments is not empty %&#125; &#123;% endif %&#125;</div></pre></td></tr></table></figure></p>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span> (<span class="keyword">isset</span>($content-&gt;comments)): <span class="keyword">endif</span>; <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% if content.comments is defined %&#125; &#123;% endif %&#125;</div></pre></td></tr></table></figure>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span> ($count &gt; <span class="number">0</span>): <span class="keyword">endif</span>; <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% if count &gt; 0 %&#125; &#123;% endif %&#125;</div></pre></td></tr></table></figure>
-<p>4.控制结构</p>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> <span class="keyword">foreach</span> ($users <span class="keyword">as</span> $user) &#123;&#125; <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% for user in users %&#125; &#123;% endfor %&#125;</div></pre></td></tr></table></figure>
-<p>5.过滤</p>
-<p>check_plain：</p>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> <span class="keyword">print</span> check_plain($title); <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; title|striptags &#125;&#125;</div></pre></td></tr></table></figure>
-<p>Translate：</p>
-<p>PHPTemplate:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> <span class="keyword">print</span> t(<span class="string">'Home'</span>); <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>Twig:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; &apos;Home&apos;|t &#125;&#125;</div></pre></td></tr></table></figure>
-<p>更深入的介绍请参考上述文章。</p>
-<h4 id="4-2、主题配置"><a href="#4-2、主题配置" class="headerlink" title="4.2、主题配置"></a>4.2、主题配置</h4><p>Drupal 7的主题配置文件bartik.info格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">name = Bartik</div><div class="line">description = A flexible, recolorable theme with many regions.</div><div class="line">package = Core</div><div class="line">version = VERSION</div><div class="line">core = 7.x</div><div class="line"></div><div class="line">stylesheets[all][] = css/layout.css</div><div class="line">stylesheets[all][] = css/style.css</div><div class="line">stylesheets[all][] = css/colors.css</div><div class="line">stylesheets[print][] = css/print.css</div><div class="line"></div><div class="line">regions[header] = Header</div><div class="line">regions[help] = Help</div><div class="line">regions[page_top] = Page top</div><div class="line">regions[page_bottom] = Page bottom</div><div class="line">regions[highlighted] = Highlighted</div><div class="line"></div><div class="line">regions[featured] = Featured</div><div class="line">regions[content] = Content</div><div class="line">regions[sidebar_first] = Sidebar first</div><div class="line">regions[sidebar_second] = Sidebar second</div><div class="line"></div><div class="line">regions[triptych_first] = Triptych first</div><div class="line">regions[triptych_middle] = Triptych middle</div><div class="line">regions[triptych_last] = Triptych last</div><div class="line"></div><div class="line">regions[footer_firstcolumn] = Footer first column</div><div class="line">regions[footer_secondcolumn] = Footer second column</div><div class="line">regions[footer_thirdcolumn] = Footer third column</div><div class="line">regions[footer_fourthcolumn] = Footer fourth column</div><div class="line">regions[footer] = Footer</div><div class="line"></div><div class="line">settings[shortcut_module_link] = 0</div></pre></td></tr></table></figure>
-<p>本文第二章节已经提到，Drupal 8 的配置文件都是用yaml文件，bartik.info.yml：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">name: Bartik</div><div class="line">type: theme</div><div class="line">base theme: classy</div><div class="line">description: &apos;A flexible, recolorable theme with many regions and a responsive, mobile-first layout.&apos;</div><div class="line">package: Core</div><div class="line"># version: VERSION</div><div class="line"># core: 8.x</div><div class="line">libraries:</div><div class="line">  - bartik/global-styling</div><div class="line">ckeditor_stylesheets:</div><div class="line">  - css/base/elements.css</div><div class="line">  - css/components/captions.css</div><div class="line">  - css/components/table.css</div><div class="line">regions:</div><div class="line">  header: Header</div><div class="line">  primary_menu: &apos;Primary menu&apos;</div><div class="line">  secondary_menu: &apos;Secondary menu&apos;</div><div class="line">  page_top: &apos;Page top&apos;</div><div class="line">  page_bottom: &apos;Page bottom&apos;</div><div class="line">  highlighted: Highlighted</div><div class="line">  featured_top: &apos;Featured top&apos;</div><div class="line">  breadcrumb: Breadcrumb</div><div class="line">  content: Content</div><div class="line">  sidebar_first: &apos;Sidebar first&apos;</div><div class="line">  sidebar_second: &apos;Sidebar second&apos;</div><div class="line">  featured_bottom_first: &apos;Featured bottom first&apos;</div><div class="line">  featured_bottom_second: &apos;Featured bottom second&apos;</div><div class="line">  featured_bottom_third: &apos;Featured bottom third&apos;</div><div class="line">  footer_first: &apos;Footer first&apos;</div><div class="line">  footer_second: &apos;Footer second&apos;</div><div class="line">  footer_third: &apos;Footer third&apos;</div><div class="line">  footer_fourth: &apos;Footer fourth&apos;</div><div class="line">  footer_fifth: &apos;Footer fifth&apos;</div></pre></td></tr></table></figure>
-<p>从以上可以看出，Drupal 7 和Drupal 8 的主题配置文件大致相同，只是格式不一致，主要的不同有两点：</p>
-<p>1.Drupal 8的配置文件多了type: theme，这是用来表明这是一个主题，而不是模块。</p>
-<p>2.js、css的全局引入，Drupal 7可以直接引入单个js、css文件，而Drupal 8需要先将css、js设置成library，然后在主题配置文件中引入library，如上例中的：<br>    libraries:</p>
-<pre><code>- bartik/global-styling
-</code></pre><p>表示引入bartik主题下的global-styling库。library库是在theme_name.libraries.yml文件中定义的，bartik.libraries.yml的部分代码如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">color.preview:</div><div class="line">  version: VERSION</div><div class="line">  css:</div><div class="line">    theme:</div><div class="line">      color/preview.css: &#123;&#125;</div><div class="line">  js:</div><div class="line">    color/preview.js: &#123;&#125;</div><div class="line">  dependencies:</div><div class="line">    - color/drupal.color</div><div class="line"></div><div class="line">maintenance_page:</div><div class="line">  version: VERSION</div><div class="line">  css:</div><div class="line">    theme:</div><div class="line">      css/maintenance-page.css: &#123;&#125;</div><div class="line">  dependencies:</div><div class="line">    - system/maintenance</div><div class="line">    - bartik/global-styling</div></pre></td></tr></table></figure>
-<p>其中color.preview、maintenance_page就表示一个library，每个library下可以有css、js、dependencies等键，分别表示引入css、引入js和引入依赖的库。</p>
-<h4 id="4-3、引入js、css"><a href="#4-3、引入js、css" class="headerlink" title="4.3、引入js、css"></a>4.3、引入js、css</h4><p>在4.2节中已经提到，Drupal 8中引入js和css必须使用library，不能单独引入单个js或css文件。在主题配置文件中引入全局的库也已经在4.2节中阐述，那在单个页面中引入js和css有何不同呢？</p>
-<p>我们在Drupal 7中通常通过drupal_add_js和drupal_add_css来引入js和css，例如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">drupal_add_js(drupal_get_path(<span class="string">'module'</span>, <span class="string">'demo'</span>) . <span class="string">'/js/demo.js'</span>);</div><div class="line">drupal_add_css(drupal_get_path(<span class="string">'module'</span>, <span class="string">'demo'</span>) . <span class="string">'/css/demo.css'</span>);</div></pre></td></tr></table></figure>
-<p>在Drupal 8中，我们首先将js、css配置成库，如demo.libraries.yml:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">base:</div><div class="line">  version: VERSION</div><div class="line">  css:</div><div class="line">    theme:</div><div class="line">      css/demo.css: &#123;&#125;</div><div class="line">  js:</div><div class="line">    js/demo.js: &#123;&#125;</div><div class="line">  dependencies:</div><div class="line">    - core/jquery</div></pre></td></tr></table></figure>
-<p>上面配置了一个base库，Drupal 8中除了要配置库，还要在渲染数组中使用#attached才能将库加到页面中：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">  <span class="string">'#theme'</span> =&gt; <span class="string">'example_demo'</span>,</div><div class="line">  <span class="string">'#attached'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">    <span class="string">'library'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">      <span class="string">'example/base'</span></div><div class="line">    )</div><div class="line">  )</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>上述代码表示，渲染example_demo主题，并且加载example/base’库。</p>
-<h3 id="5、表单"><a href="#5、表单" class="headerlink" title="5、表单"></a>5、表单</h3><p>我们将以一个简单的示例来分析Drupal 7和Drupal 8表单的异同。<br>在Drupal 7中要实现表单的展示、提交，首先需要配置菜单，将路径和表单函数关联起来在hook_menu中定义如下菜单：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$items[<span class="string">'demo/form'</span>] = <span class="keyword">array</span>(</div><div class="line">  <span class="string">'title'</span> =&gt; <span class="string">'Create demo form'</span>,</div><div class="line">  <span class="string">'page callback'</span> =&gt; <span class="string">'drupal_get_form'</span>,</div><div class="line">  <span class="string">'page arguments'</span> =&gt; <span class="keyword">array</span>(<span class="string">'demo_form'</span>),</div><div class="line">  <span class="string">'access callback'</span> =&gt; <span class="string">'access content'</span>,</div><div class="line">  <span class="string">'type'</span> =&gt; MENU_LOCAL_TASK,</div><div class="line">);</div></pre></td></tr></table></figure>
-<p>接下来，定义表单函数demo_form：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo_form</span><span class="params">($form, &amp;$form_state)</span> </span>&#123;</div><div class="line">  $form[<span class="string">'name'</span>] = <span class="keyword">array</span>(</div><div class="line">    <span class="string">'#type'</span> =&gt; <span class="string">'textfield'</span>,</div><div class="line">    <span class="string">'#title'</span> =&gt; <span class="string">'姓名'</span></div><div class="line">  );</div><div class="line">  $form[<span class="string">'actions'</span>][<span class="string">'#type'</span>] = <span class="string">'actions'</span>;</div><div class="line">  $form[<span class="string">'actions'</span>][<span class="string">'submit'</span>] = <span class="keyword">array</span>(</div><div class="line">    <span class="string">'#type'</span> =&gt; <span class="string">'submit'</span>,</div><div class="line">    <span class="string">'#value'</span> =&gt; <span class="keyword">$this</span>-&gt;t(<span class="string">'Save'</span>),</div><div class="line">    <span class="string">'#button_type'</span> =&gt; <span class="string">'primary'</span>,</div><div class="line">  );</div><div class="line">  $form[<span class="string">'#validate'</span>][] = <span class="string">'demo_validate'</span>;</div><div class="line">  $form[<span class="string">'#submit'</span>][] = <span class="string">'demo_submit'</span>;</div><div class="line">  <span class="keyword">return</span> $form;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上述代码表明表单有一个文本框，一个提交按钮，表单的验证函数书demo_validate，提交处理函数是demo_submit。</p>
-<p>下面实现demo_validate、demo_submit：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo_validate</span><span class="params">($form, &amp;$form_state)</span> </span>&#123;</div><div class="line">  $name = $form_state[<span class="string">'value'</span>][<span class="string">'name'</span>];</div><div class="line">  <span class="keyword">if</span>($name != <span class="string">'world'</span>) &#123;</div><div class="line">    form_set_error(<span class="string">'name'</span>, <span class="string">'参数错误'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo_submit</span><span class="params">($form, &amp;$form_state)</span> </span>&#123;</div><div class="line">  $name = $form_state[<span class="string">'value'</span>][<span class="string">'name'</span>];</div><div class="line">  drupal_set_message(<span class="string">'Hello'</span> . $name);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>到这里，我们就可以访问demo/form了，在文本框中输入world，则界面就会显示Hello world，但是输入其他的文本，则会报错“参数错误”。</p>
-<p>接下来，我们来看一下Drupal 8中的表单是如何实现的，首先我们要配置一个路由指向表单，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">example.demo_form:</div><div class="line">  path: &apos;/demo/form&apos;</div><div class="line">  defaults:</div><div class="line">    _form: &apos;\Drupal\example\Form\ExampleForm&apos;</div><div class="line">    _title: &apos;test drupal 8 form&apos;</div><div class="line">  requirements:</div><div class="line">    _permission: &apos;access content&apos;</div></pre></td></tr></table></figure>
-<p>path：’/demo/form’表示表单路径是/demo/form，_form: ‘\Drupal\example\Form\ExampleForm’表示表单类是\Drupal\example\Form\ExampleForm，那么下面就来实现这个类：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * <span class="doctag">@file</span></div><div class="line">	 * contains Drupal\example\Form\ExampleForm</div><div class="line">	 */</div><div class="line">	</div><div class="line">	<span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">example</span>\<span class="title">Form</span>;</div><div class="line">	</div><div class="line">	</div><div class="line">	<span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormBase</span>;</div><div class="line">	<span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormStateInterface</span>;</div><div class="line">	</div><div class="line">	<span class="class"><span class="keyword">class</span> <span class="title">ExampleForm</span> <span class="keyword">extends</span> <span class="title">FormBase</span></span></div><div class="line">	&#123;</div><div class="line">	  <span class="comment">/**</span></div><div class="line">	   * <span class="doctag">@inheritdoc</span></div><div class="line">	   */</div><div class="line">	  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getFormId</span><span class="params">()</span> </span>&#123;</div><div class="line">	    <span class="keyword">return</span> <span class="string">'example_form'</span>;</div><div class="line">	  &#125;</div><div class="line">	</div><div class="line">	  <span class="comment">/**</span></div><div class="line">	   * <span class="doctag">@inheritdoc</span></div><div class="line">	   */</div><div class="line">	  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">buildForm</span><span class="params">(array $form, FormStateInterface $form_state)</span> </span>&#123;</div><div class="line">	    $form[<span class="string">'name'</span>] = <span class="keyword">array</span>(</div><div class="line">	      <span class="string">'#type'</span> =&gt; <span class="string">'textfield'</span>,</div><div class="line">	      <span class="string">'#title'</span> =&gt; <span class="string">'姓名'</span></div><div class="line">	    );</div><div class="line">	    $form[<span class="string">'actions'</span>][<span class="string">'#type'</span>] = <span class="string">'actions'</span>;</div><div class="line">	    $form[<span class="string">'actions'</span>][<span class="string">'submit'</span>] = <span class="keyword">array</span>(</div><div class="line">	      <span class="string">'#type'</span> =&gt; <span class="string">'submit'</span>,</div><div class="line">	      <span class="string">'#value'</span> =&gt; <span class="keyword">$this</span>-&gt;t(<span class="string">'Save'</span>),</div><div class="line">	      <span class="string">'#button_type'</span> =&gt; <span class="string">'primary'</span>,</div><div class="line">	    );</div><div class="line">	    <span class="keyword">return</span> $form;</div><div class="line">	  &#125;</div><div class="line">	</div><div class="line">	  <span class="comment">/**</span></div><div class="line">	   * <span class="doctag">@inheritdoc</span></div><div class="line">	   */</div><div class="line">	  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">validateForm</span><span class="params">(array &amp;$form, FormStateInterface $form_state)</span> </span>&#123;</div><div class="line">	    <span class="keyword">parent</span>::validateForm($form, $form_state);</div><div class="line">	    <span class="keyword">if</span>($form_state-&gt;getValue(<span class="string">'name'</span>) != <span class="string">'world'</span>) &#123;</div><div class="line">	      $a = <span class="keyword">array</span>(<span class="string">'name'</span>);</div><div class="line">	      $form_state-&gt;setErrorByName(<span class="string">'name'</span>, <span class="string">'参数错误'</span>);</div><div class="line">	    &#125;</div><div class="line">	  &#125;</div><div class="line">	</div><div class="line">	  <span class="comment">/**</span></div><div class="line">	   * <span class="doctag">@inheritdoc</span></div><div class="line">	   */</div><div class="line">	  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">submitForm</span><span class="params">(array &amp;$form, FormStateInterface $form_state)</span> </span>&#123;</div><div class="line">	    $name = $form_state-&gt;getValue(<span class="string">'name'</span>);</div><div class="line">	    drupal_set_message(<span class="string">'Hello'</span> . $name);</div><div class="line">	  &#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p>可见，Drupal 8中的表单就是一个类，继承自formBase，需要覆写父类的四个方法：getFormId、buildForm、validateForm和submitForm。</p>
-<p>1.getFormId</p>
-<p>返回表单ID，对应于Drupal 7中的表单的方法名；</p>
-<p>2.buildForm</p>
-<p>构造并返回表单，对应于Drupal 7中的表单函数。</p>
-<p>3.validateForm</p>
-<p>表单验证方法，对应于Drupal 7中的$form[‘#validate’][] = ‘demo_validate’中指定的方法</p>
-<p>4.submitForm<br>表单提交处理方法，对应于Drupal 7 中$form[‘#submit’][] = ‘demo_submit’中指定的方法。</p>
-<p>通过对比可以发现，Drupal 8将表单的各个元素组织在一个类里面，结构清晰，逻辑分明，相对于Drupal 7松散的代码是很大的进步。</p>
-<h3 id="6、钩子机制在Drupal-8中的变化及实现"><a href="#6、钩子机制在Drupal-8中的变化及实现" class="headerlink" title="6、钩子机制在Drupal 8中的变化及实现"></a>6、钩子机制在Drupal 8中的变化及实现</h3><p>钩子机制在Drupal 7中起着举足轻重的作用，主要体现在两个方面：</p>
-<p>一是info类的钩子，例如hook_menu、hook_theme、hook_services_resources等，起到关联信息的作用，比如hook_menu告诉系统URL路径和处理方法的对应关系以便用户访问某个路径的时候找到正确的函数来处理；</p>
-<p>二是调用类钩子，例如hook_user_delete等，调用类钩子的作用是系统在做了某个操作之后通过module_invoke_all来调用其他模块中实现的钩子函数。比如，删除某个用户之后，可能需要删除该用户关联的其他资源，则模块需要通过实现hook_user_delete钩子。</p>
-<p>Drupal 8中这两类钩子都有了相应的替代方法，info类型的钩子大部分被插件（Plugin）代替，调用类型的钩子则被事件（Event）代替。下面分别针对两种钩子选择具有代表性的功能做分析。</p>
-<h4 id="6-1、调用钩子的替代与实现"><a href="#6-1、调用钩子的替代与实现" class="headerlink" title="6.1、调用钩子的替代与实现"></a>6.1、调用钩子的替代与实现</h4><p>调用钩子在Drupal 7 中最有代表性的应用是用户的删除，实现需要分两步：</p>
-<p>1.实现hook_user_delete方法，以demo模块为例：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo_user_delete</span><span class="params">($account)</span> </span>&#123;</div><div class="line">  db_delete(<span class="string">'user_demo'</span>, <span class="string">'ud'</span>)</div><div class="line">  -&gt;condition(<span class="string">'ud.uid'</span>, $account-&gt;uid)</div><div class="line">  -&gt;execute();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2.在用户删除的方法里面通过module_invoke_all来调用钩子：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">module_invoke_all(<span class="string">'user_delete'</span>, $account);</div></pre></td></tr></table></figure>
-<p>只需要两步就实现了用户删除之后，删除关联资源的功能。</p>
-<p>Drupal 8里面的事件的三个要素：事件、事件监听和事件触发。</p>
-<p>要实现事件机制，首先我们必须先定义一个事件（Event），比如站点配置保存事件，其次有了这个事件后，需要有订阅者来监听这个事件，最后在某个时间点触发这个事件，将事件传递给所有监听这个事件的订阅者。</p>
-<p>我们以站点配置保存事件为例，介绍事件订阅的实现：</p>
-<p>1.定义事件</p>
-<p>Drupal 8的核心模块Config模块中定义了ConfigEvent，代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\Core\Config\ConfigEvents.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Defines events for the configuration system.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigCrudEvent</div><div class="line"> */</div><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ConfigEvents</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Name of the event fired when saving a configuration object.</div><div class="line">   *</div><div class="line">   * This event allows modules to perform an action whenever a configuration</div><div class="line">   * object is saved. The event listener method receives a</div><div class="line">   * \Drupal\Core\Config\ConfigCrudEvent instance.</div><div class="line">   *</div><div class="line">   * See hook_update_N() documentation for safe configuration API usage and</div><div class="line">   * restrictions as this event will be fired when configuration is saved by</div><div class="line">   * hook_update_N().</div><div class="line">   *</div><div class="line">   * <span class="doctag">@Event</span></div><div class="line">   *</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigCrudEvent</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\Config::save()</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigFactory::onConfigSave()</div><div class="line">   * <span class="doctag">@see</span> hook_update_N()</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> string</div><div class="line">   */</div><div class="line">  <span class="keyword">const</span> SAVE = <span class="string">'config.save'</span>;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Name of the event fired when deleting a configuration object.</div><div class="line">   *</div><div class="line">   * This event allows modules to perform an action whenever a configuration</div><div class="line">   * object is deleted. The event listener method receives a</div><div class="line">   * \Drupal\Core\Config\ConfigCrudEvent instance.</div><div class="line">   *</div><div class="line">   * See hook_update_N() documentation for safe configuration API usage and</div><div class="line">   * restrictions as this event will be fired when configuration is deleted by</div><div class="line">   * hook_update_N().</div><div class="line">   *</div><div class="line">   * <span class="doctag">@Event</span></div><div class="line">   *</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigCrudEvent</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\Config::delete()</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigFactory::onConfigDelete()</div><div class="line">   * <span class="doctag">@see</span> hook_update_N()</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> string</div><div class="line">   */</div><div class="line">  <span class="keyword">const</span> DELETE = <span class="string">'config.delete'</span>;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Name of the event fired when renaming a configuration object.</div><div class="line">   *</div><div class="line">   * This event allows modules to perform an action whenever a configuration</div><div class="line">   * object's name is changed. The event listener method receives a</div><div class="line">   * \Drupal\Core\Config\ConfigRenameEvent instance.</div><div class="line">   *</div><div class="line">   * See hook_update_N() documentation for safe configuration API usage and</div><div class="line">   * restrictions as this event will be fired when configuration is renamed by</div><div class="line">   * hook_update_N().</div><div class="line">   *</div><div class="line">   * <span class="doctag">@Event</span></div><div class="line">   *</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigRenameEvent</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigFactoryInterface::rename()</div><div class="line">   * <span class="doctag">@see</span> hook_update_N()</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> string</div><div class="line">   */</div><div class="line">  <span class="keyword">const</span> RENAME = <span class="string">'config.rename'</span>;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Name of the event fired when validating imported configuration.</div><div class="line">   *</div><div class="line">   * This event allows modules to perform additional validation operations when</div><div class="line">   * configuration is being imported. The event listener method receives a</div><div class="line">   * \Drupal\Core\Config\ConfigImporterEvent instance.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@Event</span></div><div class="line">   *</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigImporterEvent</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigImporter::validate().</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\EventSubscriber\ConfigImportSubscriber::onConfigImporterValidate().</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> string</div><div class="line">   */</div><div class="line">  <span class="keyword">const</span> IMPORT_VALIDATE = <span class="string">'config.importer.validate'</span>;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Name of the event fired when importing configuration to target storage.</div><div class="line">   *</div><div class="line">   * This event allows modules to perform additional actions when configuration</div><div class="line">   * is imported. The event listener method receives a</div><div class="line">   * \Drupal\Core\Config\ConfigImporterEvent instance.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@Event</span></div><div class="line">   *</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigImporterEvent</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigImporter::import().</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\EventSubscriber\ConfigSnapshotSubscriber::onConfigImporterImport().</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> string</div><div class="line">   */</div><div class="line">  <span class="keyword">const</span> IMPORT = <span class="string">'config.importer.import'</span>;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Name of event fired when missing content dependencies are detected.</div><div class="line">   *</div><div class="line">   * Events subscribers are fired as part of the configuration import batch.</div><div class="line">   * Each subscribe should call</div><div class="line">   * \Drupal\Core\Config\MissingContentEvent::resolveMissingContent() when they</div><div class="line">   * address a missing dependency. To address large amounts of dependencies</div><div class="line">   * subscribers can call</div><div class="line">   * \Drupal\Core\Config\MissingContentEvent::stopPropagation() which will stop</div><div class="line">   * calling other events and guarantee that the configuration import batch will</div><div class="line">   * fire the event again to continue processing missing content dependencies.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigImporter::processMissingContent()</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\MissingContentEvent</div><div class="line">   */</div><div class="line">  <span class="keyword">const</span> IMPORT_MISSING_CONTENT = <span class="string">'config.importer.missing_content'</span>;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Name of event fired to collect information on all config collections.</div><div class="line">   *</div><div class="line">   * This event allows modules to add to the list of configuration collections</div><div class="line">   * retrieved by \Drupal\Core\Config\ConfigManager::getConfigCollectionInfo().</div><div class="line">   * The event listener method receives a</div><div class="line">   * \Drupal\Core\Config\ConfigCollectionInfo instance.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@Event</span></div><div class="line">   *</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigCollectionInfo</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigManager::getConfigCollectionInfo()</div><div class="line">   * <span class="doctag">@see</span> \Drupal\Core\Config\ConfigFactoryOverrideBase</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> string</div><div class="line">   */</div><div class="line">  <span class="keyword">const</span> COLLECTION_INFO = <span class="string">'config.collection_info'</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>该事件类中定义了一系列的事件，例如const SAVE = ‘config.save’的意思即定义了配置保存事件，当配置保存完成后触发该事件。</p>
-<p>有了事件之后，我们就需要有事件订阅者来监听这个事件，一旦配置保存，则执行相应的代码。我们仍然以demo模块为例，假设配置保存后，我们的demo模块需要记录一条日志，那demo模块需要实现相应的事件订阅类：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\demo\EventSubscriber\ConfigSubscriber.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">EventSubscriber</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>\<span class="title">ConfigFactoryInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>\<span class="title">ConfigCrudEvent</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>\<span class="title">ConfigEvents</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">EventDispatcher</span>\<span class="title">EventSubscriberInterface</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 记录日志，如果配置保存了</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConfigSubscriber</span> <span class="keyword">implements</span> <span class="title">EventSubscriberInterface</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * 日志记录</div><div class="line">   *</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> ConfigCrudEvent $event</div><div class="line">   *   The configuration event.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">onConfigSave</span><span class="params">(ConfigCrudEvent $event)</span> </span>&#123;</div><div class="line">    $saved_config = $event-&gt;getConfig();</div><div class="line">    $logger = \Drupal::logger(<span class="string">'config save'</span>);</div><div class="line">    $logger-&gt;notice($saved_config-&gt;getName() . <span class="string">'保存了'</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">getSubscribedEvents</span><span class="params">()</span> </span>&#123;</div><div class="line">    $events[ConfigEvents::SAVE][] = <span class="keyword">array</span>(<span class="string">'onConfigSave'</span>, <span class="number">0</span>);</div><div class="line">    <span class="keyword">return</span> $events;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个事件订阅类实现了EventSubscriberInterface，这个接口只有一个方法getSubscribedEvents，这个方法返回事件对用的处理方法，比如$events[ConfigEvents::SAVE][] = array(‘onConfigSave’, 0)表示ConfigEvents::SAVE事件的处理方法为onConfigSave，后面的第二个参数0表示优先级，越大越先执行。</p>
-<p>实现了这个订阅类之后，为了让事件调度器（event dispacher）知道这个订阅者，我们需要把这个订阅类配置成服务，在demo.services.yml中我们增加如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">demo.config_subscriber:</div><div class="line">  class: Drupal\demo\EventSubscriber\ConfigSubscriber</div><div class="line">  arguments: []</div><div class="line">  tags:</div><div class="line">    - &#123; name: event_subscriber &#125;</div></pre></td></tr></table></figure>
-<p>到此事件订阅的工作就完成了，要触发事件，必须要在配置保存的时候使用事件调度器将事件传递给订阅者，代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">($has_trusted_data = FALSE)</span> </span>&#123;</div><div class="line">	<span class="comment">// Validate the configuration object name before saving.</span></div><div class="line">	<span class="keyword">static</span>::validateName(<span class="keyword">$this</span>-&gt;name);</div><div class="line">	</div><div class="line">	<span class="comment">// If there is a schema for this configuration object, cast all values to</span></div><div class="line">	<span class="comment">// conform to the schema.</span></div><div class="line">	<span class="keyword">if</span> (!$has_trusted_data) &#123;</div><div class="line">	  <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;typedConfigManager-&gt;hasConfigSchema(<span class="keyword">$this</span>-&gt;name)) &#123;</div><div class="line">	    <span class="comment">// Ensure that the schema wrapper has the latest data.</span></div><div class="line">	    <span class="keyword">$this</span>-&gt;schemaWrapper = <span class="keyword">NULL</span>;</div><div class="line">	    <span class="keyword">foreach</span> (<span class="keyword">$this</span>-&gt;data <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">	      <span class="keyword">$this</span>-&gt;data[$key] = <span class="keyword">$this</span>-&gt;castValue($key, $value);</div><div class="line">	    &#125;</div><div class="line">	  &#125;</div><div class="line">	  <span class="keyword">else</span> &#123;</div><div class="line">	    <span class="keyword">foreach</span> (<span class="keyword">$this</span>-&gt;data <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">	      <span class="keyword">$this</span>-&gt;validateValue($key, $value);</div><div class="line">	    &#125;</div><div class="line">	  &#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">$this</span>-&gt;storage-&gt;write(<span class="keyword">$this</span>-&gt;name, <span class="keyword">$this</span>-&gt;data);</div><div class="line">	<span class="keyword">if</span> (!<span class="keyword">$this</span>-&gt;isNew) &#123;</div><div class="line">	  Cache::invalidateTags(<span class="keyword">$this</span>-&gt;getCacheTags());</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">$this</span>-&gt;isNew = <span class="keyword">FALSE</span>;</div><div class="line">	<span class="keyword">$this</span>-&gt;eventDispatcher-&gt;dispatch(ConfigEvents::SAVE, <span class="keyword">new</span> ConfigCrudEvent(<span class="keyword">$this</span>));</div><div class="line">	<span class="keyword">$this</span>-&gt;originalData = <span class="keyword">$this</span>-&gt;data;</div><div class="line">	<span class="comment">// Potentially configuration schema could have changed the underlying data's</span></div><div class="line">	<span class="comment">// types.</span></div><div class="line">	<span class="keyword">$this</span>-&gt;resetOverriddenData();</div><div class="line">	<span class="keyword">return</span> <span class="keyword">$this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上述代码为Config模块中配置保存的方法，其中的$this-&gt;eventDispatcher-&gt;dispatch(ConfigEvents::SAVE, new ConfigCrudEvent($this))这句代码就是讲事件传递给所有监听了ConfigEvents::SAVE事件的订阅者，当然也包括我们demo模块里面的订阅者。</p>
-<p>关于自定义事件的实现请参考<a href="http://www.sitepoint.com/drupal-8-hooks-symfony-event-dispatcher/" title="自定义事件" target="_blank" rel="external">http://www.sitepoint.com/drupal-8-hooks-symfony-event-dispatcher/</a></p>
-<h4 id="6-2、info类钩子的替换与实现"><a href="#6-2、info类钩子的替换与实现" class="headerlink" title="6.2、info类钩子的替换与实现"></a>6.2、info类钩子的替换与实现</h4><p>info类钩子的一个重要应用是web services。在Drupal 7中，内核不带rest，需要第三方模块。而在drupal8中，核心自带rest，除了rest界面管理模块（rest UI）外，不需要第三方模块。</p>
-<p>Drupal 7中实现一个web services需要以下几步：</p>
-<p>1.下载Services、REST Server、Chaos tools、OAuth Authentication第三方模块放入相应目录，进入后台-&gt;模块，勾选这几个模块保存启用。</p>
-<p>2.实现hook_services_resources,代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Implements hook_services_resources().</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo_services_resources</span><span class="params">()</span> </span>&#123;  </div><div class="line">  <span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">    <span class="string">'demo'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">      <span class="string">'actions'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">        <span class="string">'add'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">          <span class="string">'help'</span> =&gt; <span class="string">'创建示例'</span>,</div><div class="line">          <span class="string">'file'</span> =&gt; <span class="keyword">array</span>(<span class="string">'file'</span> =&gt; <span class="string">'inc'</span>, <span class="string">'module'</span> =&gt; <span class="string">'demo'</span>, <span class="string">'name'</span> =&gt; <span class="string">'demo.apis'</span>),</div><div class="line">          <span class="string">'callback'</span> =&gt; <span class="string">'demo_add_resources'</span>,</div><div class="line">          <span class="string">'access arguments'</span> =&gt; <span class="keyword">array</span>(<span class="string">'access_to_demo_api'</span>),</div><div class="line">          <span class="string">'args'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">            <span class="keyword">array</span>(</div><div class="line">              <span class="string">'name'</span> =&gt; <span class="string">'data'</span>,</div><div class="line">              <span class="string">'source'</span> =&gt; <span class="string">'data'</span>,</div><div class="line">              <span class="string">'type'</span> =&gt; <span class="string">'array'</span>,</div><div class="line">              <span class="string">'optional'</span> =&gt; <span class="keyword">FALSE</span>,</div><div class="line">            ),</div><div class="line">          ),</div><div class="line">        ),</div><div class="line">      ),           </div><div class="line">    ),</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其中数组的第一层表示接口地址的第一个参数，actions下的每一个键表示一个接口，同时也是接口地址的第二个参数，例如上面的例子表示demo/add接口，callback表示接口的处理函数。file表示接口方法所在的文件。</p>
-<p>接下来，我们就要实现demo_add_resources方法：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo_add_resources</span><span class="params">($data)</span> </span>&#123;</div><div class="line">  $return = <span class="keyword">array</span>(</div><div class="line">    <span class="string">'code'</span> =&gt; <span class="number">0</span>,</div><div class="line">    <span class="string">'message'</span> =&gt; <span class="string">'操作失败'</span></div><div class="line">  );</div><div class="line">  <span class="keyword">return</span> $return;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后我们要进入系统管理界面-》结构-》services添加一个端点，我们将机读名称设置为api，服务器选择rest，端点路径设为API，保存，则端点新建成功。点击编辑，将我们刚才新建的接口勾选，保存。这时，接口就发布成功，访问路径为API/demo/add。</p>
-<p>Drupal 8中，web services用插件的形式实现，具体步骤：</p>
-<p>1.下载rest UI第三方模块，放入相应目录，进入后台-》扩展，勾选rest UI、RESTful Web Services、Serialization、HAL、HTTP Basic Authentication，保存。</p>
-<p>2.新建一个自定义的反序列化类。因为Drupal 8 在处理web service的请求时，首先将接收的数据反序列化为某个类，然后处理数据，最后将返回值序列化为json或者xml等数据返回给客户端。所以必须要有反序列化和序列化的类。但是Drupal 8核心中的反序列化类只支持将数据反序列化为entity，这样，对于写接口会非常不便，比如，某个API传递的参数可能并不能和某个entity对应，这样这个接口就没法实现，所以必须要自定义一个反序列化的类，比如可以将数据反序列化为数组。代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\demo\Normalizer\CustomNormalizer.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Normalizer</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomNormalizer</span> <span class="keyword">extends</span> <span class="title">AbstractNormalizer</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">supportsNormalization</span><span class="params">($data, $format = null)</span></span></div><div class="line">  &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   *</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">normalize</span><span class="params">($object, $format = null, array $context = array<span class="params">()</span>)</span></span></div><div class="line">  &#123;</div><div class="line">	<span class="keyword">return</span> <span class="string">''</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">supportsDenormalization</span><span class="params">($data, $type, $format = null)</span></span></div><div class="line">  &#123;</div><div class="line">    <span class="keyword">return</span> $type == <span class="string">'Array'</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">denormalize</span><span class="params">($data, $class, $format = null, array $context = array<span class="params">()</span>)</span></span></div><div class="line">  &#123;</div><div class="line">    $array = (<span class="keyword">array</span>) $data;</div><div class="line">    <span class="keyword">return</span> $array;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>实现上述类之后，我们需要将该类定义为service，在demo.services.yml中添加如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">demo.normalizer.custom:</div><div class="line">  class: Drupal\demo\Normalizer\CustomNormalizer</div><div class="line">  tags:</div><div class="line">    - &#123; name: normalizer &#125;</div></pre></td></tr></table></figure>
-<p>接下来，再实现插件，插件其实是一个类，该类继承自该种插件的基类，并且需要用注解表明该类的插件性质。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\demo\Plugin\rest\resource\ExampleResource</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Plugin</span>\<span class="title">rest</span>\<span class="title">resource</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">rest</span>\<span class="title">Plugin</span>\<span class="title">ResourceBase</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">rest</span>\<span class="title">ResourceResponse</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">HttpFoundation</span>\<span class="title">Request</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Represents demo as resources.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@RestResource</span>(</div><div class="line"> *   id = "demo",</div><div class="line"> *   label = <span class="doctag">@Translation</span>("Demo Resource"),</div><div class="line"> *   serialization_class = "Array",</div><div class="line"> *   uri_paths = &#123;</div><div class="line"> *     "canonical" = "/API/demo",</div><div class="line"> *     </div><div class="line"> *   &#125;</div><div class="line"> * )</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleResource</span> <span class="keyword">extends</span> <span class="title">ResourceBase</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Responds to GET requests.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> array $data</div><div class="line">   * <span class="doctag">@param</span> Symfony\Component\HttpFoundation\Request $request</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> \Drupal\rest\ResourceResponse</div><div class="line">   *   The response containing the entity with its accessible fields.</div><div class="line">   *</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span><span class="params">($data, Request $request)</span> </span>&#123;</div><div class="line">    $logger = \Drupal::logger(<span class="string">'rest_get'</span>);</div><div class="line">    $logger-&gt;notice($request-&gt;get(<span class="string">'sid'</span>));</div><div class="line">    $return = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'code'</span> =&gt; <span class="number">1</span>,</div><div class="line">      <span class="string">'message'</span> =&gt; <span class="string">'这是get方法'</span>,</div><div class="line">    );</div><div class="line">    $response = <span class="keyword">new</span> ResourceResponse($return, <span class="number">200</span>);</div><div class="line">    <span class="keyword">return</span> $response;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Responds to POST requests.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> array $data</div><div class="line">   * <span class="doctag">@param</span> Symfony\Component\HttpFoundation\Request $request</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> \Drupal\rest\ResourceResponse</div><div class="line">   *   The response containing the entity with its accessible fields.</div><div class="line">   *</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">post</span><span class="params">($data, Request $request)</span> </span>&#123;</div><div class="line">    $logger = \Drupal::logger(<span class="string">'rest_post'</span>);</div><div class="line">    $logger-&gt;notice(<span class="string">'&lt;pre&gt;'</span> . print_r($data, <span class="keyword">TRUE</span>). <span class="string">'&lt;/pre&gt;'</span>);</div><div class="line">    $return = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'code'</span> =&gt; <span class="number">1</span>,</div><div class="line">      <span class="string">'message'</span> =&gt; <span class="string">'这是post方法'</span>,</div><div class="line">      <span class="string">'data'</span> =&gt; $data</div><div class="line">    );</div><div class="line">    $response = <span class="keyword">new</span> ResourceResponse($return, <span class="number">200</span>);</div><div class="line">    <span class="keyword">return</span> $response;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Responds to DELETE requests.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> array $data</div><div class="line">   * <span class="doctag">@param</span> Symfony\Component\HttpFoundation\Request $request</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> \Drupal\rest\ResourceResponse</div><div class="line">   *   The response containing the entity with its accessible fields.</div><div class="line">   *</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">delete</span><span class="params">($data, Request $request)</span> </span>&#123;</div><div class="line">    $logger = \Drupal::logger(<span class="string">'rest_delete'</span>);</div><div class="line">    $logger-&gt;notice(<span class="string">'&lt;pre&gt;'</span> . print_r($data, <span class="keyword">TRUE</span>). <span class="string">'&lt;/pre&gt;'</span>);</div><div class="line">    $return = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'code'</span> =&gt; <span class="number">1</span>,</div><div class="line">      <span class="string">'message'</span> =&gt; <span class="string">'这是delete方法'</span>,</div><div class="line">      <span class="string">'data'</span> =&gt; $data</div><div class="line">    );</div><div class="line">    $response = <span class="keyword">new</span> ResourceResponse($return, <span class="number">200</span>);</div><div class="line">    <span class="keyword">return</span> $response;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>下面我们来分析一下上述代码，</p>
-<p>1.@RestResource注解表示该类是RestResource类型的插件，也就是该类实现rest web services；</p>
-<p>2.注解中的ID是该插件的ID，label是插件的名称；</p>
-<p>3.serialization_class就是序列化和反序列化的类，我们这里设置为“Array”，则代码会自动调用我们的自定义的反序列化类来反序列化数据；</p>
-<p>4.”canonical” = “/API/demo”表示api的路径是/API/demo；”<a href="https://www.drupal.org/link-relations/create" target="_blank" rel="external">https://www.drupal.org/link-relations/create</a>“ = “/API/demo”，表示POST方法提交时的路径，当用POST方法提交时，会覆盖canonical指定路径。</p>
-<p>这个web services插件内部实现了三个方法，get、post、delete，分别对应以get方法、post方法和delete方法提交的处理方法。换句话说，如果我以get方法访问API/demo，则调用get，以post方法访问API/demo，则调用post，以delete方法访问API/demo则调用delete。</p>
-<p>到目前为止，我们的代码就全部写完，要使用该API，需要进入后台-》配置-》rest，启用这个api，您可以选择性的启用get、post和delete方法，同时选择请求和返回的数据格式，比如hal_json、json、xml，点击保存后，您就可以访问该api了。</p>
-<h3 id="7、Drupal-8中的新增机制"><a href="#7、Drupal-8中的新增机制" class="headerlink" title="7、Drupal 8中的新增机制"></a>7、Drupal 8中的新增机制</h3><p>Drupal 8采用了面向对象的方法，自然也会引入很多面向对象的新特性，比如依赖注入、服务容器，本文只是提出这些新特性，更深入的介绍请参考相应的文章。</p>
-<ol>
-<li>依赖注入和服务容器，请参考<a href="http://verynull.com/2015/12/15/Drupal8-Service-DependencyInjection/" title="依赖注入和服务容器">http://verynull.com/2015/12/15/Drupal8-Service-DependencyInjection/</a></li>
-<li>注解，请参考<a href="http://verynull.com/2015/12/12/Drupal8注解-Annotations-语法/" title="注解">http://verynull.com/2015/12/12/Drupal8注解-Annotations-语法/</a></li>
-<li>content entity，请参考<a href="http://verynull.com/2015/12/22/Drupal8-Content-Entity/" title="content entity">http://verynull.com/2015/12/22/Drupal8-Content-Entity/</a></li>
-<li>configuration entity，请参考<a href="http://verynull.com/2015/12/21/Drupal8-configuration-Entity/" title="Configuration Entity">http://verynull.com/2015/12/21/Drupal8-configuration-Entity/</a></li>
-</ol>
-<p>参考文献</p>
-<ol>
-<li><a href="http://drupalchina.cn/node/3122" target="_blank" rel="external">http://drupalchina.cn/node/3122</a></li>
-<li><a href="https://www.drupal.org/node/2216195" target="_blank" rel="external">https://www.drupal.org/node/2216195</a></li>
-<li><a href="https://drupalize.me/blog/201409/unravelling-drupal-8-plugin-system" target="_blank" rel="external">https://drupalize.me/blog/201409/unravelling-drupal-8-plugin-system</a></li>
-<li><a href="http://www.sitepoint.com/drupal-8-hooks-symfony-event-dispatcher/" target="_blank" rel="external">http://www.sitepoint.com/drupal-8-hooks-symfony-event-dispatcher/</a></li>
-<li><a href="http://drupalchina.cn/node/3353" target="_blank" rel="external">http://drupalchina.cn/node/3353</a></li>
-<li><a href="https://dev.acquia.com/blog/introduction-restful-web-services-drupal-8" target="_blank" rel="external">https://dev.acquia.com/blog/introduction-restful-web-services-drupal-8</a></li>
-</ol>
 
             
           </span>

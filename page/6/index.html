@@ -229,6 +229,317 @@
             
               
                 
+                <a class="post-title-link" href="/2015/12/21/Drupal8-configuration-Entity/" itemprop="url">
+                  Drupal8 Configuration Entity
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-21T10:39:45+08:00" content="2015-12-21">
+              2015-12-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/21/Drupal8-configuration-Entity/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/21/Drupal8-configuration-Entity/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>Drupal8的实体由2部分组成，配置实体(configuration entities)和内容实体(content entities)。如图：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222113456_92999.png" alt="Entity"></p>
+<p>本节源代码见 <a href="https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example" target="_blank" rel="external">https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example</a></p>
+<p>内容实体见：<a href="http://verynull.com/2015/12/22/drupal8-content-entity/">http://verynull.com/2015/12/22/drupal8-content-entity/</a></p>
+<p>###一、配置实体接口(configuration entity interface)</p>
+<p>在src目录下touch DemoInterface.php，DemoInterface继承并实现<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21Entity%21ConfigEntityInterface.php/interface/ConfigEntityInterface/8" target="_blank" rel="external">ConfigEntityInterface</a>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\demo\DemoInterface.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>\<span class="title">Entity</span>\<span class="title">ConfigEntityInterface</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Provides an interface defining a demo entity type.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">DemoInterface</span> <span class="keyword">extends</span> <span class="title">ConfigEntityInterface</span> </span>&#123;</div><div class="line">  <span class="comment">// Add get/set methods for your configuration properties here.</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>###二、配置实体类(configuration entity class)<br>在src目录下创建Entity目录，并touch src/Entity/Demo.php，在这个文件中我们将实现DemoEntity。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\demo\Entity\Demo.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Entity</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>\<span class="title">Entity</span>\<span class="title">ConfigEntityBase</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">DemoInterface</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Defines the Demo entity.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@ConfigEntityType</span>(</div><div class="line"> *   id = "demo",</div><div class="line"> *   label = <span class="doctag">@Translation</span>("Demo"),</div><div class="line"> *   fieldable = FALSE,</div><div class="line"> *   handlers = &#123;</div><div class="line"> *     "list_builder" = "Drupal\demo\DemoListBuilder",</div><div class="line"> *     "form" = &#123;</div><div class="line"> *       "add" = "Drupal\demo\Form\DemoForm",</div><div class="line"> *       "edit" = "Drupal\demo\Form\DemoForm",</div><div class="line"> *       "delete" = "Drupal\demo\Form\DemoDeleteForm"</div><div class="line"> *     &#125;</div><div class="line"> *   &#125;,</div><div class="line"> *   config_prefix = "demo",</div><div class="line"> *   admin_permission = "administer site configuration",</div><div class="line"> *   entity_keys = &#123;</div><div class="line"> *     "id" = "id",</div><div class="line"> *     "label" = "name"</div><div class="line"> *   &#125;,</div><div class="line"> *   links = &#123;</div><div class="line"> *     "edit-form" = "/admin/structure/demos/&#123;demo&#125;",</div><div class="line"> *     "delete-form" = "/admin/structure/demos/&#123;demo&#125;/delete"</div><div class="line"> *   &#125;</div><div class="line"> * )</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> <span class="keyword">extends</span> <span class="title">ConfigEntityBase</span> <span class="keyword">implements</span> <span class="title">DemoInterface</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * The ID of the demo.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> string</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> $id;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * The demo name.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> string</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> $name;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * The demo sex.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> string</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> $sex;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>上面定义Entity的方式熟悉吧！对，就是注解annotation。</p>
+<p>@ConfigEntityType告诉Drupal这是一个配置实体。参数如下：<br>1、lable：翻译系统的标签<br>2、fieldable: 附加字段，配置实体一般为FALSE，内容实体一般为TRUE<br>3、handlers：管理该实体所需要的类<br>4、list_builder：提供该实体的管理界面接口<br>5、config_prefix：配置的前缀，一般用于schema<br>6、admin_permission：管理员权限<br>7、entity_keys：主要实体属性的集合<br>8、links：编辑和删除的路径，在demo.routing.yml中定义</p>
+<p>###三、实体表单(entity form)</p>
+<p>接下来我们来实现在Entity中的定义的表单，如add, edit, delete。</p>
+<p>####1、mkdir -p src/Form，并touch src/Form/DemoForm.php。<br>在DemoForm主要实现2个方法，form()和save()。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\demo\Form\DemoForm.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Form</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityForm</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityTypeInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">Query</span>\<span class="title">QueryFactory</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormStateInterface</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Class DemoForm</div><div class="line"> *</div><div class="line"> * Form class for adding/editing demo config entities.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoForm</span> <span class="keyword">extends</span> <span class="title">EntityForm</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * <span class="doctag">@param</span> \Drupal\Core\Entity\Query\QueryFactory $entity_query</div><div class="line">   *   The entity query.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(QueryFactory $entity_query)</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;entityQuery = $entity_query;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">(ContainerInterface $container)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">static</span>(</div><div class="line">      $container-&gt;get(<span class="string">'entity.query'</span>)</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">form</span><span class="params">(array $form, FormStateInterface $form_state)</span> </span>&#123;</div><div class="line">    $form = <span class="keyword">parent</span>::form($form, $form_state);</div><div class="line">    $demo = <span class="keyword">$this</span>-&gt;entity;</div><div class="line"></div><div class="line">    <span class="comment">// Change page title for the edit operation</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;operation == <span class="string">'edit'</span>) &#123;</div><div class="line">      $form[<span class="string">'#title'</span>] = <span class="keyword">$this</span>-&gt;t(<span class="string">'Edit demo: @name'</span>, <span class="keyword">array</span>(<span class="string">'@name'</span> =&gt; $demo-&gt;name));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// The demo name.</span></div><div class="line">    $form[<span class="string">'name'</span>] = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'textfield'</span>,</div><div class="line">      <span class="string">'#title'</span> =&gt; <span class="keyword">$this</span>-&gt;t(<span class="string">'Name'</span>),</div><div class="line">      <span class="string">'#maxlength'</span> =&gt; <span class="number">255</span>,</div><div class="line">      <span class="string">'#default_value'</span> =&gt; $demo-&gt;name,</div><div class="line">      <span class="string">'#description'</span> =&gt; <span class="keyword">$this</span>-&gt;t(<span class="string">"demo name."</span>),</div><div class="line">      <span class="string">'#required'</span> =&gt; <span class="keyword">TRUE</span>,</div><div class="line">    );</div><div class="line"></div><div class="line">    <span class="comment">// The unique machine name of the demo.</span></div><div class="line">    $form[<span class="string">'id'</span>] = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'machine_name'</span>,</div><div class="line">      <span class="string">'#maxlength'</span> =&gt; EntityTypeInterface::BUNDLE_MAX_LENGTH,</div><div class="line">      <span class="string">'#default_value'</span> =&gt; $demo-&gt;id,</div><div class="line">      <span class="string">'#disabled'</span> =&gt; !$demo-&gt;isNew(),</div><div class="line">      <span class="string">'#machine_name'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">        <span class="string">'source'</span> =&gt; <span class="keyword">array</span>(<span class="string">'name'</span>),</div><div class="line">        <span class="string">'exists'</span> =&gt; <span class="string">'demo_load'</span></div><div class="line">      ),</div><div class="line">    );</div><div class="line"></div><div class="line">    <span class="comment">// The sex.</span></div><div class="line">    $form[<span class="string">'sex'</span>] = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'select'</span>,</div><div class="line">      <span class="string">'#options'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">        <span class="string">'Man'</span> =&gt; <span class="string">'Man'</span>,</div><div class="line">        <span class="string">'Woman'</span> =&gt; <span class="string">'Woman'</span>,</div><div class="line">      ),</div><div class="line">      <span class="string">'#title'</span> =&gt; <span class="keyword">$this</span>-&gt;t(<span class="string">'Sex'</span>),</div><div class="line">      <span class="string">'#maxlength'</span> =&gt; <span class="number">255</span>,</div><div class="line">      <span class="string">'#default_value'</span> =&gt; $demo-&gt;sex,</div><div class="line">      <span class="string">'#description'</span> =&gt; <span class="keyword">$this</span>-&gt;t(<span class="string">"sex"</span>),</div><div class="line">      <span class="string">'#required'</span> =&gt; <span class="keyword">TRUE</span>,</div><div class="line">    );</div><div class="line">    <span class="keyword">return</span> $form;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">(array $form, FormStateInterface $form_state)</span> </span>&#123;</div><div class="line">    $demo = <span class="keyword">$this</span>-&gt;entity;</div><div class="line">    $status = $demo-&gt;save();</div><div class="line"></div><div class="line">    <span class="keyword">if</span> ($status) &#123;</div><div class="line">      <span class="comment">// Setting the success message.</span></div><div class="line">      drupal_set_message(<span class="keyword">$this</span>-&gt;t(<span class="string">'Saved the demo: @label.'</span>, <span class="keyword">array</span>(</div><div class="line">        <span class="string">'@label'</span> =&gt; $demo-&gt;name,</div><div class="line">      )));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">      drupal_set_message(<span class="keyword">$this</span>-&gt;t(<span class="string">'The @label demo was not saved.'</span>, <span class="keyword">array</span>(</div><div class="line">        <span class="string">'@label'</span> =&gt; $demo-&gt;name,</div><div class="line">      )));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $form_state-&gt;setRedirect(<span class="string">'demo.list'</span>);</div><div class="line">  &#125;</div><div class="line">&#125; </div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>如图：</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212259_77460.png" alt="DemoForm"></p>
+<p>####2、touch src/Form/DemoFormDelete.php。</p>
+<p>DemoFormDelete继承<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21EntityConfirmFormBase.php/class/EntityConfirmFormBase/8" target="_blank" rel="external">EntityConfirmFormBase</a>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\demo\Form\DemoDeleteForm.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Form</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityConfirmFormBase</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Url</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormStateInterface</span>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Form that handles the removal of demo entities.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoDeleteForm</span> <span class="keyword">extends</span> <span class="title">EntityConfirmFormBase</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getQuestion</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;t(<span class="string">'Are you sure you want to delete this demo: @name?'</span>, <span class="keyword">array</span>(<span class="string">'@name'</span> =&gt; <span class="keyword">$this</span>-&gt;entity-&gt;name));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getCancelUrl</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Url(<span class="string">'demo.list'</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getConfirmText</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;t(<span class="string">'Delete'</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">submitForm</span><span class="params">(array &amp;$form, FormStateInterface $form_state)</span> </span>&#123;</div><div class="line">    <span class="comment">// Delete and set message</span></div><div class="line">    <span class="keyword">$this</span>-&gt;entity-&gt;delete();</div><div class="line">    drupal_set_message(<span class="keyword">$this</span>-&gt;t(<span class="string">'The demo @name has been deleted.'</span>, <span class="keyword">array</span>(<span class="string">'@name'</span> =&gt; <span class="keyword">$this</span>-&gt;entity-&gt;name)));</div><div class="line"></div><div class="line">    $form_state-&gt;setRedirectUrl(<span class="keyword">$this</span>-&gt;getCancelUrl());</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>如图：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212429_43428.png" alt="FormDelete"></p>
+<p>###四、list builder</p>
+<p>接下来就该创建管理界面啦！</p>
+<p>在src目录下，touch DemoListBuilder.php</p>
+<p>DemoListBuilder继承<a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Config!Entity!ConfigEntityListBuilder.php/class/ConfigEntityListBuilder/8" target="_blank" rel="external">ConfigEntityListBuilder</a>，实现了三个方法。</p>
+<p>1、buildHeader：创建表格header<br>2、buildRow：创建表格行<br>3、render：重写表格输出的内容，类似于Drupal7的hook</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> *</div><div class="line"> * Contains Drupal\demo\DemoListBuilder</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Config</span>\<span class="title">Entity</span>\<span class="title">ConfigEntityListBuilder</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityInterface</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoListBuilder</span> <span class="keyword">extends</span> <span class="title">ConfigEntityListBuilder</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">buildHeader</span><span class="params">()</span> </span>&#123;</div><div class="line">    $header[<span class="string">'label'</span>] = <span class="keyword">$this</span>-&gt;t(<span class="string">'Name'</span>);</div><div class="line">    $header[<span class="string">'sex'</span>] = <span class="keyword">$this</span>-&gt;t(<span class="string">'Sex'</span>);</div><div class="line">    <span class="keyword">return</span> $header + <span class="keyword">parent</span>::buildHeader();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">buildRow</span><span class="params">(EntityInterface $entity)</span> </span>&#123;</div><div class="line">    <span class="comment">// Label</span></div><div class="line">    $row[<span class="string">'label'</span>] = <span class="keyword">$this</span>-&gt;getLabel($entity);</div><div class="line">    <span class="comment">// Sex</span></div><div class="line">    $row[<span class="string">'sex'</span>] = $entity-&gt;sex;</div><div class="line">    <span class="keyword">return</span> $row + <span class="keyword">parent</span>::buildRow($entity);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span><span class="params">()</span> </span>&#123;</div><div class="line">    $build = <span class="keyword">parent</span>::render();</div><div class="line">    $build[<span class="string">'#empty'</span>] = <span class="keyword">$this</span>-&gt;t(<span class="string">'There are no data available.'</span>);</div><div class="line">    <span class="keyword">return</span> $build;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>如图：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212547_35896.png" alt="ListBuilder"></p>
+<p>###五、schema</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir config/schema</div><div class="line">touch demo.schema.yml</div></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Schema for the configuration files of the Demo module.</span></div><div class="line"></div><div class="line">demo.demo.*:</div><div class="line">  type: mapping</div><div class="line">  label: <span class="string">'Demo'</span></div><div class="line">  mapping:</div><div class="line">    id:</div><div class="line">      type: string</div><div class="line">      label: <span class="string">'Demo identifier'</span></div><div class="line">    uuid:</div><div class="line">      type: string</div><div class="line">      label: <span class="string">'UUID'</span></div><div class="line">    name:</div><div class="line">      type: label</div><div class="line">      label: <span class="string">'Name'</span></div><div class="line">    sex:</div><div class="line">      type: string</div><div class="line">      label: <span class="string">'Sex'</span></div><div class="line">      translatable: <span class="keyword">true</span></div></pre></td></tr></table></figure>
+<p>schema的命名规则：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(demo module).(demo configuration entity <span class="built_in">type</span>).(all demo configuration entities).</div></pre></td></tr></table></figure>
+<p>uuid在这里也可以不用定义，drupal默认会添加。</p>
+<p>###六、routing</p>
+<p>定义一些路由：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">demo.list:</div><div class="line">  path: <span class="string">'/admin/structure/demos'</span></div><div class="line">  defaults:</div><div class="line">    _entity_list: <span class="string">'demo'</span></div><div class="line">    _title: <span class="string">'Demos'</span></div><div class="line">  requirements:</div><div class="line">    _permission: <span class="string">'administer site configuration'</span></div><div class="line">demo.add:</div><div class="line">  path: <span class="string">'/admin/structure/demos/add'</span></div><div class="line">  defaults:</div><div class="line">    _entity_form: <span class="string">'demo.add'</span></div><div class="line">    _title: <span class="string">'Add a new demo'</span></div><div class="line">  requirements:</div><div class="line">    _permission: <span class="string">'administer site configuration'</span></div><div class="line">entity.demo.edit_form:</div><div class="line">  path: <span class="string">'/admin/structure/demos/&#123;demo&#125;'</span></div><div class="line">  defaults:</div><div class="line">    _entity_form: <span class="string">'demo.edit'</span></div><div class="line">    _title: <span class="string">'Edit demo'</span></div><div class="line">  requirements:</div><div class="line">    _permission: <span class="string">'administer site configuration'</span></div><div class="line">entity.demo.delete_form:</div><div class="line">  path: <span class="string">'/admin/structure/demos/&#123;demo&#125;/delete'</span></div><div class="line">  defaults:</div><div class="line">    _entity_form: <span class="string">'demo.delete'</span></div><div class="line">    _title: <span class="string">'Delete demo'</span></div><div class="line">  requirements:</div><div class="line">    _permission: <span class="string">'administer site configuration'</span></div></pre></td></tr></table></figure>
+<p>###七、 links</p>
+<p>####1、显示添加按钮在网页上，需要在demo.links.action.yml中定义</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">demo.add:</div><div class="line">  route_name: <span class="string">'demo.add'</span></div><div class="line">  title: <span class="string">'Add demo'</span></div><div class="line">  appears_on:</div><div class="line">    - demo.list</div></pre></td></tr></table></figure>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212157_21914.png" alt="demo.add"></p>
+<p>####2、在admin/structure页面显示demo，需要在demo.links.menu.yml中定义</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">demo.list:</div><div class="line">  title: Demo</div><div class="line">  description: <span class="string">'Administrator the demo entities'</span></div><div class="line">  parent: system.admin_structure</div><div class="line">  route_name: demo.list</div></pre></td></tr></table></figure>
+<p>如图：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212041_77165.png" alt="demo.list"></p>
+<p>参考文章：<br>1、<a href="http://www.slideshare.net/andypost/d8-entity" target="_blank" rel="external">http://www.slideshare.net/andypost/d8-entity</a><br>2、<a href="http://www.sitepoint.com/drupal-8-version-entityfieldquery/" target="_blank" rel="external">http://www.sitepoint.com/drupal-8-version-entityfieldquery/</a><br>3、<a href="https://www.drupal.org/node/1809494" target="_blank" rel="external">https://www.drupal.org/node/1809494</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/12/15/Drupal8-Service-DependencyInjection/" itemprop="url">
+                  Drupal8-Service-DependencyInjection
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-15T16:53:05+08:00" content="2015-12-15">
+              2015-12-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/15/Drupal8-Service-DependencyInjection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/15/Drupal8-Service-DependencyInjection/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>先来认识几个名词：</p>
+<p>1、Service</p>
+<p>Drupal8的service帮助代码去耦合，提高重复利用。比如操作数据库，发送mail等。一般来说，service是一个PHP类，包含了一些全局的方法。</p>
+<p>2、Service Container</p>
+<p>Service Container用来管理service。service的类会被注册在container中，来控制访问权限。在自定义模块中，可以用module_name.services.yml来实例化services，进而保存进container对象中。</p>
+<p>3、Dependency Injection</p>
+<p>如果要传递对象给另一个对象，一般用Dependency Injection来去耦。简单点说，一个service只处理一件事情，如果它要调用另外一个service，那么后面的这个service可以注入到前面的service中。</p>
+<p>下文我们以service表示Service，container表示Service Container，DI表示Dependency Injection。</p>
+<p>###一、core services</p>
+<p>Drupal8的核心servive都在<a href="https://api.drupal.org/api/drupal/core%21core.services.yml/8" target="_blank" rel="external">core.services.yml</a>中。</p>
+<p>当然，也可以在module_name.services.yml中自定义service。</p>
+<p>*.services.yml的写法如：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">path.alias_manager:</div><div class="line">  class: Drupal\Core\Path\AliasManager</div><div class="line">  arguments: ['@path.crud', '@path.alias_whitelist', '@language_manager']</div><div class="line">breadcrumb:</div><div class="line">  class: Drupal\Core\Breadcrumb\BreadcrumbManager</div><div class="line">  arguments: ['@module_handler']</div></pre></td></tr></table></figure>
+<p>如要把别的service当作工厂使用，写法如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">cache.entity:</div><div class="line">  class: Drupal\Core\Cache\CacheBackendInterface</div><div class="line">  tags:</div><div class="line">    - &#123; name: cache.bin &#125;</div><div class="line">  factory: cache_factory:get</div><div class="line">  arguments: [entity]</div></pre></td></tr></table></figure>
+<p>1、第一行定义了一个唯一的service名称，如果是自定义的模块，必须以模块名作为前缀。<br>2、第二行定义了默认调用的类、工厂类、接口类等。<br>3、arguments带@表示依赖于该service。<br>4、factory表示调用哪个工厂方法。<br>5、tags标签定义了一组关联的service，或指定具有某些相似特性的service。如果定义了service标签，在service类中必须实现相应的接口，如：</p>
+<pre><code>&gt; access_check: 标明路由访问检查service
+&gt; cache.bin: 标明cache bin service
+&gt; event_subscriber: 标明一个事件订阅service。
+&gt; needs_destruction: 标明一个destructor()方法，通常被调用于一个请求完成时。
+&gt; context_provice: 标明一个block上下文提供者。
+&gt; http_client_middleware: 标明该service提供者是一个guzzle中间件。
+</code></pre><p>###二、访问service</p>
+<p>####1、全局函数(global functions)</p>
+<p>Drupal8的全局类提供了一些静态方法去访问一些通用的service。如Drupal::moduleHandler()将返回模块处理service，Drupal.translation()将返回翻译service。用 Drupal::service()可以获取所有已经定义的service。</p>
+<p>如：访问一个数据库service</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">// Returns a Drupal\Core\Database\Connection object.</span></div><div class="line">$connection = \Drupal::database();</div><div class="line">$result = $connection-&gt;select(<span class="string">'node'</span>, <span class="string">'n'</span>)</div><div class="line">  -&gt;fields(<span class="string">'n'</span>, <span class="keyword">array</span>(<span class="string">'nid'</span>))</div><div class="line">  -&gt;execute();</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>如：通过\Drupal::service()访问一个date service</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">// Returns a Drupal\Core\Datetime\Date object.</span></div><div class="line">$date = \Drupal::service(<span class="string">'date'</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>如：自定义的demo模块</p>
+<p>####2、创建demo.services.yml</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">services:</div><div class="line">    demo.demo_service:</div><div class="line">        class: Drupal\demo\DemoService</div></pre></td></tr></table></figure>
+<p>####3、在src目录下创建DemoService.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains Drupal\demo\DemoService.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoService</span> </span>&#123;</div><div class="line">  </div><div class="line">  <span class="keyword">protected</span> $demo_value;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;demo_value = <span class="string">'Upchuk'</span>;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getDemoValue</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;demo_value;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>可以直接这样访问demo service</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$service = \Drupal::service(<span class="string">'demo.demo_service'</span>);</div></pre></td></tr></table></figure>
+<p>####4、重写默认service</p>
+<p>Drupal8允许在自定义的模块中重写已存在的service。如自定义了一个名为demo的模块。</p>
+<p>1)、在demo的src文件中创建一个名为DemoServiceProvider.php文件。</p>
+<p>2)、DemoServiceProvider必须实现<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21DependencyInjection%21ServiceModifierInterface.php/interface/ServiceModifierInterface/8" target="_blank" rel="external"> \Drupal\Core\DependencyInjection\ServiceModifierInterface</a>.</p>
+<p>3)、这个类必须包含一个方法：alter()。这个方法是告诉Drupal用你的类来替代默认的类。如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">alter</span><span class="params">(ContainerBuilder $container)</span> </span>&#123;</div><div class="line">  <span class="comment">// Override the language_manager class with a new class.</span></div><div class="line">  $definition = $container-&gt;getDefinition(<span class="string">'language_manager'</span>);</div><div class="line">  $definition-&gt;setClass(<span class="string">'Drupal\my_module\MyLanguageManager'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###三、通过DI访问service</p>
+<p>这块比较重要，单独来讲一下。还是以demo模块为例。</p>
+<p>####1、创建demo.services.yml</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">services:</div><div class="line">    demo.demo_service:</div><div class="line">        class: Drupal\demo\DemoService</div></pre></td></tr></table></figure>
+<p>####2、在src目录下创建DemoService.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains Drupal\demo\DemoService.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoService</span> </span>&#123;</div><div class="line">  </div><div class="line">  <span class="keyword">protected</span> $demo_value;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;demo_value = <span class="string">'Upchuk'</span>;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getDemoValue</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;demo_value;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>####3、创建demo.routing.yml</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">demo.demo:</div><div class="line">  path: <span class="string">'/demo'</span></div><div class="line">  defaults:</div><div class="line">    _controller: <span class="string">'\Drupal\demo\Controller\DemoController:demo'</span></div><div class="line">  requirements:</div><div class="line">    _permission: <span class="string">'access content'</span></div></pre></td></tr></table></figure>
+<p>####4、在src/Controller目录下创建DemoController.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\demo\Controller\DemoController.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">demo</span>\<span class="title">Controller</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Controller</span>\<span class="title">ControllerBase</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * DemoController.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoController</span> <span class="keyword">extends</span> <span class="title">ControllerBase</span> </span>&#123;</div><div class="line">  </div><div class="line">  <span class="keyword">protected</span> $demoService;</div><div class="line">  </div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Class constructor.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($demoService)</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;demoService = $demoService;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">(ContainerInterface $container)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">static</span>(</div><div class="line">      $container-&gt;get(<span class="string">'demo.demo_service'</span>)</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Generates an example page.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">demo</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">      <span class="string">'#markup'</span> =&gt; t(<span class="string">'Hello @value!'</span>, <span class="keyword">array</span>(<span class="string">'@value'</span> =&gt; <span class="keyword">$this</span>-&gt;demoService-&gt;getDemoValue())),</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>create()方法创建了一个控制器类的实例，参数为container中获取到的service。这样，DemoService实例就可以存储到$demoService中，我们就可以调用getDemoValue()这个方法了。</p>
+<p>####5、访问/demo的时候屏幕上就会出现Hello Upchuk!</p>
+<p>参考文章：<br>1、<a href="https://docs.acquia.com/articles/drupal-8-dependency-injection" target="_blank" rel="external">https://docs.acquia.com/articles/drupal-8-dependency-injection</a><br>2、<a href="http://katbailey.github.io/2013/05/15/dependency-injection-in-drupal-8/" target="_blank" rel="external">http://katbailey.github.io/2013/05/15/dependency-injection-in-drupal-8/</a><br>3、<a href="https://www.drupal.org/node/2133171" target="_blank" rel="external">https://www.drupal.org/node/2133171</a><br>4、<a href="http://redcrackle.com/blog/drupal-8/dependency-injection" target="_blank" rel="external">http://redcrackle.com/blog/drupal-8/dependency-injection</a><br>5、<a href="https://api.drupal.org/api/drupal/core!core.api.php/group/container/8" target="_blank" rel="external">https://api.drupal.org/api/drupal/core!core.api.php/group/container/8</a><br>6、<a href="http://www.sitepoint.com/building-drupal-8-module-configuration-management-service-container/" target="_blank" rel="external">http://www.sitepoint.com/building-drupal-8-module-configuration-management-service-container/</a><br>7、<a href="https://api.drupal.org/api/drupal/core%21core.api.php/group/service_tag/8" target="_blank" rel="external">https://api.drupal.org/api/drupal/core%21core.api.php/group/service_tag/8</a></p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/12/14/Drupal8-Javascript/" itemprop="url">
                   drupal8 javascript
                 </a>
@@ -874,262 +1185,6 @@
 <p>####其他<br>另外，如果nohup masterha_manager执行不了，请检查master和slave是否配置正确。可以通过</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">change master to master_host=<span class="string">'172.16.115.101'</span>,master_port=3306,master_user=<span class="string">'repl'</span>,master_password=<span class="string">'123456'</span>,master_log_file=<span class="string">'mysql-bin.000001'</span>,MASTER_LOG_POS=0;</div></pre></td></tr></table></figure>
 <p>重新设置slave。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/27/使用gdb调试php-fpm/" itemprop="url">
-                  使用gdb调试php-fpm
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-27T16:17:10+08:00" content="2015-11-27">
-              2015-11-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/27/使用gdb调试php-fpm/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/27/使用gdb调试php-fpm/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>有很多php开发人员经常问我，如果执行php代码的时候出现严重错误的时候，如何快速定位问题。我一般推荐他们用gdb去调试。</p>
-<p>下面用php-fpm的一个段错误来举例说明，如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WARNING: [pool www] child 15109 exited on signal 11 (SIGSEGV) after 654.485221 seconds from start</div></pre></td></tr></table></figure>
-<p>###1、安装gdb</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install gdb php-dbg</div></pre></td></tr></table></figure>
-<p>有的时候可能需要安装debuginfo相关的库，如:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">debuginfo-install php-fpm</div></pre></td></tr></table></figure>
-<p>###2、设置coredump</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">'/tmp/core-%e.%p'</span> &gt; /proc/sys/kernel/core_pattern</div><div class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/core_uses_pid</div><div class="line"><span class="built_in">ulimit</span> -c unlimited</div></pre></td></tr></table></figure>
-<p>当然,coredump的文件格式可以设置为其他的，这里是详细的设置项说明</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">%%  a single % character</div><div class="line">%c  core file size soft resource <span class="built_in">limit</span> of crashing process (since</div><div class="line">    Linux 2.6.24)</div><div class="line">%d  dump mode—same as value returned by prctl(2) PR_GET_DUMPABLE</div><div class="line">    (since Linux 3.7)</div><div class="line">%e  executable filename (without path prefix)</div><div class="line">%E  pathname of executable, with slashes (<span class="string">'/'</span>) replaced by</div><div class="line">    exclamation marks (<span class="string">'!'</span>) (since Linux 3.0).</div><div class="line">%g  (numeric) real GID of dumped process</div><div class="line">%h  hostname (same as nodename returned by uname(2))</div><div class="line">%p  PID of dumped process, as seen <span class="keyword">in</span> the PID namespace <span class="keyword">in</span> <span class="built_in">which</span></div><div class="line">    the process resides</div><div class="line">%P  PID of dumped process, as seen <span class="keyword">in</span> the initial PID namespace</div><div class="line">    (since Linux 3.12)</div><div class="line">%s  number of signal causing dump</div><div class="line">%t  time of dump, expressed as seconds since the Epoch,</div><div class="line">    1970-01-01 00:00:00 +0000 (UTC)</div><div class="line">%u  (numeric) real UID of dumped process</div></pre></td></tr></table></figure>
-<p>###3、设置php-fpm</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/php-fpm.d/www.conf</div></pre></td></tr></table></figure>
-<p>找到关键字 rlimit_core，并修改为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rlimit_core = unlimited</div></pre></td></tr></table></figure>
-<p>然后执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/sbin/php-fpm --daemonize</div></pre></td></tr></table></figure>
-<p>这时就会在/tmp下看到有coredump文件生成了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@localhost tmp]<span class="comment"># ls</span></div><div class="line">core-php-fpm.7279</div></pre></td></tr></table></figure>
-<p>###4、追踪<br>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gdb /usr/sbin/php-fpm /tmp/core-php-fpm.7279</div></pre></td></tr></table></figure>
-<p>执行bt命令就可以查看详细的错误日志了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(gdb) bt</div><div class="line"><span class="comment">#0  _zend_hash_init (ht=0x2b4d1a4f8100, nSize=174762, pDestructor=0, persistent=1 '\001') at /usr/src/debug/php-7.0.0RC8/Zend/zend_hash.c:172</span></div><div class="line"><span class="comment">#1  0x00002b4d0d0e87ac in zend_accel_init_shm (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2387</span></div><div class="line"><span class="comment">#2  accel_startup (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2640</span></div><div class="line"><span class="comment">#3  0x00000000005e8d21 in zend_extension_startup (extension=0x168c810) at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:176</span></div><div class="line"><span class="comment">#4  0x00000000005d2293 in zend_llist_apply_with_del (l=0x9dd420, func=0x5e8d10 &lt;zend_extension_startup&gt;) at /usr/src/debug/php-7.0.0RC8/Zend/zend_llist.c:171</span></div><div class="line"><span class="comment">#5  0x00000000005e8d07 in zend_startup_extensions () at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:197</span></div><div class="line"><span class="comment">#6  0x0000000000580985 in php_module_startup (sf=&lt;value optimized out&gt;, additional_modules=&lt;value optimized out&gt;, num_additional_modules=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/main/main.c:2197</span></div><div class="line"><span class="comment">#7  0x000000000067aec5 in php_cgi_startup (sapi_module=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:837</span></div><div class="line"><span class="comment">#8  0x000000000067bcfe in main (argc=2, argv=0x7fff1a037498) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:1788</span></div></pre></td></tr></table></figure>
-<p>至此，整个追踪过程结束。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/21/centos6-6安装Percona-Tokudb/" itemprop="url">
-                  centos6.6安装Percona Tokudb
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-21T20:17:57+08:00" content="2015-11-21">
-              2015-11-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/21/centos6-6安装Percona-Tokudb/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/21/centos6-6安装Percona-Tokudb/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>在percona官网<a href="https://www.percona.com/" target="_blank" rel="external">https://www.percona.com/</a><br>下载带有Tokudb的二进制包，也可以选择源码编译。tokudb有单独的包.<br>我这里下载的是最新的包，5.6.25-73<br>Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101.tar.gz<br>Percona-Server-5.6.25-rel73.1-TokuDB.Linux.x86_64.ssl101.tar.gz</p>
-<p>###前期账号创建<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; groupadd mysql</div><div class="line">shell&gt; useradd -g mysql mysql</div></pre></td></tr></table></figure></p>
-<p>###解压软件包<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">shell&gt; cd /usr/local</div><div class="line">shell&gt; tar -zxvf Percona-Server<span class="number">-5.6</span><span class="number">.25</span>-rel73<span class="number">.1</span>-Linux.x86_64.ssl101.tar.gz</div><div class="line">shell&gt; tar -zxvf Percona-Server<span class="number">-5.6</span><span class="number">.25</span>-rel73<span class="number">.1</span>-TokuDB.Linux.x86_64.ssl101.tar.gz</div><div class="line">shell&gt; ln -s Percona-Server<span class="number">-5.6</span><span class="number">.25</span>-rel73<span class="number">.1</span>-Linux.x86_64.ssl101 mysql</div></pre></td></tr></table></figure></p>
-<p>###设置权限<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt; cd mysql</div><div class="line">shell&gt; chown -R mysql .</div><div class="line">shell&gt; chgrp -R mysql .</div></pre></td></tr></table></figure></p>
-<p>###创建配置文件/etc/my.cnf<br>创建存放数据源的目录</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Shell&gt; mkdir -p /<span class="keyword">var</span>/lib/mysql</div><div class="line">Shell&gt; mkdir -p /data/mysqldata /data/mysqllog</div><div class="line">Shell&gt; chown -R mysql:mysql /<span class="keyword">var</span>/lib/mysql /data/mysqldata /data/mysqllog</div></pre></td></tr></table></figure>
-<p>在附件中给出，请参考附配置文件内容</p>
-<p>###初始化DB</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Shell&gt; scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf</div><div class="line">shell&gt; chown -R root .</div></pre></td></tr></table></figure>
-<p>###修改系统参数</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag</div></pre></td></tr></table></figure>
-<p>建议写到 /etc/rc.local 中，重启后也可生效</p>
-<p>###启动数据库</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell&gt; bin/mysqld_safe --user=mysql &amp;</div></pre></td></tr></table></figure>
-<p>###把启动文件放去自启动中</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</div><div class="line">chkconfig --add mysqld</div><div class="line">service mysqld start</div><div class="line">service mysqld stop</div></pre></td></tr></table></figure>
-<p>然后启动。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show engines;</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Engine             | Support | Comment                                                                    | Transactions | XA   | Savepoints |</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| InnoDB             | <span class="keyword">DEFAULT</span> | Percona-XtraDB, Supports transactions, row-level locking, <span class="keyword">and</span> foreign keys | YES          | YES  | YES        |</div><div class="line">| CSV                | YES     | CSV storage engine                                                         | NO           | NO   | NO         |</div><div class="line">| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                                      | NO           | NO   | NO         |</div><div class="line">| BLACKHOLE          | YES     | /dev/<span class="keyword">null</span> storage engine (anything you write to it disappears)             | NO           | NO   | NO         |</div><div class="line">| MEMORY             | YES     | Hash based, stored in memory, useful <span class="keyword">for</span> temporary tables                  | NO           | NO   | NO         |</div><div class="line">| TokuDB             | YES     | Tokutek TokuDB Storage Engine with Fractal Tree(tm) Technology             | YES          | YES  | YES        |</div><div class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                         | NO           | NO   | NO         |</div><div class="line">| ARCHIVE            | YES     | Archive storage engine                                                     | NO           | NO   | NO         |</div><div class="line">| MyISAM             | YES     | MyISAM storage engine                                                      | NO           | NO   | NO         |</div><div class="line">| FEDERATED          | NO      | Federated MySQL storage engine                                             | <span class="keyword">NULL</span>         | <span class="keyword">NULL</span> | <span class="keyword">NULL</span>       |</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line"><span class="number">10</span> rows in set (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>看到上面一行红字就代表数据库支持TokuDB的存储引擎了。</p>
-<p>tokudb安装顺利完成，后附配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">[root@localhost mysql]<span class="comment"># cat /etc/my.cnf </span></div><div class="line">[mysqld]</div><div class="line">datadir=/var/lib/mysql</div><div class="line">socket=/var/lib/mysql/mysql.sock</div><div class="line">user=mysql</div><div class="line"><span class="comment"># Disabling symbolic-links is recommended to prevent assorted security risks</span></div><div class="line">symbolic-links=0</div><div class="line"><span class="comment">#public</span></div><div class="line">max_connections=3000</div><div class="line">max_connect_errors=6000</div><div class="line">key_buffer_size = 384M</div><div class="line">low_priority_updates = 1</div><div class="line">back_log = 1500</div><div class="line">query_cache_type = 1</div><div class="line">query_cache_size = 64M</div><div class="line">query_cache_limit = 4M</div><div class="line">query_cache_min_res_unit = 2k</div><div class="line">tmp_table_size = 256M</div><div class="line">read_buffer_size=1M</div><div class="line">read_rnd_buffer_size = 16M</div><div class="line">bulk_insert_buffer_size = 64M</div><div class="line">max_allowed_packet = 64M</div><div class="line">thread_cache_size = 300</div><div class="line"><span class="comment">#file</span></div><div class="line">innodb_file_per_table</div><div class="line"><span class="comment">#buffer</span></div><div class="line">innodb_buffer_pool_size = 2500M</div><div class="line">innodb_log_buffer_size = 64M</div><div class="line">join_buffer_size = 16M</div><div class="line">sort_buffer_size = 16M</div><div class="line">innodb_max_dirty_pages_pct = 90</div><div class="line">innodb_lock_wait_timeout = 120</div><div class="line">innodb_thread_concurrency = 16</div><div class="line">innodb_flush_log_at_trx_commit = 2</div><div class="line">character_set_server=utf8</div><div class="line">init_connect=<span class="string">'SET NAMES utf8'</span></div><div class="line"></div><div class="line"><span class="comment">#tokudb</span></div><div class="line">plugin_dir =  /usr/<span class="built_in">local</span>/mysql/lib/mysql/plugin/</div><div class="line">plugin_load=ha_tokudb.so</div><div class="line"><span class="comment">#把TokuDB datadir以及logdir和MySQL的datadir分开，美观点，也可以不分开，注释掉本行以及下面2行即可</span></div><div class="line">tokudb_data-dir = /data/mysqldata</div><div class="line">tokudb_log-dir = /data/mysqllog</div><div class="line"><span class="comment">#TokuDB的行模式，建议用 FAST 就足够了，如果磁盘空间很紧张，建议用 SMALL</span></div><div class="line">tokudb_row_format = tokudb_small</div><div class="line">tokudb_row_format = tokudb_fast</div><div class="line">tokudb_cache_size = 2G</div><div class="line"><span class="comment">#其他大部分配置其实可以不用修改的，只需要几个关键配置即可</span></div><div class="line">tokudb_commit_sync = 0</div><div class="line">tokudb_directio = 1</div><div class="line">tokudb_read_block_size = 128K</div><div class="line">tokudb_read_buf_size = 128K</div><div class="line"></div><div class="line">[mysqld_safe]</div><div class="line"><span class="built_in">log</span>-error=/var/<span class="built_in">log</span>/mysqld.log</div><div class="line">pid-file=/var/run/mysqld/mysqld.pid</div><div class="line">malloc_lib = /usr/<span class="built_in">local</span>/mysql/lib/mysql/libjemalloc.so <span class="comment">#只能放在mysqld_safe中，不得报错</span></div></pre></td></tr></table></figure></p>
 
             
           </span>
