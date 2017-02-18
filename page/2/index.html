@@ -201,11 +201,129 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/31/Drupal8-Configuration-Schema/" itemprop="url">
+                  drupal8 configuration schema
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-10-31T16:39:15+08:00" content="2016-10-31">
+              2016-10-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/31/Drupal8-Configuration-Schema/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/31/Drupal8-Configuration-Schema/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
+        
+          <span itemprop="articleBody">
+            
+              <p>Drupal 8中configuration schema是用来描述配置文件的结构的. 它应用于:<br>定型配置以确保数据一致性<br>(see StorableConfigBase::castValue())</p>
+<p>自动持久化实体属性的配置<br> (see ConfigEntityBase::toArray())</p>
+<p>自动生成用户界面的翻译配置<br> (see the core module)</p>
+<p>1、一个简单的示例<br>如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">config/install/my_module.settings.yml</div><div class="line">type: warning</div><div class="line">message: <span class="string">'Hello!'</span></div><div class="line">langcode: en</div><div class="line"></div><div class="line">config/schema/my_module.schema.yml</div><div class="line">my_module.settings:</div><div class="line">  type: config_object</div><div class="line">  mapping:</div><div class="line">    type:</div><div class="line">	  type: string</div><div class="line">	  label: <span class="string">'Message type'</span></div><div class="line">	message:</div><div class="line">	  type: label</div><div class="line">	  label: <span class="string">'Message text'</span></div><div class="line">	langcode:</div><div class="line">	  type: string</div><div class="line">	  label: <span class="string">'Language code'</span></div></pre></td></tr></table></figure></p>
+<p>需要说明的是，my_module.schema.yml我们可以认为是一个自定义的数据结构体，而my_module.settings.yml则是给这个自定义的数据结构体定义了默认值，<br>在my_module.schema.yml中我们可以看到这个数据结构体中定义了一个mapping结构体(可以简单的认为是一个数组类型)，这个数组有三个key，分别是type、message、langcode，<br>前面说了my_module.settings.yml是给my_module.schema.yml这个数据结构体定义了默认值，我们可以看到在my_module.settings.yml中type的默认值是warning,message的默认值<br>是’Hello!’,langcode的默认值是en,值的注意的一点是，一个schema.yml文件可以定义多个数据结构体，但是每一个的数据结构体的root元素必须与settings.yml文件的文件名一致，<br>比如上面的两个文件settings.yml文件的文件名是my_module.settings.yml，my_module.schema.yml的root元素的名称就是my_module.settings。</p>
+<p>2、schema中常用的数据类型<br>基本类型：<br>boolean，<br>integer，<br>float，<br>string，<br>uri，<br>email</p>
+<p>列表类型：<br>mapping(知道key是什么)，<br>sequence(不知道key的具体值)</p>
+<p>常见的子类型：<br>label: 短标签<br>text: 长文本<br>config_object: object根元素类型<br>config_entity: entity根元素类型</p>
+<p>子类型化<br>所有configuration schema的子类型都是从现有的类型演化而来.<br>早些时候的简单示例子类型config_object (mapping的一个子类型) 可以进一步自定义key。<br>configuration schema根节点的数据类型一般都是config_object或者config_entity。</p>
+<p>3、关于动态类型[%parent]<br>确切的数据类型可能不会知道，而且还有类型取决于数据的可能性，configuration schema同样支持基于数据的类型。假设Message的类型可能取决于数据的类型：无论Message是一个列表<br>或者是一个简单的警告。让我们用 ‘multiple’ 来定义列表情况,用 ‘warning’ 来表示一个单行的警告。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">config/install/my_module.message.single.yml</div><div class="line">type: warning</div><div class="line">message: <span class="string">'Hello!'</span></div><div class="line">langcode: en</div><div class="line"></div><div class="line">config/install/my_module.message.multiple.yml</div><div class="line">type: multiple</div><div class="line">message:</div><div class="line"> -<span class="string">'Hello!'</span></div><div class="line"> -<span class="string">'Hi!'</span> </div><div class="line">langcode: en</div><div class="line"></div><div class="line">config/schema/my_module.schema.yml</div><div class="line">my_module.message.*:</div><div class="line"> type: config_object </div><div class="line"> mapping:</div><div class="line">  type:</div><div class="line">   type: string</div><div class="line">   label: <span class="string">'Message type'</span></div><div class="line">  message:</div><div class="line">   type: my_module_message.[%<span class="keyword">parent</span>.type]</div><div class="line"> langcode:	</div><div class="line">   type: string</div><div class="line">   label: <span class="string">'Language code'</span></div><div class="line"></div><div class="line">my_module_message.warning:</div><div class="line"> type: string</div><div class="line"></div><div class="line">my_module_message.multiple:</div><div class="line"> type: sequence</div><div class="line"> label: <span class="string">'Messages'</span></div><div class="line"> sequence:</div><div class="line">  type: string</div><div class="line">  label: <span class="string">'Message'</span></div></pre></td></tr></table></figure></p>
+<p>首先看my_module.schema.yml这个文件，’my_module.message.*’用了通配符定义结构体，所以它适用于一组配置名称。所以我们看到分别有my_module.message.single.yml跟my_module.message.multiple.yml<br>这两个配置文件。接着往下看my_module.schema.yml，’type: my_module_message.[%parent.type]’ message的类型用了动态元素[%parent.type]来定义，所以在下面我们看到了my_module_message.warning跟<br>my_module_message.multiple两个类型定义，无论是my_module_message.warning还是my_module_message.multiple的前缀都是跟my_module_message.[%parent.type]的前缀一致的，另外需要注意的是内部节点的<br>名称要避免与根节点相同以免造成冲突。</p>
+<p>4、关于动态类型 [type]<br>如果想要在已有的数据下面定义你自己不同的数据类型 那么[type]将会变的非常有用.<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">config/install/my_module.message.single.yml</div><div class="line"> message: </div><div class="line">  type: warning</div><div class="line">  value: <span class="string">'Hello!'</span></div><div class="line"> langcode: en</div><div class="line"> </div><div class="line">config/install/my_module.message.multiple.yml</div><div class="line"> message:</div><div class="line">  type: multiple </div><div class="line">  value:</div><div class="line">   -<span class="string">'Hello!'</span></div><div class="line">   -<span class="string">'Hi!'</span></div><div class="line"> langcode: en</div><div class="line"></div><div class="line">config/schema/my_module.schema.yml</div><div class="line">my_module.message.*:</div><div class="line"> type: config_object</div><div class="line"> mapping:</div><div class="line">  message:</div><div class="line">   type: my_module_message.[type]</div><div class="line">  […]</div><div class="line">  </div><div class="line">my_module_message.warning:</div><div class="line"> type: mapping</div><div class="line"> […]</div><div class="line"> </div><div class="line">my_module_message.multiple:</div><div class="line"> type: mapping</div><div class="line"> […]</div></pre></td></tr></table></figure></p>
+<p>首先看my_module.schema.yml文件用[type]来动态定义message的类型，所以my_module.schema.yml这个文件中我们又看到了my_module_message.warning跟my_module_message.multiple这两个定义类型，<br>需要说明的是无论是my_module_message.warning还是my_module_message.multiple它们的类型都是mapping类型，那么它们对应的值也必须mapping类型，我们再来看my_module.message.single.yml跟<br>my_module.message.multiple.yml两个文件，message的值也是mapping类型。<br>你同样可以定义一个包含相同的key，例如’type’的 基础类型,并且继承这个基础的类型你可以扩展任何自定义类型的key。</p>
+<p>5、关于动态类型[%key]</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">config/install/my_module.messages.yml</div><div class="line">messages: </div><div class="line"> <span class="string">'single:1'</span>: <span class="string">'Hello!'</span></div><div class="line"> <span class="string">'single:2'</span>: <span class="string">'Hi!'</span></div><div class="line"> <span class="string">'multiple:1'</span>:</div><div class="line">  -<span class="string">'Good morning!'</span></div><div class="line">  -<span class="string">'Good night!'</span></div><div class="line">langcode: en</div></pre></td></tr></table></figure>
+<p>这是一个任意消息元素的列表.<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">config/schema/my_module.schema.yml</div><div class="line"> my_module.messages:</div><div class="line">  type: config_object</div><div class="line">  mapping:		</div><div class="line">   messages:</div><div class="line">    type: sequence</div><div class="line">    label:<span class="string">'Messages'</span>				</div><div class="line">    sequence:				</div><div class="line">     type: my_module_message.[%key] </div><div class="line">   langcode:</div><div class="line">    type: string</div><div class="line">    label: <span class="string">'Language code'</span></div><div class="line"> </div><div class="line"> my_module_message.single:*:</div><div class="line">  type: string</div><div class="line">  label: <span class="string">'Message'</span></div><div class="line"></div><div class="line"> my_module_message.multiple:*:</div><div class="line">  type: sequence</div><div class="line">  label: <span class="string">'Messages'</span></div><div class="line">  sequence:</div><div class="line">   type: string</div><div class="line">   label: <span class="string">'Message'</span></div></pre></td></tr></table></figure></p>
+<p>首先看config/schema/my_module.schema.yml，messages的类型是sequence，而sequence的类型则是以my_module_message为前缀的动态类型，再往下看定义了my_module_message.single:<em>:跟<br>my_module_message.multiple:</em>:两个结构类型，这两个类型对应的messages值分别是以’single:<em>‘跟’multiple:</em>‘为前缀的，所以我们在config/install/my_module.messages.yml这个文件中<br>看到了’single:<em>‘跟’multiple:</em>‘为前缀的的messages的默认值</p>
+
+            
+          </span>
+        
+      
+    </div>
     
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -756,7 +874,7 @@
               
                 
                 <a class="post-title-link" href="/2016/06/29/Mysql数据库设计规范/" itemprop="url">
-                  Mysql数据库设计规范
+                  MySQL数据库设计规范
                 </a>
               
             
@@ -927,129 +1045,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/27/MacOS-查看网络端口情况/" itemprop="url">
-                  MacOS 查看网络端口情况
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-06-27T15:17:17+08:00" content="2016-06-27">
-              2016-06-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/MacOS/" itemprop="url" rel="index">
-                    <span itemprop="name">MacOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/27/MacOS-查看网络端口情况/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/27/MacOS-查看网络端口情况/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>###查看端口是否打开</p>
-<p>####使用 netstat 命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a. `netstat -nat | grep &lt;端口号&gt;`  , 如命令 `netstat -nat | grep 3306`</div><div class="line">b. `netstat -nat |grep LISTEN`</div></pre></td></tr></table></figure>
-<p>####使用 lsof 命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yongfu-pro at yongfu-pro.local in ~ [22:39:32]</span></div><div class="line">$ lsof -n -P -i TCP <span class="_">-s</span> TCP:LISTEN</div><div class="line">COMMAND PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</div><div class="line">php-fpm 387 yongfu-pro    6u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">Dropbox 413 yongfu-pro   26u  IPv4 0x6d7f5d3c445e2c09      0t0  TCP *:17500 (LISTEN)</div><div class="line">php-fpm 418 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">php-fpm 419 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">php-fpm 420 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">stunnel 586 yongfu-pro    9u  IPv4 0x6d7f5d3c439ff679      0t0  TCP 127.0.0.1:1997 (LISTEN)</div><div class="line"></div><div class="line">lsof命令可以列出当前的所有网络情况， 此命令的解释如下：</div><div class="line">-n 表示主机以ip地址显示</div><div class="line">-P 表示端口以数字形式显示，默认为端口名称</div><div class="line">-i 意义较多，具体 man lsof, 主要是用来过滤lsof的输出结果</div><div class="line"><span class="_">-s</span> 和 -i 配合使用，用于过滤输出</div></pre></td></tr></table></figure>
-<p>####使用telnet 命令</p>
-<p>检查本机的3306端口是否打开， 如下<br>telnet 127.0.0.1 3306<br>若该端口没有打开，则会自动退出，并显示如下内容：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Trying 127.0.0.1...</div><div class="line">telnet: connect to address 127.0.0.1: Connection refused</div><div class="line">telnet: Unable to connect to remote host</div></pre></td></tr></table></figure>
-<p>若该端口为已打开的状态，则会一直保持连接。</p>
-<p>####使用 nc 命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yongfu at yf-mac.local in ~ [9:33:14]</span></div><div class="line">$ nc  -w 10 -n -z 127.0.0.1 1990-1999</div><div class="line">Connection to 127.0.0.1 port 1997 [tcp/*] succeeded!</div><div class="line">Connection to 127.0.0.1 port 1998 [tcp/*] succeeded!</div><div class="line"></div><div class="line">-w 10  表示等待连接时间为10秒</div><div class="line">-n 尽量将端口号名称转换为端口号数字</div><div class="line">-z 对需要检查的端口没有输入输出，用于端口扫描模式</div><div class="line">127.0.0.1  需要检查的ip地址</div><div class="line">1990-1999  可以是一个端口，也可以是一段端口</div><div class="line"> 返回结果为开放的端口， 如本例中的 1997 和 1998 端口</div></pre></td></tr></table></figure>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1090,7 +1091,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">78</span>
+              <span class="site-state-item-count">79</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

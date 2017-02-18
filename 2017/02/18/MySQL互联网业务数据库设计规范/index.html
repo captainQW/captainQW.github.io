@@ -1,0 +1,768 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.useso.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库设计," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Rambo's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="适用场景：并发量大、数据量大的互联网业务
+一、基础规范（1）必须使用InnoDB存储引擎解读：支持事务、行级锁、并发性能更好、CPU及内存缓存页优化使得资源利用率更高
+（2）必须使用UTF8字符集解读：万国码，无需转码，无乱码风险字符集推荐使用utf8mb4字符集,utf8mb4是utf8的超集，emoji表情以及部分不常见汉字在utf8下会表现为乱码，故需要升级至utf8mb4。
+（3）数据表、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL互联网业务数据库设计规范">
+<meta property="og:url" content="http://verynull.com/2017/02/18/MySQL互联网业务数据库设计规范/index.html">
+<meta property="og:site_name" content="Rambo's Blog">
+<meta property="og:description" content="适用场景：并发量大、数据量大的互联网业务
+一、基础规范（1）必须使用InnoDB存储引擎解读：支持事务、行级锁、并发性能更好、CPU及内存缓存页优化使得资源利用率更高
+（2）必须使用UTF8字符集解读：万国码，无需转码，无乱码风险字符集推荐使用utf8mb4字符集,utf8mb4是utf8的超集，emoji表情以及部分不常见汉字在utf8下会表现为乱码，故需要升级至utf8mb4。
+（3）数据表、">
+<meta property="og:updated_time" content="2017-02-18T06:57:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL互联网业务数据库设计规范">
+<meta name="twitter:description" content="适用场景：并发量大、数据量大的互联网业务
+一、基础规范（1）必须使用InnoDB存储引擎解读：支持事务、行级锁、并发性能更好、CPU及内存缓存页优化使得资源利用率更高
+（2）必须使用UTF8字符集解读：万国码，无需转码，无乱码风险字符集推荐使用utf8mb4字符集,utf8mb4是utf8的超集，emoji表情以及部分不常见汉字在utf8下会表现为乱码，故需要升级至utf8mb4。
+（3）数据表、">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> MySQL互联网业务数据库设计规范 | Rambo's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Rambo's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">记录生活，分享知识，传播乐趣</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MySQL互联网业务数据库设计规范
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2017-02-18T12:56:18+08:00" content="2017-02-18">
+              2017-02-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/18/MySQL互联网业务数据库设计规范/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/18/MySQL互联网业务数据库设计规范/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>适用场景：并发量大、数据量大的互联网业务</p>
+<h2 id="一、基础规范"><a href="#一、基础规范" class="headerlink" title="一、基础规范"></a>一、基础规范</h2><p>（1）必须使用InnoDB存储引擎<br>解读：支持事务、行级锁、并发性能更好、CPU及内存缓存页优化使得资源利用率更高</p>
+<p>（2）必须使用UTF8字符集<br>解读：万国码，无需转码，无乱码风险<br>字符集推荐使用utf8mb4字符集,utf8mb4是utf8的超集，emoji表情以及部分不常见汉字在utf8下会表现为乱码，故需要升级至utf8mb4。</p>
+<p>（3）数据表、数据字段必须加入中文注释<br>解读：N年后谁tm知道这个r1,r2,r3字段是干嘛的</p>
+<p>（4）禁止使用存储过程、视图、触发器、Event<br>解读：高并发大数据的互联网业务，架构设计思路是“解放数据库CPU，将计算转移到服务层”，并发量大的情况下，这些功能很可能将数据库拖死，业务逻辑放到服务层具备更好的扩展性，能够轻易实现“增机器就加性能”。数据库擅长存储与索引，CPU计算还是上移吧</p>
+<p>（5）禁止存储大文件或者大照片<br>解读：为何要让数据库做它不擅长的事情？大文件和照片存储在文件系统，数据库里存URI多好</p>
+<h2 id="二、命名规范"><a href="#二、命名规范" class="headerlink" title="二、命名规范"></a>二、命名规范</h2><p>（6）只允许使用内网域名，而不是ip连接数据库<br> 解读：不只是数据库，缓存（memcache、redis）的连接，服务（service）的连接都必须使用内网域名，机器迁移/平滑升级/运维管理…太多太多的好处。</p>
+<p>（7）线上环境、开发环境、测试环境数据库内网域名遵循命名规范<br>业务名称：xxx<br>线上环境：xxx.db<br>开发环境：xxx.rdb<br>测试环境：xxx.tdb<br>从库在名称后加-s标识，备库在名称后加-ss标识<br>线上从库：xxx-s.db<br>线上备库：xxx-sss.db</p>
+<p>（8）库名、表名、字段名：小写，下划线风格，不超过32个字符，必须见名知意，禁止拼音英文混用</p>
+<p>（9）表名t_xxx，非唯一索引名idx_xxx，唯一索引名uniq_xxx</p>
+<h2 id="三、表设计规范"><a href="#三、表设计规范" class="headerlink" title="三、表设计规范"></a>三、表设计规范</h2><p>（10）单实例表数目必须小于500</p>
+<p>（11）单表列数目必须小于30</p>
+<p>（12）表必须有主键，例如自增主键<br>解读：<br>a）主键递增，数据行写入可以提高插入性能，可以避免page分裂，减少表碎片提升空间和内存的使用<br>b）主键要选择较短的数据类型， Innodb引擎普通索引都会保存主键的值，较短的数据类型可以有效的减少索引的磁盘空间，提高索引的缓存效率<br>c） 无主键的表删除，在row模式的主从架构，会导致备库夯住</p>
+<p>（13）禁止使用外键，如果有外键完整性约束，需要应用程序控制<br>解读：外键会导致表与表之间耦合，update与delete操作都会涉及相关联的表，十分影响sql 的性能，甚至会造成死锁。高并发情况下容易造成数据库性能，大数据高并发业务场景数据库使用以性能优先</p>
+<h2 id="四、字段设计规范"><a href="#四、字段设计规范" class="headerlink" title="四、字段设计规范"></a>四、字段设计规范</h2><p>（14）必须把字段定义为NOT NULL并且提供默认值<br>解读：<br>a）null的列使索引/索引统计/值比较都更加复杂，对MySQL来说更难优化<br>b）null 这种类型MySQL内部需要进行特殊处理，增加数据库处理记录的复杂性；同等条件下，表中有较多空字段的时候，数据库的处理性能会降低很多<br>c）null值需要更多的存储空，无论是表还是索引中每行中的null的列都需要额外的空间来标识<br>d）对null 的处理时候，只能采用is null或is not null，而不能采用=、in、&lt;、&lt;&gt;、!=、not in这些操作符号。如：where name!=’shenjian’，如果存在name为null值的记录，查询结果就不会包含name为null值的记录</p>
+<p>（15）禁止使用TEXT、BLOB类型<br>解读：会浪费更多的磁盘和内存空间，非必要的大量的大字段查询会淘汰掉热数据，导致内存命中率急剧降低，影响数据库性能</p>
+<p>（16）禁止使用小数存储货币<br>解读：使用整数吧，小数容易导致钱对不上<br>有人问存储前乘以100，取出后除以100是否可行，个人建议“尽量少的使用除法”。</p>
+<p>曾经踩过这样的坑，100元分3天摊销，每天摊销100/3元，结果得到3个33.33。后来实施对账系统，始终有几分钱对不齐，郁闷了很久（不是几分钱的事，是业务方质疑的眼神让研发很不爽），最后发现是除法惹的祸。<br>解决方案：使用“分”作为单位，这样数据库里就是整数了。</p>
+<p>（17）必须使用varchar(20)存储手机号<br>解读：<br>a）涉及到区号或者国家代号，可能出现+-()<br>b）手机号会去做数学运算么？<br>c）varchar可以支持模糊查询，例如：like“138%”</p>
+<p>（18）禁止使用ENUM，可使用TINYINT代替<br>解读：<br>a）增加新的ENUM值要做DDL操作<br>b）ENUM的内部实际存储就是整数，你以为自己定义的是字符串？</p>
+<h2 id="五、索引设计规范"><a href="#五、索引设计规范" class="headerlink" title="五、索引设计规范"></a>五、索引设计规范</h2><p>（19）单表索引建议控制在5个以内</p>
+<p>（20）单索引字段数不允许超过5个<br>解读：字段超过5个时，实际已经起不到有效过滤数据的作用了</p>
+<p>（21）禁止在更新十分频繁、区分度不高的属性上建立索引<br>解读：<br>a）更新会变更B+树，更新频繁的字段建立索引会大大降低数据库性能<br>b）“性别”这种区分度不大的属性，建立索引是没有什么意义的，不能有效过滤数据，性能与全表扫描类似</p>
+<p>（22）建立组合索引，必须把区分度高的字段放在前面<br>解读：能够更加有效的过滤数据</p>
+<h2 id="六、SQL使用规范"><a href="#六、SQL使用规范" class="headerlink" title="六、SQL使用规范"></a>六、SQL使用规范</h2><p>（23）禁止使用SELECT <em>，只获取必要的字段，需要显示说明列属性<br>解读：<br>a）读取不需要的列会增加CPU、IO、NET消耗<br>b）不能有效的利用覆盖索引<br>c）使用SELECT </em>容易在增加或者删除字段后出现程序BUG</p>
+<p>（24）禁止使用INSERT INTO t_xxx VALUES(xxx)，必须显示指定插入的列属性<br>解读：容易在增加或者删除字段后出现程序BUG</p>
+<p>（25）禁止使用属性隐式转换<br>解读：SELECT uid FROM t_user WHERE phone=13812345678<br>会导致全表扫描，而不能命中phone索引，猜猜为什么？（这个线上问题不止出现过一次）<br>解决方案：phone是varchar类型，SQL语句带入的是整形，故不会命中索引，加个引号就好了<br>SELECT uid FROM t_user WHERE phone=’13812345678’</p>
+<p>（26）禁止在WHERE条件的属性上使用函数或者表达式<br>解读：SELECT uid FROM t_user WHERE from_unixtime(day)&gt;=’2017-02-15’ 会导致全表扫描<br>正确的写法是：SELECT uid FROM t_user WHERE day&gt;= unix_timestamp(‘2017-02-15 00:00:00’)</p>
+<p>（27）禁止负向查询，以及%开头的模糊查询<br>解读：<br>a）负向查询条件：NOT、!=、&lt;&gt;、!&lt;、!&gt;、NOT IN、NOT LIKE等，会导致全表扫描<br>b）%开头的模糊查询，会导致全表扫描<br>举例：<br>一般来说，WHERE过滤条件不会只带这么一个“负向查询条件”，还会有其他过滤条件，举个例子：查询沈剑已完成订单之外的订单（好拗口）：<br>SELECT oid FROM t_order WHERE uid=123 AND status != 1;</p>
+<p>订单表5000w数据，但uid=123就会迅速的将数据量过滤到很少的级别（uid建立了索引），此时再接上一个负向的查询条件就无所谓了，扫描的行数本身就会很少。</p>
+<p>但如果要查询所有已完成订单之外的订单：<br>SELECT oid FROM t_order WHERE status != 1;<br>这就挂了，立马CPU100%，status索引会失效，负向查询导致全表扫描。</p>
+<p>（28）禁止大表使用JOIN查询，禁止大表使用子查询<br>解读：会产生临时表，消耗较多内存与CPU，极大影响数据库性能</p>
+<p>（29）禁止使用OR条件，必须改为IN查询<br>解读：旧版本Mysql的OR查询是不能命中索引的，即使能命中索引，为何要让数据库耗费更多的CPU帮助实施查询优化呢？</p>
+<p>（30）应用程序必须捕获SQL异常，并有相应处理</p>
+<p>总结：大数据量高并发的互联网业务，极大影响数据库性能的都不让用，不让用哟。</p>
+</span>
+      
+    </div>
+    
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://static.verycloud.cn/sites/default/files/pic/image/20161020/2016102091823_83552.jpg" alt="RamboLau WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://static.verycloud.cn/sites/default/files/pic/image/20161020/2016102092415_10373.jpg" alt="RamboLau Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库设计/" rel="tag">#数据库设计</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/21/git自动化部署/" rel="next" title="git自动化部属">
+                <i class="fa fa-chevron-left"></i> git自动化部属
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/18/MySQL互联网业务数据库设计规范/"
+           data-title="MySQL互联网业务数据库设计规范" data-url="http://verynull.com/2017/02/18/MySQL互联网业务数据库设计规范/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/2015060790205_41484.jpeg" alt="RamboLau" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">RamboLau</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">记录生活，分享知识，传播乐趣</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives/">
+              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+              <span class="site-state-item-count">65</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/RamboLau" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、基础规范"><span class="nav-number">1.</span> <span class="nav-text">一、基础规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、命名规范"><span class="nav-number">2.</span> <span class="nav-text">二、命名规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、表设计规范"><span class="nav-number">3.</span> <span class="nav-text">三、表设计规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、字段设计规范"><span class="nav-number">4.</span> <span class="nav-text">四、字段设计规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、索引设计规范"><span class="nav-number">5.</span> <span class="nav-text">五、索引设计规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、SQL使用规范"><span class="nav-number">6.</span> <span class="nav-text">六、SQL使用规范</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2012 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"176code"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

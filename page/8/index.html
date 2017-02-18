@@ -224,8 +224,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/11/12/从简单的列表页浅谈Vue组件/" itemprop="url">
-                  从简单的列表页浅谈Vue组件
+                <a class="post-title-link" href="/2015/11/12/Drupal8模块-module-开发/" itemprop="url">
+                  Drupal8模块(module)开发
                 </a>
               
             
@@ -235,7 +235,7 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2015-11-12T10:46:27+08:00" content="2015-11-12">
+            <time itemprop="dateCreated" datetime="2015-11-12T17:07:28+08:00" content="2015-11-12">
               2015-11-12
             </time>
           </span>
@@ -245,8 +245,8 @@
               &nbsp; | &nbsp; 分类于
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Vue/" itemprop="url" rel="index">
-                    <span itemprop="name">Vue</span>
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
+                    <span itemprop="name">Drupal8</span>
                   </a>
                 </span>
 
@@ -261,8 +261,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/11/12/从简单的列表页浅谈Vue组件/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/从简单的列表页浅谈Vue组件/" itemprop="commentsCount"></span>
+                <a href="/2015/11/12/Drupal8模块-module-开发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Drupal8模块-module-开发/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -284,193 +284,7 @@
         
           <span itemprop="articleBody">
             
-              <p>##组件</p>
-<p>什么是组件？</p>
-<p>组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 js 特性扩展。</p>
-<p>##例子</p>
-<p><img src="screen.png" alt=""></p>
-<p>举个小例子：豆瓣电影排行榜</p>
-<p>此例子包含文章列表，分页，这里把列表和分页分别当作单独的组件，加上父页面组件一共是3个</p>
-<p>父组件：<code>app.vue</code></p>
-<p>子组件：<code>list.vue</code> <code>pagination.vue</code></p>
-<p>接口用的是豆瓣的jsonp，<code>https://api.douban.com/v2/movie/top250</code></p>
-<p>首先在main.js引入父组件，引入less，引入VueResource，实例化vue</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></div><div class="line"><span class="keyword">import</span> app <span class="keyword">from</span> <span class="string">'./example1/app.vue'</span></div><div class="line"><span class="keyword">import</span> <span class="string">'./example1/style.less'</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> VueResource <span class="keyword">from</span> <span class="string">'vue-resource'</span></div><div class="line">Vue.use(VueResource)</div><div class="line"></div><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">  <span class="attr">render</span>: <span class="function"><span class="params">h</span> =&gt;</span> h(app)</div><div class="line">&#125;).$mount(<span class="string">'#app'</span>)</div></pre></td></tr></table></figure>
-<p>从分页开始，在src/example1/components文件夹下建立一个pagination.vue文件</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--pagination.vue--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"pagination"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">props</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">methods</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">computed</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">components</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  mounted () &#123;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>通过props从父组件接收数据。组件可以为props指定验证要求。如果未指定验证要求，Vue会发出警告，如果不需要验证，可以用数组形式</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//pagination.vue</span></div><div class="line"></div><div class="line">props: &#123;</div><div class="line">    <span class="comment">//当前页码</span></div><div class="line">    now: &#123;</div><div class="line">      <span class="attr">type</span>: <span class="built_in">Number</span>,</div><div class="line">      <span class="attr">default</span>: <span class="number">1</span></div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//总页数</span></div><div class="line">    all: &#123;</div><div class="line">      <span class="attr">type</span>: <span class="built_in">Number</span>,</div><div class="line">      <span class="attr">default</span>: <span class="number">1</span>,</div><div class="line">      <span class="attr">required</span>: <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>父组件app.vue引入组件，并且把数据传给子组件</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--app.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--代码片段--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">pagination</span> <span class="attr">:now</span>=<span class="string">"page.now"</span> <span class="attr">:all</span>=<span class="string">"page.all"</span>&gt;</span><span class="tag">&lt;/<span class="name">pagination</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--代码片段--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"></div><div class="line"><span class="keyword">import</span> pagination <span class="keyword">from</span> <span class="string">'./components/pagination.vue'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">    	<span class="attr">page</span>: &#123;</div><div class="line">    		<span class="attr">now</span>: <span class="number">1</span>,</div><div class="line">    		<span class="attr">all</span>: <span class="number">10</span></div><div class="line">    	&#125;</div><div class="line">           </div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">components</span>: &#123;</div><div class="line">    pagination</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>根据传入的数据计算分页数据</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//pagination.vue</span></div><div class="line"></div><div class="line">computed: &#123;</div><div class="line">    pages () &#123;</div><div class="line">      <span class="keyword">var</span> pages = [];</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.now &gt; <span class="number">1</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="string">'上一页'</span>,</div><div class="line">        <span class="attr">num</span>: <span class="keyword">this</span>.now - <span class="number">1</span></div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.now - <span class="number">1</span> &gt; <span class="number">2</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="number">1</span>,</div><div class="line">        <span class="attr">num</span>: <span class="number">1</span></div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.now - <span class="number">1</span> &gt; <span class="number">3</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="string">'...'</span>,</div><div class="line">        <span class="attr">num</span>: <span class="number">0</span></div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="keyword">this</span>.all; i++) &#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.now - i &lt; <span class="number">3</span> &amp;&amp; <span class="keyword">this</span>.now &gt;= i || i - <span class="keyword">this</span>.now &lt; <span class="number">3</span> &amp;&amp; <span class="keyword">this</span>.now &lt;= i)&#123;</div><div class="line">          pages.push(&#123;</div><div class="line">            <span class="attr">text</span>: i,</div><div class="line">            <span class="attr">num</span>: i</div><div class="line">          &#125;);          </div><div class="line">        &#125;        </div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.all - <span class="keyword">this</span>.now &gt; <span class="number">3</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="string">'...'</span>,</div><div class="line">        <span class="attr">num</span>: <span class="number">0</span></div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.all - <span class="keyword">this</span>.now &gt; <span class="number">2</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="keyword">this</span>.all,</div><div class="line">        <span class="attr">num</span>: <span class="keyword">this</span>.all</div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.now &lt; <span class="keyword">this</span>.all) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="string">'下一页'</span>,</div><div class="line">        <span class="attr">num</span>: <span class="keyword">this</span>.now + <span class="number">1</span></div><div class="line">      &#125;);</div><div class="line">      </div><div class="line">      <span class="keyword">return</span> pages;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>用v-for把分页渲染出来</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--pagination.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"pagination"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"page in pages"</span> <span class="attr">:class</span>=<span class="string">"&#123; 'active' : page.num == now &#125;"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">v-if</span>=<span class="string">"page.num"</span> @<span class="attr">click</span>=<span class="string">"toPage(page.num)"</span>&gt;</span>&#123;&#123; page.text &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">v-else</span>&gt;</span>&#123;&#123; page.text &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>子组件通过自定义事件向父组件传事件和数据</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//pagination.vue</span></div><div class="line"></div><div class="line">methods: &#123;</div><div class="line">    toPage (page) &#123;</div><div class="line">      <span class="keyword">this</span>.$emit(<span class="string">'toPage'</span>, page);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-<p>父组件监听这个事件，然后调用方法changePage</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--app.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">pagination</span> <span class="attr">:now</span>=<span class="string">"page.now"</span> <span class="attr">:all</span>=<span class="string">"page.all"</span> @<span class="attr">toPage</span>=<span class="string">"changePage"</span>&gt;</span><span class="tag">&lt;/<span class="name">pagination</span>&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//代码片段</span></div><div class="line">methods: &#123;</div><div class="line">    changePage (page) &#123;</div><div class="line">      <span class="keyword">this</span>.page.now = page</div><div class="line">    &#125; </div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="comment">//代码片段</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>至此完成了父组件把数据丢给子组件处理，子组件把操作反馈给父组件这一过程</p>
-<p>列表组件list.vue</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--list.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"list clearfix row"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-6"</span> <span class="attr">v-for</span>=<span class="string">"item in items"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"img"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">"item.images.small"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"year"</span> <span class="attr">:year</span>=<span class="string">"item.year"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"year"</span>&gt;</span>&#123;&#123; item.year &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>&#123;&#123; item.title &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"dis"</span>&gt;</span>&#123;&#123; item.original_title &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      </div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">props</span>: [<span class="string">'items'</span>]</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>来点动态的数据</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--app.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"loading"</span> <span class="attr">v-show</span>=<span class="string">"loading"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">list</span> <span class="attr">:items</span>=<span class="string">"items"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"text-center"</span> <span class="attr">slot</span>=<span class="string">"title"</span>&gt;</span>豆瓣电影排行榜<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">template</span> <span class="attr">slot</span>=<span class="string">"year"</span> <span class="attr">scope</span>=<span class="string">"props"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"year red"</span>&gt;</span>&#123;&#123; props.year &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">list</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">pagination</span> <span class="attr">:now</span>=<span class="string">"page.now"</span> <span class="attr">:all</span>=<span class="string">"page.all"</span> @<span class="attr">toPage</span>=<span class="string">"changePage"</span>&gt;</span><span class="tag">&lt;/<span class="name">pagination</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="keyword">import</span> list <span class="keyword">from</span> <span class="string">'./components/list.vue'</span></div><div class="line"><span class="keyword">import</span> pagination <span class="keyword">from</span> <span class="string">'./components/pagination.vue'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">loading</span>: <span class="number">0</span>,</div><div class="line">      <span class="attr">params</span>: &#123;</div><div class="line">        <span class="comment">//每页显示条数</span></div><div class="line">        count: <span class="number">10</span>,</div><div class="line">        <span class="comment">//从第几条开始显示，初始0</span></div><div class="line">        start: <span class="number">0</span>,</div><div class="line">        <span class="comment">//总条数</span></div><div class="line">        total: <span class="number">250</span></div><div class="line">      &#125;,      </div><div class="line">      <span class="attr">items</span>: []      </div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">methods</span>: &#123;</div><div class="line">    getItems () &#123;</div><div class="line">      <span class="keyword">this</span>.loading = <span class="number">1</span>;</div><div class="line">      <span class="keyword">this</span>.$http.jsonp(<span class="string">'https://api.douban.com/v2/movie/top250'</span>, &#123;</div><div class="line">        <span class="attr">params</span>: <span class="keyword">this</span>.params</div><div class="line">      &#125;).then(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</div><div class="line">        <span class="keyword">if</span>(response.ok) &#123;</div><div class="line">          <span class="keyword">this</span>.items = response.data.subjects;</div><div class="line">          <span class="keyword">this</span>.params = &#123;</div><div class="line">            <span class="attr">count</span>: response.data.count,</div><div class="line">            <span class="attr">start</span>: response.data.start,</div><div class="line">            <span class="attr">total</span>: response.data.total</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">      &#125;, response =&gt; &#123;</div><div class="line">        <span class="built_in">console</span>.log(response);</div><div class="line"></div><div class="line">      &#125;).finally(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">this</span>.loading = <span class="number">0</span>;</div><div class="line">      &#125;)</div><div class="line"></div><div class="line">    &#125;,</div><div class="line">    changePage (page) &#123;</div><div class="line">      <span class="keyword">this</span>.params.start = (page - <span class="number">1</span>) * <span class="keyword">this</span>.params.count;</div><div class="line">      <span class="keyword">this</span>.getItems();</div><div class="line">    &#125; </div><div class="line"></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">components</span>: &#123;</div><div class="line">    list,</div><div class="line">    pagination</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">computed</span>: &#123;</div><div class="line">    page () &#123;</div><div class="line">      <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">now</span>: <span class="keyword">this</span>.params.start / <span class="keyword">this</span>.params.count + <span class="number">1</span>,</div><div class="line">        <span class="attr">all</span>: <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.params.total / <span class="keyword">this</span>.params.count)</div><div class="line">      &#125;      </div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;,</div><div class="line">  mounted () &#123;</div><div class="line">    <span class="keyword">this</span>.getItems();</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>##几个点：</p>
-<p>###prop传递数据</p>
-<blockquote>
-<p>组件实例的作用域是孤立的。这意味着不能并且不应该在子组件的模板内直接引用父组件的数据。可以使用 props 把数据传给子组件。</p>
-<p>类似于用 v-bind 绑定 HTML 特性到一个表达式，也可以用 v-bind 动态绑定 props 的值到父组件的数据中。每当父组件的数据变化时，该变化也会传导给子组件：</p>
-</blockquote>
-<p>###自定义事件</p>
-<blockquote>
-<p>父组件可以在使用子组件的地方直接用 v-on 来监听子组件触发的事件</p>
-</blockquote>
-<p>###slot分发内容</p>
-<blockquote>
-<p>组件不知道它的挂载点会有什么内容。挂载点的内容是<del>由父组件决</del>定的;组件很可能有它自己的模版</p>
-<p>为了让组件可以组合，我们需要一种方式来混合父组件的内容与子组件自己的模板。这个过程被称为 内容分发 (或 “transclusion” 如果你熟悉 Angular)。Vue.js 实现了一个内容分发 API ，参照了当前 Web 组件规范草案，使用特殊的 <code>&lt;slot&gt;</code> 元素作为原始内容的插槽。</p>
-</blockquote>
-<p><code>通过slot插槽将标题插入到子组件</code></p>
-<p>###作用域插槽</p>
-<blockquote>
-<p>父组件模板的内容在父组件作用域内编译；子组件模板的内容在子组件作用域内编译</p>
-<p>作用域插槽是一种特殊类型的插槽，用作使用一个（能够传递数据到）可重用模板替换已渲染元素。<br>在子组件中，只需将数据传递到插槽，就像你将 prop 传递给组件一样</p>
-</blockquote>
-<p><code>通过作用域插槽将子组件数据传给父组件，再作为自定义模板重新插入到子组件</code></p>
-<p>###计算<br><code>豆瓣接口接收参数和设计的不同，pages需要通过computed计算</code></p>
-<p>###分页的算法</p>
-<p>##引申问题：<br>watch params变化</p>
-<p>loading广播</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
               
-                
-                <a class="post-title-link" href="/2015/11/12/Vue路由入门/" itemprop="url">
-                  Vue路由入门
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-12T10:46:27+08:00" content="2015-11-12">
-              2015-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Vue/" itemprop="url" rel="index">
-                    <span itemprop="name">Vue</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/12/Vue路由入门/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Vue路由入门/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><p>Vue路由（vue-router）是Vue用来创建单页应用的第三方库，使用vue-router可以很方便的创建无刷新切换页面的应用。vue-router基于vue的组件系统（不熟悉组件请先学习Vue组件），要使用vue-router只需要将路径和组件建立对应关系，这样路由系统就知道哪个路径需要渲染哪个组件。</p>
-<h3 id="2、开始"><a href="#2、开始" class="headerlink" title="2、开始"></a>2、开始</h3><p>在开始写第一个路由示例之前，我们先来了解一些基本概念。<br>（1）路由<br>路由即url路径和组件之间的对应关系。<br>（2）router-link组件<br> router-link组件即页面上连接到某个路由的超链接，最终渲染后会变成a标签。比如我需要在页面上设置连接到/profile/user的超链接，则只要在页面放上&lt;router-link to=”/profile/user”&gt;用户列表&lt;/router-link&gt;就行了。<br> （3）router-view组件<br> router-view组件是路由组件渲染的容器，一旦路由匹配到了，vue就会将路由对应的组件渲染到router-view标签所在的位置。比如点击上例中的profile/user超链接，vue首先查找profile/user对应的路由是什么，查找到后再找出路由对应的组件，然后将组件渲染到router-view标签。</p>
-<p>了解上述概念之后，我们可以开始写我们的第一个路由示例，我们首先创建index.html,代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;h1&gt;Hello App!&lt;/h1&gt;</div><div class="line">  &lt;p&gt;</div><div class="line">    &lt;!-- 使用 router-link 组件来导航. --&gt;</div><div class="line">    &lt;!-- 通过传入 `to` 属性指定链接. --&gt;</div><div class="line">    &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;</div><div class="line">    &lt;router-link to=&quot;/profile/user&quot;&gt;用户列表&lt;/router-link&gt;</div><div class="line">  &lt;/p&gt;</div><div class="line">  &lt;!-- 路由出口 --&gt;</div><div class="line">  &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;</div><div class="line">  &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;!-- 注意，这里引入vue-router.js对于script方式引入文件的方式是必不可少的.我们以后再讨论使用ES6模块引入的方式 --&gt;</div><div class="line">&lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;!-- 应用入口文件 --&gt;</div><div class="line">&lt;script src=&quot;/js/app.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<p>接着我们继续创建app.js，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">// 1. 定义（路由）组件。</div><div class="line">// 在现实的开发中，一般将组件放在单独的文件中，然后从其他文件 import 进来</div><div class="line">// 为了简单起见，我们这里先使用字符串模板组件，以后再讨论单文件组件（.vue文件）</div><div class="line">const User = &#123;</div><div class="line">  template: &apos;&lt;div&gt;这里是用户列表&lt;/div&gt;&apos; </div><div class="line">&#125;</div><div class="line"></div><div class="line">// 2. 定义路由</div><div class="line">// 每个路由应该映射一个组件。 其中&quot;component&quot; 可以是</div><div class="line">// 通过 Vue.extend() 创建的组件构造器，</div><div class="line">// 或者，只是一个组件配置对象。</div><div class="line">const routes = [</div><div class="line">  &#123; </div><div class="line">    path: &apos;/profile/user&apos;, </div><div class="line">    component: User </div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line">// 3. 创建 router 实例，然后传 `routes` 配置</div><div class="line">// 你还可以传别的配置参数, 不过先这么简单着吧。</div><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes // ES6（缩写）相当于 routes: routes</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 4. 创建和挂载根实例。</div><div class="line">// 记得要通过 router 配置参数注入路由，</div><div class="line">// 从而让整个应用都有路由功能</div><div class="line">const app = new Vue(&#123;</div><div class="line">  router</div><div class="line">&#125;).$mount(&apos;#app&apos;)</div><div class="line"></div><div class="line">// 现在，应用已经启动了！</div></pre></td></tr></table></figure></p>
-<p>至此，一个最简单的路由应用就完成了，部署到服务器后，打开<a href="http://localhost,则可以看到界面有一个“用户详情”超链接，点击超链接，界面会显示“这里是用户列表”，同时界面并没有刷新，所有的操作都在一个界面内完成，所以这也叫单页应用，与以前那些点击超链接就要刷新页面的应用相比是不是用户体验更高？" target="_blank" rel="external">http://localhost,则可以看到界面有一个“用户详情”超链接，点击超链接，界面会显示“这里是用户列表”，同时界面并没有刷新，所有的操作都在一个界面内完成，所以这也叫单页应用，与以前那些点击超链接就要刷新页面的应用相比是不是用户体验更高？</a></p>
-<h3 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h3><p>有的时候，我们的url里面需要带参数，比如上例中，我们需要查看不同用户的详情，那么url应该是/profile/user/1这样，里面的“1”即用户ID，可以动态变化，要实现这样的功能，我们只需要对我们的路由定义做一些微小变动。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const routes = [</div><div class="line">  &#123; </div><div class="line">    path: &apos;/profile/user/:id&apos;, </div><div class="line">    component: User </div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes // ES6（缩写）相当于 routes: routes</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>可以看到路由的定义唯一不同的地方就是在url上加了“:id”占位符，那么像“/profile/user/1”、“/profile/user/2”这样的url都会匹配到这个路由。<br>一个『路径参数』使用冒号 : 标记。当匹配到一个路由时，参数值会被设置到 this.$route.params，可以在每个组件内使用。于是，我们可以更新 User 的模板，输出当前用户的 ID：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const User = &#123;</div><div class="line">  template: &apos;&lt;div&gt;这里是用户# &#123;&#123; $route.params.id &#125;&#125;详情页&lt;/div&gt;&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>你可以在一个路由中设置多段『路径参数』，对应的值都会设置到 $route.params 中。例如：profile/user/:id/post/:pid，则可以使用$route.params.id和$route.params.pid来引用路由参数。如果url带有查询参数，则参数会被设置到$route.query对象。</p>
-<h3 id="嵌套路由"><a href="#嵌套路由" class="headerlink" title="嵌套路由"></a>嵌套路由</h3><p>在实际的应用中，我们可能会碰到某个页面下面还有子页面的情况，比如用户列表页面里面点击某个用户，显示用户详情，我们定义/profile/user为用户列表url，/profile/user/:id为用户详情url，那么这两个URL就是父子关系，即嵌套关系，这样的URL我们应该怎么定义呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const routes = [</div><div class="line">    &#123; path: &apos;/profile/user&apos;, component: User,</div><div class="line">      children: [</div><div class="line">        &#123;</div><div class="line">          path: &apos;:id&apos;,</div><div class="line">          component: UserProfile</div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  ]</div></pre></td></tr></table></figure></p>
-<p>你会发现，children 配置就是像 routes 配置一样的路由配置数组，所以呢，你可以嵌套多层路由。<br>上面只是定义了路由的结构，如果要在父页面里面显示子页面的内容，那么父页面的模板我们该如何定义？我们前面已经说过，要让路由的组件能在页面中渲染，必须在页面中放router-view组件，那么父页面的模板的定义可以这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const User = &#123;</div><div class="line">  template: `</div><div class="line">    &lt;div class=&quot;user&quot;&gt;</div><div class="line">      &lt;h2&gt;这是用户列表页面&lt;/h2&gt;</div><div class="line">      &lt;router-link to=&quot;/profile/user/1&quot;&gt;root&lt;/router-link&gt;</div><div class="line">      &lt;router-link to=&quot;/profile/user/2&quot;&gt;test&lt;/router-link&gt;</div><div class="line">      &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="编程式的导航"><a href="#编程式的导航" class="headerlink" title="编程式的导航"></a>编程式的导航</h3><p>除了使用 <router-link> 创建 a 标签来定义导航链接，我们还可以借助 router 的实例方法，通过编写代码来实现。</router-link></p>
-<h4 id="router-push-location"><a href="#router-push-location" class="headerlink" title="router.push(location)"></a>router.push(location)</h4><p>想要导航到不同的 URL，则使用 router.push 方法。这个方法会向 history 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。<br>当你点击 <router-link> 时，这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 router.push(…)。该方法的参数可以是一个字符串路径，或者一个描述地址的对象。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 字符串</div><div class="line">router.push(&apos;home&apos;)</div><div class="line"></div><div class="line">// 对象</div><div class="line">router.push(&#123; path: &apos;home&apos; &#125;)</div><div class="line"></div><div class="line">// 命名的路由</div><div class="line">router.push(&#123; name: &apos;user&apos;, params: &#123; userId: 123 &#125;&#125;)</div><div class="line"></div><div class="line">// 带查询参数，变成 /register?plan=private</div><div class="line">router.push(&#123; path: &apos;register&apos;, query: &#123; plan: &apos;private&apos; &#125;&#125;)</div></pre></td></tr></table></figure></router-link></router-link></p>
-<h4 id="router-replace-location"><a href="#router-replace-location" class="headerlink" title="router.replace(location)"></a>router.replace(location)</h4><p>跟 router.push 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。</p>
-<h4 id="router-go-n"><a href="#router-go-n" class="headerlink" title="router.go(n)"></a>router.go(n)</h4><p>这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// 在浏览器记录中前进一步，等同于 history.forward()</div><div class="line">router.go(1)</div><div class="line"></div><div class="line">// 后退一步记录，等同于 history.back()</div><div class="line">router.go(-1)</div><div class="line"></div><div class="line">// 前进 3 步记录</div><div class="line">router.go(3)</div><div class="line"></div><div class="line">// 如果 history 记录不够用，那就默默地失败呗</div><div class="line">router.go(-100)</div><div class="line">router.go(100)</div></pre></td></tr></table></figure></p>
-<h3 id="命名路由"><a href="#命名路由" class="headerlink" title="命名路由"></a>命名路由</h3><p>到此为止，我们例子中定义的路由都只有path和component两个属性，有时候，通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候。你可以在创建 Router 实例的时候，在 routes 配置中给某个路由设置名称。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123;</div><div class="line">      path: &apos;/profile/user/:id&apos;,</div><div class="line">      name: &apos;user&apos;,</div><div class="line">      component: User</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>要链接到一个命名路由，可以给 router-link 的 to 属性传一个对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;router-link :to=&quot;&#123; name: &apos;user&apos;, params: &#123; id: 123 &#125;&#125;&quot;&gt;User&lt;/router-link&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="命名视图"><a href="#命名视图" class="headerlink" title="命名视图"></a>命名视图</h3><p>我们上面的例子中，所有的模板里面都只有一个router-view组件，也就是说，一个路由只能渲染一个组件，但是有时候想同时（同级）展示多个视图，而不是嵌套展示，例如创建一个布局，有 sidebar（侧导航） 和 main（主内容） 两个视图，这个时候命名视图就派上用场了。你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果 router-view 没有设置名字，那么默认为 default。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;</div><div class="line">&lt;router-view class=&quot;view two&quot; name=&quot;a&quot;&gt;&lt;/router-view&gt;</div><div class="line">&lt;router-view class=&quot;view three&quot; name=&quot;b&quot;&gt;&lt;/router-view&gt;</div></pre></td></tr></table></figure></p>
-<p>一个视图使用一个组件渲染，因此对于同个路由，多个视图就需要多个组件。确保正确使用 components 配置（带上 s）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">      path: &apos;/&apos;,</div><div class="line">      components: &#123;</div><div class="line">        default: Foo,</div><div class="line">        a: Bar,</div><div class="line">        b: Baz</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h3 id="重定向-和-别名"><a href="#重定向-和-别名" class="headerlink" title="重定向 和 别名"></a>重定向 和 别名</h3><h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>重定向也是通过 routes 配置来完成，下面例子是从 /a 重定向到 /b：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, redirect: &apos;/b&apos; &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>重定向的目标也可以是一个命名的路由：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, redirect: &#123; name: &apos;foo&apos; &#125;&#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>甚至是一个方法，动态返回重定向目标：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, redirect: to =&gt; &#123;</div><div class="line">      // 方法接收 目标路由 作为参数</div><div class="line">      // return 重定向的 字符串路径/路径对象</div><div class="line">    &#125;&#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h4 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h4><p>『重定向』的意思是，当用户访问 /a时，URL 将会被替换成 /b，然后匹配路由为 /b，那么『别名』又是什么呢？<br>/a 的别名是 /b，意味着，当用户访问 /b 时，URL 会保持为 /b，但是路由匹配则为 /a，就像用户访问 /a 一样。<br>上面对应的路由配置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, component: A, alias: &apos;/b&apos; &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-
             
           </span>
         
@@ -646,6 +460,135 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/12/Vue路由入门/" itemprop="url">
+                  Vue路由入门
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-12T10:46:27+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Vue/" itemprop="url" rel="index">
+                    <span itemprop="name">Vue</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/12/Vue路由入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/Vue路由入门/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><p>Vue路由（vue-router）是Vue用来创建单页应用的第三方库，使用vue-router可以很方便的创建无刷新切换页面的应用。vue-router基于vue的组件系统（不熟悉组件请先学习Vue组件），要使用vue-router只需要将路径和组件建立对应关系，这样路由系统就知道哪个路径需要渲染哪个组件。</p>
+<h3 id="2、开始"><a href="#2、开始" class="headerlink" title="2、开始"></a>2、开始</h3><p>在开始写第一个路由示例之前，我们先来了解一些基本概念。<br>（1）路由<br>路由即url路径和组件之间的对应关系。<br>（2）router-link组件<br> router-link组件即页面上连接到某个路由的超链接，最终渲染后会变成a标签。比如我需要在页面上设置连接到/profile/user的超链接，则只要在页面放上&lt;router-link to=”/profile/user”&gt;用户列表&lt;/router-link&gt;就行了。<br> （3）router-view组件<br> router-view组件是路由组件渲染的容器，一旦路由匹配到了，vue就会将路由对应的组件渲染到router-view标签所在的位置。比如点击上例中的profile/user超链接，vue首先查找profile/user对应的路由是什么，查找到后再找出路由对应的组件，然后将组件渲染到router-view标签。</p>
+<p>了解上述概念之后，我们可以开始写我们的第一个路由示例，我们首先创建index.html,代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;h1&gt;Hello App!&lt;/h1&gt;</div><div class="line">  &lt;p&gt;</div><div class="line">    &lt;!-- 使用 router-link 组件来导航. --&gt;</div><div class="line">    &lt;!-- 通过传入 `to` 属性指定链接. --&gt;</div><div class="line">    &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;</div><div class="line">    &lt;router-link to=&quot;/profile/user&quot;&gt;用户列表&lt;/router-link&gt;</div><div class="line">  &lt;/p&gt;</div><div class="line">  &lt;!-- 路由出口 --&gt;</div><div class="line">  &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;</div><div class="line">  &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;!-- 注意，这里引入vue-router.js对于script方式引入文件的方式是必不可少的.我们以后再讨论使用ES6模块引入的方式 --&gt;</div><div class="line">&lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;!-- 应用入口文件 --&gt;</div><div class="line">&lt;script src=&quot;/js/app.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>接着我们继续创建app.js，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">// 1. 定义（路由）组件。</div><div class="line">// 在现实的开发中，一般将组件放在单独的文件中，然后从其他文件 import 进来</div><div class="line">// 为了简单起见，我们这里先使用字符串模板组件，以后再讨论单文件组件（.vue文件）</div><div class="line">const User = &#123;</div><div class="line">  template: &apos;&lt;div&gt;这里是用户列表&lt;/div&gt;&apos; </div><div class="line">&#125;</div><div class="line"></div><div class="line">// 2. 定义路由</div><div class="line">// 每个路由应该映射一个组件。 其中&quot;component&quot; 可以是</div><div class="line">// 通过 Vue.extend() 创建的组件构造器，</div><div class="line">// 或者，只是一个组件配置对象。</div><div class="line">const routes = [</div><div class="line">  &#123; </div><div class="line">    path: &apos;/profile/user&apos;, </div><div class="line">    component: User </div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line">// 3. 创建 router 实例，然后传 `routes` 配置</div><div class="line">// 你还可以传别的配置参数, 不过先这么简单着吧。</div><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes // ES6（缩写）相当于 routes: routes</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 4. 创建和挂载根实例。</div><div class="line">// 记得要通过 router 配置参数注入路由，</div><div class="line">// 从而让整个应用都有路由功能</div><div class="line">const app = new Vue(&#123;</div><div class="line">  router</div><div class="line">&#125;).$mount(&apos;#app&apos;)</div><div class="line"></div><div class="line">// 现在，应用已经启动了！</div></pre></td></tr></table></figure></p>
+<p>至此，一个最简单的路由应用就完成了，部署到服务器后，打开<a href="http://localhost,则可以看到界面有一个“用户详情”超链接，点击超链接，界面会显示“这里是用户列表”，同时界面并没有刷新，所有的操作都在一个界面内完成，所以这也叫单页应用，与以前那些点击超链接就要刷新页面的应用相比是不是用户体验更高？" target="_blank" rel="external">http://localhost,则可以看到界面有一个“用户详情”超链接，点击超链接，界面会显示“这里是用户列表”，同时界面并没有刷新，所有的操作都在一个界面内完成，所以这也叫单页应用，与以前那些点击超链接就要刷新页面的应用相比是不是用户体验更高？</a></p>
+<h3 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h3><p>有的时候，我们的url里面需要带参数，比如上例中，我们需要查看不同用户的详情，那么url应该是/profile/user/1这样，里面的“1”即用户ID，可以动态变化，要实现这样的功能，我们只需要对我们的路由定义做一些微小变动。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const routes = [</div><div class="line">  &#123; </div><div class="line">    path: &apos;/profile/user/:id&apos;, </div><div class="line">    component: User </div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes // ES6（缩写）相当于 routes: routes</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>可以看到路由的定义唯一不同的地方就是在url上加了“:id”占位符，那么像“/profile/user/1”、“/profile/user/2”这样的url都会匹配到这个路由。<br>一个『路径参数』使用冒号 : 标记。当匹配到一个路由时，参数值会被设置到 this.$route.params，可以在每个组件内使用。于是，我们可以更新 User 的模板，输出当前用户的 ID：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const User = &#123;</div><div class="line">  template: &apos;&lt;div&gt;这里是用户# &#123;&#123; $route.params.id &#125;&#125;详情页&lt;/div&gt;&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>你可以在一个路由中设置多段『路径参数』，对应的值都会设置到 $route.params 中。例如：profile/user/:id/post/:pid，则可以使用$route.params.id和$route.params.pid来引用路由参数。如果url带有查询参数，则参数会被设置到$route.query对象。</p>
+<h3 id="嵌套路由"><a href="#嵌套路由" class="headerlink" title="嵌套路由"></a>嵌套路由</h3><p>在实际的应用中，我们可能会碰到某个页面下面还有子页面的情况，比如用户列表页面里面点击某个用户，显示用户详情，我们定义/profile/user为用户列表url，/profile/user/:id为用户详情url，那么这两个URL就是父子关系，即嵌套关系，这样的URL我们应该怎么定义呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const routes = [</div><div class="line">    &#123; path: &apos;/profile/user&apos;, component: User,</div><div class="line">      children: [</div><div class="line">        &#123;</div><div class="line">          path: &apos;:id&apos;,</div><div class="line">          component: UserProfile</div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  ]</div></pre></td></tr></table></figure></p>
+<p>你会发现，children 配置就是像 routes 配置一样的路由配置数组，所以呢，你可以嵌套多层路由。<br>上面只是定义了路由的结构，如果要在父页面里面显示子页面的内容，那么父页面的模板我们该如何定义？我们前面已经说过，要让路由的组件能在页面中渲染，必须在页面中放router-view组件，那么父页面的模板的定义可以这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const User = &#123;</div><div class="line">  template: `</div><div class="line">    &lt;div class=&quot;user&quot;&gt;</div><div class="line">      &lt;h2&gt;这是用户列表页面&lt;/h2&gt;</div><div class="line">      &lt;router-link to=&quot;/profile/user/1&quot;&gt;root&lt;/router-link&gt;</div><div class="line">      &lt;router-link to=&quot;/profile/user/2&quot;&gt;test&lt;/router-link&gt;</div><div class="line">      &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="编程式的导航"><a href="#编程式的导航" class="headerlink" title="编程式的导航"></a>编程式的导航</h3><p>除了使用 <router-link> 创建 a 标签来定义导航链接，我们还可以借助 router 的实例方法，通过编写代码来实现。</router-link></p>
+<h4 id="router-push-location"><a href="#router-push-location" class="headerlink" title="router.push(location)"></a>router.push(location)</h4><p>想要导航到不同的 URL，则使用 router.push 方法。这个方法会向 history 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。<br>当你点击 <router-link> 时，这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 router.push(…)。该方法的参数可以是一个字符串路径，或者一个描述地址的对象。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 字符串</div><div class="line">router.push(&apos;home&apos;)</div><div class="line"></div><div class="line">// 对象</div><div class="line">router.push(&#123; path: &apos;home&apos; &#125;)</div><div class="line"></div><div class="line">// 命名的路由</div><div class="line">router.push(&#123; name: &apos;user&apos;, params: &#123; userId: 123 &#125;&#125;)</div><div class="line"></div><div class="line">// 带查询参数，变成 /register?plan=private</div><div class="line">router.push(&#123; path: &apos;register&apos;, query: &#123; plan: &apos;private&apos; &#125;&#125;)</div></pre></td></tr></table></figure></router-link></router-link></p>
+<h4 id="router-replace-location"><a href="#router-replace-location" class="headerlink" title="router.replace(location)"></a>router.replace(location)</h4><p>跟 router.push 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。</p>
+<h4 id="router-go-n"><a href="#router-go-n" class="headerlink" title="router.go(n)"></a>router.go(n)</h4><p>这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// 在浏览器记录中前进一步，等同于 history.forward()</div><div class="line">router.go(1)</div><div class="line"></div><div class="line">// 后退一步记录，等同于 history.back()</div><div class="line">router.go(-1)</div><div class="line"></div><div class="line">// 前进 3 步记录</div><div class="line">router.go(3)</div><div class="line"></div><div class="line">// 如果 history 记录不够用，那就默默地失败呗</div><div class="line">router.go(-100)</div><div class="line">router.go(100)</div></pre></td></tr></table></figure></p>
+<h3 id="命名路由"><a href="#命名路由" class="headerlink" title="命名路由"></a>命名路由</h3><p>到此为止，我们例子中定义的路由都只有path和component两个属性，有时候，通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候。你可以在创建 Router 实例的时候，在 routes 配置中给某个路由设置名称。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123;</div><div class="line">      path: &apos;/profile/user/:id&apos;,</div><div class="line">      name: &apos;user&apos;,</div><div class="line">      component: User</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>要链接到一个命名路由，可以给 router-link 的 to 属性传一个对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;router-link :to=&quot;&#123; name: &apos;user&apos;, params: &#123; id: 123 &#125;&#125;&quot;&gt;User&lt;/router-link&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="命名视图"><a href="#命名视图" class="headerlink" title="命名视图"></a>命名视图</h3><p>我们上面的例子中，所有的模板里面都只有一个router-view组件，也就是说，一个路由只能渲染一个组件，但是有时候想同时（同级）展示多个视图，而不是嵌套展示，例如创建一个布局，有 sidebar（侧导航） 和 main（主内容） 两个视图，这个时候命名视图就派上用场了。你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果 router-view 没有设置名字，那么默认为 default。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;</div><div class="line">&lt;router-view class=&quot;view two&quot; name=&quot;a&quot;&gt;&lt;/router-view&gt;</div><div class="line">&lt;router-view class=&quot;view three&quot; name=&quot;b&quot;&gt;&lt;/router-view&gt;</div></pre></td></tr></table></figure></p>
+<p>一个视图使用一个组件渲染，因此对于同个路由，多个视图就需要多个组件。确保正确使用 components 配置（带上 s）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">      path: &apos;/&apos;,</div><div class="line">      components: &#123;</div><div class="line">        default: Foo,</div><div class="line">        a: Bar,</div><div class="line">        b: Baz</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="重定向-和-别名"><a href="#重定向-和-别名" class="headerlink" title="重定向 和 别名"></a>重定向 和 别名</h3><h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>重定向也是通过 routes 配置来完成，下面例子是从 /a 重定向到 /b：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, redirect: &apos;/b&apos; &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>重定向的目标也可以是一个命名的路由：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, redirect: &#123; name: &apos;foo&apos; &#125;&#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>甚至是一个方法，动态返回重定向目标：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, redirect: to =&gt; &#123;</div><div class="line">      // 方法接收 目标路由 作为参数</div><div class="line">      // return 重定向的 字符串路径/路径对象</div><div class="line">    &#125;&#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h4 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h4><p>『重定向』的意思是，当用户访问 /a时，URL 将会被替换成 /b，然后匹配路由为 /b，那么『别名』又是什么呢？<br>/a 的别名是 /b，意味着，当用户访问 /b 时，URL 会保持为 /b，但是路由匹配则为 /a，就像用户访问 /a 一样。<br>上面对应的路由配置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, component: A, alias: &apos;/b&apos; &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/12/Drupal8和symfony2/" itemprop="url">
                   Drupal8和symfony2
                 </a>
@@ -707,6 +650,169 @@
           <span itemprop="articleBody">
             
               
+            
+          </span>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/12/从简单的列表页浅谈Vue组件/" itemprop="url">
+                  从简单的列表页浅谈Vue组件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-12T10:46:27+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Vue/" itemprop="url" rel="index">
+                    <span itemprop="name">Vue</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/12/从简单的列表页浅谈Vue组件/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/12/从简单的列表页浅谈Vue组件/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+              <p>##组件</p>
+<p>什么是组件？</p>
+<p>组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 js 特性扩展。</p>
+<p>##例子</p>
+<p><img src="screen.png" alt=""></p>
+<p>举个小例子：豆瓣电影排行榜</p>
+<p>此例子包含文章列表，分页，这里把列表和分页分别当作单独的组件，加上父页面组件一共是3个</p>
+<p>父组件：<code>app.vue</code></p>
+<p>子组件：<code>list.vue</code> <code>pagination.vue</code></p>
+<p>接口用的是豆瓣的jsonp，<code>https://api.douban.com/v2/movie/top250</code></p>
+<p>首先在main.js引入父组件，引入less，引入VueResource，实例化vue</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//main.js</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></div><div class="line"><span class="keyword">import</span> app <span class="keyword">from</span> <span class="string">'./example1/app.vue'</span></div><div class="line"><span class="keyword">import</span> <span class="string">'./example1/style.less'</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> VueResource <span class="keyword">from</span> <span class="string">'vue-resource'</span></div><div class="line">Vue.use(VueResource)</div><div class="line"></div><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">  <span class="attr">render</span>: <span class="function"><span class="params">h</span> =&gt;</span> h(app)</div><div class="line">&#125;).$mount(<span class="string">'#app'</span>)</div></pre></td></tr></table></figure>
+<p>从分页开始，在src/example1/components文件夹下建立一个pagination.vue文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--pagination.vue--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text-center"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"pagination"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">props</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">methods</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">computed</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">components</span>: &#123;</div><div class="line">  &#125;,</div><div class="line">  mounted () &#123;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>通过props从父组件接收数据。组件可以为props指定验证要求。如果未指定验证要求，Vue会发出警告，如果不需要验证，可以用数组形式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//pagination.vue</span></div><div class="line"></div><div class="line">props: &#123;</div><div class="line">    <span class="comment">//当前页码</span></div><div class="line">    now: &#123;</div><div class="line">      <span class="attr">type</span>: <span class="built_in">Number</span>,</div><div class="line">      <span class="attr">default</span>: <span class="number">1</span></div><div class="line">    &#125;,</div><div class="line">    <span class="comment">//总页数</span></div><div class="line">    all: &#123;</div><div class="line">      <span class="attr">type</span>: <span class="built_in">Number</span>,</div><div class="line">      <span class="attr">default</span>: <span class="number">1</span>,</div><div class="line">      <span class="attr">required</span>: <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>父组件app.vue引入组件，并且把数据传给子组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--app.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--代码片段--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">pagination</span> <span class="attr">:now</span>=<span class="string">"page.now"</span> <span class="attr">:all</span>=<span class="string">"page.all"</span>&gt;</span><span class="tag">&lt;/<span class="name">pagination</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--代码片段--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"></div><div class="line"><span class="keyword">import</span> pagination <span class="keyword">from</span> <span class="string">'./components/pagination.vue'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">    	<span class="attr">page</span>: &#123;</div><div class="line">    		<span class="attr">now</span>: <span class="number">1</span>,</div><div class="line">    		<span class="attr">all</span>: <span class="number">10</span></div><div class="line">    	&#125;</div><div class="line">           </div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">components</span>: &#123;</div><div class="line">    pagination</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>根据传入的数据计算分页数据</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//pagination.vue</span></div><div class="line"></div><div class="line">computed: &#123;</div><div class="line">    pages () &#123;</div><div class="line">      <span class="keyword">var</span> pages = [];</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.now &gt; <span class="number">1</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="string">'上一页'</span>,</div><div class="line">        <span class="attr">num</span>: <span class="keyword">this</span>.now - <span class="number">1</span></div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.now - <span class="number">1</span> &gt; <span class="number">2</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="number">1</span>,</div><div class="line">        <span class="attr">num</span>: <span class="number">1</span></div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.now - <span class="number">1</span> &gt; <span class="number">3</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="string">'...'</span>,</div><div class="line">        <span class="attr">num</span>: <span class="number">0</span></div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="keyword">this</span>.all; i++) &#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">this</span>.now - i &lt; <span class="number">3</span> &amp;&amp; <span class="keyword">this</span>.now &gt;= i || i - <span class="keyword">this</span>.now &lt; <span class="number">3</span> &amp;&amp; <span class="keyword">this</span>.now &lt;= i)&#123;</div><div class="line">          pages.push(&#123;</div><div class="line">            <span class="attr">text</span>: i,</div><div class="line">            <span class="attr">num</span>: i</div><div class="line">          &#125;);          </div><div class="line">        &#125;        </div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.all - <span class="keyword">this</span>.now &gt; <span class="number">3</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="string">'...'</span>,</div><div class="line">        <span class="attr">num</span>: <span class="number">0</span></div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.all - <span class="keyword">this</span>.now &gt; <span class="number">2</span>) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="keyword">this</span>.all,</div><div class="line">        <span class="attr">num</span>: <span class="keyword">this</span>.all</div><div class="line">      &#125;);</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.now &lt; <span class="keyword">this</span>.all) pages.push(&#123;</div><div class="line">        <span class="attr">text</span>: <span class="string">'下一页'</span>,</div><div class="line">        <span class="attr">num</span>: <span class="keyword">this</span>.now + <span class="number">1</span></div><div class="line">      &#125;);</div><div class="line">      </div><div class="line">      <span class="keyword">return</span> pages;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>用v-for把分页渲染出来</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--pagination.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"pagination"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"page in pages"</span> <span class="attr">:class</span>=<span class="string">"&#123; 'active' : page.num == now &#125;"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">v-if</span>=<span class="string">"page.num"</span> @<span class="attr">click</span>=<span class="string">"toPage(page.num)"</span>&gt;</span>&#123;&#123; page.text &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">v-else</span>&gt;</span>&#123;&#123; page.text &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>子组件通过自定义事件向父组件传事件和数据</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//pagination.vue</span></div><div class="line"></div><div class="line">methods: &#123;</div><div class="line">    toPage (page) &#123;</div><div class="line">      <span class="keyword">this</span>.$emit(<span class="string">'toPage'</span>, page);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>父组件监听这个事件，然后调用方法changePage</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--app.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">pagination</span> <span class="attr">:now</span>=<span class="string">"page.now"</span> <span class="attr">:all</span>=<span class="string">"page.all"</span> @<span class="attr">toPage</span>=<span class="string">"changePage"</span>&gt;</span><span class="tag">&lt;/<span class="name">pagination</span>&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">//代码片段</span></div><div class="line">methods: &#123;</div><div class="line">    changePage (page) &#123;</div><div class="line">      <span class="keyword">this</span>.page.now = page</div><div class="line">    &#125; </div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="comment">//代码片段</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>至此完成了父组件把数据丢给子组件处理，子组件把操作反馈给父组件这一过程</p>
+<p>列表组件list.vue</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--list.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"list clearfix row"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-xs-6"</span> <span class="attr">v-for</span>=<span class="string">"item in items"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"img"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">"item.images.small"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"year"</span> <span class="attr">:year</span>=<span class="string">"item.year"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"year"</span>&gt;</span>&#123;&#123; item.year &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">slot</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"title"</span>&gt;</span>&#123;&#123; item.title &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"dis"</span>&gt;</span>&#123;&#123; item.original_title &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      </div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">props</span>: [<span class="string">'items'</span>]</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>来点动态的数据</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--app.vue--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"loading"</span> <span class="attr">v-show</span>=<span class="string">"loading"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">list</span> <span class="attr">:items</span>=<span class="string">"items"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"text-center"</span> <span class="attr">slot</span>=<span class="string">"title"</span>&gt;</span>豆瓣电影排行榜<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">template</span> <span class="attr">slot</span>=<span class="string">"year"</span> <span class="attr">scope</span>=<span class="string">"props"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"year red"</span>&gt;</span>&#123;&#123; props.year &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">list</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">pagination</span> <span class="attr">:now</span>=<span class="string">"page.now"</span> <span class="attr">:all</span>=<span class="string">"page.all"</span> @<span class="attr">toPage</span>=<span class="string">"changePage"</span>&gt;</span><span class="tag">&lt;/<span class="name">pagination</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="keyword">import</span> list <span class="keyword">from</span> <span class="string">'./components/list.vue'</span></div><div class="line"><span class="keyword">import</span> pagination <span class="keyword">from</span> <span class="string">'./components/pagination.vue'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">loading</span>: <span class="number">0</span>,</div><div class="line">      <span class="attr">params</span>: &#123;</div><div class="line">        <span class="comment">//每页显示条数</span></div><div class="line">        count: <span class="number">10</span>,</div><div class="line">        <span class="comment">//从第几条开始显示，初始0</span></div><div class="line">        start: <span class="number">0</span>,</div><div class="line">        <span class="comment">//总条数</span></div><div class="line">        total: <span class="number">250</span></div><div class="line">      &#125;,      </div><div class="line">      <span class="attr">items</span>: []      </div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">methods</span>: &#123;</div><div class="line">    getItems () &#123;</div><div class="line">      <span class="keyword">this</span>.loading = <span class="number">1</span>;</div><div class="line">      <span class="keyword">this</span>.$http.jsonp(<span class="string">'https://api.douban.com/v2/movie/top250'</span>, &#123;</div><div class="line">        <span class="attr">params</span>: <span class="keyword">this</span>.params</div><div class="line">      &#125;).then(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</div><div class="line">        <span class="keyword">if</span>(response.ok) &#123;</div><div class="line">          <span class="keyword">this</span>.items = response.data.subjects;</div><div class="line">          <span class="keyword">this</span>.params = &#123;</div><div class="line">            <span class="attr">count</span>: response.data.count,</div><div class="line">            <span class="attr">start</span>: response.data.start,</div><div class="line">            <span class="attr">total</span>: response.data.total</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">      &#125;, response =&gt; &#123;</div><div class="line">        <span class="built_in">console</span>.log(response);</div><div class="line"></div><div class="line">      &#125;).finally(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">this</span>.loading = <span class="number">0</span>;</div><div class="line">      &#125;)</div><div class="line"></div><div class="line">    &#125;,</div><div class="line">    changePage (page) &#123;</div><div class="line">      <span class="keyword">this</span>.params.start = (page - <span class="number">1</span>) * <span class="keyword">this</span>.params.count;</div><div class="line">      <span class="keyword">this</span>.getItems();</div><div class="line">    &#125; </div><div class="line"></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">components</span>: &#123;</div><div class="line">    list,</div><div class="line">    pagination</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">computed</span>: &#123;</div><div class="line">    page () &#123;</div><div class="line">      <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">now</span>: <span class="keyword">this</span>.params.start / <span class="keyword">this</span>.params.count + <span class="number">1</span>,</div><div class="line">        <span class="attr">all</span>: <span class="built_in">Math</span>.ceil(<span class="keyword">this</span>.params.total / <span class="keyword">this</span>.params.count)</div><div class="line">      &#125;      </div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;,</div><div class="line">  mounted () &#123;</div><div class="line">    <span class="keyword">this</span>.getItems();</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>##几个点：</p>
+<p>###prop传递数据</p>
+<blockquote>
+<p>组件实例的作用域是孤立的。这意味着不能并且不应该在子组件的模板内直接引用父组件的数据。可以使用 props 把数据传给子组件。</p>
+<p>类似于用 v-bind 绑定 HTML 特性到一个表达式，也可以用 v-bind 动态绑定 props 的值到父组件的数据中。每当父组件的数据变化时，该变化也会传导给子组件：</p>
+</blockquote>
+<p>###自定义事件</p>
+<blockquote>
+<p>父组件可以在使用子组件的地方直接用 v-on 来监听子组件触发的事件</p>
+</blockquote>
+<p>###slot分发内容</p>
+<blockquote>
+<p>组件不知道它的挂载点会有什么内容。挂载点的内容是<del>由父组件决</del>定的;组件很可能有它自己的模版</p>
+<p>为了让组件可以组合，我们需要一种方式来混合父组件的内容与子组件自己的模板。这个过程被称为 内容分发 (或 “transclusion” 如果你熟悉 Angular)。Vue.js 实现了一个内容分发 API ，参照了当前 Web 组件规范草案，使用特殊的 <code>&lt;slot&gt;</code> 元素作为原始内容的插槽。</p>
+</blockquote>
+<p><code>通过slot插槽将标题插入到子组件</code></p>
+<p>###作用域插槽</p>
+<blockquote>
+<p>父组件模板的内容在父组件作用域内编译；子组件模板的内容在子组件作用域内编译</p>
+<p>作用域插槽是一种特殊类型的插槽，用作使用一个（能够传递数据到）可重用模板替换已渲染元素。<br>在子组件中，只需将数据传递到插槽，就像你将 prop 传递给组件一样</p>
+</blockquote>
+<p><code>通过作用域插槽将子组件数据传给父组件，再作为自定义模板重新插入到子组件</code></p>
+<p>###计算<br><code>豆瓣接口接收参数和设计的不同，pages需要通过computed计算</code></p>
+<p>###分页的算法</p>
+<p>##引申问题：<br>watch params变化</p>
+<p>loading广播</p>
+
             
           </span>
         
@@ -867,198 +973,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/02/understanding-drupal8/" itemprop="url">
-                  understanding drupal8-drupal8初窥
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-02T15:42:26+08:00" content="2015-11-02">
-              2015-11-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/02/understanding-drupal8/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/02/understanding-drupal8/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>如何学习drupal8？国内文档寥寥可数，后发现老外的一篇文章，可做入门，遂翻译如下。原创内容，转载请注明出处！</p>
-<p>##一、结构<br>Drupal 8来了。这是一个革命！和Drupal6到Drupal7的演化不同，这是一个完全不同的架构和编码方式。我确信这些变化对专业化和现代化CMS是必不可少的。我相信转向面向对象将会吸引开发者，并将提升软件的整体质量。我感谢Drupal内核开发者的勇气以及为此所做的工作。<br>然而，对于现有（包括新的）Web开发者，学习drupal将是一个巨大的挑战。通过阅读这篇文章，您将更具优势。在你深入Drupal 8模块开发前，这篇文章会给你带去些许启示。在我写下这篇文章之前，我花了数天，通过一步步的调试、阅读代码和在线文章，深入地学习了symfony2 和 Drupal8。我是一个经验丰富的Drupal7开发者，但是对symfony一无所知，并且至今没有对Druapl8内核有所贡献。我相信，通过分享我所学到的，也能助你提升对它的理解。<br>在接下来的四周里，这篇文章将发布成四部分。在这第一部分，我们将一瞥Drupal 8 框架的总体架构，特别是与symfony2 组件的联系。我们将看到哪些symfony2 组件在Drupal中用到了以及如何使用。在下一个部分，我们将详细学习非常重要的类容器。在第三部分，我们将详细学习Drupal 8 的引导和路由。你将学到如何处理一个请求。在第四也是最后一部分，将会介绍drupal 8的其它一些令人兴奋的、全新的特性。</p>
-<p>###1、Symfony2<br>Symfony框架被设计用来使开发者能够构建自定义的Web应用。Symfony不是一个CMS，因为它不能用来管理一个站点。相反，要构建应用，必须要写代码。为此，symfony提供了一些方法使开发更具效率。理论上，CMS可以基于Symfony开发，但事实上，Symfony的默认方式对Drupal来说并不灵活。</p>
-<p>因此，Drupal 8只采用了Symfony的非常优秀的内核层，并且扩展它以支持Drupal模块。这促生了一个非常平衡的系统，它采用Symfony部分优秀的内核（而且未经修改），但是可以基于一个非常灵活的CMS层扩展它。</p>
-<p>###2、组件<br>Symfony框架由数个组件构成。有些对系统是至关重要的，例如能理解HTTP协议并且为其他组件提供良好request和response对象的Http Foundation组件。其他的仅是辅助组件，例如校验数据的Validator组件（检测是否是合法的电子邮件地址/URL/数字/等等？）。系统的核心是Kernel组件。这个内核总的来说就是一个主类，它管理环境（类和程序集）并负责处理http请求。开发者可以通过扩展内核来扩展系统，例如AppKernal就是扩展了Kernal，并且在里面添加了自己的程序集。这些程序集可以构建一系列连贯的功能集合，非常类似于Drupal的模块。<br>Drupal只使用了Symfony的一部分组件，如下图所示：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151104/2015110494853_67351.png" alt="组件"></p>
-<p>###3、Drupal 8如何扩展Symfony<br>Drupal不扩展内核，而Symfony应用会。通过实现内核接口，Drupal提供了相似的功能类型。这是因为Drupal不共享Symfony的程序集方法。程序集提供了极好的方式来构建自定义的web应用，但是不适合构建需要灵活性和扩展性的CMS。DrupalKernal加载环境（可用的类和模块）的方式与Kernal稍微不同，但是和Symfony Kernal一样，都是把将http请求委托给HttpKernel。<br>与此同时，Drupal 8引入了自己的（第三方）组件和核心代码，示意概览如下图所示：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151104/2015110494817_42194.png" alt="Drupal 8如何扩展Symfony"></p>
-<p>###4、结论<br>这里总结了“开始学习Drupal 8”这篇文章。下周我们将开始学习类容器，可以理解成Drupal系统的骨架。在理解任何其他组件前你必须先了解它。</p>
-<p>##二、服务容器<br>这是“理解Drupal 8”的第二部分。在第一部分，我们已经学习了Drupal 8的总体架构以及它与Symfony的关联。Symfony（和Drupal 8）包含着许多组件。在这篇文章中，你将会学习到什么是服务容器，以及在Drupal 8中怎么使用它。很重要的一点就是，在学习路由之前我们得先理解服务容器。</p>
-<p>Symfony采用了服务器容器，它可以高效地管理应用中的services。这个概念也就是所谓的Dependency Injection。</p>
-<p>服务容器是一个在处理请求之前由Kernal创建并包含的全局对象。它能被用来获取服务，动态加载服务。服务是用于完成特定任务的全局对象，例如邮件服务或数据库连接。一个服务对应着一个确切的类。服务容器非常重要，因为它包含可用服务，知道它们的联系和配置信息，甚至构造它们。</p>
-<p>###1、依赖和参数<br>一个服务可能依赖于其他服务。Symfony文档举了个通讯管理服务依赖邮件服务来发送邮件的例子。服务容也管理着这些依赖。当创建一个服务时，它的依赖会通过类构造器中的参数进行传递。接口用来定义依赖服务要提供哪些方法，这样实现的这个服务才能在必要时与另一个服务进行交换。</p>
-<p>###2、配置<br>服务容器中的服务可以通过多种方式进行配置：代码（所谓的扩展），XML，YAML，等等。Symfony混合着使用这些方式，但是把大多数核心服务配置留给了程序集代码。Drupal的服务配置则不同，大部分基于yaml文件。Drupal使用services.core.yml来关联所有与内核相关的配置。这个配置可以被模块和ServiceProvider类扩展。</p>
-<p>YAML提供了可读的和灵活的语法。Drupal 8中的一个例子（摘自services.core.yml）：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">services:</div><div class="line">  ...</div><div class="line">  router_listener:</div><div class="line">  class: Symfony\Component\HttpKernel\EventListener\RouterListener</div><div class="line">  tags:</div><div class="line">    - &#123; name: event_subscriber &#125;</div><div class="line">  arguments: ['@router']</div><div class="line">  ...</div><div class="line">  router:</div><div class="line">    class: Symfony\Cmf\Component\Routing\ChainRouter</div><div class="line">    calls:</div><div class="line">      - [setContext, ['@router.request_context']]</div><div class="line">      - [add, ['@router.dynamic']]</div><div class="line">  ...</div></pre></td></tr></table></figure>
-<p>这里定义了router_listener服务。对应的类要求能够加载这个监听器。arguments属性定义了RouterListener 构造器的第一个参数（URL或请求匹配器）应该是service id是router的服务：‘@router’。这个路由也被定义在配置文件中，而且是一个不同于Symfony中使用的‘类’。</p>
-<p>###3、标签化的服务<br>标签被用来加载特定的标签化的服务。在实践中，drupal有时使用钩子方式。在以下例子中（node.services.yml），node模块为’add node’页面增加了一个访问检查，基于access_check服务模式，当访问时，将会检查访问是否被允许。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">services:</div><div class="line">  ...</div><div class="line">  access_check.node.add:</div><div class="line">    class: Drupal\node\Access\NodeAddAccessCheck</div><div class="line">    arguments: ['@plugin.manager.entity']</div><div class="line">    tags:</div><div class="line">      - &#123; name: access_check &#125;</div><div class="line">        ...</div></pre></td></tr></table></figure>
-<p>###4、Compiler passes<br>Drupal是如何理解这些标签以及如何处理它们的呢？好，Symfony已经有另外一种动态配置服务容器的方法：Compiler pasess。服务容器实际上在用静态配置构建之后就被编译了。在这个期间，它允许对象实现CompilerPassInterface 类来更改配置。在Drupal中，CoreServiceProvider 注册了一些非常重要的Compiler pasess，例如RegisterAccessChecksPass，它会试图找到所有加了access_check标签的服务（见上例）然后把它添加到AccessManager（通过使用addMethodCall容器指令）中。在路由阶段，AccessManager 会检查访问权限，它将在其他类之间检查NodeAddAccessCheck。在drupal内核中还有几个其他的Compiler pasess，例如用于将路由参数转换成对象和转义字符串的Compiler passes。在实践中，你有时需要在模块中使用这些标签化的服务来增加自定义访问校验，转换路径参数。</p>
-<p>###5、Swapping services<br>服务容器使灵活的服务配置成为可能。Drupal 8使用服务参数改变了Symfony使用这些参数实现自己功能的方式。例如，drupal需要一个不同于Symfony的url路由机制。与Symfony的(Symfony\Bundle\FrameworkBundle\Routing\Router)相比，它通过提供不同的路由服务(Symfony\Cmf\Component\Routing\ChainRouter)来实现。而这个<br>不需要改变router_listerner (Symfony\Component\HttpKernel\EventListener\RouterListener)类本身的任何一行代码。由于两个路由都实现了RequestMatcherInterface接口，而这个接口是RouterListener的第一个必要参数，所以这个是可以实现的。</p>
-<p>###6、结论<br>在这一部分，我们学习了Drupal 8 的服务容器组件。现在，你对Drupal8不修改一行代码实现自己的服务替换Symfony2的服务应该有了更好的认识。这允许drupal内核维护者轻松地升级Symfony2。当学习Drupal 8时，你会经常翻阅core.services.yml文件查找正在使用的服务。</p>
-<p>下周，我们将详细学习Drupal 8的控制流程和路由。</p>
-<p>##三、路由</p>
-<p>这是’理解drupal8’的第三部分，在前2个部分，我们学习了drupal8和Symfony的结构化差异。这部分我们将学习drupal8如何处理一个请求。首先，我们将看下引导阶段以及控制流程，然后我们将会学习事件订阅，这是个非常重要的概念，需要你在学习请求处理之前就理解它。</p>
-<p>###1、流程控制(Flow of control)<br>接下来，我们将学习发起一个请求之后，drupal8是如何处理的。</p>
-<p>####1)、bootstrap配置<br>①、读取settings.php文件（一般在sites/default/下），动态生成一些其它设置信息，保存到全局变量和Drupal\Component\Utility\Settings对象中。<br>②、执行类加载器(class loader)，加载类。<br>③、设置Drupal错误处理程序。<br>④、检测Drupal是否正确安装，如没有，则跳转到安装界面。</p>
-<p>####2)、构建Drupal内核</p>
-<p>####3)、初始化service container（从缓存或者重建）</p>
-<p>####4)、把container添加到Drupal静态类</p>
-<p>####5)、尝试加载缓存的静态页(类似Drupal7)</p>
-<p>####6)、加载所有变量(variable_get) ？这个函数已经去掉了</p>
-<p>####7)、加载其他必要的文件</p>
-<p>####8)、注册stream wrappers(public://, private://, temp://，自定义)</p>
-<p>####9)、创建HTTP请求对象（使用Symfony HttpFoundation）</p>
-<p>####10)、DrupalKernel处理并返回结果</p>
-<p>####11)、发送返回结果给客户端</p>
-<p>####12)、中断请求</p>
-<p>其中最值得探讨的是在请求处理阶段究竟发生了什么?要了解这点，我们先来学习事件监听。</p>
-<p>###2、事件订阅(Event subscribers)<br>之前，我们探讨了Compiler passes。标签化服务一个最重要的用处就是，event_subscriber-tagged服务。这些服务应该实现了EventSubscriberInterface，并且基本上都是事件监听器。事件会声明一个getSubscribedEvents方法定义哪个事件应该映射到哪个处理方法，并设置一个属性来决定事件动作执行的顺序。在Drupal核心中只有少数事件在调用：<br>①、kernel.request<br>请求分发的最初阶段调用<br>②、kernel.response<br>请求响应的时候调用<br>③、routing.route_dynamic<br>允许模块加载额外的路由<br>④、routing.route_alter<br>允许在route collection中改变routes。主要用于核心添加一些校验和参数转换。</p>
-<p>每个Drupal开发者都应该了解事件订阅。尤其是kernel.request，因为它替换了hook_init(Drupal7)。另外一个比较重要的事件是routing.route_dynamic事件。因为它可以创建动态路由，而一般路由是在yaml文件中静态配置的。在Drupal8之前，都是在hook_menu中实现，但现在hook_menu仅用于生成菜单项。如block模块在\Drupal\block\Routing\RouteSubscriber用 routing.route_dynamic注册路由用于区块配置页面。</p>
-<p>你可能会奇怪事件订阅干嘛不用hook呢？因为这是一种很有效的方式，所有可用的事件监听都已经编译到了服务容器中，而且还被缓存着！同时，它也会让Drupal更加趋于面向对象。</p>
-<p>###3、从请求到响应(From request to response)<br>当一个请求来时，系统开始引导，启动DrupalKernel，调用对应的方法，委派请求给Symfony2的HttpKernel做进一步处理。<br>HttpKernel分发kernel.request事件，一些订阅监听事件将按照顺序执行：<br>①、AuhtenticationSubscriber<br>加载session，设置全局用户<br>②、LanguageRequestSubscriber<br>检测当前语言<br>③、PathSubscriber<br>将url转换为系统路径(url别名等)<br>④、LegacyRequestSubscriber<br>允许设置一个自定义主题并初始化<br>⑤、MaintenanceModeSubscriber<br>如果是维护模式，显示维护页面<br>⑥、RouteListener<br>获取所有已加载的路由对象<br>⑦、AccessSubscriber<br>检查客户端的访问权限</p>
-<p>RouterListener在路由工作的时候调用，获取路由服务返回的路由属性。Drupal的路由服务跟Symfony的不同：DynamicRouter在Symfony中仅仅以插件形式提供，见<a href="http://cmf.symfony.com/。与Symfony常规路由的主要区别在于，Drupal的DynamicRouter支持增强，我们将在下一节讨论。DynamicRouter类接下来会把查找当前路由的任务（类似于Drupal" target="_blank" rel="external">http://cmf.symfony.com/。与Symfony常规路由的主要区别在于，Drupal的DynamicRouter支持增强，我们将在下一节讨论。DynamicRouter类接下来会把查找当前路由的任务（类似于Drupal</a> 7中的current_path）委派给NestedMatcher, 而NestedMatcher又会把这个任务委派给RouteProvider。RouteProvider会在router表中找到匹配该路由的路由，也包括在CMS中的已缓存的路由。这个路由表是由route builder创建，站点我们稍后再做介绍。路由按照路径长度进行匹配：最长的匹配路径被认为是正确的。然后，NestedMatcher要求UrlMatcher在路由集中选定那个特定的活跃路由。通常，能正确的通过http/https通过GET/POST方式访问的路由将被UrlMatcher优先匹配(最长匹配)。当然通常情况下，我们只会定义一个路由，所以UrlMatcher的作用很有限。最终的结果就是匹配到一个可用的活跃路由，如node.add_page。</p>
-<p>接下来我们了解一下route filters，可能在实际项目中并不一定用到。通过添加一个打了标签名为route_filter的service，这些route filters将被NestedMatcher调用，在RouteProvider返回正确路由信息之后直接过滤路由集。Drupal核心仅对没有返回MIME类型的路由采用mechanism名做过滤操作，当然，还得显示指定”_format”。</p>
-<p>匹配到请求路由后，DynamicRouter继续调用路由的增强属性，包含路由属性，转换路由参数。下一节将讲述这个过程。然后路由属性会返回给RouterListener，并设置在请求对象中。接下来，执行权限检查(AccessSubscriber)，最后，使用正确的参数调用控制器方法，控制器返回结果给客户端。</p>
-<p>现在我们知道了请求的处理过程，接下来再来研究一下路由。</p>
-<p>###4、路由<br>在Drupal7中，hook_menu用于注册页面回掉函数(page callbacks)、标题(titles)、参数(arguments)、访问要求(requirements)等，Drupal8中,采用了Symfony的路由，将更加灵活，也更复杂。</p>
-<p>Drupal8中将不会再有页面回掉函数，取而代之的是控制器类的方法。这些有效的路由现在会被配置在模块目录下的{module}.routing.yml文件中。举个例子：用户退出登陆的配置：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">user.logout:</div><div class="line">  path: <span class="string">'/user/logout'</span></div><div class="line"> defaults:</div><div class="line">    _controller: <span class="string">'\Drupal\user\Controller\UserController::logout'</span></div><div class="line">  requirements:</div><div class="line">    _user_is_logged_in: <span class="string">'TRUE'</span></div></pre></td></tr></table></figure>
-<p>注意：任何路由都需要一个ID(user.logout)和路径(/user/logout)。在路径中也可包含参数，后面再来讨论。’default’非常重要，它用于控制请求路径匹配时需要做什么。’requirement’定义了是否应该处理请求，通常包括访问检查，Symfony替代了Drupal7的’access arguments’和’access callback’。</p>
-<p>####常用’default’键：<br>①、_controller<br>返回一个预期的结果，通过调用特定的方法。<br>②、_content<br>如指定，基于请求的MIME类型设置_controller，并用特定的方法(通常是字符串或数组)填充返回值<br>③、_form<br>如指定，_controller设置给HtmlFormController::content响应特定的表单。这个form是一个类名，实现了FormInterface，而且通常继承自FormBase。当然表单的构建也是面向对象的。<br>④、_entity_form<br>如指定，_controller设置给HtmlEntityFormController::content返回特定的实体表单(如{entity_type}.{add|edit|delete})<br>⑤、_entity_list<br>如指定，_controller设置给HtmlFormController::content，_content设置给EntityListController::listing，基于实体类型列表控制器返回一个实体列表，使用期望实体的EntityListController提供一个实体列表。例:_entity_list: view_mode返回一个视图模式的渲染数组。<br>⑥、_entity_view<br>如指定，_controller设置HtmlFormController::content，_content设置EntityViewController::view ，在给定的视图模式下，通过路径和渲染模式下查找一个实体。如: _entity_view:node.teaser。 在视图模式下将返回一个{node}的渲染数组。<br>⑦、_title<br>页面的标题(字符串)<br>⑧、_title_callback<br>页面的标题(方法回调)</p>
-<p>####常用’requirement’键：<br>①、_permission<br>指定当前用户需要拥有的特定权限<br>②、_role<br>指定当前用户需要拥有的特定角色<br>③、_method<br>允许的HTTP方法，如GET、POST等<br>④、_schema<br>一般为http或https，并且请求的scheme和定义的schema要一致。当使用Drupal::url()输出url时也会带入这个属性。<br>⑤、_node_add_access<br>定义某些node type的访问控制<br>⑥、_entity_access<br>实例的访问控制<br>⑦、_format<br>格式化MIME类型</p>
-<p>上面所列的大多数(但不是所有)的requirement’是由access checkers’进行校验，这个我们稍后介绍。实际项目中，你可能需要创建一个自定义的access checkers,因为Drupal 7的’access callback’已不再可用。像node模块中的’_node_add_access’,通过定制的权限控制(NodeAddAccessCheck)来处理。</p>
-<p>AccessManager执行权限控制,订阅kernel.requet的事件。调用权限检测，必须实现AccessInterface类。在之前，我们已经了解到权限检测会被注册为打了标签access_check的services。权限检测会有一个方法去检测客户端是否有权限访问指定的路由，如果访问被拒绝,会抛出一个“拒绝访问”页面。</p>
-<p>####路径参数(path parameters)<br>在实践中你经常需要参数去控制页面回调。下面的路由定义实例中，路径包含一个名为’node’的参数。每一个路由存储相应的选项。控制器方法接收这些参数作为参数。所以在这种情况下,NodeController方法有一个参数:$node。一个路由可以有多个参数,但是他们的名字应该是唯一的。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">node.view:</div><div class="line">  path: <span class="string">'/node/&#123;node&#125;'</span></div><div class="line">  defaults:</div><div class="line">    _content: <span class="string">'\Drupal\node\Controller\NodeController::page'</span></div><div class="line">    _title_callback: <span class="string">'\Drupal\node\Controller\NodeController::pageTitle'</span></div><div class="line">  requirements:</div><div class="line">    _entity_access: <span class="string">'node.view'</span></div></pre></td></tr></table></figure></p>
-<p>参数传递的值默认就是url中的值(一个字符串)，但通常会通过parameter converter进行转换。在上面的示例中,NodeController不会得到node id，而是一个加载的node实体。 参数转换是由订阅着kernel.request事件的ParamConverterManager完成。ParamConverterManager包含可所有注册了的ParamConverterInterface(标签名为paramconverter的服务)的实现。当处理一个请求时,ParamConverterManager会遍历活跃路由的参数并调用参数转换器的转换方法。如果可能的话，一个’string’参数会被替换为一个完整的对象。请注意，如果控制器方法的参数没有明确的类型暗示，将会传递未发生转换的参数。</p>
-<p>EntityConverter是Drupal核心中唯一一个提供参数转换的类，但是在Drupal中使用得很广。如果一个参数名匹配到了一个实体类型(‘node’, ‘user’等)，它就会被自动转换为实体对象。它的值被认为是实体的id。如果实体不存在或转换失败，则返回404。</p>
-<p>你也可以指定一些值作为默认的可选参数，这只适用于参数不被转换的情况。</p>
-<p>###4、路由生成(Route building)<br>路由，显然是在请求中完成的，它使用之前构建的’router’表。RouteBuilder service负责填充路由表(例如,当清理缓存后)。当一个请求来时，这个路由表用于查找对应的路由并完成它。这么做是出于性能的考虑。RouteBuilder通过收集所有的已配置的静态路由(yml-files)并创建一个包含它们的集合。它也调用route.route_dynamics事件，在这个事件中，事件订阅者还可以注册额外的路由(见上面的示例block模块)。然后调用routing.route_alter事件，这个事件可能有多个订阅者。另外一些特别重要的如访问控制和参数转换。</p>
-<p>我们刚刚提到的访问检测。当处理一个请求时，访问检测会检测客户端是否有权限访问。当然，并不是所有的路由都需要权限。实际上，在构建路由的时候，就会决定每个路由的访问权限。这项工作由监听router.route_alter事件的AccessManager完成，包含静态和动态的访问控制。StaticAccessCheckInterface有一个方法appliesTo,用于返回一个requirement数组。动态访问控制通过applies方法来测试每个路由。AccessManager在router表中添加了一个选项“_access_checks”，这常用于处理一个请求时做路由的权限控制。注意，每一个路由至少需要一个访问检测，否则永远不会访问路由!</p>
-<p>我们也提到参数转换器，也就是一个参数如何被转换器转换。每个参数，可能会有一个适用的转换器(或没有)。就像访问控制，这个适用的转换器会在ParamConverterManager创建路由时被搜索到。这个服务会检查每一个存在的路由参数，以及对应参数转化器的applies方法，并在router表中添加一个选项“converter”。这通常用于处理时，转换参数。</p>
-<p>###5、总结(Conclusion)<br>在本节中,我们已经了解了如何处理请求。同时,你现在应该了解Drupal 8的路由以及它是如何工作的!事实上,你已经知道了从请求到响应这一基本流程。然而，Drupal8中仍然有一些有趣的概念存在，这部分内容将在下个部分也是最后一部分里面进行探讨。好了，我们下周再来讨论。</p>
-<p>##四、Drupal8其它概念</p>
-<p>在过去的几周我们已经了解了Drupal的结构和如何处理请求。我们还没有了解如何安装配置Drupal8。在你深入具体的核心模块代码之前,你应该了解一些重要的新的或变更的Drupal8概念。我在本文的最后一部分将描述它们。</p>
-<p>###1、配置(Configuration)<br>Drupal8的配置系统做了很多令人兴奋的改进。最值得注意的是,现在配置存储在一个YAML-files中，目录结构一般为’/sites/{name}/files/config_{HASH}/active’。文件名应该准确描述该配置文件，例如,“node.settings.yml”是节点模块的设置，“views.view.content.yml”是一个完整的机器名称为’content’视图定义!</p>
-<p>你可能认为配置文件非常不灵活。但在实践中,您可以使用YAML-syntax构建信息的关联数组。此外,Drupal提供一个Config对象可以用来改变配置文件，而不必手动编辑这样一个文件!当您通过Drupal UI创建一个新的字段，节点类型，区块类型或视图时，系统将会创建一个新的文件。内容(nodes)和数据依然存储在数据库中，否则你将无法建立快速查询。</p>
-<p>一个模块可以包含conf子目录。当启用了一个模块，目录下的所有配置文件会被复制到网站的配置目录下，当文件添加完毕（而且缓存已经情况），配置会被系统检测到并且自动生效。通过这种方式,一个模块可以提供额外的node types, image styles, views等无需实现Drupal7中的诸如hook_node_info的钩子。</p>
-<p>配置文件可以很容易地复制到另一个地方，这有利于在最后阶段更改配置!</p>
-<p>配置文件也可能有一个关联的schema，详细描述了一个view/block/image style/的配置应该是什么样的。这样可以更好的验证、翻译配置。</p>
-<p>###2、实体(Entities)<br>Drupal7引入了实体，使用实体作为主要的抽象内容，是Drupal底层架构最大的变化。例如,字段可被连接，可以定义访问方法，可以关联视图等。实体现在变的非常强大。在Drupal8中, 实体已经变的对于CMS来说更加核心。不仅内容数据(节点nodes、分类taxonomy terms、用户users)都是实体,而且non-fieldable比如视图(views)、数据操作(actions)、菜单(menus)、图像(image styles)等都是扩展实体类，也包节点类型和词汇等实体。</p>
-<p>使用attributes定义一个实体的属性。例如，这里可以指定一个实体是否fieldable或者它应该作为另一个实体的一个集合。实体依赖于控制器，不一定需要保存在配置文件中。如果控制器继承ConfigStorageController,将被保存为配置文件。虽然配置文件有好处，这意味着您不能使用数据库查询它们。如果你想搜索它们,你要加载所有项目并使用for循环去检索。如果存储在数据库中，例如节点和用户,就可以使用FieldableDatabaseStorageController。节点、用户、分类都是一样。但结果就是，这些内容不能通过配置文件进行传递。对我来说,现在还不清楚是否有可能有一个fieldable配置存储控制器!</p>
-<p>如果要加深实体的理解，我建议你看一看ImageStyle类,这是一个纯粹的基于配置的实体，taxonomy term,它是一个字段化基于数据库存储的实体，还有Vocabulary，它是一个实体集。</p>
-<p>###3、插件(Plugins)<br>插件可以看作是钩子的面向对象版本。他们用于模块化包括自定义模块，图像效果等。</p>
-<p>学习插件有个很好的示例就是BlockBase抽象类。为了添加一个新的自定义block时，就必须继承这个类，这么做类似于论坛模块的ActiveTopicsBlock类。一些方法不一定必须覆盖其访问检查、视图建立、改变块的形式等。</p>
-<p>插件管理器用来定义插件类型，指定命名空间列表以及用于存放插件的子目录。通过这种方式,任何模块可以添加插件。插件通过注释类的方式进行设置。此外，根据不同的插件类型，注释中必须要指定一些配置属性。</p>
-<p>###4、类(Drupal class)<br>Drupal 8核心代码主要是面向对象的。然而，模块中的钩子代码仍然是面向过程的。这里就出现了疑问,因为Symfony是完全面向对象的！在Symfony中，如果您需要依赖于另一个service创建一些功能,您将创建一个新的服务并且在服务容器定义所需的必须依赖项。但如果你想用Drupal的钩子实现一个特定的service,将创建一个静态Drupal类。它可以通过使用Drupal::service(“{service_id}”),或着通过使用特定的像Drupal::request(),Drupal:currentUser(),Drupal:entityManager()的服务访问器类获程序流程中的services。后者的优势是可以为你提供更好的代码补全功能。此外,它提供了一些方便像Drupal::url()的辅助方法，相当于Drupal7的url()方法。</p>
-<p>下面是一个采用Drupal class的例子，位于node.module中的node_access方法:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">node_access</span><span class="params">($op, $node, $account = NULL, $langcode = NULL)</span> </span>&#123;</div><div class="line">  $access_controller = \Drupal::entityManager()-&gt;getAccessController(<span class="string">'node'</span>);</div><div class="line">  ...</div><div class="line">  <span class="keyword">return</span> $access_controller-&gt;access($node, $op, $langcode, $account);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>###5、总结(Conclusion)<br>在本文中,我们已经了解了Drupal8的结构，以及与Symfony2对比。我们还学习了服务容器管理着所有服务,而服务可以进行配置。之后我们学习了路由和处理请求的过程。最后我们介绍了Drupal8中一些重要的新概念:Drupal类,插件和配置Drupal8。</p>
-<p>我希望所有这些会帮助你探索和了解Drupal8。我希望你能够了解Drupal8模块开发，并对这个伟大的项目有所贡献。</p>
-<p>原文出处：<a href="https://cipix.nl/understanding-drupal-8-part-1-general-structure-framework" target="_blank" rel="external">https://cipix.nl/understanding-drupal-8-part-1-general-structure-framework</a></p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1099,7 +1019,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">78</span>
+              <span class="site-state-item-count">79</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
