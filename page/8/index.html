@@ -201,11 +201,195 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/17/CentOS6-4安装oracle-10g教程/" itemprop="url">
+                  CentOS6.4安装oracle 10g教程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-17T13:55:47+08:00" content="2015-11-17">
+              2015-11-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/17/CentOS6-4安装oracle-10g教程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/17/CentOS6-4安装oracle-10g教程/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
+        
+          <span itemprop="articleBody">
+            
+              <p>##一、硬件要求<br>1、内存 &amp; swap<br>Minimum: 1 GB of RAM<br>Recommended: 2 GB of RAM or more<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211127_56147.png" alt="硬件要求"></p>
+<p>检查内存情况<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">grep MemTotal /proc/meminfo</div><div class="line">grep SwapTotal /proc/meminfo</div></pre></td></tr></table></figure></p>
+<p>2、硬盘<br>由于CentOS安装后差不多有4~5G，再加上Oracle等等的安装，所以请准备至少10G的硬盘空间。<br>检查磁盘情况<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df -h</div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211509_28032.jpg" alt="df-h"></p>
+<p>##二、软件<br>系统平台：CentOS 6.3(x86_64)<br>CentOS-6.3-x86_64-bin-DVD1.iso<br>Oracle版本：Oracle 10g R2<br>10201_database_linux_x86_64.cpio</p>
+<p>##三、系统安装注意<br>系统安装时一定要安装桌面模式，否则无法安装oracle，另外请勿开启SELinux，oracle官方不建议使用SELinux，CentOS 的防火墙也请暂时关闭，减少安装时的困扰。为防止Oracle安装过程中出现乱码，建议使用英文作为系统语言，进行Oracle的安装工作。<br>本文中所描述的系统命令，未经特殊标示，均为“#”代表root权限，“$”代表oracle权限。</p>
+<p>##四、安装Oracle前的系统准备工作<br>首先，请先以root账号登入作一些前置设定作业。<br>1、关闭防火墙、禁用SELinux<br>setup<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211724_11378.jpg" alt="setup"></p>
+<p>vi /etc/selinux/config<br>修改SELINUX=disabled，然后重启。<br>如果不想重启系统，使用命令setenforce 0<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211852_74451.jpg" alt="setenforce"></p>
+<p>2、安装依赖包<br>Oracle官方文档要求的安装包：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212103_24755.jpg" alt="oracle安装依赖包"></p>
+<p>查看Oracle相关包是否已经安装：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212212_30050.jpg" alt="oracle相关包"></p>
+<p>用yum方式安装所需的包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install binutils compat-libstdc++-33 compat-libstdc++-33.i686 elfutils-libelf elfutils-libelf-devel gcc gcc-c++ glibc glibc.i686 glibc-common glibc-devel glibc-devel.i686 glibc-headers ksh libaio libaio.i686 libaio-devel libaio-devel.i686 libgcc libgcc.i686 libstdc++ libstdc++.i686 libstdc++-devel make sysstat</div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212321_10098.jpg" alt="yum"></p>
+<p>最后还需要安装libXp这个Library，这个一定要安装，否则安装Oracle时会出现java Exception。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libXp</div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212436_33952.jpg" alt="libXp"></p>
+<p>3、创建Oracle用户与组<br>在这里只讨论单主机环境，不考虑RAC环境的配置。<br>执行以下指令以新增oracle安装时所需要的使用者与群组。<br>(1) 建立群组oinstall<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">groupadd oinstall</div></pre></td></tr></table></figure></p>
+<p>(2) 建立群组dba<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">groupadd dba</div></pre></td></tr></table></figure></p>
+<p>(3) 新增使用者oracle并将其加入oinstall和dba群组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">useradd -m -g oinstall -G dba oracle</div></pre></td></tr></table></figure></p>
+<p>(4) 测试oracle账号是否建立完成<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">id oracle</div></pre></td></tr></table></figure></p>
+<p>(5) 建立oracle的新密码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">passwd oracle</div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212623_66655.jpg" alt="passwd"></p>
+<p>(6) 建立oracle安装目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir -p /home/app/oracle</div><div class="line">chown -R oracle:oinstall /home/app/oracle</div><div class="line">chmod -R 775 /home/app/oracle</div></pre></td></tr></table></figure></p>
+<p>4、将oracle使用者加入到sudo群组中<br>vi /etc/sudoers<br>找到<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root        ALL=(ALL)        ALL</div></pre></td></tr></table></figure></p>
+<p>这行，并且在底下再加入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">oracle        ALL=(ALL)        ALL</div></pre></td></tr></table></figure></p>
+<p>输入wq!（由于这是一份只读文档所以需要再加上!）并且按下Enter<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213155_30373.jpg" alt="sudo"></p>
+<p>5、配置系统内核参数<br>vi /etc/sysctl.conf<br>修改和添加以下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">kernel.shmall = 4294967296                           //表示系统一次可以使用的共享内存总量（以页为单位）。缺省值就是2097152，通常不需要修改</div><div class="line">kernel.shmmax = 68719476736                      //定义了共享内存段的最大尺寸（以字节为单位）。缺省为32M，对于oracle来说，该缺省值太低了，通常将其设置为2G</div><div class="line">kernel.shmmni = 4096                                    //用于设置系统范围内共享内存段的最大数量。该参数的默认值是 4096 。通常不需要更改</div><div class="line">kernel.sem = 250 32000 100 128                    //表示设置的信号量</div><div class="line">net.ipv4.ip_local_port_range = 1024 65000</div><div class="line">net.core.rmem_default=4194304                     //默认的接收窗口大小</div><div class="line">net.core.rmem_max=4194304                        //接收窗口的最大大小</div><div class="line">net.core.wmem_default=262144                      //默认的发送窗口大小</div><div class="line">net.core.wmem_max=262144                         //发送窗口的最大大小</div></pre></td></tr></table></figure></p>
+<p>会有一些与目前的参数重复的，就修改成文件上提供的。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213249_97968.jpg" alt="sysctl"></p>
+<p>编辑完之后，储存，然后执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl –p</div></pre></td></tr></table></figure></p>
+<p>启用刚刚所做的变更。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213427_99326.jpg" alt="sysctl-p"></p>
+<p>6、编辑/etc/security/limits.conf<br>vi /etc/security/limits.conf<br>添加以下四行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">oracle  soft        nproc   2047</div><div class="line">oracle  hard        nproc   16384</div><div class="line">oracle  soft        nofile  1024</div><div class="line">oracle  hard        nofile  65536</div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213539_84050.jpg" alt="limits"></p>
+<p>7、编辑/etc/pam.d/login<br>vi /etc/pam.d/login<br>添加以下两行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">session required /lib64/security/pam_limits.so</div><div class="line">session required pam_limits.so</div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213641_35440.jpg" alt="login"></p>
+<p>8、修改/etc/profile<br>vi /etc/profile<br>将以下代码新增到profile档案中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> [ <span class="variable">$USER</span> = <span class="string">"oracle"</span> ]; <span class="keyword">then</span></div><div class="line">    <span class="keyword">if</span> [ <span class="variable">$SHELL</span> = <span class="string">"/bin/ksh"</span> ]; <span class="keyword">then</span></div><div class="line">        <span class="built_in">ulimit</span> -p 16384</div><div class="line">        <span class="built_in">ulimit</span> -n 65536</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="built_in">ulimit</span> -u 16384 -n 65536</div><div class="line">    <span class="keyword">fi</span></div><div class="line"><span class="keyword">fi</span></div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213744_91921.jpg" alt="profile"></p>
+<p>9、修改Linux发行版本信息<br>由于Oracle 10g发行的时候，CentOS 6没有发行，所以Oracle 10g并没有对CentOS 6确认支持，需要修改文件让Oracle 10g支持CentOS 6。<br>我们需要手工修改Linux的发行注记，让Oracle 10g支持CentOS 6。<br>编辑/etc/redhat-release文件<br>vi /etc/redhat-release<br>将其中的内容CentOS release 6.3 (Final)修改为redhat 4<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213909_63963.jpg" alt="redhat-release"></p>
+<p>10、创建Oracle安装文件夹以及数据存放文件夹<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir /opt/oracle</div><div class="line">mkdir /opt/oracle/102</div><div class="line">chown -R oracle:dba /opt/oracle</div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214010_35072.jpg" alt="mkdir"></p>
+<p>11、配置Linux主机<br>检查/etc/hosts文件中是否有localhost的记录（指向127.0.0.1即可），若没有的话，在后面配置Oracle监听的时候会出现一些问题，导致无法启动监听，在此手工添加此记录即可。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214213_76672.jpg" alt="配置linux主机"><br>第一阶段到此完毕，接下来，完成这些设定之后，请先注销root账号，并且以oracle账号再次登入系统。</p>
+<p>12、配置oracle用户环境变量<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /home/oracle</div><div class="line">vi .bash_profile</div></pre></td></tr></table></figure></p>
+<p>修改并加入以下內容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> ORACLE_BASE=/home/app/oracle</div><div class="line"><span class="built_in">export</span> ORACLE_HOME=<span class="variable">$ORACLE_BASE</span>/product/10.2.0/db_1</div><div class="line"><span class="built_in">export</span> ORACLE_SID=pltest02</div><div class="line"><span class="built_in">export</span> PATH=.:<span class="variable">$&#123;PATH&#125;</span>:<span class="variable">$HOME</span>/bin:<span class="variable">$ORACLE_HOME</span>/bin</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;PATH&#125;</span>:/usr/bin:/bin:/usr/bin/X11:/usr/<span class="built_in">local</span>/bin</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;PATH&#125;</span>:<span class="variable">$ORACLE_BASE</span>/common/oracle/bin</div><div class="line"><span class="built_in">export</span> ORACLE_TERM=xterm</div><div class="line"><span class="built_in">export</span> TNS_ADMIN=<span class="variable">$ORACLE_HOME</span>/network/admin</div><div class="line"><span class="built_in">export</span> ORA_NLS10=<span class="variable">$ORACLE_HOME</span>/nls/data</div><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH32=<span class="variable">$ORACLE_HOME</span>/lib32</div><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$ORACLE_HOME</span>/lib</div><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>:<span class="variable">$ORACLE_HOME</span>/oracm/lib</div><div class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span>:/lib:/usr/lib:/usr/<span class="built_in">local</span>/lib</div><div class="line"><span class="built_in">export</span> CLASSPATH=<span class="variable">$ORACLE_HOME</span>/jre</div><div class="line"><span class="built_in">export</span> CLASSPATH=<span class="variable">$&#123;CLASSPATH&#125;</span>:<span class="variable">$ORACLE_HOME</span>/jlib</div><div class="line"><span class="built_in">export</span> CLASSPATH=<span class="variable">$&#123;CLASSPATH&#125;</span>:<span class="variable">$ORACLE_HOME</span>/rdbms/jlib</div><div class="line"><span class="built_in">export</span> CLASSPATH=<span class="variable">$&#123;CLASSPATH&#125;</span>:<span class="variable">$ORACLE_HOME</span>/network/jlib</div><div class="line"><span class="built_in">export</span> THREADS_FLAG=native</div><div class="line"><span class="built_in">export</span> TEMP=/tmp</div><div class="line"><span class="built_in">export</span> TMPDIR=/tmp</div><div class="line"><span class="built_in">export</span> NLS_LANG=AMERICAN_AMERICA.ZHS16GBK</div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214338_80244.jpg" alt="export"></p>
+<p>保存后使用如下命令，使设置生效：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> /home/oracle/.bash_profile</div></pre></td></tr></table></figure></p>
+<p>##五、安装Oracle，并进行相关设置<br>1、解压缩安装文件<br>将下载的10201_database_linux_x86_64.cpio放至即将安装oracle的文件夹/opt/oracle<br>回到终端模式并且进入到oracle文件夹：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /opt/oracle</div></pre></td></tr></table></figure></p>
+<p>解压缩10201_database_linux_x86_64.cpio<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cpio -idmv &lt; 10201_database_linux_x86_64.cpio</div></pre></td></tr></table></figure></p>
+<p>接着会看到一连串的解压缩动作。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214635_35567.jpg" alt="解压缩"></p>
+<p>解压缩完成会在同一个文件夹中看到database的文件夹，请进入到database文件夹中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> database</div></pre></td></tr></table></figure></p>
+<p>准备执行数据库安装，如果你的centos是中文环境，安装时会出现中文乱码，请下以下指令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> LANG=en_US</div></pre></td></tr></table></figure></p>
+<p>接着执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./runInstaller</div></pre></td></tr></table></figure></p>
+<p>如果无法看到安装界面，请使用root帐户执行如下命令后再运行安装程序：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> DISPLAY=:0.0 </div><div class="line">xhost + </div><div class="line">./runInstaller</div></pre></td></tr></table></figure></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214735_68730.jpg" alt="runInstatller"></p>
+<p>遇到错误：Exception in …… /lib/i386/libawt.so: libXp.so.6: cannot open shared object file: No such file or directory<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214829_59489.jpg" alt="exception-in"></p>
+<p>解决：<br>yum -y install libXp.i686<br>分析：看报错信息”/lib/i386/libawt.so: libXp.so.6: cannot open shared object file: No such file or directory”，libXp需要安装i386的包，而不能安装X64的包。上面认为64位的linux需要安装64位的libXp包，所以导致这个问题。<br>再次执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./runInstaller</div></pre></td></tr></table></figure></p>
+<p>遇到错误：Exception in …… /lib/i386/libawt.so: libXt.so.6: cannot open shared object file: No such file or directory<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214942_33265.jpg" alt="exception-in"></p>
+<p>解决：<br>yum -y install libXt.i686<br>再次执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./runInstaller</div></pre></td></tr></table></figure></p>
+<p>遇到错误：Exception in …… /lib/i386/libawt.so: libXtst.so.6: cannot open shared object file: No such file or directory<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215043_90710.jpg" alt="exception-in"></p>
+<p>解决：<br>yum -y install libXtst.i686<br>再次执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./runInstaller</div></pre></td></tr></table></figure></p>
+<p>开始执行安装程序。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215145_27087.jpg" alt="安装"></p>
+<p>由于相关的前置作业已经在之前做好了，在这个步骤只需要将UNIX DBA Group选择为dba以及输入SYS, SYSTEM等账号共享的database Password即可。然后选择Next即可。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215315_24196.jpg" alt="安装"></p>
+<p>同样的，将群组选择为dba群组，按Next<br>在这个步骤中，请点选Checking Network Configuration requirements为User Verified，接着按下Next<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215418_91532.png" alt="安装"></p>
+<p>最后出现Install Summary画面，此时只要按下Install按钮，系统即开始安装。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215529_80624.jpg" alt="安装"></p>
+<p>安装过程…<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215624_41287.png" alt="安装"></p>
+<p>安装进度大约到65%时会有错误提示：<br>Error in invoking target ‘collector’ of makefile ‘/opt/oracle/102/sysman/lib/ins_emdb.mk’.<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215719_28070.jpg" alt="安装"></p>
+<p>同时oraInventory/logs/目录下的安装日志文件里面会有如下类似错误提示：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215811_56664.jpg" alt="安装"></p>
+<p>这是oracle安装程序的一个bug，可以忽略此错误继续安装，对系统没什么影响。<br>在Configuration Assistants 时会出现错误提示：<br>OUI-25031:Some of the configuration assistants failed.<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215907_97381.jpg" alt="安装"></p>
+<p>分析：主机名映射错误<br>解决：修改/etc/hosts文件，增加IP地址与主机名的映射如下：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215952_57630.jpg" alt="安装"></p>
+<p>接着会遇到错误提示：<br>ORA-27125:unable to create shared memory segment<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220100_66235.jpg" alt="安装"></p>
+<p>解决：</p>
+<ol>
+<li>确定安装oracle所使用的用户组<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">id oracle</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>可以看到oracle组dba id 为501。</p>
+<ol>
+<li>修改内核参数<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"501"</span> &gt;/proc/sys/vm/hugetlb_shm_group</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>就可以了。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220150_52635.jpg" alt="安装"></p>
+<p>安装到数据库设置助理，可以在这边选取password management作密码的修改，如不需要修改，只需要按下ok按钮即可。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220251_89589.jpg" alt="安装"></p>
+<p>安装完成前，出现以下的设置脚本：<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220351_27433.jpg" alt="安装"></p>
+<p>开启一个新的终端，su到root。<br>将要求执行的两段script依序执行。<br>/opt/oracle/oraInventory/orainstRoot.sh<br>/opt/oracle/102/root.sh<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220426_11212.jpg" alt="安装"></p>
+<p>执行画面如上图。<br>执行完后，回到安装窗口按下OK完成所有的oracle安装。安装完成会出现以下画面。安装<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220520_19858.jpg" alt="安装"></p>
+<p>此时，您可以以上述网址，作为测试，登入账号可以为sys或system<br><a href="http://CentOS-Oracle:5560/isqlplus" target="_blank" rel="external">http://CentOS-Oracle:5560/isqlplus</a><br><a href="http://CentOS-Oracle:5560/isqlplus/dba" target="_blank" rel="external">http://CentOS-Oracle:5560/isqlplus/dba</a><br><a href="http://CentOS-Oracle:1158/em" target="_blank" rel="external">http://CentOS-Oracle:1158/em</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220623_26138.jpg" alt="安装"></p>
+<p>以上画面都成功代表oracle已经正常安装了。</p>
+
+            
+          </span>
+        
+      
+    </div>
     
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -833,142 +1017,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/08/mariaDB和Percona的引擎tokudb性能测试/" itemprop="url">
-                  MariaDB和Percona的引擎tokudb性能对比测试
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-08T20:30:12+08:00" content="2015-11-08">
-              2015-11-08
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/08/mariaDB和Percona的引擎tokudb性能测试/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/08/mariaDB和Percona的引擎tokudb性能测试/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>MariaDB和Mysql对比（配置4核4G）:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Welcome to the MySQL monitor.  Commands end with ; <span class="keyword">or</span> \g.</div><div class="line">Your MySQL connection id is <span class="number">2</span></div><div class="line">Server version: <span class="number">5.6</span><span class="number">.25</span><span class="number">-73.1</span> Percona Server (GPL), Release <span class="number">73.1</span>, Revision <span class="number">07</span>b797f</div></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Welcome to the MariaDB monitor.  Commands end with ; <span class="keyword">or</span> \g.</div><div class="line">Your MariaDB connection id is <span class="number">4</span></div><div class="line">Server version: <span class="number">10.0</span><span class="number">.14</span>-MariaDB MariaDB Server</div></pre></td></tr></table></figure>
-<p>###1、MariaDB导入数据：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_innodb FIELDS TERMINATED BY <span class="string">'\t'</span>;</div><div class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">1</span> min <span class="number">18.02</span> sec)</div><div class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_tokudb FIELDS TERMINATED BY <span class="string">'\t'</span>;</div><div class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">36.83</span> sec)                                 </div><div class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></div></pre></td></tr></table></figure></p>
-<p>Mysql导入数据：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_innodb FIELDS TERMINATED BY <span class="string">'\t'</span>;</div><div class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">1</span> min <span class="number">10.75</span> sec)</div><div class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></div><div class="line"></div><div class="line">mysql&gt; load data infile <span class="string">'/home/user_logs.txt'</span> into table cloud_tokudb FIELDS TERMINATED BY <span class="string">'\t'</span>;</div><div class="line">Query OK, <span class="number">641098</span> rows affected, <span class="number">65535</span> warnings (<span class="number">33.35</span> sec)</div><div class="line">Records: <span class="number">641098</span>  Deleted: <span class="number">0</span>  Skipped: <span class="number">0</span>  Warnings: <span class="number">641098</span></div></pre></td></tr></table></figure></p>
-<p>总结：<br>1）、MariaDB导入数据比Mysql要慢一点<br>2）、TokuDB导入数据比InnoDB速度快一倍<br>3）、TokuDB采用多CPU并发导入</p>
-<p>###2、MariaDB存储空间<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@localhost billing]<span class="comment"># ll -h</span></div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">1.5</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">16</span> cloud_innodb.frm</div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">568</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">40</span> cloud_innodb.ibd</div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># ll -h</span></div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">26</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">31</span> _billing_cloud_tokudb_main_172d_1_1b_B_0.tokudb</div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">64</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">31</span> _billing_cloud_tokudb_status_1729_1_1b.tokudb</div></pre></td></tr></table></figure></p>
-<p>Mysql存储空间<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@localhost billing]<span class="comment"># ll -h </span></div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">8.9</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">17</span> cloud_innodb.frm</div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql <span class="number">568</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">36</span> cloud_innodb.ibd</div><div class="line"></div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># ll -h</span></div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">26</span>M Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">37</span> _billing_cloud_tokudb_main_8be1_1_1c_B_0.tokudb</div><div class="line">-rw-rw----. <span class="number">1</span> mysql mysql  <span class="number">64</span>K Nov  <span class="number">4</span> <span class="number">14</span>:<span class="number">37</span> _billing_cloud_tokudb_status_8bde_1_1c.tokudb</div></pre></td></tr></table></figure></p>
-<p>总结：<br>1）、 MariaDB和Mysql在采用相同引擎的时候存储空间相同<br>2）、 TokuDB的压缩有很多种，上面采用tokudb_lzma,压缩比例最大，但非常消耗CPU，内存<br>3）、 TokuDB和InnoDB从上面的例子来看压缩比率是1：20左右，如果都是整型数据，压缩比率在1：4左右。</p>
-<p>###3、MariaDB查询速度<br>重启第一次查询<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; select count(*) from cloud_innodb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.58</span> sec)</div><div class="line"></div><div class="line">MariaDB [billing]&gt; select count(*) from cloud_tokudb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">16.55</span> sec)</div></pre></td></tr></table></figure></p>
-<p>清缓存（reset query cache）<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; reset query cache;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.02</span> sec)</div><div class="line"></div><div class="line">MariaDB [billing]&gt; select count(*) from cloud_innodb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.42</span> sec)</div><div class="line"></div><div class="line">MariaDB [billing]&gt; select count(*) from cloud_tokudb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.43</span> sec)</div></pre></td></tr></table></figure></p>
-<p>Mysql查询速度<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select count(*) from cloud_innodb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.66</span> sec)</div><div class="line"></div><div class="line">mysql&gt; select count(*) from cloud_tokudb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">13.74</span> sec)</div></pre></td></tr></table></figure></p>
-<p>清缓存（reset query cache）<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">mysql&gt; reset query cache;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.03</span> sec)</div><div class="line"></div><div class="line">mysql&gt; select count(*) from cloud_innodb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.38</span> sec)</div><div class="line"></div><div class="line">mysql&gt; select count(*) from cloud_tokudb;</div><div class="line">+----------+</div><div class="line">| count(*) |</div><div class="line">+----------+</div><div class="line">|   <span class="number">641098</span> |</div><div class="line">+----------+</div><div class="line"><span class="number">1</span> row in set (<span class="number">0.49</span> sec)</div></pre></td></tr></table></figure></p>
-<p>总结：<br>1）、 查询速度MariaDB和Mysql速度差不多<br>2）、 第一次查询的时候InnoDB和TokuDB速度相差很大<br>3）、 清缓存后查询差不多</p>
-<p>###4、并发查询<br>MariaDB：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.509</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.509</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.509</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.600</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.600</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.600</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.901</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.901</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.901</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost mysqldata]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">1.028</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">1.028</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">1.028</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div></pre></td></tr></table></figure></p>
-<p>Mysql：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.496</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.496</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.496</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.483</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.483</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.483</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">1.231</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">1.231</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">1.231</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div><div class="line"></div><div class="line">[root@localhost billing]<span class="comment"># mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10</span></div><div class="line">Benchmark</div><div class="line">	Average number of seconds to run all queries: <span class="number">0.739</span> seconds</div><div class="line">	Minimum number of seconds to run all queries: <span class="number">0.739</span> seconds</div><div class="line">	Maximum number of seconds to run all queries: <span class="number">0.739</span> seconds</div><div class="line">	Number of clients running queries: <span class="number">1000</span></div><div class="line">	Average number of queries per client: <span class="number">0</span></div></pre></td></tr></table></figure></p>
-<p>总结<br>1）、 并发查询两数据相差不是很大<br>2）、 Tokudb查询速度在MariaDB中比InnoDB引擎慢一点，但在Mysql中比InnoDB引擎速度还快（网上说的TokuDB查询速度不行，没有验证出来，不知道真正在线速度怎么样，按理说压缩后的数据应该查询要慢于没有压缩的数据）</p>
-<p>###5、 批量更新</p>
-<p>MariaDB<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[billing]&gt; update  cloud_innodb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</div><div class="line">Query OK, <span class="number">81099</span> rows affected (<span class="number">5.71</span> sec)</div><div class="line">Rows matched: <span class="number">81099</span>  Changed: <span class="number">81099</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
-<p>MariaDB<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[billing]&gt; update  cloud_tokudb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</div><div class="line">Query OK, <span class="number">81099</span> rows affected (<span class="number">3.46</span> sec)</div></pre></td></tr></table></figure></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; update  cloud_innodb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</div><div class="line">Query OK, <span class="number">80952</span> rows affected (<span class="number">5.32</span> sec)</div><div class="line">Rows matched: <span class="number">81099</span>  Changed: <span class="number">80952</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; update  cloud_tokudb set content=<span class="string">"ddddddddddddddddddddsssssss"</span> where id &gt;<span class="number">8900</span> <span class="keyword">and</span> id &lt; <span class="number">90000</span>;</div><div class="line">Query OK, <span class="number">80952</span> rows affected (<span class="number">3.40</span> sec)</div><div class="line">Rows matched: <span class="number">81099</span>  Changed: <span class="number">80952</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure>
-<p>总结<br>1）、两数据库性能差不多<br>2）、批量更新感觉TokuDB速度比InnoDB速度快（和网上说的又不一样）</p>
-<p>###6、DDL操作对比<br>添加索引<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; create index idx_uid on cloud_innodb(uid);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">12.23</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; create index idx_uid on cloud_tokudb(uid);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">29.51</span> sec)                                   </div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; create index idx_uid on cloud_innodb(uid);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">15.48</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; create index idx_uid on cloud_tokudb(uid);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">31.10</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
-<p>删除索引<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; drop index idx_uid on cloud_innodb;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.05</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; drop index idx_uid on cloud_tokudb;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.09</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; drop index idx_uid on cloud_innodb;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.07</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; drop index idx_uid on cloud_tokudb;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.13</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
-<p>添加字段<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; alter table cloud_innodb add column test_flag varchar(<span class="number">20</span>);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">20.06</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; alter table cloud_tokudb add column test_flag varchar(<span class="number">20</span>);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.16</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; alter table cloud_innodb add column test_flag varchar(<span class="number">20</span>);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">31.07</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; alter table cloud_tokudb add column test_flag varchar(<span class="number">20</span>);</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.23</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
-<p>删除字段<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">MariaDB [billing]&gt; alter table cloud_innodb drop column test_flag;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">19.48</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">MariaDB [billing]&gt; alter table cloud_tokudb drop column test_flag;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">0.23</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; alter table cloud_innodb drop column test_flag;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1</span> min <span class="number">55.31</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div><div class="line"></div><div class="line">mysql&gt; alter table cloud_tokudb drop column test_flag;</div><div class="line">Query OK, <span class="number">0</span> rows affected (<span class="number">1.28</span> sec)</div><div class="line">Records: <span class="number">0</span>  Duplicates: <span class="number">0</span>  Warnings: <span class="number">0</span></div></pre></td></tr></table></figure></p>
-<p>总结<br>1、MariaDB的DDL操作比Mysql的快<br>2、InnoDB的添加索引比TokuDB的快<br>3、删除索引两个引擎都很快<br>4、添加字段TokuDB非常快，InnoDB很慢<br>5、删除字段TokuDB非常快，InnoDB很慢</p>
-<h1 id="网上的一些总结"><a href="#网上的一些总结" class="headerlink" title="网上的一些总结"></a>网上的一些总结</h1><p>总结：<br>TokuDB优点<br>1，online ddl 非常给力，特别是对字段的修改非常快<br>2，压缩比非常高通常都能达到7,8倍的压缩比<br>3，完全支持ACID事物的四大特性<br>TokuDB缺点<br>1，响应时间相对较长<br>2，online ddl 对text,blob等类型的字段不适用<br>3，没有合适的备份工具，只能通过mysqldump进行逻辑备份<br>建议适用场景：<br>1，访问频率不高的数据或历史数据归档<br>2，表非常大并且时不时还需要进行ddl操作</p>
-<p>特点：<br>1.插入性能快20~80倍；<br>2.压缩数据减少存储空间；<br>3.数据量可以扩展到几个TB；<br>4.不会产生索引碎片；<br>5.支持hot column addition ， hot indexing， mvcc；<br>如何考虑使用：<br>1.如果要存储blob，不要使用tokuDB，因为他的记录不能太大；<br>2.如果记录数过亿，使用tokuDB；<br>3.如果注重update的性能，不要使用tokuDB，他没有innodb快；<br>4.如果要存储旧的记录，使用tokuDB；<br>5.如果要缩小数据占用的存储空间，使用tokuDB；</p>
-<p>总结：<br>TokuDB的优点：1、高压缩比 2、高insert性能 3、增删字段秒级。<br>TokuDB的缺点：1、cpu usr态消耗高 2、响应时间变长。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1015,7 +1063,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-count">80</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1029,7 +1077,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">65</span>
+              <span class="site-state-item-count">64</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

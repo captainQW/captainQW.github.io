@@ -201,11 +201,132 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/20/Mariadb-ColumnStore数据库测试/" itemprop="url">
+                  Mariadb ColumnStore数据库测试
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-12-20T15:06:53+08:00" content="2016-12-20">
+              2016-12-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/20/Mariadb-ColumnStore数据库测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/20/Mariadb-ColumnStore数据库测试/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
+        
+          <span itemprop="articleBody">
+            
+              <p>顾名思义，就是Mariadb为了大数据而开发的列式数据库。后来发现，这货就是InfiniDB的翻版，InfiniDB被MariaDB收购了以后重新开发的新版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show engines;</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Engine             | Support | Comment                                                                                          | Transactions | XA   | Savepoints |</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Columnstore        | YES     | Columnstore storage engine                                                                       | YES          | NO   | NO         |</div><div class="line">| MRG_MyISAM         | YES     | Collection of identical MyISAM tables                                                            | NO           | NO   | NO         |</div><div class="line">| CSV                | YES     | CSV storage engine                                                                               | NO           | NO   | NO         |</div><div class="line">| MyISAM             | YES     | MyISAM storage engine                                                                            | NO           | NO   | NO         |</div><div class="line">| MEMORY             | YES     | Hash based, stored <span class="keyword">in</span> memory, useful <span class="keyword">for</span> temporary tables                                        | NO           | NO   | NO         |</div><div class="line">| InfiniDB           | YES     | Columnstore storage engine (deprecated: use columnstore)                                         | YES          | NO   | NO         |</div><div class="line">| InnoDB             | DEFAULT | Percona-XtraDB, Supports transactions, row-level locking, foreign keys and encryption <span class="keyword">for</span> tables | YES          | YES  | YES        |</div><div class="line">| SEQUENCE           | YES     | Generated tables filled with sequential values                                                   | YES          | NO   | YES        |</div><div class="line">| Aria               | YES     | Crash-safe tables with MyISAM heritage                                                           | NO           | NO   | NO         |</div><div class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                                               | NO           | NO   | NO         |</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">10 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
+<p>还能看到InfiniDB引擎的影子。</p>
+<p>测试环境：<br>centos 6.6 8核8G<br>ssd 100G<br>mariadb columnstore 1.0.6 GA</p>
+<p>1、安装</p>
+<p>安装依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yum -y install expect perl perl-DBI openssl zlib perl-DBD-MySQL cmake</span></div></pre></td></tr></table></figure></p>
+<p>必须要boost1.50以上版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># wget https://static.verycloud.cn/rpm/boost_1_55_0.tgz</span></div><div class="line"><span class="comment"># wget https://static.verycloud.cn/rpm/mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span></div></pre></td></tr></table></figure>
+<p>安装boost.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># tar -zxvf boost_1_55_0.tgz</span></div><div class="line"><span class="comment"># tar -zxvf mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span></div><div class="line"><span class="comment"># cd boost_1_55_0 </span></div><div class="line"><span class="comment"># ./bootstrap.sh --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log --prefix=/usr </span></div><div class="line"><span class="comment"># ./b2 install</span></div></pre></td></tr></table></figure></p>
+<p>安装mariadb columnstore.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># rpm -ivh mariadb-columnstore-1.0.6-1-x86_64-centos6-*</span></div></pre></td></tr></table></figure></p>
+<p>2、初始化<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /usr/local/mariadb/columnstore/bin/post-install</span></div></pre></td></tr></table></figure></p>
+<p>这时会提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">The next step is:</div><div class="line"></div><div class="line">/usr/<span class="built_in">local</span>/mariadb/columnstore/bin/postConfigure</div></pre></td></tr></table></figure></p>
+<p>执行，完成安装，选择single server<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /usr/local/mariadb/columnstore/bin/postConfigure</span></div></pre></td></tr></table></figure></p>
+<p>生成别名<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># . /data/mariadb/columnstore/bin/columnstoreAlias</span></div></pre></td></tr></table></figure></p>
+<p>执行 mcsmysql，会看到提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</div><div class="line">Your MariaDB connection id is 5</div><div class="line">Server version: 10.1.19-MariaDB Columnstore 1.0.6-1</div><div class="line"></div><div class="line">Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.</div><div class="line"></div><div class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input statement.</div><div class="line"></div><div class="line">MariaDB [(none)]&gt;</div></pre></td></tr></table></figure></p>
+<p>说明安装成功了！</p>
+<p>3、数据导入</p>
+<p>执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># mcsmysql --local-infile</span></div><div class="line"><span class="comment"># LOAD DATA LOCAL INFILE '/root/data.txt' INTO TABLE your_table FIELDS TERMINATED BY '\t';</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Query OK, 95981370 rows affected (6 min 8.62 sec)    </div><div class="line">Records: 95981370  Deleted: 0  Skipped: 0  Warnings: 0</div></pre></td></tr></table></figure>
+<p>导入1亿条数据要6分钟。</p>
+
+            
+          </span>
+        
+      
+    </div>
     
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -816,157 +937,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/22/infinidb与clickhouse对比/" itemprop="url">
-                  infiniDB与clickhouse对比
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-08-22T13:55:37+08:00" content="2016-08-22">
-              2016-08-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/22/infinidb与clickhouse对比/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/infinidb与clickhouse对比/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>机器配置：</p>
-<p>测试机：    dell R510<br>cpu：     xeon E5620<em>2<br>RAID卡：    H700<br>系统    ：ubuntu 14.04<br>内核：    Linux ubuntu 4.2.0-27-generic<br>raid级别：    raid0<br>文件系统：    ext4<br>硬盘：     SSD 240G</em>2<br>IP：    192.168.112.73</p>
-<p>一、安装<br>1、infiniDB的安装见 <a href="http://verynull.com/2015/06/24/infiniDB安装配置/">http://verynull.com/2015/06/24/infiniDB安装配置/</a></p>
-<p>2、clickhouse安装<br>只支持ubutu14.04,16.04，12.04，但是我在16.04上没有安装起来。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4<span class="comment"># optional</span></div><div class="line"></div><div class="line">sudo mkdir -p /etc/apt/sources.list.d</div><div class="line"><span class="built_in">echo</span> <span class="string">"deb http://repo.yandex.ru/clickhouse/trusty stable main"</span> |</div><div class="line">sudo tee /etc/apt/sources.list.d/clickhouse.list</div><div class="line">sudo apt-get update</div><div class="line"></div><div class="line">sudo apt-get install clickhouse-server-common clickhouse-client</div><div class="line"></div><div class="line">sudo service clickhouse-server start</div><div class="line">clickhouse-client</div></pre></td></tr></table></figure></p>
-<p>3、就安装过程而言，clickhouse方便很多，infiniDB要编译老半天。</p>
-<p>二、性能测试</p>
-<p>1、创建表</p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `billing` (</div><div class="line">`did` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`hit` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`reqs` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`rx` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`tx` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`logtime` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`tpr` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span></div><div class="line">) ENGINE=infiniDB DEFAULT CHARSET=latin1</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE billing (id Int32,did Int32,hit Int64,reqs Int64,rx Int64,tx Int64,logtime Int64,tpr Int64) ENGINE=Log;</div></pre></td></tr></table></figure></p>
-<p>2、导入csv数据</p>
-<p>csv格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">106,9,10,123,11858014,1467133200,330,0</div><div class="line">122,0,2,506,621,1467133200,150,0</div><div class="line">124,112,249,1131297,1899996,1467133200,49,0</div><div class="line">127,3,12,64257,88503,1467133200,66,0</div></pre></td></tr></table></figure></p>
-<p>数据量9000万,大小4.5G。</p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /data/mysql/bin/mysql --defaults-file=/data/mysql/my.cnf --local-infile -u root monitor <span class="_">-e</span> <span class="string">"load data local infile '/root/1.txt' into table billing FIELDS TERMINATED BY ',';"</span></div></pre></td></tr></table></figure></p>
-<p>耗时：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">0.60user </div><div class="line">2.50system </div><div class="line">4:14.61elapsed 1%CPU (0avgtext+0avgdata 3640maxresident)k</div><div class="line">0inputs+0outputs (0major+227minor)pagefaults 0swaps</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat 1.txt | clickhouse-client --query=<span class="string">"INSERT INTO monitor.monitor_data FORMAT CSV"</span>;</div></pre></td></tr></table></figure></p>
-<p>耗时：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">real1m6.809s</div><div class="line">user1m26.720s</div><div class="line">sys 0m6.724s</div></pre></td></tr></table></figure></p>
-<p>clickhouse导入速度明显快很多。</p>
-<p>3、查询速度</p>
-<p>SQL:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT logtime, SUM(hit) as hit, SUM(reqs) as reqs, SUM(rx) as rx,SUM(tx) as tx, round(avg(tpr)) as tpr FROM billingWHERE did &gt; 0AND logtime &gt;= 1467302400 AND logtime &lt;= 1469980799 GROUP BY logtime ORDER BY l</div><div class="line">ogtime;</div></pre></td></tr></table></figure></p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (1.26 sec)</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 2.676 sec. Processed 91.80 million rows, 4.77 GB (34.30 million rows/s., 1.78 GB/s.)</div></pre></td></tr></table></figure></p>
-<p>infiniDB速度较快。</p>
-<p>4、2亿数据对比</p>
-<p>SQL同上</p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (2.24 sec)</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 4.215 sec. Processed 183.61 million rows, 9.55 GB (43.56 million rows/s., 2.26 GB/s.)</div></pre></td></tr></table></figure></p>
-<p>infiniDB较快。</p>
-<p>5、10亿数据对比</p>
-<p>SQL同上</p>
-<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (9.58 sec)</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 17.040 sec. Processed 1.01 billion rows, 52.51 GB (56.67 million rows/s., 2.95 GB/s.)</div></pre></td></tr></table></figure></p>
-<p>infiniDB更快。</p>
-<p>6、count对比<br>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+------------+</div><div class="line">| count(*) |</div><div class="line">+------------+</div><div class="line">| 1009844583 |</div><div class="line">+------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (6.14 sec)</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">SELECT count(*)</div><div class="line">FROM billing </div><div class="line"></div><div class="line">┌────count()─┐</div><div class="line">│ 1009844583 │</div><div class="line">└────────────┘</div><div class="line"></div><div class="line">1 rows <span class="keyword">in</span> set. Elapsed: 1.120 sec. Processed 1.01 billion rows, 4.04 GB (901.82 million rows/s., 3.61 GB/s.)</div></pre></td></tr></table></figure></p>
-<p>7、压缩比<br>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">22G billing</div></pre></td></tr></table></figure></p>
-<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">24G billing</div></pre></td></tr></table></figure></p>
-<p>压缩比相差不多。</p>
-<p>结果：<br>1、infiniDB会使用所有CPU，而clickhouse最多使用10个。<br>2、clickhouse在大数据量的时候，处理速度还是比较令人满意的。<br>3、clickhouse在导入数据的时候，查询会被卡住，而infiniDB不会。<br>4、infiniDB性能更好。</p>
-<p>附对比图：<br>这里clickhouse是Log引擎。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160822/20160822222132_99553.png" alt="对比图"></p>
-<hr>
-<p>经一位俄罗斯网友提醒,MergeTree引擎比Log引擎更高效，因为Log引擎会全表扫描，而MergeTree的结构是这样的：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">xxxx@ubuntu:/opt/clickhouse$ ls data/monitor/billing_mergetree</div><div class="line">20150829_20150831_10964_10994_2</div><div class="line">20160101_20160131_10_11360_30 </div><div class="line">20160401_20160430_12_9964_31</div><div class="line">20160609_20160613_11302_11350_4</div><div class="line">20160808_20160820_10972_11250_2</div><div class="line">20150325_20150331_4_9822_23 </div><div class="line">20150901_20150930_1030_11316_50</div><div class="line">20160201_20160229_244_10606_27</div><div class="line">20160401_20160430_9982_11362_10 </div><div class="line">20160701_20160731_308_8668_14 </div><div class="line">20160820_20160820_11260_11260_0</div><div class="line">20150401_20150430_16_9932_57</div><div class="line">20151001_20151031_8_11352_39 </div><div class="line">20160220_20160229_10618_10788_10</div><div class="line">20160501_20160531_530_11042_23</div><div class="line">20160701_20160731_8678_10786_12</div><div class="line">20160820_20160820_11266_11266_0</div><div class="line">20150501_20150531_102_10032_75</div><div class="line">20151009_20151011_11356_11356_0</div><div class="line">20160229_20160229_10804_10812_1 </div><div class="line">20160528_20160531_11056_11124_6 </div><div class="line">20160731_20160731_10798_10798_0</div><div class="line">detached</div></pre></td></tr></table></figure>
-<p>这种存储结构就是把每个月的数据单独放置在一个文件夹中，这样就避免了全表扫描。</p>
-<p>附对比图:<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160823/20160823113203_30109.png" alt="对比图"></p>
-<p>结论：<br>clickhouse速度更快！</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1013,7 +983,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-count">80</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1027,7 +997,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">65</span>
+              <span class="site-state-item-count">64</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

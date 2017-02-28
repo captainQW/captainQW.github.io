@@ -201,11 +201,157 @@
 
     
     
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/08/22/infinidb与clickhouse对比/" itemprop="url">
+                  infiniDB与clickhouse对比
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-08-22T13:55:37+08:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/22/infinidb与clickhouse对比/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/22/infinidb与clickhouse对比/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
       
       
 
       
+        
+          <span itemprop="articleBody">
+            
+              <p>机器配置：</p>
+<p>测试机：    dell R510<br>cpu：     xeon E5620<em>2<br>RAID卡：    H700<br>系统    ：ubuntu 14.04<br>内核：    Linux ubuntu 4.2.0-27-generic<br>raid级别：    raid0<br>文件系统：    ext4<br>硬盘：     SSD 240G</em>2<br>IP：    192.168.112.73</p>
+<p>一、安装<br>1、infiniDB的安装见 <a href="http://verynull.com/2015/06/24/infiniDB安装配置/">http://verynull.com/2015/06/24/infiniDB安装配置/</a></p>
+<p>2、clickhouse安装<br>只支持ubutu14.04,16.04，12.04，但是我在16.04上没有安装起来。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4<span class="comment"># optional</span></div><div class="line"></div><div class="line">sudo mkdir -p /etc/apt/sources.list.d</div><div class="line"><span class="built_in">echo</span> <span class="string">"deb http://repo.yandex.ru/clickhouse/trusty stable main"</span> |</div><div class="line">sudo tee /etc/apt/sources.list.d/clickhouse.list</div><div class="line">sudo apt-get update</div><div class="line"></div><div class="line">sudo apt-get install clickhouse-server-common clickhouse-client</div><div class="line"></div><div class="line">sudo service clickhouse-server start</div><div class="line">clickhouse-client</div></pre></td></tr></table></figure></p>
+<p>3、就安装过程而言，clickhouse方便很多，infiniDB要编译老半天。</p>
+<p>二、性能测试</p>
+<p>1、创建表</p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `billing` (</div><div class="line">`did` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`hit` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`reqs` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`rx` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`tx` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`logtime` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span>,</div><div class="line">`tpr` bigint(20) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">''</span></div><div class="line">) ENGINE=infiniDB DEFAULT CHARSET=latin1</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE billing (id Int32,did Int32,hit Int64,reqs Int64,rx Int64,tx Int64,logtime Int64,tpr Int64) ENGINE=Log;</div></pre></td></tr></table></figure></p>
+<p>2、导入csv数据</p>
+<p>csv格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">106,9,10,123,11858014,1467133200,330,0</div><div class="line">122,0,2,506,621,1467133200,150,0</div><div class="line">124,112,249,1131297,1899996,1467133200,49,0</div><div class="line">127,3,12,64257,88503,1467133200,66,0</div></pre></td></tr></table></figure></p>
+<p>数据量9000万,大小4.5G。</p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /data/mysql/bin/mysql --defaults-file=/data/mysql/my.cnf --local-infile -u root monitor <span class="_">-e</span> <span class="string">"load data local infile '/root/1.txt' into table billing FIELDS TERMINATED BY ',';"</span></div></pre></td></tr></table></figure></p>
+<p>耗时：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">0.60user </div><div class="line">2.50system </div><div class="line">4:14.61elapsed 1%CPU (0avgtext+0avgdata 3640maxresident)k</div><div class="line">0inputs+0outputs (0major+227minor)pagefaults 0swaps</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat 1.txt | clickhouse-client --query=<span class="string">"INSERT INTO monitor.monitor_data FORMAT CSV"</span>;</div></pre></td></tr></table></figure></p>
+<p>耗时：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">real1m6.809s</div><div class="line">user1m26.720s</div><div class="line">sys 0m6.724s</div></pre></td></tr></table></figure></p>
+<p>clickhouse导入速度明显快很多。</p>
+<p>3、查询速度</p>
+<p>SQL:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT logtime, SUM(hit) as hit, SUM(reqs) as reqs, SUM(rx) as rx,SUM(tx) as tx, round(avg(tpr)) as tpr FROM billingWHERE did &gt; 0AND logtime &gt;= 1467302400 AND logtime &lt;= 1469980799 GROUP BY logtime ORDER BY l</div><div class="line">ogtime;</div></pre></td></tr></table></figure></p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (1.26 sec)</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 2.676 sec. Processed 91.80 million rows, 4.77 GB (34.30 million rows/s., 1.78 GB/s.)</div></pre></td></tr></table></figure></p>
+<p>infiniDB速度较快。</p>
+<p>4、2亿数据对比</p>
+<p>SQL同上</p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (2.24 sec)</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 4.215 sec. Processed 183.61 million rows, 9.55 GB (43.56 million rows/s., 2.26 GB/s.)</div></pre></td></tr></table></figure></p>
+<p>infiniDB较快。</p>
+<p>5、10亿数据对比</p>
+<p>SQL同上</p>
+<p>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9663 rows <span class="keyword">in</span> <span class="built_in">set</span> (9.58 sec)</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">8924 rows <span class="keyword">in</span> set. Elapsed: 17.040 sec. Processed 1.01 billion rows, 52.51 GB (56.67 million rows/s., 2.95 GB/s.)</div></pre></td></tr></table></figure></p>
+<p>infiniDB更快。</p>
+<p>6、count对比<br>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+------------+</div><div class="line">| count(*) |</div><div class="line">+------------+</div><div class="line">| 1009844583 |</div><div class="line">+------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (6.14 sec)</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">SELECT count(*)</div><div class="line">FROM billing </div><div class="line"></div><div class="line">┌────count()─┐</div><div class="line">│ 1009844583 │</div><div class="line">└────────────┘</div><div class="line"></div><div class="line">1 rows <span class="keyword">in</span> set. Elapsed: 1.120 sec. Processed 1.01 billion rows, 4.04 GB (901.82 million rows/s., 3.61 GB/s.)</div></pre></td></tr></table></figure></p>
+<p>7、压缩比<br>infiniDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">22G billing</div></pre></td></tr></table></figure></p>
+<p>clickhouse:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">24G billing</div></pre></td></tr></table></figure></p>
+<p>压缩比相差不多。</p>
+<p>结果：<br>1、infiniDB会使用所有CPU，而clickhouse最多使用10个。<br>2、clickhouse在大数据量的时候，处理速度还是比较令人满意的。<br>3、clickhouse在导入数据的时候，查询会被卡住，而infiniDB不会。<br>4、infiniDB性能更好。</p>
+<p>附对比图：<br>这里clickhouse是Log引擎。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160822/20160822222132_99553.png" alt="对比图"></p>
+<hr>
+<p>经一位俄罗斯网友提醒,MergeTree引擎比Log引擎更高效，因为Log引擎会全表扫描，而MergeTree的结构是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">xxxx@ubuntu:/opt/clickhouse$ ls data/monitor/billing_mergetree</div><div class="line">20150829_20150831_10964_10994_2</div><div class="line">20160101_20160131_10_11360_30 </div><div class="line">20160401_20160430_12_9964_31</div><div class="line">20160609_20160613_11302_11350_4</div><div class="line">20160808_20160820_10972_11250_2</div><div class="line">20150325_20150331_4_9822_23 </div><div class="line">20150901_20150930_1030_11316_50</div><div class="line">20160201_20160229_244_10606_27</div><div class="line">20160401_20160430_9982_11362_10 </div><div class="line">20160701_20160731_308_8668_14 </div><div class="line">20160820_20160820_11260_11260_0</div><div class="line">20150401_20150430_16_9932_57</div><div class="line">20151001_20151031_8_11352_39 </div><div class="line">20160220_20160229_10618_10788_10</div><div class="line">20160501_20160531_530_11042_23</div><div class="line">20160701_20160731_8678_10786_12</div><div class="line">20160820_20160820_11266_11266_0</div><div class="line">20150501_20150531_102_10032_75</div><div class="line">20151009_20151011_11356_11356_0</div><div class="line">20160229_20160229_10804_10812_1 </div><div class="line">20160528_20160531_11056_11124_6 </div><div class="line">20160731_20160731_10798_10798_0</div><div class="line">detached</div></pre></td></tr></table></figure>
+<p>这种存储结构就是把每个月的数据单独放置在一个文件夹中，这样就避免了全表扫描。</p>
+<p>附对比图:<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20160823/20160823113203_30109.png" alt="对比图"></p>
+<p>结论：<br>clickhouse速度更快！</p>
+
+            
+          </span>
+        
+      
+    </div>
     
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -921,157 +1067,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/02/Drupal8单元测试/" itemprop="url">
-                  Drupal8单元测试
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-06-02T16:01:57+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/02/Drupal8单元测试/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/Drupal8单元测试/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>单元测试在编程中是非常重要的，而我更倾向于去对那些有意义的错误做测试。<br>在Drupal8中，可以借助phpstorm来帮助进行单元测试。</p>
-<p>##一、phpstorm配置</p>
-<p>###1）、针对项目进行设置：</p>
-<blockquote>
-<p>1、选中 PhpStorm &gt; Preferences &gt; Languages &amp; Frameworks &gt; PHP &gt; PHPUnit &gt; Local<br>Window 操作系统是：File &gt; Settings …<br>2、选择 PHPUnit Library &gt; Use custom autoloader<br>3、导航到 /vendor/autoload.php<br>4、选择 Test Runner &gt; Default configuration file<br>5、导航到 /core/phpunit.xml.dist<br>6、点击 Save</p>
-</blockquote>
-<p>在右上方看到 For current project。接下来完成下面的步骤：</p>
-<blockquote>
-<p>1、运行： Run &gt; Edit Configurations<br>2、点击 + 图标，选择 PHPUnit<br>3、提供一个名称，例如 Drupal 8: All Tests<br>4、在配置文件内选择 Test Runner &gt; Defined<br>5、保存</p>
-</blockquote>
-<p>在右上角，选择你的运行配置，按下绿色箭头。也可以操作 Run &gt; Run Drupal 8: All Tests 。</p>
-<p>说明：</p>
-<blockquote>
-<p>如果提示“Interpreter is not specified or invalid”，<br>要去 PhpStorm &gt; Preferences &gt; Languages &amp; Frameworks &gt; PHP 设置下 PHP 解释器。</p>
-</blockquote>
-<p>当你运行测试时，你会在 PhpStorm 内看到一个新窗口，列出了测试结果。默认情况，通过的测试不会显示出来。你可以操作窗口左上角的 Hide passed 图标显示通过的测试。</p>
-<p>###2)、测试一个指定区域</p>
-<p>PHPUnit 将运行很多测试。要把测试区域限制为一个文件夹（我们的模块）可以象下面这样做：</p>
-<blockquote>
-<p>1、运行： Run &gt; Edit Configurations<br>2、点击 + 图标选择 PHPUnit<br>3、提供个名称，例如 Drupal 8: Test Example<br>4、选择 Test Runner &gt; Test Scope &gt; Directory<br>5、浏览 test_example 模块<br>6、点击 Save</p>
-</blockquote>
-<p>##二、添加单元测试</p>
-<p>要进行单元测试，必须在[module_name]/tests/srs/Unit/下创建一个以Test.php结尾的文件。一般都是继承UnitTestCase这个类来创建测试，这个测试类的namespace必须为Drupal\Test[module_name]\Unit。</p>
-<p>接下来，我们来书写代码。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim tests/src/Unit/TestExampleConversionsTest.php</div></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> *</div><div class="line"> * Contains \Drupal\Tests\test_example\Unit\TestExampleConversionsTest.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">test_example</span>\<span class="title">Unit</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">UnitTestCase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Demonstrates how to write tests.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@group</span> test_example</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestExampleConversionsTest</span> <span class="keyword">extends</span> <span class="title">UnitTestCase</span> </span>&#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setUp</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">parent</span>::setUp();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Convert Celsius to Fahrenheit</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> $temp</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> int</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">celsiusToFahrenheit</span><span class="params">($temp)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> ($temp * (<span class="number">9</span>/<span class="number">5</span>)) + <span class="number">32</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Convert centimeter to inches.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> $length</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> int</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">centimeterToInch</span><span class="params">($length)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> $length / <span class="number">2.54</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * A simple test that tests our celsiusToFahrenheit() function.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testOneConversion</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Confirm that 0C = 31F.</span></div><div class="line">    <span class="keyword">$this</span>-&gt;assertEquals(<span class="number">31</span>, <span class="keyword">$this</span>-&gt;celsiusToFahrenheit(<span class="number">0</span>));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>测试方法<br>每个测试方法必须以test开头。</li>
-<li>断言<br>断言决定测试是否通过，比较常用的一些断言函数如assertTrue、assertFalse、assertEquals等。<br>文档见 <a href="https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html" target="_blank" rel="external">https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html</a></li>
-<li>setUp()<br>每次测试之前都会执行setUp方法，我们可以创建一个变成或实例。</li>
-</ul>
-<p>##三、执行单元测试</p>
-<p>输出如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Failed asserting that 32.0 matches expected 31.</div><div class="line">Expected :31</div><div class="line">Actual   :32</div></pre></td></tr></table></figure></p>
-<p>##四、较复杂的单元测试<br>如果要做比较复杂的单元测试，一个简单的办法是用setUp方法，另一个方案就是使用data provider.</p>
-<p>###1)、data provider</p>
-<p>PHPUnit中的data provider是为测试方法提供配置的方法，并返回一个测试用例数组。</p>
-<p>本例中，我们创建一个data provider叫 providerCentimetersToInches。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* Provides data for the testCentimetersToInches method.</div><div class="line">*</div><div class="line">* <span class="doctag">@return</span> array</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">providerCentimetersToInches</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">return</span> [</div><div class="line">    [<span class="number">2.545</span>,<span class="number">1</span>],</div><div class="line">    [<span class="number">254</span>,<span class="number">100</span>],</div><div class="line">    [<span class="number">0</span>,<span class="number">0</span>],</div><div class="line">    [<span class="number">-2.54</span>,<span class="number">-1</span>],</div><div class="line">  ];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* Tests centimetersToInches method.</div><div class="line">*</div><div class="line">* <span class="doctag">@dataProvider</span> providerCentimetersToInches</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testCentimetersToInches</span><span class="params">($length, $expectedValue)</span> </span>&#123;</div><div class="line">  <span class="keyword">$this</span>-&gt;assertEquals($expectedValue, <span class="keyword">$this</span>-&gt;centimeterToInch($length));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>Data Provider注解<br>在测试方法上使用 @dataProvider 注解来连接这个data provider。</p>
-</li>
-<li><p>Data Provider参数<br>在测试方法中可以添加参数，在上面的测试方法中，我们在数组内传递了两个值，那么在上面的测试方法中有两个对应的参数。</p>
-</li>
-</ul>
-<p>执行run，结果如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Failed asserting that 1.0019685039370079 matches expected 1.</div><div class="line">Expected :1</div><div class="line">Actual   :1.001968503937</div></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -1118,7 +1113,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives/">
-              <span class="site-state-item-count">79</span>
+              <span class="site-state-item-count">80</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1132,7 +1127,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags/">
-              <span class="site-state-item-count">65</span>
+              <span class="site-state-item-count">64</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
