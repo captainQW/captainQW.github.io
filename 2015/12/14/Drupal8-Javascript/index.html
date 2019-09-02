@@ -1,14 +1,14 @@
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
 	
 	<title>drupal8 javascript</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog" />
+	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
 
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css" />
+	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
     
         <script src="/js/util.js"></script>
         <script>
@@ -23,7 +23,7 @@
     <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
 
     
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3"/>
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
     
 
 </head>
@@ -46,7 +46,7 @@
 --->
 </div>
 
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-编码规范建议"><span class="toc-text">JavaScript 编码规范建议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript-文件引用"><span class="toc-text">JavaScript 文件引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码排版"><span class="toc-text">代码排版</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#行长度"><span class="toc-text">行长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#行结束"><span class="toc-text">行结束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缩进"><span class="toc-text">缩进</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注释"><span class="toc-text">注释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#标识符命名"><span class="toc-text">标识符命名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#声明"><span class="toc-text">声明</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#变量的声明"><span class="toc-text">变量的声明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#函数的声明"><span class="toc-text">函数的声明</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#语句"><span class="toc-text">语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#特殊符号"><span class="toc-text">特殊符号</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#空白符"><span class="toc-text">空白符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#和"><span class="toc-text">{ } 和 [ ]</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#和-1"><span class="toc-text">== 和 ===</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-text">+</span></a></li></ol></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-编码规范建议"><span class="toc-text">JavaScript 编码规范建议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript-文件引用"><span class="toc-text">JavaScript 文件引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码排版"><span class="toc-text">代码排版</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#行长度"><span class="toc-text">行长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#行结束"><span class="toc-text">行结束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缩进"><span class="toc-text">缩进</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注释"><span class="toc-text">注释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#标识符命名"><span class="toc-text">标识符命名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#声明"><span class="toc-text">声明</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#变量的声明"><span class="toc-text">变量的声明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#函数的声明"><span class="toc-text">函数的声明</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#语句"><span class="toc-text">语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#特殊符号"><span class="toc-text">特殊符号</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#空白符"><span class="toc-text">空白符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#和"><span class="toc-text">{ } 和 [ ]</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#和-1"><span class="toc-text">== 和 ===</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#null"><span class="toc-text">+</span></a></li></ol></li></ol></li></ol></li></ol>
 <h2 id="JavaScript-编码规范建议"><a href="#JavaScript-编码规范建议" class="headerlink" title="JavaScript 编码规范建议"></a>JavaScript 编码规范建议</h2><p>本文就 JavaScript 编码过程中涉及的排版、命名、声明、作用域、及一些特殊符号的使用等方面，根据个人在学习工作中的总结，给出自己的一些建议，并分析其中缘由，以供参考。</p>
 <h3 id="JavaScript-文件引用"><a href="#JavaScript-文件引用" class="headerlink" title="JavaScript 文件引用"></a>JavaScript 文件引用</h3><p>JavaScript 程序应该尽量放在 .js 的文件中，需要调用的时候在 HTML 中以<code>&lt;script src=&quot;filename.js&quot;&gt;</code>的形式包含进来。JavaScript 代码若不是该 HTML 文件所专用的，则应尽量避免在 HTML 文件中直接编写 JavaScript 代码。因为这样会大大增加 HTML 文件的大小，无益于代码的压缩和缓存的使用。<br>另外，<code>&lt;script src=&quot;filename.js&quot;&gt;</code>标签应尽量放在文件的后面。这样会降低因加载 JavaScript 代码而影响页面中其它组件的加载时间。</p>
 <h3 id="代码排版"><a href="#代码排版" class="headerlink" title="代码排版"></a>代码排版</h3><h4 id="行长度"><a href="#行长度" class="headerlink" title="行长度"></a>行长度</h4><p><strong>每行代码应小于 80 个字符</strong>。如果代码较长，应尽量选择换行，下一行代码应缩进8 个空格。这样可以使代码排版整齐，减轻阅读代码的疲劳感。</p>
