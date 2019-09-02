@@ -1,1164 +1,666 @@
-<!doctype html>
-<html class="theme-next   use-motion ">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	
+	<title>Lau&#39;s Blog</title>
+	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog" />
 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+    
+        <link href="/css/home.css?v=3" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
 
+    
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3"/>
+    
 
-
-
-
-
-
-
-
-
-
-
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
-
-
-
-
-  
-    <link href='//fonts.useso.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-  
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Drupal linux unix vim" />
-
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="云端知识笔记" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
-
-
-
-
-
-
-<meta name="description" content="记录生活，分享知识，传播乐趣">
-<meta property="og:type" content="website">
-<meta property="og:title" content="云端知识笔记">
-<meta property="og:url" content="http://verynull.com/index.html">
-<meta property="og:site_name" content="云端知识笔记">
-<meta property="og:description" content="记录生活，分享知识，传播乐趣">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="云端知识笔记">
-<meta name="twitter:description" content="记录生活，分享知识，传播乐趣">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var CONFIG = {
-    scheme: '',
-    sidebar: 'post',
-    motion: true
-  };
-</script>
-
-  <title> 云端知识笔记 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" style="opacity: .9" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Lau&#39;s Blog</a>
+        </div>
 
-  <!--[if lte IE 8]>
-  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
-    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
-      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
-           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
-           style='margin-left:auto;margin-right:auto;display: block;'/>
-    </a>
-  </div>
-<![endif]-->
-  
-
-
-
-
-
-
-  <div class="container one-column 
-   page-home 
-">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">云端知识笔记</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle">记录生活，分享知识，传播乐趣</p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu ">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
             
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+                
+                    <li  class="active" >
+                        <a href="/"> Blog</a>
+                    </li>
+                
+                    <li >
+                        <a href="/categories"> categories</a>
+                    </li>
+                
+                    <li >
+                        <a href="/archives"> archives</a>
+                    </li>
+                
+                    <li >
+                        <a href="/tags"> tags</a>
+                    </li>
+                
+                    <li >
+                        <a href="/about"> About</a>
+                    </li>
+                
+                    <li >
+                        <a href="https:github.com/RamboLau"> GitHub</a>
+                    </li>
+                
             
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-
-      
-      
-    </ul>
-  
-
-  
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </nav>
 
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div id="content" class="content">
-          
-  <section id="posts" class="posts-expand">
-
-    
-
-    
-    
-      
-      
-        
-        
-        
-      
-
-      
-    
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/28/Drupal8实体-entity/" itemprop="url">
-                  Drupal8实体(entity)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2017-02-28T20:36:33+08:00" content="2017-02-28">
-              2017-02-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/02/28/Drupal8实体-entity/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/28/Drupal8实体-entity/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>Drupal 的 Entity 是一个很重要的概念，暂时把 Entity 翻译成“实体”吧。正确的理解 Entity，有助于理解 Drupal 信息管理结构，对于使用 Drupal 会有很大的帮助，下面将对这个 Entity 做一个通俗的解释。</p>
-<h2 id="先简单介绍一下-Entity："><a href="#先简单介绍一下-Entity：" class="headerlink" title="先简单介绍一下 Entity："></a>先简单介绍一下 Entity：</h2><p>什么是 Entity？Entity 包括 Nodes（节点）, Users（用户）, Taxonomy Terms（术语）, Comments（评论），它们都是实体，只是命名和用途不一样而已。下面翻译一下 Drupal 官网找到的几行定义文字：<br>An entity type is a base class<br>一个实体类型是基础类别<br>A bundle is an extended class<br>一个集合是扩展类别<br>A field is a class member, property, variable or field instance (depending on your naming preference)<br>一个字段是一个类别的成员、属性、元素、或者字段实例（取决于你的命名喜好）<br>An entity is an object or instance of a base or extended class<br>一个实体是一个物体，或者是基础类别的实例，或者是扩展类别的实例<br>更多的就不翻译了，免得看得一头雾水。如果你能理解，下面的内容也不用看了。</p>
-<h2 id="关于-Entity-的通俗解释："><a href="#关于-Entity-的通俗解释：" class="headerlink" title="关于 Entity 的通俗解释："></a>关于 Entity 的通俗解释：</h2><p>这是根据我对 Entity 的理解来解释的，我觉得我对 Entity 理解得差不多了，不至于对大家造成多大的误导。<br>好了，让我们来打个比方，请充分发挥你的联想能力：<br>把 Entity Type（实体类型） 看做事物——事物有很多种，包括生物、非生物等，比如竹子、蝴蝶、雨花石、空气等。<br>把 Bundle（集合） 看成某一类具体的事物，比如竹类——竹子其实也分很多种，比如水竹、毛竹、紫竹、苦竹等<br>把 Entity（实体）看成某一种具体的事物，比如毛竹——毛竹其实其实是由很多部分组成的，比如主干、竹枝、竹叶、根须等<br>把 Field（字段）看成组成某一具体事物的一部分，比如竹叶<br>这样也许比较好理解吧。你也可以把 Bundle 看成蝴蝶这个大类，Entity 相当于大鸟翼蝶什么的，字段相当于翅膀、触须什么的。以此类推。</p>
-<h2 id="Content-Type（内容类型）："><a href="#Content-Type（内容类型）：" class="headerlink" title="Content Type（内容类型）："></a>Content Type（内容类型）：</h2><p>在括号内加解释太乱了，分两行吧，一行翻译成中文，一行不翻译。我个人觉得不翻译的话好理解一点，但是对英语不熟悉的网友看英语可能不好理解。<br>翻译的：内容类型其实就是节点这种实体的集合，默认包括标题、内容两个字段。评论也是一个实体，它和节点这种实体是关联的关系。<br>不翻译：Content Type 其实就是 node 这种 Entity 的 Bundle，默认包括 Title、Body 两个 Filed。</p>
-<h2 id="应用："><a href="#应用：" class="headerlink" title="应用："></a>应用：</h2><p>理解了 Entity（实体）之后，自然就是应用了。可以用 Entity Construction Kit (ECK)  这个模块创建新的Entity（实体），或者简单的，就添加新的 Content Type（内容类型）吧。<br>内容所指的其实不仅仅是文章，图片、音乐、电影、文件、书籍、应用等等都是内容。你想做什么站点就怎么去定义它，它有什么属性就添加几个字段。<br>把内容理解成某些东西就对了，只要它是信息数据都能用 Drupal 来管理。怎么样？知道 Drupal 可以做很多种网站了吧？其实前面说的主要还是资讯类的网站，更多类型的网站该怎么做，就要发挥你的思维力了。思路决定出路，见识改变思维。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/18/MySQL互联网业务数据库设计规范/" itemprop="url">
-                  MySQL互联网业务数据库设计规范
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2017-02-18T12:56:18+08:00" content="2017-02-18">
-              2017-02-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/02/18/MySQL互联网业务数据库设计规范/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/18/MySQL互联网业务数据库设计规范/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>适用场景：并发量大、数据量大的互联网业务</p>
-<h2 id="一、基础规范"><a href="#一、基础规范" class="headerlink" title="一、基础规范"></a>一、基础规范</h2><p>（1）必须使用InnoDB存储引擎<br>解读：支持事务、行级锁、并发性能更好、CPU及内存缓存页优化使得资源利用率更高</p>
-<p>（2）必须使用UTF8字符集<br>解读：万国码，无需转码，无乱码风险<br>字符集推荐使用utf8mb4字符集,utf8mb4是utf8的超集，emoji表情以及部分不常见汉字在utf8下会表现为乱码，故需要升级至utf8mb4。</p>
-<p>（3）数据表、数据字段必须加入中文注释<br>解读：N年后谁tm知道这个r1,r2,r3字段是干嘛的</p>
-<p>（4）禁止使用存储过程、视图、触发器、Event<br>解读：高并发大数据的互联网业务，架构设计思路是“解放数据库CPU，将计算转移到服务层”，并发量大的情况下，这些功能很可能将数据库拖死，业务逻辑放到服务层具备更好的扩展性，能够轻易实现“增机器就加性能”。数据库擅长存储与索引，CPU计算还是上移吧</p>
-<p>（5）禁止存储大文件或者大照片<br>解读：为何要让数据库做它不擅长的事情？大文件和照片存储在文件系统，数据库里存URI多好</p>
-<h2 id="二、命名规范"><a href="#二、命名规范" class="headerlink" title="二、命名规范"></a>二、命名规范</h2><p>（6）只允许使用内网域名，而不是ip连接数据库<br> 解读：不只是数据库，缓存（memcache、redis）的连接，服务（service）的连接都必须使用内网域名，机器迁移/平滑升级/运维管理…太多太多的好处。</p>
-<p>（7）线上环境、开发环境、测试环境数据库内网域名遵循命名规范<br>业务名称：xxx<br>线上环境：xxx.db<br>开发环境：xxx.rdb<br>测试环境：xxx.tdb<br>从库在名称后加-s标识，备库在名称后加-ss标识<br>线上从库：xxx-s.db<br>线上备库：xxx-sss.db</p>
-<p>（8）库名、表名、字段名：小写，下划线风格，不超过32个字符，必须见名知意，禁止拼音英文混用</p>
-<p>（9）表名t_xxx，非唯一索引名idx_xxx，唯一索引名uniq_xxx</p>
-<h2 id="三、表设计规范"><a href="#三、表设计规范" class="headerlink" title="三、表设计规范"></a>三、表设计规范</h2><p>（10）单实例表数目必须小于500</p>
-<p>（11）单表列数目必须小于30</p>
-<p>（12）表必须有主键，例如自增主键<br>解读：<br>a）主键递增，数据行写入可以提高插入性能，可以避免page分裂，减少表碎片提升空间和内存的使用<br>b）主键要选择较短的数据类型， Innodb引擎普通索引都会保存主键的值，较短的数据类型可以有效的减少索引的磁盘空间，提高索引的缓存效率<br>c） 无主键的表删除，在row模式的主从架构，会导致备库夯住</p>
-<p>（13）禁止使用外键，如果有外键完整性约束，需要应用程序控制<br>解读：外键会导致表与表之间耦合，update与delete操作都会涉及相关联的表，十分影响sql 的性能，甚至会造成死锁。高并发情况下容易造成数据库性能，大数据高并发业务场景数据库使用以性能优先</p>
-<h2 id="四、字段设计规范"><a href="#四、字段设计规范" class="headerlink" title="四、字段设计规范"></a>四、字段设计规范</h2><p>（14）必须把字段定义为NOT NULL并且提供默认值<br>解读：<br>a）null的列使索引/索引统计/值比较都更加复杂，对MySQL来说更难优化<br>b）null 这种类型MySQL内部需要进行特殊处理，增加数据库处理记录的复杂性；同等条件下，表中有较多空字段的时候，数据库的处理性能会降低很多<br>c）null值需要更多的存储空，无论是表还是索引中每行中的null的列都需要额外的空间来标识<br>d）对null 的处理时候，只能采用is null或is not null，而不能采用=、in、&lt;、&lt;&gt;、!=、not in这些操作符号。如：where name!=’shenjian’，如果存在name为null值的记录，查询结果就不会包含name为null值的记录</p>
-<p>（15）禁止使用TEXT、BLOB类型<br>解读：会浪费更多的磁盘和内存空间，非必要的大量的大字段查询会淘汰掉热数据，导致内存命中率急剧降低，影响数据库性能</p>
-<p>（16）禁止使用小数存储货币<br>解读：使用整数吧，小数容易导致钱对不上<br>有人问存储前乘以100，取出后除以100是否可行，个人建议“尽量少的使用除法”。</p>
-<p>曾经踩过这样的坑，100元分3天摊销，每天摊销100/3元，结果得到3个33.33。后来实施对账系统，始终有几分钱对不齐，郁闷了很久（不是几分钱的事，是业务方质疑的眼神让研发很不爽），最后发现是除法惹的祸。<br>解决方案：使用“分”作为单位，这样数据库里就是整数了。</p>
-<p>（17）必须使用varchar(20)存储手机号<br>解读：<br>a）涉及到区号或者国家代号，可能出现+-()<br>b）手机号会去做数学运算么？<br>c）varchar可以支持模糊查询，例如：like“138%”</p>
-<p>（18）禁止使用ENUM，可使用TINYINT代替<br>解读：<br>a）增加新的ENUM值要做DDL操作<br>b）ENUM的内部实际存储就是整数，你以为自己定义的是字符串？</p>
-<h2 id="五、索引设计规范"><a href="#五、索引设计规范" class="headerlink" title="五、索引设计规范"></a>五、索引设计规范</h2><p>（19）单表索引建议控制在5个以内</p>
-<p>（20）单索引字段数不允许超过5个<br>解读：字段超过5个时，实际已经起不到有效过滤数据的作用了</p>
-<p>（21）禁止在更新十分频繁、区分度不高的属性上建立索引<br>解读：<br>a）更新会变更B+树，更新频繁的字段建立索引会大大降低数据库性能<br>b）“性别”这种区分度不大的属性，建立索引是没有什么意义的，不能有效过滤数据，性能与全表扫描类似</p>
-<p>（22）建立组合索引，必须把区分度高的字段放在前面<br>解读：能够更加有效的过滤数据</p>
-<h2 id="六、SQL使用规范"><a href="#六、SQL使用规范" class="headerlink" title="六、SQL使用规范"></a>六、SQL使用规范</h2><p>（23）禁止使用SELECT <em>，只获取必要的字段，需要显示说明列属性<br>解读：<br>a）读取不需要的列会增加CPU、IO、NET消耗<br>b）不能有效的利用覆盖索引<br>c）使用SELECT </em>容易在增加或者删除字段后出现程序BUG</p>
-<p>（24）禁止使用INSERT INTO t_xxx VALUES(xxx)，必须显示指定插入的列属性<br>解读：容易在增加或者删除字段后出现程序BUG</p>
-<p>（25）禁止使用属性隐式转换<br>解读：SELECT uid FROM t_user WHERE phone=13812345678<br>会导致全表扫描，而不能命中phone索引，猜猜为什么？（这个线上问题不止出现过一次）<br>解决方案：phone是varchar类型，SQL语句带入的是整形，故不会命中索引，加个引号就好了<br>SELECT uid FROM t_user WHERE phone=’13812345678’</p>
-<p>（26）禁止在WHERE条件的属性上使用函数或者表达式<br>解读：SELECT uid FROM t_user WHERE from_unixtime(day)&gt;=’2017-02-15’ 会导致全表扫描<br>正确的写法是：SELECT uid FROM t_user WHERE day&gt;= unix_timestamp(‘2017-02-15 00:00:00’)</p>
-<p>（27）禁止负向查询，以及%开头的模糊查询<br>解读：<br>a）负向查询条件：NOT、!=、&lt;&gt;、!&lt;、!&gt;、NOT IN、NOT LIKE等，会导致全表扫描<br>b）%开头的模糊查询，会导致全表扫描<br>举例：<br>一般来说，WHERE过滤条件不会只带这么一个“负向查询条件”，还会有其他过滤条件，举个例子：查询沈剑已完成订单之外的订单（好拗口）：<br>SELECT oid FROM t_order WHERE uid=123 AND status != 1;</p>
-<p>订单表5000w数据，但uid=123就会迅速的将数据量过滤到很少的级别（uid建立了索引），此时再接上一个负向的查询条件就无所谓了，扫描的行数本身就会很少。</p>
-<p>但如果要查询所有已完成订单之外的订单：<br>SELECT oid FROM t_order WHERE status != 1;<br>这就挂了，立马CPU100%，status索引会失效，负向查询导致全表扫描。</p>
-<p>（28）禁止大表使用JOIN查询，禁止大表使用子查询<br>解读：会产生临时表，消耗较多内存与CPU，极大影响数据库性能</p>
-<p>（29）禁止使用OR条件，必须改为IN查询<br>解读：旧版本Mysql的OR查询是不能命中索引的，即使能命中索引，为何要让数据库耗费更多的CPU帮助实施查询优化呢？</p>
-<p>（30）应用程序必须捕获SQL异常，并有相应处理</p>
-<p>总结：大数据量高并发的互联网业务，极大影响数据库性能的都不让用，不让用哟。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/27/vue在drupal中的模块化开发/" itemprop="url">
-                  vue在drupal中的模块化开发
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2017-01-27T22:44:41+08:00" content="2017-01-27">
-              2017-01-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/drupal/" itemprop="url" rel="index">
-                    <span itemprop="name">drupal</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/27/vue在drupal中的模块化开发/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/27/vue在drupal中的模块化开发/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p><code>vue</code>的模块化开发，基于<code>webpack</code>，<code>gulp</code></p>
-<p>由于<code>vue</code>组件系统，<code>drupal</code>中的<code>vue</code>可以直接在主题中写组件</p>
-<p>OK，初始化一个主题，<code>lancer</code></p>
-<p>本地先安装node</p>
-<p>然后在<code>lancer</code>目录下先放个<code>package.json</code>文件</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>: <span class="string">"voss"</span>,</div><div class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.1"</span>,</div><div class="line">  <span class="attr">"description"</span>: <span class="string">"webapp with Vue.js for voss."</span>,</div><div class="line">  <span class="attr">"author"</span>: <span class="string">"panjun.liu &lt;panjun.liu@verycloud.cn&gt;"</span>,</div><div class="line">  <span class="attr">"private"</span>: <span class="literal">true</span>,</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"dev"</span>: <span class="string">"node build/dev-server.js"</span>,</div><div class="line">    <span class="attr">"build"</span>: <span class="string">"node build/build.js"</span>,</div><div class="line">    <span class="attr">"unit"</span>: <span class="string">"karma start test/unit/karma.conf.js --single-run"</span>,</div><div class="line">    <span class="attr">"test"</span>: <span class="string">"npm run unit"</span>,</div><div class="line">    <span class="attr">"lint"</span>: <span class="string">"eslint --ext .js,.vue src test/unit/specs test/e2e/specs"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"dependencies"</span>: &#123;</div><div class="line">    <span class="attr">"vue"</span>: <span class="string">"^2.0.3"</span>,</div><div class="line">    <span class="attr">"babel-runtime"</span>: <span class="string">"^6.11.6"</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"devDependencies"</span>: &#123;</div><div class="line">    <span class="attr">"babel-core"</span>: <span class="string">"^6.16.0"</span>,</div><div class="line">    <span class="attr">"babel-loader"</span>: <span class="string">"^6.2.5"</span>,</div><div class="line">    <span class="attr">"babel-plugin-transform-runtime"</span>: <span class="string">"^6.15.0"</span>,</div><div class="line">    <span class="attr">"babel-preset-es2015"</span>: <span class="string">"^6.16.0"</span>,</div><div class="line">    <span class="attr">"babel-preset-stage-2"</span>: <span class="string">"^6.16.0"</span>,</div><div class="line">    <span class="attr">"bulma"</span>: <span class="string">"0.2.1"</span>,</div><div class="line">    <span class="attr">"chai"</span>: <span class="string">"^3.5.0"</span>,</div><div class="line">    <span class="attr">"chart.js"</span>: <span class="string">"^2.3.0"</span>,</div><div class="line">    <span class="attr">"connect-history-api-fallback"</span>: <span class="string">"^1.3.0"</span>,</div><div class="line">    <span class="attr">"css-loader"</span>: <span class="string">"^0.25.0"</span>,</div><div class="line">    <span class="attr">"element-ui"</span>: <span class="string">"^1.0.2"</span>,</div><div class="line">    <span class="attr">"eslint"</span>: <span class="string">"^3.7.0"</span>,</div><div class="line">    <span class="attr">"eslint-config-standard"</span>: <span class="string">"^6.2.0"</span>,</div><div class="line">    <span class="attr">"eslint-friendly-formatter"</span>: <span class="string">"^2.0.6"</span>,</div><div class="line">    <span class="attr">"eslint-loader"</span>: <span class="string">"^1.5.0"</span>,</div><div class="line">    <span class="attr">"eslint-plugin-html"</span>: <span class="string">"^1.5.3"</span>,</div><div class="line">    <span class="attr">"eslint-plugin-promise"</span>: <span class="string">"^2.0.1"</span>,</div><div class="line">    <span class="attr">"eslint-plugin-standard"</span>: <span class="string">"^2.0.1"</span>,</div><div class="line">    <span class="attr">"eventsource-polyfill"</span>: <span class="string">"^0.9.6"</span>,</div><div class="line">    <span class="attr">"express"</span>: <span class="string">"^4.14.0"</span>,</div><div class="line">    <span class="attr">"extract-text-webpack-plugin"</span>: <span class="string">"^1.0.1"</span>,</div><div class="line">    <span class="attr">"fastclick"</span>: <span class="string">"^1.0.6"</span>,</div><div class="line">    <span class="attr">"file-loader"</span>: <span class="string">"^0.9.0"</span>,</div><div class="line">    <span class="attr">"function-bind"</span>: <span class="string">"^1.1.0"</span>,</div><div class="line">    <span class="attr">"html-webpack-plugin"</span>: <span class="string">"^2.22.0"</span>,</div><div class="line">    <span class="attr">"http-proxy-middleware"</span>: <span class="string">"^0.17.2"</span>,</div><div class="line">    <span class="attr">"inject-loader"</span>: <span class="string">"^2.0.1"</span>,</div><div class="line">    <span class="attr">"isparta-loader"</span>: <span class="string">"^2.0.0"</span>,</div><div class="line">    <span class="attr">"json-loader"</span>: <span class="string">"^0.5.4"</span>,</div><div class="line">    <span class="attr">"karma"</span>: <span class="string">"^1.3.0"</span>,</div><div class="line">    <span class="attr">"karma-coverage"</span>: <span class="string">"^1.1.1"</span>,</div><div class="line">    <span class="attr">"karma-mocha"</span>: <span class="string">"^1.2.0"</span>,</div><div class="line">    <span class="attr">"karma-phantomjs-launcher"</span>: <span class="string">"^1.0.2"</span>,</div><div class="line">    <span class="attr">"karma-sinon-chai"</span>: <span class="string">"^1.2.3"</span>,</div><div class="line">    <span class="attr">"karma-sourcemap-loader"</span>: <span class="string">"^0.3.7"</span>,</div><div class="line">    <span class="attr">"karma-spec-reporter"</span>: <span class="string">"0.0.26"</span>,</div><div class="line">    <span class="attr">"karma-webpack"</span>: <span class="string">"^1.8.0"</span>,</div><div class="line">    <span class="attr">"less"</span>: <span class="string">"^2.7.1"</span>,</div><div class="line">    <span class="attr">"less-loader"</span>: <span class="string">"^2.2.3"</span>,</div><div class="line">    <span class="attr">"lolex"</span>: <span class="string">"^1.5.1"</span>,</div><div class="line">    <span class="attr">"mocha"</span>: <span class="string">"^3.1.0"</span>,</div><div class="line">    <span class="attr">"moment"</span>: <span class="string">"^2.14.1"</span>,</div><div class="line">    <span class="attr">"ora"</span>: <span class="string">"^0.3.0"</span>,</div><div class="line">    <span class="attr">"phantomjs-prebuilt"</span>: <span class="string">"^2.1.12"</span>,</div><div class="line">    <span class="attr">"shelljs"</span>: <span class="string">"^0.7.4"</span>,</div><div class="line">    <span class="attr">"sinon"</span>: <span class="string">"^1.17.6"</span>,</div><div class="line">    <span class="attr">"sinon-chai"</span>: <span class="string">"^2.8.0"</span>,</div><div class="line">    <span class="attr">"swiper"</span>: <span class="string">"^3.3.1"</span>,</div><div class="line">    <span class="attr">"url-loader"</span>: <span class="string">"^0.5.7"</span>,</div><div class="line">    <span class="attr">"vue-hot-reload-api"</span>: <span class="string">"^2.0.6"</span>,</div><div class="line">    <span class="attr">"vue-html-loader"</span>: <span class="string">"^1.2.3"</span>,</div><div class="line">    <span class="attr">"vue-loader"</span>: <span class="string">"^9.7.0"</span>,</div><div class="line">    <span class="attr">"vue-resource"</span>: <span class="string">"^1.0.3"</span>,</div><div class="line">    <span class="attr">"vue-router"</span>: <span class="string">"^2.0.1"</span>,</div><div class="line">    <span class="attr">"vue-style-loader"</span>: <span class="string">"^1.0.0"</span>,</div><div class="line">    <span class="attr">"vuex"</span>: <span class="string">"^2.0.0"</span>,</div><div class="line">    <span class="attr">"webpack"</span>: <span class="string">"^1.13.2"</span>,</div><div class="line">    <span class="attr">"webpack-dev-middleware"</span>: <span class="string">"^1.8.4"</span>,</div><div class="line">    <span class="attr">"webpack-hot-middleware"</span>: <span class="string">"^2.13.0"</span>,</div><div class="line">    <span class="attr">"webpack-merge"</span>: <span class="string">"^0.14.1"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>运行<code>npm install</code>开始初始化环境</p>
-<p>之后<code>npm install gulp gulp-util gulp-less gulp-concat gulp-open gulp-uglify gulp-cssmin gulp-md5-plus gulp-file-include gulp-clean gulp-css-spriter gulp-css-base64 webpack gulp-connect --save-dev</code>安装<code>gulp</code>环境</p>
-<p>初始化<code>gulpfile.js</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>),</div><div class="line">  os = <span class="built_in">require</span>(<span class="string">'os'</span>),</div><div class="line">  gutil = <span class="built_in">require</span>(<span class="string">'gulp-util'</span>),</div><div class="line">  less = <span class="built_in">require</span>(<span class="string">'gulp-less'</span>),</div><div class="line">  concat = <span class="built_in">require</span>(<span class="string">'gulp-concat'</span>),</div><div class="line">  gulpOpen = <span class="built_in">require</span>(<span class="string">'gulp-open'</span>),</div><div class="line">  uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>),</div><div class="line">  cssmin = <span class="built_in">require</span>(<span class="string">'gulp-cssmin'</span>),</div><div class="line">  md5 = <span class="built_in">require</span>(<span class="string">'gulp-md5-plus'</span>),</div><div class="line">  fileinclude = <span class="built_in">require</span>(<span class="string">'gulp-file-include'</span>),</div><div class="line">  clean = <span class="built_in">require</span>(<span class="string">'gulp-clean'</span>),</div><div class="line">  spriter = <span class="built_in">require</span>(<span class="string">'gulp-css-spriter'</span>),</div><div class="line">  base64 = <span class="built_in">require</span>(<span class="string">'gulp-css-base64'</span>),</div><div class="line">  webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>),</div><div class="line">  webpackConfig = <span class="built_in">require</span>(<span class="string">'./build/webpack.prod.conf.js'</span>),</div><div class="line">  connect = <span class="built_in">require</span>(<span class="string">'gulp-connect'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> host = &#123;</div><div class="line">  <span class="attr">path</span>: <span class="string">'dist/'</span>,</div><div class="line">  <span class="attr">port</span>: <span class="number">3000</span>,</div><div class="line">  <span class="attr">html</span>: <span class="string">'index.html'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">//mac chrome: "Google chrome", </span></div><div class="line"><span class="keyword">var</span> browser = os.platform() === <span class="string">'linux'</span> ? <span class="string">'Google chrome'</span> : (</div><div class="line">  os.platform() === <span class="string">'darwin'</span> ? <span class="string">'Google chrome'</span> : (</div><div class="line">    os.platform() === <span class="string">'win32'</span> ? <span class="string">'chrome'</span> : <span class="string">'firefox'</span>));</div><div class="line"><span class="keyword">var</span> pkg = <span class="built_in">require</span>(<span class="string">'./package.json'</span>);</div><div class="line"></div><div class="line"><span class="comment">//将图片拷贝到目标目录</span></div><div class="line">gulp.task(<span class="string">'copy:images'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</div><div class="line">  gulp.src([<span class="string">'src/images/**/*'</span>]).pipe(gulp.dest(<span class="string">'dist/images'</span>)).on(<span class="string">'end'</span>, done);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//压缩合并css, css中既有自己写的.less, 也有引入第三方库的.css</span></div><div class="line">gulp.task(<span class="string">'lessmin'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</div><div class="line">  gulp.src([<span class="string">'src/css/main.less'</span>, <span class="string">'src/css/*.css'</span>])</div><div class="line">    .pipe(less())</div><div class="line">    <span class="comment">//这里可以加css sprite 让每一个css合并为一个雪碧图</span></div><div class="line">    <span class="comment">//.pipe(spriter(&#123;&#125;))</span></div><div class="line">    .pipe(concat(<span class="string">'style.min.css'</span>))</div><div class="line">    .pipe(gulp.dest(<span class="string">'dist/css/'</span>))</div><div class="line">    .on(<span class="string">'end'</span>, done);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//将js加上10位md5,并修改html中的引用路径，该动作依赖build-js</span></div><div class="line">gulp.task(<span class="string">'md5:js'</span>, [<span class="string">'build-js'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</div><div class="line">  gulp.src(<span class="string">'dist/js/*.js'</span>)</div><div class="line">    .pipe(md5(<span class="number">10</span>, <span class="string">'dist/app/*.html'</span>))</div><div class="line">    .pipe(gulp.dest(<span class="string">'dist/js'</span>))</div><div class="line">    .on(<span class="string">'end'</span>, done);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//将css加上10位md5，并修改html中的引用路径，该动作依赖sprite</span></div><div class="line">gulp.task(<span class="string">'md5:css'</span>, [<span class="string">'sprite'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</div><div class="line">  gulp.src(<span class="string">'dist/css/*.css'</span>)</div><div class="line">    .pipe(md5(<span class="number">10</span>, <span class="string">'dist/app/*.html'</span>))</div><div class="line">    .pipe(gulp.dest(<span class="string">'dist/css'</span>))</div><div class="line">    .on(<span class="string">'end'</span>, done);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//用于在html文件中直接include文件</span></div><div class="line">gulp.task(<span class="string">'fileinclude'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</div><div class="line">  gulp.src([<span class="string">'src/app/*.html'</span>])</div><div class="line">    .pipe(fileinclude(&#123;</div><div class="line">      <span class="attr">prefix</span>: <span class="string">'@@'</span>,</div><div class="line">      <span class="attr">basepath</span>: <span class="string">'@file'</span></div><div class="line">    &#125;))</div><div class="line">    .pipe(gulp.dest(<span class="string">'dist/app'</span>))</div><div class="line">    .on(<span class="string">'end'</span>, done);</div><div class="line">  <span class="comment">// .pipe(connect.reload())</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//雪碧图操作，应该先拷贝图片并压缩合并css</span></div><div class="line">gulp.task(<span class="string">'sprite'</span>, [<span class="string">'copy:images'</span>, <span class="string">'lessmin'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> timestamp = +<span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">  gulp.src(<span class="string">'dist/css/style.min.css'</span>)</div><div class="line">    .pipe(spriter(&#123;</div><div class="line">      <span class="attr">spriteSheet</span>: <span class="string">'dist/images/spritesheet'</span> + timestamp + <span class="string">'.png'</span>,</div><div class="line">      <span class="attr">pathToSpriteSheetFromCSS</span>: <span class="string">'../images/spritesheet'</span> + timestamp + <span class="string">'.png'</span>,</div><div class="line">      <span class="attr">spritesmithOptions</span>: &#123;</div><div class="line">        <span class="attr">padding</span>: <span class="number">10</span></div><div class="line">      &#125;</div><div class="line">    &#125;))</div><div class="line">    .pipe(base64())</div><div class="line">    .pipe(cssmin())</div><div class="line">    .pipe(gulp.dest(<span class="string">'dist/css'</span>))</div><div class="line">    .on(<span class="string">'end'</span>, done);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">gulp.task(<span class="string">'clean'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</div><div class="line">  gulp.src([<span class="string">'dist'</span>])</div><div class="line">    .pipe(clean())</div><div class="line">    .on(<span class="string">'end'</span>, done);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">gulp.task(<span class="string">'watch'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</div><div class="line">  gulp.watch([<span class="string">'/var/www/html/voss/**/*.vue'</span>, <span class="string">'/var/www/html/voss/**/*.js'</span>, <span class="string">'/var/www/html/voss/**/*.less'</span>], [<span class="string">'lessmin'</span>, <span class="string">'build-js'</span>, <span class="string">'fileinclude'</span>])</div><div class="line">    .on(<span class="string">'end'</span>, done);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">gulp.task(<span class="string">'connect'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'connect------------'</span>);</div><div class="line">  connect.server(&#123;</div><div class="line">    <span class="attr">root</span>: host.path,</div><div class="line">    <span class="attr">port</span>: host.port,</div><div class="line">    <span class="attr">livereload</span>: <span class="literal">true</span></div><div class="line">  &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">gulp.task(<span class="string">'open'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</div><div class="line">  gulp.src(<span class="string">''</span>)</div><div class="line">    .pipe(gulpOpen(&#123;</div><div class="line">      <span class="attr">app</span>: browser,</div><div class="line">      <span class="attr">uri</span>: <span class="string">'http://localhost:3000/app'</span></div><div class="line">    &#125;))</div><div class="line">    .on(<span class="string">'end'</span>, done);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> myDevConfig = <span class="built_in">Object</span>.create(webpackConfig);</div><div class="line"></div><div class="line"><span class="keyword">var</span> devCompiler = webpack(myDevConfig);</div><div class="line"></div><div class="line"><span class="comment">//引用webpack对js进行操作</span></div><div class="line">gulp.task(<span class="string">"build-js"</span>, [<span class="string">'fileinclude'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</div><div class="line">  devCompiler.run(<span class="function"><span class="keyword">function</span>(<span class="params">err, stats</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(err) <span class="keyword">throw</span> <span class="keyword">new</span> gutil.PluginError(<span class="string">"webpack:build-js"</span>, err);</div><div class="line">    gutil.log(<span class="string">"[webpack:build-js]"</span>, stats.toString(&#123;</div><div class="line">      <span class="attr">colors</span>: <span class="literal">true</span></div><div class="line">    &#125;));</div><div class="line">    callback();</div><div class="line">  &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">//发布</span></div><div class="line">gulp.task(<span class="string">'default'</span>, [<span class="string">'connect'</span>, <span class="string">'fileinclude'</span>, <span class="string">'md5:css'</span>, <span class="string">'md5:js'</span>, <span class="string">'open'</span>]);</div><div class="line"></div><div class="line"><span class="comment">//开发</span></div><div class="line">gulp.task(<span class="string">'dev'</span>, [<span class="string">'connect'</span>, <span class="string">'copy:images'</span>, <span class="string">'fileinclude'</span>, <span class="string">'lessmin'</span>, <span class="string">'build-js'</span>, <span class="string">'watch'</span>, <span class="string">'open'</span>]);</div></pre></td></tr></table></figure>
-<p>命令行下<code>gulp</code>回车，启动监控任务</p>
-<p>OK，现在可以开始<code>vue</code>的开发了</p>
-<p>主题下新建个目录<code>src</code>用于存放<code>vue</code>的组件，以及启动<code>js</code>文件<code>main.js</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></div><div class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">'vue-router'</span></div><div class="line"><span class="keyword">import</span> Resource <span class="keyword">from</span> <span class="string">'vue-resource'</span></div><div class="line"></div><div class="line"><span class="comment">// Contrib.</span></div><div class="line"><span class="keyword">import</span> ElementUI <span class="keyword">from</span> <span class="string">'element-ui'</span></div><div class="line"><span class="keyword">import</span> <span class="string">'element-ui/lib/theme-default/index.css'</span></div><div class="line"></div><div class="line"><span class="comment">// Voss.</span></div><div class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span></div><div class="line"><span class="keyword">import</span> Notfound <span class="keyword">from</span> <span class="string">'./pages/base/404'</span></div><div class="line"><span class="keyword">import</span> Organization <span class="keyword">from</span> <span class="string">'./pages/base/Organization'</span></div><div class="line"><span class="keyword">import</span> Region <span class="keyword">from</span> <span class="string">'./pages/base/Region'</span></div><div class="line"><span class="keyword">import</span> Position <span class="keyword">from</span> <span class="string">'./pages/base/Position'</span></div><div class="line"><span class="keyword">import</span> Education <span class="keyword">from</span> <span class="string">'./pages/base/Education'</span></div><div class="line"><span class="keyword">import</span> CompanyAuthority <span class="keyword">from</span> <span class="string">'./pages/base/CompanyAuthority'</span></div><div class="line"><span class="keyword">import</span> CompanyAuthorityConfig <span class="keyword">from</span> <span class="string">'./pages/base/CompanyAuthorityConfig'</span></div><div class="line"><span class="keyword">import</span> Memory <span class="keyword">from</span> <span class="string">'./pages/base/Memory'</span></div><div class="line"><span class="keyword">import</span> Variables <span class="keyword">from</span> <span class="string">'./pages/base/Variables'</span></div><div class="line"></div><div class="line"><span class="comment">// vuex store</span></div><div class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></div><div class="line"></div><div class="line">Vue.use(Router)</div><div class="line">Vue.use(Resource)</div><div class="line">Vue.use(ElementUI)</div><div class="line"></div><div class="line"><span class="comment">// 全局闭包，公用函数库，也可以放置到vuex2.0中</span></div><div class="line">global.$fn = &#123;</div><div class="line">  <span class="comment">// 获取url中的参数，允许默认值的设定</span></div><div class="line">  getparam (name, defaultValue) &#123;</div><div class="line">    <span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'(^|&amp;)'</span> + name + <span class="string">'=([^&amp;]*)(&amp;|$)'</span>)</div><div class="line">    <span class="keyword">let</span> r = <span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).match(reg)</div><div class="line">    <span class="keyword">return</span> (!r) ? ((!defaultValue) ? <span class="string">''</span> : defaultValue) : <span class="built_in">unescape</span>(r[<span class="number">2</span>])</div><div class="line">  &#125;,</div><div class="line">  init () &#123;</div><div class="line">    <span class="comment">// 登录或注销后需要清空cache</span></div><div class="line">    <span class="comment">// store.commit('isAuth', false)</span></div><div class="line">    <span class="comment">// this.csrf.requestToken()</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 随机字符串</span></div><div class="line">  getCode (n) &#123;</div><div class="line">    <span class="keyword">let</span> chars = <span class="string">'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span></div><div class="line">    <span class="keyword">let</span> res = <span class="string">''</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">      res += chars[<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * chars.length)]</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> res</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// cache 机制</span></div><div class="line">  cache: [],</div><div class="line">  <span class="comment">// 默认300秒数据缓存时间</span></div><div class="line">  exp: <span class="number">300</span>,</div><div class="line">  getCache (url) &#123;</div><div class="line">    <span class="keyword">let</span> json = <span class="keyword">this</span>.cache[url]</div><div class="line">    <span class="keyword">return</span> (json &amp;&amp; (json.exp &gt;= <span class="keyword">this</span>.timestamp())) ? json.data : <span class="literal">null</span></div><div class="line">  &#125;,</div><div class="line">  setCache (url, data, exp) &#123;</div><div class="line">    <span class="comment">// 默认300秒,&#123;data,exp&#125;</span></div><div class="line">    <span class="keyword">this</span>.cache[url] = &#123;<span class="attr">data</span>: data, <span class="attr">exp</span>: <span class="keyword">this</span>.timestamp() + ((!exp) ? <span class="keyword">this</span>.exp : exp)&#125;</div><div class="line">    <span class="comment">// console.log(this.cache)</span></div><div class="line">  &#125;,</div><div class="line">  httprl (method, url, sendData) &#123;</div><div class="line">    <span class="keyword">var</span> options = &#123;</div><div class="line">      <span class="attr">headers</span>: &#123;</div><div class="line">        <span class="string">'Content-Type'</span>: <span class="string">'application/json;charset=utf-8'</span>,</div><div class="line">        <span class="string">'Accept'</span>: <span class="string">'application/json'</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// handel get method.</span></div><div class="line">    <span class="keyword">if</span> (method === <span class="string">'GET'</span> || method === <span class="string">'get'</span>) &#123;</div><div class="line">      options.params = sendData</div><div class="line">      <span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">        Vue.http.get(url, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">          <span class="keyword">var</span> data = result.data</div><div class="line">          resolve(data)</div><div class="line">        &#125;, (error) =&gt; &#123;</div><div class="line">          reject(error)</div><div class="line">        &#125;)</div><div class="line">      &#125;)</div><div class="line">      <span class="keyword">return</span> promise</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="comment">// handle post put delete method.</span></div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.csrf.isExpired()) &#123;</div><div class="line">        <span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">          global.$fn.csrf.requestToken().then(<span class="function"><span class="keyword">function</span> (<span class="params">token</span>) </span>&#123;</div><div class="line">            options.headers[<span class="string">'X-CSRF-Token'</span>] = token</div><div class="line">            <span class="keyword">switch</span> (method) &#123;</div><div class="line">              <span class="keyword">case</span> <span class="string">'post'</span>:</div><div class="line">              <span class="keyword">case</span> <span class="string">'POST'</span>:</div><div class="line">                Vue.http.post(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                  resolve(result.data)</div><div class="line">                &#125;, (error) =&gt; &#123;</div><div class="line">                  reject(error)</div><div class="line">                &#125;)</div><div class="line">                <span class="keyword">break</span></div><div class="line">              <span class="keyword">case</span> <span class="string">'put'</span>:</div><div class="line">              <span class="keyword">case</span> <span class="string">'PUT'</span>:</div><div class="line">                Vue.http.put(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                  resolve(result.data)</div><div class="line">                &#125;, (error) =&gt; &#123;</div><div class="line">                  reject(error)</div><div class="line">                &#125;)</div><div class="line">                <span class="keyword">break</span></div><div class="line">              <span class="keyword">case</span> <span class="string">'del'</span>:</div><div class="line">              <span class="keyword">case</span> <span class="string">'DEL'</span>:</div><div class="line">                Vue.http.delete(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                  resolve(result.data)</div><div class="line">                &#125;, (error) =&gt; &#123;</div><div class="line">                  reject(error)</div><div class="line">                &#125;)</div><div class="line">                <span class="keyword">break</span></div><div class="line">            &#125;</div><div class="line">          &#125;)</div><div class="line">        &#125;)</div><div class="line">        <span class="keyword">return</span> promise</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        options.headers[<span class="string">'X-CSRF-Token'</span>] = <span class="keyword">this</span>.csrf.getToken()</div><div class="line">        <span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">          <span class="keyword">switch</span> (method) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="string">'post'</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">'POST'</span>:</div><div class="line">              Vue.http.post(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                resolve(result.data)</div><div class="line">              &#125;, (error) =&gt; &#123;</div><div class="line">                reject(error)</div><div class="line">              &#125;)</div><div class="line">              <span class="keyword">break</span></div><div class="line">            <span class="keyword">case</span> <span class="string">'put'</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">'PUT'</span>:</div><div class="line">              Vue.http.put(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                resolve(result.data)</div><div class="line">              &#125;, (error) =&gt; &#123;</div><div class="line">                reject(error)</div><div class="line">              &#125;)</div><div class="line">              <span class="keyword">break</span></div><div class="line">            <span class="keyword">case</span> <span class="string">'del'</span>:</div><div class="line">            <span class="keyword">case</span> <span class="string">'DEL'</span>:</div><div class="line">              Vue.http.delete(url, sendData, options).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</div><div class="line">                resolve(result.data)</div><div class="line">              &#125;, (error) =&gt; &#123;</div><div class="line">                reject(error)</div><div class="line">              &#125;)</div><div class="line">              <span class="keyword">break</span></div><div class="line">          &#125;</div><div class="line">        &#125;)</div><div class="line">        <span class="keyword">return</span> promise</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">csrf</span>: &#123;</div><div class="line">    <span class="attr">getToken</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> store.state.csrf.token</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">getExpire</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> store.state.csrf.expire</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">nowTime</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>()</div><div class="line">      <span class="keyword">return</span> date.getTime()</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">isExpired</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">let</span> csrfToken = global.$fn.csrf.getToken()</div><div class="line">      <span class="keyword">let</span> tokenExpire = global.$fn.csrf.getExpire()</div><div class="line">      <span class="keyword">let</span> nowTime = global.$fn.csrf.nowTime()</div><div class="line">      <span class="keyword">return</span> (csrfToken === <span class="literal">undefined</span> || !csrfToken.length || (nowTime &gt;= tokenExpire))</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">requestToken</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line">        Vue.http.get(<span class="string">'rest/session/token'</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params">result</span>) </span>&#123;</div><div class="line">          store.state.csrf.token = result.data</div><div class="line">          store.state.csrf.expire = global.$fn.csrf.nowTime() + store.state.csrf_token_expire * <span class="number">1000</span></div><div class="line">          resolve(result.data)</div><div class="line">        &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</div><div class="line">          <span class="built_in">console</span>.error(<span class="string">'Error! Fail to get csrf token!'</span>)</div><div class="line">          <span class="built_in">console</span>.error(error)</div><div class="line">          reject(error)</div><div class="line">        &#125;)</div><div class="line">      &#125;)</div><div class="line">      <span class="keyword">return</span> promise</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  toast (mode, title) &#123;</div><div class="line">    store.commit(<span class="string">'toast'</span>, &#123;</div><div class="line">      <span class="attr">id</span>: <span class="keyword">new</span> <span class="built_in">Date</span>().getTime(),</div><div class="line">      <span class="attr">title</span>: (title &amp;&amp; title.length) &gt; <span class="number">0</span> ? title : <span class="string">'操作完成'</span>,</div><div class="line">      <span class="attr">mode</span>: mode</div><div class="line">    &#125;)</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 时间戳</span></div><div class="line">  timestamp () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.floor(<span class="keyword">new</span> <span class="built_in">Date</span>().getTime() / <span class="number">1000</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">global.$fn.httprl('POST', 'api/login', &#123;</div><div class="line">  username: 'agent', password: '123.com'</div><div class="line">&#125;).then(</div><div class="line">  (result) =&gt; &#123;</div><div class="line">    console.log(result)</div><div class="line">  &#125;)</div><div class="line">*/</div><div class="line"><span class="keyword">const</span> routes = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">'/base/organization'</span>,</div><div class="line">    <span class="attr">component</span>: Organization,</div><div class="line">    <span class="attr">meta</span>: &#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'组织架构'</span></div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">'/base/organization/department'</span>,</div><div class="line">    <span class="attr">component</span>: Organization,</div><div class="line">    <span class="attr">meta</span>: &#123;</div><div class="line">      <span class="attr">title</span>: <span class="string">'部门'</span></div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">'/404'</span>,</div><div class="line">    <span class="attr">component</span>: Notfound</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    <span class="attr">path</span>: <span class="string">'*'</span>,</div><div class="line">    <span class="attr">redirect</span>: <span class="string">'/404'</span></div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> Router(&#123;</div><div class="line">  <span class="attr">base</span>: <span class="string">'/profile/'</span>,</div><div class="line">  <span class="attr">mode</span>: <span class="string">'history'</span>,</div><div class="line">  <span class="attr">linkActiveClass</span>: <span class="string">'is-active'</span>, <span class="comment">// router-link active样式</span></div><div class="line">  <span class="comment">/*</span></div><div class="line">  由于本项目采用内滚动布局，此处代码无效，需要自行hack vue-router获得此能力</div><div class="line">  saveScrollPosition: true,</div><div class="line">  scrollBehavior (to, from, savedPosition) &#123;</div><div class="line">  &#125;,</div><div class="line">  */</div><div class="line">  routes <span class="comment">// short for routes: routes</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">// if (store.getters.getIsAuth || !to.meta.auth) &#123;</span></div><div class="line">  <span class="comment">//  next()</span></div><div class="line">  <span class="comment">// &#125; else &#123;</span></div><div class="line">  <span class="comment">// 判断是否登录，（可以通过接口，Vuex状态 token）</span></div><div class="line">  <span class="comment">// 没有登录走下面逻辑</span></div><div class="line">  <span class="built_in">document</span>.title = to.meta.title + <span class="string">' '</span> + <span class="string">'| 后台管理'</span></div><div class="line">  <span class="keyword">if</span> (global.$fn.csrf.isExpired()) &#123;</div><div class="line">    global.$fn.csrf.requestToken()</div><div class="line">  &#125;</div><div class="line">  next()</div><div class="line">  <span class="comment">// &#125;</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">  router,</div><div class="line">  <span class="attr">render</span>: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</div><div class="line">&#125;).$mount(<span class="string">'#app'</span>)</div></pre></td></tr></table></figure>
-<p><code>src</code>目录下新建个文件<code>App.vue</code>，作为应用的主文件</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">section</span> <span class="attr">id</span>=<span class="string">"app-container"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">xheader</span>&gt;</span><span class="tag">&lt;/<span class="name">xheader</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">sidebar</span>&gt;</span><span class="tag">&lt;/<span class="name">sidebar</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"main-content"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">router-view</span> <span class="attr">keep-alive</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">transition</span> <span class="attr">name</span>=<span class="string">"fade"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">modal</span> <span class="attr">v-show</span>=<span class="string">"isModal"</span> @<span class="attr">closemodal</span>=<span class="string">"closeModal()"</span> <span class="attr">:mode</span>=<span class="string">"modalinfo.mode"</span> <span class="attr">:title</span>=<span class="string">"modalinfo.title"</span>" <span class="attr">:content</span>=<span class="string">"modalinfo.content"</span> <span class="attr">:width</span>=<span class="string">"modalinfo.width"</span> <span class="attr">:ok</span>=<span class="string">"modalinfo.ok"</span>" <span class="attr">:cancel</span>=<span class="string">"modalinfo.cancel"</span>&gt;</span><span class="tag">&lt;/<span class="name">modal</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="comment">// vuex全局数据</span></div><div class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></div><div class="line"><span class="keyword">import</span> Xheader <span class="keyword">from</span> <span class="string">'./components/header'</span></div><div class="line"><span class="keyword">import</span> Sidebar <span class="keyword">from</span> <span class="string">'./components/sidebar'</span></div><div class="line"><span class="keyword">import</span> &#123; Modal &#125; <span class="keyword">from</span> <span class="string">'./components/modal'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  <span class="attr">store</span>: store,</div><div class="line">  <span class="attr">components</span>: &#123;</div><div class="line">    Modal,</div><div class="line">    Xheader,</div><div class="line">    Sidebar</div><div class="line">  &#125;,</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="attr">modalinfo</span>: &#123;</div><div class="line">        <span class="attr">mode</span>: <span class="string">'alert'</span>,</div><div class="line">        <span class="attr">title</span>: <span class="string">''</span>,</div><div class="line">        <span class="attr">content</span>: <span class="string">''</span>,</div><div class="line">        <span class="attr">callback</span>: <span class="literal">null</span></div><div class="line">      &#125;</div><div class="line">      <span class="comment">// data</span></div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">computed</span>: &#123;</div><div class="line">    isModal () &#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.$store.getters.getModal</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*</span></div><div class="line">    isAuth () &#123;</div><div class="line">      return this.$store.getters.getIsAuth</div><div class="line">    &#125;,</div><div class="line">    toastArray () &#123;</div><div class="line">      return this.$store.getters.getToast</div><div class="line">    &#125;,</div><div class="line">    preloaderShow () &#123;</div><div class="line">      return this.$store.getters.getPreloader</div><div class="line">    &#125;</div><div class="line">    */</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">methods</span>: &#123;</div><div class="line">    showModal (mode, title, content, width, ok, cancel) &#123;</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'mode'</span>, mode)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'title'</span>, title)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'content'</span>, content)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'width'</span>, width)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'ok'</span>, ok)</div><div class="line">      <span class="keyword">this</span>.$set(<span class="keyword">this</span>.modalinfo, <span class="string">'cancel'</span>, cancel)</div><div class="line">      store.commit(<span class="string">'modal'</span>, <span class="literal">true</span>)</div><div class="line">    &#125;,</div><div class="line">    closeModal () &#123;</div><div class="line">      store.commit(<span class="string">'modal'</span>, <span class="literal">false</span>)</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  mounted () &#123;</div><div class="line">    <span class="comment">// let ico = require('./assets/images/vueico.png')</span></div><div class="line">    <span class="comment">// let icon = require('./assets/images/vuelogo.png')</span></div><div class="line"></div><div class="line">    <span class="comment">// document.getElementById('linkIcon').href = ico</span></div><div class="line">    <span class="comment">// document.getElementById('linkAppIcon').href = icon</span></div><div class="line"></div><div class="line">    <span class="built_in">window</span>.applicationCache.addEventListener(<span class="string">'updateready'</span>, (e) =&gt; &#123;</div><div class="line">      <span class="keyword">if</span> (<span class="built_in">window</span>.applicationCache.status === <span class="built_in">window</span>.applicationCache.UPDATEREADY) &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'system update'</span>)</div><div class="line">        <span class="built_in">window</span>.location.reload()</div><div class="line">      &#125;</div><div class="line">    &#125;, <span class="literal">false</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">lang</span>=<span class="string">"less"</span>&gt;</span><span class="css"></span></div><div class="line">  @<span class="keyword">import</span> <span class="string">'./lancer.less'</span>;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>哦，对了，还有对应的<code>css</code>文件，当然这里可以直接用<code>less</code>文件，gulp监控任务会自动编译成css文件</p>
-<p>这里我们直接<code>import</code>引入<code>less</code>文件，基于相对路径</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/15/Vue路由进阶/" itemprop="url">
-                  Vue路由进阶
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2017-01-15T10:46:27+08:00" content="2017-01-15">
-              2017-01-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Vue/" itemprop="url" rel="index">
-                    <span itemprop="name">Vue</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/15/Vue路由进阶/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/15/Vue路由进阶/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h3 id="导航钩子"><a href="#导航钩子" class="headerlink" title="导航钩子"></a>导航钩子</h3><p>有的时候，我们可能有这样的需求，当页面切换时，需要做一些操作来更改某些信息，这就需要拦截路由切换。vue-router 提供了导航钩子来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。</p>
-<h4 id="全局钩子"><a href="#全局钩子" class="headerlink" title="全局钩子"></a>全局钩子</h4><p>你可以使用 router.beforeEach 注册一个全局的 before 钩子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123; ... &#125;)</div><div class="line"></div><div class="line">router.beforeEach((to, from, next) =&gt; &#123;</div><div class="line">  // ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>当一个导航触发时，全局的 before 钩子按照创建顺序调用。钩子是异步解析执行，此时导航在所有钩子 resolve 完之前一直处于 等待中。<br>每个钩子方法接收三个参数：<br>to: Route: 即将要进入的目标 路由对象</p>
-<p>from: Route: 当前导航正要离开的路由</p>
-<p>next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。</p>
-<p>next(): 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是 confirmed （确认的）。</p>
-<p>next(false): 中断当前的导航。如果浏览器的 URL 改变了（可能是用户手动或者浏览器后退按钮），那么 URL 地址会重置到 from 路由对应的地址。</p>
-<p>next(‘/‘) 或者 next({ path: ‘/‘ }): 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。</p>
-<p>确保要调用 next 方法，否则钩子就不会被 resolved。<br>同样可以注册一个全局的 after 钩子，不过它不像 before 钩子那样，after 钩子没有 next 方法，不能改变导航：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">router.afterEach(route =&gt; &#123;</div><div class="line">  // ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h4 id="某个路由独享的钩子"><a href="#某个路由独享的钩子" class="headerlink" title="某个路由独享的钩子"></a>某个路由独享的钩子</h4><p>你可以在路由配置上直接定义 beforeEnter 钩子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123;</div><div class="line">      path: &apos;/foo&apos;,</div><div class="line">      component: Foo,</div><div class="line">      beforeEnter: (to, from, next) =&gt; &#123;</div><div class="line">        // ...</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>这些钩子与全局 before 钩子的方法参数是一样的。</p>
-<h4 id="组件内的钩子"><a href="#组件内的钩子" class="headerlink" title="组件内的钩子"></a>组件内的钩子</h4><p>最后，你可以在路由组件内直接定义以下路由导航钩子：</p>
-<p>beforeRouteEnter<br>beforeRouteUpdate (2.2 新增)<br>beforeRouteLeave</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const Foo = &#123;</div><div class="line">  template: `...`,</div><div class="line">  beforeRouteEnter (to, from, next) &#123;</div><div class="line">    // 在渲染该组件的对应路由被 confirm 前调用</div><div class="line">    // 不！能！获取组件实例 `this`</div><div class="line">    // 因为当钩子执行前，组件实例还没被创建</div><div class="line">  &#125;,</div><div class="line">  beforeRouteUpdate (to, from, next) &#123;</div><div class="line">    // 在当前路由改变，但是改组件被复用时调用</div><div class="line">    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，</div><div class="line">    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。</div><div class="line">    // 可以访问组件实例 `this`</div><div class="line">  &#125;,</div><div class="line">  beforeRouteLeave (to, from, next) &#123;</div><div class="line">    // 导航离开该组件的对应路由时调用</div><div class="line">    // 可以访问组件实例 `this`</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>介绍完上述三种不同作用域的导航钩子，我们来看一个更实际的例子。使用vue-router之后，页面的切换时无刷新的，也就是说和服务端没有交互，这样就会产生一个问题，如果某个页面这个用户没有权限访问，这个如何来控制？有了导航钩子，这个自然就可以放到导航钩子来执行，示例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">// 权限数组</div><div class="line">const permissions = &#123;</div><div class="line">  &apos;user&apos;: 1,   // 其中user表示路由名称  1表示有权限访问 0 表示无权限访问</div><div class="line">  &apos;userProfile&apos;: 0</div><div class="line">&#125;</div><div class="line"></div><div class="line">router.beforeEach((to, from, next) =&gt; &#123;</div><div class="line">  let name = to.name;</div><div class="line">  if (name) &#123;</div><div class="line">    if (permissions[name]) &#123;</div><div class="line">       next();</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">       alert(无权限访问);</div><div class="line">       next(false);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  else &#123;</div><div class="line">    next();</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h3 id="路由元信息"><a href="#路由元信息" class="headerlink" title="路由元信息"></a>路由元信息</h3><p>路由定义的时候，除了path、name、component(s)属性外，还可以有meta属性，这个属性用来为路由定义一些扩展的属性，比如每个页面都有title等。vue-router不会自动处理meta里面的属性，需要我们在导航钩子里面去处理这些元信息，我们就以页面title为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">const routes = [</div><div class="line">  &#123;</div><div class="line">    path: &apos;/profile/user&apos;,</div><div class="line">    name: &apos;user&apos;,</div><div class="line">    component: User,</div><div class="line">    meta: &#123;</div><div class="line">      title: &apos;用户列表&apos;</div><div class="line">    &#125;,</div><div class="line">    children: [</div><div class="line">      &#123;</div><div class="line">        path: &apos;:id&apos;,</div><div class="line">        component: UserProfile,</div><div class="line">        meta: &#123;</div><div class="line">          title: &apos;用户详情&apos;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line"></div><div class="line">router.beforeEach((to, from, next) =&gt; &#123;</div><div class="line">  document.title = to.meta ? to.meta.title : &apos;&apos;;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h3 id="过渡动效"><a href="#过渡动效" class="headerlink" title="过渡动效"></a>过渡动效</h3><p>过渡效果的基础知识已经在vue基础中讲过，如果不清楚过度效果，请先学习过渡效果。<router-view> 是基本的动态组件，所以我们可以用 <transition> 组件给它添加一些过渡效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;transition&gt;</div><div class="line">  &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">&lt;/transition&gt;</div></pre></td></tr></table></figure></transition></router-view></p>
-<p>上面的用法会给所有路由设置一样的过渡效果，如果你想让每个路由组件有各自的过渡效果，可以在各路由组件内使用 <transition> 并设置不同的 name。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">const User = &#123;</div><div class="line">  template: `</div><div class="line">    &lt;transition name=&quot;slide&quot;&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;div&gt;这里是用户列表&lt;/div&gt;</div><div class="line">      &lt;ul&gt;</div><div class="line">        &lt;li&gt;&lt;router-link to=&quot;/profile/user/1&quot;&gt;root&lt;/router-link&gt;&lt;/li&gt;</div><div class="line">        &lt;li&gt;&lt;router-link to=&quot;/profile/user/2&quot;&gt;test&lt;/router-link&gt;&lt;/li&gt;</div><div class="line">      &lt;/ul&gt;</div><div class="line">     &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">   &lt;/div&gt;</div><div class="line">   &lt;/transition&gt;</div><div class="line">   `</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 用户详情组件</div><div class="line">const UserProfile = &#123;</div><div class="line">  template: &apos;&lt;transition name=&quot;fade&quot;&gt;&lt;div&gt;用户# &#123;&#123; $route.params.id &#125;&#125;详情页&lt;/div&gt;&lt;/transition&gt;&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure></transition></p>
-<h3 id="滚动行为"><a href="#滚动行为" class="headerlink" title="滚动行为"></a>滚动行为</h3><p>由于vue-router是单页无刷新应用，所以假设有一个页面内容很多，有垂直滚动条，如果把页面滚动到最底部，然后再切换路由，默认情况下，新的页面也在最底部，如果想要页面滚到顶部，vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动。<br>注意: 这个功能只在 HTML5 history 模式下可用。<br>当创建一个 Router 实例，你可以提供一个 scrollBehavior 方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [...],</div><div class="line">  scrollBehavior (to, from, savedPosition) &#123;</div><div class="line">    // return 期望滚动到哪个的位置</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>scrollBehavior 方法接收 to 和 from 路由对象。第三个参数 savedPosition 当且仅当 popstate 导航 (通过浏览器的 前进/后退 按钮触发) 时才可用。<br>这个方法返回滚动位置的对象信息，长这样：</p>
-<p>{ x: number, y: number }<br>{ selector: string }<br>如果返回一个布尔假的值，或者是一个空对象，那么不会发生滚动。</p>
-<p>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">scrollBehavior (to, from, savedPosition) &#123;</div><div class="line">  return &#123; x: 0, y: 0 &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>上例对于所有路由导航，简单地让页面滚动到顶部。<br>返回 savedPosition，在按下 后退/前进 按钮时，就会像浏览器的原生表现那样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">scrollBehavior (to, from, savedPosition) &#123;</div><div class="line">  if (savedPosition) &#123;</div><div class="line">    return savedPosition</div><div class="line">  &#125; else &#123;</div><div class="line">    return &#123; x: 0, y: 0 &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>上例表示如果是按了浏览器的前进、后退按钮，则页面滚动到历史页面原来的位置，否则滚动到页面顶部。</p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/12/Vue路由入门/" itemprop="url">
-                  Vue路由入门
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2017-01-12T10:46:27+08:00" content="2017-01-12">
-              2017-01-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Vue/" itemprop="url" rel="index">
-                    <span itemprop="name">Vue</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/12/Vue路由入门/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/12/Vue路由入门/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><p>Vue路由（vue-router）是Vue用来创建单页应用的第三方库，使用vue-router可以很方便的创建无刷新切换页面的应用。vue-router基于vue的组件系统（不熟悉组件请先学习Vue组件），要使用vue-router只需要将路径和组件建立对应关系，这样路由系统就知道哪个路径需要渲染哪个组件。</p>
-<h3 id="2、开始"><a href="#2、开始" class="headerlink" title="2、开始"></a>2、开始</h3><p>在开始写第一个路由示例之前，我们先来了解一些基本概念。<br>（1）路由<br>路由即url路径和组件之间的对应关系。<br>（2）router-link组件<br> router-link组件即页面上连接到某个路由的超链接，最终渲染后会变成a标签。比如我需要在页面上设置连接到/profile/user的超链接，则只要在页面放上&lt;router-link to=”/profile/user”&gt;用户列表&lt;/router-link&gt;就行了。<br> （3）router-view组件<br> router-view组件是路由组件渲染的容器，一旦路由匹配到了，vue就会将路由对应的组件渲染到router-view标签所在的位置。比如点击上例中的profile/user超链接，vue首先查找profile/user对应的路由是什么，查找到后再找出路由对应的组件，然后将组件渲染到router-view标签。</p>
-<p>了解上述概念之后，我们可以开始写我们的第一个路由示例，我们首先创建index.html,代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;h1&gt;Hello App!&lt;/h1&gt;</div><div class="line">  &lt;p&gt;</div><div class="line">    &lt;!-- 使用 router-link 组件来导航. --&gt;</div><div class="line">    &lt;!-- 通过传入 `to` 属性指定链接. --&gt;</div><div class="line">    &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;</div><div class="line">    &lt;router-link to=&quot;/profile/user&quot;&gt;用户列表&lt;/router-link&gt;</div><div class="line">  &lt;/p&gt;</div><div class="line">  &lt;!-- 路由出口 --&gt;</div><div class="line">  &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;</div><div class="line">  &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;!-- 注意，这里引入vue-router.js对于script方式引入文件的方式是必不可少的.我们以后再讨论使用ES6模块引入的方式 --&gt;</div><div class="line">&lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;!-- 应用入口文件 --&gt;</div><div class="line">&lt;script src=&quot;/js/app.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<p>接着我们继续创建app.js，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">// 1. 定义（路由）组件。</div><div class="line">// 在现实的开发中，一般将组件放在单独的文件中，然后从其他文件 import 进来</div><div class="line">// 为了简单起见，我们这里先使用字符串模板组件，以后再讨论单文件组件（.vue文件）</div><div class="line">const User = &#123;</div><div class="line">  template: &apos;&lt;div&gt;这里是用户列表&lt;/div&gt;&apos; </div><div class="line">&#125;</div><div class="line"></div><div class="line">// 2. 定义路由</div><div class="line">// 每个路由应该映射一个组件。 其中&quot;component&quot; 可以是</div><div class="line">// 通过 Vue.extend() 创建的组件构造器，</div><div class="line">// 或者，只是一个组件配置对象。</div><div class="line">const routes = [</div><div class="line">  &#123; </div><div class="line">    path: &apos;/profile/user&apos;, </div><div class="line">    component: User </div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line">// 3. 创建 router 实例，然后传 `routes` 配置</div><div class="line">// 你还可以传别的配置参数, 不过先这么简单着吧。</div><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes // ES6（缩写）相当于 routes: routes</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 4. 创建和挂载根实例。</div><div class="line">// 记得要通过 router 配置参数注入路由，</div><div class="line">// 从而让整个应用都有路由功能</div><div class="line">const app = new Vue(&#123;</div><div class="line">  router</div><div class="line">&#125;).$mount(&apos;#app&apos;)</div><div class="line"></div><div class="line">// 现在，应用已经启动了！</div></pre></td></tr></table></figure></p>
-<p>至此，一个最简单的路由应用就完成了，部署到服务器后，打开<a href="http://localhost,则可以看到界面有一个“用户详情”超链接，点击超链接，界面会显示“这里是用户列表”，同时界面并没有刷新，所有的操作都在一个界面内完成，所以这也叫单页应用，与以前那些点击超链接就要刷新页面的应用相比是不是用户体验更高？" target="_blank" rel="external">http://localhost,则可以看到界面有一个“用户详情”超链接，点击超链接，界面会显示“这里是用户列表”，同时界面并没有刷新，所有的操作都在一个界面内完成，所以这也叫单页应用，与以前那些点击超链接就要刷新页面的应用相比是不是用户体验更高？</a></p>
-<h3 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h3><p>有的时候，我们的url里面需要带参数，比如上例中，我们需要查看不同用户的详情，那么url应该是/profile/user/1这样，里面的“1”即用户ID，可以动态变化，要实现这样的功能，我们只需要对我们的路由定义做一些微小变动。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const routes = [</div><div class="line">  &#123; </div><div class="line">    path: &apos;/profile/user/:id&apos;, </div><div class="line">    component: User </div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes // ES6（缩写）相当于 routes: routes</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>可以看到路由的定义唯一不同的地方就是在url上加了“:id”占位符，那么像“/profile/user/1”、“/profile/user/2”这样的url都会匹配到这个路由。<br>一个『路径参数』使用冒号 : 标记。当匹配到一个路由时，参数值会被设置到 this.$route.params，可以在每个组件内使用。于是，我们可以更新 User 的模板，输出当前用户的 ID：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const User = &#123;</div><div class="line">  template: &apos;&lt;div&gt;这里是用户# &#123;&#123; $route.params.id &#125;&#125;详情页&lt;/div&gt;&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>你可以在一个路由中设置多段『路径参数』，对应的值都会设置到 $route.params 中。例如：profile/user/:id/post/:pid，则可以使用$route.params.id和$route.params.pid来引用路由参数。如果url带有查询参数，则参数会被设置到$route.query对象。</p>
-<h3 id="嵌套路由"><a href="#嵌套路由" class="headerlink" title="嵌套路由"></a>嵌套路由</h3><p>在实际的应用中，我们可能会碰到某个页面下面还有子页面的情况，比如用户列表页面里面点击某个用户，显示用户详情，我们定义/profile/user为用户列表url，/profile/user/:id为用户详情url，那么这两个URL就是父子关系，即嵌套关系，这样的URL我们应该怎么定义呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const routes = [</div><div class="line">    &#123; path: &apos;/profile/user&apos;, component: User,</div><div class="line">      children: [</div><div class="line">        &#123;</div><div class="line">          path: &apos;:id&apos;,</div><div class="line">          component: UserProfile</div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  ]</div></pre></td></tr></table></figure></p>
-<p>你会发现，children 配置就是像 routes 配置一样的路由配置数组，所以呢，你可以嵌套多层路由。<br>上面只是定义了路由的结构，如果要在父页面里面显示子页面的内容，那么父页面的模板我们该如何定义？我们前面已经说过，要让路由的组件能在页面中渲染，必须在页面中放router-view组件，那么父页面的模板的定义可以这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const User = &#123;</div><div class="line">  template: `</div><div class="line">    &lt;div class=&quot;user&quot;&gt;</div><div class="line">      &lt;h2&gt;这是用户列表页面&lt;/h2&gt;</div><div class="line">      &lt;router-link to=&quot;/profile/user/1&quot;&gt;root&lt;/router-link&gt;</div><div class="line">      &lt;router-link to=&quot;/profile/user/2&quot;&gt;test&lt;/router-link&gt;</div><div class="line">      &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  `</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="编程式的导航"><a href="#编程式的导航" class="headerlink" title="编程式的导航"></a>编程式的导航</h3><p>除了使用 <router-link> 创建 a 标签来定义导航链接，我们还可以借助 router 的实例方法，通过编写代码来实现。</router-link></p>
-<h4 id="router-push-location"><a href="#router-push-location" class="headerlink" title="router.push(location)"></a>router.push(location)</h4><p>想要导航到不同的 URL，则使用 router.push 方法。这个方法会向 history 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。<br>当你点击 <router-link> 时，这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 router.push(…)。该方法的参数可以是一个字符串路径，或者一个描述地址的对象。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 字符串</div><div class="line">router.push(&apos;home&apos;)</div><div class="line"></div><div class="line">// 对象</div><div class="line">router.push(&#123; path: &apos;home&apos; &#125;)</div><div class="line"></div><div class="line">// 命名的路由</div><div class="line">router.push(&#123; name: &apos;user&apos;, params: &#123; userId: 123 &#125;&#125;)</div><div class="line"></div><div class="line">// 带查询参数，变成 /register?plan=private</div><div class="line">router.push(&#123; path: &apos;register&apos;, query: &#123; plan: &apos;private&apos; &#125;&#125;)</div></pre></td></tr></table></figure></router-link></router-link></p>
-<h4 id="router-replace-location"><a href="#router-replace-location" class="headerlink" title="router.replace(location)"></a>router.replace(location)</h4><p>跟 router.push 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。</p>
-<h4 id="router-go-n"><a href="#router-go-n" class="headerlink" title="router.go(n)"></a>router.go(n)</h4><p>这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// 在浏览器记录中前进一步，等同于 history.forward()</div><div class="line">router.go(1)</div><div class="line"></div><div class="line">// 后退一步记录，等同于 history.back()</div><div class="line">router.go(-1)</div><div class="line"></div><div class="line">// 前进 3 步记录</div><div class="line">router.go(3)</div><div class="line"></div><div class="line">// 如果 history 记录不够用，那就默默地失败呗</div><div class="line">router.go(-100)</div><div class="line">router.go(100)</div></pre></td></tr></table></figure></p>
-<h3 id="命名路由"><a href="#命名路由" class="headerlink" title="命名路由"></a>命名路由</h3><p>到此为止，我们例子中定义的路由都只有path和component两个属性，有时候，通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候。你可以在创建 Router 实例的时候，在 routes 配置中给某个路由设置名称。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123;</div><div class="line">      path: &apos;/profile/user/:id&apos;,</div><div class="line">      name: &apos;user&apos;,</div><div class="line">      component: User</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>要链接到一个命名路由，可以给 router-link 的 to 属性传一个对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;router-link :to=&quot;&#123; name: &apos;user&apos;, params: &#123; id: 123 &#125;&#125;&quot;&gt;User&lt;/router-link&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="命名视图"><a href="#命名视图" class="headerlink" title="命名视图"></a>命名视图</h3><p>我们上面的例子中，所有的模板里面都只有一个router-view组件，也就是说，一个路由只能渲染一个组件，但是有时候想同时（同级）展示多个视图，而不是嵌套展示，例如创建一个布局，有 sidebar（侧导航） 和 main（主内容） 两个视图，这个时候命名视图就派上用场了。你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果 router-view 没有设置名字，那么默认为 default。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;</div><div class="line">&lt;router-view class=&quot;view two&quot; name=&quot;a&quot;&gt;&lt;/router-view&gt;</div><div class="line">&lt;router-view class=&quot;view three&quot; name=&quot;b&quot;&gt;&lt;/router-view&gt;</div></pre></td></tr></table></figure></p>
-<p>一个视图使用一个组件渲染，因此对于同个路由，多个视图就需要多个组件。确保正确使用 components 配置（带上 s）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">      path: &apos;/&apos;,</div><div class="line">      components: &#123;</div><div class="line">        default: Foo,</div><div class="line">        a: Bar,</div><div class="line">        b: Baz</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h3 id="重定向-和-别名"><a href="#重定向-和-别名" class="headerlink" title="重定向 和 别名"></a>重定向 和 别名</h3><h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>重定向也是通过 routes 配置来完成，下面例子是从 /a 重定向到 /b：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, redirect: &apos;/b&apos; &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>重定向的目标也可以是一个命名的路由：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, redirect: &#123; name: &apos;foo&apos; &#125;&#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>甚至是一个方法，动态返回重定向目标：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, redirect: to =&gt; &#123;</div><div class="line">      // 方法接收 目标路由 作为参数</div><div class="line">      // return 重定向的 字符串路径/路径对象</div><div class="line">    &#125;&#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h4 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h4><p>『重定向』的意思是，当用户访问 /a时，URL 将会被替换成 /b，然后匹配路由为 /b，那么『别名』又是什么呢？<br>/a 的别名是 /b，意味着，当用户访问 /b 时，URL 会保持为 /b，但是路由匹配则为 /a，就像用户访问 /a 一样。<br>上面对应的路由配置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123; path: &apos;/a&apos;, component: A, alias: &apos;/b&apos; &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/21/git自动化部署/" itemprop="url">
-                  git自动化部属
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-12-21T07:47:36+08:00" content="2016-12-21">
-              2016-12-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/12/21/git自动化部署/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/21/git自动化部署/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-              <p>gitlab和github都支持通过webhook自动部署，本文使用gitlab+webhook的方式实现自动化部署项目。</p>
-<p>1、填写回调URL<br>随便在gitlab上找一个项目，填写回调URL，如果有Push请求，gitlab会自动回调你填写的这个地址。<br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20161221/2016122175313_33517.png" alt="回调地址"></p>
-<p>2、开发服务器配置<br>一般php是通过php-fpm来运行，而php-fpm一般由apache用户来运行。确保clone下来的仓库权限比如为apache.<br>可通过如下命令进行修改</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># chown apache:apache you_project * -R</span></div></pre></td></tr></table></figure>
-<p>创建apache用户的.ssh文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -u apache ssh-keygen -t rsa</div></pre></td></tr></table></figure></p>
-<p>3、测试<br>在本地commit一个提交.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># git ci -am 'test webhook'</span></div><div class="line"><span class="comment"># git push origin dev</span></div></pre></td></tr></table></figure>
-<p>在开发服务器上查看日志<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># tail -f /var/log/php-fpm/www-error.log</span></div></pre></td></tr></table></figure></p>
-<p>可以看到<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[20-Dec-2016 23:00:59 Asia/Chongqing] Array</div><div class="line">(</div><div class="line">    [0] =&gt; From git.xxx.cn:your_project/project_name</div><div class="line">    [1] =&gt;  * branch            master     -&gt; FETCH_HEAD</div><div class="line">    [2] =&gt; Updating c02949b..f8c52c5</div><div class="line">    [3] =&gt; Fast-forward</div><div class="line">    [4] =&gt;  webhook.php |   42 ++++++++++++++++++++++++++++++++++++++++++</div><div class="line">    [5] =&gt;  1 files changed, 42 insertions(+), 0 deletions(-)</div><div class="line">    [6] =&gt;  create mode 100644 webhook.php</div><div class="line">)</div></pre></td></tr></table></figure></p>
-<p>搞定！</p>
-<p>附、webhook.php源码</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$event = $_SERVER[<span class="string">'HTTP_X_GITLAB_EVENT'</span>];</div><div class="line">$client_ip = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</div><div class="line">$access_ip = <span class="keyword">array</span>(<span class="string">'192.168.112.151'</span>);</div><div class="line"><span class="comment">// access ip</span></div><div class="line"><span class="keyword">if</span> (!in_array($client_ip, $access_ip)) &#123;</div><div class="line">  <span class="keyword">echo</span> <span class="string">"Invalid ip [&#123;$client_ip&#125;]"</span> . PHP_EOL;</div><div class="line">  <span class="keyword">exit</span>(<span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> ($event == <span class="string">'Push Hook'</span>) &#123;</div><div class="line">  <span class="comment">// get json data</span></div><div class="line">  $input = file_get_contents(<span class="string">"php://input"</span>);</div><div class="line">  $json = json_decode($input, <span class="keyword">true</span>);</div><div class="line">  <span class="keyword">if</span> ($json[<span class="string">'project'</span>][<span class="string">'name'</span>] != <span class="string">'portal'</span>) &#123;</div><div class="line">     <span class="keyword">exit</span>(<span class="number">0</span>);</div><div class="line">  &#125;</div><div class="line">  $branch = $json[<span class="string">'ref'</span>];</div><div class="line">  <span class="keyword">switch</span> ($branch) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'refs/heads/dev'</span>:</div><div class="line">      exec(<span class="string">"cd /var/www/html/voss/portal/;/usr/bin/git pull origin dev 2&gt;&amp;1"</span>, $output, $result);</div><div class="line">      error_log(print_r(<span class="string">'pull dev'</span>, <span class="keyword">true</span>));</div><div class="line">      error_log(print_r($output, <span class="keyword">true</span>));</div><div class="line">      error_log(print_r($result, <span class="keyword">true</span>));</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">      </div><div class="line">    <span class="keyword">default</span>:</div><div class="line">      exec(<span class="string">"cd /var/www/html/voss/portal/;/usr/bin/git pull origin master 2&gt;&amp;1"</span>, $output, $result);</div><div class="line">      error_log(print_r(<span class="string">'pull master'</span>, <span class="keyword">true</span>));</div><div class="line">      error_log(print_r($output, <span class="keyword">true</span>));</div><div class="line">      error_log(print_r($result, <span class="keyword">true</span>));</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-            
-          </span>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+<div class="row" style="padding-top: 70px">
+    <div class="container center-block">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Blog</h3>
+                </div>
+                <ul class="list-group">
+                    
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2017/02/28/Drupal8实体-entity/">Drupal8实体(entity)</a>
+</li>
 
 
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2017/02/18/MySQL互联网业务数据库设计规范/">MySQL互联网业务数据库设计规范</a>
+</li>
 
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2017/01/27/vue在drupal中的模块化开发/">vue在drupal中的模块化开发</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2017/01/15/Vue路由进阶/">Vue路由进阶</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2017/01/12/Vue路由入门/">Vue路由入门</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/12/21/git自动化部署/">git自动化部属</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/12/20/Mariadb-ColumnStore数据库测试/">Mariadb ColumnStore数据库测试</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/12/06/使用safari对webview进行调试/">使用safari对webview进行调试</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/11/27/drupal8中使用vue/">drupal8中使用vue</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/10/31/Drupal8-Configuration-Schema/">drupal8 configuration schema</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/10/24/windows下安装配置drupalconsole/">windows下安装配置drupalconsole</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/10/07/web开发规范/">web开发规范</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/08/22/infinidb与clickhouse对比/">infiniDB与clickhouse对比</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/07/20/Drupal8数据库-database/">Drupal8数据库(database)</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/06/29/Mysql数据库设计规范/">MySQL数据库设计规范</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/06/27/MacOS-查看网络端口情况/">MacOS 查看网络端口情况</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/06/06/Drupal8-angularJS/">Drupal8中使用AngularJS</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/06/03/Drupal8功能测试/">Drupal8功能测试</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/06/02/Drupal8单元测试/">Drupal8单元测试</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/05/24/Drupal-code-review/">Drupal code review</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/05/24/Drupal8-css-guide/">drupal8-css-guide</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/05/21/PHP-Trait多重继承的实现/">PHP Trait多重继承的实现</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/04/25/MySQL-5-7-x-安装/">mysql-5.7.x安装</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/02/26/Haproxy-web负载均衡/">Haproxy web负载均衡</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/01/29/tpcc测试mysql性能/">tpcc测试mysql性能</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2016/01/29/sysbench测试mysql性能/">sysbench测试mysql性能</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/26/Drupal8相对Drupal7的变化/">Drupal8相对Drupal7的变化</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/23/Drupal8-Cron-Queue/">Drupal8 Cron Queue</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/23/Drupal8-routing/">Drupal8 Routing</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/23/Drupal8-Controller/">Drupal8 Controller</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/22/Drupal8-Content-Entity/">Drupal8 Content Entity</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/21/Drupal8-configuration-Entity/">Drupal8 Configuration Entity</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/15/Drupal8-Service-DependencyInjection/">Drupal8-Service-DependencyInjection</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/14/Drupal8-Javascript/">drupal8 javascript</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/12/Drupal8注解-Annotations-语法/">Drupal8注解(Annotations)语法</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/12/11/Drupal8命名空间-Namespace/">Drupal8命名空间(Namespace)</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/28/高性能mysql主从架构及MHA高可用负载均衡/">高性能mysql主从架构及MHA高可用负载均衡</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/27/使用gdb调试php-fpm/">使用gdb调试php-fpm</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/21/centos6-6安装Percona-Tokudb/">centos6.6安装Percona Tokudb</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/20/centos6-6安装mariadb10-Tokudb/">centos6.6安装mariadb10 Tokudb</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/19/Drupal8主题-theme/">Drupal8主题(theme)</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/18/Drupal8模板引擎-twig/">Drupal8模板引擎-twig</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/17/CentOS6-4安装oracle-10g教程/">CentOS6.4安装oracle 10g教程</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/16/Drupal8面向对象-OOP/">Drupal8面向对象(OOP)</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/12/Drupal8-form/">drupal8表单(form)</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/12/Drupal8模块-module-开发/">Drupal8模块(module)开发</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/12/Drupal8和symfony2/">Drupal8和symfony2</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/12/从简单的列表页浅谈Vue组件/">从简单的列表页浅谈Vue组件</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/08/mariaDB和Percona的引擎tokudb性能测试/">MariaDB和Percona的引擎tokudb性能对比测试</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/02/understanding-drupal8/">understanding drupal8-drupal8初窥</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/02/Converting-7-x-modules-to-8-x/">Converting 7.x modules to 8.x</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/11/02/Drupal8-drush/">drush for drupal8</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/10/15/并发与并行/">并发与并行</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/09/24/查看哪些进程占用了swap/">查看哪些进程占用了swap</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/08/17/Drupal7-WEB性能优化/">drupal7 WEB性能优化</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/07/31/SQLite-database-disk-image-is-malformed-解决方法/">Drupal SQLite: database disk image is malformed 解决方法</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/07/14/sublime-text创建快捷注释信息/">sublime text创建快捷注释信息</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/07/04/rsync主备代码同步/">rsync主备代码同步</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/06/24/infiniDB安装配置/">infiniDB安装配置</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/05/07/写个脚本压缩JS-CSS/">写个脚本压缩JS,CSS</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/04/19/php-extension开发基础/">PHP Extension开发基础</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/03/26/yum-errno-14-解决方法/">yum Errno 14 解决方法</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/03/21/Drupal7生产环境的一些配置/">drupal7生产环境的一些配置</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/03/20/安装php7/">安装php7</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/02/03/一些源：epel,rpmforge,remi源/">一些源：epel,RPMForge,Remi源</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2015/01/16/Drupal动静分离/">drupal动静分离</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2014/05/05/一行代码解决各种ie兼容问题/">一行代码解决各种IE兼容问题</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2014/05/04/;function($,undefined)-前面的分号释疑/">;function($,undefined) 前面的分号释疑</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2014/04/16/Drupal的gitignore文件/">drupal的.gitignore文件</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2014/04/04/hook_form中使用drupalattachbehaviors/">hook_form中使用Drupal.attachBehaviors</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2014/03/11/macvim处理中文时卡顿、cpu占用过高问题/">MacVim处理中文时卡顿、CPU占用过高问题</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2014/01/20/Drupal7表单提交时出现非法选项解决方案/">drupal7表单提交时出现非法选项解决方案</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2014/01/11/phantomjs中文问题/">phantomjs中文问题</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2013/12/31/drupal-error-cannot-call-overloaded-function-for-non-object/">Drupal error - Cannot call overloaded function for non-object</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2013/12/11/我的vim配色/">我的vim配色</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2013/12/11/drupal-获取客户端真实ip/">Drupal 获取客户端真实IP</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2013/12/11/Drupal-apc缓存配置策略/">Drupal apc缓存配置策略</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2013/12/11/Drupal导入翻译/">Drupal导入翻译</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2013/12/11/Drush的安装配置和应用/">Drush的安装配置和应用</a>
+</li>
+
+
+                    
+                    
+<li class="list-group-item title">
+    <a target="_blank" href="/2013/12/11/php获取raw-post-data数据/">PHP获取Raw POST Data数据</a>
+</li>
+
+
+                    
+                    
+                </ul>
+            </div>
         </div>
 
-        
-
-
-        
-
-      </div>
-
-      
-        
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/2015060790205_41484.jpeg" alt="RamboLau" itemprop="image"/>
-          <p class="site-author-name" itemprop="name">RamboLau</p>
+        <div class="col-md-2">
         </div>
-        <p class="site-description motion-element" itemprop="description">记录生活，分享知识，传播乐趣</p>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives/">
-              <span class="site-state-item-count">80</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
-
-          <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-              <span class="site-state-item-count">14</span>
-              <span class="site-state-item-name">分类</span>
-              </a>
-          </div>
-
-          <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-              <span class="site-state-item-count">64</span>
-              <span class="site-state-item-name">标签</span>
-              </a>
-          </div>
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/RamboLau" target="_blank">
-                  
-                    <i class="fa fa-github"></i> GitHub
-                  
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-      </section>
-
-      
-
-    </div>
-  </aside>
-
-
-      
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2012 - 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="icon-next-heart fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>
 </div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT
-  </a>
+    </div>
 </div>
 
 
 
-      </div>
-    </footer>
-
-    <div class="back-to-top"></div>
-  </div>
-
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  
-
-  
-    
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"176code"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-    
-     
+<!--加载导航栏所需js文件-->
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
 
-    
-  
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
-  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
-
-
-  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
-
-<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
-
-
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-
-  <script type="text/javascript" src="/js/bootstrap.js"></script>
-
-  
-  
-
-  
-  
 
 </body>
 </html>

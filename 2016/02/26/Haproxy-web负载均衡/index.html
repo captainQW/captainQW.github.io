@@ -1,286 +1,53 @@
-<!doctype html>
-<html class="theme-next   use-motion ">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	
+	<title>Haproxy web负载均衡</title>
+	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog" />
 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+    
+	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css" />
+    
+        <script src="/js/util.js"></script>
+        <script>
+            if(isMobile()) {
+                loadjscssfile('../css/mobile.css', 'css');
+            } else {
+                loadjscssfile('../css/desktop.css', 'css');
+            }
+        </script> 
+    
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
 
+    
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3"/>
+    
 
-
-
-
-
-
-
-
-
-
-
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
-
-
-
-
-  
-    <link href='//fonts.useso.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-  
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="haproxy," />
-
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="云端知识笔记" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
-
-
-
-
-
-
-<meta name="description" content="一、安装1yum install haproxy
-修改日志1vim /etc/rsyslog.conf
-这一行1#*.info;mail.none;authpriv.none;cron.none                /var/log/messages
-改为1*.info;mail.none;authpriv.none;cron.none;local2.none">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Haproxy web负载均衡">
-<meta property="og:url" content="http://verynull.com/2016/02/26/Haproxy-web负载均衡/index.html">
-<meta property="og:site_name" content="云端知识笔记">
-<meta property="og:description" content="一、安装1yum install haproxy
-修改日志1vim /etc/rsyslog.conf
-这一行1#*.info;mail.none;authpriv.none;cron.none                /var/log/messages
-改为1*.info;mail.none;authpriv.none;cron.none;local2.none">
-<meta property="og:updated_time" content="2016-02-26T02:20:30.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Haproxy web负载均衡">
-<meta name="twitter:description" content="一、安装1yum install haproxy
-修改日志1vim /etc/rsyslog.conf
-这一行1#*.info;mail.none;authpriv.none;cron.none                /var/log/messages
-改为1*.info;mail.none;authpriv.none;cron.none;local2.none">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var CONFIG = {
-    scheme: '',
-    sidebar: 'post',
-    motion: true
-  };
-</script>
-
-  <title> Haproxy web负载均衡 | 云端知识笔记 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  <!--[if lte IE 8]>
-  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
-    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
-      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
-           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
-           style='margin-left:auto;margin-right:auto;display: block;'/>
-    </a>
-  </div>
-<![endif]-->
-  
+<body>
 
 
+<h2 class="title">Haproxy web负载均衡</h2>
+<!---
+<div style="text-align:center;margin-top: -10px;">
+<div class="article-category">
+发表于2016年2月26日
 
 
+    <a class="article-category-link" href="/categories/linux/">linux</a>
 
 
-  <div class="container one-column page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">云端知识笔记</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle">记录生活，分享知识，传播乐趣</p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu ">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-
-      
-      
-    </ul>
-  
-
-  
-</nav>
 
  </div>
-    </header>
+--->
+</div>
 
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div id="content" class="content">
-          
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Haproxy web负载均衡
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-02-26T10:02:54+08:00" content="2016-02-26">
-              2016-02-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/02/26/Haproxy-web负载均衡/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/26/Haproxy-web负载均衡/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        <span itemprop="articleBody"><h3 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install haproxy</div></pre></td></tr></table></figure>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、安装"><span class="toc-text">一、安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、haproxy配置详解"><span class="toc-text">二、haproxy配置详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、haproxy实现持久连接"><span class="toc-text">三、haproxy实现持久连接</span></a></li></ol>
+<h3 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install haproxy</div></pre></td></tr></table></figure>
 <p>修改日志<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/rsyslog.conf</div></pre></td></tr></table></figure></p>
 <p>这一行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#*.info;mail.none;authpriv.none;cron.none                /var/log/messages</span></div></pre></td></tr></table></figure></p>
 <p>改为<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*.info;mail.none;authpriv.none;cron.none;<span class="built_in">local</span>2.none                /var/<span class="built_in">log</span>/messages</div></pre></td></tr></table></figure></p>
@@ -289,458 +56,31 @@
 <p>配置案例：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div></pre></td><td class="code"><pre><div class="line">global   <span class="comment"># 全局参数的设置 </span></div><div class="line">     <span class="built_in">log</span> 127.0.0.1 <span class="built_in">local</span>0 info </div><div class="line">     <span class="comment"># log语法：log [max_level_1] </span></div><div class="line">     <span class="comment"># 全局的日志配置，使用log关键字，指定使用127.0.0.1上的syslog服务中的local0日志设备，</span></div><div class="line">     记录日志等级为info的日志 </div><div class="line">     user haproxy </div><div class="line">     group haproxy </div><div class="line">     <span class="comment"># 设置运行haproxy的用户和组，也可使用uid，gid关键字替代之 </span></div><div class="line">     daemon </div><div class="line">     <span class="comment"># 以守护进程的方式运行 </span></div><div class="line">     nbproc 16</div><div class="line">     <span class="comment"># 设置haproxy启动时的进程数，根据官方文档的解释，我将其理解为：该值的设置应该和服务</span></div><div class="line">     <span class="comment">#器的CPU核心数一致，即常见的2颗8核心CPU的服务器，即共有16核心，则可以将其值设置为：</span></div><div class="line">     <span class="comment">#&lt;=16 ，创建多个进程数，可以减少每个进程的任务队列，但是过多的进程数也可能会导致进程</span></div><div class="line">     <span class="comment">#的崩溃。这里我设置为16 </span></div><div class="line">     maxconn 4096 </div><div class="line">     <span class="comment"># 定义每个haproxy进程的最大连接数 ，由于每个连接包括一个客户端和一个服务器端，所以单</span></div><div class="line">     <span class="comment">#个进程的TCP会话最大数目将是该值的两倍。 </span></div><div class="line">     <span class="comment">#ulimit -n 65536 </span></div><div class="line">     <span class="comment"># 设置最大打开的文件描述符数，在1.4的官方文档中提示，该值会自动计算，所以不建议进行</span></div><div class="line">     <span class="comment">#设置 </span></div><div class="line">     pidfile /var/run/haproxy.pid </div><div class="line">     <span class="comment"># 定义haproxy的pid</span></div><div class="line">      </div><div class="line">      </div><div class="line">defaults <span class="comment"># 默认部分的定义</span></div><div class="line">     mode http</div><div class="line">     <span class="comment"># mode语法：mode &#123;http|tcp|health&#125; 。http是七层模式，tcp是四层模式，health是健康检测</span></div><div class="line">     <span class="comment">#，返回OK</span></div><div class="line">     <span class="built_in">log</span> 127.0.0.1 <span class="built_in">local</span>2 err</div><div class="line">     <span class="comment"># 使用127.0.0.1上的syslog服务的local3设备记录错误信息</span></div><div class="line">     retries 3</div><div class="line">     <span class="comment"># 定义连接后端服务器的失败重连次数，连接失败次数超过此值后将会将对应后端服务器标记为</span></div><div class="line">     <span class="comment">#不可用</span></div><div class="line">		 option http-server-close</div><div class="line">		 <span class="comment"># 打开http协议中服务器端关闭功能，使得支持长连接，使得会话可以被重用，使得每一个日志记录都会被记录。</span></div><div class="line">		 option forwardfor except 127.0.0.0/8</div><div class="line">		 <span class="comment"># 如果上游服务器上的应用程序想记录客户端的真实IP地址，haproxy会把客户端的IP信息发送给上游服务器，在HTTP请求中添加”X-Forwarded-For”字段,但当是haproxy自身的健康检测机制去访问上游服务器时是不应该把这样的访问日志记录到日志中的，所以用except来排除127.0.0.0，即haproxy身。</span></div><div class="line"></div><div class="line">     option httplog</div><div class="line">     <span class="comment"># 启用日志记录HTTP请求，默认haproxy日志记录是不记录HTTP请求的，只记录“时间[Jan 5 13</span></div><div class="line">     <span class="comment">#:23:46] 日志服务器[127.0.0.1] 实例名已经pid[haproxy[25218]] 信息[Proxy http_80_in s</span></div><div class="line">     <span class="comment">#topped.]”，日志格式很简单。</span></div><div class="line">     option redispatch</div><div class="line">     <span class="comment"># 当使用了cookie时，haproxy将会将其请求的后端服务器的serverID插入到cookie中，以保证</span></div><div class="line">     <span class="comment">#会话的SESSION持久性；而此时，如果后端的服务器宕掉了，但是客户端的cookie是不会刷新的</span></div><div class="line">     <span class="comment">#，如果设置此参数，将会将客户的请求强制定向到另外一个后端server上，以保证服务的正常</span></div><div class="line">     option abortonclose</div><div class="line">     <span class="comment"># 当服务器负载很高的时候，自动结束掉当前队列处理比较久的链接</span></div><div class="line">     option dontlognull</div><div class="line">     <span class="comment"># 启用该项，日志中将不会记录空连接。所谓空连接就是在上游的负载均衡器或者监控系统为了</span></div><div class="line">     <span class="comment">#探测该服务是否存活可用时，需要定期的连接或者获取某一固定的组件或页面，或者探测扫描</span></div><div class="line">     <span class="comment">#端口是否在监听或开放等动作被称为空连接；官方文档中标注，如果该服务上游没有其他的负</span></div><div class="line">     <span class="comment">#载均衡器的话，建议不要使用该参数，因为互联网上的恶意扫描或其他动作就不会被记录下来</span></div><div class="line">     option httpclose</div><div class="line">     <span class="comment"># 这个参数我是这样理解的：使用该参数，每处理完一个request时，haproxy都会去检查http头</span></div><div class="line">     <span class="comment">#中的Connection的值，如果该值不是close，haproxy将会将其***，如果该值为空将会添加为：</span></div><div class="line">     <span class="comment">#Connection: close。使每个客户端和服务器端在完成一次传输后都会主动关闭TCP连接。与该</span></div><div class="line">     <span class="comment">#参数类似的另外一个参数是“option forceclose”，该参数的作用是强制关闭对外的服务通道</span></div><div class="line">     <span class="comment">#，因为有的服务器端收到Connection: close时，也不会自动关闭TCP连接，如果客户端也不关</span></div><div class="line">     <span class="comment">#闭，连接就会一直处于打开，直到超时。</span></div><div class="line">		timeout http-request 10s</div><div class="line">		<span class="comment"># 客户端发送http请求的超时时间。</span></div><div class="line">		timeout queue 1m</div><div class="line">		<span class="comment"># 当上游服务器在高负载响应haproxy时，会把haproxy发送来的请求放进一个队列中，timeout queue定义放入这个队列的超时时间。</span></div><div class="line">		timeout connect 5s</div><div class="line">		<span class="comment"># haproxy与后端服务器连接超时时间，如果在同一个局域网可设置较小的时间。</span></div><div class="line">		timeout client 1m</div><div class="line">		<span class="comment"># 定义客户端与haproxy连接后，数据传输完毕，不再有数据传输，即非活动连接的超时时间。</span></div><div class="line">		timeout server 1m</div><div class="line">		<span class="comment"># 定义haproxy与上游服务器非活动连接的超时时间。</span></div><div class="line">		timeout http-keep-alive 10s</div><div class="line">		<span class="comment"># 设置新的http请求连接建立的最大超时时间，时间较短时可以尽快释放出资源，节约资源。</span></div><div class="line">		timeout check 10s</div><div class="line">		<span class="comment"># 健康检测的时间的最大超时时间。</span></div><div class="line">     contimeout 5000</div><div class="line">     <span class="comment"># 设置成功连接到一台服务器的最长等待时间，默认单位是毫秒，新版本的haproxy使用timeout</span></div><div class="line">     <span class="comment">#connect替代，该参数向后兼容</span></div><div class="line">     clitimeout 3000</div><div class="line">     <span class="comment"># 设置连接客户端发送数据时的成功连接最长等待时间，默认单位是毫秒，新版本haproxy使用</span></div><div class="line">     <span class="comment">#timeout client替代。该参数向后兼容</span></div><div class="line">     srvtimeout 3000</div><div class="line">     <span class="comment"># 设置服务器端回应客户度数据发送的最长等待时间，默认单位是毫秒，新版本haproxy使用</span></div><div class="line">     <span class="comment">#timeout server替代。该参数向后兼容</span></div><div class="line">      </div><div class="line">listen status </div><div class="line">     <span class="comment"># 定义一个名为status的部分，可以在listen指令指定的区域中定义匹配规则和后端服务器ip，</span></div><div class="line">     <span class="comment">#相当于需要在其中配置frontend，backend的功能。一般做tcp转发比较合适，不用太多的规则</span></div><div class="line">     <span class="comment">#匹配。</span></div><div class="line">     <span class="built_in">bind</span> 0.0.0.0:1080</div><div class="line">     <span class="comment"># 定义监听的套接字</span></div><div class="line">     mode http</div><div class="line">     <span class="comment"># 定义为HTTP模式</span></div><div class="line">     <span class="built_in">log</span> global</div><div class="line">     <span class="comment"># 继承global中log的定义</span></div><div class="line">     stats refresh 30s</div><div class="line">     <span class="comment"># stats是haproxy的一个统计页面的套接字，该参数设置统计页面的刷新间隔为30s</span></div><div class="line">     stats uri /admin?stats</div><div class="line">     <span class="comment"># 设置统计页面的uri为/admin?stats</span></div><div class="line">     stats realm Private lands</div><div class="line">     <span class="comment"># 设置统计页面认证时的提示内容</span></div><div class="line">     stats auth admin:password</div><div class="line">     <span class="comment"># 设置统计页面认证的用户和密码，如果要设置多个，另起一行写入即可</span></div><div class="line">     stats hide-version</div><div class="line">     <span class="comment"># 隐藏统计页面上的haproxy版本信息</span></div><div class="line">      </div><div class="line">      </div><div class="line">frontend http_80_in <span class="comment"># 定义一个名为http_80_in的前端部分，haproxy会监听bind的端口</span></div><div class="line">     <span class="built_in">bind</span> 0.0.0.0:80</div><div class="line">     <span class="comment"># http_80_in定义前端部分监听的套接字</span></div><div class="line">     mode http</div><div class="line">     <span class="comment"># 定义为HTTP模式</span></div><div class="line">     <span class="built_in">log</span> global</div><div class="line">     <span class="comment"># 继承global中log的定义</span></div><div class="line">     option forwardfor</div><div class="line">     <span class="comment"># 启用X-Forwarded-For，在requests头部插入客户端IP发送给后端的server，使后端server获</span></div><div class="line">     <span class="comment">#取到客户端的真实IP</span></div><div class="line">     acl static_down nbsrv(static_server) lt 1</div><div class="line">     <span class="comment"># 定义一个名叫static_down的acl，当backend static_sever中存活机器数小于1时会被匹配到</span></div><div class="line">     acl php_web url_reg /*.php$</div><div class="line">     <span class="comment">#acl php_web path_end .php</span></div><div class="line">     <span class="comment"># 定义一个名叫php_web的acl，当请求的url末尾是以.php结尾的，将会被匹配到，上面两种写</span></div><div class="line">     <span class="comment">#法任选其一</span></div><div class="line">     acl static_web url_reg /*.(css|jpg|png|jpeg|js|gif)$</div><div class="line">     <span class="comment">#acl static_web path_end .gif .png .jpg .css .js .jpeg</span></div><div class="line">     <span class="comment"># 定义一个名叫static_web的acl，当请求的url末尾是以.css、.jpg、.png、.jpeg、.js、.gif</span></div><div class="line">     <span class="comment">#结尾的，将会被匹配到，上面两种写法任选其一</span></div><div class="line">     use_backend php_server <span class="keyword">if</span> static_down</div><div class="line">     <span class="comment"># 如果满足策略static_down时，就将请求交予backend php_server</span></div><div class="line">     use_backend php_server <span class="keyword">if</span> php_web</div><div class="line">     <span class="comment"># 如果满足策略php_web时，就将请求交予backend php_server</span></div><div class="line">     use_backend static_server <span class="keyword">if</span> static_web</div><div class="line">     <span class="comment"># 如果满足策略static_web时，就将请求交予backend static_server</span></div><div class="line">     default_backend             defaultbackserver</div><div class="line">     <span class="comment">#如果acl全部不满足，启用默认后端的地址池</span></div><div class="line">      </div><div class="line">      </div><div class="line">backend php_server <span class="comment">#定义一个名为php_server的后端部分，frontend定义的请求会到到这里处理</span></div><div class="line">     mode http</div><div class="line">     <span class="comment"># 设置为http模式</span></div><div class="line">     balance <span class="built_in">source</span></div><div class="line">     <span class="comment"># 设置haproxy的调度算法为源地址hash</span></div><div class="line">     cookie SERVERID</div><div class="line">     <span class="comment"># 允许向cookie插入SERVERID，每台服务器的SERVERID可在下面使用cookie关键字定义</span></div><div class="line">     option httpchk GET /<span class="built_in">test</span>/index.php</div><div class="line">     <span class="comment"># 开启对后端服务器的健康检测，通过GET /test/index.php来判断后端服务器的健康情况</span></div><div class="line">     server php_server_1 10.12.25.68:80 cookie 1 check inter 2000 rise 3 fall 3 weight 2</div><div class="line">     server php_server_2 10.12.25.72:80 cookie 2 check inter 2000 rise 3 fall 3 weight 1</div><div class="line">     server php_server_bak 10.12.25.79:80 cookie 3 check inter 1500 rise 3 fall 3 backup</div><div class="line">     <span class="comment"># server语法：server [:port] [param*]</span></div><div class="line">     <span class="comment"># 使用server关键字来设置后端服务器；为后端服务器所设置的内部名称[php_server_1]，该名</span></div><div class="line">     <span class="comment">#称将会呈现在日志或警报中、后端服务器的IP地址，支持端口映射[10.12.25.68:80]、指定该</span></div><div class="line">     <span class="comment">#服务器的SERVERID为1[cookie 1]、接受健康监测[check]、监测的间隔时长，单位毫秒[inter </span></div><div class="line">     <span class="comment">#2000]、监测正常多少次后被认为后端服务器是可用的[rise 3]、监测失败多少次后被认为后端</span></div><div class="line">     <span class="comment">#服务器是不可用的[fall 3]、分发的权重[weight 2]、最为备份用的后端服务器，当正常的服</span></div><div class="line">     <span class="comment">#务器全部都宕机后，才会启用备份服务器[backup]</span></div><div class="line">      </div><div class="line">      </div><div class="line">backend static_server</div><div class="line">     mode http</div><div class="line">     option httpchk GET /<span class="built_in">test</span>/index.html</div><div class="line">     server static_server_1 10.12.25.83:80 cookie 3 check inter 2000 rise 3 fall 3</div><div class="line">      </div><div class="line">      </div><div class="line"> 官方配置：</div><div class="line"> http://haproxy.1wt.eu/download/1.4/doc/configuration.txt</div></pre></td></tr></table></figure>
 <h3 id="三、haproxy实现持久连接"><a href="#三、haproxy实现持久连接" class="headerlink" title="三、haproxy实现持久连接"></a>三、haproxy实现持久连接</h3><p>1、调度算法source<br>haroxy 将用户IP经过hash计算后 指定到固定的真实服务器上（类似于nginx 的IP hash 指令）<br>配置指令        balance source<br>2、cookie 识别<br>haproxy 将WEB服务端发送给客户端的cookie中插入(或添加加前缀)haproxy定义的后端的服务器COOKIE ID。<br>配置指令例举  cookie  SESSION_COOKIE  insert indirect nocache<br>3、session 识别<br>haproxy 将后端服务器产生的session和后端服务器标识存在haproxy中的一张表里。客户端请求时先查询这张表。然后根据session分配后端server。<br>配置指令：appsession <cookie> len <length> timeout <holdtime></holdtime></length></cookie></p>
-</span>
-      
-    </div>
-    
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="https://static.verycloud.cn/sites/default/files/pic/image/20161020/2016102091823_83552.jpg" alt="RamboLau WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="https://static.verycloud.cn/sites/default/files/pic/image/20161020/2016102092415_10373.jpg" alt="RamboLau Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
-
-      
-    </div>
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/haproxy/" rel="tag">#haproxy</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/01/29/tpcc测试mysql性能/" rel="next" title="tpcc测试mysql性能">
-                <i class="fa fa-chevron-left"></i> tpcc测试mysql性能
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/25/MySQL-5-7-x-安装/" rel="prev" title="mysql-5.7.x安装">
-                mysql-5.7.x安装 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
 
 
+<!--<a href="http://verynull.com/2016/02/26/Haproxy-web负载均衡/#disqus_thread" class="article-comment-link">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-        </div>
-
-        
-
-
-        
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2016/02/26/Haproxy-web负载均衡/"
-           data-title="Haproxy web负载均衡" data-url="http://verynull.com/2016/02/26/Haproxy-web负载均衡/">
-      </div>
-    
-  </div>
-
-
-      </div>
-
-      
-        
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/2015060790205_41484.jpeg" alt="RamboLau" itemprop="image"/>
-          <p class="site-author-name" itemprop="name">RamboLau</p>
-        </div>
-        <p class="site-description motion-element" itemprop="description">记录生活，分享知识，传播乐趣</p>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives/">
-              <span class="site-state-item-count">80</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
-
-          <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-              <span class="site-state-item-count">14</span>
-              <span class="site-state-item-name">分类</span>
-              </a>
-          </div>
-
-          <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-              <span class="site-state-item-count">64</span>
-              <span class="site-state-item-name">标签</span>
-              </a>
-          </div>
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/RamboLau" target="_blank">
-                  
-                    <i class="fa fa-github"></i> GitHub
-                  
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc-indicator-top post-toc-indicator">
-            <i class="fa fa-angle-double-up"></i>
-          </div>
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、安装"><span class="nav-number">1.</span> <span class="nav-text">一、安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、haproxy配置详解"><span class="nav-number">2.</span> <span class="nav-text">二、haproxy配置详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、haproxy实现持久连接"><span class="nav-number">3.</span> <span class="nav-text">三、haproxy实现持久连接</span></a></li></ol></div>
-            
-          </div>
-          <div class="post-toc-indicator-bottom post-toc-indicator">
-            <i class="fa fa-angle-double-down"></i>
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-      
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2012 - 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="icon-next-heart fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">RamboLau</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT
-  </a>
-</div>
-
-
-
-      </div>
-    </footer>
-
-    <div class="back-to-top"></div>
-  </div>
-
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  
-
-  
-    
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"176code"};
+    /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-  </script>
-    
-     
-
-
-    
-  
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
-  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
-
-
-  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
-
-<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
-
-
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  
-<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
-
-
-<script type="text/javascript" id="sidebar.toc.highlight">
-  $(document).ready(function () {
-    var tocSelector = '.post-toc';
-    var $tocSelector = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    $tocSelector
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
-      })
-      .on('clear.bs.scrollspy', function () {
-        removeCurrentActiveClass();
-      });
-
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    function processTOC () {
-      getTOCMaxHeight();
-      toggleTOCOverflowIndicators();
-    }
-
-    function getTOCMaxHeight () {
-      var height = $('.sidebar').height() -
-                   $tocSelector.position().top -
-                   $('.post-toc-indicator-bottom').height();
-
-      $tocSelector.css('height', height);
-
-      return height;
-    }
-
-    function toggleTOCOverflowIndicators () {
-      tocOverflowIndicator(
-        '.post-toc-indicator-top',
-        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
-      );
-
-      tocOverflowIndicator(
-        '.post-toc-indicator-bottom',
-        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
-      )
-    }
-
-    $(document).on('sidebar.motion.complete', function () {
-      processTOC();
-    });
-
-    $('body').scrollspy({ target: tocSelector });
-    $(window).on('resize', function () {
-      if ( $('.sidebar').hasClass('sidebar-active') ) {
-        processTOC();
-      }
-    });
-
-    onScroll($tocSelector);
-
-    function onScroll (element) {
-      element.on('mousewheel DOMMouseScroll', function (event) {
-          var oe = event.originalEvent;
-          var delta = oe.wheelDelta || -oe.detail;
-
-          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
-          event.preventDefault();
-
-          toggleTOCOverflowIndicators();
-      });
-    }
-
-    function tocOverflowIndicator (indicator, action) {
-      var $indicator = $(indicator);
-      var opacity = action === 'show' ? 1 : 0;
-      $indicator.velocity ?
-        $indicator.velocity('stop').velocity({
-          opacity: opacity
-        }, { duration: 100 }) :
-        $indicator.stop().animate({
-          opacity: opacity
-        }, 100);
-    }
-
-  });
 </script>
-
-<script type="text/javascript" id="sidebar.nav">
-  $(document).ready(function () {
-    var html = $('html');
-    var TAB_ANIMATE_DURATION = 200;
-    var hasVelocity = $.isFunction(html.velocity);
-
-    $('.sidebar-nav li').on('click', function () {
-      var item = $(this);
-      var activeTabClassName = 'sidebar-nav-active';
-      var activePanelClassName = 'sidebar-panel-active';
-      if (item.hasClass(activeTabClassName)) {
-        return;
-      }
-
-      var currentTarget = $('.' + activePanelClassName);
-      var target = $('.' + item.data('target'));
-
-      hasVelocity ?
-        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
-          target
-            .velocity('stop')
-            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-            .addClass(activePanelClassName);
-        }) :
-        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
-          currentTarget.hide();
-          target
-            .stop()
-            .css({'opacity': 0, 'display': 'block'})
-            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
-              currentTarget.removeClass(activePanelClassName);
-              target.addClass(activePanelClassName);
-            });
-        });
-
-      item.siblings().removeClass(activeTabClassName);
-      item.addClass(activeTabClassName);
-    });
-
-    $('.post-toc a').on('click', function (e) {
-      e.preventDefault();
-      var targetSelector = escapeSelector(this.getAttribute('href'));
-      var offset = $(targetSelector).offset().top;
-      hasVelocity ?
-        html.velocity('stop').velocity('scroll', {
-          offset: offset  + 'px',
-          mobileHA: false
-        }) :
-        $('html, body').stop().animate({
-          scrollTop: offset
-        }, 500);
-    });
-
-    // Expand sidebar on post detail page by default, when post has a toc.
-    motionMiddleWares.sidebar = function () {
-      var $tocContent = $('.post-toc-content');
-      if (CONFIG.sidebar === 'post') {
-        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
-          displaySidebar();
-        }
-      }
-    };
-  });
-</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+-->
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
+</div>
 
 
 
-  <script type="text/javascript" src="/js/bootstrap.js"></script>
 
-  
-  
 
-  
-  
 
 </body>
 </html>

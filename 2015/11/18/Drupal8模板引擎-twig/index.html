@@ -1,289 +1,53 @@
-<!doctype html>
-<html class="theme-next   use-motion ">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	
+	<title>Drupal8模板引擎-twig</title>
+	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog" />
 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+    
+	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css" />
+    
+        <script src="/js/util.js"></script>
+        <script>
+            if(isMobile()) {
+                loadjscssfile('../css/mobile.css', 'css');
+            } else {
+                loadjscssfile('../css/desktop.css', 'css');
+            }
+        </script> 
+    
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
 
+    
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3"/>
+    
 
-
-
-
-
-
-
-
-
-
-
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
-
-
-
-
-  
-    <link href='//fonts.useso.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-  
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="twig," />
-
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="云端知识笔记" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
-
-
-
-
-
-
-<meta name="description" content="一、简介Twig是一个高效、安全并可扩展的PHP模板引擎。
-如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。
-关键特性：
-
-快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Drupal8模板引擎-twig">
-<meta property="og:url" content="http://verynull.com/2015/11/18/Drupal8模板引擎-twig/index.html">
-<meta property="og:site_name" content="云端知识笔记">
-<meta property="og:description" content="一、简介Twig是一个高效、安全并可扩展的PHP模板引擎。
-如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。
-关键特性：
-
-快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。">
-<meta property="og:updated_time" content="2015-12-23T09:36:27.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Drupal8模板引擎-twig">
-<meta name="twitter:description" content="一、简介Twig是一个高效、安全并可扩展的PHP模板引擎。
-如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。
-关键特性：
-
-快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var CONFIG = {
-    scheme: '',
-    sidebar: 'post',
-    motion: true
-  };
-</script>
-
-  <title> Drupal8模板引擎-twig | 云端知识笔记 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  <!--[if lte IE 8]>
-  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
-    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
-      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
-           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
-           style='margin-left:auto;margin-right:auto;display: block;'/>
-    </a>
-  </div>
-<![endif]-->
-  
+<body>
 
 
+<h2 class="title">Drupal8模板引擎-twig</h2>
+<!---
+<div style="text-align:center;margin-top: -10px;">
+<div class="article-category">
+发表于2015年11月18日
 
 
+    <a class="article-category-link" href="/categories/Drupal8/">Drupal8</a>
 
 
-  <div class="container one-column page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
-
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">云端知识笔记</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-  <p class="site-subtitle">记录生活，分享知识，传播乐趣</p>
-</div>
-
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu ">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-
-      
-      
-    </ul>
-  
-
-  
-</nav>
 
  </div>
-    </header>
+--->
+</div>
 
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div id="content" class="content">
-          
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Drupal8模板引擎-twig
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2015-11-18T16:35:16+08:00" content="2015-11-18">
-              2015-11-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp; 分类于
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Drupal8/" itemprop="url" rel="index">
-                    <span itemprop="name">Drupal8</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/18/Drupal8模板引擎-twig/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/18/Drupal8模板引擎-twig/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
-      
-
-      
-        <span itemprop="articleBody"><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>Twig是一个高效、安全并可扩展的PHP模板引擎。</p>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、简介"><span class="toc-text">一、简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#需求"><span class="toc-text">需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基础API用法"><span class="toc-text">基础API用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、模板设计者的Twig"><span class="toc-text">二、模板设计者的Twig</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概要"><span class="toc-text">概要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量"><span class="toc-text">变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全局变量"><span class="toc-text">全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置变量"><span class="toc-text">设置变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Filters"><span class="toc-text">Filters</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具名参数"><span class="toc-text">具名参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#控制结构"><span class="toc-text">控制结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注释"><span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#包含其他模板"><span class="toc-text">包含其他模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模版继承"><span class="toc-text">模版继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML转义"><span class="toc-text">HTML转义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#人工转义"><span class="toc-text">人工转义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自动转义"><span class="toc-text">自动转义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#宏"><span class="toc-text">宏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表达式"><span class="toc-text">表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#常量"><span class="toc-text">常量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#算数运算符"><span class="toc-text">算数运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑运算符"><span class="toc-text">逻辑运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#比较运算符"><span class="toc-text">比较运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#包含操作符"><span class="toc-text">包含操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#测试操作符"><span class="toc-text">测试操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他操作符"><span class="toc-text">其他操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#字符串插值"><span class="toc-text">字符串插值</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空白控制"><span class="toc-text">空白控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展"><span class="toc-text">扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、开发者的Twig"><span class="toc-text">三、开发者的Twig</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境选项"><span class="toc-text">环境选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加载器"><span class="toc-text">加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#编译缓存"><span class="toc-text">编译缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内置加载器"><span class="toc-text">内置加载器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建自己的加载器"><span class="toc-text">创建自己的加载器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用扩展"><span class="toc-text">使用扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内置扩展"><span class="toc-text">内置扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#核心扩展"><span class="toc-text">核心扩展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#转义扩展"><span class="toc-text">转义扩展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#沙盒扩展"><span class="toc-text">沙盒扩展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简介扩展"><span class="toc-text">简介扩展</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优化扩展"><span class="toc-text">优化扩展</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常"><span class="toc-text">异常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展Twig"><span class="toc-text">扩展Twig</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#全局变量-1"><span class="toc-text">全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Filters-1"><span class="toc-text">Filters</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Filter环境感知"><span class="toc-text">Filter环境感知</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Filter上下文感知"><span class="toc-text">Filter上下文感知</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自动转义-1"><span class="toc-text">自动转义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参数可变的Filters"><span class="toc-text">参数可变的Filters</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态Filters"><span class="toc-text">动态Filters</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数-1"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tests"><span class="toc-text">Tests</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tags"><span class="toc-text">Tags</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注册一个新的标记"><span class="toc-text">注册一个新的标记</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#定义一个token解析器"><span class="toc-text">定义一个token解析器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#定义一个节点"><span class="toc-text">定义一个节点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建一个扩展"><span class="toc-text">创建一个扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#全局变量-2"><span class="toc-text">全局变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#函数-2"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Filters-2"><span class="toc-text">Filters</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#标记"><span class="toc-text">标记</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作符"><span class="toc-text">操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Tests-1"><span class="toc-text">Tests</span></a></li></ol></li></ol></li></ol>
+<h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>Twig是一个高效、安全并可扩展的PHP模板引擎。</p>
 <p>如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。</p>
 <p>关键特性：</p>
 <ul>
@@ -798,458 +562,31 @@
 <h4 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h4><p><code>getOperators()</code>方法用来新增新的操作符。下面的例子是如何添加!，||以及&amp;&amp;操作符：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getOperators</span><span class="params">()</span></span></div><div class="line">  &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">      <span class="keyword">array</span>(</div><div class="line">        <span class="string">'!'</span> =&gt; <span class="keyword">array</span>(<span class="string">'precedence'</span> =&gt; <span class="number">50</span>, <span class="string">'class'</span> =&gt; <span class="string">'Twig_Node_Expression_Unary_Not'</span>),</div><div class="line">      ),</div><div class="line">      <span class="keyword">array</span>(</div><div class="line">        <span class="string">'||'</span> =&gt; <span class="keyword">array</span>(<span class="string">'precedence'</span> =&gt; <span class="number">10</span>, <span class="string">'class'</span> =&gt; <span class="string">'Twig_Node_Expression_Binary_Or'</span>, <span class="string">'associativity'</span> =&gt; Twig_ExpressionParser::OPERATOR_LEFT),</div><div class="line">        <span class="string">'&amp;&amp;'</span> =&gt; <span class="keyword">array</span>(<span class="string">'precedence'</span> =&gt; <span class="number">15</span>, <span class="string">'class'</span> =&gt; <span class="string">'Twig_Node_Expression_Binary_And'</span>, <span class="string">'associativity'</span> =&gt; Twig_ExpressionParser::OPERATOR_LEFT),</div><div class="line">      ),</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="Tests-1"><a href="#Tests-1" class="headerlink" title="Tests"></a>Tests</h4><p>getTests()方法用来添加新的Test函数：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getTests</span><span class="params">()</span></span></div><div class="line">  &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">        <span class="keyword">new</span> Twig_SimpleTest(<span class="string">'even'</span>, <span class="string">'twig_test_even'</span>),</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></span>
-      
-    </div>
-    
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="https://static.verycloud.cn/sites/default/files/pic/image/20161020/2016102091823_83552.jpg" alt="RamboLau WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="https://static.verycloud.cn/sites/default/files/pic/image/20161020/2016102092415_10373.jpg" alt="RamboLau Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project_Twig_Extension</span> <span class="keyword">extends</span> <span class="title">Twig_Extension</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getTests</span><span class="params">()</span></span></div><div class="line">  &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">        <span class="keyword">new</span> Twig_SimpleTest(<span class="string">'even'</span>, <span class="string">'twig_test_even'</span>),</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
-      
-    </div>
+<!--<a href="http://verynull.com/2015/11/18/Drupal8模板引擎-twig/#disqus_thread" class="article-comment-link">Comments</a>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
 
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/twig/" rel="tag">#twig</a>
-          
-        </div>
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/11/17/CentOS6-4安装oracle-10g教程/" rel="next" title="CentOS6.4安装oracle 10g教程">
-                <i class="fa fa-chevron-left"></i> CentOS6.4安装oracle 10g教程
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/19/Drupal8主题-theme/" rel="prev" title="Drupal8主题(theme)">
-                Drupal8主题(theme) <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-        </div>
-
-        
-
-
-        
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2015/11/18/Drupal8模板引擎-twig/"
-           data-title="Drupal8模板引擎-twig" data-url="http://verynull.com/2015/11/18/Drupal8模板引擎-twig/">
-      </div>
-    
-  </div>
-
-
-      </div>
-
-      
-        
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/2015060790205_41484.jpeg" alt="RamboLau" itemprop="image"/>
-          <p class="site-author-name" itemprop="name">RamboLau</p>
-        </div>
-        <p class="site-description motion-element" itemprop="description">记录生活，分享知识，传播乐趣</p>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives/">
-              <span class="site-state-item-count">80</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
-
-          <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-              <span class="site-state-item-count">14</span>
-              <span class="site-state-item-name">分类</span>
-              </a>
-          </div>
-
-          <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-              <span class="site-state-item-count">64</span>
-              <span class="site-state-item-name">标签</span>
-              </a>
-          </div>
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/RamboLau" target="_blank">
-                  
-                    <i class="fa fa-github"></i> GitHub
-                  
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-      </section>
-
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc-indicator-top post-toc-indicator">
-            <i class="fa fa-angle-double-up"></i>
-          </div>
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、简介"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础API用法"><span class="nav-number">1.3.</span> <span class="nav-text">基础API用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、模板设计者的Twig"><span class="nav-number">2.</span> <span class="nav-text">二、模板设计者的Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概要"><span class="nav-number">2.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">2.2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局变量"><span class="nav-number">2.4.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置变量"><span class="nav-number">2.5.</span> <span class="nav-text">设置变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filters"><span class="nav-number">2.6.</span> <span class="nav-text">Filters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">2.7.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具名参数"><span class="nav-number">2.8.</span> <span class="nav-text">具名参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制结构"><span class="nav-number">2.9.</span> <span class="nav-text">控制结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释"><span class="nav-number">2.10.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含其他模板"><span class="nav-number">2.11.</span> <span class="nav-text">包含其他模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模版继承"><span class="nav-number">2.12.</span> <span class="nav-text">模版继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML转义"><span class="nav-number">2.13.</span> <span class="nav-text">HTML转义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#人工转义"><span class="nav-number">2.13.1.</span> <span class="nav-text">人工转义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动转义"><span class="nav-number">2.13.2.</span> <span class="nav-text">自动转义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宏"><span class="nav-number">2.14.</span> <span class="nav-text">宏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表达式"><span class="nav-number">2.15.</span> <span class="nav-text">表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常量"><span class="nav-number">2.15.1.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算数运算符"><span class="nav-number">2.15.2.</span> <span class="nav-text">算数运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑运算符"><span class="nav-number">2.15.3.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#比较运算符"><span class="nav-number">2.15.4.</span> <span class="nav-text">比较运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#包含操作符"><span class="nav-number">2.15.5.</span> <span class="nav-text">包含操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试操作符"><span class="nav-number">2.15.6.</span> <span class="nav-text">测试操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他操作符"><span class="nav-number">2.15.7.</span> <span class="nav-text">其他操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串插值"><span class="nav-number">2.15.8.</span> <span class="nav-text">字符串插值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空白控制"><span class="nav-number">2.16.</span> <span class="nav-text">空白控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">2.17.</span> <span class="nav-text">扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、开发者的Twig"><span class="nav-number">3.</span> <span class="nav-text">三、开发者的Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础"><span class="nav-number">3.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境选项"><span class="nav-number">3.2.</span> <span class="nav-text">环境选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载器"><span class="nav-number">3.3.</span> <span class="nav-text">加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编译缓存"><span class="nav-number">3.3.1.</span> <span class="nav-text">编译缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内置加载器"><span class="nav-number">3.3.2.</span> <span class="nav-text">内置加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建自己的加载器"><span class="nav-number">3.3.3.</span> <span class="nav-text">创建自己的加载器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用扩展"><span class="nav-number">3.4.</span> <span class="nav-text">使用扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内置扩展"><span class="nav-number">3.5.</span> <span class="nav-text">内置扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核心扩展"><span class="nav-number">3.5.1.</span> <span class="nav-text">核心扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转义扩展"><span class="nav-number">3.5.2.</span> <span class="nav-text">转义扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#沙盒扩展"><span class="nav-number">3.5.3.</span> <span class="nav-text">沙盒扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简介扩展"><span class="nav-number">3.5.4.</span> <span class="nav-text">简介扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化扩展"><span class="nav-number">3.5.5.</span> <span class="nav-text">优化扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常"><span class="nav-number">3.6.</span> <span class="nav-text">异常</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展Twig"><span class="nav-number">4.</span> <span class="nav-text">扩展Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局变量-1"><span class="nav-number">4.1.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filters-1"><span class="nav-number">4.2.</span> <span class="nav-text">Filters</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter环境感知"><span class="nav-number">4.2.1.</span> <span class="nav-text">Filter环境感知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter上下文感知"><span class="nav-number">4.2.2.</span> <span class="nav-text">Filter上下文感知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动转义-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">自动转义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数可变的Filters"><span class="nav-number">4.2.4.</span> <span class="nav-text">参数可变的Filters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态Filters"><span class="nav-number">4.2.5.</span> <span class="nav-text">动态Filters</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数-1"><span class="nav-number">4.3.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tests"><span class="nav-number">4.4.</span> <span class="nav-text">Tests</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tags"><span class="nav-number">4.5.</span> <span class="nav-text">Tags</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注册一个新的标记"><span class="nav-number">4.5.1.</span> <span class="nav-text">注册一个新的标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义一个token解析器"><span class="nav-number">4.5.2.</span> <span class="nav-text">定义一个token解析器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义一个节点"><span class="nav-number">4.5.3.</span> <span class="nav-text">定义一个节点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个扩展"><span class="nav-number">4.6.</span> <span class="nav-text">创建一个扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局变量-2"><span class="nav-number">4.6.1.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数-2"><span class="nav-number">4.6.2.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filters-2"><span class="nav-number">4.6.3.</span> <span class="nav-text">Filters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标记"><span class="nav-number">4.6.4.</span> <span class="nav-text">标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作符"><span class="nav-number">4.6.5.</span> <span class="nav-text">操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tests-1"><span class="nav-number">4.6.6.</span> <span class="nav-text">Tests</span></a></li></ol></li></ol></li></ol></div>
-            
-          </div>
-          <div class="post-toc-indicator-bottom post-toc-indicator">
-            <i class="fa fa-angle-double-down"></i>
-          </div>
-        </section>
-      
-
-    </div>
-  </aside>
-
-
-      
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2012 - 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="icon-next-heart fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">RamboLau</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT
-  </a>
-</div>
-
-
-
-      </div>
-    </footer>
-
-    <div class="back-to-top"></div>
-  </div>
-
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  
-
-  
-    
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"176code"};
+    /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-  </script>
-    
-     
-
-
-    
-  
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
-  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
-
-
-  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
-
-<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
-
-
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  
-<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
-
-
-<script type="text/javascript" id="sidebar.toc.highlight">
-  $(document).ready(function () {
-    var tocSelector = '.post-toc';
-    var $tocSelector = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    $tocSelector
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
-      })
-      .on('clear.bs.scrollspy', function () {
-        removeCurrentActiveClass();
-      });
-
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    function processTOC () {
-      getTOCMaxHeight();
-      toggleTOCOverflowIndicators();
-    }
-
-    function getTOCMaxHeight () {
-      var height = $('.sidebar').height() -
-                   $tocSelector.position().top -
-                   $('.post-toc-indicator-bottom').height();
-
-      $tocSelector.css('height', height);
-
-      return height;
-    }
-
-    function toggleTOCOverflowIndicators () {
-      tocOverflowIndicator(
-        '.post-toc-indicator-top',
-        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
-      );
-
-      tocOverflowIndicator(
-        '.post-toc-indicator-bottom',
-        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
-      )
-    }
-
-    $(document).on('sidebar.motion.complete', function () {
-      processTOC();
-    });
-
-    $('body').scrollspy({ target: tocSelector });
-    $(window).on('resize', function () {
-      if ( $('.sidebar').hasClass('sidebar-active') ) {
-        processTOC();
-      }
-    });
-
-    onScroll($tocSelector);
-
-    function onScroll (element) {
-      element.on('mousewheel DOMMouseScroll', function (event) {
-          var oe = event.originalEvent;
-          var delta = oe.wheelDelta || -oe.detail;
-
-          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
-          event.preventDefault();
-
-          toggleTOCOverflowIndicators();
-      });
-    }
-
-    function tocOverflowIndicator (indicator, action) {
-      var $indicator = $(indicator);
-      var opacity = action === 'show' ? 1 : 0;
-      $indicator.velocity ?
-        $indicator.velocity('stop').velocity({
-          opacity: opacity
-        }, { duration: 100 }) :
-        $indicator.stop().animate({
-          opacity: opacity
-        }, 100);
-    }
-
-  });
 </script>
-
-<script type="text/javascript" id="sidebar.nav">
-  $(document).ready(function () {
-    var html = $('html');
-    var TAB_ANIMATE_DURATION = 200;
-    var hasVelocity = $.isFunction(html.velocity);
-
-    $('.sidebar-nav li').on('click', function () {
-      var item = $(this);
-      var activeTabClassName = 'sidebar-nav-active';
-      var activePanelClassName = 'sidebar-panel-active';
-      if (item.hasClass(activeTabClassName)) {
-        return;
-      }
-
-      var currentTarget = $('.' + activePanelClassName);
-      var target = $('.' + item.data('target'));
-
-      hasVelocity ?
-        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
-          target
-            .velocity('stop')
-            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-            .addClass(activePanelClassName);
-        }) :
-        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
-          currentTarget.hide();
-          target
-            .stop()
-            .css({'opacity': 0, 'display': 'block'})
-            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
-              currentTarget.removeClass(activePanelClassName);
-              target.addClass(activePanelClassName);
-            });
-        });
-
-      item.siblings().removeClass(activeTabClassName);
-      item.addClass(activeTabClassName);
-    });
-
-    $('.post-toc a').on('click', function (e) {
-      e.preventDefault();
-      var targetSelector = escapeSelector(this.getAttribute('href'));
-      var offset = $(targetSelector).offset().top;
-      hasVelocity ?
-        html.velocity('stop').velocity('scroll', {
-          offset: offset  + 'px',
-          mobileHA: false
-        }) :
-        $('html, body').stop().animate({
-          scrollTop: offset
-        }, 500);
-    });
-
-    // Expand sidebar on post detail page by default, when post has a toc.
-    motionMiddleWares.sidebar = function () {
-      var $tocContent = $('.post-toc-content');
-      if (CONFIG.sidebar === 'post') {
-        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
-          displaySidebar();
-        }
-      }
-    };
-  });
-</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+-->
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
+</div>
 
 
 
-  <script type="text/javascript" src="/js/bootstrap.js"></script>
 
-  
-  
 
-  
-  
 
 </body>
 </html>
