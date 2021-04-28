@@ -17,15 +17,15 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="今天在测试API的时候，apache总是会莫名其妙的报1PHP Fatal error: Cannot call overloaded function for non-object in &#x2F;var&#x2F;www&#x2F;html&#x2F;includes&#x2F;database&#x2F;query.inc on line 331 找了很久的资料，发现可以配置apache的CoreDumpDirectory命令，其实就是把apach">
+  <meta name="description" content="今天在测试API的时候，apache总是会莫名其妙的报 1PHP Fatal error: Cannot call overloaded function for non-object in &#x2F;var&#x2F;www&#x2F;html&#x2F;includes&#x2F;database&#x2F;query.inc on line 331 找了很久的资料，发现可以配置apache的CoreDumpDirectory命令，其实就是把apac">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Drupal error - Cannot call overloaded function for non-object">
 <meta property="og:url" content="http://verynull.com/2013/12/31/drupal-error-cannot-call-overloaded-function-for-non-object/index.html">
 <meta property="og:site_name" content="Lau&#39;s Blog">
-<meta property="og:description" content="今天在测试API的时候，apache总是会莫名其妙的报1PHP Fatal error: Cannot call overloaded function for non-object in &#x2F;var&#x2F;www&#x2F;html&#x2F;includes&#x2F;database&#x2F;query.inc on line 331 找了很久的资料，发现可以配置apache的CoreDumpDirectory命令，其实就是把apach">
+<meta property="og:description" content="今天在测试API的时候，apache总是会莫名其妙的报 1PHP Fatal error: Cannot call overloaded function for non-object in &#x2F;var&#x2F;www&#x2F;html&#x2F;includes&#x2F;database&#x2F;query.inc on line 331 找了很久的资料，发现可以配置apache的CoreDumpDirectory命令，其实就是把apac">
 <meta property="og:locale">
 <meta property="article:published_time" content="2013-12-31T05:35:34.000Z">
 <meta property="article:modified_time" content="2015-05-07T06:34:00.000Z">
@@ -105,6 +105,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -119,25 +120,63 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-about">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">65</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">81</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -205,7 +244,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>今天在测试API的时候，apache总是会莫名其妙的报<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PHP Fatal error: Cannot call overloaded <span class="function"><span class="keyword">function</span> <span class="title">for</span> <span class="title">non</span>-<span class="title">object</span> <span class="title">in</span> /<span class="title">var</span>/<span class="title">www</span>/<span class="title">html</span>/<span class="title">includes</span>/<span class="title">database</span>/<span class="title">query</span>.<span class="title">inc</span> <span class="title">on</span> <span class="title">line</span> 331</span></div></pre></td></tr></table></figure></p>
+        <p>今天在测试API的时候，apache总是会莫名其妙的报</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHP Fatal <span class="built_in">error</span>: Cannot call overloaded <span class="function"><span class="keyword">function</span> <span class="title">for</span> <span class="title">non</span>-<span class="title">object</span> <span class="title">in</span> /<span class="title">var</span>/<span class="title">www</span>/<span class="title">html</span>/<span class="title">includes</span>/<span class="title">database</span>/<span class="title">query</span>.<span class="title">inc</span> <span class="title">on</span> <span class="title">line</span> 331</span></span><br></pre></td></tr></table></figure>
 <p>找了很久的资料，发现可以配置apache的CoreDumpDirectory命令，其实就是把apache的内核目录放到其他目录下。如/tmp/apache_core，并给apache_core文件给予chown apache:apache /tmp/apache_core的权限。这样可以解决问题。</p>
 <p>但是需要注意：<br>该命令会导致tmp文件越来越大。</p>
 <p>使用以下命里进行调试<br>gdb /usr/bin/httpd /tmp/apache_core/core</p>
@@ -311,11 +351,13 @@
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
+          
         <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
@@ -325,6 +367,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -373,7 +419,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
@@ -384,6 +430,10 @@
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

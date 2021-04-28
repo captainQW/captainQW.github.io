@@ -17,15 +17,15 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="该方式适用于sublime text2和3。  创建代码片段点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下1234567891011121314151617181920&lt;snippet&gt;	&lt;content&gt;&lt;![CDATA[&#x2F;** * 定义函数 * * 函数功能描述 *  * @auth">
+  <meta name="description" content="该方式适用于sublime text2和3。  创建代码片段点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下 1234567891011121314151617181920&lt;snippet&gt;	&lt;content&gt;&lt;![CDATA[&#x2F;** * 定义函数 * * 函数功能描述 *  * @aut">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sublime text创建快捷注释信息">
 <meta property="og:url" content="http://verynull.com/2015/07/14/sublime-text%E5%88%9B%E5%BB%BA%E5%BF%AB%E6%8D%B7%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF/index.html">
 <meta property="og:site_name" content="Lau&#39;s Blog">
-<meta property="og:description" content="该方式适用于sublime text2和3。  创建代码片段点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下1234567891011121314151617181920&lt;snippet&gt;	&lt;content&gt;&lt;![CDATA[&#x2F;** * 定义函数 * * 函数功能描述 *  * @auth">
+<meta property="og:description" content="该方式适用于sublime text2和3。  创建代码片段点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下 1234567891011121314151617181920&lt;snippet&gt;	&lt;content&gt;&lt;![CDATA[&#x2F;** * 定义函数 * * 函数功能描述 *  * @aut">
 <meta property="og:locale">
 <meta property="article:published_time" content="2015-07-14T02:18:10.000Z">
 <meta property="article:modified_time" content="2015-07-14T02:26:32.000Z">
@@ -105,6 +105,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -119,25 +120,63 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-about">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">65</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">81</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -202,14 +241,16 @@
         <ul>
 <li>该方式适用于sublime text2和3。</li>
 </ul>
-<h2 id="创建代码片段"><a href="#创建代码片段" class="headerlink" title="创建代码片段"></a>创建代码片段</h2><p>点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;snippet&gt;</div><div class="line">	&lt;content&gt;&lt;![CDATA[</div><div class="line">/**</div><div class="line"> * 定义函数</div><div class="line"> *</div><div class="line"> * 函数功能描述</div><div class="line"> * </div><div class="line"> * @author panjun.liu &lt;lpj163@gmail.com&gt;</div><div class="line"> *</div><div class="line"> * @param int <span class="variable">$param1</span>      参数释义</div><div class="line"> * @param string <span class="variable">$param2</span>   参数释义</div><div class="line"> *</div><div class="line"> * @<span class="built_in">return</span> <span class="built_in">integer</span>|string|array</div><div class="line">*/</div><div class="line">]]&gt;&lt;/content&gt;</div><div class="line">	&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</div><div class="line"> 	&lt;tabTrigger&gt;phpdoc&lt;/tabTrigger&gt;</div><div class="line">	&lt;!-- Optional: Set a scope to <span class="built_in">limit</span> <span class="built_in">where</span> the snippet will trigger --&gt;</div><div class="line">	&lt;!-- &lt;scope&gt;source.python&lt;/scope&gt; --&gt;</div><div class="line">&lt;/snippet&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="创建代码片段"><a href="#创建代码片段" class="headerlink" title="创建代码片段"></a>创建代码片段</h2><p>点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;snippet&gt;</span><br><span class="line">	&lt;content&gt;&lt;![CDATA[</span><br><span class="line">/**</span><br><span class="line"> * 定义函数</span><br><span class="line"> *</span><br><span class="line"> * 函数功能描述</span><br><span class="line"> * </span><br><span class="line"> * @author panjun.liu &lt;lpj163@gmail.com&gt;</span><br><span class="line"> *</span><br><span class="line"> * @param int <span class="variable">$param1</span>      参数释义</span><br><span class="line"> * @param string <span class="variable">$param2</span>   参数释义</span><br><span class="line"> *</span><br><span class="line"> * @<span class="built_in">return</span> <span class="built_in">integer</span>|string|array</span><br><span class="line">*/</span><br><span class="line">]]&gt;&lt;/content&gt;</span><br><span class="line">	&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</span><br><span class="line"> 	&lt;tabTrigger&gt;phpdoc&lt;/tabTrigger&gt;</span><br><span class="line">	&lt;!-- Optional: Set a scope to <span class="built_in">limit</span> <span class="built_in">where</span> the snippet will trigger --&gt;</span><br><span class="line">	&lt;!-- &lt;scope&gt;source.python&lt;/scope&gt; --&gt;</span><br><span class="line">&lt;/snippet&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>注：<br>tabTrigger 此节是可选的配置，默认是被注释掉的。默认 hello 的意思是：如果你在某个文档里输入了单词 hello ，然后按下 Tab 键，接着 hello 就会被替换为1中定义的代码片段。再次按下Tab键，接着snippet会被替换为2中定义的代码片段。</p>
 </blockquote>
 <p>保存到当前用户主目录下的\Sublime Text 3\Packages\User目录中，命名为phpdoc.sublime-snippet(注意：后缀必须为.sublime-snippet)。</p>
 <h2 id="绑定快捷键"><a href="#绑定快捷键" class="headerlink" title="绑定快捷键"></a>绑定快捷键</h2><p>可以将上述的操作绑定到一个快捷键，在不键入任何文本的情况下，直接按快捷键插入代码片段。</p>
 <p>点击菜单栏的 Preferences 的子菜单 Key Binding – User，在打开的文件的方括号内部粘贴如下配置：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">	&#123; <span class="string">"keys"</span>: [<span class="string">"phpdoc"</span>], <span class="string">"command"</span>: <span class="string">"insert_snippet"</span>, <span class="string">"args"</span>: &#123;<span class="string">"name"</span>: <span class="string">"Packages/User/phpdoc.sublime-snippet"</span>&#125; &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123; <span class="string">&quot;keys&quot;</span>: [<span class="string">&quot;phpdoc&quot;</span>], <span class="string">&quot;command&quot;</span>: <span class="string">&quot;insert_snippet&quot;</span>, <span class="string">&quot;args&quot;</span>: &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;Packages/User/phpdoc.sublime-snippet&quot;</span>&#125; &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
 <p>现在简单介绍一下这段配置：</p>
 <ol>
 <li><p>“keys”: [“phpdoc”] 这个定义了触发此命令的快捷键。</p>
@@ -324,11 +365,13 @@
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
+          
         <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
@@ -338,6 +381,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -386,7 +433,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
@@ -397,6 +444,10 @@
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

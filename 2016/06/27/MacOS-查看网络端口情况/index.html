@@ -17,15 +17,15 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="###查看端口是否打开 ####使用 netstat 命令 12a. &#96;netstat -nat | grep &lt;端口号&gt;&#96;  , 如命令 &#96;netstat -nat | grep 3306&#96;b. &#96;netstat -nat |grep LISTEN&#96; ####使用 lsof 命令 123456789101112131415# yongfu-pro at yongfu-pro.loca">
+  <meta name="description" content="###查看端口是否打开 ####使用 netstat 命令 12a. &#96;netstat -nat | grep &lt;端口号&gt;&#96;  , 如命令 &#96;netstat -nat | grep 3306&#96;b. &#96;netstat -nat |grep LISTEN&#96;  ####使用 lsof 命令 123456789101112131415# yongfu-pro at yongfu-pro.loc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MacOS 查看网络端口情况">
 <meta property="og:url" content="http://verynull.com/2016/06/27/MacOS-%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E7%AB%AF%E5%8F%A3%E6%83%85%E5%86%B5/index.html">
 <meta property="og:site_name" content="Lau&#39;s Blog">
-<meta property="og:description" content="###查看端口是否打开 ####使用 netstat 命令 12a. &#96;netstat -nat | grep &lt;端口号&gt;&#96;  , 如命令 &#96;netstat -nat | grep 3306&#96;b. &#96;netstat -nat |grep LISTEN&#96; ####使用 lsof 命令 123456789101112131415# yongfu-pro at yongfu-pro.loca">
+<meta property="og:description" content="###查看端口是否打开 ####使用 netstat 命令 12a. &#96;netstat -nat | grep &lt;端口号&gt;&#96;  , 如命令 &#96;netstat -nat | grep 3306&#96;b. &#96;netstat -nat |grep LISTEN&#96;  ####使用 lsof 命令 123456789101112131415# yongfu-pro at yongfu-pro.loc">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-06-27T07:17:17.000Z">
 <meta property="article:modified_time" content="2016-06-27T07:25:08.000Z">
@@ -105,6 +105,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -119,25 +120,63 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-about">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">65</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">81</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -201,15 +240,17 @@
       
         <p>###查看端口是否打开</p>
 <p>####使用 netstat 命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a. `netstat -nat | grep &lt;端口号&gt;`  , 如命令 `netstat -nat | grep 3306`</div><div class="line">b. `netstat -nat |grep LISTEN`</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a. `netstat -nat | grep &lt;端口号&gt;`  , 如命令 `netstat -nat | grep 3306`</span><br><span class="line">b. `netstat -nat |grep LISTEN`</span><br></pre></td></tr></table></figure>
+
 <p>####使用 lsof 命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yongfu-pro at yongfu-pro.local in ~ [22:39:32]</span></div><div class="line">$ lsof -n -P -i TCP <span class="_">-s</span> TCP:LISTEN</div><div class="line">COMMAND PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</div><div class="line">php-fpm 387 yongfu-pro    6u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">Dropbox 413 yongfu-pro   26u  IPv4 0x6d7f5d3c445e2c09      0t0  TCP *:17500 (LISTEN)</div><div class="line">php-fpm 418 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">php-fpm 419 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">php-fpm 420 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</div><div class="line">stunnel 586 yongfu-pro    9u  IPv4 0x6d7f5d3c439ff679      0t0  TCP 127.0.0.1:1997 (LISTEN)</div><div class="line"></div><div class="line">lsof命令可以列出当前的所有网络情况， 此命令的解释如下：</div><div class="line">-n 表示主机以ip地址显示</div><div class="line">-P 表示端口以数字形式显示，默认为端口名称</div><div class="line">-i 意义较多，具体 man lsof, 主要是用来过滤lsof的输出结果</div><div class="line"><span class="_">-s</span> 和 -i 配合使用，用于过滤输出</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yongfu-pro at yongfu-pro.local in ~ [22:39:32]</span></span><br><span class="line">$ lsof -n -P -i TCP -s TCP:LISTEN</span><br><span class="line">COMMAND PID       USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME</span><br><span class="line">php-fpm 387 yongfu-pro    6u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</span><br><span class="line">Dropbox 413 yongfu-pro   26u  IPv4 0x6d7f5d3c445e2c09      0t0  TCP *:17500 (LISTEN)</span><br><span class="line">php-fpm 418 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</span><br><span class="line">php-fpm 419 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</span><br><span class="line">php-fpm 420 yongfu-pro    0u  IPv4 0x6d7f5d3c3a615679      0t0  TCP 127.0.0.1:9000 (LISTEN)</span><br><span class="line">stunnel 586 yongfu-pro    9u  IPv4 0x6d7f5d3c439ff679      0t0  TCP 127.0.0.1:1997 (LISTEN)</span><br><span class="line"></span><br><span class="line">lsof命令可以列出当前的所有网络情况， 此命令的解释如下：</span><br><span class="line">-n 表示主机以ip地址显示</span><br><span class="line">-P 表示端口以数字形式显示，默认为端口名称</span><br><span class="line">-i 意义较多，具体 man lsof, 主要是用来过滤lsof的输出结果</span><br><span class="line">-s 和 -i 配合使用，用于过滤输出</span><br></pre></td></tr></table></figure>
+
 <p>####使用telnet 命令</p>
 <p>检查本机的3306端口是否打开， 如下<br>telnet 127.0.0.1 3306<br>若该端口没有打开，则会自动退出，并显示如下内容：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Trying 127.0.0.1...</div><div class="line">telnet: connect to address 127.0.0.1: Connection refused</div><div class="line">telnet: Unable to connect to remote host</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Trying 127.0.0.1...</span><br><span class="line">telnet: connect to address 127.0.0.1: Connection refused</span><br><span class="line">telnet: Unable to connect to remote host</span><br></pre></td></tr></table></figure>
 <p>若该端口为已打开的状态，则会一直保持连接。</p>
 <p>####使用 nc 命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yongfu at yf-mac.local in ~ [9:33:14]</span></div><div class="line">$ nc  -w 10 -n -z 127.0.0.1 1990-1999</div><div class="line">Connection to 127.0.0.1 port 1997 [tcp/*] succeeded!</div><div class="line">Connection to 127.0.0.1 port 1998 [tcp/*] succeeded!</div><div class="line"></div><div class="line">-w 10  表示等待连接时间为10秒</div><div class="line">-n 尽量将端口号名称转换为端口号数字</div><div class="line">-z 对需要检查的端口没有输入输出，用于端口扫描模式</div><div class="line">127.0.0.1  需要检查的ip地址</div><div class="line">1990-1999  可以是一个端口，也可以是一段端口</div><div class="line"> 返回结果为开放的端口， 如本例中的 1997 和 1998 端口</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yongfu at yf-mac.local in ~ [9:33:14]</span></span><br><span class="line">$ nc  -w 10 -n -z 127.0.0.1 1990-1999</span><br><span class="line">Connection to 127.0.0.1 port 1997 [tcp/*] succeeded!</span><br><span class="line">Connection to 127.0.0.1 port 1998 [tcp/*] succeeded!</span><br><span class="line"></span><br><span class="line">-w 10  表示等待连接时间为10秒</span><br><span class="line">-n 尽量将端口号名称转换为端口号数字</span><br><span class="line">-z 对需要检查的端口没有输入输出，用于端口扫描模式</span><br><span class="line">127.0.0.1  需要检查的ip地址</span><br><span class="line">1990-1999  可以是一个端口，也可以是一段端口</span><br><span class="line"> 返回结果为开放的端口， 如本例中的 1997 和 1998 端口</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -312,11 +353,13 @@
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
+          
         <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
@@ -326,6 +369,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -374,7 +421,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
@@ -385,6 +432,10 @@
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

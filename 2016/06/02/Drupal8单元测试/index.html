@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="单元测试在编程中是非常重要的，而我更倾向于去对那些有意义的错误做测试。在Drupal8中，可以借助phpstorm来帮助进行单元测试。 ##一、phpstorm配置 ###1）、针对项目进行设置：  1、选中 PhpStorm &gt; Preferences &gt; Languages &amp; Frameworks &gt; PHP &gt; PHPUnit &gt; LocalWindo">
@@ -105,6 +105,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -119,25 +120,63 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-about">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">65</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">81</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -229,28 +268,33 @@
 <p>##二、添加单元测试</p>
 <p>要进行单元测试，必须在[module_name]/tests/srs/Unit/下创建一个以Test.php结尾的文件。一般都是继承UnitTestCase这个类来创建测试，这个测试类的namespace必须为Drupal\Test[module_name]\Unit。</p>
 <p>接下来，我们来书写代码。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim tests/src/Unit/TestExampleConversionsTest.php</div></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> *</div><div class="line"> * Contains \Drupal\Tests\test_example\Unit\TestExampleConversionsTest.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">test_example</span>\<span class="title">Unit</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">UnitTestCase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Demonstrates how to write tests.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@group</span> test_example</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestExampleConversionsTest</span> <span class="keyword">extends</span> <span class="title">UnitTestCase</span> </span>&#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setUp</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">parent</span>::setUp();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Convert Celsius to Fahrenheit</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> $temp</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> int</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">celsiusToFahrenheit</span><span class="params">($temp)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> ($temp * (<span class="number">9</span>/<span class="number">5</span>)) + <span class="number">32</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Convert centimeter to inches.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> $length</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> int</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">centimeterToInch</span><span class="params">($length)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> $length / <span class="number">2.54</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * A simple test that tests our celsiusToFahrenheit() function.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testOneConversion</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Confirm that 0C = 31F.</span></div><div class="line">    <span class="keyword">$this</span>-&gt;assertEquals(<span class="number">31</span>, <span class="keyword">$this</span>-&gt;celsiusToFahrenheit(<span class="number">0</span>));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim tests/src/Unit/TestExampleConversionsTest.php</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@file</span></span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Contains \Drupal\Tests\test_example\Unit\TestExampleConversionsTest.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">test_example</span>\<span class="title">Unit</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Tests</span>\<span class="title">UnitTestCase</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Demonstrates how to write tests.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@group</span> test_example</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestExampleConversionsTest</span> <span class="keyword">extends</span> <span class="title">UnitTestCase</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setUp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">parent</span>::setUp();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Convert Celsius to Fahrenheit</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> $temp</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> int</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">celsiusToFahrenheit</span>(<span class="params"><span class="variable">$temp</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="variable">$temp</span> * (<span class="number">9</span>/<span class="number">5</span>)) + <span class="number">32</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Convert centimeter to inches.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> $length</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> int</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">centimeterToInch</span>(<span class="params"><span class="variable">$length</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$length</span> / <span class="number">2.54</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * A simple test that tests our celsiusToFahrenheit() function.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testOneConversion</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Confirm that 0C = 31F.</span></span><br><span class="line">    <span class="keyword">$this</span>-&gt;assertEquals(<span class="number">31</span>, <span class="keyword">$this</span>-&gt;celsiusToFahrenheit(<span class="number">0</span>));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>测试方法<br>每个测试方法必须以test开头。</li>
-<li>断言<br>断言决定测试是否通过，比较常用的一些断言函数如assertTrue、assertFalse、assertEquals等。<br>文档见 <a href="https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html" target="_blank" rel="external">https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html</a></li>
+<li>断言<br>断言决定测试是否通过，比较常用的一些断言函数如assertTrue、assertFalse、assertEquals等。<br>文档见 <a target="_blank" rel="noopener" href="https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html">https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html</a></li>
 <li>setUp()<br>每次测试之前都会执行setUp方法，我们可以创建一个变成或实例。</li>
 </ul>
 <p>##三、执行单元测试</p>
-<p>输出如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Failed asserting that 32.0 matches expected 31.</div><div class="line">Expected :31</div><div class="line">Actual   :32</div></pre></td></tr></table></figure></p>
+<p>输出如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Failed asserting that 32.0 matches expected 31.</span><br><span class="line">Expected :31</span><br><span class="line">Actual   :32</span><br></pre></td></tr></table></figure>
+
 <p>##四、较复杂的单元测试<br>如果要做比较复杂的单元测试，一个简单的办法是用setUp方法，另一个方案就是使用data provider.</p>
 <p>###1)、data provider</p>
 <p>PHPUnit中的data provider是为测试方法提供配置的方法，并返回一个测试用例数组。</p>
 <p>本例中，我们创建一个data provider叫 providerCentimetersToInches。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* Provides data for the testCentimetersToInches method.</div><div class="line">*</div><div class="line">* <span class="doctag">@return</span> array</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">providerCentimetersToInches</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">return</span> [</div><div class="line">    [<span class="number">2.545</span>,<span class="number">1</span>],</div><div class="line">    [<span class="number">254</span>,<span class="number">100</span>],</div><div class="line">    [<span class="number">0</span>,<span class="number">0</span>],</div><div class="line">    [<span class="number">-2.54</span>,<span class="number">-1</span>],</div><div class="line">  ];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* Tests centimetersToInches method.</div><div class="line">*</div><div class="line">* <span class="doctag">@dataProvider</span> providerCentimetersToInches</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testCentimetersToInches</span><span class="params">($length, $expectedValue)</span> </span>&#123;</div><div class="line">  <span class="keyword">$this</span>-&gt;assertEquals($expectedValue, <span class="keyword">$this</span>-&gt;centimeterToInch($length));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Provides data for the testCentimetersToInches method.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> array</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">providerCentimetersToInches</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [</span><br><span class="line">    [<span class="number">2.545</span>,<span class="number">1</span>],</span><br><span class="line">    [<span class="number">254</span>,<span class="number">100</span>],</span><br><span class="line">    [<span class="number">0</span>,<span class="number">0</span>],</span><br><span class="line">    [-<span class="number">2.54</span>,-<span class="number">1</span>],</span><br><span class="line">  ];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Tests centimetersToInches method.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@dataProvider</span> providerCentimetersToInches</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testCentimetersToInches</span>(<span class="params"><span class="variable">$length</span>, <span class="variable">$expectedValue</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">$this</span>-&gt;assertEquals(<span class="variable">$expectedValue</span>, <span class="keyword">$this</span>-&gt;centimeterToInch(<span class="variable">$length</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><p>Data Provider注解<br>在测试方法上使用 @dataProvider 注解来连接这个data provider。</p>
 </li>
 <li><p>Data Provider参数<br>在测试方法中可以添加参数，在上面的测试方法中，我们在数组内传递了两个值，那么在上面的测试方法中有两个对应的参数。</p>
 </li>
 </ul>
-<p>执行run，结果如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Failed asserting that 1.0019685039370079 matches expected 1.</div><div class="line">Expected :1</div><div class="line">Actual   :1.001968503937</div></pre></td></tr></table></figure></p>
-
+<p>执行run，结果如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Failed asserting that 1.0019685039370079 matches expected 1.</span><br><span class="line">Expected :1</span><br><span class="line">Actual   :1.001968503937</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -352,11 +396,13 @@
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
+          
         <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
@@ -366,6 +412,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -414,7 +464,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
@@ -425,6 +475,10 @@
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

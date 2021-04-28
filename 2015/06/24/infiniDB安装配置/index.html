@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="infiniDB是为大数据而生的列式数据库，适合做统计分析，如SUM,AVG,MAX,MIN等。笔者没有研究过infoBright，貌似需要收费，并且社区版本不支持DML。 总结了一些infiniDB的特点:1、所有字段的默认值都为NULL，不需要设置其他值。2、不需要创建索引，不需要优化表3、多线程设计，查询时完美利用多CPU4、高并发:理论上无并发的限制,只受制于服务器的容量5、DML(可以视">
@@ -109,6 +109,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -123,25 +124,63 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-about">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">65</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">81</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -215,7 +254,7 @@
 <blockquote>
 <p>安装过程：</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">1、访问https://github.com/infinidb/infinidb/blob/4.6.2-1/INSTALL，按照帮助文档进行安装，笔者安装的版本是4.6.2</div><div class="line"></div><div class="line">或者：</div><div class="line"></div><div class="line"><span class="built_in">cd</span> /root</div><div class="line">git <span class="built_in">clone</span> http://github.com/infinidb/mysql</div><div class="line">git <span class="built_in">clone</span> http://github.com/infinidb/infinidb</div><div class="line">-- or --</div><div class="line">tar -zxf &lt;srcfile&gt;</div><div class="line"><span class="built_in">cd</span> mysql</div><div class="line">./configure --prefix=/data/mysql/</div><div class="line">make</div><div class="line">make install</div><div class="line"><span class="built_in">cd</span> ../infinidb</div><div class="line">./configure --prefix=/data/</div><div class="line">make</div><div class="line">make install</div><div class="line"></div><div class="line">注意：root下的文件夹名称必须为infinidb和mysql，否则编译的时候会报错。</div><div class="line"></div><div class="line">2、安装完以后执行/usr/<span class="built_in">local</span>/Calpont/bin/postConfigure进行配置，按默认就行</div><div class="line">3、设置一些别名， . /usr/<span class="built_in">local</span>/Calpont/bin/calpontAlias</div><div class="line">4、直接访问idbmysql进入管理。</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">1、访问https://github.com/infinidb/infinidb/blob/4.6.2-1/INSTALL，按照帮助文档进行安装，笔者安装的版本是4.6.2</span><br><span class="line"></span><br><span class="line">或者：</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /root</span><br><span class="line">git <span class="built_in">clone</span> http://github.com/infinidb/mysql</span><br><span class="line">git <span class="built_in">clone</span> http://github.com/infinidb/infinidb</span><br><span class="line">-- or --</span><br><span class="line">tar -zxf &lt;srcfile&gt;</span><br><span class="line"><span class="built_in">cd</span> mysql</span><br><span class="line">./configure --prefix=/data/mysql/</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">cd</span> ../infinidb</span><br><span class="line">./configure --prefix=/data/</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">注意：root下的文件夹名称必须为infinidb和mysql，否则编译的时候会报错。</span><br><span class="line"></span><br><span class="line">2、安装完以后执行/usr/<span class="built_in">local</span>/Calpont/bin/postConfigure进行配置，按默认就行</span><br><span class="line">3、设置一些别名， . /usr/<span class="built_in">local</span>/Calpont/bin/calpontAlias</span><br><span class="line">4、直接访问idbmysql进入管理。</span><br></pre></td></tr></table></figure>
 <p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150624/20150624141731_29245.jpg" alt="idbmysql"></p>
 <blockquote>
 <p>测试</p>
@@ -324,11 +363,13 @@
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
+          
         <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
@@ -338,6 +379,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -386,7 +431,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
@@ -397,6 +442,10 @@
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="#一、命名规范 ###[数据库环境介绍] 通常来讲，各个互联网公司的数据库分为5个数据库环境：  dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事;  qa : 测试环境, 开发可读写, 开发人员可以通过工具修改表结构;  sim: 模拟环境, 开发可读写, 通过web平台;发起上线请求">
@@ -105,6 +105,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -119,25 +120,63 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-about">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">65</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">81</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -221,13 +260,13 @@
 <li>尽量简洁明义，能够一眼看出来这个数据库是用来做什么的；</li>
 <li>使用名词作为数据库名称，并且只用英文，不用中文拼音；</li>
 <li>使用英文字母，全部小写，控制在3-7个字母以内；</li>
-<li>如果有多个单词，则使用下划线隔开，不建义驼峰命名；<br>例如，每个公司都有crm业务，那就叫做xx_crm, 字符集统一utf8。字符集踩过的坑很多，为了通用性统一utf8。<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create database xx_crm default character <span class="built_in">set</span>=utf8;</div></pre></td></tr></table></figure>
-</li>
+<li>如果有多个单词，则使用下划线隔开，不建义驼峰命名；<br>例如，每个公司都有crm业务，那就叫做xx_crm, 字符集统一utf8。字符集踩过的坑很多，为了通用性统一utf8。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database xx_crm default character <span class="built_in">set</span>=utf8;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>###[表命名规范]</p>
 <ol>
-<li>具备统一前缀，对相关功能的表应当使用相同前缀，如acl_xxx，house_xxx,ppc<em>xxx；其中前缀通常为这个表的模块或依赖主实体对象的名字，通常来讲表名为：业务</em>动作<em>类型，或是业务</em>类型；</li>
-<li>表名使用英文小写单词，如果有多个单词则使用下划线隔开；<br>3.表名简介，使用常见单词，避免使用长单词和生僻词；</li>
+<li>具备统一前缀，对相关功能的表应当使用相同前缀，如acl_xxx，house_xxx,ppc_xxx；其中前缀通常为这个表的模块或依赖主实体对象的名字，通常来讲表名为：业务_动作_类型，或是业务_类型；</li>
+<li>表名使用英文小写单词，如果有多个单词则使用下划线隔开；</li>
+<li>表名简介，使用常见单词，避免使用长单词和生僻词；</li>
 <li>表引擎取决于实际应用场景及当前数据库中的已经存在的存储引擎；日志及报表类表建议用myisam，与交易，审核，金额相关的表建议用innodb引擎。总体来讲数据库默认innodb；</li>
 <li>数据表必须有主键，且建议均使用auto_increment的id作为主键（与业务无关）,和业务相关的要做为唯一索引；</li>
 <li>默认使用utf8字符集（由于数据库定义使用了默认，数据表可以不再定义，但为保险起见，建议都写上）；</li>
@@ -235,7 +274,9 @@
 <li>预估表数据量，如果数据量较大（超过500w）则需要考虑分表策略。可以等量均衡分表或根据业务规则分表均可。要分表的数据表必须与DBA商量分表策略；</li>
 <li>职责相近的表，命名规则应该相同；如合同申请，账户信息，交友相关等；<br>举个例子，一张在线冲值记录表：user_bank_deposit 这个就非常符合标准，如果叫做userBankDeposit或是user_chongzhi，就非常不友好。</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `house_refresh_log` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT <span class="string">'自增ID'</span>,</div><div class="line">  `fangid` int(11) NOT NULL COMMENT <span class="string">'房贴子ID'</span>,</div><div class="line">  `refresh_time` int(11) NOT NULL COMMENT <span class="string">'刷新时间'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `fangid` (`fangid`)</div><div class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=<span class="string">'房刷新记录表'</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `house_refresh_log` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT <span class="string">&#x27;自增ID&#x27;</span>,</span><br><span class="line">  `fangid` int(11) NOT NULL COMMENT <span class="string">&#x27;房贴子ID&#x27;</span>,</span><br><span class="line">  `refresh_time` int(11) NOT NULL COMMENT <span class="string">&#x27;刷新时间&#x27;</span>,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `fangid` (`fangid`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=<span class="string">&#x27;房刷新记录表&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
 <p>###[字段命名规范]</p>
 <ol>
 <li>数据库字段命名与表名命名类似：</li>
@@ -250,7 +291,8 @@
 <li>有些驱动对tinyint支持不够好，通常建义按容量来选择字段；</li>
 <li>text字段尽量少用，或是拆到冗余表中；</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `wanted_post` (</div><div class="line">  `id` int(10) NOT NULL AUTO_INCREMENT,</div><div class="line">  `puid` int(10) unsigned NOT NULL,</div><div class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">'发贴用户的id'</span>,</div><div class="line">  `username` varchar(50) NOT NULL COMMENT <span class="string">'发贴用户的用户名'</span>,</div><div class="line">  `city` smallint(4) NOT NULL COMMENT <span class="string">'所在城市'</span>,</div><div class="line">  `ip` bigint(14) NOT NULL COMMENT <span class="string">'发帖人的ip'</span>,</div><div class="line">  `district_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在区域的id'</span>,</div><div class="line">  `district_name` varchar(20) NOT NULL COMMENT <span class="string">'行政区名字'</span>,</div><div class="line">  `street_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在街道(地标)的id'</span>,</div><div class="line">  `street_name` varchar(20) NOT NULL COMMENT <span class="string">'小区名字'</span>,</div><div class="line">  `title` varchar(255) NOT NULL COMMENT <span class="string">'帖子的标题'</span>,</div><div class="line">  `description` text NOT NULL COMMENT <span class="string">'帖子详情描述'</span>,</div><div class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">'用户发帖时间,数据创建的时间,使用整型存储'</span>,</div><div class="line">  `refresh_at` int(11) NOT NULL COMMENT <span class="string">'帖子被修改的时间,整型存储'</span>,</div><div class="line">  `show_time` int(11) NOT NULL COMMENT <span class="string">'帖子显示时间'</span>,</div><div class="line">  `age_max` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最小年龄'</span>,</div><div class="line">  `age_min` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最大年龄'</span>,</div><div class="line">  `post_refresh_at` int(11) NOT NULL COMMENT <span class="string">'刷新时间'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `idx_puid` (`puid`),</div><div class="line">  KEY `user_id_index` (`user_id`),</div><div class="line">  KEY `post_at_index` (`post_at`),</div><div class="line">  KEY `refresh_at_index` (`refresh_at`),</div><div class="line">  KEY `show_time_index` (`show_time`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT=<span class="string">'招聘帖子表'</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `wanted_post` (</span><br><span class="line">  `id` int(10) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `puid` int(10) unsigned NOT NULL,</span><br><span class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">&#x27;发贴用户的id&#x27;</span>,</span><br><span class="line">  `username` varchar(50) NOT NULL COMMENT <span class="string">&#x27;发贴用户的用户名&#x27;</span>,</span><br><span class="line">  `city` smallint(4) NOT NULL COMMENT <span class="string">&#x27;所在城市&#x27;</span>,</span><br><span class="line">  `ip` bigint(14) NOT NULL COMMENT <span class="string">&#x27;发帖人的ip&#x27;</span>,</span><br><span class="line">  `district_id` tinyint(2) NOT NULL COMMENT <span class="string">&#x27;所在区域的id&#x27;</span>,</span><br><span class="line">  `district_name` varchar(20) NOT NULL COMMENT <span class="string">&#x27;行政区名字&#x27;</span>,</span><br><span class="line">  `street_id` tinyint(2) NOT NULL COMMENT <span class="string">&#x27;所在街道(地标)的id&#x27;</span>,</span><br><span class="line">  `street_name` varchar(20) NOT NULL COMMENT <span class="string">&#x27;小区名字&#x27;</span>,</span><br><span class="line">  `title` varchar(255) NOT NULL COMMENT <span class="string">&#x27;帖子的标题&#x27;</span>,</span><br><span class="line">  `description` text NOT NULL COMMENT <span class="string">&#x27;帖子详情描述&#x27;</span>,</span><br><span class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">&#x27;用户发帖时间,数据创建的时间,使用整型存储&#x27;</span>,</span><br><span class="line">  `refresh_at` int(11) NOT NULL COMMENT <span class="string">&#x27;帖子被修改的时间,整型存储&#x27;</span>,</span><br><span class="line">  `show_time` int(11) NOT NULL COMMENT <span class="string">&#x27;帖子显示时间&#x27;</span>,</span><br><span class="line">  `age_max` int(11) NOT NULL DEFAULT <span class="string">&#x27;0&#x27;</span> COMMENT <span class="string">&#x27;招聘最小年龄&#x27;</span>,</span><br><span class="line">  `age_min` int(11) NOT NULL DEFAULT <span class="string">&#x27;0&#x27;</span> COMMENT <span class="string">&#x27;招聘最大年龄&#x27;</span>,</span><br><span class="line">  `post_refresh_at` int(11) NOT NULL COMMENT <span class="string">&#x27;刷新时间&#x27;</span>,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `idx_puid` (`puid`),</span><br><span class="line">  KEY `user_id_index` (`user_id`),</span><br><span class="line">  KEY `post_at_index` (`post_at`),</span><br><span class="line">  KEY `refresh_at_index` (`refresh_at`),</span><br><span class="line">  KEY `show_time_index` (`show_time`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT=<span class="string">&#x27;招聘帖子表&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>#二、表设计原则</p>
 <p>###[职责分离原则]</p>
 <p>职责分离原则是指在设计的时候应当考虑到数据的产生，聚合使用等原则，每个系统干自己能干的事情，每个系统只干自己的事情。一个数据表应该放在哪个系统中，通常取决于几点：</p>
@@ -263,16 +305,22 @@
 </li>
 </ol>
 <p>在我们设计数据库表间的关系的时候也应当遵守相同原则，职责分离降低耦合，但同时要考虑到性能情况，做到适当冗余而不导致修改逻辑复杂。</p>
-<p>举个最常见贴子与评论的例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `wanted_post` (</div><div class="line">  `id` int(10) NOT NULL AUTO_INCREMENT,</div><div class="line">  `puid` int(10) unsigned NOT NULL,</div><div class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">'发贴用户的id'</span>,</div><div class="line">  `username` varchar(50) NOT NULL COMMENT <span class="string">'发贴用户的用户名'</span>,</div><div class="line">  `city` smallint(4) NOT NULL COMMENT <span class="string">'所在城市'</span>,</div><div class="line">  `ip` bigint(14) NOT NULL COMMENT <span class="string">'发帖人的ip'</span>,</div><div class="line">  `district_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在区域的id'</span>,</div><div class="line">  `district_name` varchar(20) NOT NULL COMMENT <span class="string">'行政区名字'</span>,</div><div class="line">  `street_id` tinyint(2) NOT NULL COMMENT <span class="string">'所在街道(地标)的id'</span>,</div><div class="line">  `street_name` varchar(20) NOT NULL COMMENT <span class="string">'小区名字'</span>,</div><div class="line">  `title` varchar(255) NOT NULL COMMENT <span class="string">'帖子的标题'</span>,</div><div class="line">  `description` text NOT NULL COMMENT <span class="string">'帖子详情描述'</span>,</div><div class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">'用户发帖时间,数据创建的时间,使用整型存储'</span>,</div><div class="line">  `refresh_at` int(11) NOT NULL COMMENT <span class="string">'帖子被修改的时间,整型存储'</span>,</div><div class="line">  `show_time` int(11) NOT NULL COMMENT <span class="string">'帖子显示时间'</span>,</div><div class="line">  `age_max` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最小年龄'</span>,</div><div class="line">  `age_min` int(11) NOT NULL DEFAULT <span class="string">'0'</span> COMMENT <span class="string">'招聘最大年龄'</span>,</div><div class="line">  `post_refresh_at` int(11) NOT NULL COMMENT <span class="string">'刷新时间'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  UNIQUE KEY `idx_puid` (`puid`),</div><div class="line">  KEY `user_id_index` (`user_id`),</div><div class="line">  KEY `post_at_index` (`post_at`),</div><div class="line">  KEY `refresh_at_index` (`refresh_at`),</div><div class="line">  KEY `show_time_index` (`show_time`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT=<span class="string">'招聘帖子表'</span></div><div class="line"></div><div class="line"></div><div class="line">CREATE TABLE `wanted_post_comment_99` (</div><div class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">  `puid` int(10) unsigned NOT NULL,</div><div class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">'评论用户ID'</span>,</div><div class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">'评论时间'</span>,</div><div class="line">  `detail` text NOT NULL COMMENT <span class="string">'评论详情'</span>,</div><div class="line">  PRIMARY KEY (`id`),</div><div class="line">  KEY `user_id_index` (`user_id`),</div><div class="line">  KEY `puidid_index` (`puid`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT=<span class="string">'招聘评论分表99'</span></div></pre></td></tr></table></figure></p>
-<p>由于评论表数据量很大，在预先做好分表，按贴子puid分成100张子表，那么当前详情页涉及sql如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">select * from wanted_post <span class="built_in">where</span> puid=xxxx;</div><div class="line">select * from wanted_post_comment_99 <span class="built_in">where</span> puid=xxxx;</div></pre></td></tr></table></figure></p>
+<p>举个最常见贴子与评论的例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `wanted_post` (</span><br><span class="line">  `id` int(10) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `puid` int(10) unsigned NOT NULL,</span><br><span class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">&#x27;发贴用户的id&#x27;</span>,</span><br><span class="line">  `username` varchar(50) NOT NULL COMMENT <span class="string">&#x27;发贴用户的用户名&#x27;</span>,</span><br><span class="line">  `city` smallint(4) NOT NULL COMMENT <span class="string">&#x27;所在城市&#x27;</span>,</span><br><span class="line">  `ip` bigint(14) NOT NULL COMMENT <span class="string">&#x27;发帖人的ip&#x27;</span>,</span><br><span class="line">  `district_id` tinyint(2) NOT NULL COMMENT <span class="string">&#x27;所在区域的id&#x27;</span>,</span><br><span class="line">  `district_name` varchar(20) NOT NULL COMMENT <span class="string">&#x27;行政区名字&#x27;</span>,</span><br><span class="line">  `street_id` tinyint(2) NOT NULL COMMENT <span class="string">&#x27;所在街道(地标)的id&#x27;</span>,</span><br><span class="line">  `street_name` varchar(20) NOT NULL COMMENT <span class="string">&#x27;小区名字&#x27;</span>,</span><br><span class="line">  `title` varchar(255) NOT NULL COMMENT <span class="string">&#x27;帖子的标题&#x27;</span>,</span><br><span class="line">  `description` text NOT NULL COMMENT <span class="string">&#x27;帖子详情描述&#x27;</span>,</span><br><span class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">&#x27;用户发帖时间,数据创建的时间,使用整型存储&#x27;</span>,</span><br><span class="line">  `refresh_at` int(11) NOT NULL COMMENT <span class="string">&#x27;帖子被修改的时间,整型存储&#x27;</span>,</span><br><span class="line">  `show_time` int(11) NOT NULL COMMENT <span class="string">&#x27;帖子显示时间&#x27;</span>,</span><br><span class="line">  `age_max` int(11) NOT NULL DEFAULT <span class="string">&#x27;0&#x27;</span> COMMENT <span class="string">&#x27;招聘最小年龄&#x27;</span>,</span><br><span class="line">  `age_min` int(11) NOT NULL DEFAULT <span class="string">&#x27;0&#x27;</span> COMMENT <span class="string">&#x27;招聘最大年龄&#x27;</span>,</span><br><span class="line">  `post_refresh_at` int(11) NOT NULL COMMENT <span class="string">&#x27;刷新时间&#x27;</span>,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `idx_puid` (`puid`),</span><br><span class="line">  KEY `user_id_index` (`user_id`),</span><br><span class="line">  KEY `post_at_index` (`post_at`),</span><br><span class="line">  KEY `refresh_at_index` (`refresh_at`),</span><br><span class="line">  KEY `show_time_index` (`show_time`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT=<span class="string">&#x27;招聘帖子表&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CREATE TABLE `wanted_post_comment_99` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `puid` int(10) unsigned NOT NULL,</span><br><span class="line">  `user_id` int(10) NOT NULL COMMENT <span class="string">&#x27;评论用户ID&#x27;</span>,</span><br><span class="line">  `post_at` int(11) NOT NULL COMMENT <span class="string">&#x27;评论时间&#x27;</span>,</span><br><span class="line">  `detail` text NOT NULL COMMENT <span class="string">&#x27;评论详情&#x27;</span>,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  KEY `user_id_index` (`user_id`),</span><br><span class="line">  KEY `puidid_index` (`puid`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT=<span class="string">&#x27;招聘评论分表99&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>由于评论表数据量很大，在预先做好分表，按贴子puid分成100张子表，那么当前详情页涉及sql如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from wanted_post <span class="built_in">where</span> puid=xxxx;</span><br><span class="line">select * from wanted_post_comment_99 <span class="built_in">where</span> puid=xxxx;</span><br></pre></td></tr></table></figure>
 <p>这是一个简化的模型，评论多了，还要涉及分页，不可能一次性全取出来。对于上面的场景，严格尊守高内聚，低耦合的原则，不会存储冗余数据。相比较还有一种文档型数据库，例如mongo，就可以将评论与贴子存放在一起，访问的时候只需一次顺序IO操作。整体来讲表设计，要按照职责划分原则。</p>
 <p>###[在线处理与分析分离]</p>
 <ol>
 <li>为了保障线上数据处理的性能，将一些分析相关的数据及分析结果，应当使用单独的库来进行存储，避免在数据分析的时候导致业务数据吞吐量下降，引起系统问题。</li>
 <li>专门用于存放离线报表数据，并提供线上数据查询方法，建议将统计结果，汇总的数据都从在线处理数据库中移走。</li>
 </ol>
-<p>对于上面的wanted_post求职贴子表，在线处理只能是用户在操作：浏览，修改，删除，分别对应如下sql：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select * from wanted_post <span class="built_in">where</span> puid=xxxxx;</div><div class="line">update wanted_post <span class="built_in">set</span> xxx=xxx <span class="built_in">where</span> puid=xxxx;</div><div class="line">delete from wanted_post <span class="built_in">where</span> puid=xxxx;</div></pre></td></tr></table></figure></p>
-<p>同样，对于后台统计来讲，都是些聚合操作，非常消耗性能，例如查看某一用户发贴量：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select count(*) from wanted_post <span class="built_in">where</span> user_id=xxxx;</div></pre></td></tr></table></figure></p>
+<p>对于上面的wanted_post求职贴子表，在线处理只能是用户在操作：浏览，修改，删除，分别对应如下sql：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from wanted_post <span class="built_in">where</span> puid=xxxxx;</span><br><span class="line">update wanted_post <span class="built_in">set</span> xxx=xxx <span class="built_in">where</span> puid=xxxx;</span><br><span class="line">delete from wanted_post <span class="built_in">where</span> puid=xxxx;</span><br></pre></td></tr></table></figure>
+
+<p>同样，对于后台统计来讲，都是些聚合操作，非常消耗性能，例如查看某一用户发贴量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(*) from wanted_post <span class="built_in">where</span> user_id=xxxx;</span><br></pre></td></tr></table></figure>
 <p>上面举个通用的例子，原则上要将在线用户请求和后台统计请求分开。简单来讲，对于这种需求处理如下：</p>
 <p>将请求指向不同slave ，这种方法简单高效，缺点是数据量增大就玩不转。</p>
 <p>建立离线报表库，专门存放统计结果，这样将计算与展示异步处理，缺点是对于实时业务响应不好。</p>
@@ -394,11 +442,13 @@
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
+          
         <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
@@ -408,6 +458,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -456,7 +510,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
@@ -467,6 +521,10 @@
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 

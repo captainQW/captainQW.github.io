@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="在percona官网https:&#x2F;&#x2F;www.percona.com&#x2F;下载带有Tokudb的二进制包，也可以选择源码编译。tokudb有单独的包.我这里下载的是最新的包，5.6.25-73Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101.tar.gzPercona-Server-5.6.25-rel73.1-TokuDB.Linux.x86_64.s">
@@ -105,6 +105,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -119,25 +120,63 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-about">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">65</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">81</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -205,27 +244,37 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>在percona官网<a href="https://www.percona.com/" target="_blank" rel="external">https://www.percona.com/</a><br>下载带有Tokudb的二进制包，也可以选择源码编译。tokudb有单独的包.<br>我这里下载的是最新的包，5.6.25-73<br>Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101.tar.gz<br>Percona-Server-5.6.25-rel73.1-TokuDB.Linux.x86_64.ssl101.tar.gz</p>
-<p>###前期账号创建<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; groupadd mysql</div><div class="line">shell&gt; useradd -g mysql mysql</div></pre></td></tr></table></figure></p>
-<p>###解压软件包<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">shell&gt; cd /usr/local</div><div class="line">shell&gt; tar -zxvf Percona-Server<span class="number">-5.6</span><span class="number">.25</span>-rel73<span class="number">.1</span>-Linux.x86_64.ssl101.tar.gz</div><div class="line">shell&gt; tar -zxvf Percona-Server<span class="number">-5.6</span><span class="number">.25</span>-rel73<span class="number">.1</span>-TokuDB.Linux.x86_64.ssl101.tar.gz</div><div class="line">shell&gt; ln -s Percona-Server<span class="number">-5.6</span><span class="number">.25</span>-rel73<span class="number">.1</span>-Linux.x86_64.ssl101 mysql</div></pre></td></tr></table></figure></p>
-<p>###设置权限<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt; cd mysql</div><div class="line">shell&gt; chown -R mysql .</div><div class="line">shell&gt; chgrp -R mysql .</div></pre></td></tr></table></figure></p>
+        <p>在percona官网<a target="_blank" rel="noopener" href="https://www.percona.com/">https://www.percona.com/</a><br>下载带有Tokudb的二进制包，也可以选择源码编译。tokudb有单独的包.<br>我这里下载的是最新的包，5.6.25-73<br>Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101.tar.gz<br>Percona-Server-5.6.25-rel73.1-TokuDB.Linux.x86_64.ssl101.tar.gz</p>
+<p>###前期账号创建</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; groupadd mysql</span><br><span class="line">shell&gt; useradd -g mysql mysql</span><br></pre></td></tr></table></figure>
+
+<p>###解压软件包</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; cd /usr/local</span><br><span class="line">shell&gt; tar -zxvf Percona-Server-<span class="number">5.6</span>.<span class="number">25</span>-rel73.<span class="number">1</span>-Linux.x86_64.ssl101.tar.gz</span><br><span class="line">shell&gt; tar -zxvf Percona-Server-<span class="number">5.6</span>.<span class="number">25</span>-rel73.<span class="number">1</span>-TokuDB.Linux.x86_64.ssl101.tar.gz</span><br><span class="line">shell&gt; ln -s Percona-Server-<span class="number">5.6</span>.<span class="number">25</span>-rel73.<span class="number">1</span>-Linux.x86_64.ssl101 mysql</span><br></pre></td></tr></table></figure>
+
+<p>###设置权限</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; cd mysql</span><br><span class="line">shell&gt; chown -R mysql .</span><br><span class="line">shell&gt; chgrp -R mysql .</span><br></pre></td></tr></table></figure>
+
 <p>###创建配置文件/etc/my.cnf<br>创建存放数据源的目录</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Shell&gt; mkdir -p /<span class="keyword">var</span>/lib/mysql</div><div class="line">Shell&gt; mkdir -p /data/mysqldata /data/mysqllog</div><div class="line">Shell&gt; chown -R mysql:mysql /<span class="keyword">var</span>/lib/mysql /data/mysqldata /data/mysqllog</div></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Shell&gt; mkdir -p /<span class="keyword">var</span>/lib/mysql</span><br><span class="line">Shell&gt; mkdir -p /data/mysqldata /data/mysqllog</span><br><span class="line">Shell&gt; chown -R mysql:mysql /<span class="keyword">var</span>/lib/mysql /data/mysqldata /data/mysqllog</span><br></pre></td></tr></table></figure>
+
 <p>在附件中给出，请参考附配置文件内容</p>
 <p>###初始化DB</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Shell&gt; scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf</div><div class="line">shell&gt; chown -R root .</div></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Shell&gt; scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf</span><br><span class="line">shell&gt; chown -R root .</span><br></pre></td></tr></table></figure>
+
 <p>###修改系统参数</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag</div></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag</span><br><span class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled</span><br><span class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag</span><br></pre></td></tr></table></figure>
 <p>建议写到 /etc/rc.local 中，重启后也可生效</p>
 <p>###启动数据库</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell&gt; bin/mysqld_safe --user=mysql &amp;</div></pre></td></tr></table></figure>
-<p>###把启动文件放去自启动中</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</div><div class="line">chkconfig --add mysqld</div><div class="line">service mysqld start</div><div class="line">service mysqld stop</div></pre></td></tr></table></figure>
-<p>然后启动。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show engines;</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Engine             | Support | Comment                                                                    | Transactions | XA   | Savepoints |</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| InnoDB             | <span class="keyword">DEFAULT</span> | Percona-XtraDB, Supports transactions, row-level locking, <span class="keyword">and</span> foreign keys | YES          | YES  | YES        |</div><div class="line">| CSV                | YES     | CSV storage engine                                                         | NO           | NO   | NO         |</div><div class="line">| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                                      | NO           | NO   | NO         |</div><div class="line">| BLACKHOLE          | YES     | /dev/<span class="keyword">null</span> storage engine (anything you write to it disappears)             | NO           | NO   | NO         |</div><div class="line">| MEMORY             | YES     | Hash based, stored in memory, useful <span class="keyword">for</span> temporary tables                  | NO           | NO   | NO         |</div><div class="line">| TokuDB             | YES     | Tokutek TokuDB Storage Engine with Fractal Tree(tm) Technology             | YES          | YES  | YES        |</div><div class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                         | NO           | NO   | NO         |</div><div class="line">| ARCHIVE            | YES     | Archive storage engine                                                     | NO           | NO   | NO         |</div><div class="line">| MyISAM             | YES     | MyISAM storage engine                                                      | NO           | NO   | NO         |</div><div class="line">| FEDERATED          | NO      | Federated MySQL storage engine                                             | <span class="keyword">NULL</span>         | <span class="keyword">NULL</span> | <span class="keyword">NULL</span>       |</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line"><span class="number">10</span> rows in set (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>看到上面一行红字就代表数据库支持TokuDB的存储引擎了。</p>
-<p>tokudb安装顺利完成，后附配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">[root@localhost mysql]<span class="comment"># cat /etc/my.cnf </span></div><div class="line">[mysqld]</div><div class="line">datadir=/var/lib/mysql</div><div class="line">socket=/var/lib/mysql/mysql.sock</div><div class="line">user=mysql</div><div class="line"><span class="comment"># Disabling symbolic-links is recommended to prevent assorted security risks</span></div><div class="line">symbolic-links=0</div><div class="line"><span class="comment">#public</span></div><div class="line">max_connections=3000</div><div class="line">max_connect_errors=6000</div><div class="line">key_buffer_size = 384M</div><div class="line">low_priority_updates = 1</div><div class="line">back_log = 1500</div><div class="line">query_cache_type = 1</div><div class="line">query_cache_size = 64M</div><div class="line">query_cache_limit = 4M</div><div class="line">query_cache_min_res_unit = 2k</div><div class="line">tmp_table_size = 256M</div><div class="line">read_buffer_size=1M</div><div class="line">read_rnd_buffer_size = 16M</div><div class="line">bulk_insert_buffer_size = 64M</div><div class="line">max_allowed_packet = 64M</div><div class="line">thread_cache_size = 300</div><div class="line"><span class="comment">#file</span></div><div class="line">innodb_file_per_table</div><div class="line"><span class="comment">#buffer</span></div><div class="line">innodb_buffer_pool_size = 2500M</div><div class="line">innodb_log_buffer_size = 64M</div><div class="line">join_buffer_size = 16M</div><div class="line">sort_buffer_size = 16M</div><div class="line">innodb_max_dirty_pages_pct = 90</div><div class="line">innodb_lock_wait_timeout = 120</div><div class="line">innodb_thread_concurrency = 16</div><div class="line">innodb_flush_log_at_trx_commit = 2</div><div class="line">character_set_server=utf8</div><div class="line">init_connect=<span class="string">'SET NAMES utf8'</span></div><div class="line"></div><div class="line"><span class="comment">#tokudb</span></div><div class="line">plugin_dir =  /usr/<span class="built_in">local</span>/mysql/lib/mysql/plugin/</div><div class="line">plugin_load=ha_tokudb.so</div><div class="line"><span class="comment">#把TokuDB datadir以及logdir和MySQL的datadir分开，美观点，也可以不分开，注释掉本行以及下面2行即可</span></div><div class="line">tokudb_data-dir = /data/mysqldata</div><div class="line">tokudb_log-dir = /data/mysqllog</div><div class="line"><span class="comment">#TokuDB的行模式，建议用 FAST 就足够了，如果磁盘空间很紧张，建议用 SMALL</span></div><div class="line">tokudb_row_format = tokudb_small</div><div class="line">tokudb_row_format = tokudb_fast</div><div class="line">tokudb_cache_size = 2G</div><div class="line"><span class="comment">#其他大部分配置其实可以不用修改的，只需要几个关键配置即可</span></div><div class="line">tokudb_commit_sync = 0</div><div class="line">tokudb_directio = 1</div><div class="line">tokudb_read_block_size = 128K</div><div class="line">tokudb_read_buf_size = 128K</div><div class="line"></div><div class="line">[mysqld_safe]</div><div class="line"><span class="built_in">log</span>-error=/var/<span class="built_in">log</span>/mysqld.log</div><div class="line">pid-file=/var/run/mysqld/mysqld.pid</div><div class="line">malloc_lib = /usr/<span class="built_in">local</span>/mysql/lib/mysql/libjemalloc.so <span class="comment">#只能放在mysqld_safe中，不得报错</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; bin/mysqld_safe --user=mysql &amp;</span><br></pre></td></tr></table></figure>
 
+<p>###把启动文件放去自启动中</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</span><br><span class="line">chkconfig --add mysqld</span><br><span class="line">service mysqld start</span><br><span class="line">service mysqld stop</span><br></pre></td></tr></table></figure>
+
+<p>然后启动。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show engines;</span><br><span class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span><br><span class="line">| Engine             | Support | Comment                                                                    | Transactions | XA   | Savepoints |</span><br><span class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span><br><span class="line">| InnoDB             | <span class="keyword">DEFAULT</span> | Percona-XtraDB, Supports transactions, row-level locking, <span class="keyword">and</span> foreign keys | YES          | YES  | YES        |</span><br><span class="line">| CSV                | YES     | CSV storage engine                                                         | NO           | NO   | NO         |</span><br><span class="line">| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                                      | NO           | NO   | NO         |</span><br><span class="line">| BLACKHOLE          | YES     | /dev/<span class="literal">null</span> storage engine (anything you write to it disappears)             | NO           | NO   | NO         |</span><br><span class="line">| MEMORY             | YES     | Hash based, stored in memory, useful <span class="keyword">for</span> temporary tables                  | NO           | NO   | NO         |</span><br><span class="line">| TokuDB             | YES     | Tokutek TokuDB Storage Engine with Fractal Tree(tm) Technology             | YES          | YES  | YES        |</span><br><span class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                         | NO           | NO   | NO         |</span><br><span class="line">| ARCHIVE            | YES     | Archive storage engine                                                     | NO           | NO   | NO         |</span><br><span class="line">| MyISAM             | YES     | MyISAM storage engine                                                      | NO           | NO   | NO         |</span><br><span class="line">| FEDERATED          | NO      | Federated MySQL storage engine                                             | <span class="literal">NULL</span>         | <span class="literal">NULL</span> | <span class="literal">NULL</span>       |</span><br><span class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span><br><span class="line"><span class="number">10</span> rows in set (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+<p>看到上面一行红字就代表数据库支持TokuDB的存储引擎了。</p>
+<p>tokudb安装顺利完成，后附配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost mysql]<span class="comment"># cat /etc/my.cnf </span></span><br><span class="line">[mysqld]</span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line">user=mysql</span><br><span class="line"><span class="comment"># Disabling symbolic-links is recommended to prevent assorted security risks</span></span><br><span class="line">symbolic-links=0</span><br><span class="line"><span class="comment">#public</span></span><br><span class="line">max_connections=3000</span><br><span class="line">max_connect_errors=6000</span><br><span class="line">key_buffer_size = 384M</span><br><span class="line">low_priority_updates = 1</span><br><span class="line">back_log = 1500</span><br><span class="line">query_cache_type = 1</span><br><span class="line">query_cache_size = 64M</span><br><span class="line">query_cache_limit = 4M</span><br><span class="line">query_cache_min_res_unit = 2k</span><br><span class="line">tmp_table_size = 256M</span><br><span class="line">read_buffer_size=1M</span><br><span class="line">read_rnd_buffer_size = 16M</span><br><span class="line">bulk_insert_buffer_size = 64M</span><br><span class="line">max_allowed_packet = 64M</span><br><span class="line">thread_cache_size = 300</span><br><span class="line"><span class="comment">#file</span></span><br><span class="line">innodb_file_per_table</span><br><span class="line"><span class="comment">#buffer</span></span><br><span class="line">innodb_buffer_pool_size = 2500M</span><br><span class="line">innodb_log_buffer_size = 64M</span><br><span class="line">join_buffer_size = 16M</span><br><span class="line">sort_buffer_size = 16M</span><br><span class="line">innodb_max_dirty_pages_pct = 90</span><br><span class="line">innodb_lock_wait_timeout = 120</span><br><span class="line">innodb_thread_concurrency = 16</span><br><span class="line">innodb_flush_log_at_trx_commit = 2</span><br><span class="line">character_set_server=utf8</span><br><span class="line">init_connect=<span class="string">&#x27;SET NAMES utf8&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#tokudb</span></span><br><span class="line">plugin_dir =  /usr/<span class="built_in">local</span>/mysql/lib/mysql/plugin/</span><br><span class="line">plugin_load=ha_tokudb.so</span><br><span class="line"><span class="comment">#把TokuDB datadir以及logdir和MySQL的datadir分开，美观点，也可以不分开，注释掉本行以及下面2行即可</span></span><br><span class="line">tokudb_data-dir = /data/mysqldata</span><br><span class="line">tokudb_log-dir = /data/mysqllog</span><br><span class="line"><span class="comment">#TokuDB的行模式，建议用 FAST 就足够了，如果磁盘空间很紧张，建议用 SMALL</span></span><br><span class="line">tokudb_row_format = tokudb_small</span><br><span class="line">tokudb_row_format = tokudb_fast</span><br><span class="line">tokudb_cache_size = 2G</span><br><span class="line"><span class="comment">#其他大部分配置其实可以不用修改的，只需要几个关键配置即可</span></span><br><span class="line">tokudb_commit_sync = 0</span><br><span class="line">tokudb_directio = 1</span><br><span class="line">tokudb_read_block_size = 128K</span><br><span class="line">tokudb_read_buf_size = 128K</span><br><span class="line"></span><br><span class="line">[mysqld_safe]</span><br><span class="line">log-error=/var/<span class="built_in">log</span>/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line">malloc_lib = /usr/<span class="built_in">local</span>/mysql/lib/mysql/libjemalloc.so <span class="comment">#只能放在mysqld_safe中，不得报错</span></span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -327,11 +376,13 @@
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
+          
         <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
@@ -341,6 +392,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -389,7 +444,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
@@ -400,6 +455,10 @@
   
 
 
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
