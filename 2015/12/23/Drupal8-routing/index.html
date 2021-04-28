@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Suche...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
 <meta name="description" content="Drupal8的路由控制系统跟Drupal7完全不同，在drupal7中，路由一般是定义在module文件的hook_menu中，如链接、访问控制、回调方法等。而drupal8由于包含了Symfony2的路由组件（Symfony2 Routing component），一般定义在{module_name}.routing.yml中。 本文介绍如何创建一个路由控制器，并如何使用依赖注入(DI)。 下">
 <meta property="og:type" content="article">
@@ -103,7 +103,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Navigationsleiste an/ausschalten" role="button">
+    <div class="toggle" aria-label="تشغيل شريط التصفح" role="button">
     </div>
   </div>
 
@@ -143,10 +143,10 @@
     <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
-          Inhaltsverzeichnis
+          المحتويات
         </li>
         <li class="sidebar-nav-overview">
-          Übersicht
+          عام
         </li>
       </ul>
 
@@ -166,18 +166,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives">
           <span class="site-state-item-count">80</span>
-          <span class="site-state-item-name">Artikel</span>
+          <span class="site-state-item-name">المقالات</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
         <span class="site-state-item-count">14</span>
-        <span class="site-state-item-name">Kategorien</span></a>
+        <span class="site-state-item-name">التصنيفات</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
         <span class="site-state-item-count">64</span>
-        <span class="site-state-item-name">schlagwörter</span></a>
+        <span class="site-state-item-name">الوسوم</span></a>
       </div>
   </nav>
 </div>
@@ -237,22 +237,22 @@
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
-      <span class="post-meta-item-text">Veröffentlicht am</span>
+      <span class="post-meta-item-text">نُشر في</span>
 
-      <time title="Erstellt: 2015-12-23 16:01:09" itemprop="dateCreated datePublished" datetime="2015-12-23T16:01:09+08:00">2015-12-23</time>
+      <time title="أُنشأ: 2015-12-23 16:01:09" itemprop="dateCreated datePublished" datetime="2015-12-23T16:01:09+08:00">2015-12-23</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
-        <span class="post-meta-item-text">Bearbeitet am</span>
-        <time title="Geändert am: 2015-12-24 15:44:45" itemprop="dateModified" datetime="2015-12-24T15:44:45+08:00">2015-12-24</time>
+        <span class="post-meta-item-text">عُدل في</span>
+        <time title="عُدل: 2015-12-24 15:44:45" itemprop="dateModified" datetime="2015-12-24T15:44:45+08:00">2015-12-24</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">in</span>
+      <span class="post-meta-item-text">في</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
           <a href="/categories/Drupal8/" itemprop="url" rel="index"><span itemprop="name">Drupal8</span></a>
         </span>
@@ -378,7 +378,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">RamboLau</span>
 </div>
-  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
   </div>
 
     </div>
