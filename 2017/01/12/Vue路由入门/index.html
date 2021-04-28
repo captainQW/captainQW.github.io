@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-
-
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -15,15 +13,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
-
-<script class="hexo-configurations">
+<script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
-<meta name="description" content="1、概述Vue路由（vue-router）是Vue用来创建单页应用的第三方库，使用vue-router可以很方便的创建无刷新切换页面的应用。vue-router基于vue的组件系统（不熟悉组件请先学习Vue组件），要使用vue-router只需要将路径和组件建立对应关系，这样路由系统就知道哪个路径需要渲染哪个组件。 2、开始在开始写第一个路由示例之前，我们先来了解一些基本概念。（1）路由路由即ur">
+
+  <meta name="description" content="1、概述Vue路由（vue-router）是Vue用来创建单页应用的第三方库，使用vue-router可以很方便的创建无刷新切换页面的应用。vue-router基于vue的组件系统（不熟悉组件请先学习Vue组件），要使用vue-router只需要将路径和组件建立对应关系，这样路由系统就知道哪个路径需要渲染哪个组件。 2、开始在开始写第一个路由示例之前，我们先来了解一些基本概念。（1）路由路由即ur">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue路由入门">
 <meta property="og:url" content="http://verynull.com/2017/01/12/Vue%E8%B7%AF%E7%94%B1%E5%85%A5%E9%97%A8/index.html">
@@ -36,11 +33,10 @@
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary">
 
-
 <link rel="canonical" href="http://verynull.com/2017/01/12/Vue%E8%B7%AF%E7%94%B1%E5%85%A5%E9%97%A8/">
 
 
-<script class="page-configurations">
+<script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
@@ -49,66 +45,60 @@
     lang   : 'zh-Hans'
   };
 </script>
-<title>Vue路由入门 | Lau's Blog</title>
+
+  <title>Vue路由入门 | Lau's Blog</title>
   
+
+
 
 
 
 
   <noscript>
   <style>
-  body { margin-top: 2rem; }
-
+  .use-motion .brand,
   .use-motion .menu-item,
-  .use-motion .sidebar,
+  .sidebar-inner,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header {
-    visibility: visible;
-  }
-
-  .use-motion .header,
-  .use-motion .site-brand-container .toggle,
-  .use-motion .footer { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle,
-  .use-motion .custom-logo-image {
+  .use-motion .site-subtitle {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line {
-    transform: scaleX(1);
-  }
-
-  .search-pop-overlay, .sidebar-nav { display: none; }
-  .sidebar-panel { display: block; }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="تشغيل شريط التصفح" role="button">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">Lau's Blog</h1>
-      <i class="logo-line"></i>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">记录生活，分享知识，传播乐趣</p>
   </div>
@@ -122,96 +112,46 @@
 
 
 
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
 
 
 
 </div>
-        
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          المحتويات
-        </li>
-        <li class="sidebar-nav-overview">
-          عام
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">1、概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%BC%80%E5%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">2、开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="nav-number">3.</span> <span class="nav-text">动态路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E8%B7%AF%E7%94%B1"><span class="nav-number">4.</span> <span class="nav-text">嵌套路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E5%BC%8F%E7%9A%84%E5%AF%BC%E8%88%AA"><span class="nav-number">5.</span> <span class="nav-text">编程式的导航</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#router-push-location"><span class="nav-number">5.1.</span> <span class="nav-text">router.push(location)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#router-replace-location"><span class="nav-number">5.2.</span> <span class="nav-text">router.replace(location)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#router-go-n"><span class="nav-number">5.3.</span> <span class="nav-text">router.go(n)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E8%B7%AF%E7%94%B1"><span class="nav-number">6.</span> <span class="nav-text">命名路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E8%A7%86%E5%9B%BE"><span class="nav-number">7.</span> <span class="nav-text">命名视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91-%E5%92%8C-%E5%88%AB%E5%90%8D"><span class="nav-number">8.</span> <span class="nav-text">重定向 和 别名</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">8.1.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%AB%E5%90%8D"><span class="nav-number">8.2.</span> <span class="nav-text">别名</span></a></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">RamboLau</p>
-  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
-</div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">80</span>
-          <span class="site-state-item-name">المقالات</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">14</span>
-        <span class="site-state-item-name">التصنيفات</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-        <span class="site-state-item-count">64</span>
-        <span class="site-state-item-name">الوسوم</span></a>
-      </div>
-  </nav>
-</div>
-
-
-
-        </div>
-      </div>
-    </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
     </header>
 
     
-  <div class="back-to-top" role="button" aria-label="Back to top">
+  <div class="back-to-top">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    <div class="main-inner post posts-expand">
+          <div class="content post posts-expand">
+            
 
-
-  
-
-
-<div class="post-block">
+    
   
   
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://verynull.com/2017/01/12/Vue%E8%B7%AF%E7%94%B1%E5%85%A5%E9%97%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -228,35 +168,33 @@
           Vue路由入门
         </h1>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">نُشر في</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="أُنشأ: 2017-01-12 10:46:27" itemprop="dateCreated datePublished" datetime="2017-01-12T10:46:27+08:00">2017-01-12</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">عُدل في</span>
-        <time title="عُدل: 2017-02-18 15:06:44" itemprop="dateModified" datetime="2017-02-18T15:06:44+08:00">2017-02-18</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">في</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Vue/" itemprop="url" rel="index"><span itemprop="name">Vue</span></a>
-        </span>
-    </span>
+              <time title="Created: 2017-01-12 10:46:27" itemprop="dateCreated datePublished" datetime="2017-01-12T10:46:27+08:00">2017-01-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-02-18 15:06:44" itemprop="dateModified" datetime="2017-02-18T15:06:44+08:00">2017-02-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue/" itemprop="url" rel="index"><span itemprop="name">Vue</span></a>
+                </span>
+            </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -265,6 +203,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
         <h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><p>Vue路由（vue-router）是Vue用来创建单页应用的第三方库，使用vue-router可以很方便的创建无刷新切换页面的应用。vue-router基于vue的组件系统（不熟悉组件请先学习Vue组件），要使用vue-router只需要将路径和组件建立对应关系，这样路由系统就知道哪个路径需要渲染哪个组件。</p>
 <h3 id="2、开始"><a href="#2、开始" class="headerlink" title="2、开始"></a>2、开始</h3><p>在开始写第一个路由示例之前，我们先来了解一些基本概念。<br>（1）路由<br>路由即url路径和组件之间的对应关系。<br>（2）router-link组件<br> router-link组件即页面上连接到某个路由的超链接，最终渲染后会变成a标签。比如我需要在页面上设置连接到/profile/user的超链接，则只要在页面放上&lt;router-link to=”/profile/user”&gt;用户列表&lt;/router-link&gt;就行了。<br> （3）router-view组件<br> router-view组件是路由组件渲染的容器，一旦路由匹配到了，vue就会将路由对应的组件渲染到router-view标签所在的位置。比如点击上例中的profile/user超链接，vue首先查找profile/user对应的路由是什么，查找到后再找出路由对应的组件，然后将组件渲染到router-view标签。</p>
 <p>了解上述概念之后，我们可以开始写我们的第一个路由示例，我们首先创建index.html,代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;h1&gt;Hello App!&lt;/h1&gt;</div><div class="line">  &lt;p&gt;</div><div class="line">    &lt;!-- 使用 router-link 组件来导航. --&gt;</div><div class="line">    &lt;!-- 通过传入 `to` 属性指定链接. --&gt;</div><div class="line">    &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;</div><div class="line">    &lt;router-link to=&quot;/profile/user&quot;&gt;用户列表&lt;/router-link&gt;</div><div class="line">  &lt;/p&gt;</div><div class="line">  &lt;!-- 路由出口 --&gt;</div><div class="line">  &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;</div><div class="line">  &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;!-- 注意，这里引入vue-router.js对于script方式引入文件的方式是必不可少的.我们以后再讨论使用ES6模块引入的方式 --&gt;</div><div class="line">&lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;!-- 应用入口文件 --&gt;</div><div class="line">&lt;script src=&quot;/js/app.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure></p>
@@ -295,34 +235,36 @@
     
     
 
-    <footer class="post-footer">
+      <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Vue/" rel="tag"># Vue</a>
           </div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2016/12/21/git%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" rel="prev" title="git自动化部属">
-                  <i class="fa fa-chevron-left"></i> git自动化部属
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2017/01/15/Vue%E8%B7%AF%E7%94%B1%E8%BF%9B%E9%98%B6/" rel="next" title="Vue路由进阶">
-                  Vue路由进阶 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/12/21/git%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" rel="prev" title="git自动化部属">
+      <i class="fa fa-chevron-left"></i> git自动化部属
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/01/15/Vue%E8%B7%AF%E7%94%B1%E8%BF%9B%E9%98%B6/" rel="next" title="Vue路由进阶">
+      Vue路由进阶 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
-</div>
+  
+  
+  
 
 
 
-
-
-
+          </div>
+          
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -331,7 +273,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -340,19 +282,86 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      const commentClass = event.target.classList[1];
+      let commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">1、概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%BC%80%E5%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">2、开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="nav-number">3.</span> <span class="nav-text">动态路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E8%B7%AF%E7%94%B1"><span class="nav-number">4.</span> <span class="nav-text">嵌套路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E5%BC%8F%E7%9A%84%E5%AF%BC%E8%88%AA"><span class="nav-number">5.</span> <span class="nav-text">编程式的导航</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#router-push-location"><span class="nav-number">5.1.</span> <span class="nav-text">router.push(location)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#router-replace-location"><span class="nav-number">5.2.</span> <span class="nav-text">router.replace(location)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#router-go-n"><span class="nav-number">5.3.</span> <span class="nav-text">router.go(n)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E8%B7%AF%E7%94%B1"><span class="nav-number">6.</span> <span class="nav-text">命名路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E8%A7%86%E5%9B%BE"><span class="nav-number">7.</span> <span class="nav-text">命名视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91-%E5%92%8C-%E5%88%AB%E5%90%8D"><span class="nav-number">8.</span> <span class="nav-text">重定向 和 别名</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">8.1.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%AB%E5%90%8D"><span class="nav-number">8.2.</span> <span class="nav-text">别名</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RamboLau</p>
+  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
 </div>
-  </main>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
 
-  <footer class="footer">
-    <div class="footer-inner">
 
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
 
 <div class="copyright">
+  
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
@@ -360,28 +369,57 @@
   </span>
   <span class="author" itemprop="copyrightHolder">RamboLau</span>
 </div>
-  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
   </div>
 
-    </div>
-  </footer>
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
 
-
-
-
-
-
   
-
-
-
-
 
 </body>
 </html>

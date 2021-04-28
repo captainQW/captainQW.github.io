@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-
-
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -15,15 +13,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
-
-<script class="hexo-configurations">
+<script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
-<meta name="description" content="记录生活，分享知识，传播乐趣">
+
+  <meta name="description" content="记录生活，分享知识，传播乐趣">
 <meta property="og:type" content="website">
 <meta property="og:title" content="标签">
 <meta property="og:url" content="http://verynull.com/tags/index.html">
@@ -35,11 +32,10 @@
 <meta property="article:author" content="RamboLau">
 <meta name="twitter:card" content="summary">
 
-
 <link rel="canonical" href="http://verynull.com/tags/">
 
 
-<script class="page-configurations">
+<script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
@@ -48,67 +44,61 @@
     lang   : 'zh-Hans'
   };
 </script>
-<title>标签 | Lau's Blog
+
+  <title>标签 | Lau's Blog
 </title>
   
 
 
 
 
+
+
   <noscript>
   <style>
-  body { margin-top: 2rem; }
-
+  .use-motion .brand,
   .use-motion .menu-item,
-  .use-motion .sidebar,
+  .sidebar-inner,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header {
-    visibility: visible;
-  }
-
-  .use-motion .header,
-  .use-motion .site-brand-container .toggle,
-  .use-motion .footer { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle,
-  .use-motion .custom-logo-image {
+  .use-motion .site-subtitle {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line {
-    transform: scaleX(1);
-  }
-
-  .search-pop-overlay, .sidebar-nav { display: none; }
-  .sidebar-panel { display: block; }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="تشغيل شريط التصفح" role="button">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">Lau's Blog</h1>
-      <i class="logo-line"></i>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">记录生活，分享知识，传播乐趣</p>
   </div>
@@ -122,121 +112,87 @@
 
 
 
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
 
 
 
 </div>
-        
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-overview-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          المحتويات
-        </li>
-        <li class="sidebar-nav-overview">
-          عام
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">RamboLau</p>
-  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
-</div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">80</span>
-          <span class="site-state-item-name">المقالات</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">14</span>
-        <span class="site-state-item-name">التصنيفات</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-        <span class="site-state-item-count">64</span>
-        <span class="site-state-item-name">الوسوم</span></a>
-      </div>
-  </nav>
-</div>
-
-
-
-        </div>
-      </div>
-    </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
     </header>
 
     
-  <div class="back-to-top" role="button" aria-label="Back to top">
+  <div class="back-to-top">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
 
-    <div class="main-inner page posts-expand">
-
+          <div class="content page posts-expand">
+            
 
     
     
     
-    <div class="post-block" lang="zh-Hans"><header class="post-header">
+    <div class="post-block" lang="zh-Hans">
+      <header class="post-header">
 
 <h1 class="post-title" itemprop="name headline">标签
 </h1>
 
-<div class="post-meta-container">
+<div class="post-meta">
+  
+
 </div>
 
 </header>
 
       
       
-      <div class="post-body"><div class="tag-cloud">
-  <div class="tag-cloud-title">
-    64 وسماً بالمُجمل
-  </div>
-  <div class="tag-cloud-tags">
-    <a href="/tags/ColumnStore/" style="font-size: 12px;" class="tag-cloud-0">ColumnStore</a> <a href="/tags/Raw-POST/" style="font-size: 12px;" class="tag-cloud-0">Raw POST</a> <a href="/tags/Service-DependencyInjection/" style="font-size: 12px;" class="tag-cloud-0">Service_DependencyInjection</a> <a href="/tags/Vue/" style="font-size: 24px;" class="tag-cloud-7">Vue</a> <a href="/tags/WEB%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">WEB性能优化</a> <a href="/tags/angularjs/" style="font-size: 12px;" class="tag-cloud-0">angularjs</a> <a href="/tags/annotation/" style="font-size: 12px;" class="tag-cloud-0">annotation</a> <a href="/tags/apc/" style="font-size: 12px;" class="tag-cloud-0">apc</a> <a href="/tags/cdn-real-ip/" style="font-size: 12px;" class="tag-cloud-0">cdn_real_ip</a> <a href="/tags/clickhouse/" style="font-size: 12px;" class="tag-cloud-0">clickhouse</a> <a href="/tags/code-review/" style="font-size: 12px;" class="tag-cloud-0">code_review</a> <a href="/tags/configuration-schema/" style="font-size: 12px;" class="tag-cloud-0">configuration schema</a> <a href="/tags/controller/" style="font-size: 12px;" class="tag-cloud-0">controller</a> <a href="/tags/css/" style="font-size: 12px;" class="tag-cloud-0">css</a> <a href="/tags/database/" style="font-size: 12px;" class="tag-cloud-0">database</a> <a href="/tags/drupal/" style="font-size: 24px;" class="tag-cloud-7">drupal</a> <a href="/tags/drupal7%E8%A1%A8%E5%8D%95/" style="font-size: 12px;" class="tag-cloud-0">drupal7表单</a> <a href="/tags/drupal7%E9%85%8D%E7%BD%AE/" style="font-size: 12px;" class="tag-cloud-0">drupal7配置</a> <a href="/tags/drupal8/" style="font-size: 30px;" class="tag-cloud-10">drupal8</a> <a href="/tags/drupalconsole/" style="font-size: 12px;" class="tag-cloud-0">drupalconsole</a> <a href="/tags/drush/" style="font-size: 24px;" class="tag-cloud-7">drush</a> <a href="/tags/entity/" style="font-size: 24px;" class="tag-cloud-7">entity</a> <a href="/tags/form/" style="font-size: 12px;" class="tag-cloud-0">form</a> <a href="/tags/gdb/" style="font-size: 12px;" class="tag-cloud-0">gdb</a> <a href="/tags/git/" style="font-size: 12px;" class="tag-cloud-0">git</a> <a href="/tags/gitignore/" style="font-size: 12px;" class="tag-cloud-0">gitignore</a> <a href="/tags/haproxy/" style="font-size: 12px;" class="tag-cloud-0">haproxy</a> <a href="/tags/hook-form/" style="font-size: 12px;" class="tag-cloud-0">hook_form</a> <a href="/tags/ie/" style="font-size: 12px;" class="tag-cloud-0">ie</a> <a href="/tags/infiniDB/" style="font-size: 12px;" class="tag-cloud-0">infiniDB</a> <a href="/tags/ios/" style="font-size: 12px;" class="tag-cloud-0">ios</a> <a href="/tags/javascript/" style="font-size: 12px;" class="tag-cloud-0">javascript</a> <a href="/tags/jquery/" style="font-size: 12px;" class="tag-cloud-0">jquery</a> <a href="/tags/module/" style="font-size: 12px;" class="tag-cloud-0">module</a> <a href="/tags/mysql-MHA/" style="font-size: 12px;" class="tag-cloud-0">mysql MHA</a> <a href="/tags/mysql-install/" style="font-size: 12px;" class="tag-cloud-0">mysql_install</a> <a href="/tags/namespace/" style="font-size: 12px;" class="tag-cloud-0">namespace</a> <a href="/tags/netstat/" style="font-size: 12px;" class="tag-cloud-0">netstat</a> <a href="/tags/oop/" style="font-size: 12px;" class="tag-cloud-0">oop</a> <a href="/tags/oracle/" style="font-size: 12px;" class="tag-cloud-0">oracle</a> <a href="/tags/phantomjs/" style="font-size: 12px;" class="tag-cloud-0">phantomjs</a> <a href="/tags/php-trait/" style="font-size: 12px;" class="tag-cloud-0">php trait</a> <a href="/tags/php7/" style="font-size: 12px;" class="tag-cloud-0">php7</a> <a href="/tags/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91/" style="font-size: 12px;" class="tag-cloud-0">php扩展开发</a> <a href="/tags/queue/" style="font-size: 12px;" class="tag-cloud-0">queue</a> <a href="/tags/routing/" style="font-size: 12px;" class="tag-cloud-0">routing</a> <a href="/tags/rsync/" style="font-size: 12px;" class="tag-cloud-0">rsync</a> <a href="/tags/sqlite/" style="font-size: 12px;" class="tag-cloud-0">sqlite</a> <a href="/tags/sublime-text/" style="font-size: 12px;" class="tag-cloud-0">sublime text</a> <a href="/tags/swap/" style="font-size: 12px;" class="tag-cloud-0">swap</a> <a href="/tags/sysbench/" style="font-size: 18px;" class="tag-cloud-3">sysbench</a> <a href="/tags/theme/" style="font-size: 12px;" class="tag-cloud-0">theme</a> <a href="/tags/tokudb/" style="font-size: 24px;" class="tag-cloud-7">tokudb</a> <a href="/tags/twig/" style="font-size: 12px;" class="tag-cloud-0">twig</a> <a href="/tags/vim/" style="font-size: 18px;" class="tag-cloud-3">vim</a> <a href="/tags/vue/" style="font-size: 18px;" class="tag-cloud-3">vue</a> <a href="/tags/web/" style="font-size: 12px;" class="tag-cloud-0">web</a> <a href="/tags/windows/" style="font-size: 12px;" class="tag-cloud-0">windows</a> <a href="/tags/yuicompressor/" style="font-size: 12px;" class="tag-cloud-0">yuicompressor</a> <a href="/tags/yum/" style="font-size: 18px;" class="tag-cloud-3">yum</a> <a href="/tags/%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB/" style="font-size: 12px;" class="tag-cloud-0">动静分离</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/" style="font-size: 18px;" class="tag-cloud-3">数据库设计</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 18px;" class="tag-cloud-3">测试</a> <a href="/tags/%E8%BF%9B%E7%A8%8B/" style="font-size: 12px;" class="tag-cloud-0">进程</a>
-  </div>
-</div>
-
+      
+      <div class="post-body">
+          <div class="tag-cloud">
+            <div class="tag-cloud-title">
+              65 tags in total
+            </div>
+            <div class="tag-cloud-tags">
+              <a href="/tags/ColumnStore/" style="font-size: 12px; color: #ccc">ColumnStore</a> <a href="/tags/Raw-POST/" style="font-size: 12px; color: #ccc">Raw POST</a> <a href="/tags/Service-DependencyInjection/" style="font-size: 12px; color: #ccc">Service_DependencyInjection</a> <a href="/tags/Vue/" style="font-size: 24px; color: #4f4f4f">Vue</a> <a href="/tags/WEB%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" style="font-size: 12px; color: #ccc">WEB性能优化</a> <a href="/tags/angularjs/" style="font-size: 12px; color: #ccc">angularjs</a> <a href="/tags/annotation/" style="font-size: 12px; color: #ccc">annotation</a> <a href="/tags/apc/" style="font-size: 12px; color: #ccc">apc</a> <a href="/tags/cdn-real-ip/" style="font-size: 12px; color: #ccc">cdn_real_ip</a> <a href="/tags/clickhouse/" style="font-size: 12px; color: #ccc">clickhouse</a> <a href="/tags/code-review/" style="font-size: 12px; color: #ccc">code_review</a> <a href="/tags/configuration-schema/" style="font-size: 12px; color: #ccc">configuration schema</a> <a href="/tags/controller/" style="font-size: 12px; color: #ccc">controller</a> <a href="/tags/css/" style="font-size: 12px; color: #ccc">css</a> <a href="/tags/database/" style="font-size: 12px; color: #ccc">database</a> <a href="/tags/drupal/" style="font-size: 24px; color: #4f4f4f">drupal</a> <a href="/tags/drupal7%E8%A1%A8%E5%8D%95/" style="font-size: 12px; color: #ccc">drupal7表单</a> <a href="/tags/drupal7%E9%85%8D%E7%BD%AE/" style="font-size: 12px; color: #ccc">drupal7配置</a> <a href="/tags/drupal8/" style="font-size: 30px; color: #111">drupal8</a> <a href="/tags/drupalconsole/" style="font-size: 12px; color: #ccc">drupalconsole</a> <a href="/tags/drush/" style="font-size: 24px; color: #4f4f4f">drush</a> <a href="/tags/entity/" style="font-size: 24px; color: #4f4f4f">entity</a> <a href="/tags/form/" style="font-size: 12px; color: #ccc">form</a> <a href="/tags/gdb/" style="font-size: 12px; color: #ccc">gdb</a> <a href="/tags/git/" style="font-size: 12px; color: #ccc">git</a> <a href="/tags/gitignore/" style="font-size: 12px; color: #ccc">gitignore</a> <a href="/tags/haproxy/" style="font-size: 12px; color: #ccc">haproxy</a> <a href="/tags/hook-form/" style="font-size: 12px; color: #ccc">hook_form</a> <a href="/tags/ie/" style="font-size: 12px; color: #ccc">ie</a> <a href="/tags/infiniDB/" style="font-size: 12px; color: #ccc">infiniDB</a> <a href="/tags/ios/" style="font-size: 12px; color: #ccc">ios</a> <a href="/tags/javascript/" style="font-size: 12px; color: #ccc">javascript</a> <a href="/tags/jquery/" style="font-size: 12px; color: #ccc">jquery</a> <a href="/tags/kubernetes%E5%AE%89%E8%A3%85/" style="font-size: 12px; color: #ccc">kubernetes安装</a> <a href="/tags/module/" style="font-size: 12px; color: #ccc">module</a> <a href="/tags/mysql-MHA/" style="font-size: 12px; color: #ccc">mysql MHA</a> <a href="/tags/mysql-install/" style="font-size: 12px; color: #ccc">mysql_install</a> <a href="/tags/namespace/" style="font-size: 12px; color: #ccc">namespace</a> <a href="/tags/netstat/" style="font-size: 12px; color: #ccc">netstat</a> <a href="/tags/oop/" style="font-size: 12px; color: #ccc">oop</a> <a href="/tags/oracle/" style="font-size: 12px; color: #ccc">oracle</a> <a href="/tags/phantomjs/" style="font-size: 12px; color: #ccc">phantomjs</a> <a href="/tags/php-trait/" style="font-size: 12px; color: #ccc">php trait</a> <a href="/tags/php7/" style="font-size: 12px; color: #ccc">php7</a> <a href="/tags/php%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91/" style="font-size: 12px; color: #ccc">php扩展开发</a> <a href="/tags/queue/" style="font-size: 12px; color: #ccc">queue</a> <a href="/tags/routing/" style="font-size: 12px; color: #ccc">routing</a> <a href="/tags/rsync/" style="font-size: 12px; color: #ccc">rsync</a> <a href="/tags/sqlite/" style="font-size: 12px; color: #ccc">sqlite</a> <a href="/tags/sublime-text/" style="font-size: 12px; color: #ccc">sublime text</a> <a href="/tags/swap/" style="font-size: 12px; color: #ccc">swap</a> <a href="/tags/sysbench/" style="font-size: 18px; color: #8e8e8e">sysbench</a> <a href="/tags/theme/" style="font-size: 12px; color: #ccc">theme</a> <a href="/tags/tokudb/" style="font-size: 24px; color: #4f4f4f">tokudb</a> <a href="/tags/twig/" style="font-size: 12px; color: #ccc">twig</a> <a href="/tags/vim/" style="font-size: 18px; color: #8e8e8e">vim</a> <a href="/tags/vue/" style="font-size: 18px; color: #8e8e8e">vue</a> <a href="/tags/web/" style="font-size: 12px; color: #ccc">web</a> <a href="/tags/windows/" style="font-size: 12px; color: #ccc">windows</a> <a href="/tags/yuicompressor/" style="font-size: 12px; color: #ccc">yuicompressor</a> <a href="/tags/yum/" style="font-size: 18px; color: #8e8e8e">yum</a> <a href="/tags/%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB/" style="font-size: 12px; color: #ccc">动静分离</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1/" style="font-size: 18px; color: #8e8e8e">数据库设计</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 18px; color: #8e8e8e">测试</a> <a href="/tags/%E8%BF%9B%E7%A8%8B/" style="font-size: 12px; color: #ccc">进程</a>
+            </div>
+          </div>
+        
       </div>
       
       
       
     </div>
+    
 
     
     
+    
 
 
+          </div>
+          
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -245,7 +201,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -254,19 +210,85 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      const commentClass = event.target.classList[1];
+      let commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RamboLau</p>
+  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
 </div>
-  </main>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
 
-  <footer class="footer">
-    <div class="footer-inner">
 
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
 
 <div class="copyright">
+  
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
@@ -274,28 +296,57 @@
   </span>
   <span class="author" itemprop="copyrightHolder">RamboLau</span>
 </div>
-  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
   </div>
 
-    </div>
-  </footer>
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
 
-
-
-
-
-
   
-
-
-
-
 
 </body>
 </html>

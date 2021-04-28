@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-
-
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -15,15 +13,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
-
-<script class="hexo-configurations">
+<script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
-<meta name="description" content="同步服务器192.168.1.100接收服务器192.168.1.200即把192.168.1.100的代码备份到192.168.1.200。 192.168.1.100上的配置如下：12345yum install rsync inotify-toolscrontab -e*&#x2F;59 * * * * &#x2F;bin&#x2F;sh &#x2F;usr&#x2F;local&#x2F;scripts&#x2F;rsync.sh &gt;&gt; &#x2F;var">
+
+  <meta name="description" content="同步服务器192.168.1.100接收服务器192.168.1.200即把192.168.1.100的代码备份到192.168.1.200。 192.168.1.100上的配置如下：12345yum install rsync inotify-toolscrontab -e*&#x2F;59 * * * * &#x2F;bin&#x2F;sh &#x2F;usr&#x2F;local&#x2F;scripts&#x2F;rsync.sh &gt;&gt; &#x2F;var">
 <meta property="og:type" content="article">
 <meta property="og:title" content="rsync主备代码同步">
 <meta property="og:url" content="http://verynull.com/2015/07/04/rsync%E4%B8%BB%E5%A4%87%E4%BB%A3%E7%A0%81%E5%90%8C%E6%AD%A5/index.html">
@@ -36,11 +33,10 @@
 <meta property="article:tag" content="rsync">
 <meta name="twitter:card" content="summary">
 
-
 <link rel="canonical" href="http://verynull.com/2015/07/04/rsync%E4%B8%BB%E5%A4%87%E4%BB%A3%E7%A0%81%E5%90%8C%E6%AD%A5/">
 
 
-<script class="page-configurations">
+<script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
@@ -49,66 +45,60 @@
     lang   : 'zh-Hans'
   };
 </script>
-<title>rsync主备代码同步 | Lau's Blog</title>
+
+  <title>rsync主备代码同步 | Lau's Blog</title>
   
+
+
 
 
 
 
   <noscript>
   <style>
-  body { margin-top: 2rem; }
-
+  .use-motion .brand,
   .use-motion .menu-item,
-  .use-motion .sidebar,
+  .sidebar-inner,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header {
-    visibility: visible;
-  }
-
-  .use-motion .header,
-  .use-motion .site-brand-container .toggle,
-  .use-motion .footer { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle,
-  .use-motion .custom-logo-image {
+  .use-motion .site-subtitle {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line {
-    transform: scaleX(1);
-  }
-
-  .search-pop-overlay, .sidebar-nav { display: none; }
-  .sidebar-panel { display: block; }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="تشغيل شريط التصفح" role="button">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">Lau's Blog</h1>
-      <i class="logo-line"></i>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">记录生活，分享知识，传播乐趣</p>
   </div>
@@ -122,96 +112,46 @@
 
 
 
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
 
 
 
 </div>
-        
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          المحتويات
-        </li>
-        <li class="sidebar-nav-overview">
-          عام
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#192-168-1-100%E4%B8%8A%E7%9A%84%E9%85%8D%E7%BD%AE%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">192.168.1.100上的配置如下：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#usr-local-scripts-rsync-sh%E8%84%9A%E6%9C%AC%E5%86%85%E5%AE%B9%E5%A6%82%E4%B8%8B"><span class="nav-number">2.</span> <span class="nav-text">&#x2F;usr&#x2F;local&#x2F;scripts&#x2F;rsync.sh脚本内容如下</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#192-168-1-200%E4%B8%8A%E7%9A%84%E9%85%8D%E7%BD%AE%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">192.168.1.200上的配置如下：</span></a></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">RamboLau</p>
-  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
-</div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">80</span>
-          <span class="site-state-item-name">المقالات</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">14</span>
-        <span class="site-state-item-name">التصنيفات</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-        <span class="site-state-item-count">64</span>
-        <span class="site-state-item-name">الوسوم</span></a>
-      </div>
-  </nav>
-</div>
-
-
-
-        </div>
-      </div>
-    </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
     </header>
 
     
-  <div class="back-to-top" role="button" aria-label="Back to top">
+  <div class="back-to-top">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    <div class="main-inner post posts-expand">
+          <div class="content post posts-expand">
+            
 
-
-  
-
-
-<div class="post-block">
+    
   
   
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://verynull.com/2015/07/04/rsync%E4%B8%BB%E5%A4%87%E4%BB%A3%E7%A0%81%E5%90%8C%E6%AD%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -228,35 +168,33 @@
           rsync主备代码同步
         </h1>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">نُشر في</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="أُنشأ: 2015-07-04 10:00:54" itemprop="dateCreated datePublished" datetime="2015-07-04T10:00:54+08:00">2015-07-04</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">عُدل في</span>
-        <time title="عُدل: 2015-07-21 14:26:53" itemprop="dateModified" datetime="2015-07-21T14:26:53+08:00">2015-07-21</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">في</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-        </span>
-    </span>
+              <time title="Created: 2015-07-04 10:00:54" itemprop="dateCreated datePublished" datetime="2015-07-04T10:00:54+08:00">2015-07-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2015-07-21 14:26:53" itemprop="dateModified" datetime="2015-07-21T14:26:53+08:00">2015-07-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -265,6 +203,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
         <p>同步服务器192.168.1.100<br>接收服务器192.168.1.200<br>即把192.168.1.100的代码备份到192.168.1.200。</p>
 <h1 id="192-168-1-100上的配置如下："><a href="#192-168-1-100上的配置如下：" class="headerlink" title="192.168.1.100上的配置如下："></a>192.168.1.100上的配置如下：</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">yum install rsync inotify-tools</div><div class="line"></div><div class="line">crontab <span class="_">-e</span></div><div class="line">*/59 * * * * /bin/sh /usr/<span class="built_in">local</span>/scripts/rsync.sh &gt;&gt; /var/<span class="built_in">log</span>/rsync.log</div><div class="line">即每小时的第59分钟同步代码</div></pre></td></tr></table></figure>
 <h1 id="usr-local-scripts-rsync-sh脚本内容如下"><a href="#usr-local-scripts-rsync-sh脚本内容如下" class="headerlink" title="/usr/local/scripts/rsync.sh脚本内容如下"></a>/usr/local/scripts/rsync.sh脚本内容如下</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh </span></div><div class="line">SRC=/var/www/html/ <span class="comment">#记得在最后面加/不然RYNC会自动增加一层目录 </span></div><div class="line">DES=rsync_data <span class="comment">#192.168.1.200认证的模块名，后面会说明</span></div><div class="line">IP=192.168.1.200</div><div class="line">USER=backup </div><div class="line">INWT=/usr/bin/inotifywait </div><div class="line">RSYNC=/usr/bin/rsync </div><div class="line"><span class="variable">$RSYNC</span> -auzviL --delete --progress --password-file=/root/rsync.pwd <span class="variable">$SRC</span> <span class="variable">$USER</span>@<span class="variable">$IP</span>::<span class="variable">$DES</span></div></pre></td></tr></table></figure>
@@ -281,34 +221,36 @@
     
     
 
-    <footer class="post-footer">
+      <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/rsync/" rel="tag"># rsync</a>
           </div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2015/06/24/infiniDB%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" rel="prev" title="infiniDB安装配置">
-                  <i class="fa fa-chevron-left"></i> infiniDB安装配置
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2015/07/14/sublime-text%E5%88%9B%E5%BB%BA%E5%BF%AB%E6%8D%B7%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF/" rel="next" title="sublime text创建快捷注释信息">
-                  sublime text创建快捷注释信息 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/06/24/infiniDB%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" rel="prev" title="infiniDB安装配置">
+      <i class="fa fa-chevron-left"></i> infiniDB安装配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/07/14/sublime-text%E5%88%9B%E5%BB%BA%E5%BF%AB%E6%8D%B7%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF/" rel="next" title="sublime text创建快捷注释信息">
+      sublime text创建快捷注释信息 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
-</div>
+  
+  
+  
 
 
 
-
-
-
+          </div>
+          
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -317,7 +259,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -326,19 +268,86 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      const commentClass = event.target.classList[1];
+      let commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#192-168-1-100%E4%B8%8A%E7%9A%84%E9%85%8D%E7%BD%AE%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">192.168.1.100上的配置如下：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#usr-local-scripts-rsync-sh%E8%84%9A%E6%9C%AC%E5%86%85%E5%AE%B9%E5%A6%82%E4%B8%8B"><span class="nav-number">2.</span> <span class="nav-text">&#x2F;usr&#x2F;local&#x2F;scripts&#x2F;rsync.sh脚本内容如下</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#192-168-1-200%E4%B8%8A%E7%9A%84%E9%85%8D%E7%BD%AE%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">192.168.1.200上的配置如下：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RamboLau</p>
+  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
 </div>
-  </main>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
 
-  <footer class="footer">
-    <div class="footer-inner">
 
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
 
 <div class="copyright">
+  
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
@@ -346,28 +355,57 @@
   </span>
   <span class="author" itemprop="copyrightHolder">RamboLau</span>
 </div>
-  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
   </div>
 
-    </div>
-  </footer>
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
 
-
-
-
-
-
   
-
-
-
-
 
 </body>
 </html>

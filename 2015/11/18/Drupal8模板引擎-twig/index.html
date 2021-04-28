@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-
-
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -15,15 +13,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
-
-<script class="hexo-configurations">
+<script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+    var CONFIG = {"hostname":"verynull.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
-<meta name="description" content="一、简介Twig是一个高效、安全并可扩展的PHP模板引擎。 如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。 关键特性：  快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。">
+
+  <meta name="description" content="一、简介Twig是一个高效、安全并可扩展的PHP模板引擎。 如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。 关键特性：  快速：Twig把模板编译成为优化后的PHP代码。相对普通PHP代码来说，其额外开销非常轻微。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Drupal8模板引擎-twig">
 <meta property="og:url" content="http://verynull.com/2015/11/18/Drupal8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-twig/index.html">
@@ -36,11 +33,10 @@
 <meta property="article:tag" content="twig">
 <meta name="twitter:card" content="summary">
 
-
 <link rel="canonical" href="http://verynull.com/2015/11/18/Drupal8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-twig/">
 
 
-<script class="page-configurations">
+<script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
@@ -49,66 +45,60 @@
     lang   : 'zh-Hans'
   };
 </script>
-<title>Drupal8模板引擎-twig | Lau's Blog</title>
+
+  <title>Drupal8模板引擎-twig | Lau's Blog</title>
   
+
+
 
 
 
 
   <noscript>
   <style>
-  body { margin-top: 2rem; }
-
+  .use-motion .brand,
   .use-motion .menu-item,
-  .use-motion .sidebar,
+  .sidebar-inner,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header {
-    visibility: visible;
-  }
-
-  .use-motion .header,
-  .use-motion .site-brand-container .toggle,
-  .use-motion .footer { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle,
-  .use-motion .custom-logo-image {
+  .use-motion .site-subtitle {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line {
-    transform: scaleX(1);
-  }
-
-  .search-pop-overlay, .sidebar-nav { display: none; }
-  .sidebar-panel { display: block; }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="تشغيل شريط التصفح" role="button">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">Lau's Blog</h1>
-      <i class="logo-line"></i>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">记录生活，分享知识，传播乐趣</p>
   </div>
@@ -122,96 +112,46 @@
 
 
 
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
 
 
 
 </div>
-        
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          المحتويات
-        </li>
-        <li class="sidebar-nav-overview">
-          عام
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80API%E7%94%A8%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">基础API用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%A8%A1%E6%9D%BF%E8%AE%BE%E8%AE%A1%E8%80%85%E7%9A%84Twig"><span class="nav-number">2.</span> <span class="nav-text">二、模板设计者的Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%A6%81"><span class="nav-number">2.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-number">2.4.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">2.5.</span> <span class="nav-text">设置变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filters"><span class="nav-number">2.6.</span> <span class="nav-text">Filters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">2.7.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E5%90%8D%E5%8F%82%E6%95%B0"><span class="nav-number">2.8.</span> <span class="nav-text">具名参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84"><span class="nav-number">2.9.</span> <span class="nav-text">控制结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">2.10.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E5%85%B6%E4%BB%96%E6%A8%A1%E6%9D%BF"><span class="nav-number">2.11.</span> <span class="nav-text">包含其他模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E7%89%88%E7%BB%A7%E6%89%BF"><span class="nav-number">2.12.</span> <span class="nav-text">模版继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML%E8%BD%AC%E4%B9%89"><span class="nav-number">2.13.</span> <span class="nav-text">HTML转义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E5%B7%A5%E8%BD%AC%E4%B9%89"><span class="nav-number">2.13.1.</span> <span class="nav-text">人工转义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89"><span class="nav-number">2.13.2.</span> <span class="nav-text">自动转义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8F"><span class="nav-number">2.14.</span> <span class="nav-text">宏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">2.15.</span> <span class="nav-text">表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F"><span class="nav-number">2.15.1.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.15.2.</span> <span class="nav-text">算数运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.15.3.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.15.4.</span> <span class="nav-text">比较运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">2.15.5.</span> <span class="nav-text">包含操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">2.15.6.</span> <span class="nav-text">测试操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">2.15.7.</span> <span class="nav-text">其他操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8F%92%E5%80%BC"><span class="nav-number">2.15.8.</span> <span class="nav-text">字符串插值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E7%99%BD%E6%8E%A7%E5%88%B6"><span class="nav-number">2.16.</span> <span class="nav-text">空白控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95"><span class="nav-number">2.17.</span> <span class="nav-text">扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84Twig"><span class="nav-number">3.</span> <span class="nav-text">三、开发者的Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80"><span class="nav-number">3.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%80%89%E9%A1%B9"><span class="nav-number">3.2.</span> <span class="nav-text">环境选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text">加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E7%BC%93%E5%AD%98"><span class="nav-number">3.3.1.</span> <span class="nav-text">编译缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.3.2.</span> <span class="nav-text">内置加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.3.3.</span> <span class="nav-text">创建自己的加载器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%89%A9%E5%B1%95"><span class="nav-number">3.4.</span> <span class="nav-text">使用扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.</span> <span class="nav-text">内置扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.1.</span> <span class="nav-text">核心扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AC%E4%B9%89%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.2.</span> <span class="nav-text">转义扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B2%99%E7%9B%92%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.3.</span> <span class="nav-text">沙盒扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.4.</span> <span class="nav-text">简介扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.5.</span> <span class="nav-text">优化扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-number">3.6.</span> <span class="nav-text">异常</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95Twig"><span class="nav-number">4.</span> <span class="nav-text">扩展Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-1"><span class="nav-number">4.1.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filters-1"><span class="nav-number">4.2.</span> <span class="nav-text">Filters</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter%E7%8E%AF%E5%A2%83%E6%84%9F%E7%9F%A5"><span class="nav-number">4.2.1.</span> <span class="nav-text">Filter环境感知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter%E4%B8%8A%E4%B8%8B%E6%96%87%E6%84%9F%E7%9F%A5"><span class="nav-number">4.2.2.</span> <span class="nav-text">Filter上下文感知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">自动转义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%8F%AF%E5%8F%98%E7%9A%84Filters"><span class="nav-number">4.2.4.</span> <span class="nav-text">参数可变的Filters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81Filters"><span class="nav-number">4.2.5.</span> <span class="nav-text">动态Filters</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0-1"><span class="nav-number">4.3.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tests"><span class="nav-number">4.4.</span> <span class="nav-text">Tests</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tags"><span class="nav-number">4.5.</span> <span class="nav-text">Tags</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%A0%87%E8%AE%B0"><span class="nav-number">4.5.1.</span> <span class="nav-text">注册一个新的标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AAtoken%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="nav-number">4.5.2.</span> <span class="nav-text">定义一个token解析器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">4.5.3.</span> <span class="nav-text">定义一个节点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%89%A9%E5%B1%95"><span class="nav-number">4.6.</span> <span class="nav-text">创建一个扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-2"><span class="nav-number">4.6.1.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0-2"><span class="nav-number">4.6.2.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filters-2"><span class="nav-number">4.6.3.</span> <span class="nav-text">Filters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0"><span class="nav-number">4.6.4.</span> <span class="nav-text">标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">4.6.5.</span> <span class="nav-text">操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tests-1"><span class="nav-number">4.6.6.</span> <span class="nav-text">Tests</span></a></li></ol></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">RamboLau</p>
-  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
-</div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives">
-          <span class="site-state-item-count">80</span>
-          <span class="site-state-item-name">المقالات</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-        <span class="site-state-item-count">14</span>
-        <span class="site-state-item-name">التصنيفات</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-        <span class="site-state-item-count">64</span>
-        <span class="site-state-item-name">الوسوم</span></a>
-      </div>
-  </nav>
-</div>
-
-
-
-        </div>
-      </div>
-    </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
     </header>
 
     
-  <div class="back-to-top" role="button" aria-label="Back to top">
+  <div class="back-to-top">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    <div class="main-inner post posts-expand">
+          <div class="content post posts-expand">
+            
 
-
-  
-
-
-<div class="post-block">
+    
   
   
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://verynull.com/2015/11/18/Drupal8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-twig/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -228,35 +168,33 @@
           Drupal8模板引擎-twig
         </h1>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">نُشر في</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="أُنشأ: 2015-11-18 16:35:16" itemprop="dateCreated datePublished" datetime="2015-11-18T16:35:16+08:00">2015-11-18</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">عُدل في</span>
-        <time title="عُدل: 2015-12-23 17:36:27" itemprop="dateModified" datetime="2015-12-23T17:36:27+08:00">2015-12-23</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">في</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Drupal8/" itemprop="url" rel="index"><span itemprop="name">Drupal8</span></a>
-        </span>
-    </span>
+              <time title="Created: 2015-11-18 16:35:16" itemprop="dateCreated datePublished" datetime="2015-11-18T16:35:16+08:00">2015-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2015-12-23 17:36:27" itemprop="dateModified" datetime="2015-12-23T17:36:27+08:00">2015-12-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Drupal8/" itemprop="url" rel="index"><span itemprop="name">Drupal8</span></a>
+                </span>
+            </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -265,6 +203,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
         <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>Twig是一个高效、安全并可扩展的PHP模板引擎。</p>
 <p>如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。</p>
 <p>关键特性：</p>
@@ -787,34 +727,36 @@
     
     
 
-    <footer class="post-footer">
+      <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/twig/" rel="tag"># twig</a>
           </div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2015/11/17/CentOS6-4%E5%AE%89%E8%A3%85oracle-10g%E6%95%99%E7%A8%8B/" rel="prev" title="CentOS6.4安装oracle 10g教程">
-                  <i class="fa fa-chevron-left"></i> CentOS6.4安装oracle 10g教程
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2015/11/19/Drupal8%E4%B8%BB%E9%A2%98-theme/" rel="next" title="Drupal8主题(theme)">
-                  Drupal8主题(theme) <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/11/17/CentOS6-4%E5%AE%89%E8%A3%85oracle-10g%E6%95%99%E7%A8%8B/" rel="prev" title="CentOS6.4安装oracle 10g教程">
+      <i class="fa fa-chevron-left"></i> CentOS6.4安装oracle 10g教程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/11/19/Drupal8%E4%B8%BB%E9%A2%98-theme/" rel="next" title="Drupal8主题(theme)">
+      Drupal8主题(theme) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
-</div>
+  
+  
+  
 
 
 
-
-
-
+          </div>
+          
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -823,7 +765,7 @@
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
     if (activeClass) {
-      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
       if (activeTab) {
         activeTab.click();
       }
@@ -832,19 +774,86 @@
   if (CONFIG.comments.storage) {
     window.addEventListener('tabs:click', event => {
       if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      const commentClass = event.target.classList[1];
+      let commentClass = event.target.classList[1];
       localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80API%E7%94%A8%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">基础API用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%A8%A1%E6%9D%BF%E8%AE%BE%E8%AE%A1%E8%80%85%E7%9A%84Twig"><span class="nav-number">2.</span> <span class="nav-text">二、模板设计者的Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%A6%81"><span class="nav-number">2.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-number">2.4.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">2.5.</span> <span class="nav-text">设置变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filters"><span class="nav-number">2.6.</span> <span class="nav-text">Filters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">2.7.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E5%90%8D%E5%8F%82%E6%95%B0"><span class="nav-number">2.8.</span> <span class="nav-text">具名参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84"><span class="nav-number">2.9.</span> <span class="nav-text">控制结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">2.10.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E5%85%B6%E4%BB%96%E6%A8%A1%E6%9D%BF"><span class="nav-number">2.11.</span> <span class="nav-text">包含其他模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E7%89%88%E7%BB%A7%E6%89%BF"><span class="nav-number">2.12.</span> <span class="nav-text">模版继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML%E8%BD%AC%E4%B9%89"><span class="nav-number">2.13.</span> <span class="nav-text">HTML转义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E5%B7%A5%E8%BD%AC%E4%B9%89"><span class="nav-number">2.13.1.</span> <span class="nav-text">人工转义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89"><span class="nav-number">2.13.2.</span> <span class="nav-text">自动转义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8F"><span class="nav-number">2.14.</span> <span class="nav-text">宏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">2.15.</span> <span class="nav-text">表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F"><span class="nav-number">2.15.1.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.15.2.</span> <span class="nav-text">算数运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.15.3.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">2.15.4.</span> <span class="nav-text">比较运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">2.15.5.</span> <span class="nav-text">包含操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">2.15.6.</span> <span class="nav-text">测试操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">2.15.7.</span> <span class="nav-text">其他操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8F%92%E5%80%BC"><span class="nav-number">2.15.8.</span> <span class="nav-text">字符串插值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E7%99%BD%E6%8E%A7%E5%88%B6"><span class="nav-number">2.16.</span> <span class="nav-text">空白控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95"><span class="nav-number">2.17.</span> <span class="nav-text">扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84Twig"><span class="nav-number">3.</span> <span class="nav-text">三、开发者的Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80"><span class="nav-number">3.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%80%89%E9%A1%B9"><span class="nav-number">3.2.</span> <span class="nav-text">环境选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text">加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E7%BC%93%E5%AD%98"><span class="nav-number">3.3.1.</span> <span class="nav-text">编译缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.3.2.</span> <span class="nav-text">内置加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.3.3.</span> <span class="nav-text">创建自己的加载器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%89%A9%E5%B1%95"><span class="nav-number">3.4.</span> <span class="nav-text">使用扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.</span> <span class="nav-text">内置扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.1.</span> <span class="nav-text">核心扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AC%E4%B9%89%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.2.</span> <span class="nav-text">转义扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B2%99%E7%9B%92%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.3.</span> <span class="nav-text">沙盒扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.4.</span> <span class="nav-text">简介扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%89%A9%E5%B1%95"><span class="nav-number">3.5.5.</span> <span class="nav-text">优化扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-number">3.6.</span> <span class="nav-text">异常</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95Twig"><span class="nav-number">4.</span> <span class="nav-text">扩展Twig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-1"><span class="nav-number">4.1.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filters-1"><span class="nav-number">4.2.</span> <span class="nav-text">Filters</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter%E7%8E%AF%E5%A2%83%E6%84%9F%E7%9F%A5"><span class="nav-number">4.2.1.</span> <span class="nav-text">Filter环境感知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter%E4%B8%8A%E4%B8%8B%E6%96%87%E6%84%9F%E7%9F%A5"><span class="nav-number">4.2.2.</span> <span class="nav-text">Filter上下文感知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%BD%AC%E4%B9%89-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">自动转义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%8F%AF%E5%8F%98%E7%9A%84Filters"><span class="nav-number">4.2.4.</span> <span class="nav-text">参数可变的Filters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81Filters"><span class="nav-number">4.2.5.</span> <span class="nav-text">动态Filters</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0-1"><span class="nav-number">4.3.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tests"><span class="nav-number">4.4.</span> <span class="nav-text">Tests</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tags"><span class="nav-number">4.5.</span> <span class="nav-text">Tags</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%A0%87%E8%AE%B0"><span class="nav-number">4.5.1.</span> <span class="nav-text">注册一个新的标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AAtoken%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="nav-number">4.5.2.</span> <span class="nav-text">定义一个token解析器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9"><span class="nav-number">4.5.3.</span> <span class="nav-text">定义一个节点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%89%A9%E5%B1%95"><span class="nav-number">4.6.</span> <span class="nav-text">创建一个扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-2"><span class="nav-number">4.6.1.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0-2"><span class="nav-number">4.6.2.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filters-2"><span class="nav-number">4.6.3.</span> <span class="nav-text">Filters</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0"><span class="nav-number">4.6.4.</span> <span class="nav-text">标记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">4.6.5.</span> <span class="nav-text">操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tests-1"><span class="nav-number">4.6.6.</span> <span class="nav-text">Tests</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RamboLau</p>
+  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
 </div>
-  </main>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
 
-  <footer class="footer">
-    <div class="footer-inner">
 
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
 
 <div class="copyright">
+  
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
@@ -852,28 +861,57 @@
   </span>
   <span class="author" itemprop="copyrightHolder">RamboLau</span>
 </div>
-  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
   </div>
 
-    </div>
-  </footer>
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
 
-
-
-
-
-
   
-
-
-
-
 
 </body>
 </html>
