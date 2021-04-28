@@ -1,34 +1,405 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block content %}
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Suche...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="Drupal8的路由控制系统跟Drupal7完全不同，在drupal7中，路由一般是定义在module文件的hook_menu中，如链接、访问控制、回调方法等。而drupal8由于包含了Symfony2的路由组件（Symfony2 Routing component），一般定义在{module_name}.routing.yml中。 本文介绍如何创建一个路由控制器，并如何使用依赖注入(DI)。 下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Drupal8 Routing">
+<meta property="og:url" content="http://verynull.com/2015/12/23/Drupal8-routing/index.html">
+<meta property="og:site_name" content="Lau&#39;s Blog">
+<meta property="og:description" content="Drupal8的路由控制系统跟Drupal7完全不同，在drupal7中，路由一般是定义在module文件的hook_menu中，如链接、访问控制、回调方法等。而drupal8由于包含了Symfony2的路由组件（Symfony2 Routing component），一般定义在{module_name}.routing.yml中。 本文介绍如何创建一个路由控制器，并如何使用依赖注入(DI)。 下">
+<meta property="og:locale">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223201522_69597.png">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223205139_89300.png">
+<meta property="og:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151224/20151224154334_42518.png">
+<meta property="article:published_time" content="2015-12-23T08:01:09.000Z">
+<meta property="article:modified_time" content="2015-12-24T07:44:45.000Z">
+<meta property="article:author" content="RamboLau">
+<meta property="article:tag" content="routing">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223201522_69597.png">
+
+
+<link rel="canonical" href="http://verynull.com/2015/12/23/Drupal8-routing/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>Drupal8 Routing | Lau's Blog</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten" role="button">
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Lau's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享知识，传播乐趣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Inhaltsverzeichnis
+        </li>
+        <li class="sidebar-nav-overview">
+          Übersicht
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RamboLau</p>
+  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-name">Artikel</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">Kategorien</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">schlagwörter</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://verynull.com/2015/12/23/Drupal8-routing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RamboLau">
+      <meta itemprop="description" content="记录生活，分享知识，传播乐趣">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lau's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Drupal8 Routing
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Veröffentlicht am</span>
+
+      <time title="Erstellt: 2015-12-23 16:01:09" itemprop="dateCreated datePublished" datetime="2015-12-23T16:01:09+08:00">2015-12-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Bearbeitet am</span>
+        <time title="Geändert am: 2015-12-24 15:44:45" itemprop="dateModified" datetime="2015-12-24T15:44:45+08:00">2015-12-24</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">in</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Drupal8/" itemprop="url" rel="index"><span itemprop="name">Drupal8</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Drupal8的路由控制系统跟Drupal7完全不同，在drupal7中，路由一般是定义在module文件的hook_menu中，如链接、访问控制、回调方法等。而drupal8由于包含了Symfony2的路由组件（Symfony2 Routing component），一般定义在{module_name}.routing.yml中。</p>
+<p>本文介绍如何创建一个路由控制器，并如何使用依赖注入(DI)。</p>
+<p>下面这张图非常明了的说明了他们之间的关系。</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223201522_69597.png" alt="D8-routing"></p>
+<p>本文github： <a href="https://github.com/RamboLau/drupal8-demos/tree/master/routing_example" target="_blank" rel="external">https://github.com/RamboLau/drupal8-demos/tree/master/routing_example</a></p>
+<p>###一、静态路由(Static Routes)</p>
+<p>####1、Drupal7路由</p>
+<p>在Drupal7中，通过hook_menu来管理路由，但是这就导致代码的耦合性太高，如果要提供丰富的返回格式，如JSON, XML or HTML，就无能为力了！</p>
+<p>如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Implements hook_menu()</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">routing_example_menu</span><span class="params">()</span> </span>&#123;</div><div class="line">  $items[<span class="string">'hello'</span>] = <span class="keyword">array</span>(</div><div class="line">    <span class="string">'title'</span> =&gt; <span class="string">'Hello World'</span>,</div><div class="line">    <span class="string">'description'</span> =&gt; <span class="string">"hello world page"</span>,</div><div class="line">    <span class="string">'route_name'</span> =&gt; <span class="string">'helloWorldPage'</span>, </div><div class="line">    <span class="string">'type'</span> =&gt; MENU_LOCAL_TASK,</div><div class="line">  );</div><div class="line">  <span class="keyword">return</span> $items;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Implements hook_permission().</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">routing_example_permission</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">array</span>(</div><div class="line">    <span class="string">'access hello world'</span> =&gt; <span class="keyword">array</span>(</div><div class="line">      <span class="string">'title'</span> =&gt; t(<span class="string">'Access hello world page'</span>),</div><div class="line">    ),</div><div class="line">  );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>####2、Drupal8路由</p>
+<p>#####routing_example.routing.yml</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">routing_example.example_controller_index:</div><div class="line">  path: <span class="string">'/routing_example/index/hello/&#123;name&#125;'</span></div><div class="line">  defaults:</div><div class="line">    _controller: <span class="string">'\Drupal\routing_example\Controller\BaseController::index'</span></div><div class="line">    _title: <span class="string">'hello world'</span></div><div class="line">  requirements:</div><div class="line">    _permission: <span class="string">'access content'</span></div><div class="line"></div><div class="line">routing_example.example_controller_dependency_injection:</div><div class="line">  path: <span class="string">'/routing_example/dependency_injection'</span></div><div class="line">  defaults:</div><div class="line">    _controller: <span class="string">'\Drupal\routing_example\Controller\ExampleDependencyInjectionController::index'</span></div><div class="line">    _title: <span class="string">'hello world'</span></div><div class="line">  requirements:</div><div class="line">    _permission: <span class="string">'access content'</span></div></pre></td></tr></table></figure>
+<p>#####src/Controller/BaseController.php</p>
+<p>这是一个普通的Controller类，通过访问/routing_example/index/hello/{name}调用index，输出Implement method: index with parameter(s): $name。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\routing_example\Controller\BaseController.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">routing_example</span>\<span class="title">Controller</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Controller</span>\<span class="title">ControllerBase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Class BaseController.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@package</span> Drupal\routing_example\Controller</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseController</span> <span class="keyword">extends</span> <span class="title">ControllerBase</span> </span>&#123;</div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Index.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@return</span> string</div><div class="line">   *   Return Hello string.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">($name)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> [</div><div class="line">        <span class="string">'#type'</span> =&gt; <span class="string">'markup'</span>,</div><div class="line">        <span class="string">'#markup'</span> =&gt; <span class="keyword">$this</span>-&gt;t(<span class="string">"Implement method: index with parameter(s): $name"</span>)</div><div class="line">    ];</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>#####src/Controller/ExampleDependencyInjectionController.php</p>
+<p>这是一个依赖注入的Controler类，我们这里以访问数据库为例。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\routing_example\Controller\ExampleDependencyInjectionController.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">routing_example</span>\<span class="title">Controller</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInjectionInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Database</span>\<span class="title">Connection</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Class ExampleDependencyInjectionController.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@package</span> Drupal\routing_example\Controller</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleDependencyInjectionController</span> <span class="keyword">implements</span>  <span class="title">ContainerInjectionInterface</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * The database connection.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@var</span> \Drupal\Core\Database\Connection;</div><div class="line">   */</div><div class="line">  <span class="keyword">protected</span> $database;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Constructs a \Drupal\routing_example\Controller\ExampleDependencyInjectionController object.</div><div class="line">   *</div><div class="line">   * <span class="doctag">@param</span> \Drupal\Core\Database\Connection $database</div><div class="line">   *   The database connection.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(Connection $database)</span> </span>&#123;</div><div class="line">    <span class="keyword">$this</span>-&gt;database = $database;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">create</span><span class="params">(ContainerInterface $container)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">static</span>($container-&gt;get(<span class="string">'database'</span>));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Displays a list of nodes.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// query the database</span></div><div class="line">    $result = <span class="keyword">$this</span>-&gt;database-&gt;query(<span class="string">'SELECT * from &#123;node&#125; WHERE nid = 1'</span>)-&gt;fetchAll();</div><div class="line"></div><div class="line">    <span class="keyword">return</span> [</div><div class="line">      <span class="string">'#type'</span> =&gt; <span class="string">'markup'</span>,</div><div class="line">      <span class="string">'#markup'</span> =&gt; json_encode($result),</div><div class="line">    ];</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>访问 <a href="http://127.0.0.1/routing_example/dependency_injection" target="_blank" rel="external">http://127.0.0.1/routing_example/dependency_injection</a></p>
+<p>输出：</p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223205139_89300.png" alt="DI"></p>
+<p>###二、动态路由(Dynamic Routes)</p>
+<p>静态路由我们一般是在{module_name}.routing.yml中指定，那么如何定义动态路由呢？</p>
+<p>####1、Drupal7动态路由</p>
+<p>一般是通过foreach hook_menu实现，如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Implements hook_menu().</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">routing_example_menu</span><span class="params">()</span> </span>&#123;</div><div class="line">  $items = <span class="keyword">array</span>();</div><div class="line">  <span class="keyword">foreach</span> (routing_example_types() <span class="keyword">as</span> $type) &#123;</div><div class="line">    $items[<span class="string">'routing_example/add/'</span> . $type-&gt;machine_name] = <span class="keyword">array</span>(</div><div class="line">      <span class="string">'title'</span> =&gt; $type-&gt;title,</div><div class="line">      <span class="string">'page callback'</span> =&gt; <span class="string">'routing_example_type_add_page'</span>,</div><div class="line">      <span class="string">'access arguments'</span> =&gt; <span class="string">'create '</span> . $type-&gt;type,</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> $items;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>####2、Drupal8动态路由</p>
+<p>在D8中，我们推荐使用RouteSubscriber来实现动态路由。</p>
+<p>#####routing_example.routing.yml</p>
+<p>添加：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">route_callbacks:</div><div class="line">  - <span class="string">'\Drupal\routing_example\Routing\ExampleRoutes::routes'</span></div></pre></td></tr></table></figure>
+<p>#####src/Routing/ExampleRoutes.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\routing_example\Routing\ExampleRoutes.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">routing_example</span>\<span class="title">Routing</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">Routing</span>\<span class="title">Route</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">Routing</span>\<span class="title">RouteCollection</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Defines dynamic routes.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleRoutes</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * &#123;<span class="doctag">@inheritdoc</span>&#125;</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">routes</span><span class="params">()</span> </span>&#123;</div><div class="line">    $route_collection = <span class="keyword">new</span> RouteCollection();</div><div class="line"></div><div class="line">    <span class="comment">// Dynamically routing.</span></div><div class="line">    $route = <span class="keyword">new</span> Route(</div><div class="line">      <span class="string">'routing_example/add/dynamic_route'</span>,</div><div class="line">      <span class="keyword">array</span>(</div><div class="line">        <span class="string">'_controller'</span> =&gt; <span class="string">'\Drupal\routing_example\Controller\ExampleDependencyInjectionController::index'</span>,</div><div class="line">        <span class="string">'_title'</span> =&gt; <span class="string">'Hello'</span></div><div class="line">      ),</div><div class="line">      <span class="comment">// Route requirements:</span></div><div class="line">      <span class="keyword">array</span>(</div><div class="line">        <span class="string">'_permission'</span>  =&gt; <span class="string">'access content'</span>,</div><div class="line">      )</div><div class="line">    );</div><div class="line"></div><div class="line">    <span class="comment">// Add the route under the name 'example.content'.</span></div><div class="line">    $route_collection-&gt;add(<span class="string">'routing_example.add.dynamic_route'</span>, $route);</div><div class="line">    <span class="keyword">return</span> $route_collection;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>访问：<a href="http://127.0.0.1/routing_example/add/dynamic_route" target="_blank" rel="external">http://127.0.0.1/routing_example/add/dynamic_route</a></p>
+<p><img src="https://static.verycloud.cn/sites/default/files/pic/image/20151224/20151224154334_42518.png" alt="dynamic_route"></p>
+<p>动态路由还有很多高级的玩法，比如使用Entity Storage等，后续再来介绍。</p>
+<p>参考文章：<br>1、<a href="https://www.drupal.org/developing/api/8/routing" target="_blank" rel="external">https://www.drupal.org/developing/api/8/routing</a><br>2、<a href="https://www.drupal.org/node/2116767" target="_blank" rel="external">https://www.drupal.org/node/2116767</a><br>3、<a href="https://www.drupal.org/node/2092643" target="_blank" rel="external">https://www.drupal.org/node/2092643</a><br>4、<a href="http://www.sitepoint.com/build-drupal-8-module-routing-controllers-menu-links/" target="_blank" rel="external">http://www.sitepoint.com/build-drupal-8-module-routing-controllers-menu-links/</a><br>5、<a href="http://www.slideshare.net/ygerasimov/drupal-8-routing" target="_blank" rel="external">http://www.slideshare.net/ygerasimov/drupal-8-routing</a><br>6、<a href="https://www.previousnext.com.au/blog/using-drupal-8s-new-route-controllers" target="_blank" rel="external">https://www.previousnext.com.au/blog/using-drupal-8s-new-route-controllers</a><br>7、<a href="https://www.previousnext.com.au/blog/dynamic-routes-drupal-8-routesubscriber" target="_blank" rel="external">https://www.previousnext.com.au/blog/dynamic-routes-drupal-8-routesubscriber</a><br>8、<a href="https://www.drupal.org/node/2122201" target="_blank" rel="external">https://www.drupal.org/node/2122201</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/routing/" rel="tag"># routing</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/12/23/Drupal8-Controller/" rel="prev" title="Drupal8 Controller">
+                  <i class="fa fa-chevron-left"></i> Drupal8 Controller
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2015/12/23/Drupal8-Cron-Queue/" rel="next" title="Drupal8 Cron Queue">
+                  Drupal8 Cron Queue <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+</div>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

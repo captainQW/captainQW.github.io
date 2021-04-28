@@ -1,34 +1,388 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block content %}
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Suche...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="sysbench是一个模块化的、跨平台、多线程基准测试工具，主要用于评估测试各种不同系统参数下的数据库负载情况。关于这个项目的详细介绍请看：https:&#x2F;&#x2F;launchpad.net&#x2F;sysbench。它主要包括以下几种方式的测试：1、cpu性能2、磁盘io性能3、调度程序性能4、内存分配及传输速度5、POSIX线程性能6、数据库性能(OLTP基准测试)目前sysbench主要支持 MySQL,p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sysbench测试mysql性能">
+<meta property="og:url" content="http://verynull.com/2016/01/29/sysbench%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/index.html">
+<meta property="og:site_name" content="Lau&#39;s Blog">
+<meta property="og:description" content="sysbench是一个模块化的、跨平台、多线程基准测试工具，主要用于评估测试各种不同系统参数下的数据库负载情况。关于这个项目的详细介绍请看：https:&#x2F;&#x2F;launchpad.net&#x2F;sysbench。它主要包括以下几种方式的测试：1、cpu性能2、磁盘io性能3、调度程序性能4、内存分配及传输速度5、POSIX线程性能6、数据库性能(OLTP基准测试)目前sysbench主要支持 MySQL,p">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-01-29T08:15:54.000Z">
+<meta property="article:modified_time" content="2016-01-29T09:17:17.000Z">
+<meta property="article:author" content="RamboLau">
+<meta property="article:tag" content="sysbench">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://verynull.com/2016/01/29/sysbench%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>sysbench测试mysql性能 | Lau's Blog</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten" role="button">
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Lau's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享知识，传播乐趣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Inhaltsverzeichnis
+        </li>
+        <li class="sidebar-nav-overview">
+          Übersicht
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RamboLau</p>
+  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-name">Artikel</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">Kategorien</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">schlagwörter</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://verynull.com/2016/01/29/sysbench%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RamboLau">
+      <meta itemprop="description" content="记录生活，分享知识，传播乐趣">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lau's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          sysbench测试mysql性能
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Veröffentlicht am</span>
+      
+
+      <time title="Erstellt: 2016-01-29 16:15:54 / Geändert am: 17:17:17" itemprop="dateCreated datePublished" datetime="2016-01-29T16:15:54+08:00">2016-01-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">in</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>sysbench是一个模块化的、跨平台、多线程基准测试工具，主要用于评估测试各种不同系统参数下的数据库负载情况。关于这个项目的详细介绍请看：<a href="https://launchpad.net/sysbench。" target="_blank" rel="external">https://launchpad.net/sysbench。</a><br>它主要包括以下几种方式的测试：<br>1、cpu性能<br>2、磁盘io性能<br>3、调度程序性能<br>4、内存分配及传输速度<br>5、POSIX线程性能<br>6、数据库性能(OLTP基准测试)<br>目前sysbench主要支持 MySQL,pgsql,oracle 这3种数据库。</p>
+<p>###一、安装</p>
+<p>环境：</p>
+<p>centos 6.7<br>mysql  5.7.10</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">yum install automake gcc gcc-c++ libtool mysql-devel</div><div class="line"></div><div class="line">git <span class="built_in">clone</span> https://github.com/akopytov/sysbench.git</div><div class="line"></div><div class="line">./autogen.sh</div><div class="line">./configure</div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<p>如果想要让 sysbench 支持 pgsql/oracle 的话，就需要在编译的时候加上参数<br>–with-pgsql<br>或者<br>–with-oracle<br>这2个参数默认是关闭的，只有 MySQL 是默认支持的。</p>
+<p>###二、测试</p>
+<p>#####1、cpu性能测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysbench --test=cpu --cpu-max-prime=20000 run</div></pre></td></tr></table></figure>
+<p>cpu测试主要是进行素数的加法运算，在上面的例子中，指定了最大的素数为 20000，自己可以根据机器cpu的性能来适当调整数值。</p>
+<p>#####2、线程测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysbench --test=threads --num-threads=64 --thread-yields=100 --thread-locks=2 run</div></pre></td></tr></table></figure>
+<p>#####3、磁盘IO性能测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw prepare</div><div class="line">sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw run</div><div class="line">sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw cleanup</div></pre></td></tr></table></figure>
+<p>上述参数指定了最大创建16个线程，创建的文件总大小为3G，文件读写模式为随机读。</p>
+<p>#####4、内存测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysbench --test=memory --memory-block-size=8k --memory-total-size=4G run</div></pre></td></tr></table></figure>
+<p>上述参数指定了本次测试整个过程是在内存中传输 4G 的数据量，每个 block 大小为 8K。</p>
+<p>#####5、OLTP测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysbench --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-user=root --mysql-password=root  --test=/root/sysbench/sysbench/tests/db/oltp.lua --oltp_tables_count=10 --oltp-table-size=100000 --rand-init=on prepare</div></pre></td></tr></table></figure>
+<p>关于这几个参数的解释：</p>
+<p>–test=tests/db/oltp.lua 表示调用 tests/db/oltp.lua 脚本进行 oltp 模式测试<br>–oltp_tables_count=10 表示会生成 10 个测试表<br>–oltp-table-size=100000 表示每个测试表填充数据量为 100000<br>–rand-init=on 表示每个测试表都是用随机数据来填充的<br>如果在本机，也可以使用 –mysql-socket 指定 socket 文件来连接。加载测试数据时长视数据量而定，若过程比较久需要稍加耐心等待。</p>
+<p>真实测试场景中，数据表建议不低于10个，单表数据量不低于500万行，当然了，要视服务器硬件配置而定。如果是配备了SSD或者PCIE SSD这种高IOPS设备的话，则建议单表数据量最少不低于1亿行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sysbench --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-user=root \</div><div class="line">--mysql-password=root --test=/root/sysbench/sysbench/tests/db/oltp.lua --oltp_tables_count=10 \</div><div class="line">--oltp-table-size=10000000 --num-threads=8 --oltp-read-only=off \</div><div class="line">--report-interval=10 --rand-type=uniform --max-time=3600 \</div><div class="line"> --max-requests=0 --percentile=99 run &gt;&gt; /tmp/sysbench_oltpX_8.log</div></pre></td></tr></table></figure>
+<p>参数解释：<br>–num-threads=8 表示发起 8个并发连接<br>–oltp-read-only=off 表示不要进行只读测试，也就是会采用读写混合模式测试<br>–report-interval=10 表示每10秒输出一次测试进度报告<br>–rand-type=uniform 表示随机类型为固定模式，其他几个可选随机模式：uniform(固定),gaussian(高斯),special(特定的),pareto(帕累托)<br>–max-time=120 表示最大执行时长为 120秒<br>–max-requests=0 表示总请求数为 0，因为上面已经定义了总执行时长，所以总请求数可以设定为 0；也可以只设定总请求数，不设定最大执行时长<br>–percentile=99 表示设定采样比例，默认是 95%，即丢弃1%的长请求，在剩余的99%里取最大值</p>
+<p>即：模拟 对10个表并发OLTP测试，每个表1000万行记录，持续压测时间为 1小时。</p>
+<p>真实测试场景中，建议持续压测时长不小于30分钟，否则测试数据可能不具参考意义。</p>
+<p>#####6、测试结果解读</p>
+<p>测试结果解读如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">sysbench 0.5:  multi-threaded system evaluation benchmark</div><div class="line"></div><div class="line">Running the <span class="built_in">test</span> with following options:</div><div class="line">Number of threads: 8</div><div class="line">Report intermediate results every 10 second(s)</div><div class="line">Random number generator seed is 0 and will be ignored</div><div class="line"></div><div class="line"></div><div class="line">Threads started!</div><div class="line">-- 每10秒钟报告一次测试结果，tps、每秒读、每秒写、99%以上的响应时长统计</div><div class="line">[  10s] threads: 8, tps: 1111.51, reads/s: 15568.42, writes/s: 4446.13, response time: 9.95ms (99%)</div><div class="line">[  20s] threads: 8, tps: 1121.90, reads/s: 15709.62, writes/s: 4487.80, response time: 9.78ms (99%)</div><div class="line">[  30s] threads: 8, tps: 1120.00, reads/s: 15679.10, writes/s: 4480.20, response time: 9.84ms (99%)</div><div class="line">[  40s] threads: 8, tps: 1114.20, reads/s: 15599.39, writes/s: 4456.30, response time: 9.90ms (99%)</div><div class="line">[  50s] threads: 8, tps: 1114.00, reads/s: 15593.60, writes/s: 4456.70, response time: 9.84ms (99%)</div><div class="line">[  60s] threads: 8, tps: 1119.30, reads/s: 15671.60, writes/s: 4476.50, response time: 9.99ms (99%)</div><div class="line">OLTP <span class="built_in">test</span> statistics:</div><div class="line">    queries performed:</div><div class="line">        <span class="built_in">read</span>:                            938224    -- 读总数</div><div class="line">        write:                           268064    -- 写总数</div><div class="line">        other:                           134032    -- 其他操作总数(SELECT、INSERT、UPDATE、DELETE之外的操作，例如COMMIT等)</div><div class="line">        total:                           1340320    -- 全部总数</div><div class="line">    transactions:                        67016  (1116.83 per sec.)    -- 总事务数(每秒事务数)</div><div class="line">    deadlocks:                           0      (0.00 per sec.)    -- 发生死锁总数</div><div class="line">    <span class="built_in">read</span>/write requests:                 1206288 (20103.01 per sec.)    -- 读写总数(每秒读写次数)</div><div class="line">    other operations:                    134032 (2233.67 per sec.)    -- 其他操作总数(每秒其他操作次数)</div><div class="line"></div><div class="line">General statistics:    -- 一些统计结果</div><div class="line">    total time:                          60.0053s    -- 总耗时</div><div class="line">    total number of events:              67016    -- 共发生多少事务数</div><div class="line">    total time taken by event execution: 479.8171s    -- 所有事务耗时相加(不考虑并行因素)</div><div class="line">    response time:    -- 响应时长统计</div><div class="line">         min:                                  4.27ms    -- 最小耗时</div><div class="line">         avg:                                  7.16ms    -- 平均耗时</div><div class="line">         max:                                 13.80ms    -- 最长耗时</div><div class="line">         approx.  99 percentile:               9.88ms    -- 超过99%平均耗时</div><div class="line"></div><div class="line">Threads fairness:</div><div class="line">    events (avg/stddev):           8377.0000/44.33</div><div class="line">    execution time (avg/stddev):   59.9771/0.00</div></pre></td></tr></table></figure>
+<p>参考文章：<br>1、<a href="http://imysql.com/2014/10/17/sysbench-full-user-manual.shtml" target="_blank" rel="external">http://imysql.com/2014/10/17/sysbench-full-user-manual.shtml</a><br>2、<a href="http://imysql.com/2015/07/28/mysql-benchmark-reference.shtml" target="_blank" rel="external">http://imysql.com/2015/07/28/mysql-benchmark-reference.shtml</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/sysbench/" rel="tag"># sysbench</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/12/26/Drupal8%E7%9B%B8%E5%AF%B9Drupal7%E7%9A%84%E5%8F%98%E5%8C%96/" rel="prev" title="Drupal8相对Drupal7的变化">
+                  <i class="fa fa-chevron-left"></i> Drupal8相对Drupal7的变化
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/01/29/tpcc%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/" rel="next" title="tpcc测试mysql性能">
+                  tpcc测试mysql性能 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+</div>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

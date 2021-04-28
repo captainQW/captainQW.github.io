@@ -1,34 +1,395 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block content %}
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Suche...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="TPC-C是专门针对联机交易处理系统（OLTP系统）的规范，一般情况下我们也把这类系统称为业务处理系统。tpcc-mysql是percona基于TPC-C(下面简写成TPCC)衍生出来的产品，专用于MySQL基准测试。其源码放在launchpad上，用bazaar管理，项目地址：https:&#x2F;&#x2F;code.launchpad.net&#x2F;~percona-dev&#x2F;perconatools&#x2F;tpcc-my">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tpcc测试mysql性能">
+<meta property="og:url" content="http://verynull.com/2016/01/29/tpcc%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/index.html">
+<meta property="og:site_name" content="Lau&#39;s Blog">
+<meta property="og:description" content="TPC-C是专门针对联机交易处理系统（OLTP系统）的规范，一般情况下我们也把这类系统称为业务处理系统。tpcc-mysql是percona基于TPC-C(下面简写成TPCC)衍生出来的产品，专用于MySQL基准测试。其源码放在launchpad上，用bazaar管理，项目地址：https:&#x2F;&#x2F;code.launchpad.net&#x2F;~percona-dev&#x2F;perconatools&#x2F;tpcc-my">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-01-29T09:05:25.000Z">
+<meta property="article:modified_time" content="2016-01-29T09:14:59.000Z">
+<meta property="article:author" content="RamboLau">
+<meta property="article:tag" content="sysbench">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://verynull.com/2016/01/29/tpcc%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>tpcc测试mysql性能 | Lau's Blog</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten" role="button">
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Lau's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享知识，传播乐趣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Inhaltsverzeichnis
+        </li>
+        <li class="sidebar-nav-overview">
+          Übersicht
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RamboLau</p>
+  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-name">Artikel</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">Kategorien</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">schlagwörter</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://verynull.com/2016/01/29/tpcc%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RamboLau">
+      <meta itemprop="description" content="记录生活，分享知识，传播乐趣">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lau's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          tpcc测试mysql性能
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Veröffentlicht am</span>
+      
+
+      <time title="Erstellt: 2016-01-29 17:05:25 / Geändert am: 17:14:59" itemprop="dateCreated datePublished" datetime="2016-01-29T17:05:25+08:00">2016-01-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">in</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>TPC-C是专门针对联机交易处理系统（OLTP系统）的规范，一般情况下我们也把这类系统称为业务处理系统。<br>tpcc-mysql是percona基于TPC-C(下面简写成TPCC)衍生出来的产品，专用于MySQL基准测试。其源码放在launchpad上，用bazaar管理，项目地址：<a href="https://code.launchpad.net/~percona-dev/perconatools/tpcc-mysql。" target="_blank" rel="external">https://code.launchpad.net/~percona-dev/perconatools/tpcc-mysql。</a></p>
+<p>也可以用叶金荣的版本，<a href="https://github.com/yejr/tpcc-mysql-autoinc-pk。" target="_blank" rel="external">https://github.com/yejr/tpcc-mysql-autoinc-pk。</a></p>
+<p>tpcc-mysql的业务逻辑及其相关的几个表作用如下：</p>
+<p>New-Order：新订单，一次完整的订单事务，几乎涉及到全部表<br>Payment：支付，主要对应 orders、history 表<br>Order-Status：订单状态，主要对应 orders、order_line 表<br>Delivery：发货，主要对应 order_line 表<br>Stock-Level：库存，主要对应 stock 表</p>
+<p>其他相关表：<br>客户：主要对应 customer 表<br>地区：主要对应 district 表<br>商品：主要对应 item 表<br>仓库：主要对应 warehouse 表</p>
+<p>###一、编译安装<br>编译非常简单，只需要一个 make 即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /tmp/tpcc-mysql/src</div><div class="line">make</div></pre></td></tr></table></figure>
+<p>如果 make 没有报错，就会在 /tmp/tpcc-mysql 下生成 tpcc 二进制命令行工具 tpcc_load、 tpcc_start</p>
+<p>###二、TPCC测试前准备<br>初始化测试库环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /tmp/tpcc-mysql</div><div class="line">mysqladmin create tpcc</div><div class="line">mysql -uroot -proot tpcc &lt; create_table.sql</div></pre></td></tr></table></figure>
+<p>tpcc_load用法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">tpcc_load [server] [DB] [user] [pass] [warehouse]</div><div class="line"></div><div class="line">OR</div><div class="line"></div><div class="line">tpcc_load [server] [DB] [user] [pass] [warehouse] [part] [min_wh] [max_wh]</div></pre></td></tr></table></figure>
+<p>选项 warehouse 意为指定测试库下的仓库数量。</p>
+<p>真实测试场景中，仓库数一般不建议少于100个，视服务器硬件配置而定，如果是配备了SSD或者PCIE SSD这种高IOPS设备的话，建议最少不低于1000个。</p>
+<p>执行下面的命令，开始灌入测试数据：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /tmp/tpcc-mysql</div><div class="line">./tpcc_load localhost tpcc tpcc_user <span class="string">"tpcc_password"</span> 1000</div></pre></td></tr></table></figure>
+<p>在这里，需要注意的是 tpcc 默认会读取 /var/lib/mysql/mysql.sock 这个socket 文件。<br>因此，如果你的 socket 文件不在相应路径的话，可以做个软连接，或者通过TCP/IP的方式连接测试服务器，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /tmp/tpcc-mysql</div><div class="line">./tpcc_load 1.2.3.4:3306 tpcc1000 tpcc_user <span class="string">"tpcc_password"</span> 1000</div></pre></td></tr></table></figure>
+<p>加载测试数据时长视仓库数量而定，若过程比较久需要稍加耐心等待。</p>
+<p>tpcc_load其实是可以并行加载的，一方面是可以区分 ITEMS、WAREHOUSE、CUSTOMER、ORDERS 四个维度的数据并行加载。<br>另外，比如最终想加载1000个 warehouse的话，也可以分开成1000个并发并行加载的。看下 tpcc_load 工具的参数就知道了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">usage: tpcc_load [server] [DB] [user] [pass] [warehouse]</div><div class="line">OR</div><div class="line">tpcc_load [server] [DB] [user] [pass] [warehouse] [part] [min_wh] [max_wh]</div></pre></td></tr></table></figure>
+<ul>
+<li>[part]: 1=ITEMS 2=WAREHOUSE 3=CUSTOMER 4=ORDERS<br>本来想自己写个并行加载脚本的，后来发现万能的github上已经有人做好了，我就直接拿来用了，这是项目链接 <a href="https://gist.github.com/sh2/3458844" target="_blank" rel="external">tpcc_load_parallel.sh</a>，加载效率至少提升10倍以上。</li>
+</ul>
+<p>二、进行TPCC测试<br>tpcc_start 工具用于tpcc压测，其用法如下：</p>
+<p>tpcc_start -h server_host -P port -d database_name -u mysql_user \<br> -p mysql_password -w warehouses -c connections -r warmup_time \<br> -l running_time -i report_interval -f report_file</p>
+<p>几个选项稍微解释下：<br>-w 指定仓库数量<br>-c 指定并发连接数<br>-r 指定开始测试前进行warmup的时间，进行预热后，测试效果更好<br>-l 指定测试持续时间<br>-i  指定生成报告间隔时长<br>-f 指定生成的报告文件名</p>
+<p>现在我们来开启一个测试案例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tpcc_start -hlocalhost <span class="_">-d</span> tpcc1000 -u tpcc_user -p <span class="string">"tpcc_password"</span> \</div><div class="line"> -w 1000 -c 32 -r 120 <span class="_">-l</span> 3600 \</div><div class="line"> <span class="_">-f</span> tpcc_mysql_20140921.log &gt;&gt; tpcc_caseX_20140921.log 2&gt;&amp;1</div></pre></td></tr></table></figure>
+<p>即：模拟 1000个仓库规模，并发 16个线程进行测试，热身时间为 60秒, 压测时间为 1小时。</p>
+<p>真实测试场景中，建议预热时间不小于5分钟，持续压测时长不小于30分钟，否则测试数据可能不具参考意义。</p>
+<p>###三、TPCC测试结果解读：</p>
+<p>发起测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./tpcc_start -h 1.2.3.4 -P 3306 <span class="_">-d</span> tpcc10 -u tpcc -p tpcc \</div><div class="line"> -w 10 -c 64 -r 30 <span class="_">-l</span> 120 \</div><div class="line"> <span class="_">-f</span> tpcclog_201409211538_64_THREADS.log &gt;&gt; tpcc_noaid_2_20140921_64.log 2&gt;&amp;1</div></pre></td></tr></table></figure>
+<p>测试结果输出如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">-- 本轮tpcc压测的一些基本信息</div><div class="line">***************************************</div><div class="line">*** <span class="comment">###easy### TPC-C Load Generator ***</span></div><div class="line">***************************************</div><div class="line">option h with value <span class="string">'1.2.3.4'</span>   -- 主机</div><div class="line">option P with value <span class="string">'3306'</span>             -- 端口</div><div class="line">option d with value <span class="string">'tpcc10'</span>         -- 数据库</div><div class="line">option u with value <span class="string">'tpcc'</span>             -- 账号</div><div class="line">option p with value <span class="string">'tpcc'</span>             -- 密码</div><div class="line">option w with value <span class="string">'10'</span>                 -- 仓库数</div><div class="line">option c with value <span class="string">'64'</span>                 -- 并发线程数</div><div class="line">option r with value <span class="string">'30'</span>                 -- 数据预热时长</div><div class="line">option l with value <span class="string">'120'</span>               -- 压测时长</div><div class="line">option f with value <span class="string">'tpcclog_20140921_64_THREADS.res'</span>  -- 输出报告日志文件</div><div class="line"></div><div class="line">     [server]: 1.2.3.4</div><div class="line">     [port]: 3306</div><div class="line">     [DBname]: tpcc10</div><div class="line">       [user]: tpcc</div><div class="line">       [pass]: tpcc</div><div class="line">  [warehouse]: 10</div><div class="line"> [connection]: 64</div><div class="line">     [rampup]: 30 (sec.)</div><div class="line">    [measure]: 120 (sec.)</div><div class="line"></div><div class="line">RAMP-UP TIME.(30 sec.)</div><div class="line"></div><div class="line">-- 预热结束，开始进行压测</div><div class="line">MEASURING START.</div><div class="line"></div><div class="line">-- 每10秒钟输出一次压测数据</div><div class="line">  10, 8376(0):2.744|3.211, 8374(0):0.523|1.626, 838(0):0.250|0.305, 837(0):3.241|3.518, 839(0):9.086|10.676</div><div class="line">  20, 8294(0):2.175|2.327, 8292(0):0.420|0.495, 829(0):0.206|0.243, 827(0):2.489|2.593, 827(0):7.214|7.646</div><div class="line">…</div><div class="line"> 110, 8800(0):2.149|2.458, 8792(0):0.424|0.710, 879(0):0.207|0.244, 878(0):2.461|2.556, 878(0):7.042|7.341</div><div class="line"> 120, 8819(0):2.147|2.327, 8820(0):0.424|0.568, 882(0):0.208|0.237, 881(0):2.483|2.561, 883(0):7.025|7.405</div><div class="line">-- 以逗号分隔，共6列</div><div class="line">-- 第一列，第N次10秒</div><div class="line">-- 第二列，新订单成功执行压测的次数(推迟执行压测的次数):90%事务的响应时间|本轮测试最大响应时间，新订单事务数也被认为是总有效事务数的指标</div><div class="line">-- 第三列，支付业务成功执行次数(推迟执行次数):90%事务的响应时间|本轮测试最大响应时间</div><div class="line">-- 第四列，订单状态业务的结果，后面几个的意义同上</div><div class="line">-- 第五列，物流发货业务的结果，后面几个的意义同上</div><div class="line">-- 第六列，库存仓储业务的结果，后面几个的意义同上</div><div class="line"></div><div class="line">-- 压测结束</div><div class="line">STOPPING THREADS................................................................</div><div class="line"></div><div class="line">   -- 第一次结果统计</div><div class="line">  [0] sc:100589  lt:0  rt:0  fl:0    -- New-Order，新订单业务成功(success,简写sc)次数，延迟(late,简写lt)次数，重试(retry,简写rt)次数，失败(failure,简写fl)次数</div><div class="line">  [1] sc:100552  lt:0  rt:0  fl:0    -- Payment，支付业务统计，其他同上</div><div class="line">  [2] sc:10059  lt:0  rt:0  fl:0    -- Order-Status，订单状态业务统计，其他同上</div><div class="line">  [3] sc:10057  lt:0  rt:0  fl:0    -- Delivery，发货业务统计，其他同上</div><div class="line">  [4] sc:10058  lt:0  rt:0  fl:0    -- Stock-Level，库存业务统计，其他同上</div><div class="line"> <span class="keyword">in</span> 120 sec.</div><div class="line"></div><div class="line">    -- 第二次统计结果，其他同上</div><div class="line">  [0] sc:100590  lt:0  rt:0  fl:0 </div><div class="line">  [1] sc:100582  lt:0  rt:0  fl:0 </div><div class="line">  [2] sc:10059  lt:0  rt:0  fl:0 </div><div class="line">  [3] sc:10057  lt:0  rt:0  fl:0 </div><div class="line">  [4] sc:10059  lt:0  rt:0  fl:0 </div><div class="line"></div><div class="line"> (all must be [OK])       -- 下面所有业务逻辑结果都必须为 OK 才行</div><div class="line"> [transaction percentage]</div><div class="line">        Payment: 43.47% (&gt;=43.0%) [OK]      -- 支付成功次数(上述统计结果中 sc + lt)必须大于43.0%，否则结果为NG，而不是OK</div><div class="line">   Order-Status: 4.35% (&gt;= 4.0%) [OK]       -- 订单状态，其他同上</div><div class="line">       Delivery: 4.35% (&gt;= 4.0%) [OK]       -- 发货，其他同上</div><div class="line">    Stock-Level: 4.35% (&gt;= 4.0%) [OK]       -- 库存，其他同上</div><div class="line"> [response time (at least 90% passed)]      -- 响应耗时指标必须超过90%通过才行</div><div class="line">      New-Order: 100.00%  [OK]              -- 下面几个响应耗时指标全部 100% 通过</div><div class="line">        Payment: 100.00%  [OK]</div><div class="line">   Order-Status: 100.00%  [OK]</div><div class="line">       Delivery: 100.00%  [OK]</div><div class="line">    Stock-Level: 100.00%  [OK]</div><div class="line"></div><div class="line"></div><div class="line">                 50294.500 TpmC                      -- TpmC结果值（每分钟事务数，该值是第一次统计结果中的新订单事务数除以总耗时分钟数，例如本例中是：100589/2 = 50294.500）</div></pre></td></tr></table></figure>
+<p>script目录下的一些脚本主要是一些性能数据采集以及分析的，可以自行摸索下怎么用。</p>
+<p>参考文章：<br>1、<a href="http://imysql.com/2014/10/10/tpcc-mysql-full-user-manual.shtml" target="_blank" rel="external">http://imysql.com/2014/10/10/tpcc-mysql-full-user-manual.shtml</a><br>2、<a href="https://github.com/yejr/tpcc-mysql-autoinc-pk" target="_blank" rel="external">https://github.com/yejr/tpcc-mysql-autoinc-pk</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/sysbench/" rel="tag"># sysbench</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/01/29/sysbench%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/" rel="prev" title="sysbench测试mysql性能">
+                  <i class="fa fa-chevron-left"></i> sysbench测试mysql性能
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/02/26/Haproxy-web%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="next" title="Haproxy web负载均衡">
+                  Haproxy web负载均衡 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+</div>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

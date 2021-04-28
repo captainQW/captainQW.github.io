@@ -1,34 +1,402 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block content %}
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Suche...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="ps: 如果想在mariadb10上使用tokudb就只能自己编译了。。。。 ###一、环境准备：tokudb的编译需要cmake 2.8.9+ 和 gcc 4.7+ 本文选用cmake 2.8.9 和 gcc4.8.1。这2个软件都只能使用源码编译安装。 cmake的很简单，直接下载wget http:&#x2F;&#x2F;www.cmake.org&#x2F;files&#x2F;v2.8&#x2F;cmake-2.8.9.tar.gz然后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos6.6安装mariadb10 Tokudb">
+<meta property="og:url" content="http://verynull.com/2015/11/20/centos6-6%E5%AE%89%E8%A3%85mariadb10-Tokudb/index.html">
+<meta property="og:site_name" content="Lau&#39;s Blog">
+<meta property="og:description" content="ps: 如果想在mariadb10上使用tokudb就只能自己编译了。。。。 ###一、环境准备：tokudb的编译需要cmake 2.8.9+ 和 gcc 4.7+ 本文选用cmake 2.8.9 和 gcc4.8.1。这2个软件都只能使用源码编译安装。 cmake的很简单，直接下载wget http:&#x2F;&#x2F;www.cmake.org&#x2F;files&#x2F;v2.8&#x2F;cmake-2.8.9.tar.gz然后">
+<meta property="og:locale">
+<meta property="article:published_time" content="2015-11-20T12:17:18.000Z">
+<meta property="article:modified_time" content="2015-11-19T12:57:40.000Z">
+<meta property="article:author" content="RamboLau">
+<meta property="article:tag" content="tokudb">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://verynull.com/2015/11/20/centos6-6%E5%AE%89%E8%A3%85mariadb10-Tokudb/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>centos6.6安装mariadb10 Tokudb | Lau's Blog</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten" role="button">
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Lau's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享知识，传播乐趣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Inhaltsverzeichnis
+        </li>
+        <li class="sidebar-nav-overview">
+          Übersicht
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RamboLau</p>
+  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-name">Artikel</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">Kategorien</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">schlagwörter</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://verynull.com/2015/11/20/centos6-6%E5%AE%89%E8%A3%85mariadb10-Tokudb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RamboLau">
+      <meta itemprop="description" content="记录生活，分享知识，传播乐趣">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lau's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          centos6.6安装mariadb10 Tokudb
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Veröffentlicht am</span>
+
+      <time title="Erstellt: 2015-11-20 20:17:18" itemprop="dateCreated datePublished" datetime="2015-11-20T20:17:18+08:00">2015-11-20</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Bearbeitet am</span>
+        <time title="Geändert am: 2015-11-19 20:57:40" itemprop="dateModified" datetime="2015-11-19T20:57:40+08:00">2015-11-19</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">in</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>ps: 如果想在mariadb10上使用tokudb就只能自己编译了。。。。</p>
+<p>###一、环境准备：<br>tokudb的编译需要cmake 2.8.9+ 和 gcc 4.7+</p>
+<p>本文选用cmake 2.8.9 和 gcc4.8.1。<br>这2个软件都只能使用源码编译安装。</p>
+<p>cmake的很简单，直接下载<br>wget <a href="http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz" target="_blank" rel="external">http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz</a><br>然后解压进行编译<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./configure</div><div class="line">make &amp; make install</div></pre></td></tr></table></figure></p>
+<p>###二、安装gcc 4.8.1</p>
+<p>####1、下载gcc 4.8.1源码包：<br><a href="http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-4.8.1/gcc-4.8.1.tar.bz2" target="_blank" rel="external">http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-4.8.1/gcc-4.8.1.tar.bz2</a><br>我是虚拟机里面装的Linux，我嫌wget太慢，所以自己在Windows上用迅雷下好，然后共享到Linux中。</p>
+<p>####2、解压：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -jxvf gcc-4.8.1.tar.bz2</div></pre></td></tr></table></figure></p>
+<p>####3、下载编译所需的依赖包：<br>这个步骤有两种方式完成：<br>a) 如果Linux有网络连接，直接这样：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> gcc-4.8.1</div><div class="line">./contrib/download_prerequisites</div><div class="line"><span class="built_in">cd</span> ..</div></pre></td></tr></table></figure></p>
+<p>b) 如果Linux没有网络连接（我主机和虚拟机是Host-only，不能联网，所以另外想办法），则用Windows上网下载这几个包：<br>ftp://ftp.gnu.org/gnu/gmp/gmp-4.3.2.tar.bz2<br><a href="http://www.mpfr.org/mpfr-2.4.2/mpfr-2.4.2.tar.bz2" target="_blank" rel="external">http://www.mpfr.org/mpfr-2.4.2/mpfr-2.4.2.tar.bz2</a><br><a href="http://www.multiprecision.org/mpc/download/mpc-0.8.1.tar.gz" target="_blank" rel="external">http://www.multiprecision.org/mpc/download/mpc-0.8.1.tar.gz</a><br>有人问，一定要下载几个版本吗？下载最新的版本行不行？我没试过，也不知道，我是按照gcc-4.8.1/contrib/download_prerequisites脚本里面的版本下载的。既然里面已经说了这几个版本，那我就严格按照它的要求来做。<br>然后解压并移动到gcc-4.8.1下面：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">tar -xjf gmp-4.3.2.tar.bz2</div><div class="line">tar -xjf mpfr-2.4.2.tar.bz2</div><div class="line">tar -xzf mpc-0.8.1.tar.gz</div><div class="line">mv gmp-4.3.2 gcc-4.8.1/gmp</div><div class="line">mv mpfr-2.4.2 gcc-4.8.1/mpfr</div><div class="line">mv mpc-0.8.1 gcc-4.8.1/mpc</div></pre></td></tr></table></figure></p>
+<p>这样的做法好处是，不用单独编译gmp、mpfr和mpc三个包，放在gcc源码下面一起编译（事实上这也是gcc-4.8.1/contrib/download_prerequisites脚本的做法，个人感觉更简洁些）。</p>
+<p>####4、新建目录用于存放编译结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir gcc-build-4.8.1</div></pre></td></tr></table></figure></p>
+<p>####5、进入新目录，并执行configure命令，产生makefile：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> gcc-build-4.8.1</div><div class="line">../gcc-4.8.1/configure --enable-checking=release --enable-languages=c,c++ --disable-multilib</div></pre></td></tr></table></figure></p>
+<p>具体选项不多解释，大家可以自己查看，我只用到c和c++，所以只编译这两种语言的编译器。</p>
+<p>####6、编译：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make -j4</div></pre></td></tr></table></figure></p>
+<p>我是i5四核，所以开4个线程同时编译，要是有8核就更爽了~我在虚拟机里面花了30分钟不到的时间，不算太慢了。</p>
+<p>####7、安装：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo make install</div></pre></td></tr></table></figure></p>
+<p>####8、大功告成，检查版本：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">g++ --version</div><div class="line">g++ (GCC) 4.8.1</div><div class="line">Copyright (C) 2013 Free Software Foundation, Inc.</div><div class="line">This is free software; see the <span class="built_in">source</span> <span class="keyword">for</span> copying conditions. There is NO</div><div class="line">warranty; not even <span class="keyword">for</span> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</div></pre></td></tr></table></figure></p>
+<p>###三、编译安装<br>下载mariadb源码mariadb-10.0.14.tar.gz<br> <a href="https://downloads.mariadb.org/mariadb/10.0.14/" target="_blank" rel="external">https://downloads.mariadb.org/mariadb/10.0.14/</a></p>
+<p>首先需要修改tokudb的cmake编译文件，去掉fuse-linker-plugin相关内容<br>修改mariadb-10.0.14/storage/tokudb/ft-index/cmake_modules/TokuSetupCompiler.cmake<br>去掉所有的 -fuse-linker-plugin ：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#  set(CMAKE_C_FLAGS_RELWITHDEBINFO "-flto -fuse-linker-plugin $&#123;CMAKE_C_FLAGS_RELWITHDEBINFO&#125; -g -O3 -UNDEBUG")</span></div><div class="line"><span class="comment">#  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-flto -fuse-linker-plugin $&#123;CMAKE_CXX_FLAGS_RELWITHDEBINFO&#125; -g -O3 -UNDEBUG")</span></div><div class="line"><span class="comment">#  set(CMAKE_C_FLAGS_RELEASE "-g -O3 -flto -fuse-linker-plugin $&#123;CMAKE_C_FLAGS_RELEASE&#125; -UNDEBUG")</span></div><div class="line"><span class="comment">#  set(CMAKE_CXX_FLAGS_RELEASE "-g -O3 -flto -fuse-linker-plugin $&#123;CMAKE_CXX_FLAGS_RELEASE&#125; -UNDEBUG")</span></div><div class="line"><span class="comment">#  set(CMAKE_EXE_LINKER_FLAGS "-g -fuse-linker-plugin $&#123;CMAKE_EXE_LINKER_FLAGS&#125;")</span></div><div class="line"><span class="comment">#  set(CMAKE_SHARED_LINKER_FLAGS "-g -fuse-linker-plugin $&#123;CMAKE_SHARED_LINKER_FLAGS&#125;")</span></div><div class="line"></div><div class="line">  <span class="built_in">set</span>(CMAKE_C_FLAGS_RELWITHDEBINFO <span class="string">"-flto  <span class="variable">$&#123;CMAKE_C_FLAGS_RELWITHDEBINFO&#125;</span> -g -O3 -UNDEBUG"</span>)</div><div class="line">  <span class="built_in">set</span>(CMAKE_CXX_FLAGS_RELWITHDEBINFO <span class="string">"-flto <span class="variable">$&#123;CMAKE_CXX_FLAGS_RELWITHDEBINFO&#125;</span> -g -O3 -UNDEBUG"</span>)</div><div class="line">  <span class="built_in">set</span>(CMAKE_C_FLAGS_RELEASE <span class="string">"-g -O3 -flto  <span class="variable">$&#123;CMAKE_C_FLAGS_RELEASE&#125;</span> -UNDEBUG"</span>)</div><div class="line">  <span class="built_in">set</span>(CMAKE_CXX_FLAGS_RELEASE <span class="string">"-g -O3 -flto  <span class="variable">$&#123;CMAKE_CXX_FLAGS_RELEASE&#125;</span> -UNDEBUG"</span>)</div><div class="line">  <span class="built_in">set</span>(CMAKE_EXE_LINKER_FLAGS <span class="string">"-g  <span class="variable">$&#123;CMAKE_EXE_LINKER_FLAGS&#125;</span>"</span>)</div><div class="line">  <span class="built_in">set</span>(CMAKE_SHARED_LINKER_FLAGS <span class="string">"-g  <span class="variable">$&#123;CMAKE_SHARED_LINKER_FLAGS&#125;</span>"</span>)</div></pre></td></tr></table></figure></p>
+<p>然后是/home/gao-compile/mariadb-10.0.14/storage/tokudb/CMakeLists.txt<br>去掉所有的 -fuse-linker-plugin ：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#SET(CMAKE_MODULE_LINKER_FLAGS_RELEASE "$&#123;CMAKE_MODULE_LINKER_FLAGS_RELEASE&#125; -flto -fuse-linker-plugin")</span></div><div class="line"><span class="comment">#SET(CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO "$&#123;CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO&#125; -flto -fuse-linker-plugin")</span></div><div class="line"></div><div class="line">SET(CMAKE_MODULE_LINKER_FLAGS_RELEASE <span class="string">"<span class="variable">$&#123;CMAKE_MODULE_LINKER_FLAGS_RELEASE&#125;</span> -flto"</span>)</div><div class="line">SET(CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO <span class="string">"<span class="variable">$&#123;CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO&#125;</span> -flto"</span>)</div></pre></td></tr></table></figure></p>
+<p>然后进行编译：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> mariadb-10.0.14</div><div class="line">mkdir release</div><div class="line">./BUILD/compile-pentium64-max --prefix=/home/gao-compile/mariadb-10.0.14/release</div><div class="line">make install</div></pre></td></tr></table></figure></p>
+<p>然后在/home/gao-compile/mariadb-10.0.14/release/lib/plugin 目录中找到 ha_tokudb.so动态库。<br>这个就是我们要的东西了！</p>
+<p>注：其实可以直接在mariadb-10.0.14/storage/tokudb目录中直接进行编译，而不用去编译整个mariadb，因为编译出来的也无法使用， mysqld可执行程序依赖GLIBCXX_3.4.15<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@GXX release]<span class="comment"># ldd bin/mysqld</span></div><div class="line">bin/mysqld: /usr/lib64/libstdc++.so.6: version `GLIBCXX_3.4.15<span class="string">' not found (required by bin/mysqld)</span></div></pre></td></tr></table></figure></p>
+<p>在mariadb官网<a href="https://downloads.mariadb.org/mariadb/10.0.14/下载带有mariadb的二进制包。从mariadb官网下载10.0.14的不带tokudb的可执行程序tar包，然后将我们编译好的tokudb.so拷贝到" target="_blank" rel="external">https://downloads.mariadb.org/mariadb/10.0.14/下载带有mariadb的二进制包。从mariadb官网下载10.0.14的不带tokudb的可执行程序tar包，然后将我们编译好的tokudb.so拷贝到</a><br>[maradb10.0.14]/lib/plugin/下<br>我这里下载的包，10.0.14<br>mariadb-10.0.14-linux-x86_64.tar.gz </p>
+<p>###四、初始化</p>
+<p>####1、前期账号创建<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; groupadd mysql</div><div class="line">shell&gt; useradd -g mysql mysql</div></pre></td></tr></table></figure></p>
+<p>####2、解压软件包<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt; <span class="built_in">cd</span> /usr/<span class="built_in">local</span></div><div class="line">shell&gt; tar -zxvf mariadb-10.0.14-linux-x86_64.tar.gz</div><div class="line">shell&gt; ln <span class="_">-s</span> mariadb-10.0.14-linux-x86_64 mysql</div></pre></td></tr></table></figure></p>
+<p>####3、设置权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt; <span class="built_in">cd</span> mysql</div><div class="line">shell&gt; chown -R mysql .</div><div class="line">shell&gt; chgrp -R mysql .</div></pre></td></tr></table></figure></p>
+<p>####4、创建配置文件/etc/my.cnf<br>创建存放数据源的目录<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Shell&gt; mkdir -p /<span class="keyword">var</span>/lib/mysql</div><div class="line">Shell&gt; mkdir -p /data/mysqldata /data/mysqllog</div><div class="line">Shell&gt; chown -R mysql:mysql /<span class="keyword">var</span>/lib/mysql /data/mysqldata /data/mysqllog</div></pre></td></tr></table></figure></p>
+<p>在附件中给出，请参考附配置文件内容</p>
+<p>####5、初始化DB<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Shell&gt; scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf</div><div class="line">shell&gt; chown -R root .</div></pre></td></tr></table></figure></p>
+<p>####6、修改系统参数<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</div><div class="line"><span class="keyword">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag</div></pre></td></tr></table></figure></p>
+<p>建议写到 /etc/rc.local 中，重启后也可生效</p>
+<p>####7、启动数据库<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell&gt; bin/mysqld_safe --user=mysql &amp;</div></pre></td></tr></table></figure></p>
+<p>####8、把启动文件放去自启动中<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</div><div class="line">chkconfig --add mysqld</div><div class="line">service mysqld start</div><div class="line">service mysqld stop</div></pre></td></tr></table></figure></p>
+<p>####9、安装tokudb支持<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INSTALL SONAME <span class="string">'ha_tokudb'</span>;</div></pre></td></tr></table></figure></p>
+<p>查看是否支持<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show engines</div><div class="line">    -&gt; ;</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Engine             | Support | Comment                                                                    | Transactions | XA   | Savepoints |</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| MyISAM             | YES     | MyISAM storage engine                                                      | NO           | NO   | NO         |</div><div class="line">| CSV                | YES     | CSV storage engine                                                         | NO           | NO   | NO         |</div><div class="line">| MRG_MyISAM         | YES     | Collection of identical MyISAM tables                                      | NO           | NO   | NO         |</div><div class="line">| BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears)             | NO           | NO   | NO         |</div><div class="line">| MEMORY             | YES     | Hash based, stored <span class="keyword">in</span> memory, useful <span class="keyword">for</span> temporary tables                  | NO           | NO   | NO         |</div><div class="line">| TokuDB             | YES     | Tokutek TokuDB Storage Engine with Fractal Tree(tm) Technology             | YES          | YES  | YES        |</div><div class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                         | NO           | NO   | NO         |</div><div class="line">| ARCHIVE            | YES     | Archive storage engine                                                     | NO           | NO   | NO         |</div><div class="line">| FEDERATED          | YES     | FederatedX pluggable storage engine                                        | YES          | NO   | YES        |</div><div class="line">| InnoDB             | DEFAULT | Percona-XtraDB, Supports transactions, row-level locking, and foreign keys | YES          | YES  | YES        |</div><div class="line">| Aria               | YES     | Crash-safe tables with MyISAM heritage                                     | NO           | NO   | NO         |</div><div class="line">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">11 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.11 sec)</div></pre></td></tr></table></figure></p>
+<p>看到上面一行红字就代表数据库支持TokuDB的存储引擎了。</p>
+<p>tokudb安装顺利完成，后附配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">[root@localhost mysql]<span class="comment"># cat /etc/my.cnf </span></div><div class="line">[mysqld]</div><div class="line">datadir=/var/lib/mysql</div><div class="line">socket=/var/lib/mysql/mysql.sock</div><div class="line">user=mysql</div><div class="line"><span class="comment"># Disabling symbolic-links is recommended to prevent assorted security risks</span></div><div class="line">symbolic-links=0</div><div class="line"><span class="comment">#public</span></div><div class="line">max_connections=3000</div><div class="line">max_connect_errors=6000</div><div class="line">key_buffer_size = 384M</div><div class="line">low_priority_updates = 1</div><div class="line">back_log = 1500</div><div class="line">query_cache_type = 1</div><div class="line">query_cache_size = 64M</div><div class="line">query_cache_limit = 4M</div><div class="line">query_cache_min_res_unit = 2k</div><div class="line">tmp_table_size = 256M</div><div class="line">read_buffer_size=1M</div><div class="line">read_rnd_buffer_size = 16M</div><div class="line">bulk_insert_buffer_size = 64M</div><div class="line">max_allowed_packet = 64M</div><div class="line">thread_cache_size = 300</div><div class="line"><span class="comment">#file</span></div><div class="line">innodb_file_per_table</div><div class="line"><span class="comment">#buffer</span></div><div class="line">innodb_buffer_pool_size = 2500M</div><div class="line">innodb_log_buffer_size = 64M</div><div class="line">join_buffer_size = 16M</div><div class="line">sort_buffer_size = 16M</div><div class="line">innodb_max_dirty_pages_pct = 90</div><div class="line">innodb_lock_wait_timeout = 120</div><div class="line">innodb_thread_concurrency = 16</div><div class="line">innodb_flush_log_at_trx_commit = 2</div><div class="line">character_set_server=utf8</div><div class="line">init_connect=<span class="string">'SET NAMES utf8'</span></div><div class="line"></div><div class="line"><span class="comment">#把TokuDB datadir以及logdir和MySQL的datadir分开，美观点，也可以不分开，注释掉本行以及下面2行即可</span></div><div class="line">tokudb_data-dir = /data/mysqldata</div><div class="line">tokudb_log-dir = /data/mysqllog</div><div class="line"><span class="comment">#TokuDB的行模式，建议用 FAST 就足够了，如果磁盘空间很紧张，建议用 SMALL</span></div><div class="line">tokudb_row_format = tokudb_small</div><div class="line">tokudb_row_format = tokudb_fast</div><div class="line">tokudb_cache_size = 2G</div><div class="line"><span class="comment">#其他大部分配置其实可以不用修改的，只需要几个关键配置即可</span></div><div class="line">tokudb_commit_sync = 0</div><div class="line">tokudb_directio = 1</div><div class="line">tokudb_read_block_size = 128K</div><div class="line">tokudb_read_buf_size = 128K</div><div class="line"></div><div class="line">[mysqld_safe]</div><div class="line"><span class="built_in">log</span>-error=/var/<span class="built_in">log</span>/mysqld.log</div><div class="line">pid-file=/var/run/mysqld/mysqld.pid</div></pre></td></tr></table></figure></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tokudb/" rel="tag"># tokudb</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/11/19/Drupal8%E4%B8%BB%E9%A2%98-theme/" rel="prev" title="Drupal8主题(theme)">
+                  <i class="fa fa-chevron-left"></i> Drupal8主题(theme)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2015/11/21/centos6-6%E5%AE%89%E8%A3%85Percona-Tokudb/" rel="next" title="centos6.6安装Percona Tokudb">
+                  centos6.6安装Percona Tokudb <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+</div>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

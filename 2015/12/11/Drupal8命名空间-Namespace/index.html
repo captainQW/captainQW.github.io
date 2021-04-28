@@ -1,34 +1,421 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block page_class %}page-post-detail{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block content %}
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"verynull.com","root":"/","images":"/images","scheme":"Muse","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Suche...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="命名空间是php5.3引进的概念，这边文章主要介绍在Drupal中如何使用命名空间，如果你对命名空间还不熟悉，请移步到这里学习，这篇文章article introducing namespaces也讲的不错。 在Drupal中，并不是每一个文件都需要指定命名空间。Drupal8之前为了跟php5.2保持兼容，从未用过命名空间。Drupal8限定了php版本必须是5.5以上，So，让我们尽情的享受O">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Drupal8命名空间(Namespace)">
+<meta property="og:url" content="http://verynull.com/2015/12/11/Drupal8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4-Namespace/index.html">
+<meta property="og:site_name" content="Lau&#39;s Blog">
+<meta property="og:description" content="命名空间是php5.3引进的概念，这边文章主要介绍在Drupal中如何使用命名空间，如果你对命名空间还不熟悉，请移步到这里学习，这篇文章article introducing namespaces也讲的不错。 在Drupal中，并不是每一个文件都需要指定命名空间。Drupal8之前为了跟php5.2保持兼容，从未用过命名空间。Drupal8限定了php版本必须是5.5以上，So，让我们尽情的享受O">
+<meta property="og:locale">
+<meta property="article:published_time" content="2015-12-11T08:05:20.000Z">
+<meta property="article:modified_time" content="2015-12-23T09:36:40.000Z">
+<meta property="article:author" content="RamboLau">
+<meta property="article:tag" content="namespace">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://verynull.com/2015/12/11/Drupal8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4-Namespace/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+<title>Drupal8命名空间(Namespace) | Lau's Blog</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten" role="button">
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Lau's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录生活，分享知识，传播乐趣</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Inhaltsverzeichnis
+        </li>
+        <li class="sidebar-nav-overview">
+          Übersicht
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RamboLau</p>
+  <div class="site-description" itemprop="description">记录生活，分享知识，传播乐趣</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-name">Artikel</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">Kategorien</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">schlagwörter</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://verynull.com/2015/12/11/Drupal8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4-Namespace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RamboLau">
+      <meta itemprop="description" content="记录生活，分享知识，传播乐趣">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lau's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Drupal8命名空间(Namespace)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Veröffentlicht am</span>
+
+      <time title="Erstellt: 2015-12-11 16:05:20" itemprop="dateCreated datePublished" datetime="2015-12-11T16:05:20+08:00">2015-12-11</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Bearbeitet am</span>
+        <time title="Geändert am: 2015-12-23 17:36:40" itemprop="dateModified" datetime="2015-12-23T17:36:40+08:00">2015-12-23</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">in</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Drupal8/" itemprop="url" rel="index"><span itemprop="name">Drupal8</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>命名空间是php5.3引进的概念，这边文章主要介绍在Drupal中如何使用命名空间，如果你对命名空间还不熟悉，请移步到<a href="http://php.net/manual/zh/language.namespaces.php" title="PHP:命名空间" target="_blank" rel="external">这里</a>学习，这篇文章<a href="http://www.sitepoint.com/php-53-namespaces-basics/" title="php53:namespace" target="_blank" rel="external">article introducing namespaces</a>也讲的不错。</p>
+<p>在Drupal中，并不是每一个文件都需要指定命名空间。Drupal8之前为了跟php5.2保持兼容，从未用过命名空间。Drupal8限定了php版本必须是5.5以上，So，让我们尽情的享受OOP的乐趣吧！</p>
+<p>###用”use”导入类</p>
+<blockquote>
+<p>在访问系统内部或包含在命名空间中的类名称时，可以不使用完全限定名称。命名空间和use关键字的声明必须放在文件的开头，并且以反斜杠\做为分隔符。如</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">mymodule</span>\<span class="title">Tests</span>\<span class="title">Foo</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">simpletest</span>\<span class="title">WebTestBase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Tests that the foo bars.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BarTest</span> <span class="keyword">extends</span> <span class="title">WebTestBase</span> </span>&#123;</div><div class="line">	<span class="comment">// WebTestBase前不需要加\</span></div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>在访问系统内部或不包含在命名空间中的类名称时，必须使用完全限定名称。如</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> \<span class="keyword">Exception</span>();</div></pre></td></tr></table></figure>
+<blockquote>
+<p>在一个没有声明命名空间的文件里，就算它是全局命名空间，如果要使用其他非全局命名空间的类，必须使用”use”关键字，并且需要声明在文件的开头哦！</p>
+<p>当用”use”导入类时，不要在开头加\。大PHP官方也是这么推荐的，见<a href="http://www.php.net/manual/en/language.namespaces.importing.php" target="_blank" rel="external">PHP documentation</a></p>
+<p>当在字符串中指定类名时，必须使用带命名空间的全类名，并且不能以\开头。</p>
+</blockquote>
+<pre><code>如果要在双引号中使用命名空间，必须转义，如：
+</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"Drupal\\Content\\ContentInterface"</span></div></pre></td></tr></table></figure>
+<pre><code>在单引号中就不需要转义了，如：
+</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">'Drupal\Context\ContextInterface'</span></div></pre></td></tr></table></figure>
+<pre><code>通常情况下，推荐使用单引号的写法！
+</code></pre><blockquote>
+<p>一个”use”只能声明一个类，不建议使用”use”导入多个类.如这种写法就是不推荐的</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> <span class="title">My</span>\<span class="title">Full</span>\<span class="title">Classname</span>, <span class="title">My</span>\<span class="title">Full</span>\<span class="title">NSname</span>;</div></pre></td></tr></table></figure>
+<pre><code>而这种写法是推荐的
+</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> <span class="title">My</span>\<span class="title">Full</span>\<span class="title">Classname</span>;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>在.api.php这种API文件中必须使用类的全名，这样别人要想hook你的类，他们就可以”use”导入了。如</p>
+</blockquote>
+<p>定义Drupal\Subsystem\Foo</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\Subsystem\Foo.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">Subsystem</span>;</div><div class="line"></div><div class="line"><span class="comment">// This imports just the Cat class from the Drupal\Othersystem namespace.</span></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Othersystem</span>\<span class="title">Cat</span>;</div><div class="line"></div><div class="line"><span class="comment">// Bar is a class in the Drupal\Subsystem namespace in another file.</span></div><div class="line"><span class="comment">// It is already available without any importing.</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Defines a Foo.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Constructs a new Foo object.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(Bar $b, Cat $c)</span> </span>&#123;</div><div class="line">    <span class="comment">// Global classes must be prefixed with a \ character.</span></div><div class="line">    $d = <span class="keyword">new</span> \DateTime();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>hook Drupal\Subsystem\Foo</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * The Example module.</div><div class="line"> *</div><div class="line"> * This file is not part of any namespace, so all global namespaced classes</div><div class="line"> *  are automatically available.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Subsystem</span>\<span class="title">Foo</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Does stuff with Foo stuff.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> \Drupal\Subsystem\Foo $f</div><div class="line"> *   A Foo object used to bar the baz.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">do_stuff</span><span class="params">(Foo $f)</span> </span>&#123;</div><div class="line">  <span class="comment">// The DateTime class does not need to be imported as it is already global</span></div><div class="line">  $d = <span class="keyword">new</span> DateTime();</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>###类的别名</p>
+<p>php允许导入类的时候使用别名，这样可以避免可恶的重名！一旦两个类重名了，可以将各自命名空间里的上一级的名字拿出来作为相应的前缀。</p>
+<p>如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">use</span> <span class="title">Foo</span>\<span class="title">Bar</span>\<span class="title">Baz</span> <span class="title">as</span> <span class="title">BarBaz</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Stuff</span>\<span class="title">Thing</span>\<span class="title">Baz</span> <span class="title">as</span> <span class="title">ThingBaz</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Tests stuff for the whichever.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</div><div class="line">  $a = <span class="keyword">new</span> BarBaz(); <span class="comment">// This will be Foo\Bar\Baz</span></div><div class="line">  $b = <span class="keyword">new</span> ThingBaz(); <span class="comment">// This will be Stuff\Thing\Baz</span></div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>###导入的顺序</p>
+<p>如果要导入多个类，Drupal8并没有限制导入的顺序。如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">block</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityForm</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityManagerInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormState</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormStateInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>###模块</p>
+<p>模块中的类必须申明为特定的命名空间，如模块名为example_module。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">example_module</span></div></pre></td></tr></table></figure>
+<p>要在Drupal8中自动加载(autoload)，还要这些类归置到指定的文件夹下，一般约定在</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">modules/example_module/src</div></pre></td></tr></table></figure>
+<p>举个简单的例子，如：</p>
+<blockquote>
+<p>NO.1</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 声明命名空间</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">example_module</span></div><div class="line"></div><div class="line">// 创建类</div><div class="line"><span class="title">class</span> <span class="title">Foo</span> &#123;&#125;</div></pre></td></tr></table></figure>
+<p>这个对应的文件就是example_module/src/Foo.php。</p>
+<blockquote>
+<p>NO.2<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 声明命名空间</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">example_module</span>\<span class="title">Foo</span></div><div class="line"></div><div class="line">// 创建类</div><div class="line"><span class="title">class</span> <span class="title">Bar</span> &#123;&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>这个对应的文件就是example_module/src/Foo/Bar.php。</p>
+<p>以上，就是对Drupal8的命名空间做简单的梳理和介绍。欢迎拍砖交流！</p>
+<p>参考文章：<br>1、<a href="https://www.drupal.org/node/1353118" target="_blank" rel="external">https://www.drupal.org/node/1353118</a><br>2、<a href="https://www.drupal.org/node/2156625" target="_blank" rel="external">https://www.drupal.org/node/2156625</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/namespace/" rel="tag"># namespace</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/11/28/%E9%AB%98%E6%80%A7%E8%83%BDmysql%E4%B8%BB%E4%BB%8E%E6%9E%B6%E6%9E%84%E5%8F%8AMHA%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="prev" title="高性能mysql主从架构及MHA高可用负载均衡">
+                  <i class="fa fa-chevron-left"></i> 高性能mysql主从架构及MHA高可用负载均衡
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2015/12/12/Drupal8%E6%B3%A8%E8%A7%A3-Annotations-%E8%AF%AD%E6%B3%95/" rel="next" title="Drupal8注解(Annotations)语法">
+                  Drupal8注解(Annotations)语法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">RamboLau</span>
+</div>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
