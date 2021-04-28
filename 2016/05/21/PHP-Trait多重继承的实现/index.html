@@ -1,86 +1,34 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title>PHP Trait多重继承的实现</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
-
-</head>
-
-<body>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-<h2 class="title">PHP Trait多重继承的实现</h2>
-<!---
-<div style="text-align:center;margin-top: -10px;">
-<div class="article-category">
-发表于2016年5月21日
+{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+
+{% block page_class %}page-post-detail{% endblock %}
 
 
-    <a class="article-category-link" href="/categories/PHP/">PHP</a>
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
 
-
- </div>
---->
-</div>
-
-
-<p>官方地址：<br><a href="http://php.net/manual/en/language.oop5.traits.php" target="_blank" rel="external">http://php.net/manual/en/language.oop5.traits.php</a></p>
-<p>自 PHP 5.4.0 起，PHP 实现了代码复用的一个方法，称为 traits。</p>
-<p>Traits 是一种为类似 PHP 的单继承语言而准备的代码复用机制。Trait 为了减少单继承语言的限制，使开发人员能够自由地在不同层次结构内独立的类中复用方法集。Traits 和类组合的语义是定义了一种方式来减少复杂性，避免传统多继承和混入类（Mixin）相关的典型问题。</p>
-<p>Trait 和一个类相似，但仅仅旨在用细粒度和一致的方式来组合功能。Trait 不能通过它自身来实例化。它为传统继承增加了水平特性的组合；也就是说，应用类的成员不需要继承。</p>
-<p>在我理解说白了就是在继承类链中隔离了子类继承父类的某些特性（就是子类“要用父类的特性的时候”，如果trait有，就优先调用trait的方法、属性等）。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">trait</span> MyTrait</div><div class="line">&#123;</div><div class="line">    <span class="keyword">protected</span> $var = <span class="string">"MyTrait_var"</span>;</div><div class="line">    <span class="keyword">protected</span> $var1 = <span class="string">"MyTrait_var"</span>;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;var.PHP_EOL;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">a</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"a"</span>.PHP_EOL;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">MyInterface</span></span></div><div class="line">&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAbstract</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">protected</span> $var2 = <span class="string">"MyAbstract_var"</span>;</div><div class="line"> </div><div class="line">    <span class="keyword">use</span> <span class="title">MyTrait</span>;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">b</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"b"</span>.PHP_EOL;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> <span class="keyword">extends</span> <span class="title">MyAbstract</span> <span class="keyword">implements</span> <span class="title">MyInterface</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">protected</span> $var3 = <span class="string">"MyClass_var"</span>;</div><div class="line"> </div><div class="line">    <span class="comment">//也可以在这里引用，不区分继承关系</span></div><div class="line">    <span class="comment">//use MyTrait;</span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">c</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"c"</span>.PHP_EOL;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">$class = <span class="keyword">new</span> MyClass();</div><div class="line">$class-&gt;a();</div><div class="line">$class-&gt;b();</div><div class="line">$class-&gt;c();</div></pre></td></tr></table></figure>
-<p>输出结果<br>MyTrait_var<br>a<br>b<br>c</p>
-<p>总结：</p>
-<p>从本质上说，trait和include文件的概念差不多<br>trait可以更加方便的实现代码复用，因为我们用继承关系实现的无法在父类中访问子类的private属性与方法，而trait就和把代码直接写在对象里效果一样。<br>使用trait时候应该坚决避免命名冲突，尤其是同时使用多个trait时。<br>如果产生了命名冲突，如果两者的可见性、初始值、static与否完全相同，则trait中的会覆盖掉对象中的，并抛出E_STRICT错误，否则会抛出E_COMPILE_ERROR错误，终止编译。</p>
-
-
-<!--<a href="http://verynull.com/2016/05/21/PHP-Trait多重继承的实现/#disqus_thread" class="article-comment-link">Comments</a>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
--->
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
-</div>
-
-
-
-
-
-
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}

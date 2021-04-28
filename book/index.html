@@ -1,88 +1,47 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title>读书</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
+{% extends '_layout.swig' %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+{% block title %}
+  {% set page_title_suffix = ' | ' + config.title %}
 
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
+  {% if page.type === "categories" %}
+    {{ __('title.category') + page_title_suffix }}
+  {% elif page.type === "tags" %}
+    {{ __('title.tag') + page_title_suffix }}
+  {% else %}
+    {{ page.title + page_title_suffix }}
+  {% endif %}
+{% endblock %}
 
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+{% block content %}
 
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
+  <div id="posts" class="posts-expand">
+    {# tagcloud page support #}
+    {% if page.type === "tags" %}
+      <div class="tag-cloud">
+        <div class="tag-cloud-title">
+            {{ _p('counter.tag_cloud', site.tags.length) }}
+        </div>
+        <div class="tag-cloud-tags">
+          {{ tagcloud({min_font: 12, max_font: 30, amount: 200, color: true, start_color: '#ccc', end_color: '#111'}) }}
+        </div>
+      </div>
+    {% elif page.type === 'categories' %}
+      <div class="category-all-page">
+        <div class="category-all-title">
+            {{ _p('counter.categories', site.categories.length) }}
+        </div>
+        <div class="category-all">
+          {{ list_categories() }}
+        </div>
+      </div>
+    {% else %}
+      {{ page.content }}
+    {% endif %}
+  </div>
 
-</head>
+{% endblock %}
 
-<body>
-
-
-<h2 class="title">读书</h2>
-<!---
-<div style="text-align:center;margin-top: -10px;">
-<div class="article-category">
-发表于2013年12月11日
-
-
-
-
- </div>
---->
-</div>
-
-
-<p>#技术类</p>
-<p>##一、C语言<br>1、C和指针 POINTERS ON C<br><a href="http://book.douban.com/subject/3012360/" target="_blank" rel="external">http://book.douban.com/subject/3012360/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607192913_17450.png" alt="C和指针 POINTERS ON C"></p>
-<p>2、C程序设计语言<br><a href="http://book.douban.com/subject/1882483/" target="_blank" rel="external">http://book.douban.com/subject/1882483/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607193640_43759.png" alt="C程序设计语言"></p>
-<p>##二、linux/unix<br>1、UNIX环境高级编程（第3版）<br><a href="http://book.douban.com/subject/25900403/" target="_blank" rel="external">http://book.douban.com/subject/25900403/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607194441_29635.png" alt="UNIX环境高级编程（第3版）"></p>
-<p>##三、javascript<br>1、XSS跨站脚本攻击剖析与防御<br><a href="http://book.douban.com/subject/25711796/" target="_blank" rel="external">http://book.douban.com/subject/25711796/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607190222_62911.png" alt="XSS跨站脚本攻击剖析与防御"></p>
-<p>2、JavaScript权威指南(第6版)<br><a href="http://book.douban.com/subject/10549733/" target="_blank" rel="external">http://book.douban.com/subject/10549733/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607193943_52100.png" alt="JavaScript权威指南(第6版)"></p>
-<p>##四、其他<br>1、优质代码<br><a href="http://book.douban.com/subject/26301904/" target="_blank" rel="external">http://book.douban.com/subject/26301904/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607190608_91484.png" alt="优质代码"></p>
-<p>2、编程珠玑<br><a href="http://book.douban.com/subject/3227098/" target="_blank" rel="external">http://book.douban.com/subject/3227098/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607190924_81629.png" alt="编程珠玑"></p>
-<p>#文史类</p>
-<p>1、战天京<br><a href="http://book.douban.com/subject/1027725/" target="_blank" rel="external">http://book.douban.com/subject/1027725/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607190156_90881.png" alt="战天京"></p>
-<p>2、甘南记事<br><a href="https://book.douban.com/subject/6840152/" target="_blank" rel="external">https://book.douban.com/subject/6840152/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607192301_10135.png" alt="甘南记事"></p>
-<p>3、夹边沟记事<br><a href="http://book.douban.com/subject/1064223/" target="_blank" rel="external">http://book.douban.com/subject/1064223/</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607192420_64669.png" alt="夹边沟记事"></p>
-<p>4、定西孤儿院<br><a href="http://baike.baidu.com/view/1390137.htm" target="_blank" rel="external">http://baike.baidu.com/view/1390137.htm</a><br><img src="https://static.verycloud.cn/sites/default/files/pic/image/20150607/20150607192701_45418.jpg" alt="定西孤儿院"></p>
-
-
-<!--<a href="http://verynull.com/book/index.html#disqus_thread" class="article-comment-link">Comments</a>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
--->
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
-</div>
-
-
-
-
-
-
-</body>
-</html>
+{% block sidebar %}
+  {{ sidebar_template.render(false) }}
+{% endblock %}

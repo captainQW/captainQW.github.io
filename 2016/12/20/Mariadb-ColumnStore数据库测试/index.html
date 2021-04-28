@@ -1,97 +1,34 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title>Mariadb ColumnStore数据库测试</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
-
-</head>
-
-<body>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-<h2 class="title">Mariadb ColumnStore数据库测试</h2>
-<!---
-<div style="text-align:center;margin-top: -10px;">
-<div class="article-category">
-发表于2016年12月20日
+{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+
+{% block page_class %}page-post-detail{% endblock %}
 
 
-    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
 
-
- </div>
---->
-</div>
-
-
-<p>顾名思义，就是Mariadb为了大数据而开发的列式数据库。后来发现，这货就是InfiniDB的翻版，InfiniDB被MariaDB收购了以后重新开发的新版本。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">MariaDB [(none)]&gt; show engines;</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Engine             | Support | Comment                                                                                          | Transactions | XA   | Savepoints |</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">| Columnstore        | YES     | Columnstore storage engine                                                                       | YES          | NO   | NO         |</div><div class="line">| MRG_MyISAM         | YES     | Collection of identical MyISAM tables                                                            | NO           | NO   | NO         |</div><div class="line">| CSV                | YES     | CSV storage engine                                                                               | NO           | NO   | NO         |</div><div class="line">| MyISAM             | YES     | MyISAM storage engine                                                                            | NO           | NO   | NO         |</div><div class="line">| MEMORY             | YES     | Hash based, stored <span class="keyword">in</span> memory, useful <span class="keyword">for</span> temporary tables                                        | NO           | NO   | NO         |</div><div class="line">| InfiniDB           | YES     | Columnstore storage engine (deprecated: use columnstore)                                         | YES          | NO   | NO         |</div><div class="line">| InnoDB             | DEFAULT | Percona-XtraDB, Supports transactions, row-level locking, foreign keys and encryption <span class="keyword">for</span> tables | YES          | YES  | YES        |</div><div class="line">| SEQUENCE           | YES     | Generated tables filled with sequential values                                                   | YES          | NO   | YES        |</div><div class="line">| Aria               | YES     | Crash-safe tables with MyISAM heritage                                                           | NO           | NO   | NO         |</div><div class="line">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                                               | NO           | NO   | NO         |</div><div class="line">+--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+</div><div class="line">10 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
-<p>还能看到InfiniDB引擎的影子。</p>
-<p>测试环境：<br>centos 6.6 8核8G<br>ssd 100G<br>mariadb columnstore 1.0.6 GA</p>
-<p>1、安装</p>
-<p>安装依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yum -y install expect perl perl-DBI openssl zlib perl-DBD-MySQL cmake</span></div></pre></td></tr></table></figure></p>
-<p>必须要boost1.50以上版本。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># wget https://static.verycloud.cn/rpm/boost_1_55_0.tgz</span></div><div class="line"><span class="comment"># wget https://static.verycloud.cn/rpm/mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span></div></pre></td></tr></table></figure>
-<p>安装boost.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># tar -zxvf boost_1_55_0.tgz</span></div><div class="line"><span class="comment"># tar -zxvf mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span></div><div class="line"><span class="comment"># cd boost_1_55_0 </span></div><div class="line"><span class="comment"># ./bootstrap.sh --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log --prefix=/usr </span></div><div class="line"><span class="comment"># ./b2 install</span></div></pre></td></tr></table></figure></p>
-<p>安装mariadb columnstore.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># rpm -ivh mariadb-columnstore-1.0.6-1-x86_64-centos6-*</span></div></pre></td></tr></table></figure></p>
-<p>2、初始化<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /usr/local/mariadb/columnstore/bin/post-install</span></div></pre></td></tr></table></figure></p>
-<p>这时会提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">The next step is:</div><div class="line"></div><div class="line">/usr/<span class="built_in">local</span>/mariadb/columnstore/bin/postConfigure</div></pre></td></tr></table></figure></p>
-<p>执行，完成安装，选择single server<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /usr/local/mariadb/columnstore/bin/postConfigure</span></div></pre></td></tr></table></figure></p>
-<p>生成别名<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># . /data/mariadb/columnstore/bin/columnstoreAlias</span></div></pre></td></tr></table></figure></p>
-<p>执行 mcsmysql，会看到提示<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</div><div class="line">Your MariaDB connection id is 5</div><div class="line">Server version: 10.1.19-MariaDB Columnstore 1.0.6-1</div><div class="line"></div><div class="line">Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.</div><div class="line"></div><div class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input statement.</div><div class="line"></div><div class="line">MariaDB [(none)]&gt;</div></pre></td></tr></table></figure></p>
-<p>说明安装成功了！</p>
-<p>3、数据导入</p>
-<p>执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># mcsmysql --local-infile</span></div><div class="line"><span class="comment"># LOAD DATA LOCAL INFILE '/root/data.txt' INTO TABLE your_table FIELDS TERMINATED BY '\t';</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Query OK, 95981370 rows affected (6 min 8.62 sec)    </div><div class="line">Records: 95981370  Deleted: 0  Skipped: 0  Warnings: 0</div></pre></td></tr></table></figure>
-<p>导入1亿条数据要6分钟。</p>
-
-
-<!--<a href="http://verynull.com/2016/12/20/Mariadb-ColumnStore数据库测试/#disqus_thread" class="article-comment-link">Comments</a>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
--->
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
-</div>
-
-
-
-
-
-
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}

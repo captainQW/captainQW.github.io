@@ -1,115 +1,70 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title></title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
+{% extends '_layout.swig' %}
+{% import '_macro/post-collapse.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+{% block title %} {{ __('title.archive') }} | {{ config.title }} {% endblock %}
 
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
+{% block page_class %} page-archive {% endblock %}
 
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+{% block content %}
 
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
+  <section id="posts" class="posts-collapse">
+    <span class="archive-move-on"></span>
 
-</head>
+    <span class="archive-page-counter">
+      {% set cheers %}
+      {% set posts_length = site.posts.length %}
+      {% if posts_length > 210 %} {% set cheers = 'excellent' %}
+        {% elif posts_length > 130 %} {% set cheers = 'great' %}
+        {% elif posts_length > 80 %} {% set cheers = 'good' %}
+        {% elif posts_length > 50 %} {% set cheers = 'nice' %}
+        {% elif posts_length > 30 %} {% set cheers = 'ok' %}
+      {% else %}
+        {% set cheers = 'um' %}
+      {% endif %}
+      {{ __('cheers.' + cheers) }}! {{ _p("counter.archive_posts", site.posts.length) }} {{ __('keep_on') }}
+    </span>
 
-<body>
-<nav class="navbar navbar-default navbar-fixed-top" style="opacity: .9" role="navigation">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Lau&#39;s Blog</a>
+    {% for post in page.posts %}
+
+      {# Show year #}
+      {% set year %}
+      {% set post.year = date(post.date, 'YYYY') %}
+
+      {% if post.year !== year %}
+        {% set year = post.year %}
+        <div class="collection-title">
+          <h2 class="archive-year motion-element" id="archive-year-{{ year }}">{{ year }}</h2>
         </div>
+      {% endif %}
+      {# endshow #}
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-            
-                
-                    <li  class="active" >
-                        <a href="/"> Blog</a>
-                    </li>
-                
-                    <li >
-                        <a href="/categories"> categories</a>
-                    </li>
-                
-                    <li >
-                        <a href="/archives"> archives</a>
-                    </li>
-                
-                    <li >
-                        <a href="/tags"> tags</a>
-                    </li>
-                
-                    <li >
-                        <a href="/about"> About</a>
-                    </li>
-                
-                    <li >
-                        <a href="https://github.com/RamboLau"> GitHub</a>
-                    </li>
-                
-            
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+      {{ post_template.render(post) }}
 
-<div class="row" style="padding-top: 70px">
-    <div class="container center-block">
-        <div class="col-md-2"></div>
-        <div class="col-md-8 col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Blog</h3>
-                </div>
-                <ul class="list-group">
-                    
-                    
-                    
-<li class="list-group-item title">
-    <a target="_blank" href="/2015/08/17/Drupal7-WEB性能优化/">drupal7 WEB性能优化</a>
-</li>
+    {% endfor %}
 
+  </section>
 
-                    
-                    
-                </ul>
-            </div>
-        </div>
+  {% include '_partials/pagination.swig' %}
 
-        <div class="col-md-2">
-        </div>
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>
-</div>
-    </div>
-</div>
+{% endblock %}
 
+{% block sidebar %}
+  {{ sidebar_template.render(false) }}
+{% endblock %}
 
+{% block script_extra_before %}
+  {% if theme.use_motion %}
+    <script type="text/javascript">
+      postMotionOptions = {stagger: 100, drag: true};
+    </script>
+  {% endif %}
+{% endblock %}
 
-
-</body>
-</html>
+{% block script_extra %}
+  {% if theme.use_motion %}
+    <script type="text/javascript" id="motion.page.archive">
+      $('.archive-year').velocity('transition.slideLeftIn');
+    </script>
+  {% endif %}
+{% endblock %}

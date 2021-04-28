@@ -1,101 +1,34 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title>Vue路由进阶</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
-
-</head>
-
-<body>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-<h2 class="title">Vue路由进阶</h2>
-<!---
-<div style="text-align:center;margin-top: -10px;">
-<div class="article-category">
-发表于2017年1月15日
+{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+
+{% block page_class %}page-post-detail{% endblock %}
 
 
-    <a class="article-category-link" href="/categories/Vue/">Vue</a>
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
 
-
- </div>
---->
-</div>
-
-<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#导航钩子"><span class="toc-text">导航钩子</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#全局钩子"><span class="toc-text">全局钩子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#某个路由独享的钩子"><span class="toc-text">某个路由独享的钩子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#组件内的钩子"><span class="toc-text">组件内的钩子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#路由元信息"><span class="toc-text">路由元信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#过渡动效"><span class="toc-text">过渡动效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#滚动行为"><span class="toc-text">滚动行为</span></a></li></ol>
-<h3 id="导航钩子"><a href="#导航钩子" class="headerlink" title="导航钩子"></a>导航钩子</h3><p>有的时候，我们可能有这样的需求，当页面切换时，需要做一些操作来更改某些信息，这就需要拦截路由切换。vue-router 提供了导航钩子来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。</p>
-<h4 id="全局钩子"><a href="#全局钩子" class="headerlink" title="全局钩子"></a>全局钩子</h4><p>你可以使用 router.beforeEach 注册一个全局的 before 钩子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123; ... &#125;)</div><div class="line"></div><div class="line">router.beforeEach((to, from, next) =&gt; &#123;</div><div class="line">  // ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>当一个导航触发时，全局的 before 钩子按照创建顺序调用。钩子是异步解析执行，此时导航在所有钩子 resolve 完之前一直处于 等待中。<br>每个钩子方法接收三个参数：<br>to: Route: 即将要进入的目标 路由对象</p>
-<p>from: Route: 当前导航正要离开的路由</p>
-<p>next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。</p>
-<p>next(): 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是 confirmed （确认的）。</p>
-<p>next(false): 中断当前的导航。如果浏览器的 URL 改变了（可能是用户手动或者浏览器后退按钮），那么 URL 地址会重置到 from 路由对应的地址。</p>
-<p>next(‘/‘) 或者 next({ path: ‘/‘ }): 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。</p>
-<p>确保要调用 next 方法，否则钩子就不会被 resolved。<br>同样可以注册一个全局的 after 钩子，不过它不像 before 钩子那样，after 钩子没有 next 方法，不能改变导航：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">router.afterEach(route =&gt; &#123;</div><div class="line">  // ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h4 id="某个路由独享的钩子"><a href="#某个路由独享的钩子" class="headerlink" title="某个路由独享的钩子"></a>某个路由独享的钩子</h4><p>你可以在路由配置上直接定义 beforeEnter 钩子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">    &#123;</div><div class="line">      path: &apos;/foo&apos;,</div><div class="line">      component: Foo,</div><div class="line">      beforeEnter: (to, from, next) =&gt; &#123;</div><div class="line">        // ...</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>这些钩子与全局 before 钩子的方法参数是一样的。</p>
-<h4 id="组件内的钩子"><a href="#组件内的钩子" class="headerlink" title="组件内的钩子"></a>组件内的钩子</h4><p>最后，你可以在路由组件内直接定义以下路由导航钩子：</p>
-<p>beforeRouteEnter<br>beforeRouteUpdate (2.2 新增)<br>beforeRouteLeave</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const Foo = &#123;</div><div class="line">  template: `...`,</div><div class="line">  beforeRouteEnter (to, from, next) &#123;</div><div class="line">    // 在渲染该组件的对应路由被 confirm 前调用</div><div class="line">    // 不！能！获取组件实例 `this`</div><div class="line">    // 因为当钩子执行前，组件实例还没被创建</div><div class="line">  &#125;,</div><div class="line">  beforeRouteUpdate (to, from, next) &#123;</div><div class="line">    // 在当前路由改变，但是改组件被复用时调用</div><div class="line">    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，</div><div class="line">    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。</div><div class="line">    // 可以访问组件实例 `this`</div><div class="line">  &#125;,</div><div class="line">  beforeRouteLeave (to, from, next) &#123;</div><div class="line">    // 导航离开该组件的对应路由时调用</div><div class="line">    // 可以访问组件实例 `this`</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>介绍完上述三种不同作用域的导航钩子，我们来看一个更实际的例子。使用vue-router之后，页面的切换时无刷新的，也就是说和服务端没有交互，这样就会产生一个问题，如果某个页面这个用户没有权限访问，这个如何来控制？有了导航钩子，这个自然就可以放到导航钩子来执行，示例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">// 权限数组</div><div class="line">const permissions = &#123;</div><div class="line">  &apos;user&apos;: 1,   // 其中user表示路由名称  1表示有权限访问 0 表示无权限访问</div><div class="line">  &apos;userProfile&apos;: 0</div><div class="line">&#125;</div><div class="line"></div><div class="line">router.beforeEach((to, from, next) =&gt; &#123;</div><div class="line">  let name = to.name;</div><div class="line">  if (name) &#123;</div><div class="line">    if (permissions[name]) &#123;</div><div class="line">       next();</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">       alert(无权限访问);</div><div class="line">       next(false);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  else &#123;</div><div class="line">    next();</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h3 id="路由元信息"><a href="#路由元信息" class="headerlink" title="路由元信息"></a>路由元信息</h3><p>路由定义的时候，除了path、name、component(s)属性外，还可以有meta属性，这个属性用来为路由定义一些扩展的属性，比如每个页面都有title等。vue-router不会自动处理meta里面的属性，需要我们在导航钩子里面去处理这些元信息，我们就以页面title为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">const routes = [</div><div class="line">  &#123;</div><div class="line">    path: &apos;/profile/user&apos;,</div><div class="line">    name: &apos;user&apos;,</div><div class="line">    component: User,</div><div class="line">    meta: &#123;</div><div class="line">      title: &apos;用户列表&apos;</div><div class="line">    &#125;,</div><div class="line">    children: [</div><div class="line">      &#123;</div><div class="line">        path: &apos;:id&apos;,</div><div class="line">        component: UserProfile,</div><div class="line">        meta: &#123;</div><div class="line">          title: &apos;用户详情&apos;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">]</div><div class="line"></div><div class="line"></div><div class="line">router.beforeEach((to, from, next) =&gt; &#123;</div><div class="line">  document.title = to.meta ? to.meta.title : &apos;&apos;;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<h3 id="过渡动效"><a href="#过渡动效" class="headerlink" title="过渡动效"></a>过渡动效</h3><p>过渡效果的基础知识已经在vue基础中讲过，如果不清楚过度效果，请先学习过渡效果。<router-view> 是基本的动态组件，所以我们可以用 <transition> 组件给它添加一些过渡效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;transition&gt;</div><div class="line">  &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">&lt;/transition&gt;</div></pre></td></tr></table></figure></transition></router-view></p>
-<p>上面的用法会给所有路由设置一样的过渡效果，如果你想让每个路由组件有各自的过渡效果，可以在各路由组件内使用 <transition> 并设置不同的 name。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">const User = &#123;</div><div class="line">  template: `</div><div class="line">    &lt;transition name=&quot;slide&quot;&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;div&gt;这里是用户列表&lt;/div&gt;</div><div class="line">      &lt;ul&gt;</div><div class="line">        &lt;li&gt;&lt;router-link to=&quot;/profile/user/1&quot;&gt;root&lt;/router-link&gt;&lt;/li&gt;</div><div class="line">        &lt;li&gt;&lt;router-link to=&quot;/profile/user/2&quot;&gt;test&lt;/router-link&gt;&lt;/li&gt;</div><div class="line">      &lt;/ul&gt;</div><div class="line">     &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">   &lt;/div&gt;</div><div class="line">   &lt;/transition&gt;</div><div class="line">   `</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 用户详情组件</div><div class="line">const UserProfile = &#123;</div><div class="line">  template: &apos;&lt;transition name=&quot;fade&quot;&gt;&lt;div&gt;用户# &#123;&#123; $route.params.id &#125;&#125;详情页&lt;/div&gt;&lt;/transition&gt;&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure></transition></p>
-<h3 id="滚动行为"><a href="#滚动行为" class="headerlink" title="滚动行为"></a>滚动行为</h3><p>由于vue-router是单页无刷新应用，所以假设有一个页面内容很多，有垂直滚动条，如果把页面滚动到最底部，然后再切换路由，默认情况下，新的页面也在最底部，如果想要页面滚到顶部，vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动。<br>注意: 这个功能只在 HTML5 history 模式下可用。<br>当创建一个 Router 实例，你可以提供一个 scrollBehavior 方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [...],</div><div class="line">  scrollBehavior (to, from, savedPosition) &#123;</div><div class="line">    // return 期望滚动到哪个的位置</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-<p>scrollBehavior 方法接收 to 和 from 路由对象。第三个参数 savedPosition 当且仅当 popstate 导航 (通过浏览器的 前进/后退 按钮触发) 时才可用。<br>这个方法返回滚动位置的对象信息，长这样：</p>
-<p>{ x: number, y: number }<br>{ selector: string }<br>如果返回一个布尔假的值，或者是一个空对象，那么不会发生滚动。</p>
-<p>举例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">scrollBehavior (to, from, savedPosition) &#123;</div><div class="line">  return &#123; x: 0, y: 0 &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>上例对于所有路由导航，简单地让页面滚动到顶部。<br>返回 savedPosition，在按下 后退/前进 按钮时，就会像浏览器的原生表现那样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">scrollBehavior (to, from, savedPosition) &#123;</div><div class="line">  if (savedPosition) &#123;</div><div class="line">    return savedPosition</div><div class="line">  &#125; else &#123;</div><div class="line">    return &#123; x: 0, y: 0 &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>上例表示如果是按了浏览器的前进、后退按钮，则页面滚动到历史页面原来的位置，否则滚动到页面顶部。</p>
-
-
-<!--<a href="http://verynull.com/2017/01/15/Vue路由进阶/#disqus_thread" class="article-comment-link">Comments</a>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
--->
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
-</div>
-
-
-
-
-
-
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}

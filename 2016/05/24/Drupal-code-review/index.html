@@ -1,105 +1,34 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title>Drupal code review</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
-
-</head>
-
-<body>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-<h2 class="title">Drupal code review</h2>
-<!---
-<div style="text-align:center;margin-top: -10px;">
-<div class="article-category">
-发表于2016年5月24日
+{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+
+{% block page_class %}page-post-detail{% endblock %}
 
 
-    <a class="article-category-link" href="/categories/Drupal8/">Drupal8</a>
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
 
-
- </div>
---->
-</div>
-
-
-<p>如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的<a href="http://pareview.sh/" target="_blank" rel="external">pareview.sh</a>工具。</p>
-<p>###1、安装composer</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl <span class="_">-s</span>S https://getcomposer.org/installer | php</div><div class="line">$ mv composer.phar /usr/<span class="built_in">local</span>/bin/composer</div></pre></td></tr></table></figure>
-<p>###2、安装Coder (reference: <a href="https://www.drupal.org/node/1419988#coder-composer" target="_blank" rel="external">https://www.drupal.org/node/1419988#coder-composer</a>)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ composer global require drupal/coder</div><div class="line">$ sudo ln <span class="_">-s</span> ~/.composer/vendor/bin/phpcs /usr/<span class="built_in">local</span>/bin</div><div class="line">$ sudo ln <span class="_">-s</span> ~/.composer/vendor/bin/phpcbf /usr/<span class="built_in">local</span>/bin</div><div class="line">$ phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer</div></pre></td></tr></table></figure>
-<p>###3、安装codespell (reference: <a href="https://github.com/lucasdemarchi/codespell" target="_blank" rel="external">https://github.com/lucasdemarchi/codespell</a>)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get <span class="built_in">help</span>2man -y</div><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/lucasdemarchi/codespell.git</div><div class="line">$ <span class="built_in">cd</span> codespell &amp;&amp; sudo make install</div><div class="line">$ sudo cp codespell /usr/<span class="built_in">local</span>/bin</div></pre></td></tr></table></figure>
-<p>注：MAC下安装codespell<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo python setup.py install</div></pre></td></tr></table></figure></p>
-<p>###4、安装DrupalSecure (reference: <a href="https://www.drupal.org/sandbox/coltrane/1921926" target="_blank" rel="external">https://www.drupal.org/sandbox/coltrane/1921926</a>)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update &amp;&amp; sudo apt-get install php-pear</div><div class="line">$ sudo pear install PHP_CodeSniffer</div><div class="line">$ <span class="built_in">cd</span> $(pear config-get php_dir)/PHP/CodeSniffer/Standards/</div><div class="line">$ git <span class="built_in">clone</span> git://git.drupal.org/sandbox/coltrane/1921926.git secure_cs</div><div class="line">$ sudo ln -sv ./secure_cs/DrupalSecure ./DrupalSecure</div></pre></td></tr></table></figure>
-<p>注：MAC下安装php-pear<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget http://pear.php.net/go-pear.phar</div><div class="line">php go-pear.phar</div></pre></td></tr></table></figure></p>
-<p>###5、安装ESLint</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install -g eslint</div></pre></td></tr></table></figure>
-<p>在Ubuntu precise （12.04）, 你有可能会遇到以下错误：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm http GET https://registry.npmjs.org/</div><div class="line">npm ERR! Error: failed to fetch from registry: </div><div class="line">This is because the version supplied by Ubuntu 12.04 is no longer supported, updating node (and npm with it) resolved the issue.</div></pre></td></tr></table></figure>
-<p>首先, 卸载nodejs版本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get purge nodejs npm</div></pre></td></tr></table></figure>
-<p>启用nodesource’s仓库并进行安装:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">curl <span class="_">-s</span>L https://deb.nodesource.com/setup | sudo bash -</div><div class="line">sudo apt-get install -y nodejs</div><div class="line">$ sudo apt-get install nodejs</div><div class="line">$ eslint --init <span class="comment"># run for the first time</span></div></pre></td></tr></table></figure>
-<p>###6、安装pareviewsh</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</div><div class="line">$ sudo wget http://ftp.drupal.org/files/projects/pareviewsh-7.x-1.7.tar.gz</div><div class="line">$ sudo tar xzf pareviewsh-7.x-1.7.tar.gz</div><div class="line">$ sudo ln <span class="_">-s</span> /usr/<span class="built_in">local</span>/src/pareviewsh/pareview.sh /usr/<span class="built_in">local</span>/bin/pareviewsh</div></pre></td></tr></table></figure>
-<p>查看pareview是否已经安装成功</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pareviewsh /path/to/module or /path/to/git-repos.git</div></pre></td></tr></table></figure>
-<p>phpcs自动修复代码标准</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">phpcbf --standard=Drupal --extensions=php,module,inc,install,<span class="built_in">test</span>,profile,theme,js,css,info,txt,md /file/to/drupal/example_module</div></pre></td></tr></table></figure>
-<p>在~/.bash_profile中添加别名</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// Check Drupal coding standards</div><div class="line"><span class="built_in">alias</span> drupalcs=<span class="string">"phpcs --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></div><div class="line"></div><div class="line">// Check Drupal best practices</div><div class="line"><span class="built_in">alias</span> drupalpractice=<span class="string">"phpcs --standard=DrupalPractice --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></div><div class="line"></div><div class="line">// Automatically fix coding standards</div><div class="line"><span class="built_in">alias</span> drupalcbf=<span class="string">"phpcbf --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'"</span></div></pre></td></tr></table></figure>
-<p>参照文章：<br>1、<a href="https://www.drupal.org/node/1587138" target="_blank" rel="external">https://www.drupal.org/node/1587138</a><br>2、<a href="https://www.drupal.org/node/1419988" target="_blank" rel="external">https://www.drupal.org/node/1419988</a><br>3、<a href="https://www.drupal.org/node/172169" target="_blank" rel="external">https://www.drupal.org/node/172169</a><br>4、<a href="https://www.drupal.org/project/pareviewsh" target="_blank" rel="external">https://www.drupal.org/project/pareviewsh</a><br>5、<a href="https://www.drupal.org/project/coder" target="_blank" rel="external">https://www.drupal.org/project/coder</a></p>
-
-
-<!--<a href="http://verynull.com/2016/05/24/Drupal-code-review/#disqus_thread" class="article-comment-link">Comments</a>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
--->
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
-</div>
-
-
-
-
-
-
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}

@@ -1,101 +1,34 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title>使用gdb调试php-fpm</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
-
-</head>
-
-<body>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-<h2 class="title">使用gdb调试php-fpm</h2>
-<!---
-<div style="text-align:center;margin-top: -10px;">
-<div class="article-category">
-发表于2015年11月27日
+{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+
+{% block page_class %}page-post-detail{% endblock %}
 
 
-    <a class="article-category-link" href="/categories/linux/">linux</a>
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
 
-
- </div>
---->
-</div>
-
-
-<p>有很多php开发人员经常问我，如果执行php代码的时候出现严重错误的时候，如何快速定位问题。我一般推荐他们用gdb去调试。</p>
-<p>下面用php-fpm的一个段错误来举例说明，如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WARNING: [pool www] child 15109 exited on signal 11 (SIGSEGV) after 654.485221 seconds from start</div></pre></td></tr></table></figure>
-<p>###1、安装gdb</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install gdb php-dbg</div></pre></td></tr></table></figure>
-<p>有的时候可能需要安装debuginfo相关的库，如:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">debuginfo-install php-fpm</div></pre></td></tr></table></figure>
-<p>###2、设置coredump</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">'/tmp/core-%e.%p'</span> &gt; /proc/sys/kernel/core_pattern</div><div class="line"><span class="built_in">echo</span> 0 &gt; /proc/sys/kernel/core_uses_pid</div><div class="line"><span class="built_in">ulimit</span> -c unlimited</div></pre></td></tr></table></figure>
-<p>当然,coredump的文件格式可以设置为其他的，这里是详细的设置项说明</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">%%  a single % character</div><div class="line">%c  core file size soft resource <span class="built_in">limit</span> of crashing process (since</div><div class="line">    Linux 2.6.24)</div><div class="line">%d  dump mode—same as value returned by prctl(2) PR_GET_DUMPABLE</div><div class="line">    (since Linux 3.7)</div><div class="line">%e  executable filename (without path prefix)</div><div class="line">%E  pathname of executable, with slashes (<span class="string">'/'</span>) replaced by</div><div class="line">    exclamation marks (<span class="string">'!'</span>) (since Linux 3.0).</div><div class="line">%g  (numeric) real GID of dumped process</div><div class="line">%h  hostname (same as nodename returned by uname(2))</div><div class="line">%p  PID of dumped process, as seen <span class="keyword">in</span> the PID namespace <span class="keyword">in</span> <span class="built_in">which</span></div><div class="line">    the process resides</div><div class="line">%P  PID of dumped process, as seen <span class="keyword">in</span> the initial PID namespace</div><div class="line">    (since Linux 3.12)</div><div class="line">%s  number of signal causing dump</div><div class="line">%t  time of dump, expressed as seconds since the Epoch,</div><div class="line">    1970-01-01 00:00:00 +0000 (UTC)</div><div class="line">%u  (numeric) real UID of dumped process</div></pre></td></tr></table></figure>
-<p>###3、设置php-fpm</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/php-fpm.d/www.conf</div></pre></td></tr></table></figure>
-<p>找到关键字 rlimit_core，并修改为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rlimit_core = unlimited</div></pre></td></tr></table></figure>
-<p>然后执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/sbin/php-fpm --daemonize</div></pre></td></tr></table></figure>
-<p>这时就会在/tmp下看到有coredump文件生成了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@localhost tmp]<span class="comment"># ls</span></div><div class="line">core-php-fpm.7279</div></pre></td></tr></table></figure>
-<p>###4、追踪<br>执行命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gdb /usr/sbin/php-fpm /tmp/core-php-fpm.7279</div></pre></td></tr></table></figure>
-<p>执行bt命令就可以查看详细的错误日志了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(gdb) bt</div><div class="line"><span class="comment">#0  _zend_hash_init (ht=0x2b4d1a4f8100, nSize=174762, pDestructor=0, persistent=1 '\001') at /usr/src/debug/php-7.0.0RC8/Zend/zend_hash.c:172</span></div><div class="line"><span class="comment">#1  0x00002b4d0d0e87ac in zend_accel_init_shm (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2387</span></div><div class="line"><span class="comment">#2  accel_startup (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2640</span></div><div class="line"><span class="comment">#3  0x00000000005e8d21 in zend_extension_startup (extension=0x168c810) at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:176</span></div><div class="line"><span class="comment">#4  0x00000000005d2293 in zend_llist_apply_with_del (l=0x9dd420, func=0x5e8d10 &lt;zend_extension_startup&gt;) at /usr/src/debug/php-7.0.0RC8/Zend/zend_llist.c:171</span></div><div class="line"><span class="comment">#5  0x00000000005e8d07 in zend_startup_extensions () at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:197</span></div><div class="line"><span class="comment">#6  0x0000000000580985 in php_module_startup (sf=&lt;value optimized out&gt;, additional_modules=&lt;value optimized out&gt;, num_additional_modules=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/main/main.c:2197</span></div><div class="line"><span class="comment">#7  0x000000000067aec5 in php_cgi_startup (sapi_module=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:837</span></div><div class="line"><span class="comment">#8  0x000000000067bcfe in main (argc=2, argv=0x7fff1a037498) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:1788</span></div></pre></td></tr></table></figure>
-<p>至此，整个追踪过程结束。</p>
-
-
-<!--<a href="http://verynull.com/2015/11/27/使用gdb调试php-fpm/#disqus_thread" class="article-comment-link">Comments</a>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
--->
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
-</div>
-
-
-
-
-
-
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}

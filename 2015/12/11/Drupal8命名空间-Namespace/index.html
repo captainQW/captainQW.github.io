@@ -1,135 +1,34 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title>Drupal8命名空间(Namespace)</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
-
-</head>
-
-<body>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-<h2 class="title">Drupal8命名空间(Namespace)</h2>
-<!---
-<div style="text-align:center;margin-top: -10px;">
-<div class="article-category">
-发表于2015年12月11日
+{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+
+{% block page_class %}page-post-detail{% endblock %}
 
 
-    <a class="article-category-link" href="/categories/Drupal8/">Drupal8</a>
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
 
-
- </div>
---->
-</div>
-
-
-<p>命名空间是php5.3引进的概念，这边文章主要介绍在Drupal中如何使用命名空间，如果你对命名空间还不熟悉，请移步到<a href="http://php.net/manual/zh/language.namespaces.php" title="PHP:命名空间" target="_blank" rel="external">这里</a>学习，这篇文章<a href="http://www.sitepoint.com/php-53-namespaces-basics/" title="php53:namespace" target="_blank" rel="external">article introducing namespaces</a>也讲的不错。</p>
-<p>在Drupal中，并不是每一个文件都需要指定命名空间。Drupal8之前为了跟php5.2保持兼容，从未用过命名空间。Drupal8限定了php版本必须是5.5以上，So，让我们尽情的享受OOP的乐趣吧！</p>
-<p>###用”use”导入类</p>
-<blockquote>
-<p>在访问系统内部或包含在命名空间中的类名称时，可以不使用完全限定名称。命名空间和use关键字的声明必须放在文件的开头，并且以反斜杠\做为分隔符。如</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">mymodule</span>\<span class="title">Tests</span>\<span class="title">Foo</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">simpletest</span>\<span class="title">WebTestBase</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Tests that the foo bars.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BarTest</span> <span class="keyword">extends</span> <span class="title">WebTestBase</span> </span>&#123;</div><div class="line">	<span class="comment">// WebTestBase前不需要加\</span></div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<blockquote>
-<p>在访问系统内部或不包含在命名空间中的类名称时，必须使用完全限定名称。如</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> \<span class="keyword">Exception</span>();</div></pre></td></tr></table></figure>
-<blockquote>
-<p>在一个没有声明命名空间的文件里，就算它是全局命名空间，如果要使用其他非全局命名空间的类，必须使用”use”关键字，并且需要声明在文件的开头哦！</p>
-<p>当用”use”导入类时，不要在开头加\。大PHP官方也是这么推荐的，见<a href="http://www.php.net/manual/en/language.namespaces.importing.php" target="_blank" rel="external">PHP documentation</a></p>
-<p>当在字符串中指定类名时，必须使用带命名空间的全类名，并且不能以\开头。</p>
-</blockquote>
-<pre><code>如果要在双引号中使用命名空间，必须转义，如：
-</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"Drupal\\Content\\ContentInterface"</span></div></pre></td></tr></table></figure>
-<pre><code>在单引号中就不需要转义了，如：
-</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">'Drupal\Context\ContextInterface'</span></div></pre></td></tr></table></figure>
-<pre><code>通常情况下，推荐使用单引号的写法！
-</code></pre><blockquote>
-<p>一个”use”只能声明一个类，不建议使用”use”导入多个类.如这种写法就是不推荐的</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> <span class="title">My</span>\<span class="title">Full</span>\<span class="title">Classname</span>, <span class="title">My</span>\<span class="title">Full</span>\<span class="title">NSname</span>;</div></pre></td></tr></table></figure>
-<pre><code>而这种写法是推荐的
-</code></pre><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> <span class="title">My</span>\<span class="title">Full</span>\<span class="title">Classname</span>;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>在.api.php这种API文件中必须使用类的全名，这样别人要想hook你的类，他们就可以”use”导入了。如</p>
-</blockquote>
-<p>定义Drupal\Subsystem\Foo</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * Contains \Drupal\Subsystem\Foo.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">Subsystem</span>;</div><div class="line"></div><div class="line"><span class="comment">// This imports just the Cat class from the Drupal\Othersystem namespace.</span></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Othersystem</span>\<span class="title">Cat</span>;</div><div class="line"></div><div class="line"><span class="comment">// Bar is a class in the Drupal\Subsystem namespace in another file.</span></div><div class="line"><span class="comment">// It is already available without any importing.</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Defines a Foo.</div><div class="line"> */</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * Constructs a new Foo object.</div><div class="line">   */</div><div class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(Bar $b, Cat $c)</span> </span>&#123;</div><div class="line">    <span class="comment">// Global classes must be prefixed with a \ character.</span></div><div class="line">    $d = <span class="keyword">new</span> \DateTime();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>hook Drupal\Subsystem\Foo</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@file</span></div><div class="line"> * The Example module.</div><div class="line"> *</div><div class="line"> * This file is not part of any namespace, so all global namespaced classes</div><div class="line"> *  are automatically available.</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Subsystem</span>\<span class="title">Foo</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Does stuff with Foo stuff.</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> \Drupal\Subsystem\Foo $f</div><div class="line"> *   A Foo object used to bar the baz.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">do_stuff</span><span class="params">(Foo $f)</span> </span>&#123;</div><div class="line">  <span class="comment">// The DateTime class does not need to be imported as it is already global</span></div><div class="line">  $d = <span class="keyword">new</span> DateTime();</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>###类的别名</p>
-<p>php允许导入类的时候使用别名，这样可以避免可恶的重名！一旦两个类重名了，可以将各自命名空间里的上一级的名字拿出来作为相应的前缀。</p>
-<p>如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">use</span> <span class="title">Foo</span>\<span class="title">Bar</span>\<span class="title">Baz</span> <span class="title">as</span> <span class="title">BarBaz</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Stuff</span>\<span class="title">Thing</span>\<span class="title">Baz</span> <span class="title">as</span> <span class="title">ThingBaz</span>;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Tests stuff for the whichever.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</div><div class="line">  $a = <span class="keyword">new</span> BarBaz(); <span class="comment">// This will be Foo\Bar\Baz</span></div><div class="line">  $b = <span class="keyword">new</span> ThingBaz(); <span class="comment">// This will be Stuff\Thing\Baz</span></div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>###导入的顺序</p>
-<p>如果要导入多个类，Drupal8并没有限制导入的顺序。如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">block</span>;</div><div class="line"></div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityForm</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Entity</span>\<span class="title">EntityManagerInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormState</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Drupal</span>\<span class="title">Core</span>\<span class="title">Form</span>\<span class="title">FormStateInterface</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">DependencyInjection</span>\<span class="title">ContainerInterface</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>###模块</p>
-<p>模块中的类必须申明为特定的命名空间，如模块名为example_module。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">example_module</span></div></pre></td></tr></table></figure>
-<p>要在Drupal8中自动加载(autoload)，还要这些类归置到指定的文件夹下，一般约定在</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">modules/example_module/src</div></pre></td></tr></table></figure>
-<p>举个简单的例子，如：</p>
-<blockquote>
-<p>NO.1</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 声明命名空间</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">example_module</span></div><div class="line"></div><div class="line">// 创建类</div><div class="line"><span class="title">class</span> <span class="title">Foo</span> &#123;&#125;</div></pre></td></tr></table></figure>
-<p>这个对应的文件就是example_module/src/Foo.php。</p>
-<blockquote>
-<p>NO.2<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 声明命名空间</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Drupal</span>\<span class="title">example_module</span>\<span class="title">Foo</span></div><div class="line"></div><div class="line">// 创建类</div><div class="line"><span class="title">class</span> <span class="title">Bar</span> &#123;&#125;</div></pre></td></tr></table></figure></p>
-</blockquote>
-<p>这个对应的文件就是example_module/src/Foo/Bar.php。</p>
-<p>以上，就是对Drupal8的命名空间做简单的梳理和介绍。欢迎拍砖交流！</p>
-<p>参考文章：<br>1、<a href="https://www.drupal.org/node/1353118" target="_blank" rel="external">https://www.drupal.org/node/1353118</a><br>2、<a href="https://www.drupal.org/node/2156625" target="_blank" rel="external">https://www.drupal.org/node/2156625</a></p>
-
-
-<!--<a href="http://verynull.com/2015/12/11/Drupal8命名空间-Namespace/#disqus_thread" class="article-comment-link">Comments</a>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
--->
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
-</div>
-
-
-
-
-
-
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}

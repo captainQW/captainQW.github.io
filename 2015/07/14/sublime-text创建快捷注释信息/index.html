@@ -1,99 +1,34 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title>sublime text创建快捷注释信息</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
-
-</head>
-
-<body>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-<h2 class="title">sublime text创建快捷注释信息</h2>
-<!---
-<div style="text-align:center;margin-top: -10px;">
-<div class="article-category">
-发表于2015年7月14日
+{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+
+{% block page_class %}page-post-detail{% endblock %}
 
 
-    <a class="article-category-link" href="/categories/linux/">linux</a>
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
 
-
- </div>
---->
-</div>
-
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建代码片段"><span class="toc-text">创建代码片段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绑定快捷键"><span class="toc-text">绑定快捷键</span></a></li></ol>
-<ul>
-<li>该方式适用于sublime text2和3。</li>
-</ul>
-<h2 id="创建代码片段"><a href="#创建代码片段" class="headerlink" title="创建代码片段"></a>创建代码片段</h2><p>点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;snippet&gt;</div><div class="line">	&lt;content&gt;&lt;![CDATA[</div><div class="line">/**</div><div class="line"> * 定义函数</div><div class="line"> *</div><div class="line"> * 函数功能描述</div><div class="line"> * </div><div class="line"> * @author panjun.liu &lt;lpj163@gmail.com&gt;</div><div class="line"> *</div><div class="line"> * @param int <span class="variable">$param1</span>      参数释义</div><div class="line"> * @param string <span class="variable">$param2</span>   参数释义</div><div class="line"> *</div><div class="line"> * @<span class="built_in">return</span> <span class="built_in">integer</span>|string|array</div><div class="line">*/</div><div class="line">]]&gt;&lt;/content&gt;</div><div class="line">	&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</div><div class="line"> 	&lt;tabTrigger&gt;phpdoc&lt;/tabTrigger&gt;</div><div class="line">	&lt;!-- Optional: Set a scope to <span class="built_in">limit</span> <span class="built_in">where</span> the snippet will trigger --&gt;</div><div class="line">	&lt;!-- &lt;scope&gt;source.python&lt;/scope&gt; --&gt;</div><div class="line">&lt;/snippet&gt;</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>注：<br>tabTrigger 此节是可选的配置，默认是被注释掉的。默认 hello 的意思是：如果你在某个文档里输入了单词 hello ，然后按下 Tab 键，接着 hello 就会被替换为1中定义的代码片段。再次按下Tab键，接着snippet会被替换为2中定义的代码片段。</p>
-</blockquote>
-<p>保存到当前用户主目录下的\Sublime Text 3\Packages\User目录中，命名为phpdoc.sublime-snippet(注意：后缀必须为.sublime-snippet)。</p>
-<h2 id="绑定快捷键"><a href="#绑定快捷键" class="headerlink" title="绑定快捷键"></a>绑定快捷键</h2><p>可以将上述的操作绑定到一个快捷键，在不键入任何文本的情况下，直接按快捷键插入代码片段。</p>
-<p>点击菜单栏的 Preferences 的子菜单 Key Binding – User，在打开的文件的方括号内部粘贴如下配置：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">	&#123; <span class="string">"keys"</span>: [<span class="string">"phpdoc"</span>], <span class="string">"command"</span>: <span class="string">"insert_snippet"</span>, <span class="string">"args"</span>: &#123;<span class="string">"name"</span>: <span class="string">"Packages/User/phpdoc.sublime-snippet"</span>&#125; &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
-<p>现在简单介绍一下这段配置：</p>
-<ol>
-<li><p>“keys”: [“phpdoc”] 这个定义了触发此命令的快捷键。</p>
-</li>
-<li><p>“command”: “insert_snippet” 这个是需要触发的命令的名字。</p>
-</li>
-<li><p>“args”: {“name”: “Packages/User/phpdoc.sublime-snippet”} 这个是需要传入到上述命令的参数。这里把代码片段文件的相对路径传递过去。</p>
-</li>
-</ol>
-<p>保存配置文件，现在就可以用快捷键插入代码片段了。</p>
-<p>至此，输入phpdoc，然后按tab键就会输出你定义这段注释。</p>
-
-
-<!--<a href="http://verynull.com/2015/07/14/sublime-text创建快捷注释信息/#disqus_thread" class="article-comment-link">Comments</a>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
--->
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
-</div>
-
-
-
-
-
-
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}

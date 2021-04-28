@@ -1,104 +1,34 @@
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-	
-	<title>mysql-5.7.x安装</title>
-	<meta name="keywords" content="verynull.com,Drupal,php,python,ios,macos,linux,unix,vim,刘盘军,刘盘军的blog">
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    
-	   <link href="/css/main.css?v=3" rel="stylesheet" type="text/css">
-    
-        <script src="/js/util.js"></script>
-        <script>
-            if(isMobile()) {
-                loadjscssfile('../css/mobile.css', 'css');
-            } else {
-                loadjscssfile('../css/desktop.css', 'css');
-            }
-        </script> 
-    
-
-    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
-
-    
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3">
-    
-
-</head>
-
-<body>
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
 
-<h2 class="title">mysql-5.7.x安装</h2>
-<!---
-<div style="text-align:center;margin-top: -10px;">
-<div class="article-category">
-发表于2016年4月25日
+{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+
+{% block page_class %}page-post-detail{% endblock %}
 
 
-    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+{% block content %}
+
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
+
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
 
-
- </div>
---->
-</div>
-
-<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#wget"><span class="toc-text">wget</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看默认密码"><span class="toc-text">查看默认密码</span></a></li></ol>
-<p>###1、添加yum源</p>
-<h4 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On RHEL/CentOS 7 ---------------</div><div class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On RHEL/CentOS 6 ---------------</div><div class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On RHEL/CentOS 5 ---------------</div><div class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-el5-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On Fedora 23 ---------------</div><div class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-fc23-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On Fedora 22 ---------------</div><div class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-fc22-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On Fedora 21 ---------------</div><div class="line"><span class="comment"># wget http://dev.mysql.com/get/mysql57-community-release-fc21-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<p>####安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On RHEL/CentOS 7 ---------------</div><div class="line"><span class="comment"># yum localinstall mysql57-community-release-el7-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On RHEL/CentOS 6 ---------------</div><div class="line"><span class="comment"># yum localinstall mysql57-community-release-el6-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On RHEL/CentOS 5 ---------------</div><div class="line"><span class="comment"># yum localinstall mysql57-community-release-el5-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On Fedora 23 ---------------</div><div class="line"><span class="comment"># dnf localinstall mysql57-community-release-fc23-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On Fedora 22 ---------------</div><div class="line"><span class="comment"># dnf localinstall mysql57-community-release-fc22-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">--------------- On Fedora 21 ---------------</div><div class="line"><span class="comment"># yum localinstall mysql57-community-release-fc21-7.noarch.rpm</span></div></pre></td></tr></table></figure>
-<p>####校验源<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yum repolist enabled | grep "mysql.*-community.*"</span></div><div class="line"><span class="comment"># dnf repolist enabled | grep "mysql.*-community.*"      [On Fedora 22+ versions]</span></div></pre></td></tr></table></figure></p>
-<p><img src="https://static.verycloud.cn/sites/default/files/images/Verify-MySQL-Yum-Repository.png" alt="Verify-MySQL-Yum-Repository"></p>
-<p>###2、安装mysql</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># yum install mysql-community-server mysql mysql-libs mysql-devel</span></div><div class="line"><span class="comment"># dnf install mysql-community-server mysql mysql-libs mysql-devel     [On Fedora 22+ versions]</span></div></pre></td></tr></table></figure>
-<p>###3、开启mysql</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service mysqld start</div></pre></td></tr></table></figure>
-<p>查看mysql版本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># mysql --version</span></div><div class="line">mysql  Ver 14.14 Distrib 5.7.12, <span class="keyword">for</span> Linux (x86_64) using  EditLine wrapper</div></pre></td></tr></table></figure></p>
-<p>###4、配置mysql</p>
-<h4 id="查看默认密码"><a href="#查看默认密码" class="headerlink" title="查看默认密码"></a>查看默认密码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># grep 'temporary password' /var/log/mysqld.log</span></div></pre></td></tr></table></figure>
-<p>执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># mysql_secure_installation</span></div></pre></td></tr></table></figure></p>
-<p>配置示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line">Securing the MySQL server deployment.</div><div class="line"></div><div class="line">Enter password <span class="keyword">for</span> user root: Enter New Root Password</div><div class="line"></div><div class="line">VALIDATE PASSWORD PLUGIN can be used to <span class="built_in">test</span> passwords</div><div class="line">and improve security. It checks the strength of password</div><div class="line">and allows the users to <span class="built_in">set</span> only those passwords <span class="built_in">which</span> are</div><div class="line">secure enough. Would you like to setup VALIDATE PASSWORD plugin?</div><div class="line"></div><div class="line">Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No: y</div><div class="line"></div><div class="line">There are three levels of password validation policy:</div><div class="line"></div><div class="line">LOW    Length &gt;= 8</div><div class="line">MEDIUM Length &gt;= 8, numeric, mixed <span class="keyword">case</span>, and special characters</div><div class="line">STRONG Length &gt;= 8, numeric, mixed <span class="keyword">case</span>, special characters and dictionary                  file</div><div class="line"></div><div class="line">Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG: 2</div><div class="line">Using existing password <span class="keyword">for</span> root.</div><div class="line"></div><div class="line">Estimated strength of the password: 50 </div><div class="line">Change the password <span class="keyword">for</span> root ? ((Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</div><div class="line"></div><div class="line">New password: Set New MySQL Password</div><div class="line"></div><div class="line">Re-enter new password: Re-enter New MySQL Password</div><div class="line"></div><div class="line">Estimated strength of the password: 100 </div><div class="line">Do you wish to <span class="built_in">continue</span> with the password provided?(Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</div><div class="line">By default, a MySQL installation has an anonymous user,</div><div class="line">allowing anyone to <span class="built_in">log</span> into MySQL without having to have</div><div class="line">a user account created <span class="keyword">for</span> them. This is intended only <span class="keyword">for</span></div><div class="line">testing, and to make the installation go a bit smoother.</div><div class="line">You should remove them before moving into a production</div><div class="line">environment.</div><div class="line"></div><div class="line">Remove anonymous users? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</div><div class="line">Success.</div><div class="line"></div><div class="line"></div><div class="line">Normally, root should only be allowed to connect from</div><div class="line"><span class="string">'localhost'</span>. This ensures that someone cannot guess at</div><div class="line">the root password from the network.</div><div class="line"></div><div class="line">Disallow root login remotely? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</div><div class="line">Success.</div><div class="line"></div><div class="line">By default, MySQL comes with a database named <span class="string">'test'</span> that</div><div class="line">anyone can access. This is also intended only <span class="keyword">for</span> testing,</div><div class="line">and should be removed before moving into a production</div><div class="line">environment.</div><div class="line"></div><div class="line">Remove <span class="built_in">test</span> database and access to it? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</div><div class="line"> - Dropping <span class="built_in">test</span> database...</div><div class="line">Success.</div><div class="line"></div><div class="line"> - Removing privileges on <span class="built_in">test</span> database...</div><div class="line">Success.</div><div class="line"></div><div class="line">Reloading the privilege tables will ensure that all changes</div><div class="line">made so far will take effect immediately.</div><div class="line"></div><div class="line">Reload privilege tables now? (Press y|Y <span class="keyword">for</span> Yes, any other key <span class="keyword">for</span> No) : y</div><div class="line">Success.</div><div class="line"></div><div class="line">All <span class="keyword">done</span>!</div></pre></td></tr></table></figure>
-<p>至此，安装完成！</p>
-
-
-<!--<a href="http://verynull.com/2016/04/25/MySQL-5-7-x-安装/#disqus_thread" class="article-comment-link">Comments</a>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'undefined'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
--->
-<div style="display:none">
-<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
-</div>
-
-
-
-
-
-
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}
