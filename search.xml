@@ -3825,7 +3825,9 @@ Twig可以进行运算。这个功能很少用得到，不过为了完整起见�
   <entry>
     <title>kubernetes安装部署实战</title>
     <url>/2021/04/28/kubernetes%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%88%98/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>1、安装kubsphere<br>2、安装监控prometheus<br>3、安装日志elk<br>4、CI gitlab+jenkins 镜像push到harbo<br>5、CD  安装spinaker 自动部署到k8s集群</p>
+<p>先搞CI</p>
+]]></content>
       <categories>
         <category>k8s</category>
       </categories>
