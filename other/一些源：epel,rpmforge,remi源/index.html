@@ -28,7 +28,7 @@
         
           
           
-          <meta name="theme-color" content="#2094f3">
+          <meta name="theme-color" content="#4051b5">
         
       
     
@@ -38,8 +38,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,700,700i%7CUbuntu+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Ubuntu";--md-code-font:"Ubuntu Mono"}</style>
       
     
     
@@ -57,7 +57,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     
@@ -74,7 +74,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
     <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
       
@@ -118,10 +120,16 @@
       </label>
       <nav class="md-search__options" aria-label="查找">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -152,13 +160,136 @@
     
   </nav>
   
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../golang/" class="md-tabs__link">
+        Golang
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../drupal/Drupal-apc%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E7%AD%96%E7%95%A5/" class="md-tabs__link">
+        Drupal
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../javascript/%3Bfunction%28%24%2Cundefined%29-%E5%89%8D%E9%9D%A2%E7%9A%84%E5%88%86%E5%8F%B7%E9%87%8A%E7%96%91/" class="md-tabs__link">
+        Javascript
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../vue/Vue%E8%B7%AF%E7%94%B1%E5%85%A5%E9%97%A8/" class="md-tabs__link">
+        Vue
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../CentOS6-4%E5%AE%89%E8%A3%85oracle-10g%E6%95%99%E7%A8%8B/" class="md-tabs__link md-tabs__link--active">
+        Other
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        About
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../book/" class="md-tabs__link">
+        Book
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
-        
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -171,8 +302,10 @@
                   <div class="md-sidebar__inner">
                     
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
       
@@ -204,10 +337,39 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../index.md" class="md-nav__link">
-        首页
-      </a>
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../golang/">Golang</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Golang" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Golang
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -219,10 +381,669 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Drupal
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Drupal" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Drupal
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../go" class="md-nav__link">
-        Golang
+      <a href="../../drupal/Drupal-apc%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E7%AD%96%E7%95%A5/" class="md-nav__link">
+        Drupal apc缓存配置策略
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/Drupal%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB/" class="md-nav__link">
+        Drupal动静分离
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/Drupal%E7%9A%84gitignore%E6%96%87%E4%BB%B6/" class="md-nav__link">
+        Drupal的.gitignore文件
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/Drush%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E5%92%8C%E5%BA%94%E7%94%A8/" class="md-nav__link">
+        Drush的安装配置和应用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal%20code%20review/" class="md-nav__link">
+        Drupal code review
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal-error-cannot-call-overloaded-function-for-non-object/" class="md-nav__link">
+        Drupal error - Cannot call overloaded function for non-object
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal-%E8%8E%B7%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9C%9F%E5%AE%9Eip/" class="md-nav__link">
+        Drupal 获取客户端真实IP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_8" type="checkbox" id="__nav_2_8" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_8">
+          Drupal7
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Drupal7" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_8">
+          <span class="md-nav__icon md-icon"></span>
+          Drupal7
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal7/Drupal7-WEB%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="md-nav__link">
+        Drupal7 WEB性能优化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal7/Drupal7%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E7%9A%84%E4%B8%80%E4%BA%9B%E9%85%8D%E7%BD%AE/" class="md-nav__link">
+        Drupal7生产环境的一些配置
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal7/Drupal7%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4%E6%97%B6%E5%87%BA%E7%8E%B0%E9%9D%9E%E6%B3%95%E9%80%89%E9%A1%B9%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="md-nav__link">
+        Drupal7表单提交时出现非法选项解决方案
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_9" type="checkbox" id="__nav_2_9" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_9">
+          Drupal8
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Drupal8" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_9">
+          <span class="md-nav__icon md-icon"></span>
+          Drupal8
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-Configuration-Schema/" class="md-nav__link">
+        Drupal8 configuration schema
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-Content-Entity/" class="md-nav__link">
+        Drupal8 Content Entity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-Controller/" class="md-nav__link">
+        Drupal8 Controller
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-Cron-Queue/" class="md-nav__link">
+        Drupal8 Cron Queue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-Javascript/" class="md-nav__link">
+        Drupal8 javascript
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-Service-DependencyInjection/" class="md-nav__link">
+        Drupal8-Service-DependencyInjection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-angularJS/" class="md-nav__link">
+        Drupal8中使用AngularJS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-configuration-Entity/" class="md-nav__link">
+        Drupal8 Configuration Entity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-css-guide/" class="md-nav__link">
+        Drupal8-css-guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-drush/" class="md-nav__link">
+        Drush for Drupal8
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-form/" class="md-nav__link">
+        Drupal8表单(form)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8-routing/" class="md-nav__link">
+        Drupal8 Routing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E4%B8%BB%E9%A2%98-theme/" class="md-nav__link">
+        Drupal8主题(theme)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95/" class="md-nav__link">
+        Drupal8功能测试
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" class="md-nav__link">
+        Drupal8单元测试
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4-Namespace/" class="md-nav__link">
+        Drupal8命名空间(Namespace)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E5%AE%9E%E4%BD%93-entity/" class="md-nav__link">
+        Drupal8实体(entity)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E6%95%B0%E6%8D%AE%E5%BA%93-database/" class="md-nav__link">
+        Drupal8数据库(database)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-twig/" class="md-nav__link">
+        Drupal8模板引擎-twig
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E6%B3%A8%E8%A7%A3-Annotations-%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        Drupal8注解(Annotations)语法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E7%9B%B8%E5%AF%B9Drupal7%E7%9A%84%E5%8F%98%E5%8C%96/" class="md-nav__link">
+        Drupal8相对Drupal7的变化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal8%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-OOP/" class="md-nav__link">
+        Drupal8面向对象(OOP)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/Drupal%E5%AF%BC%E5%85%A5%E7%BF%BB%E8%AF%91/" class="md-nav__link">
+        Drupal导入翻译
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/drupal8%E4%B8%AD%E4%BD%BF%E7%94%A8vue/" class="md-nav__link">
+        Drupal8中使用vue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal/drupal8/understanding-drupal8/" class="md-nav__link">
+        understanding Drupal8-Drupal8初窥
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -234,10 +1055,79 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Javascript
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Javascript" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Javascript
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../drupal" class="md-nav__link">
-        Drupal
+      <a href="../../javascript/%3Bfunction%28%24%2Cundefined%29-%E5%89%8D%E9%9D%A2%E7%9A%84%E5%88%86%E5%8F%B7%E9%87%8A%E7%96%91/" class="md-nav__link">
+        ;function($,undefined) 前面的分号释疑
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../javascript/%E4%BD%BF%E7%94%A8safari%E5%AF%B9webview%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/" class="md-nav__link">
+        使用safari对webview进行调试
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../javascript/%E5%86%99%E4%B8%AA%E8%84%9A%E6%9C%AC%E5%8E%8B%E7%BC%A9JS-CSS/" class="md-nav__link">
+        写个脚本压缩JS,CSS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -249,10 +1139,733 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Vue
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Vue" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Vue
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../javascript" class="md-nav__link">
-        Javascript
+      <a href="../../vue/Vue%E8%B7%AF%E7%94%B1%E5%85%A5%E9%97%A8/" class="md-nav__link">
+        Vue路由入门
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vue/Vue%E8%B7%AF%E7%94%B1%E8%BF%9B%E9%98%B6/" class="md-nav__link">
+        Vue路由进阶
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vue/vue%E5%9C%A8drupal%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E5%8C%96%E5%BC%80%E5%8F%91/" class="md-nav__link">
+        vue在drupal中的模块化开发
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vue/%E4%BB%8E%E7%AE%80%E5%8D%95%E7%9A%84%E5%88%97%E8%A1%A8%E9%A1%B5%E6%B5%85%E8%B0%88Vue%E7%BB%84%E4%BB%B6/" class="md-nav__link">
+        从简单的列表页浅谈Vue组件
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Other
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Other" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Other
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CentOS6-4%E5%AE%89%E8%A3%85oracle-10g%E6%95%99%E7%A8%8B/" class="md-nav__link">
+        CentOS6.4安装oracle 10g教程
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Converting-7-x-modules-to-8-x/" class="md-nav__link">
+        Converting 7.x modules to 8.x
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Haproxy-web%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" class="md-nav__link">
+        Haproxy web负载均衡
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MacOS-%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E7%AB%AF%E5%8F%A3%E6%83%85%E5%86%B5/" class="md-nav__link">
+        MacOS 查看网络端口情况
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mariadb-ColumnStore%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95/" class="md-nav__link">
+        Mariadb ColumnStore数据库测试
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL-5-7-x-%E5%AE%89%E8%A3%85/" class="md-nav__link">
+        mysql-5.7.x安装
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL%E4%BA%92%E8%81%94%E7%BD%91%E4%B8%9A%E5%8A%A1%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/" class="md-nav__link">
+        MySQL互联网业务数据库设计规范
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83/" class="md-nav__link">
+        MySQL数据库设计规范
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PHP-Trait%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="md-nav__link">
+        PHP Trait多重继承的实现
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQLite-database-disk-image-is-malformed-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="md-nav__link">
+        Drupal SQLite: database disk image is malformed 解决方法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../centos6-6%E5%AE%89%E8%A3%85Percona-Tokudb/" class="md-nav__link">
+        centos6.6安装Percona Tokudb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../centos6-6%E5%AE%89%E8%A3%85mariadb10-Tokudb/" class="md-nav__link">
+        centos6.6安装mariadb10 Tokudb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" class="md-nav__link">
+        git自动化部属
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hook_form%E4%B8%AD%E4%BD%BF%E7%94%A8drupalattachbehaviors/" class="md-nav__link">
+        hook_form中使用Drupal.attachBehaviors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../infiniDB%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" class="md-nav__link">
+        infiniDB安装配置
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../infinidb%E4%B8%8Eclickhouse%E5%AF%B9%E6%AF%94/" class="md-nav__link">
+        infiniDB与clickhouse对比
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubernetes%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2%E5%AE%9E%E6%88%98/" class="md-nav__link">
+        kubernetes安装部署实战
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../macvim%E5%A4%84%E7%90%86%E4%B8%AD%E6%96%87%E6%97%B6%E5%8D%A1%E9%A1%BF%E3%80%81cpu%E5%8D%A0%E7%94%A8%E8%BF%87%E9%AB%98%E9%97%AE%E9%A2%98/" class="md-nav__link">
+        MacVim处理中文时卡顿、CPU占用过高问题
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mariaDB%E5%92%8CPercona%E7%9A%84%E5%BC%95%E6%93%8Etokudb%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" class="md-nav__link">
+        MariaDB和Percona的引擎tokudb性能对比测试
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phantomjs%E4%B8%AD%E6%96%87%E9%97%AE%E9%A2%98/" class="md-nav__link">
+        phantomjs中文问题
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../php-extension%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        PHP Extension开发基础
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../php%E8%8E%B7%E5%8F%96raw-post-data%E6%95%B0%E6%8D%AE/" class="md-nav__link">
+        PHP获取Raw POST Data数据
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rsync%E4%B8%BB%E5%A4%87%E4%BB%A3%E7%A0%81%E5%90%8C%E6%AD%A5/" class="md-nav__link">
+        rsync主备代码同步
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sublime-text%E5%88%9B%E5%BB%BA%E5%BF%AB%E6%8D%B7%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF/" class="md-nav__link">
+        sublime text创建快捷注释信息
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sysbench%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/" class="md-nav__link">
+        sysbench测试mysql性能
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tpcc%E6%B5%8B%E8%AF%95mysql%E6%80%A7%E8%83%BD/" class="md-nav__link">
+        tpcc测试mysql性能
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/" class="md-nav__link">
+        web开发规范
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows%E4%B8%8B%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEdrupalconsole/" class="md-nav__link">
+        windows下安装配置drupalconsole
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yum-errno-14-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="md-nav__link">
+        yum Errno 14 解决方法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        一些源：epel,RPMForge,Remi源
+      </a>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%86%B3%E5%90%84%E7%A7%8Die%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98/" class="md-nav__link">
+        一行代码解决各种IE兼容问题
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E4%BD%BF%E7%94%A8gdb%E8%B0%83%E8%AF%95php-fpm/" class="md-nav__link">
+        "使用gdb调试php-fpm"
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%AE%89%E8%A3%85php7/" class="md-nav__link">
+        安装php7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%B9%B6%E8%A1%8C/" class="md-nav__link">
+        并发与并行
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%88%91%E7%9A%84vim%E9%85%8D%E8%89%B2/" class="md-nav__link">
+        我的vim配色
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%9F%A5%E7%9C%8B%E5%93%AA%E4%BA%9B%E8%BF%9B%E7%A8%8B%E5%8D%A0%E7%94%A8%E4%BA%86swap/" class="md-nav__link">
+        查看哪些进程占用了swap
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%AB%98%E6%80%A7%E8%83%BDmysql%E4%B8%BB%E4%BB%8E%E6%9E%B6%E6%9E%84%E5%8F%8AMHA%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" class="md-nav__link">
+        高性能mysql主从架构及MHA高可用负载均衡
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -264,10 +1877,39 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../vue" class="md-nav__link">
-        Vuejs
-      </a>
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../about/">About</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="About" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          About
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -279,10 +1921,39 @@
   
   
   
-    <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
-        杂项
-      </a>
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../book/">Book</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Book" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Book
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -348,9 +2019,49 @@ CentOS and Red Hat Enterprise Linux 6.x
           </div>
         </div>
         
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
       </main>
       
         <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="页脚">
+      
+        
+        <a href="../yum-errno-14-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="md-footer__link md-footer__link--prev" aria-label="上一页: yum Errno 14 解决方法" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              yum Errno 14 解决方法
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%86%B3%E5%90%84%E7%A7%8Die%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98/" class="md-footer__link md-footer__link--next" aria-label="下一页: 一行代码解决各种IE兼容问题" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              一行代码解决各种IE兼容问题
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -372,7 +2083,7 @@ CentOS and Red Hat Enterprise Linux 6.x
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "content.code.annotate", "content.tooltips", "navigation.indexes", "navigation.sections", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
