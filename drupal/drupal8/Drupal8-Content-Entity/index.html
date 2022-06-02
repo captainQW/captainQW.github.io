@@ -1,0 +1,1231 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="law">
+      
+      
+        <link rel="canonical" href="https://www.verynil.com/drupal/drupal8/Drupal8-Content-Entity/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.16">
+    
+    
+      
+        <title>"Drupal8 Content Entity" - 记录技术，分享知识，传播乐趣</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.1c3799f8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            记录技术，分享知识，传播乐趣
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              "Drupal8 Content Entity"
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/captainQW/captainQW.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    记录技术，分享知识，传播乐趣
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/captainQW/captainQW.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../go" class="md-nav__link">
+        Golang
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Drupal
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../javascript" class="md-nav__link">
+        Javascript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../vue" class="md-nav__link">
+        Vuejs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../other" class="md-nav__link">
+        杂项
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    一、创建模块
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#content_entity_exampleroutingyml" class="md-nav__link">
+    二、content_entity_example.routing.yml
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#content_entity_examplelinksmenuyml" class="md-nav__link">
+    三、content_entity_example.links.menu.yml
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#content_entity_examplelinksactionyml" class="md-nav__link">
+    四、content_entity_example.links.action.yml
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#content_entity_examplelinkstaskyml" class="md-nav__link">
+    五、content_entity_example.links.task.yml
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entity" class="md-nav__link">
+    六、Entity类
+  </a>
+  
+    <nav class="md-nav" aria-label="六、Entity类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1srconlinemessageinterfacephp" class="md-nav__link">
+    1、src/OnlineMessageInterface.php
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2srcentityonlinemessagephp" class="md-nav__link">
+    2、src/Entity/OnlineMessage.php
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    七、控制器类
+  </a>
+  
+    <nav class="md-nav" aria-label="七、控制器类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1srcformonlinemessageformphp" class="md-nav__link">
+    1、src/Form/OnlineMessageForm.php
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2srcformonlinemessagedeleteformphp" class="md-nav__link">
+    2、src/Form/OnlineMessageDeleteForm.php
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3srconlinemessagelistbuilderphp" class="md-nav__link">
+    3、src/OnlineMessageListBuilder.php
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#field" class="md-nav__link">
+    八、Field配置
+  </a>
+  
+    <nav class="md-nav" aria-label="八、Field配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1srcformonlinemessagesettingsformphp" class="md-nav__link">
+    1、src/Form/OnlineMessageSettingsForm.php
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entity_1" class="md-nav__link">
+    九、注册entity
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/captainQW/captainQW.github.io/edit/master/docs/drupal/drupal8/Drupal8-Content-Entity.md" title="编辑此页" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+  <h1>"Drupal8 Content Entity"</h1>
+
+<p>这篇文章是<a href="http://verynull.com/2015/12/21/Drupal8-configuration-Entity/">Drupal8-configuration-Entity</a>的姊妹篇。主要介绍如何创建内容实体，并在界面上管理。</p>
+<p>content entity最大的优势在于可自定义字段。</p>
+<p>本文github：<a href="https://github.com/RamboLau/drupal8-demos/tree/master/content_entity_example">https://github.com/RamboLau/drupal8-demos/tree/master/content_entity_example</a></p>
+<h3 id="_1">一、创建模块<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>mkdir content_entity_example
+
+touch content_entity_example.info.yml
+</code></pre></div>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code>name: content_entity_example
+type: module
+description: Provides ContentEntityExampleOnlineMessage entity.
+core: <span class="m">8</span>.x
+package: Other
+</code></pre></div>
+<h3 id="content_entity_exampleroutingyml">二、content_entity_example.routing.yml<a class="headerlink" href="#content_entity_exampleroutingyml" title="Permanent link">&para;</a></h3>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># OnlineMessage routing definition</span>
+entity.online_message.canonical:
+  path: <span class="s1">&#39;/admin/structure/online_message/{online_message}&#39;</span>
+  defaults:
+    _entity_view: <span class="s1">&#39;online_message&#39;</span>
+    _title: <span class="s1">&#39;Online message&#39;</span>
+  requirements:
+    _entity_access: <span class="s1">&#39;online_message.view&#39;</span>
+  options:
+    _admin_route: TRUE
+
+entity.online_message.collection:
+  path: <span class="s1">&#39;/admin/structure/online_message&#39;</span>
+  defaults:
+    _entity_list: <span class="s1">&#39;online_message&#39;</span>
+    _title: <span class="s1">&#39;Online message list&#39;</span>
+  requirements:
+    _permission: <span class="s1">&#39;view online message entities&#39;</span>
+  options:
+    _admin_route: TRUE
+
+entity.online_message.add_form:
+  path: <span class="s1">&#39;/admin/structure/online_message/add&#39;</span>
+  defaults:
+    _entity_form: online_message.add
+    _title: <span class="s1">&#39;Add Online message&#39;</span>
+  requirements:
+    _permission: <span class="s1">&#39;add online message entities&#39;</span>
+  options:
+    _admin_route: TRUE
+
+entity.online_message.edit_form:
+  path: <span class="s1">&#39;/admin/structure/online_message/{online_message}/edit&#39;</span>
+  defaults:
+    _entity_form: online_message.edit
+    _title: <span class="s1">&#39;Edit Online message&#39;</span>
+  requirements:
+    _permission: <span class="s1">&#39;edit online message entities&#39;</span>
+  options:
+    _admin_route: TRUE
+
+entity.online_message.delete_form:
+  path: <span class="s1">&#39;/admin/structure/online_message/{online_message}/delete&#39;</span>
+  defaults:
+    _entity_form: online_message.delete
+    _title: <span class="s1">&#39;Delete Online message&#39;</span>
+  requirements:
+    _permission: <span class="s1">&#39;delete online message entities&#39;</span>
+  options:
+    _admin_route: TRUE
+
+online_message.settings:
+  path: <span class="s1">&#39;/admin/structure/online_message/settings&#39;</span>
+  defaults:
+   _form: <span class="s1">&#39;\Drupal\content_entity_example\Form\OnlineMessageSettingsForm&#39;</span>
+   _title: <span class="s1">&#39;Online message settings&#39;</span>
+  requirements:
+    _permission: <span class="s1">&#39;administer online message entities&#39;</span>
+  options:
+    _admin_route: TRUE
+</code></pre></div>
+<h3 id="content_entity_examplelinksmenuyml">三、content_entity_example.links.menu.yml<a class="headerlink" href="#content_entity_examplelinksmenuyml" title="Permanent link">&para;</a></h3>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Online message menu items definition</span>
+entity.online_message.collection:
+  title: <span class="s1">&#39;Online message list&#39;</span>
+  route_name: entity.online_message.collection
+  description: <span class="s1">&#39;List Online message entities&#39;</span>
+  parent: system.admin_structure
+  weight: <span class="m">100</span>
+
+online_message.admin.structure.settings:
+  title: Online message settings
+  description: <span class="s1">&#39;Configure Online message entities&#39;</span>
+  route_name: online_message.settings
+  parent: system.admin_structure
+</code></pre></div>
+<p><img alt="menu" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223140428_47031.png" /></p>
+<h3 id="content_entity_examplelinksactionyml">四、content_entity_example.links.action.yml<a class="headerlink" href="#content_entity_examplelinksactionyml" title="Permanent link">&para;</a></h3>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code>entity.online_message.add_form:
+  route_name: entity.online_message.add_form
+  title: <span class="s1">&#39;Add Online message&#39;</span>
+  appears_on:
+    - entity.online_message.collection
+    - entity.online_message.canonical
+</code></pre></div>
+<p><img alt="action" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223140610_19940.png" /></p>
+<h3 id="content_entity_examplelinkstaskyml">五、content_entity_example.links.task.yml<a class="headerlink" href="#content_entity_examplelinkstaskyml" title="Permanent link">&para;</a></h3>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Online message routing definition</span>
+online_message.settings_tab:
+  route_name: online_message.settings
+  title: <span class="s1">&#39;Settings&#39;</span>
+  base_route: online_message.settings
+entity.online_message.canonical:
+  route_name: entity.online_message.canonical
+  base_route: entity.online_message.canonical
+  title: <span class="s1">&#39;View&#39;</span>
+
+entity.online_message.edit_form:
+  route_name: entity.online_message.edit_form
+  base_route: entity.online_message.canonical
+  title: Edit
+
+entity.online_message.delete_form:
+  route_name:  entity.online_message.delete_form
+  base_route:  entity.online_message.canonical
+  title: Delete
+  weight: <span class="m">10</span>
+</code></pre></div>
+<h3 id="entity">六、Entity类<a class="headerlink" href="#entity" title="Permanent link">&para;</a></h3>
+<h4 id="1srconlinemessageinterfacephp">1、src/OnlineMessageInterface.php<a class="headerlink" href="#1srconlinemessageinterfacephp" title="Permanent link">&para;</a></h4>
+<p>注：通过EntityOwnerInterface接口可获取其他的一些函数，如</p>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\OnlineMessageInterface.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityChangedInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityTypeInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\user\EntityOwnerInterface</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Provides an interface for defining Online message entities.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">interface</span> <span class="nx">OnlineMessageInterface</span> <span class="k">extends</span> <span class="nx">ContentEntityInterface</span><span class="p">,</span> <span class="nx">EntityChangedInterface</span><span class="p">,</span> <span class="nx">EntityOwnerInterface</span> <span class="p">{</span>
+  <span class="c1">// Add get/set methods for your configuration properties here.</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Gets the Online message name.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return string</span>
+<span class="sd">   *   Name of the Online message.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">();</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Sets the Online message name.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param string $name</span>
+<span class="sd">   *   The Online message name.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return \Drupal\content_entity_example\OnlineMessageInterface</span>
+<span class="sd">   *   The called Online message entity.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">);</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Gets the Online message creation timestamp.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return int</span>
+<span class="sd">   *   Creation timestamp of the Online message.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getCreatedTime</span><span class="p">();</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Sets the Online message creation timestamp.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param int $timestamp</span>
+<span class="sd">   *   The Online message creation timestamp.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return \Drupal\content_entity_example\OnlineMessageInterface</span>
+<span class="sd">   *   The called Online message entity.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setCreatedTime</span><span class="p">(</span><span class="nv">$timestamp</span><span class="p">);</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Returns the Online message published status indicator.</span>
+<span class="sd">   *</span>
+<span class="sd">   * Unpublished Online message are only visible to restricted users.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return bool</span>
+<span class="sd">   *   TRUE if the Online message is published.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">isPublished</span><span class="p">();</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Sets the published status of a Online message.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param bool $published</span>
+<span class="sd">   *   TRUE to set this Online message to published, FALSE to set it to unpublished.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return \Drupal\content_entity_example\OnlineMessageInterface</span>
+<span class="sd">   *   The called Online message entity.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setPublished</span><span class="p">(</span><span class="nv">$published</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h4 id="2srcentityonlinemessagephp">2、src/Entity/OnlineMessage.php<a class="headerlink" href="#2srcentityonlinemessagephp" title="Permanent link">&para;</a></h4>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\Entity\OnlineMessage.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityStorageInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Field\BaseFieldDefinition</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityChangedTrait</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityTypeInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\content_entity_example\OnlineMessageInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\user\UserInterface</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Defines the Online message entity.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ContentEntityType(</span>
+<span class="sd"> *   id = &quot;online_message&quot;,</span>
+<span class="sd"> *   label = @Translation(&quot;Online message&quot;),</span>
+<span class="sd"> *   handlers = {</span>
+<span class="sd"> *     &quot;view_builder&quot; = &quot;Drupal\Core\Entity\EntityViewBuilder&quot;,</span>
+<span class="sd"> *     &quot;list_builder&quot; = &quot;Drupal\content_entity_example\OnlineMessageListBuilder&quot;,</span>
+<span class="sd"> *     &quot;views_data&quot; = &quot;Drupal\content_entity_example\Entity\OnlineMessageViewsData&quot;,</span>
+<span class="sd"> *</span>
+<span class="sd"> *     &quot;form&quot; = {</span>
+<span class="sd"> *       &quot;default&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageForm&quot;,</span>
+<span class="sd"> *       &quot;add&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageForm&quot;,</span>
+<span class="sd"> *       &quot;edit&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageForm&quot;,</span>
+<span class="sd"> *       &quot;delete&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageDeleteForm&quot;,</span>
+<span class="sd"> *     },</span>
+<span class="sd"> *     &quot;access&quot; = &quot;Drupal\content_entity_example\OnlineMessageAccessControlHandler&quot;,</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   base_table = &quot;online_message&quot;,</span>
+<span class="sd"> *   admin_permission = &quot;administer OnlineMessage entities&quot;,</span>
+<span class="sd"> *   entity_keys = {</span>
+<span class="sd"> *     &quot;id&quot; = &quot;id&quot;,</span>
+<span class="sd"> *     &quot;label&quot; = &quot;name&quot;,</span>
+<span class="sd"> *     &quot;uuid&quot; = &quot;uuid&quot;,</span>
+<span class="sd"> *     &quot;uid&quot; = &quot;user_id&quot;,</span>
+<span class="sd"> *     &quot;langcode&quot; = &quot;langcode&quot;,</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   links = {</span>
+<span class="sd"> *     &quot;canonical&quot; = &quot;/admin/online_message/{online_message}&quot;,</span>
+<span class="sd"> *     &quot;edit-form&quot; = &quot;/admin/online_message/{online_message}/edit&quot;,</span>
+<span class="sd"> *     &quot;delete-form&quot; = &quot;/admin/online_message/{online_message}/delete&quot;</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   field_ui_base_route = &quot;online_message.settings&quot;</span>
+<span class="sd"> * )</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessage</span> <span class="k">extends</span> <span class="nx">ContentEntityBase</span> <span class="k">implements</span> <span class="nx">OnlineMessageInterface</span> <span class="p">{</span>
+  <span class="k">use</span> <span class="nx">EntityChangedTrait</span><span class="p">;</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">preCreate</span><span class="p">(</span><span class="nx">EntityStorageInterface</span> <span class="nv">$storage_controller</span><span class="p">,</span> <span class="k">array</span> <span class="o">&amp;</span><span class="nv">$values</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">parent</span><span class="o">::</span><span class="na">preCreate</span><span class="p">(</span><span class="nv">$storage_controller</span><span class="p">,</span> <span class="nv">$values</span><span class="p">);</span>
+    <span class="nv">$values</span> <span class="o">+=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;user_id&#39;</span> <span class="o">=&gt;</span> <span class="nx">\Drupal</span><span class="o">::</span><span class="na">currentUser</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">(),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nv">$name</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getCreatedTime</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setCreatedTime</span><span class="p">(</span><span class="nv">$timestamp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">,</span> <span class="nv">$timestamp</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getOwner</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getOwnerId</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">target_id</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setOwnerId</span><span class="p">(</span><span class="nv">$uid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="nv">$uid</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setOwner</span><span class="p">(</span><span class="nx">UserInterface</span> <span class="nv">$account</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="nv">$account</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">());</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">isPublished</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nx">bool</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getEntityKey</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setPublished</span><span class="p">(</span><span class="nv">$published</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="nv">$published</span> <span class="o">?</span> <span class="nx">NODE_PUBLISHED</span> <span class="o">:</span> <span class="nx">NODE_NOT_PUBLISHED</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">baseFieldDefinitions</span><span class="p">(</span><span class="nx">EntityTypeInterface</span> <span class="nv">$entity_type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;integer&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The ID of the Online message entity.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setReadOnly</span><span class="p">(</span><span class="k">TRUE</span><span class="p">);</span>
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;uuid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;uuid&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;UUID&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The UUID of the Online message entity.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setReadOnly</span><span class="p">(</span><span class="k">TRUE</span><span class="p">);</span>
+
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;entity_reference&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Authored by&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The user ID of author of the Online message entity.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setRevisionable</span><span class="p">(</span><span class="k">TRUE</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setSetting</span><span class="p">(</span><span class="s1">&#39;target_type&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setSetting</span><span class="p">(</span><span class="s1">&#39;handler&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDefaultValueCallback</span><span class="p">(</span><span class="s1">&#39;Drupal\node\Entity\Node::getCurrentUserId&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setTranslatable</span><span class="p">(</span><span class="k">TRUE</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayOptions</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;author&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayOptions</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;entity_reference_autocomplete&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s1">&#39;settings&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+          <span class="s1">&#39;match_operator&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;CONTAINS&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;size&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;60&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;autocomplete_type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;placeholder&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayConfigurable</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayConfigurable</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
+
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The name of the Online message entity.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setSettings</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;max_length&#39;</span> <span class="o">=&gt;</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="s1">&#39;text_processing&#39;</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDefaultValue</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayOptions</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;above&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayOptions</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string_textfield&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayConfigurable</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayConfigurable</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
+
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;boolean&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Publishing status&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;A boolean indicating whether the Online message is published.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDefaultValue</span><span class="p">(</span><span class="k">TRUE</span><span class="p">);</span>
+
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;langcode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;language&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Language code&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The language code for the Online message entity.&#39;</span><span class="p">));</span>
+
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Created&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The time that the entity was created.&#39;</span><span class="p">));</span>
+
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;changed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;changed&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Changed&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The time that the entity was last edited.&#39;</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="nv">$fields</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>注解的相关名词解释：</p>
+<p>1、id：实体类型唯一标识符，一般遵循'modulename_xyz'的命名规则。</p>
+<p>2、label：易读的实体名称。</p>
+<p>3、handlers：不同的任务所使用的处理程序，一般来说，标准的处理方法有：
+    1)、view_builder：由routing.yml中的'_entity_view'所调用。</p>
+<div class="codehilite"><pre><span></span><code>2)、list_builder：继承entityListBuilder，展示在线留言的列表。
+
+3)、form：由routing.yml中的&#39;_entity_form&#39;所调用。
+
+4)、access：设定访问权限
+</code></pre></div>
+
+<p>4、base_table：定义存储数据的表，必须唯一哦！schema由BaseFieldDefinitions决定，该表会在模块启用的时候自动创建。</p>
+<p>5、fieldable：可以添加自定义字段，只有内容实体才有这个功能</p>
+<p>6、entity_keys：访问fields的字段，如nid或uid</p>
+<p>7、links：操作链接，如'edit-form'和'delete-form'。在列表页可以看到相应的操作按钮。</p>
+<h3 id="_2">七、控制器类<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h4 id="1srcformonlinemessageformphp">1、src/Form/OnlineMessageForm.php<a class="headerlink" href="#1srcformonlinemessageformphp" title="Permanent link">&para;</a></h4>
+<p>由routing中定义的'_entity_form'调用。</p>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\Form\OnlineMessageForm.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example\Form</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityForm</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Language\Language</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Form controller for Online message edit forms.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessageForm</span> <span class="k">extends</span> <span class="nx">ContentEntityForm</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* @var $entity \Drupal\content_entity_example\Entity\OnlineMessage */</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildForm</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$form_state</span><span class="p">);</span>
+    <span class="nv">$entity</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;langcode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Language&#39;</span><span class="p">),</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;language_select&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">langcode</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">,</span>
+      <span class="s1">&#39;#languages&#39;</span> <span class="o">=&gt;</span> <span class="nx">Language</span><span class="o">::</span><span class="na">STATE_ALL</span><span class="p">,</span>
+    <span class="p">);</span>
+
+    <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">submit</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Build the entity object from the submitted values.</span>
+    <span class="nv">$entity</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$form_state</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nv">$entity</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">save</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$entity</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+    <span class="nv">$status</span> <span class="o">=</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+
+    <span class="k">switch</span> <span class="p">(</span><span class="nv">$status</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="nx">SAVED_NEW</span><span class="o">:</span>
+        <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Created the %label Online message.&#39;</span><span class="p">,</span> <span class="p">[</span>
+          <span class="s1">&#39;%label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(),</span>
+        <span class="p">]));</span>
+        <span class="k">break</span><span class="p">;</span>
+
+      <span class="k">default</span><span class="o">:</span>
+        <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Saved the %label Online message.&#39;</span><span class="p">,</span> <span class="p">[</span>
+          <span class="s1">&#39;%label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(),</span>
+        <span class="p">]));</span>
+    <span class="p">}</span>
+    <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">setRedirect</span><span class="p">(</span><span class="s1">&#39;entity.online_message.edit_form&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;online_message&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">()]);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><img alt="add_form" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223143411_52761.png" /></p>
+<h4 id="2srcformonlinemessagedeleteformphp">2、src/Form/OnlineMessageDeleteForm.php<a class="headerlink" href="#2srcformonlinemessagedeleteformphp" title="Permanent link">&para;</a></h4>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\Form\OnlineMessageDeleteForm.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example\Form</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityConfirmFormBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Url</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Provides a form for deleting Online message entities.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessageDeleteForm</span> <span class="k">extends</span> <span class="nx">ContentEntityConfirmFormBase</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getQuestion</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Are you sure you want to delete entity %name?&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;%name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">()));</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getCancelUrl</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Url</span><span class="p">(</span><span class="s1">&#39;entity.online_message.collection&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getConfirmText</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Delete&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">submitForm</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
+
+    <span class="nx">drupal_set_message</span><span class="p">(</span>
+      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;content @type: deleted @label.&#39;</span><span class="p">,</span>
+        <span class="p">[</span>
+          <span class="s1">&#39;@type&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">bundle</span><span class="p">(),</span>
+          <span class="s1">&#39;@label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="p">);</span>
+
+    <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">setRedirectUrl</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getCancelUrl</span><span class="p">());</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><img alt="delete_form" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223143307_47107.png" /></p>
+<h4 id="3srconlinemessagelistbuilderphp">3、src/OnlineMessageListBuilder.php<a class="headerlink" href="#3srconlinemessagelistbuilderphp" title="Permanent link">&para;</a></h4>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\OnlineMessageListBuilder.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityListBuilder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Routing\LinkGeneratorTrait</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Url</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Defines a class to build a listing of Online message entities.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessageListBuilder</span> <span class="k">extends</span> <span class="nx">EntityListBuilder</span> <span class="p">{</span>
+  <span class="k">use</span> <span class="nx">LinkGeneratorTrait</span><span class="p">;</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildHeader</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$header</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Online message ID&#39;</span><span class="p">);</span>
+    <span class="nv">$header</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$header</span> <span class="o">+</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildHeader</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildRow</span><span class="p">(</span><span class="nx">EntityInterface</span> <span class="nv">$entity</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* @var $entity \Drupal\content_entity_example\Entity\OnlineMessage */</span>
+    <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">();</span>
+    <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">l</span><span class="p">(</span>
+      <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(),</span>
+      <span class="k">new</span> <span class="nx">Url</span><span class="p">(</span>
+        <span class="s1">&#39;entity.online_message.edit_form&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+          <span class="s1">&#39;online_message&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">(),</span>
+        <span class="p">)</span>
+      <span class="p">)</span>
+    <span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$row</span> <span class="o">+</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildRow</span><span class="p">(</span><span class="nv">$entity</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><img alt="list_builder" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223143200_33896.png" /></p>
+<h3 id="field">八、Field配置<a class="headerlink" href="#field" title="Permanent link">&para;</a></h3>
+<h4 id="1srcformonlinemessagesettingsformphp">1、src/Form/OnlineMessageSettingsForm.php<a class="headerlink" href="#1srcformonlinemessagesettingsformphp" title="Permanent link">&para;</a></h4>
+<p>编辑内容为：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\Form\OnlineMessageSettingsForm.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example\Form</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Class OnlineMessageSettingsForm.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @package Drupal\content_entity_example\Form</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessageSettingsForm</span> <span class="k">extends</span> <span class="nx">FormBase</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * Returns a unique string identifying the form.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return string</span>
+<span class="sd">   *   The unique string identifying the form.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getFormId</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;OnlineMessage_settings&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Form submission handler.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param array $form</span>
+<span class="sd">   *   An associative array containing the structure of the form.</span>
+<span class="sd">   * @param \Drupal\Core\Form\FormStateInterface $form_state</span>
+<span class="sd">   *   The current state of the form.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">submitForm</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Empty implementation of the abstract submit class.</span>
+  <span class="p">}</span>
+
+
+  <span class="sd">/**</span>
+<span class="sd">   * Defines the settings form for Online message entities.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param array $form</span>
+<span class="sd">   *   An associative array containing the structure of the form.</span>
+<span class="sd">   * @param \Drupal\Core\Form\FormStateInterface $form_state</span>
+<span class="sd">   *   The current state of the form.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return array</span>
+<span class="sd">   *   Form definition array.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;OnlineMessage_settings&#39;</span><span class="p">][</span><span class="s1">&#39;#markup&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Settings form for Online message entities. Manage field settings here.&#39;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p><img alt="设置" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223142648_96014.png" /></p>
+<p><img alt="管理字段" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223142758_83626.png" /></p>
+<p><img alt="管理表单显示" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223142828_19080.png" /></p>
+<p><img alt="管理显示" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223142848_49971.png" /></p>
+<h3 id="entity_1">九、注册entity<a class="headerlink" href="#entity_1" title="Permanent link">&para;</a></h3>
+<p>启用模块，会自动根据Entity中的配置创建online_message表。</p>
+<p><img alt="online_message_table" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223140008_92664.png" /></p>
+<p>参考文章：
+1、<a href="https://www.drupal.org/node/2192175">https://www.drupal.org/node/2192175</a>
+2、<a href="http://www.slideshare.net/andypost/d8-entity">http://www.slideshare.net/andypost/d8-entity</a></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
+      
+    
+  </body>
+</html>

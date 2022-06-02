@@ -1,0 +1,883 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="law">
+      
+      
+        <link rel="canonical" href="https://www.verynil.com/drupal/drupal8/Drupal8-configuration-Entity/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.16">
+    
+    
+      
+        <title>"Drupal8 Configuration Entity" - 记录技术，分享知识，传播乐趣</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.1c3799f8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configuration-entity-interface" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            记录技术，分享知识，传播乐趣
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              "Drupal8 Configuration Entity"
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/captainQW/captainQW.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    记录技术，分享知识，传播乐趣
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/captainQW/captainQW.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../go" class="md-nav__link">
+        Golang
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Drupal
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../javascript" class="md-nav__link">
+        Javascript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../vue" class="md-nav__link">
+        Vuejs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../other" class="md-nav__link">
+        杂项
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-entity-interface" class="md-nav__link">
+    一、配置实体接口(configuration entity interface)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-entity-class" class="md-nav__link">
+    二、配置实体类(configuration entity class)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entity-form" class="md-nav__link">
+    三、实体表单(entity form)
+  </a>
+  
+    <nav class="md-nav" aria-label="三、实体表单(entity form)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1mkdir-p-srcformtouch-srcformdemoformphp" class="md-nav__link">
+    1、mkdir -p src/Form，并touch src/Form/DemoForm.php。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2touch-srcformdemoformdeletephp" class="md-nav__link">
+    2、touch src/Form/DemoFormDelete.php。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#list-builder" class="md-nav__link">
+    四、list builder
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema" class="md-nav__link">
+    五、schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing" class="md-nav__link">
+    六、routing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    七、 links
+  </a>
+  
+    <nav class="md-nav" aria-label="七、 links">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1demolinksactionyml" class="md-nav__link">
+    1、显示添加按钮在网页上，需要在demo.links.action.yml中定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2adminstructuredemodemolinksmenuyml" class="md-nav__link">
+    2、在admin/structure页面显示demo，需要在demo.links.menu.yml中定义
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/captainQW/captainQW.github.io/edit/master/docs/drupal/drupal8/Drupal8-configuration-Entity.md" title="编辑此页" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+  <h1>"Drupal8 Configuration Entity"</h1>
+
+<p>Drupal8的实体由2部分组成，配置实体(configuration entities)和内容实体(content entities)。如图：
+<img alt="Entity" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222113456_92999.png" /></p>
+<p>本节源代码见 <a href="https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example">https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example</a></p>
+<p>内容实体见：<a href="http://verynull.com/2015/12/22/drupal8-content-entity/">http://verynull.com/2015/12/22/drupal8-content-entity/</a></p>
+<h3 id="configuration-entity-interface">一、配置实体接口(configuration entity interface)<a class="headerlink" href="#configuration-entity-interface" title="Permanent link">&para;</a></h3>
+<p>在src目录下touch DemoInterface.php，DemoInterface继承并实现<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21Entity%21ConfigEntityInterface.php/interface/ConfigEntityInterface/8">ConfigEntityInterface</a>。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\DemoInterface.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\demo</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Config\Entity\ConfigEntityInterface</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Provides an interface defining a demo entity type.</span>
+<span class="sd"> */</span>
+<span class="k">interface</span> <span class="nx">DemoInterface</span> <span class="k">extends</span> <span class="nx">ConfigEntityInterface</span> <span class="p">{</span>
+  <span class="c1">// Add get/set methods for your configuration properties here.</span>
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h3 id="configuration-entity-class">二、配置实体类(configuration entity class)<a class="headerlink" href="#configuration-entity-class" title="Permanent link">&para;</a></h3>
+<p>在src目录下创建Entity目录，并touch src/Entity/Demo.php，在这个文件中我们将实现DemoEntity。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\Entity\Demo.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\demo\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Config\Entity\ConfigEntityBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\demo\DemoInterface</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Defines the Demo entity.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ConfigEntityType(</span>
+<span class="sd"> *   id = &quot;demo&quot;,</span>
+<span class="sd"> *   label = @Translation(&quot;Demo&quot;),</span>
+<span class="sd"> *   fieldable = FALSE,</span>
+<span class="sd"> *   handlers = {</span>
+<span class="sd"> *     &quot;list_builder&quot; = &quot;Drupal\demo\DemoListBuilder&quot;,</span>
+<span class="sd"> *     &quot;form&quot; = {</span>
+<span class="sd"> *       &quot;add&quot; = &quot;Drupal\demo\Form\DemoForm&quot;,</span>
+<span class="sd"> *       &quot;edit&quot; = &quot;Drupal\demo\Form\DemoForm&quot;,</span>
+<span class="sd"> *       &quot;delete&quot; = &quot;Drupal\demo\Form\DemoDeleteForm&quot;</span>
+<span class="sd"> *     }</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   config_prefix = &quot;demo&quot;,</span>
+<span class="sd"> *   admin_permission = &quot;administer site configuration&quot;,</span>
+<span class="sd"> *   entity_keys = {</span>
+<span class="sd"> *     &quot;id&quot; = &quot;id&quot;,</span>
+<span class="sd"> *     &quot;label&quot; = &quot;name&quot;</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   links = {</span>
+<span class="sd"> *     &quot;edit-form&quot; = &quot;/admin/structure/demos/{demo}&quot;,</span>
+<span class="sd"> *     &quot;delete-form&quot; = &quot;/admin/structure/demos/{demo}/delete&quot;</span>
+<span class="sd"> *   }</span>
+<span class="sd"> * )</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">Demo</span> <span class="k">extends</span> <span class="nx">ConfigEntityBase</span> <span class="k">implements</span> <span class="nx">DemoInterface</span> <span class="p">{</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * The ID of the demo.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="nv">$id</span><span class="p">;</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * The demo name.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * The demo sex.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="nv">$sex</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>上面定义Entity的方式熟悉吧！对，就是注解annotation。</p>
+<p>@ConfigEntityType告诉Drupal这是一个配置实体。参数如下：
+1、lable：翻译系统的标签
+2、fieldable: 附加字段，配置实体一般为FALSE，内容实体一般为TRUE
+3、handlers：管理该实体所需要的类
+4、list_builder：提供该实体的管理界面接口
+5、config_prefix：配置的前缀，一般用于schema
+6、admin_permission：管理员权限
+7、entity_keys：主要实体属性的集合
+8、links：编辑和删除的路径，在demo.routing.yml中定义</p>
+<h3 id="entity-form">三、实体表单(entity form)<a class="headerlink" href="#entity-form" title="Permanent link">&para;</a></h3>
+<p>接下来我们来实现在Entity中的定义的表单，如add, edit, delete。</p>
+<h4 id="1mkdir-p-srcformtouch-srcformdemoformphp">1、mkdir -p src/Form，并touch src/Form/DemoForm.php。<a class="headerlink" href="#1mkdir-p-srcformtouch-srcformdemoformphp" title="Permanent link">&para;</a></h4>
+<p>在DemoForm主要实现2个方法，form()和save()。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\Form\DemoForm.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\demo\Form</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityForm</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityTypeInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\ContainerInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\Query\QueryFactory</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Class DemoForm</span>
+<span class="sd"> *</span>
+<span class="sd"> * Form class for adding/editing demo config entities.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">DemoForm</span> <span class="k">extends</span> <span class="nx">EntityForm</span> <span class="p">{</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query</span>
+<span class="sd">   *   The entity query.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nx">QueryFactory</span> <span class="nv">$entity_query</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityQuery</span> <span class="o">=</span> <span class="nv">$entity_query</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">create</span><span class="p">(</span><span class="nx">ContainerInterface</span> <span class="nv">$container</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="k">static</span><span class="p">(</span>
+      <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;entity.query&#39;</span><span class="p">)</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">form</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">form</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$form_state</span><span class="p">);</span>
+    <span class="nv">$demo</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+
+    <span class="c1">// Change page title for the edit operation</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">operation</span> <span class="o">==</span> <span class="s1">&#39;edit&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Edit demo: @name&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;@name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="c1">// The demo name.</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;textfield&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">),</span>
+      <span class="s1">&#39;#maxlength&#39;</span> <span class="o">=&gt;</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span>
+      <span class="s1">&#39;#description&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s2">&quot;demo name.&quot;</span><span class="p">),</span>
+      <span class="s1">&#39;#required&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+    <span class="p">);</span>
+
+    <span class="c1">// The unique machine name of the demo.</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;machine_name&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#maxlength&#39;</span> <span class="o">=&gt;</span> <span class="nx">EntityTypeInterface</span><span class="o">::</span><span class="na">BUNDLE_MAX_LENGTH</span><span class="p">,</span>
+      <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">,</span>
+      <span class="s1">&#39;#disabled&#39;</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">isNew</span><span class="p">(),</span>
+      <span class="s1">&#39;#machine_name&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;source&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;exists&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;demo_load&#39;</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
+
+    <span class="c1">// The sex.</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#options&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;Man&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Man&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Woman&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Woman&#39;</span><span class="p">,</span>
+      <span class="p">),</span>
+      <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span>
+      <span class="s1">&#39;#maxlength&#39;</span> <span class="o">=&gt;</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">sex</span><span class="p">,</span>
+      <span class="s1">&#39;#description&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s2">&quot;sex&quot;</span><span class="p">),</span>
+      <span class="s1">&#39;#required&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">save</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$demo</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+    <span class="nv">$status</span> <span class="o">=</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$status</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Setting the success message.</span>
+      <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Saved the demo: @label.&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;@label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span>
+      <span class="p">)));</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;The @label demo was not saved.&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;@label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span>
+      <span class="p">)));</span>
+    <span class="p">}</span>
+
+    <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">setRedirect</span><span class="p">(</span><span class="s1">&#39;demo.list&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> 
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>如图：</p>
+<p><img alt="DemoForm" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212259_77460.png" /></p>
+<h4 id="2touch-srcformdemoformdeletephp">2、touch src/Form/DemoFormDelete.php。<a class="headerlink" href="#2touch-srcformdemoformdeletephp" title="Permanent link">&para;</a></h4>
+<p>DemoFormDelete继承<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21EntityConfirmFormBase.php/class/EntityConfirmFormBase/8">EntityConfirmFormBase</a>。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\Form\DemoDeleteForm.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\demo\Form</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityConfirmFormBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Url</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
+
+
+<span class="sd">/**</span>
+<span class="sd"> * Form that handles the removal of demo entities.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">DemoDeleteForm</span> <span class="k">extends</span> <span class="nx">EntityConfirmFormBase</span> <span class="p">{</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getQuestion</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Are you sure you want to delete this demo: @name?&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;@name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getCancelUrl</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Url</span><span class="p">(</span><span class="s1">&#39;demo.list&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getConfirmText</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Delete&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">submitForm</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Delete and set message</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
+    <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;The demo @name has been deleted.&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;@name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">)));</span>
+
+    <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">setRedirectUrl</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getCancelUrl</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>如图：
+<img alt="FormDelete" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212429_43428.png" /></p>
+<h3 id="list-builder">四、list builder<a class="headerlink" href="#list-builder" title="Permanent link">&para;</a></h3>
+<p>接下来就该创建管理界面啦！</p>
+<p>在src目录下，touch DemoListBuilder.php</p>
+<p>DemoListBuilder继承<a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Config!Entity!ConfigEntityListBuilder.php/class/ConfigEntityListBuilder/8">ConfigEntityListBuilder</a>，实现了三个方法。</p>
+<p>1、buildHeader：创建表格header
+2、buildRow：创建表格行
+3、render：重写表格输出的内容，类似于Drupal7的hook</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> *</span>
+<span class="sd"> * Contains Drupal\demo\DemoListBuilder</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\demo</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Core\Config\Entity\ConfigEntityListBuilder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">DemoListBuilder</span> <span class="k">extends</span> <span class="nx">ConfigEntityListBuilder</span> <span class="p">{</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildHeader</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$header</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">);</span>
+    <span class="nv">$header</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Sex&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$header</span> <span class="o">+</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildHeader</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildRow</span><span class="p">(</span><span class="nx">EntityInterface</span> <span class="nv">$entity</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Label</span>
+    <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getLabel</span><span class="p">(</span><span class="nv">$entity</span><span class="p">);</span>
+    <span class="c1">// Sex</span>
+    <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">sex</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$row</span> <span class="o">+</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildRow</span><span class="p">(</span><span class="nv">$entity</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$build</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">render</span><span class="p">();</span>
+    <span class="nv">$build</span><span class="p">[</span><span class="s1">&#39;#empty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;There are no data available.&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$build</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>如图：
+<img alt="ListBuilder" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212547_35896.png" /></p>
+<h3 id="schema">五、schema<a class="headerlink" href="#schema" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>mkdir config/schema
+touch demo.schema.yml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="x"># Schema for the configuration files of the Demo module.</span>
+
+<span class="x">demo.demo.*:</span>
+<span class="x">  type: mapping</span>
+<span class="x">  label: &#39;Demo&#39;</span>
+<span class="x">  mapping:</span>
+<span class="x">    id:</span>
+<span class="x">      type: string</span>
+<span class="x">      label: &#39;Demo identifier&#39;</span>
+<span class="x">    uuid:</span>
+<span class="x">      type: string</span>
+<span class="x">      label: &#39;UUID&#39;</span>
+<span class="x">    name:</span>
+<span class="x">      type: label</span>
+<span class="x">      label: &#39;Name&#39;</span>
+<span class="x">    sex:</span>
+<span class="x">      type: string</span>
+<span class="x">      label: &#39;Sex&#39;</span>
+<span class="x">      translatable: true</span>
+</code></pre></div>
+<p>schema的命名规则：</p>
+<div class="highlight"><pre><span></span><code><span class="o">(</span>demo module<span class="o">)</span>.<span class="o">(</span>demo configuration entity <span class="nb">type</span><span class="o">)</span>.<span class="o">(</span>all demo configuration entities<span class="o">)</span>.
+</code></pre></div>
+<p>uuid在这里也可以不用定义，drupal默认会添加。</p>
+<h3 id="routing">六、routing<a class="headerlink" href="#routing" title="Permanent link">&para;</a></h3>
+<p>定义一些路由：</p>
+<div class="highlight"><pre><span></span><code>demo.list:
+  path: <span class="s1">&#39;/admin/structure/demos&#39;</span>
+  defaults:
+    _entity_list: <span class="s1">&#39;demo&#39;</span>
+    _title: <span class="s1">&#39;Demos&#39;</span>
+  requirements:
+    _permission: <span class="s1">&#39;administer site configuration&#39;</span>
+demo.add:
+  path: <span class="s1">&#39;/admin/structure/demos/add&#39;</span>
+  defaults:
+    _entity_form: <span class="s1">&#39;demo.add&#39;</span>
+    _title: <span class="s1">&#39;Add a new demo&#39;</span>
+  requirements:
+    _permission: <span class="s1">&#39;administer site configuration&#39;</span>
+entity.demo.edit_form:
+  path: <span class="s1">&#39;/admin/structure/demos/{demo}&#39;</span>
+  defaults:
+    _entity_form: <span class="s1">&#39;demo.edit&#39;</span>
+    _title: <span class="s1">&#39;Edit demo&#39;</span>
+  requirements:
+    _permission: <span class="s1">&#39;administer site configuration&#39;</span>
+entity.demo.delete_form:
+  path: <span class="s1">&#39;/admin/structure/demos/{demo}/delete&#39;</span>
+  defaults:
+    _entity_form: <span class="s1">&#39;demo.delete&#39;</span>
+    _title: <span class="s1">&#39;Delete demo&#39;</span>
+  requirements:
+    _permission: <span class="s1">&#39;administer site configuration&#39;</span>
+</code></pre></div>
+<h3 id="links">七、 links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h3>
+<h4 id="1demolinksactionyml">1、显示添加按钮在网页上，需要在demo.links.action.yml中定义<a class="headerlink" href="#1demolinksactionyml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>demo.add:
+  route_name: <span class="s1">&#39;demo.add&#39;</span>
+  title: <span class="s1">&#39;Add demo&#39;</span>
+  appears_on:
+    - demo.list
+</code></pre></div>
+<p><img alt="demo.add" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212157_21914.png" /></p>
+<h4 id="2adminstructuredemodemolinksmenuyml">2、在admin/structure页面显示demo，需要在demo.links.menu.yml中定义<a class="headerlink" href="#2adminstructuredemodemolinksmenuyml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>demo.list:
+  title: Demo
+  description: <span class="s1">&#39;Administrator the demo entities&#39;</span>
+  parent: system.admin_structure
+  route_name: demo.list
+</code></pre></div>
+<p>如图：
+<img alt="demo.list" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212041_77165.png" /></p>
+<p>参考文章：
+1、<a href="http://www.slideshare.net/andypost/d8-entity">http://www.slideshare.net/andypost/d8-entity</a>
+2、<a href="http://www.sitepoint.com/drupal-8-version-entityfieldquery/">http://www.sitepoint.com/drupal-8-version-entityfieldquery/</a>
+3、<a href="https://www.drupal.org/node/1809494">https://www.drupal.org/node/1809494</a></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
+      
+    
+  </body>
+</html>

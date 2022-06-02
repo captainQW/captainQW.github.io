@@ -1,0 +1,595 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="law">
+      
+      
+        <link rel="canonical" href="https://www.verynil.com/drupal/drupal8/Drupal8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.16">
+    
+    
+      
+        <title>"Drupal8单元测试" - 记录技术，分享知识，传播乐趣</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.1c3799f8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phpstorm" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            记录技术，分享知识，传播乐趣
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              "Drupal8单元测试"
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/captainQW/captainQW.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    记录技术，分享知识，传播乐趣
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/captainQW/captainQW.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../go" class="md-nav__link">
+        Golang
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Drupal
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../javascript" class="md-nav__link">
+        Javascript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../vue" class="md-nav__link">
+        Vuejs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../other" class="md-nav__link">
+        杂项
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#phpstorm" class="md-nav__link">
+    一、phpstorm配置
+  </a>
+  
+    <nav class="md-nav" aria-label="一、phpstorm配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1）、针对项目进行设置：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2)、测试一个指定区域
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    二、添加单元测试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    三、执行单元测试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    四、较复杂的单元测试
+  </a>
+  
+    <nav class="md-nav" aria-label="四、较复杂的单元测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1data-provider" class="md-nav__link">
+    1)、data provider
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/captainQW/captainQW.github.io/edit/master/docs/drupal/drupal8/Drupal8单元测试.md" title="编辑此页" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+  <h1>"Drupal8单元测试"</h1>
+
+<p>单元测试在编程中是非常重要的，而我更倾向于去对那些有意义的错误做测试。
+在Drupal8中，可以借助phpstorm来帮助进行单元测试。</p>
+<h2 id="phpstorm">一、phpstorm配置<a class="headerlink" href="#phpstorm" title="Permanent link">&para;</a></h2>
+<h3 id="1">1）、针对项目进行设置：<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>1、选中 PhpStorm &gt; Preferences &gt; Languages &amp; Frameworks &gt; PHP &gt; PHPUnit &gt; Local
+Window 操作系统是：File &gt; Settings …
+2、选择 PHPUnit Library &gt; Use custom autoloader
+3、导航到 /vendor/autoload.php
+4、选择 Test Runner &gt; Default configuration file
+5、导航到 /core/phpunit.xml.dist
+6、点击 Save</p>
+</blockquote>
+<p>在右上方看到 For current project。接下来完成下面的步骤：</p>
+<blockquote>
+<p>1、运行： Run &gt; Edit Configurations
+2、点击 + 图标，选择 PHPUnit
+3、提供一个名称，例如 Drupal 8: All Tests
+4、在配置文件内选择 Test Runner &gt; Defined
+5、保存</p>
+</blockquote>
+<p>在右上角，选择你的运行配置，按下绿色箭头。也可以操作 Run &gt; Run Drupal 8: All Tests 。</p>
+<p>说明：</p>
+<blockquote>
+<p>如果提示“Interpreter is not specified or invalid”，
+要去 PhpStorm &gt; Preferences &gt; Languages &amp; Frameworks &gt; PHP 设置下 PHP 解释器。</p>
+</blockquote>
+<p>当你运行测试时，你会在 PhpStorm 内看到一个新窗口，列出了测试结果。默认情况，通过的测试不会显示出来。你可以操作窗口左上角的 Hide passed 图标显示通过的测试。</p>
+<h3 id="2">2)、测试一个指定区域<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>PHPUnit 将运行很多测试。要把测试区域限制为一个文件夹（我们的模块）可以象下面这样做：</p>
+<blockquote>
+<p>1、运行： Run &gt; Edit Configurations
+2、点击 + 图标选择 PHPUnit
+3、提供个名称，例如 Drupal 8: Test Example
+4、选择 Test Runner &gt; Test Scope &gt; Directory
+5、浏览 test_example 模块
+6、点击 Save</p>
+</blockquote>
+<h2 id="_1">二、添加单元测试<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>要进行单元测试，必须在[module_name]/tests/srs/Unit/下创建一个以Test.php结尾的文件。一般都是继承UnitTestCase这个类来创建测试，这个测试类的namespace必须为Drupal\Test[module_name]\Unit。</p>
+<p>接下来，我们来书写代码。</p>
+<div class="highlight"><pre><span></span><code>vim tests/src/Unit/TestExampleConversionsTest.php
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> *</span>
+<span class="sd"> * Contains \Drupal\Tests\test_example\Unit\TestExampleConversionsTest.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\Tests\test_example\Unit</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Drupal\Tests\UnitTestCase</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Demonstrates how to write tests.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @group test_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">TestExampleConversionsTest</span> <span class="k">extends</span> <span class="nx">UnitTestCase</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">parent</span><span class="o">::</span><span class="na">setUp</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Convert Celsius to Fahrenheit</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param $temp</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return int</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">celsiusToFahrenheit</span><span class="p">(</span><span class="nv">$temp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nv">$temp</span> <span class="o">*</span> <span class="p">(</span><span class="mi">9</span><span class="o">/</span><span class="mi">5</span><span class="p">))</span> <span class="o">+</span> <span class="mi">32</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Convert centimeter to inches.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param $length</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return int</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">centimeterToInch</span><span class="p">(</span><span class="nv">$length</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$length</span> <span class="o">/</span> <span class="mf">2.54</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * A simple test that tests our celsiusToFahrenheit() function.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">testOneConversion</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Confirm that 0C = 31F.</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertEquals</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">celsiusToFahrenheit</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>测试方法
+每个测试方法必须以test开头。</li>
+<li>断言
+断言决定测试是否通过，比较常用的一些断言函数如assertTrue、assertFalse、assertEquals等。
+文档见 <a href="https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html">https://phpunit.de/manual/current/zh_cn/appendixes.assertions.html</a></li>
+<li>setUp()
+每次测试之前都会执行setUp方法，我们可以创建一个变成或实例。</li>
+</ul>
+<h2 id="_2">三、执行单元测试<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>输出如下：
+<div class="highlight"><pre><span></span><code>Failed asserting that <span class="m">32</span>.0 matches expected <span class="m">31</span>.
+Expected :31
+Actual   :32
+</code></pre></div></p>
+<h2 id="_3">四、较复杂的单元测试<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>如果要做比较复杂的单元测试，一个简单的办法是用setUp方法，另一个方案就是使用data provider.</p>
+<h3 id="1data-provider">1)、data provider<a class="headerlink" href="#1data-provider" title="Permanent link">&para;</a></h3>
+<p>PHPUnit中的data provider是为测试方法提供配置的方法，并返回一个测试用例数组。</p>
+<p>本例中，我们创建一个data provider叫 providerCentimetersToInches。</p>
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x">* Provides data for the testCentimetersToInches method.</span>
+<span class="x">*</span>
+<span class="x">* @return array</span>
+<span class="x">*/</span>
+<span class="x">public function providerCentimetersToInches() {</span>
+<span class="x">  return [</span>
+<span class="x">    [2.545,1],</span>
+<span class="x">    [254,100],</span>
+<span class="x">    [0,0],</span>
+<span class="x">    [-2.54,-1],</span>
+<span class="x">  ];</span>
+<span class="x">}</span>
+
+<span class="x">/**</span>
+<span class="x">* Tests centimetersToInches method.</span>
+<span class="x">*</span>
+<span class="x">* @dataProvider providerCentimetersToInches</span>
+<span class="x">*/</span>
+<span class="x">public function testCentimetersToInches($length, $expectedValue) {</span>
+<span class="x">  $this-&gt;assertEquals($expectedValue, $this-&gt;centimeterToInch($length));</span>
+<span class="x">}</span>
+</code></pre></div>
+<ul>
+<li>
+<p>Data Provider注解
+在测试方法上使用 <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/dataProvider" title="GitHub User: dataProvider">@dataProvider</a> 注解来连接这个data provider。</p>
+</li>
+<li>
+<p>Data Provider参数
+在测试方法中可以添加参数，在上面的测试方法中，我们在数组内传递了两个值，那么在上面的测试方法中有两个对应的参数。</p>
+</li>
+</ul>
+<p>执行run，结果如下
+<div class="highlight"><pre><span></span><code>Failed asserting that <span class="m">1</span>.0019685039370079 matches expected <span class="m">1</span>.
+Expected :1
+Actual   :1.001968503937
+</code></pre></div></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
+      
+    
+  </body>
+</html>

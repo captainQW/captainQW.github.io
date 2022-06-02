@@ -21,147 +21,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.verynil.com/drupal/Drupal7-WEB%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal7%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E7%9A%84%E4%B8%80%E4%BA%9B%E9%85%8D%E7%BD%AE/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal7%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4%E6%97%B6%E5%87%BA%E7%8E%B0%E9%9D%9E%E6%B3%95%E9%80%89%E9%A1%B9%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-Configuration-Schema/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-Content-Entity/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-Controller/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-Cron-Queue/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-Javascript/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-Service-DependencyInjection/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-angularJS/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-configuration-Entity/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-css-guide/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-drush/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-form/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8-routing/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E4%B8%BB%E9%A2%98-theme/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4-Namespace/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E5%92%8Csymfony2/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E5%AE%9E%E4%BD%93-entity/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E6%95%B0%E6%8D%AE%E5%BA%93-database/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E6%A8%A1%E5%9D%97-module-%E5%BC%80%E5%8F%91/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-twig/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E6%B3%A8%E8%A7%A3-Annotations-%E8%AF%AD%E6%B3%95/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E7%9B%B8%E5%AF%B9Drupal7%E7%9A%84%E5%8F%98%E5%8C%96/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal8%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-OOP/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://www.verynil.com/drupal/Drupal%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/drupal/Drupal%E5%AF%BC%E5%85%A5%E7%BF%BB%E8%AF%91/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -186,7 +46,152 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.verynil.com/drupal/drupal8%E4%B8%AD%E4%BD%BF%E7%94%A8vue/</loc>
+         <loc>https://www.verynil.com/drupal/drupal7/Drupal7-WEB%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal7/Drupal7%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E7%9A%84%E4%B8%80%E4%BA%9B%E9%85%8D%E7%BD%AE/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal7/Drupal7%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4%E6%97%B6%E5%87%BA%E7%8E%B0%E9%9D%9E%E6%B3%95%E9%80%89%E9%A1%B9%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-Configuration-Schema/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-Content-Entity/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-Controller/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-Cron-Queue/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-Javascript/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-Service-DependencyInjection/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-angularJS/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-configuration-Entity/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-css-guide/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-drush/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-form/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8-routing/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E4%B8%BB%E9%A2%98-theme/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4-Namespace/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E5%92%8Csymfony2/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E5%AE%9E%E4%BD%93-entity/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E6%95%B0%E6%8D%AE%E5%BA%93-database/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E6%A8%A1%E5%9D%97-module-%E5%BC%80%E5%8F%91/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-twig/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E6%B3%A8%E8%A7%A3-Annotations-%E8%AF%AD%E6%B3%95/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E7%9B%B8%E5%AF%B9Drupal7%E7%9A%84%E5%8F%98%E5%8C%96/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal8%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-OOP/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/Drupal%E5%AF%BC%E5%85%A5%E7%BF%BB%E8%AF%91/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/drupal8%E4%B8%AD%E4%BD%BF%E7%94%A8vue/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal8/understanding-drupal8/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -196,12 +201,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.verynil.com/other/</loc>
+         <loc>https://www.verynil.com/javascript/%3Bfunction%28%24%2Cundefined%29-%E5%89%8D%E9%9D%A2%E7%9A%84%E5%88%86%E5%8F%B7%E9%87%8A%E7%96%91/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.verynil.com/other/%3Bfunction%28%24%2Cundefined%29-%E5%89%8D%E9%9D%A2%E7%9A%84%E5%88%86%E5%8F%B7%E9%87%8A%E7%96%91/</loc>
+         <loc>https://www.verynil.com/javascript/%E4%BD%BF%E7%94%A8safari%E5%AF%B9webview%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/javascript/%E5%86%99%E4%B8%AA%E8%84%9A%E6%9C%AC%E5%8E%8B%E7%BC%A9JS-CSS/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/other/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -336,11 +351,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.verynil.com/other/understanding-drupal8/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://www.verynil.com/other/windows%E4%B8%8B%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEdrupalconsole/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
@@ -367,16 +377,6 @@
     </url>
     <url>
          <loc>https://www.verynil.com/other/%E4%BD%BF%E7%94%A8gdb%E8%B0%83%E8%AF%95php-fpm/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/other/%E4%BD%BF%E7%94%A8safari%E5%AF%B9webview%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/other/%E5%86%99%E4%B8%AA%E8%84%9A%E6%9C%AC%E5%8E%8B%E7%BC%A9JS-CSS/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
     </url>

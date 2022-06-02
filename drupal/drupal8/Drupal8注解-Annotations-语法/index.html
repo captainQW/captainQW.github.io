@@ -1,0 +1,759 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="law">
+      
+      
+        <link rel="canonical" href="https://www.verynil.com/drupal/drupal8/Drupal8%E6%B3%A8%E8%A7%A3-Annotations-%E8%AF%AD%E6%B3%95/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.16">
+    
+    
+      
+        <title>"Drupal8注解(Annotations)语法" - 记录技术，分享知识，传播乐趣</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.1c3799f8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            记录技术，分享知识，传播乐趣
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              "Drupal8注解(Annotations)语法"
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/captainQW/captainQW.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    记录技术，分享知识，传播乐趣
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/captainQW/captainQW.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.md" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../go" class="md-nav__link">
+        Golang
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Drupal
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../javascript" class="md-nav__link">
+        Javascript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../vue" class="md-nav__link">
+        Vuejs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../other" class="md-nav__link">
+        杂项
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    一、注解的争议
+  </a>
+  
+    <nav class="md-nav" aria-label="一、注解的争议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1、如何区分注解和注释？
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2、为什么要把业务逻辑放在注释中？难道他们不是一个核心语言语义的一部分？
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3、注解和注释代码容易混淆，如果开发人员忘记定义了注解，程序并不会报错，但是可能不会像预期的工作。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4、注解不好测试、调试。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    二、注解的优势
+  </a>
+  
+    <nav class="md-nav" aria-label="二、注解的优势">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    1、不用写很多代码就可以实现注入。如：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2drupal8drupal7hookdrupal8" class="md-nav__link">
+    2、Drupal8执行时，内存使用大大减少。在Drupal7中，通过hook定义元数据，这样就导致每个请求都需要把所有的模块加载到内存中，而Drupal8仅解析注解，并加载进内存，这样就可以占用很小的内存。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    三、语法
+  </a>
+  
+    <nav class="md-nav" aria-label="三、语法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1iddrupal7machine-name" class="md-nav__link">
+    1、必须以一个唯一的id开始，类似Drupal7的machine name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2keys" class="md-nav__link">
+    2、顶级的Keys可以使用双引号
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3keys" class="md-nav__link">
+    3、下级的Keys必须使用双引号
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    4、必须使用双引号，单引号会造成语法错误
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5value" class="md-nav__link">
+    5、value允许的数据类型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    四、自定义注解类
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    五、自定义插件类型中使用注解
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entity" class="md-nav__link">
+    六、Entity注解
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/captainQW/captainQW.github.io/edit/master/docs/drupal/drupal8/Drupal8注解-Annotations-语法.md" title="编辑此页" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+  <h1>"Drupal8注解(Annotations)语法"</h1>
+
+<p>写过java代码的同学，相信大家对注解都不陌生。有些PHP框架也是支持注解的，如Symfony2使用注解定义路由规则，Doctrine使用注解来添加ORM元数据。PHP注解RFC见<a href="https://wiki.php.net/rfc/annotations" title="rfc">rfc-annotations</a>。</p>
+<p>Drupal8的注解依照<a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Doctrine</a>的规范。</p>
+<p>本文主要对Drupal8中所用到的注解做分析，欢迎拍砖交流！</p>
+<h3 id="_1">一、注解的争议<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>目前对注解的争议主要有这么几点。</p>
+<h4 id="1">1、如何区分注解和注释？<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<h4 id="2">2、为什么要把业务逻辑放在注释中？难道他们不是一个核心语言语义的一部分？<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<h4 id="3">3、注解和注释代码容易混淆，如果开发人员忘记定义了注解，程序并不会报错，但是可能不会像预期的工作。<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<h4 id="4">4、注解不好测试、调试。<a class="headerlink" href="#4" title="Permanent link">&para;</a></h4>
+<h3 id="_2">二、注解的优势<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h4 id="1_1">1、不用写很多代码就可以实现注入。如：<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<p>我们要把weapon对象注入到soldier实例中。</p>
+<div class="highlight"><pre><span></span><code><span class="x">class Weapon {  </span>
+<span class="x">    public function shoot() {</span>
+<span class="x">        print &quot;... shooting ...&quot;;</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+
+<span class="x">class Soldier {  </span>
+<span class="x">    private $weapon;</span>
+
+<span class="x">    public function setWeapon($weapon) {</span>
+<span class="x">        $this-&gt;weapon = $weapon;</span>
+<span class="x">    }</span>
+
+<span class="x">    public function fight() {</span>
+<span class="x">        $this-&gt;weapon-&gt;shoot();</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>要实现这个功能，要这样写代码：</p>
+<div class="highlight"><pre><span></span><code><span class="x">$weapon = new Weapon();</span>
+
+<span class="x">$soldier = new Soldier();</span>
+<span class="x">$soldier-&gt;setWeapon($weapon); </span>
+<span class="x">$soldier-&gt;fight();</span>
+</code></pre></div>
+<p>如果我们用注解，就变得简单多了：</p>
+<div class="highlight"><pre><span></span><code><span class="x">class Soldier {  </span>
+<span class="x">    ...</span>
+
+<span class="x">    /**</span>
+<span class="x">     * @inject $weapon Weapon</span>
+<span class="x">     */</span>
+<span class="x">    public function setWeapon($weapon) {</span>
+<span class="x">        $this-&gt;weapon = $weapon;</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+
+<span class="x">// 只需要2行代码就可以了</span>
+<span class="x">$soldier = new Soldier();</span>
+<span class="x">$soldier-&gt;fight();</span>
+</code></pre></div>
+<h4 id="2drupal8drupal7hookdrupal8">2、Drupal8执行时，内存使用大大减少。在Drupal7中，通过hook定义元数据，这样就导致每个请求都需要把所有的模块加载到内存中，而Drupal8仅解析注解，并加载进内存，这样就可以占用很小的内存。<a class="headerlink" href="#2drupal8drupal7hookdrupal8" title="Permanent link">&para;</a></h4>
+<h3 id="_3">三、语法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>注解的数据结构是类似json key-value。
+让我们来看text模块的TextDefaultFormatter.php文件中的定义。</p>
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x"> * Plugin implementation of the &#39;text_default&#39; formatter.</span>
+<span class="x"> *</span>
+<span class="x"> * @FieldFormatter(</span>
+<span class="x"> *   id = &quot;text_default&quot;,</span>
+<span class="x"> *   label = @Translation(&quot;Default&quot;),</span>
+<span class="x"> *   field_types = {</span>
+<span class="x"> *     &quot;text&quot;,</span>
+<span class="x"> *     &quot;text_long&quot;,</span>
+<span class="x"> *     &quot;text_with_summary&quot;</span>
+<span class="x"> *   },</span>
+<span class="x"> *   quickedit = {</span>
+<span class="x"> *     &quot;editor&quot; = &quot;plain_text&quot;</span>
+<span class="x"> *   }</span>
+<span class="x"> * )</span>
+<span class="x"> */</span>
+<span class="x">class TextDefaultFormatter extends FormatterBase {  </span>
+<span class="x">...</span>
+</code></pre></div>
+<p>以下是一些规范：</p>
+<h4 id="1iddrupal7machine-name">1、必须以一个唯一的id开始，类似Drupal7的machine name<a class="headerlink" href="#1iddrupal7machine-name" title="Permanent link">&para;</a></h4>
+<h4 id="2keys">2、顶级的Keys可以使用双引号<a class="headerlink" href="#2keys" title="Permanent link">&para;</a></h4>
+<h4 id="3keys">3、下级的Keys必须使用双引号<a class="headerlink" href="#3keys" title="Permanent link">&para;</a></h4>
+<h4 id="4_1">4、必须使用双引号，单引号会造成语法错误<a class="headerlink" href="#4_1" title="Permanent link">&para;</a></h4>
+<h4 id="5value">5、value允许的数据类型<a class="headerlink" href="#5value" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>    &gt; 字符串(string)：必须使用双引号,如&quot;foo&quot;，使用一对双引号包含双引号字符，如&quot;The &quot;&quot;On&quot;&quot; value &quot;
+    &gt; 数字(number)：不能使用引号，如果使用引号，会被解析成字符串
+    &gt; 布尔型(bool)：不能使用引号，如果使用引号，会被解析成字符串
+    &gt; list：必须使用花括号，末尾不能使用逗号。如
+</code></pre></div>
+
+<p><div class="highlight"><pre><span></span><code><span class="x">field_types = {</span>
+<span class="x">    &quot;text&quot;,</span>
+<span class="x">    &quot;text_long&quot;,</span>
+<span class="x">    &quot;text_with_summary&quot;</span>
+<span class="x">}</span>
+</code></pre></div>
+        &gt; map: 必须使用花括号，key-value用＝号分割，默认不能使用逗号。如：   </p>
+<p><div class="highlight"><pre><span></span><code><span class="x">quickedit = {</span>
+<span class="x">    &quot;editor&quot; = &quot;plain_text&quot;</span>
+<span class="x">}</span>
+</code></pre></div>
+        &gt; 允许定义常量</p>
+<h3 id="_4">四、自定义注解类<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>Drupal8中的一些基础plugin如entity,views等会被自动加载。当然，你可以在自定义的类中给plugin提供文档和参数。</p>
+<p>我们还是以text模块举例说明，在text/src/Plugin/field/formatter/TextPlainFormatter.php中定义了plaintext，并且自定义了一个叫FieldFormatter的注解类。</p>
+<p>注意：所有的注解类都是继承自 \Drupal\Component\Annotation\Plugin。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * Plugin implementation of the &#39;text_plain&#39; formatter.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @FieldFormatter(</span>
+<span class="sd"> *   id = &quot;text_plain&quot;,</span>
+<span class="sd"> *   label = @Translation(&quot;Plain text&quot;),</span>
+<span class="sd"> *   field_types = {</span>
+<span class="sd"> *     &quot;text&quot;,</span>
+<span class="sd"> *     &quot;text_long&quot;,</span>
+<span class="sd"> *     &quot;text_with_summary&quot;</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   edit = {</span>
+<span class="sd"> *     &quot;editor&quot; = &quot;direct&quot;</span>
+<span class="sd"> *   }</span>
+<span class="sd"> * )</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">TextPlainFormatter</span> <span class="p">{</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h3 id="_5">五、自定义插件类型中使用注解<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>如果你想在自定义plugin类型中使用注解，可以用AnnotatedClassDiscovery类。</p>
+<p>AnnotatedClassDiscovery构造函数的第一个参数是这个plugin类型所存放的目录结构。</p>
+<p>如下面的代码，plugin在目录$module/src/Plugin/field/formatter中。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Plugin\Discovery\AnnotatedClassDiscovery</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FormatterPluginManager</span> <span class="k">extends</span> <span class="nx">PluginManagerBase</span> <span class="p">{</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Constructs a FormatterPluginManager object.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param array $namespaces</span>
+<span class="sd">   *   An array of paths keyed by their corresponding namespaces.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="k">array</span> <span class="nv">$namespaces</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// This is the essential line you have to use in your manager.</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">discovery</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AnnotatedClassDiscovery</span><span class="p">(</span><span class="s1">&#39;Plugin/field/formatter&#39;</span><span class="p">,</span> <span class="nv">$namespaces</span><span class="p">);</span>
+    <span class="c1">// Every other line is a good practice.</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">discovery</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ProcessDecorator</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">discovery</span><span class="p">,</span> <span class="p">[</span><span class="nv">$this</span><span class="p">,</span> <span class="s1">&#39;processDefinition&#39;</span><span class="p">]);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">discovery</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AlterDecorator</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">discovery</span><span class="p">,</span> <span class="s1">&#39;field_formatter_info&#39;</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">discovery</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CacheDecorator</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">discovery</span><span class="p">,</span> <span class="s1">&#39;field_formatter_types&#39;</span><span class="p">,</span> <span class="s1">&#39;field&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>注入的命名空间来自于依赖注入容器，如FieldBundle：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains Drupal\field\FieldBundle.</span>
+<span class="sd"> */</span>
+
+<span class="k">namespace</span> <span class="nx">Drupal\field</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\ContainerBuilder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\Bundle\Bundle</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Field dependency injection container.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">FieldBundle</span> <span class="k">extends</span> <span class="nx">Bundle</span> <span class="p">{</span>
+
+  <span class="sd">/**</span>
+<span class="sd">   * Overrides Symfony\Component\HttpKernel\Bundle\Bundle::build().</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">build</span><span class="p">(</span><span class="nx">ContainerBuilder</span> <span class="nv">$container</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Register the plugin managers for our plugin types with the dependency injection container.</span>
+    <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;plugin.manager.field.widget&#39;</span><span class="p">,</span> <span class="s1">&#39;Drupal\field\Plugin\Type\Widget\WidgetPluginManager&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">addArgument</span><span class="p">(</span><span class="s1">&#39;%container.namespaces%&#39;</span><span class="p">);</span>
+    <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;plugin.manager.field.formatter&#39;</span><span class="p">,</span> <span class="s1">&#39;Drupal\field\Plugin\Type\Formatter\FormatterPluginManager&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">addArgument</span><span class="p">(</span><span class="s1">&#39;%container.namespaces%&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>要调用自定义的plugin管理器，需要在构造函数调用的时候注入命名空间。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+ <span class="nv">$type</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CustomPluginManager</span><span class="p">(</span><span class="nx">\Drupal</span><span class="o">::</span><span class="na">getContainer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getParameter</span><span class="p">(</span><span class="s1">&#39;container.namespaces&#39;</span><span class="p">));</span> 
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h3 id="entity">六、Entity注解<a class="headerlink" href="#entity" title="Permanent link">&para;</a></h3>
+<p>Entity类型不管是配置还是内容实体都必须用注解定义。</p>
+<p>如：core/modules/user/src/Entity/User.php:</p>
+<div class="highlight"><pre><span></span><code><span class="x">...</span>
+<span class="x">/**</span>
+<span class="x"> * Defines the user entity class.</span>
+<span class="x"> *</span>
+<span class="x"> * The base table name here is plural, despite Drupal table naming standards,</span>
+<span class="x"> * because &quot;user&quot; is a reserved word in many databases.</span>
+<span class="x"> *</span>
+<span class="x"> * @ContentEntityType(</span>
+<span class="x"> *   id = &quot;user&quot;,</span>
+<span class="x"> *   label = @Translation(&quot;User&quot;),</span>
+<span class="x"> *   handlers = {</span>
+<span class="x"> *     &quot;storage&quot; = &quot;Drupal\user\UserStorage&quot;,</span>
+<span class="x"> *     &quot;storage_schema&quot; = &quot;Drupal\user\UserStorageSchema&quot;,</span>
+<span class="x"> *     &quot;access&quot; = &quot;Drupal\user\UserAccessControlHandler&quot;,</span>
+<span class="x"> *     &quot;list_builder&quot; = &quot;Drupal\user\UserListBuilder&quot;,</span>
+<span class="x"> *     &quot;view_builder&quot; = &quot;Drupal\Core\Entity\EntityViewBuilder&quot;,</span>
+<span class="x"> *     &quot;views_data&quot; = &quot;Drupal\user\UserViewsData&quot;,</span>
+<span class="x"> *     &quot;route_provider&quot; = {</span>
+<span class="x"> *       &quot;html&quot; = &quot;Drupal\user\Entity\UserRouteProvider&quot;,</span>
+<span class="x"> *     },</span>
+<span class="x"> *     &quot;form&quot; = {</span>
+<span class="x"> *       &quot;default&quot; = &quot;Drupal\user\ProfileForm&quot;,</span>
+<span class="x"> *       &quot;cancel&quot; = &quot;Drupal\user\Form\UserCancelForm&quot;,</span>
+<span class="x"> *       &quot;register&quot; = &quot;Drupal\user\RegisterForm&quot;</span>
+<span class="x"> *     },</span>
+<span class="x"> *     &quot;translation&quot; = &quot;Drupal\user\ProfileTranslationHandler&quot;</span>
+<span class="x"> *   },</span>
+<span class="x"> *   admin_permission = &quot;administer user&quot;,</span>
+<span class="x"> *   base_table = &quot;users&quot;,</span>
+<span class="x"> *   data_table = &quot;users_field_data&quot;,</span>
+<span class="x"> *   label_callback = &quot;user_format_name&quot;,</span>
+<span class="x"> *   translatable = TRUE,</span>
+<span class="x"> *   entity_keys = {</span>
+<span class="x"> *     &quot;id&quot; = &quot;uid&quot;,</span>
+<span class="x"> *     &quot;langcode&quot; = &quot;langcode&quot;,</span>
+<span class="x"> *     &quot;uuid&quot; = &quot;uuid&quot;</span>
+<span class="x"> *   },</span>
+<span class="x"> *   links = {</span>
+<span class="x"> *     &quot;canonical&quot; = &quot;/user/{user}&quot;,</span>
+<span class="x"> *     &quot;edit-form&quot; = &quot;/user/{user}/edit&quot;,</span>
+<span class="x"> *     &quot;cancel-form&quot; = &quot;/user/{user}/cancel&quot;,</span>
+<span class="x"> *     &quot;collection&quot; = &quot;/admin/people&quot;,</span>
+<span class="x"> *   },</span>
+<span class="x"> *   field_ui_base_route = &quot;entity.user.admin_form&quot;,</span>
+<span class="x"> * )</span>
+<span class="x"> */</span>
+<span class="x">class User extends ContentEntityBase implements UserInterface {</span>
+<span class="x">...</span>
+</code></pre></div>
+<p>@ConfigEntityType继承自Drupal\Core\Config\Entity\ConfigEntityBase类。</p>
+<p>参考文章：
+1、<a href="https://www.drupal.org/node/1882526">https://www.drupal.org/node/1882526</a>
+2、<a href="https://www.drupal.org/node/2207559">https://www.drupal.org/node/2207559</a>
+3、<a href="https://www.drupal.org/node/1638040">https://www.drupal.org/node/1638040</a>
+4、<a href="http://lakshminp-lakshminp.rhcloud.com/annotations-in-drupal-8/">http://lakshminp-lakshminp.rhcloud.com/annotations-in-drupal-8/</a>
+5、<a href="https://docs.phalconphp.com/zh/latest/reference/annotations.html">https://docs.phalconphp.com/zh/latest/reference/annotations.html</a></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
+      
+    
+  </body>
+</html>
