@@ -1,0 +1,520 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="law">
+      
+      
+        <link rel="canonical" href="https://www.verynil.com/drupal/Drupal8%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-OOP/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.16">
+    
+    
+      
+        <title>"Drupal8面向对象(OOP)" - 记录技术，分享知识，传播乐趣</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1c3799f8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            记录技术，分享知识，传播乐趣
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              "Drupal8面向对象(OOP)"
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    记录技术，分享知识，传播乐趣
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../go" class="md-nav__link">
+        Golang
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Drupal
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" data-md-state="indeterminate" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Documents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Documents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/usage.md" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/tutorial.md" class="md-nav__link">
+        Tutorial
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    一、数据类型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class" class="md-nav__link">
+    二、类的结构(class)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    三、接口(interface)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+    四、构造方法(constructor)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inherit" class="md-nav__link">
+    五、继承(inherit)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/captainQW/captainQW.github.io/edit/master/docs/drupal/Drupal8面向对象-OOP.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+  <h1>"Drupal8面向对象(OOP)"</h1>
+
+<hr />
+<p>这是学习Drupal8的系列的开篇文章，在这里我们将介绍和探讨Drupal OOP。
+OOP的最大优势就是解耦，Drupal8中使用大量的OOP(interface, class, etc...)，这里仅对Drupal中常见的一些概念做一下介绍。</p>
+<h3 id="_1">一、数据类型</h3>
+<p>什么是对象？我们先来看字符串，一个字符串就是一个数据类型，可以改变或获取字符串的一些信息，如要获取长度，我们一般是用strlen()函数。
+但是对于其他的数据类型，如整形(int)等，这种方式就不适用。</p>
+<p>而OOP的优势在于，它允许你自定义数据类型。这些数据类型也称之为"类"，在类中包含一些内部结构，如:</p>
+<pre><code class="language-php">class Person
+{
+  // 下面是人的成员属性
+  protected $name; // 人的名子
+  protected $sex; // 人的性别
+  protected $age; // 人的年龄
+
+  // 构造函数
+  public function __construct($name, $sex, $age) {
+    $this-&gt;name = $name;
+    $this-&gt;sex = $sex;
+    $this-&gt;age = $age;
+  }
+
+  public function getPerson() {
+    return $this-&gt;name . '，性别：' . $this-&gt;sex . '，年龄：' . $this-&gt;age;
+  }
+}
+</code></pre>
+<p>这段代码定义了一个名叫Person的类，包含三个属性$name, $sex, $age，也包含2个方法。实例化如下：</p>
+<pre><code class="language-php">$name = '王鹏';
+$sex = '男';
+$age = 30;
+$myperson = new Person($name, $sex, $age);
+</code></pre>
+<p>$myperson现在就是一个对象实例。对于Drupal来说，类和对象的关系就类似内容类型和内容之间的关系。</p>
+<h3 id="class">二、类的结构(class)</h3>
+<p>类的概念：类是具有相同属性和服务的一组对象的集合。它为属于该类的所有对象提供了统一的抽象描述，其内部包括属性和服务两个主要部分。在面向对象的编程语言中，类是一个独立的程序单位，它应该有一个类名并包括属性说明和服务说明两个主要部分。</p>
+<p>这段文字是摘抄自google，比较晦涩难懂。
+简单说，方法是可以在对象上执行的操作。比如在Person类，我们有一个方法叫getPerson()，我们可以通过引用对象调用TA。</p>
+<pre><code class="language-php">$person = $myperson-&gt;getPerson();
+</code></pre>
+<p>当然，我们不能用$myperson-&gt;name或$myperson-&gt;sex来引用这些属性。我们先来看一些关键词public、protected，他们定义了方法或者属性的可见性。public方法或者属性可以外部访问调用，如getPerson()。但是protected仅限于在类或子类的内部调用。而private就只能在类自己内部调用，而不能在它的子类中。</p>
+<p>Drupal中一般声明属性protected,方法声明为public或protected，private一般不赞成使用。</p>
+<h3 id="interface">三、接口(interface)</h3>
+<p>接口是一种特殊的抽象类，抽象类又是一种特殊的类，所以接口也是一种特殊的类，为 什么说接口是一种特殊的抽象类呢？如果一个抽象类里面的所有的方法都是抽象方法，那么我们就换一种声明方法使用“接口”；也就是说接口里面所有的方法必须 都是声明为抽象方法，另外接口里面不能声明变量(但可声明常量constant)，而且接口里面所有的成员都是public权限的。所以子类在实现的时候 也一定要使用public权限实限。</p>
+<p>在类中，Person定义的对象大抵是这样：</p>
+<pre><code class="language-php">class Person
+{
+    public function getPerson() {...}
+}
+</code></pre>
+<p>那如何定义接口呢？</p>
+<pre><code class="language-php">interface PersonInterface 
+{
+    public function getPerson();
+}
+
+class Person implements PersonInterface
+{
+    public __construct($name, $sex, $age);
+    public function getPerson() {
+        /*..........*/
+    }
+}
+</code></pre>
+<p>这就像用户界面定义了人和程序如何交互，而接口定义了方法和对象的交互过程。当然你不能创建一个接口对象，而必须一个接口类。</p>
+<p>说简单点。就是---接口定义了方法，类实现了方法。</p>
+<h3 id="constructor">四、构造方法(constructor)</h3>
+<p>我们再来看Person类中的方法__construct()，它是用两个下划线作为前缀。这是PHP5中引入的。当创建一个对象的时候，会自动调用构造函数，也就是用new这个关键字实例化对象的时候自动调用构造函数。
+在一个类中只能声明一个构造方法，而是只有在每次创建对象的时候都会去调用一次构造方法，不能主动的调用这个方法，所以通常用它执行一些有用的初始化任务。比如对成属性在创建对象的时候赋初值。如我们上面的代码：</p>
+<pre><code class="language-php">$myperson = new Person($name, $sex, $age);
+</code></pre>
+<p>它是如何执行的呢？
+1、在内存中创建一个Person对象
+2、用new关键字调用__construct方法
+3、把Person对象复制给$this属性
+4、创建一个名为$myperson的变量，他并不是一个对象，他用来处理对象
+5、把$myperson指向内存中的Person对象</p>
+<p>注意：不要在接口中定义构造方法，这样会导致代码逻辑混乱！</p>
+<h3 id="inherit">五、继承(inherit)</h3>
+<p>继承是OOP的一个重要的特性，继承是子类自动共享父类数据结构和方法的机制，这是类之间的一种关系。如：</p>
+<pre><code class="language-php">class Student extends Person {
+  public function __construct($name, $sex, $age) {
+    $this-&gt;name = $name;
+    $this-&gt;sex = $sex;
+    $this-&gt;age = $age;
+  }
+}
+
+$mystudent = new Student($name, $sex, $age);
+</code></pre>
+<p>这里声明了Student类是Person的子类，我们这里没有定义getPerson方法，这意味着这个方法继承自Person类，如$mystudent-&gt;getPerson()和$mypeson-&gt;getPerson()执行的结果是一样的。我们这里也没有定义$name, $sex, $age这些属性，他们也是继承自Person父类。</p>
+<p>在C++语言中，一个派生类可以从一个基类派生，也可以从多个基类派生。从一个基类派生的继承称为单继承；从多个基类派生的继承称为多继承。</p>
+<p>但是在PHP和Java语言里面没有多继承，只有单继承，也就是说，一个类只能直接从一个类中继承数据， 这就是我们所说的单继承。</p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
+      
+    
+  </body>
+</html>

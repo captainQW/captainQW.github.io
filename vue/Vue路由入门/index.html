@@ -1,0 +1,712 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="law">
+      
+      
+        <link rel="canonical" href="https://www.verynil.com/vue/Vue%E8%B7%AF%E7%94%B1%E5%85%A5%E9%97%A8/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.16">
+    
+    
+      
+        <title>"Vue路由入门" - 记录技术，分享知识，传播乐趣</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1c3799f8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            记录技术，分享知识，传播乐趣
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              "Vue路由入门"
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    记录技术，分享知识，传播乐趣
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../go" class="md-nav__link">
+        Golang
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drupal" class="md-nav__link">
+        Drupal
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" data-md-state="indeterminate" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Documents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Documents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/usage.md" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/tutorial.md" class="md-nav__link">
+        Tutorial
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1、概述
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2、开始
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    动态路由
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    嵌套路由
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    编程式的导航
+  </a>
+  
+    <nav class="md-nav" aria-label="编程式的导航">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#routerpushlocation" class="md-nav__link">
+    router.push(location)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routerreplacelocation" class="md-nav__link">
+    router.replace(location)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routergon" class="md-nav__link">
+    router.go(n)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    命名路由
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    命名视图
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    重定向 和 别名
+  </a>
+  
+    <nav class="md-nav" aria-label="重定向 和 别名">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    重定向
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    别名
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/captainQW/captainQW.github.io/edit/master/docs/vue/Vue路由入门.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+  <h1>"Vue路由入门"</h1>
+
+<hr />
+<h3 id="1">1、概述</h3>
+<p>Vue路由（vue-router）是Vue用来创建单页应用的第三方库，使用vue-router可以很方便的创建无刷新切换页面的应用。vue-router基于vue的组件系统（不熟悉组件请先学习Vue组件），要使用vue-router只需要将路径和组件建立对应关系，这样路由系统就知道哪个路径需要渲染哪个组件。</p>
+<h3 id="2">2、开始</h3>
+<p>在开始写第一个路由示例之前，我们先来了解一些基本概念。
+（1）路由
+路由即url路径和组件之间的对应关系。
+（2）router-link组件
+ router-link组件即页面上连接到某个路由的超链接，最终渲染后会变成a标签。比如我需要在页面上设置连接到/profile/user的超链接，则只要在页面放上&lt;router-link to="/profile/user"&gt;用户列表&lt;/router-link&gt;就行了。
+ （3）router-view组件
+ router-view组件是路由组件渲染的容器，一旦路由匹配到了，vue就会将路由对应的组件渲染到router-view标签所在的位置。比如点击上例中的profile/user超链接，vue首先查找profile/user对应的路由是什么，查找到后再找出路由对应的组件，然后将组件渲染到router-view标签。</p>
+<p>了解上述概念之后，我们可以开始写我们的第一个路由示例，我们首先创建index.html,代码如下：</p>
+<pre><code>&lt;div id=&quot;app&quot;&gt;
+  &lt;h1&gt;Hello App!&lt;/h1&gt;
+  &lt;p&gt;
+    &lt;!-- 使用 router-link 组件来导航. --&gt;
+    &lt;!-- 通过传入 `to` 属性指定链接. --&gt;
+    &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;
+    &lt;router-link to=&quot;/profile/user&quot;&gt;用户列表&lt;/router-link&gt;
+  &lt;/p&gt;
+  &lt;!-- 路由出口 --&gt;
+  &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;
+  &lt;router-view&gt;&lt;/router-view&gt;
+&lt;/div&gt;
+&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;!-- 注意，这里引入vue-router.js对于script方式引入文件的方式是必不可少的.我们以后再讨论使用ES6模块引入的方式 --&gt;
+&lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
+&lt;!-- 应用入口文件 --&gt;
+&lt;script src=&quot;/js/app.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>接着我们继续创建app.js，代码如下：</p>
+<pre><code>// 1. 定义（路由）组件。
+// 在现实的开发中，一般将组件放在单独的文件中，然后从其他文件 import 进来
+// 为了简单起见，我们这里先使用字符串模板组件，以后再讨论单文件组件（.vue文件）
+const User = {
+  template: '&lt;div&gt;这里是用户列表&lt;/div&gt;' 
+}
+
+// 2. 定义路由
+// 每个路由应该映射一个组件。 其中&quot;component&quot; 可以是
+// 通过 Vue.extend() 创建的组件构造器，
+// 或者，只是一个组件配置对象。
+const routes = [
+  { 
+    path: '/profile/user', 
+    component: User 
+  }
+]
+
+// 3. 创建 router 实例，然后传 `routes` 配置
+// 你还可以传别的配置参数, 不过先这么简单着吧。
+const router = new VueRouter({
+  routes // ES6（缩写）相当于 routes: routes
+})
+
+// 4. 创建和挂载根实例。
+// 记得要通过 router 配置参数注入路由，
+// 从而让整个应用都有路由功能
+const app = new Vue({
+  router
+}).$mount('#app')
+
+// 现在，应用已经启动了！
+</code></pre>
+<p>至此，一个最简单的路由应用就完成了，部署到服务器后，打开http://localhost,则可以看到界面有一个“用户详情”超链接，点击超链接，界面会显示“这里是用户列表”，同时界面并没有刷新，所有的操作都在一个界面内完成，所以这也叫单页应用，与以前那些点击超链接就要刷新页面的应用相比是不是用户体验更高？</p>
+<h3 id="_1">动态路由</h3>
+<p>有的时候，我们的url里面需要带参数，比如上例中，我们需要查看不同用户的详情，那么url应该是/profile/user/1这样，里面的“1”即用户ID，可以动态变化，要实现这样的功能，我们只需要对我们的路由定义做一些微小变动。</p>
+<pre><code>const routes = [
+  { 
+    path: '/profile/user/:id', 
+    component: User 
+  }
+]
+
+const router = new VueRouter({
+  routes // ES6（缩写）相当于 routes: routes
+})
+
+</code></pre>
+<p>可以看到路由的定义唯一不同的地方就是在url上加了“:id”占位符，那么像“/profile/user/1”、“/profile/user/2”这样的url都会匹配到这个路由。
+一个『路径参数』使用冒号 : 标记。当匹配到一个路由时，参数值会被设置到 this.$route.params，可以在每个组件内使用。于是，我们可以更新 User 的模板，输出当前用户的 ID：</p>
+<pre><code>const User = {
+  template: '&lt;div&gt;这里是用户# {{ $route.params.id }}详情页&lt;/div&gt;'
+}
+</code></pre>
+<p>你可以在一个路由中设置多段『路径参数』，对应的值都会设置到 $route.params 中。例如：profile/user/:id/post/:pid，则可以使用$route.params.id和$route.params.pid来引用路由参数。如果url带有查询参数，则参数会被设置到$route.query对象。</p>
+<h3 id="_2">嵌套路由</h3>
+<p>在实际的应用中，我们可能会碰到某个页面下面还有子页面的情况，比如用户列表页面里面点击某个用户，显示用户详情，我们定义/profile/user为用户列表url，/profile/user/:id为用户详情url，那么这两个URL就是父子关系，即嵌套关系，这样的URL我们应该怎么定义呢？</p>
+<pre><code>const routes = [
+    { path: '/profile/user', component: User,
+      children: [
+        {
+          path: ':id',
+          component: UserProfile
+        }
+      ]
+    }
+  ]
+</code></pre>
+<p>你会发现，children 配置就是像 routes 配置一样的路由配置数组，所以呢，你可以嵌套多层路由。
+上面只是定义了路由的结构，如果要在父页面里面显示子页面的内容，那么父页面的模板我们该如何定义？我们前面已经说过，要让路由的组件能在页面中渲染，必须在页面中放router-view组件，那么父页面的模板的定义可以这样：</p>
+<pre><code>const User = {
+  template: `
+    &lt;div class=&quot;user&quot;&gt;
+      &lt;h2&gt;这是用户列表页面&lt;/h2&gt;
+      &lt;router-link to=&quot;/profile/user/1&quot;&gt;root&lt;/router-link&gt;
+      &lt;router-link to=&quot;/profile/user/2&quot;&gt;test&lt;/router-link&gt;
+      &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+  `
+}
+</code></pre>
+<h3 id="_3">编程式的导航</h3>
+<p>除了使用 <router-link> 创建 a 标签来定义导航链接，我们还可以借助 router 的实例方法，通过编写代码来实现。</p>
+<h4 id="routerpushlocation">router.push(location)</h4>
+<p>想要导航到不同的 URL，则使用 router.push 方法。这个方法会向 history 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。
+当你点击 <router-link> 时，这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 router.push(...)。该方法的参数可以是一个字符串路径，或者一个描述地址的对象。例如：</p>
+<pre><code>// 字符串
+router.push('home')
+
+// 对象
+router.push({ path: 'home' })
+
+// 命名的路由
+router.push({ name: 'user', params: { userId: 123 }})
+
+// 带查询参数，变成 /register?plan=private
+router.push({ path: 'register', query: { plan: 'private' }})
+</code></pre>
+<h4 id="routerreplacelocation">router.replace(location)</h4>
+<p>跟 router.push 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。</p>
+<h4 id="routergon">router.go(n)</h4>
+<p>这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。</p>
+<pre><code>// 在浏览器记录中前进一步，等同于 history.forward()
+router.go(1)
+
+// 后退一步记录，等同于 history.back()
+router.go(-1)
+
+// 前进 3 步记录
+router.go(3)
+
+// 如果 history 记录不够用，那就默默地失败呗
+router.go(-100)
+router.go(100)
+</code></pre>
+<h3 id="_4">命名路由</h3>
+<p>到此为止，我们例子中定义的路由都只有path和component两个属性，有时候，通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候。你可以在创建 Router 实例的时候，在 routes 配置中给某个路由设置名称。</p>
+<pre><code>const router = new VueRouter({
+  routes: [
+    {
+      path: '/profile/user/:id',
+      name: 'user',
+      component: User
+    }
+  ]
+})
+</code></pre>
+<p>要链接到一个命名路由，可以给 router-link 的 to 属性传一个对象：</p>
+<pre><code>&lt;router-link :to=&quot;{ name: 'user', params: { id: 123 }}&quot;&gt;User&lt;/router-link&gt;
+</code></pre>
+<h3 id="_5">命名视图</h3>
+<p>我们上面的例子中，所有的模板里面都只有一个router-view组件，也就是说，一个路由只能渲染一个组件，但是有时候想同时（同级）展示多个视图，而不是嵌套展示，例如创建一个布局，有 sidebar（侧导航） 和 main（主内容） 两个视图，这个时候命名视图就派上用场了。你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果 router-view 没有设置名字，那么默认为 default。</p>
+<pre><code>&lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;
+&lt;router-view class=&quot;view two&quot; name=&quot;a&quot;&gt;&lt;/router-view&gt;
+&lt;router-view class=&quot;view three&quot; name=&quot;b&quot;&gt;&lt;/router-view&gt;
+</code></pre>
+<p>一个视图使用一个组件渲染，因此对于同个路由，多个视图就需要多个组件。确保正确使用 components 配置（带上 s）：</p>
+<pre><code>const router = new VueRouter({
+  routes: [
+      path: '/',
+      components: {
+        default: Foo,
+        a: Bar,
+        b: Baz
+      }
+    }
+  ]
+})
+</code></pre>
+<h3 id="_6">重定向 和 别名</h3>
+<h4 id="_7">重定向</h4>
+<p>重定向也是通过 routes 配置来完成，下面例子是从 /a 重定向到 /b：</p>
+<pre><code>const router = new VueRouter({
+  routes: [
+    { path: '/a', redirect: '/b' }
+  ]
+})
+</code></pre>
+<p>重定向的目标也可以是一个命名的路由：</p>
+<pre><code>const router = new VueRouter({
+  routes: [
+    { path: '/a', redirect: { name: 'foo' }}
+  ]
+})
+</code></pre>
+<p>甚至是一个方法，动态返回重定向目标：</p>
+<pre><code>const router = new VueRouter({
+  routes: [
+    { path: '/a', redirect: to =&gt; {
+      // 方法接收 目标路由 作为参数
+      // return 重定向的 字符串路径/路径对象
+    }}
+  ]
+})
+</code></pre>
+<h4 id="_8">别名</h4>
+<p>『重定向』的意思是，当用户访问 /a时，URL 将会被替换成 /b，然后匹配路由为 /b，那么『别名』又是什么呢？
+/a 的别名是 /b，意味着，当用户访问 /b 时，URL 会保持为 /b，但是路由匹配则为 /a，就像用户访问 /a 一样。
+上面对应的路由配置为：</p>
+<pre><code>const router = new VueRouter({
+  routes: [
+    { path: '/a', component: A, alias: '/b' }
+  ]
+})
+</code></pre>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
+      
+    
+  </body>
+</html>
