@@ -31,6 +31,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://www.verynil.com/drupal/SQLite-database-disk-image-is-malformed-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://www.verynil.com/drupal/drupal%20code%20review/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
@@ -42,6 +47,21 @@
     </url>
     <url>
          <loc>https://www.verynil.com/drupal/drupal-%E8%8E%B7%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9C%9F%E5%AE%9Eip/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/hook_form%E4%B8%AD%E4%BD%BF%E7%94%A8drupalattachbehaviors/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/windows%E4%B8%8B%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEdrupalconsole/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://www.verynil.com/drupal/drupal7/Converting-7-x-modules-to-8-x/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -211,11 +231,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.verynil.com/other/Converting-7-x-modules-to-8-x/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://www.verynil.com/other/Haproxy-web%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
@@ -251,11 +266,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://www.verynil.com/other/SQLite-database-disk-image-is-malformed-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://www.verynil.com/other/centos6-6%E5%AE%89%E8%A3%85Percona-Tokudb/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
@@ -267,11 +277,6 @@
     </url>
     <url>
          <loc>https://www.verynil.com/other/git%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/other/hook_form%E4%B8%AD%E4%BD%BF%E7%94%A8drupalattachbehaviors/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -337,11 +342,6 @@
     </url>
     <url>
          <loc>https://www.verynil.com/other/web%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</loc>
-         <lastmod>2022-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://www.verynil.com/other/windows%E4%B8%8B%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEdrupalconsole/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
