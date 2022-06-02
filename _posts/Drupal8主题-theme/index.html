@@ -1,0 +1,1802 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="law">
+      
+      
+        <link rel="canonical" href="https://www.verynil.com/_posts/Drupal8%E4%B8%BB%E9%A2%98-theme/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.16">
+    
+    
+      
+        <title>"Drupal8主题(theme)" - 记录技术，分享知识，传播乐趣</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1c3799f8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#drupal8twig" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            记录技术，分享知识，传播乐趣
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              "Drupal8主题(theme)"
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    记录技术，分享知识，传播乐趣
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about.md" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Documents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Documents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/usage.md" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/tutorial.md" class="md-nav__link">
+        Tutorial
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#drupal8twig" class="md-nav__link">
+    Drupal8中的Twig
+  </a>
+  
+    <nav class="md-nav" aria-label="Drupal8中的Twig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#twig" class="md-nav__link">
+    搜索Twig模版中的变量
+  </a>
+  
+    <nav class="md-nav" aria-label="搜索Twig模版中的变量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    单个变量
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    模版中的所有变量
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dump" class="md-nav__link">
+    慎用dump()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drupal8" class="md-nav__link">
+    Drupal8主题
+  </a>
+  
+    <nav class="md-nav" aria-label="Drupal8主题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    模版命名惯例
+  </a>
+  
+    <nav class="md-nav" aria-label="模版命名惯例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#html" class="md-nav__link">
+    HTML
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#page" class="md-nav__link">
+    Page
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regions" class="md-nav__link">
+    Regions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blocks" class="md-nav__link">
+    Blocks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nodes" class="md-nav__link">
+    Nodes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forums" class="md-nav__link">
+    Forums
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phptemplatetwig" class="md-nav__link">
+    PHPTemplate与Twig主题范例的比较
+  </a>
+  
+    <nav class="md-nav" aria-label="PHPTemplate与Twig主题范例的比较">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#twig_1" class="md-nav__link">
+    关于Twig
+  </a>
+  
+    <nav class="md-nav" aria-label="关于Twig">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1docblock" class="md-nav__link">
+    1.Docblock
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2.文件和函数名
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3.变量
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4.条件判断
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5.控制结构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6.过滤
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7.空白
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-twig" class="md-nav__link">
+    debug twig模版
+  </a>
+  
+    <nav class="md-nav" aria-label="debug twig模版">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    启用debugging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    自动加载编译的模版
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filters-twig" class="md-nav__link">
+    Filters---修改Twig模版中的变量
+  </a>
+  
+    <nav class="md-nav" aria-label="Filters---修改Twig模版中的变量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#twig-filters" class="md-nav__link">
+    Twig filters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drupalfilters" class="md-nav__link">
+    Drupal自身的filters
+  </a>
+  
+    <nav class="md-nav" aria-label="Drupal自身的filters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filters" class="md-nav__link">
+    翻译filters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filters_1" class="md-nav__link">
+    额外的filters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions-twig" class="md-nav__link">
+    Functions---Twig模版中的函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#twig-" class="md-nav__link">
+    Twig最佳实践---预处理函数和模版
+  </a>
+  
+    <nav class="md-nav" aria-label="Twig最佳实践---预处理函数和模版">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    使用预处理函数返回可渲染数组
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filters_2" class="md-nav__link">
+    在模版中调用filters和工具函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drupal_render_childrenelement_children" class="md-nav__link">
+    显示/隐藏 &amp; 删除drupal_render_children和element_children
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drupal8_1" class="md-nav__link">
+    创建Drupal8的主题
+  </a>
+  
+    <nav class="md-nav" aria-label="创建Drupal8的主题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#infoyml" class="md-nav__link">
+    以一个.info.yml文件开始定义一个主题
+  </a>
+  
+    <nav class="md-nav" aria-label="以一个.info.yml文件开始定义一个主题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#infoyml_1" class="md-nav__link">
+    创建一个.info.yml文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    配置文件中的键释义
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    主题文件夹的结构
+  </a>
+  
+    <nav class="md-nav" aria-label="主题文件夹的结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    主题的位置
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drupal" class="md-nav__link">
+    Drupal的目录结构：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fluffiness" class="md-nav__link">
+    主题文件夹结构，假设主题名称是：fluffiness
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infoyml_2" class="md-nav__link">
+    *.info.yml
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#librariesyml" class="md-nav__link">
+    *.libraries.yml
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#breakpointsyml" class="md-nav__link">
+    *.breakpoints.yml
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#theme" class="md-nav__link">
+    *.theme
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#css" class="md-nav__link">
+    css/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#js" class="md-nav__link">
+    js/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#images" class="md-nav__link">
+    images/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#screenshotpng" class="md-nav__link">
+    screenshot.png
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#templates" class="md-nav__link">
+    templates/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bartik" class="md-nav__link">
+    核心主题Bartik的目录结构：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    为主题添加区域
+  </a>
+  
+    <nav class="md-nav" aria-label="为主题添加区域">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    info文件中添加区域
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    模版中添加区域
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    默认区域
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drupal8js" class="md-nav__link">
+    Drupal8主题中添加样式和js
+  </a>
+  
+    <nav class="md-nav" aria-label="Drupal8主题中添加样式和js">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#drupal7" class="md-nav__link">
+    与Drupal7主题的区别
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    定义一个库
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    覆盖扩展库
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    追加库到页面中
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    为一组页面添加库
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#js_1" class="md-nav__link">
+    添加可定制的js
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attributes" class="md-nav__link">
+    在模版中使用attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="在模版中使用attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attribute" class="md-nav__link">
+    Attribute的方法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    其它有用的代码片段
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drupal6-7-8" class="md-nav__link">
+    Drupal6, 7, 8主题区别
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/captainQW/captainQW.github.io/edit/master/docs/_posts/Drupal8主题-theme.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+  <h1>"Drupal8主题(theme)"</h1>
+
+<hr />
+<h2 id="drupal8twig">Drupal8中的Twig</h2>
+<p>Drupal8中Twig替换了PHPTemplate作为默认的模板引擎，导致的结果之一就是模版的后缀由原来的.tpl.php变成了.html.twig</p>
+<h3 id="twig">搜索Twig模版中的变量</h3>
+<p>在使用Twig模版的时候，大部分的变量都已注释的形式写在了模版中。然后，当我们新增了变量，我们就需要一个可以搜索到当前模版所有变量的方法。Twig提供了<code>dump</code>函数。</p>
+<p><code>dump</code>函数并不会打印所有的输出，除非开启了debug。</p>
+<p><code>dump</code>函数用于打印单个变量的信息或者模版中的所有变量。</p>
+<h4 id="_1">单个变量</h4>
+<p>如果你的模版中有一个title变量，下面在你的模版中dump出这个变量的内容：</p>
+<pre><code>{{ dump(title) }}
+</code></pre>
+<h4 id="_2">模版中的所有变量</h4>
+<p>要打印出模版中的所有的变量，你可以：</p>
+<pre><code>{{ dump() }}
+</code></pre>
+<p>要打印出变量的键：</p>
+<pre><code>{{ dump(_context|keys) }}
+</code></pre>
+<p>PS: 这里的_context是一全局变量，指当前模版中所有的上下文和变量，比如通过theme函数传递的变量，preprocess函数处理的变量，或者调用set设置的变量。</p>
+<p><strong>全局变量：</strong>
+- _context 当前模版中所有的上下文和变量
+- _charset 只当前的编码方式</p>
+<h4 id="dump">慎用dump()</h4>
+<p><code>dump()</code>函数虽然可以输出所有的变量，但是却带来了巨大的内存消耗，故你可以循环<code>_context</code>来查看所有的键：</p>
+<pre><code>&lt;ol&gt;
+  {% for key, value in _context  %}
+    &lt;li&gt;{{ key }}&lt;/li&gt;
+  {% endfor %}
+&lt;/ol&gt;
+</code></pre>
+<p>接下来再加上一些条件判断，就可以看到你需要的变量了。</p>
+<h2 id="drupal8">Drupal8主题</h2>
+<h3 id="_3">模版命名惯例</h3>
+<p>Drupal是按照一定的命名惯例来加载模版的，这就方便开发者可以覆盖原有的模版。当然，记得清除缓存。</p>
+<h4 id="html">HTML</h4>
+<p>HTML模版提供了包括head，title以及body标签等基础结构的html页面。</p>
+<p>基础模版：html.html.twig(位于：core/modules/system/templates/html.html.twig)</p>
+<p>下面是一些你可以覆盖的基础模版的例子：
+1. html--internalviewpath.html.twig
+2. html--node--id.html.twig
+3. html.html.twig</p>
+<h4 id="page">Page</h4>
+<p>模版名称模式：page--[front|internal/path].html.twig</p>
+<p>基础模版：page.html.twig(位于: core/modules/system/templates/page.html.twig)</p>
+<p>下面是page模版的模版建议，举个例子“http://www.example.com/node/1/edit”：</p>
+<ol>
+<li>page--node--edit.html.twig</li>
+<li>page--node--1.html.twig</li>
+<li>page--node.html.twig</li>
+<li>page.html.twig</li>
+</ol>
+<h4 id="regions">Regions</h4>
+<p>模版名称模式：region--[region].html.twig</p>
+<p>基础模版：region.html.twig(位于: core/modules/system/templates/region.html.twig)</p>
+<p>当一个页面的区域中有内容时，系统会从区块系统或者一个类似于<code>hook_page_build()</code>的方法中调用区域模版。</p>
+<h4 id="blocks">Blocks</h4>
+<p>模版名称模式：block--[module|-delta]].html.twig</p>
+<p>基础模版：block.html.twig (位于: core/modules/block/templates/block.html.twig)</p>
+<ol>
+<li>block--module--delta.html.twig</li>
+<li>block--module.html.twig</li>
+<li>block.html.twig</li>
+</ol>
+<p>这里的module就是模块名，delta是模块给区块设置的内部id标识</p>
+<h4 id="nodes">Nodes</h4>
+<p>模版名称模式：node--[type|nodeid]--[viewmode].html.twig
+基础模版：node.html.twig (位于: core/modules/node/templates/node.html.twig)</p>
+<p>模版建议：</p>
+<ol>
+<li>node--nodeid--viewmode.html.twig</li>
+<li>node--nodeid.html.twig</li>
+<li>node--type--viewmode.html.twig</li>
+<li>node--type.html.twig</li>
+<li>node--viewmode.html.twig</li>
+<li>node.html.twig</li>
+</ol>
+<h4 id="forums">Forums</h4>
+<p>模版名称模式：forums--[[container|topic]--forumID].html.twig</p>
+<p>基础模版： forums.html.twig (位于: core/modules/forum/templates/forums.html.twig)</p>
+<p>模版建议：</p>
+<ul>
+<li>
+<p>论坛容器：</p>
+</li>
+<li>
+<p>forums--containers--forumID.html.twig</p>
+</li>
+<li>forums--forumID.html.twig</li>
+<li>forums--containers.html.twig</li>
+<li>
+<p>forums.html.twig</p>
+</li>
+<li>
+<p>论坛主题内容</p>
+</li>
+<li>
+<p>forums--topics--forumID.html.twig</p>
+</li>
+<li>forums--forumID.html.twig</li>
+<li>forums--topics.html.twig</li>
+<li>forums.html.twig</li>
+</ul>
+<h3 id="phptemplatetwig">PHPTemplate与Twig主题范例的比较</h3>
+<p>接下来，看下PHPTemplate与Twig的区别。</p>
+<h4 id="twig_1">关于Twig</h4>
+<p>Twig是基于php的编译模版语言。当你的页面需要渲染显示的时候，Twig引擎会找到对应的模版并把它编译成php模版，存放在sites/default/files/php_storage/目录下。</p>
+<h5 id="1docblock">1.Docblock</h5>
+<p>PHPTemplate：</p>
+<pre><code>&lt;?php 
+/** 
+ * @file
+ * File description
+ */
+?&gt;
+</code></pre>
+<p>Twig：</p>
+<pre><code>{# 
+/** 
+ * @file
+ * File description
+ */
+#}
+</code></pre>
+<h5 id="2">2.文件和函数名</h5>
+<p>PHPTemplate文件：node--article.tpl.php
+Twig文件：node--article.html.twig</p>
+<p>PHPTemplate函数：theme_node_links()
+Twig文件：node-links.html.twig</p>
+<h5 id="3">3.变量</h5>
+<p><strong>输出一个变量</strong></p>
+<p>PHPTemplate: </p>
+<pre><code>&lt;div class=&quot;content&quot;&gt;&lt;?php print $content; ?&gt;&lt;/div&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>&lt;div class=&quot;content&quot;&gt;{{ content }}&lt;/div&gt;
+</code></pre>
+<p><strong>输出一个哈希键值</strong></p>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php print $item['#item']['alt']; ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{{ item['#item'].alt }}
+</code></pre>
+<p><strong>变量赋值</strong></p>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php $custom_var = $content-&gt;comments; ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{% set custom_var = content.comments %}
+</code></pre>
+<p><strong>数组初始化</strong></p>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php
+  $args = array('!author' =&gt; $author, '!date' =&gt; $created);
+?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{% set args = {'!author': author, '!date': created} %}
+</code></pre>
+<h5 id="4">4.条件判断</h5>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php if ($content-&gt;comments): endif; ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{% if content.comments %} {% endif %}
+</code></pre>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php if (!empty($content-&gt;comments)): endif; ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{% if content.comments is not empty %} {% endif %}
+</code></pre>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php if (isset($content-&gt;comments)): endif; ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{% if content.comments is defined %} {% endif %}
+</code></pre>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php if ($count &gt; 0): endif; ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{% if count &gt; 0 %} {% endif %}
+</code></pre>
+<h5 id="5">5.控制结构</h5>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php foreach ($users as $user) {} ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{% for user in users %} {% endfor %}
+</code></pre>
+<h5 id="6">6.过滤</h5>
+<p><strong>check_plain：</strong></p>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php print check_plain($title); ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{{ title|striptags }}
+</code></pre>
+<p><strong>Translate：</strong></p>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php print t('Home'); ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{{ 'Home'|t }}
+</code></pre>
+<p><strong>Translate with substitutions:</strong></p>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php
+  print t('Welcome, @username', array('@username' =&gt; $user-&gt;name));
+?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{{ 'Welcome, @username'|t({ '@username': user.name }) }}
+</code></pre>
+<p>Drupal8 Twig(采用<a href="https://drupal.org/node/2047135">trans</a>标签扩展)</p>
+<pre><code>{% set username = user.name %}
+{% trans %}
+  Welcome, {{ username }}
+{% endtrans %}
+</code></pre>
+<p><strong>implode:</strong></p>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php echo implode(', ', $usernames); ?&gt;
+</code></pre>
+<p>Twig:</p>
+<pre><code>{{ usernames | join(', ') }}
+</code></pre>
+<p>PHPTemplate的例子中$usernames需要是一个字符串数组。原生的Twig也需要$usernames是一个字符串数组。但是Drupal8中的twig还可以是一个可以渲染的数组对象。这就是Drupal8中的twig与原生twig的本质区别。Drupal8中的twig可以“打印”出纯文本和可渲染的数组。</p>
+<p>举个例子：</p>
+<pre><code>{% set numbers = [{'#markup': 'One'}, {'#markup':'Two'}, {'#markup':'Three'}] %}
+{{ numbers }}
+</code></pre>
+<p>在上面的例子中，每一个数据项都是以逗号相隔的。但是，输出的结果却是：</p>
+<pre><code class="language-html">OneTwoThree
+</code></pre>
+<p><strong>Escape：</strong></p>
+<p>PHPTemplate:</p>
+<pre><code>&lt;?php echo check_plain($title); ?&gt;
+</code></pre>
+<p>原生Twig:</p>
+<pre><code>{{ title|e }}
+</code></pre>
+<p>Drupal 8 Twig2:</p>
+<pre><code>{{ title }}
+</code></pre>
+<h5 id="7">7.空白</h5>
+<pre><code>&lt;div class=&quot;body&quot;&gt;
+  {{- block.content -}}
+&lt;/div&gt;
+</code></pre>
+<p>类似于</p>
+<pre><code>&lt;div class=&quot;body&quot;&gt;{{ block.content }}&lt;/div&gt;
+</code></pre>
+<h3 id="debug-twig">debug twig模版</h3>
+<p>twig模版引擎提供了一个debug工具。</p>
+<h4 id="debugging">启用debugging</h4>
+<p>在sites/default/services.yml启用Twig Debugging。</p>
+<p>设置debug变量为true</p>
+<pre><code>parameters:
+  twig.config:
+    debug: true 
+</code></pre>
+<h4 id="_4">自动加载编译的模版</h4>
+<p>出于性能考虑，Twig模版被编译成一个PHP类存放在磁盘上，但这意味着默认情况下，你的模版不会在你做出更改时发生刷新。为了使Twig模版可以自动刷新，启用<code>services.yml</code>中的deubg选项。欲知详情，参见：<a href="https://drupal.org/node/1903374">https://drupal.org/node/1903374</a></p>
+<p><strong>打印所有的变量</strong></p>
+<pre><code>{# 打印所有的变量 #}
+{{ dump() }}
+</code></pre>
+<pre><code>{# 打印单个变量 #}
+{{ dump(var) }}
+</code></pre>
+<h3 id="filters-twig">Filters---修改Twig模版中的变量</h3>
+<p>Twig中的Filters用于修改变量。Filters和变量之间用管道符号(|)分隔，还可能带点可选的参数。多个filters可以链式的连在一起，前一个的输出作为下一个的输入。</p>
+<p>例如：</p>
+<pre><code>{{ ponies|safe_join(&quot;, &quot;)|lower}}
+</code></pre>
+<p>Drupal的Twig模版中使用的filter由所有的Twig引擎自带的filter和drupal中的几个特殊的filters组成。</p>
+<h4 id="twig-filters">Twig filters</h4>
+<p>详见：<a href="http://twig.sensiolabs.org/doc/filters/index.html">twig filter列表</a></p>
+<h4 id="drupalfilters">Drupal自身的filters</h4>
+<p>Drupal中的filters是在<code>Drupal\Core\Template\TwigExtension::getFilters().</code>中声明的。</p>
+<h5 id="filters">翻译filters</h5>
+<p><strong>t</strong></p>
+<p>t filter调用Drupal的t函数翻译给定的字符串，可用于任何字符串。</p>
+<p>例如：</p>
+<pre><code>&lt;a href=&quot;{{ url('&lt;front&gt;') }}&quot; title=&quot;{{ 'Home'|t }}&quot; rel=&quot;home&quot; class=&quot;site-logo&quot;&gt;&lt;/a&gt;
+</code></pre>
+<p>placeholder输出安全的html并使用<code>drupal_placeholder()</code>进行格式化输出成强调文本。</p>
+<p>例如：</p>
+<pre><code>{% trans %}Submitted on {{ date|placeholder }}{% endtrans %}
+</code></pre>
+<pre><code>{{ var1|t }}
+{{ var1|placeholder }}
+{% trans %}{{ var1 }}{% endtrans %}
+</code></pre>
+<p>尽可能避免使用|raw filter，特别是你正在输出一些用户输入的数据的时候。详见<a href="https://www.drupal.org/node/2296163">https://www.drupal.org/node/2296163</a>：</p>
+<pre><code>{{ var1|raw }}
+</code></pre>
+<h5 id="filters_1">额外的filters</h5>
+<p><strong>drupal_escape</strong></p>
+<p>drupal_escape用于将一个字符串进行安全处理后进行插入操作并输出显示，它替代了twig默认的escape filter。参见<a href="https://api.drupal.org/api/drupal/core%21themes%21engines%21twig%21twig.engine/function/twig_drupal_escape_filter/8">twig_drupal_escape_filter</a></p>
+<p><strong>safe_join</strong></p>
+<p>safe_join将几个字符串用给定的分隔符连接在一块儿。</p>
+<p>例如：</p>
+<pre><code>{{ items|safe_join(', ') }}
+</code></pre>
+<p><strong>without</strong></p>
+<p>without会创建出当前这个可以渲染的数组的拷贝，但是会把传入的参数当作键，删除键关联的所有子元素。但是，当前这个数组不受影响，依旧可以打印出子元素。详见：<a href="https://api.drupal.org/api/drupal/core%21themes%21engines%21twig%21twig.engine/function/twig_without/8">twig_without</a></p>
+<p>例如：</p>
+<pre><code>{# 打印content变量，除了content.links #}
+{{ content|without('links') }}
+</code></pre>
+<p><strong>clean_class</strong></p>
+<p>clean_class filter会处理出一个安全的可用的html类名。详见：<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21Html.php/function/Html%3A%3AgetClass/8">Html::getClass()</a></p>
+<p><strong>clean_id</strong></p>
+<p>clean_id filter会处理出一个安全的可用的html id。详见：<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21Html.php/function/Html%3A%3AgetId/8">Html:getID()</a></p>
+<p><strong>format_date</strong></p>
+<p>format_date filter格式化日期字符串，详见：<a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Datetime!DateFormatter.php/function/DateFormatter%3A%3Aformat/8">DateFormatter::format()</a></p>
+<h3 id="functions-twig">Functions---Twig模版中的函数</h3>
+<p><strong>url()</strong></p>
+<p><strong>path()</strong></p>
+<p><strong>url_from_path()</strong></p>
+<p><strong>link($text, $url, $attributes)</strong></p>
+<pre><code>{{ link(item.title, item.url, { 'class':['foo', 'bar', 'baz']} ) }}
+</code></pre>
+<p><strong>file_url($uri)</strong></p>
+<p>路径参数需要是相对网站根目录的相对路径，将会返回这个文件的绝对路径。</p>
+<p><strong>attach_library()</strong></p>
+<h3 id="twig-">Twig最佳实践---预处理函数和模版</h3>
+<p>为了使Drupal8的主题性能最大化，以及更加的定制化，请遵照如下的最佳实践方式：</p>
+<h4 id="_5">使用预处理函数返回可渲染数组</h4>
+<p>总是通过预处理函数返回可渲染数组，而不是调用<code>theme()</code>或者<code>drupal_render()</code>函数。</p>
+<p>Twig会自动渲染，故没有必要调用<code>theme()</code>或者<code>drupal_render()</code>函数。此外，为了比直接输出已经渲染的html代码更具定制化，渲染数组应该传递给模版。</p>
+<p>从预处理函数中删除<code>theme()</code>函数：</p>
+<pre><code>&lt;?php
+// 之前，直接把渲染的html传递给模版
+$variables['table'] = theme('table', array('header' =&gt; $header, 'rows' =&gt; $rows));
+
+// 之后，把渲染数组传递给模版
+$variables['table'] = array(
+  '#theme' =&gt; 'table',
+  '#header' =&gt; $header,
+  '#rows' =&gt; $rows,
+);
+?&gt;
+</code></pre>
+<p>从预处理函数中删除<code>drupal_render()</code>函数就是不再调用它：</p>
+<pre><code>&lt;?php
+// 之前
+$variables['teaser'] = drupal_render($node_teaser);
+
+// 之后
+$variables['teaser'] = $node_teaser;
+?&gt;
+</code></pre>
+<p>通常情况下，<code>drupal_render()</code>函数是在添加表格数据的时候调用。</p>
+<pre><code>&lt;?php
+// 之前
+$row[] = drupal_render($display['title']);
+
+// 之后  
+$row[]['data'] = $display['title'];
+?&gt;
+</code></pre>
+<h4 id="filters_2">在模版中调用filters和工具函数</h4>
+<p>举个例子：</p>
+<p><strong>之前的做法：</strong></p>
+<p>预处理函数中：</p>
+<pre><code>&lt;?php
+$variables['no_content_text'] = t('You have not created any content types yet. Go to the &lt;a href=&quot;@create-content&quot;&gt;content type creation page&lt;/a&gt; to add a new content type.', array('@create-content' =&gt; url('admin/structure/types/add')));
+?&gt;
+</code></pre>
+<p>模版中：</p>
+<pre><code>&lt;p&gt;{{ no_content_text }}&lt;/p&gt;
+</code></pre>
+<p><strong>现在的做法：</strong></p>
+<p>模版中：</p>
+<pre><code>&lt;p&gt;{{ 'You have not created any content types yet. Go to the &lt;a href=&quot;@create-content&quot;&gt;content type creation page&lt;/a&gt; to add a new content type.'|t({'@create-content': url('admin/structure/types/add')}) }}&lt;/p&gt;
+</code></pre>
+<h4 id="drupal_render_childrenelement_children">显示/隐藏 &amp; 删除drupal_render_children和element_children</h4>
+<p>在原始的模版中，如果调用了<code>hide()</code>函数，而且<code>drupal_render_children</code>函数用于输出”剩下的“数据，我们将需要在预处理的时候把这些数据拆分成单个变量。</p>
+<p><strong>之前(PHPTemplate模版)：</strong></p>
+<pre><code>&lt;?php
+  hide($form['advanced']);
+  hide($form['actions']);
+?&gt;
+&lt;div class=&quot;layout-node-form clearfix&quot;&gt;
+  &lt;div class=&quot;layout-region layout-region-node-main&quot;&gt;
+    &lt;?php print drupal_render_children($form); ?&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;layout-region layout-region-node-secondary&quot;&gt;
+    &lt;?php print render($form['advanced']); ?&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;layout-region layout-region-node-footer&quot;&gt;
+    &lt;?php print render($form['actions']); ?&gt;
+  &lt;/div&gt;
+&lt;/div&gt; 
+</code></pre>
+<p><strong>之后(预处理)：</strong></p>
+<pre><code>&lt;?php
+function template_preprocess_node_edit_form(&amp;$variables) {
+  $form = $variables['form'];
+
+  // @todo Update this once drupal.org/node/1920886 is resolved.
+  $variables['advanced'] = $form['advanced'];
+  $variables['actions'] = $form['actions'];
+  unset($form['advanced'], $form['actions']);
+  $variables['form'] = drupal_render_children($form);
+}
+?&gt;
+</code></pre>
+<p><strong>之后(Twig模版)：</strong></p>
+<pre><code>&lt;div class=&quot;layout-node-form clearfix&quot;&gt;
+  &lt;div class=&quot;layout-region layout-region-node-main&quot;&gt;
+    {{ form|without('advanced', 'actions') }}
+  &lt;/div&gt;
+  &lt;div class=&quot;layout-region layout-region-node-secondary&quot;&gt;
+    {{ form.advanced }}
+  &lt;/div&gt;
+  &lt;div class=&quot;layout-region layout-region-node-footer&quot;&gt;
+    {{ form.actions }}
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h2 id="drupal8_1">创建Drupal8的主题</h2>
+<h3 id="infoyml">以一个.info.yml文件开始定义一个主题</h3>
+<p>创建drupal8主题的第一步，就是创建一个THEMENAME.info.yml文件。有一点很重要，.info.yml文件中的“type”键需要设置成“theme”。</p>
+<h4 id="infoyml_1">创建一个.info.yml文件</h4>
+<p>在主题文件夹的根目录创建.info.yml文件。文件夹的名字应该保持与.info.yml文件名相同。所以，如果你的主题命名为“Fluffiness”，那么文件夹的名字就是“fluffiness”，而.info.yml文件的名字是“fluffiness/fluffiness.info.yml”。</p>
+<p>例如：</p>
+<pre><code>name: Fluffiness
+type: theme
+description: A cuddly theme that offers extra fluffiness.
+core: 8.x
+libraries:
+  - fluffiness/global-styling
+stylesheets-remove:
+  - '@classy/css/components/tabs.css'
+  - core/assets/vendor/normalize-css/normalize.css
+regions:
+  header: Header
+  content: Content
+  sidebar_first: 'Sidebar first'
+  footer: Footer
+</code></pre>
+<p>在你的drupal站点中，核心提供的主题包含着很多.info.yml文件可以供你查阅实例。</p>
+<h4 id="_6">配置文件中的键释义</h4>
+<ul>
+<li>name: Fluffiness  必选。显示在站点外观页面的，可读主题名</li>
+<li>description: An extra cuddly Drupal theme available in grey and blue  必选，主题描述，也会显示在站点外观管理页面</li>
+<li>type: theme  必选项，扩展类型，比如：module, theme 或者 profile。对于主题，这里设置成“theme”</li>
+<li>base theme: classy  可以从另一个主题继承其资源的主题</li>
+<li>core: 8.x  必选，当前主题兼容的Drupal版本</li>
+<li>version: 8.x-1.0</li>
+<li>screenshot: fluffiness.png</li>
+<li>
+<p>libraries:</p>
+<ul>
+<li>fluffiness/global-styling</li>
+</ul>
+<p>当主题启用时，为所有的页面加载资源库文件，包括css和js</p>
+<p>例如：</p>
+<p><code>global-styling:
+    version: 1.x
+    css:
+      theme:
+        css/style.css: {}
+        css/print.css: { media: print }</code></p>
+<p>当html解析时，就会是：</p>
+<p><code>&lt;link rel="stylesheet" href="css/style.css" media="all" /&gt;
+  &lt;link rel="stylesheet" href="css/print.css" media="print" /&gt;</code></p>
+</li>
+<li>
+<p>stylesheets-remove:</p>
+</li>
+</ul>
+<p><code>- core/assets/vendor/normalize-css/normalize.css # 1
+     - '@classy/css/components/tabs.css' # 2</code></p>
+<p><strong>注意：</strong>
+  1. stylesheets-remove键定义需要删除的样式，需要设置成完全路径。
+  2. 为了方式Drupal核心的资源（例如，jQuery UI的css文件）被删除，请设置为完全路径。此外，为了避免当前这个文件属于某个模块或者主题提供的库的，可以使用token。注意，如果使用token，由于@会被当成YAML，请记得使用引号。</p>
+<ul>
+<li>regions:</li>
+</ul>
+<p><code>header: Header
+     content: Content # required!
+     sidebar_first: 'Sidebar first'
+     footer: Footer</code></p>
+<h3 id="_7">主题文件夹的结构</h3>
+<p>主题就是定了视图层的许多文件的集合。.info.yml文件是必须的，下面会列出一个典型的主题文件夹中所包含的文件和文件夹。</p>
+<h4 id="_8">主题的位置</h4>
+<p>主题必须放置在Drupal安装根目录的“themes”文件夹中。注意，核心的主题，例如：Bartik和Seven位于core/themes文件夹下。</p>
+<p>一个好的建议是，创建一个名为“contrib”的文件夹用于存放下载的贡献主题，而“custom”文件夹用于存放自定义的主题。</p>
+<p>主体名称必须小写。</p>
+<h4 id="drupal">Drupal的目录结构：</h4>
+<pre><code>|-core
+|  |-modules
+|  |-themes
+|  |  |-bartik
+|  |  |-seven
+..
+|-modules
+|-themes
+|  |-contrib
+|  |  |-zen
+|  |  |-basic
+|  |  |-bluemarine
+|  |-custom
+|  |  |-fluffiness
+</code></pre>
+<h4 id="fluffiness">主题文件夹结构，假设主题名称是：fluffiness</h4>
+<pre><code>|-fluffiness.breakpoints.yml
+|-fluffiness.info.yml
+|-fluffiness.libraries.yml
+|-fluffiness.theme
+|-config
+|  |-install
+|  |  |-fluffiness.settings.yml
+|  |-schema
+|  |  |-fluffiness.schema.yml
+|-css
+|  |-style.css
+|-js
+|  |-fluffiness.js
+|-images
+|  |-buttons.png
+|-logo.png
+|-screenshot.png
+|-templates
+|  |-maintenance-page.html.twig
+|  |-node.html.twig
+</code></pre>
+<p>下面，介绍一下主题文件夹中的通用文件。</p>
+<h4 id="infoyml_2">*.info.yml</h4>
+<p>主题必须包含*.info.yml文件，此文件定义了meta数据，样式，还有区块和区域信息。</p>
+<h4 id="librariesyml">*.libraries.yml</h4>
+<p>*.libraries.yml文件用于主题启用时需要加载的定义js和css库，详情<a href="https://www.drupal.org/theme-guide/8/adding-javascript">点击这里</a></p>
+<h4 id="breakpointsyml">*.breakpoints.yml</h4>
+<p>响应式设计相关的设置，详见：<a href="https://www.drupal.org/documentation/modules/breakpoint">*.breakpoints.yml设置</a></p>
+<h4 id="theme">*.theme</h4>
+<p>*.theme文件是一个php文件，包含了所有的逻辑处理代码和输出前的预处理。</p>
+<h4 id="css">css/</h4>
+<p>一个好的建议就是将css文件存放在“css”自目录下。</p>
+<h4 id="js">js/</h4>
+<p>存放着主题需要的js文件。</p>
+<h4 id="images">images/</h4>
+<p>存放主题需要的图片</p>
+<h4 id="screenshotpng">screenshot.png</h4>
+<p>主题的预览图</p>
+<h4 id="templates">templates/</h4>
+<h4 id="bartik">核心主题Bartik的目录结构：</h4>
+<pre><code>|-bartik.breakpoints.yml
+|-bartik.info.yml
+|-bartik.libraries.yml
+|-bartik.theme
+|-color
+|  |-color.inc
+|  |-preview.css
+|  |-preview.html
+|  |-preview.js
+|-config
+|  |-schema
+|  |  |-bartik.schema.yml
+|-css
+|  |-base
+|  |  |-elements.css
+|  |-components
+|  |  |-block.css
+|  |  |-book.css
+|  |  |-breadcrumb.css
+...
+|  |-colors.css
+|  |-layout.css
+|  |-maintenance-page.css
+|  |-print.css
+|-images
+|  |-add.png
+|  |-required.svg
+|  |-tabs-border.png
+|-logo.svg
+|-screenshot.png
+|-templates
+|  |-block--search-form-block.html.twig
+|  |-block--system-branding-block.html.twig
+|  |-block--system-menu-block.html.twig
+|  |-block.html.twig
+|  |-comment.html.twig
+|  |-field--taxonomy-term-reference.html.twig
+|  |-maintenance-page.html.twig
+|  |-node.html.twig
+|  |-page.html.twig
+|  |-status-messages.html.twig
+</code></pre>
+<h3 id="_9">为主题添加区域</h3>
+<p>为主题添加区域需要两步：</p>
+<ul>
+<li>在主题文件.info.yml中添加区域的meta-data</li>
+<li>编辑page.html.twig文件打印新的区域</li>
+</ul>
+<h4 id="info">info文件中添加区域</h4>
+<p>区域定义成ragions键的子元素：</p>
+<pre><code># Regions
+regions:
+  header: 'Header'
+  content: 'Content'
+  footer: 'Footer'
+</code></pre>
+<p>Region 键应是个字符串，可以包含下划线“_”。</p>
+<h4 id="_10">模版中添加区域</h4>
+<p>为了显示区域中的内容，你需要确定新的区域也添加到了page.html.twig模版中。</p>
+<p>例如：</p>
+<pre><code>header: 'Header'
+</code></pre>
+<p>模版中输出：</p>
+<pre><code>{{ page.header }}
+</code></pre>
+<p>此外，你可以把它们当成是Twig模版的普通变量，可以再任何需要的地方打印输出。</p>
+<h4 id="_11">默认区域</h4>
+<p>可以在<a href="https://api.drupal.org/api/drupal/core%21modules%21system%21templates%21page.html.twig/8">page.html.twig模版文档</a>中查阅默认的区域</p>
+<ol>
+<li>page.header</li>
+<li>page.primary_menu</li>
+<li>page.secondary_menu</li>
+<li>page.highlighted</li>
+<li>page.help</li>
+<li>page.content</li>
+<li>page.sidebar_first</li>
+<li>page.sidebar_second</li>
+<li>page.footer</li>
+<li>page.breadcrumb</li>
+</ol>
+<h3 id="drupal8js">Drupal8主题中添加样式和js</h3>
+<h4 id="drupal7">与Drupal7主题的区别</h4>
+<p><strong>有四个比较重要的区别：</strong></p>
+<ol>
+<li>去掉了THEME.info文件，取而代之的是THEME.info.yml文件</li>
+<li>THEME.info.yml文件中的stylesheets属性不复存在，改为库的方式引入</li>
+<li>THEME.info.yml文件中的scripts属性不复存在，改为库的方式引入</li>
+<li>每一个页面的js只在需要时才加载，默认情况下，Drupal对于匿名用户不会需要js。这意味着，jquery不会再在每个页面自动加载了。因此，如果你的主题需要jquery或者其它的js，你需要通过“声明依赖关系”来告诉Drupal这个js需要加载</li>
+</ol>
+<p><strong> 加载css/js的步骤：</strong></p>
+<ol>
+<li>将css或者js保存到一个文件</li>
+<li>定义一个包含js和css文件的“library”</li>
+<li>在钩子中，把这个库追加给渲染数组</li>
+</ol>
+<h4 id="_12">定义一个库</h4>
+<p>在主题文件夹中创建*.libraries.yml文件来添加库（假设你的主题名称是<code>fluffiness</code>，那么文件名就是<code>fluffiness.libraries.yml</code>）。每一个库，都是css和js文件的详情列表：</p>
+<pre><code>cuddly-slider:
+  version: 1.x
+  css:
+    theme:
+      css/cuddly-slider.css: {}
+  js:
+    js/cuddly-slider.js: {}
+</code></pre>
+<p>这个例子中，假设<code>cuddly-slider.js</code>文件位于主题的js子目录中。</p>
+<p>然后，需要记住的是，默认情况下，Drupal8不会在每一个页面加载jquery；只在需要时加载。因此，我们需要自己声明，主题的<code>cuddly-slider</code>库依赖<code>jQuery</code>。</p>
+<p>因此，为了保证上例的<code>js/cuddly-slider.js</code>可用，我们需要更新下：</p>
+<pre><code>cuddly-slider:
+  version: 1.x
+  css:
+    theme:
+      css/cuddly-slider.css: {}
+  js:
+    js/cuddly-slider.js: {}
+  dependencies:
+    - core/jquery
+</code></pre>
+<p>当然，库也可以只包含css，或者只包含js。大部分的主题可能会有一个<code>global-styling</code>库，用于全局加载样式文件：</p>
+<pre><code>global-styling:
+  version: 1.x
+  css:
+    theme:
+      css/layout.css: {}
+      css/style.css: {}
+      css/colors.css: {}
+      css/print.css: { media: print }
+</code></pre>
+<p>而且，正如你所想，库中定义的css的顺序就是将来加载的顺序。</p>
+<p>在Drupal7中，你可以把媒体查询属性(screen, print, all)作为<code>stylesheets</code>属性的子键，而现在你可以把它当作值定义，例如：</p>
+<pre><code>css/print.css: { media: print }
+</code></pre>
+<p>现在默认情况下，所有的js文件都在页脚加载。</p>
+<pre><code>js-header:
+  header: true
+  js:
+    header.js: {}
+
+js-footer:
+  js:
+    footer.js: {}
+</code></pre>
+<p>你得设置<code>header</code>属性为true。</p>
+<h4 id="_13">覆盖扩展库</h4>
+<p>那些定义在<code>*.libraries.yml</code>文件中的库可以通过主题的<code>*.info.yml</code>文件中的<code>libraries-override</code>和<code>libraries-extend</code>项进行覆写和扩展。</p>
+<p><strong>libraries-override</strong></p>
+<p><code>libraries-override</code>是定义在库中，主题用来操作css/js的一种方式，包括删除、替换或者删除css/js。</p>
+<pre><code>libraries-override:
+  # Replace an entire library.
+  core/drupal.collapse: mytheme/collapse
+
+  # Replace an asset with another.
+  subtheme/library:
+    css:
+      theme:
+        css/layout.css: css/my-layout.css
+
+  # Remove an asset.
+  drupal/dialog:
+    css:
+      theme:
+        dialog.theme.css: false
+
+  # Remove an entire library.
+  core/modernizr: false
+</code></pre>
+<p><strong>libraries-extend</strong></p>
+<p><em>libraries-extend</em>为主题提供了一种可以修改库的方式。比如，添加额外的主题依赖的库。</p>
+<pre><code># Extend drupal.user: add assets from classy's user libraries.
+libraries-extend:
+  core/drupal.user: 
+    - classy/user1
+    - classy/user2
+</code></pre>
+<h4 id="_14">追加库到页面中</h4>
+<p><strong>在Twig模版中追加库</strong></p>
+<p>通过调用twig的方法，<code>attach_library()</code>可以在twig模版中追加库，例如：</p>
+<pre><code>{{ attach_library('fluffiness/cuddly-slider') }}
+&lt;div&gt;Some fluffy markup {{ message }}&lt;/div&gt;
+</code></pre>
+<p><strong>追加给所有的页面</strong></p>
+<p>为了所有页面都加载这个库，需要在主题的<code>*.info.yml</code>文件中，<code>libraries</code>键的下面声明：</p>
+<pre><code>name: Example
+type: theme
+core: 8.x
+libraries:
+  - fluffiness/cuddly-slider
+</code></pre>
+<h4 id="_15">为一组页面添加库</h4>
+<p>在大部分情况下，你可能不希望所有的页面加载你的库，而是部分页面加载。举个例子来说，你可能只想在某个特定的区块中加载，或者用户访问某个节点类型时加载。</p>
+<p>主题可以通过实现<code>THEME_preprocess_HOOK()</code>方法达到这个效果。</p>
+<p>例如，你想要在维护页面追加你的库，“HOOK”就是“maintenance_page”，然后你的方法就是：</p>
+<pre><code>&lt;?php
+function fluffiness_preprocess_maintenance_page(&amp;$variables) {
+  $variables['#attached']['library'][] = 'fluffiness/cuddly-slider';
+}
+?&gt;
+</code></pre>
+<p>你也可以为主题的其它hook做同样的事情，当然你的函数中也可以包含逻辑处理。</p>
+<p><strong>重要提示</strong>：最通用的用法是根据当前的路由来加载库：</p>
+<pre><code>&lt;?php
+function fluffiness_preprocess_page(&amp;$variables) {
+  $variables['#cache']['contexts'][] = 'route';
+  if (\Drupal::routeMatch()-&gt;getRouteName() === 'entity.node.preview') {
+    $variables['#attached']['library'][] = 'fluffiness/node-preview';
+  }
+}
+?&gt;
+</code></pre>
+<h4 id="js_1">添加可定制的js</h4>
+<p>在某些情况下，你可能想要根据某些php计算信息来加载js。</p>
+<p>在这种情况下，像之前一样，创建一个js文件并追加进来，再通过<code>drupalSettings</code>(替换Drupal7中的<code>Drupal.settings</code>)追加一些js设置项并由追加的js文件读取这些设置项。然后，为了使<code>drupalSettings</code>在我们的js文件中生效，我们得像引入jQuery一样操作：我们得在依赖中定义。</p>
+<p>就像这样：</p>
+<pre><code>cuddly-slider:
+  version: 1.x
+  js:
+    js/cuddly-slider.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+</code></pre>
+<p>以及</p>
+<pre><code>&lt;?php
+function fluffiness_page_attachments_alter(&amp;$page) {
+  $page['#attached']['library'][] = 'fluffiness/cuddly-slider';
+  $page['#attached']['drupalSettings']['fluffiness']['cuddlySlider']['foo'] = 'bar';
+}
+?&gt;
+</code></pre>
+<p>这样<code>cuddly-slider.js</code>就可以访问<code>drupalSettings.fluffiness.cuddlySlider.foo</code>了(这里 === 'bar')。</p>
+<h3 id="attributes">在模版中使用attributes</h3>
+<p>attributes是一个在每个twig模版中都有效的对象。attributes用来存储所有的父容器的相关属性，并提供有用的方法给开发者处理这些数据。</p>
+<h4 id="attribute">Attribute的方法</h4>
+<p><strong>attributes.addClass()</strong></p>
+<p>单个类：</p>
+<pre><code>&lt;div{{attributes.addClass('my-class')}}&gt;&lt;/div&gt;
+</code></pre>
+<p>多个类：</p>
+<pre><code>{%
+  set classes = [
+    'red',
+    'green',
+  ]
+%}
+&lt;div{{ attributes.addClass(classes) }}&gt;&lt;/div&gt;
+</code></pre>
+<p>将会输出：</p>
+<pre><code>&lt;div class=&quot;red green&quot;&gt;&lt;/div&gt;.
+</code></pre>
+<p><em>html标签与twig语法之间不能有任何空格！</em></p>
+<p><strong>attributes.removeClass()</strong></p>
+<pre><code>{#classes = [ 'red', 'green', 'blue' ] #}
+
+&lt;div{{ attributes.addClass(classes).removeClass('green') }}&gt;&lt;/div&gt;
+</code></pre>
+<p>将会输出：</p>
+<pre><code>&lt;div class=&quot;red blue&quot;&gt;&lt;/div&gt;
+</code></pre>
+<p><strong>attributes.setAttribute($attribute, $value)</strong></p>
+<pre><code>&lt;div{{ attributes.setAttribute('id', 'myID') }}&gt;&lt;/div&gt;
+</code></pre>
+<p>将会输出：</p>
+<pre><code>&lt;div id=&quot;myID&quot;&gt;&lt;/div&gt;
+</code></pre>
+<p><strong>attributes.removeAttribute($attribute, $value)</strong></p>
+<pre><code>&lt;div{{ attributes.removeAttribute('id') }}&gt;&lt;/div&gt;
+</code></pre>
+<p><strong>attributes.hasClass($class)</strong></p>
+<pre><code>{% if attribute.hasClass(‘myClass') %}
+ {# do stuff #}
+{% endif %}
+</code></pre>
+<h4 id="_16">其它有用的代码片段</h4>
+<p><strong>链式</strong></p>
+<pre><code>{% set classes = ['red', 'green', 'blue'] %}
+{% set my_id = 'specific-id' %}
+{% set image_src = 'https://www.drupal.org/files/powered-blue-135x42.png' %}
+</code></pre>
+<pre><code>&lt;img{{ attributes.addClass(classes).removeClass('green').setAttribute('id', my_id).setAttribute('src', image_src) }}&gt;
+</code></pre>
+<p>将会输出：</p>
+<pre><code>&lt;img id=&quot;specific-id&quot; class=&quot;red blue&quot; src=&quot;https://www.drupal.org/files/powered-blue-135x42.png&quot;&gt;
+</code></pre>
+<p><strong>使用without filter</strong></p>
+<pre><code>&lt;div class=”myclass {{ attributes.class }}”{{attributes|without(‘class’) }}&gt;&lt;/div&gt;
+</code></pre>
+<h3 id="drupal6-7-8">Drupal6, 7, 8主题区别</h3>
+<p>这里列出的是比较重要的Drupal8中的主题变化</p>
+<ol>
+<li>Drupal8默认输出html5</li>
+<li>除了jQuery2.x之外，Drupal8还引入更多的前端框架，例如：<a href="http://modernizr.com/">Modernizr</a>，<a href="http://underscorejs.org/">Underscore.js</a>，以及<a href="http://backbonejs.org/">Backbone.js</a>。</li>
+<li>Drupal8引入了Twig，替换了原来的默认模板引擎PHPTemplate。</li>
+<li>Drupal8处于性能考虑，默认启用了类似css、js合并之类的默认特性。</li>
+<li>在drupal6和drupal7中，可以调用<code>drupal_add_css()</code>和<code>drupal_add_js()</code>函数添加css或者js，现在替换成了在渲染数组中追加<code>#attached</code>属性调用库的方法。</li>
+<li>Drupal8不再支持IE6、7、8，启用jQuery2.0，支持现代HTML5/CSS3浏览器。</li>
+<li>Drupal8不支持那些不支持SVG的浏览器(包括IE8和安卓浏览器2.3)。</li>
+<li>Drupal8的css中，减少了id的使用。</li>
+<li>Drupal8的css结构(文件结构)基于<a href="https://smacss.com/">SMACSS</a>和<a href="http://bem.info/">BEM</a></li>
+<li>Drupal8将预处理函数中的css类移到了Twig模版中。</li>
+</ol>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,783 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="law">
+      
+      
+        <link rel="canonical" href="https://www.verynil.com/_posts/%E4%BB%8E%E7%AE%80%E5%8D%95%E7%9A%84%E5%88%97%E8%A1%A8%E9%A1%B5%E6%B5%85%E8%B0%88Vue%E7%BB%84%E4%BB%B6/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.16">
+    
+    
+      
+        <title>"从简单的列表页浅谈Vue组件" - 记录技术，分享知识，传播乐趣</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1c3799f8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            记录技术，分享知识，传播乐趣
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              "从简单的列表页浅谈Vue组件"
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    记录技术，分享知识，传播乐趣
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about.md" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Documents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Documents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/usage.md" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/tutorial.md" class="md-nav__link">
+        Tutorial
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    组件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    例子
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    几个点：
+  </a>
+  
+    <nav class="md-nav" aria-label="几个点：">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prop" class="md-nav__link">
+    prop传递数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    自定义事件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slot" class="md-nav__link">
+    slot分发内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    作用域插槽
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    计算
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    分页的算法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    引申问题：
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/captainQW/captainQW.github.io/edit/master/docs/_posts/从简单的列表页浅谈Vue组件.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+  <h1>"从简单的列表页浅谈Vue组件"</h1>
+
+<hr />
+<h2 id="_1">组件</h2>
+<p>什么是组件？</p>
+<p>组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 js 特性扩展。</p>
+<h2 id="_2">例子</h2>
+<p><img alt="" src="screen.png" /></p>
+<p>举个小例子：豆瓣电影排行榜</p>
+<p>此例子包含文章列表，分页，这里把列表和分页分别当作单独的组件，加上父页面组件一共是3个</p>
+<p>父组件：<code>app.vue</code></p>
+<p>子组件：<code>list.vue</code> <code>pagination.vue</code></p>
+<p>接口用的是豆瓣的jsonp，<code>https://api.douban.com/v2/movie/top250</code></p>
+<p>首先在main.js引入父组件，引入less，引入VueResource，实例化vue</p>
+<pre><code class="language-js">//main.js
+
+import Vue from 'vue'
+import app from './example1/app.vue'
+import './example1/style.less'
+
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+
+new Vue({
+  render: h =&gt; h(app)
+}).$mount('#app')
+
+</code></pre>
+<p>从分页开始，在src/example1/components文件夹下建立一个pagination.vue文件</p>
+<pre><code class="language-html">&lt;!--pagination.vue--&gt;
+&lt;template&gt;
+  &lt;div class=&quot;text-center&quot;&gt;
+    &lt;ul class=&quot;pagination&quot;&gt;
+      &lt;li&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+
+&lt;/template&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+export default {
+  data () {
+    return {
+    }
+  },
+  props: {
+  },
+  methods: {
+  },
+  computed: {
+  },
+  components: {
+  },
+  mounted () {
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<p>通过props从父组件接收数据。组件可以为props指定验证要求。如果未指定验证要求，Vue会发出警告，如果不需要验证，可以用数组形式</p>
+<pre><code class="language-js">//pagination.vue
+
+props: {
+    //当前页码
+    now: {
+      type: Number,
+      default: 1
+    },
+    //总页数
+    all: {
+      type: Number,
+      default: 1,
+      required: 1
+    }
+  }
+</code></pre>
+<p>父组件app.vue引入组件，并且把数据传给子组件</p>
+<pre><code class="language-html">&lt;!--app.vue--&gt;
+
+&lt;!--代码片段--&gt;
+&lt;pagination :now=&quot;page.now&quot; :all=&quot;page.all&quot;&gt;&lt;/pagination&gt;
+&lt;!--代码片段--&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+
+import pagination from './components/pagination.vue'
+export default {
+  data () {
+    return {
+        page: {
+            now: 1,
+            all: 10
+        }
+
+    }
+  },
+  components: {
+    pagination
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<p>根据传入的数据计算分页数据</p>
+<pre><code class="language-js">//pagination.vue
+
+computed: {
+    pages () {
+      var pages = [];
+      if(this.now &gt; 1) pages.push({
+        text: '上一页',
+        num: this.now - 1
+      });
+      if(this.now - 1 &gt; 2) pages.push({
+        text: 1,
+        num: 1
+      });
+      if(this.now - 1 &gt; 3) pages.push({
+        text: '...',
+        num: 0
+      });
+      for (var i = 1; i &lt;= this.all; i++) {
+        if(this.now - i &lt; 3 &amp;&amp; this.now &gt;= i || i - this.now &lt; 3 &amp;&amp; this.now &lt;= i){
+          pages.push({
+            text: i,
+            num: i
+          });          
+        }        
+      }
+      if(this.all - this.now &gt; 3) pages.push({
+        text: '...',
+        num: 0
+      });
+      if(this.all - this.now &gt; 2) pages.push({
+        text: this.all,
+        num: this.all
+      });
+      if(this.now &lt; this.all) pages.push({
+        text: '下一页',
+        num: this.now + 1
+      });
+
+      return pages;
+    }
+
+  }
+</code></pre>
+<p>用v-for把分页渲染出来</p>
+<pre><code class="language-html">&lt;!--pagination.vue--&gt;
+
+&lt;template&gt;
+  &lt;ul class=&quot;pagination&quot;&gt;
+    &lt;li v-for=&quot;page in pages&quot; :class=&quot;{ 'active' : page.num == now }&quot;&gt;
+        &lt;a v-if=&quot;page.num&quot; @click=&quot;toPage(page.num)&quot;&gt;{{ page.text }}&lt;/a&gt;
+        &lt;span v-else&gt;{{ page.text }}&lt;/span&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/template&gt;
+</code></pre>
+<p>子组件通过自定义事件向父组件传事件和数据</p>
+<pre><code class="language-js">//pagination.vue
+
+methods: {
+    toPage (page) {
+      this.$emit('toPage', page);
+
+    }
+
+  }
+</code></pre>
+<p>父组件监听这个事件，然后调用方法changePage</p>
+<pre><code class="language-html">&lt;!--app.vue--&gt;
+
+&lt;pagination :now=&quot;page.now&quot; :all=&quot;page.all&quot; @toPage=&quot;changePage&quot;&gt;&lt;/pagination&gt;
+
+&lt;script&gt;
+//代码片段
+methods: {
+    changePage (page) {
+      this.page.now = page
+    } 
+
+}
+//代码片段
+&lt;/script&gt;
+</code></pre>
+<p>至此完成了父组件把数据丢给子组件处理，子组件把操作反馈给父组件这一过程</p>
+<p>列表组件list.vue</p>
+<pre><code class="language-html">&lt;!--list.vue--&gt;
+
+&lt;template&gt;
+  &lt;div&gt;
+    &lt;slot name=&quot;title&quot;&gt;&lt;/slot&gt;
+    &lt;div class=&quot;list clearfix row&quot;&gt;
+      &lt;div class=&quot;col-xs-6&quot; v-for=&quot;item in items&quot;&gt;
+        &lt;div class=&quot;item&quot;&gt;
+          &lt;div class=&quot;img&quot;&gt;
+            &lt;img :src=&quot;item.images.small&quot;&gt;&lt;/div&gt;
+          &lt;slot name=&quot;year&quot; :year=&quot;item.year&quot;&gt;
+            &lt;div class=&quot;year&quot;&gt;{{ item.year }}&lt;/div&gt;
+          &lt;/slot&gt;
+          &lt;div class=&quot;title&quot;&gt;{{ item.title }}&lt;/div&gt;
+          &lt;div class=&quot;dis&quot;&gt;{{ item.original_title }}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+export default {
+  data () {
+    return {
+
+    }
+  },
+  props: ['items']
+}
+&lt;/script&gt;
+</code></pre>
+<p>来点动态的数据</p>
+<pre><code class="language-html">&lt;!--app.vue--&gt;
+
+&lt;template&gt;
+  &lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;loading&quot; v-show=&quot;loading&quot;&gt;&lt;/div&gt;
+
+    &lt;list :items=&quot;items&quot;&gt;
+      &lt;h1 class=&quot;text-center&quot; slot=&quot;title&quot;&gt;豆瓣电影排行榜&lt;/h1&gt;
+      &lt;template slot=&quot;year&quot; scope=&quot;props&quot;&gt;
+        &lt;div class=&quot;year red&quot;&gt;{{ props.year }}&lt;/div&gt;
+      &lt;/template&gt;
+    &lt;/list&gt;
+    &lt;pagination :now=&quot;page.now&quot; :all=&quot;page.all&quot; @toPage=&quot;changePage&quot;&gt;&lt;/pagination&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+import list from './components/list.vue'
+import pagination from './components/pagination.vue'
+export default {
+  data () {
+    return {
+      loading: 0,
+      params: {
+        //每页显示条数
+        count: 10,
+        //从第几条开始显示，初始0
+        start: 0,
+        //总条数
+        total: 250
+      },      
+      items: []      
+    }
+  },
+  methods: {
+    getItems () {
+      this.loading = 1;
+      this.$http.jsonp('https://api.douban.com/v2/movie/top250', {
+        params: this.params
+      }).then(response =&gt; {
+        if(response.ok) {
+          this.items = response.data.subjects;
+          this.params = {
+            count: response.data.count,
+            start: response.data.start,
+            total: response.data.total
+          }
+        }
+
+      }, response =&gt; {
+        console.log(response);
+
+      }).finally(function(){
+        this.loading = 0;
+      })
+
+    },
+    changePage (page) {
+      this.params.start = (page - 1) * this.params.count;
+      this.getItems();
+    } 
+
+  },
+  components: {
+    list,
+    pagination
+  },
+  computed: {
+    page () {
+      return {
+        now: this.params.start / this.params.count + 1,
+        all: Math.ceil(this.params.total / this.params.count)
+      }      
+    }
+
+  },
+  mounted () {
+    this.getItems();
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="_3">几个点：</h2>
+<h3 id="prop">prop传递数据</h3>
+<blockquote>
+<p>组件实例的作用域是孤立的。这意味着不能并且不应该在子组件的模板内直接引用父组件的数据。可以使用 props 把数据传给子组件。</p>
+<p>类似于用 v-bind 绑定 HTML 特性到一个表达式，也可以用 v-bind 动态绑定 props 的值到父组件的数据中。每当父组件的数据变化时，该变化也会传导给子组件：</p>
+</blockquote>
+<h3 id="_4">自定义事件</h3>
+<blockquote>
+<p>父组件可以在使用子组件的地方直接用 v-on 来监听子组件触发的事件</p>
+</blockquote>
+<h3 id="slot">slot分发内容</h3>
+<blockquote>
+<p>组件不知道它的挂载点会有什么内容。挂载点的内容是~~由父组件决~~定的;组件很可能有它自己的模版</p>
+<p>为了让组件可以组合，我们需要一种方式来混合父组件的内容与子组件自己的模板。这个过程被称为 内容分发 (或 “transclusion” 如果你熟悉 Angular)。Vue.js 实现了一个内容分发 API ，参照了当前 Web 组件规范草案，使用特殊的 <code>&lt;slot&gt;</code> 元素作为原始内容的插槽。</p>
+</blockquote>
+<p><code>通过slot插槽将标题插入到子组件</code></p>
+<h3 id="_5">作用域插槽</h3>
+<blockquote>
+<p>父组件模板的内容在父组件作用域内编译；子组件模板的内容在子组件作用域内编译</p>
+<p>作用域插槽是一种特殊类型的插槽，用作使用一个（能够传递数据到）可重用模板替换已渲染元素。
+在子组件中，只需将数据传递到插槽，就像你将 prop 传递给组件一样</p>
+</blockquote>
+<p><code>通过作用域插槽将子组件数据传给父组件，再作为自定义模板重新插入到子组件</code></p>
+<h3 id="_6">计算</h3>
+<p><code>豆瓣接口接收参数和设计的不同，pages需要通过computed计算</code></p>
+<h3 id="_7">分页的算法</h3>
+<h2 id="_8">引申问题：</h2>
+<p>watch params变化</p>
+<p>loading广播</p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
+      
+    
+  </body>
+</html>

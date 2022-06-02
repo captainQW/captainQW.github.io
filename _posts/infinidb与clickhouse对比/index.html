@@ -1,0 +1,532 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="law">
+      
+      
+        <link rel="canonical" href="https://www.verynil.com/_posts/infinidb%E4%B8%8Eclickhouse%E5%AF%B9%E6%AF%94/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.16">
+    
+    
+      
+        <title>"infiniDB与clickhouse对比" - 记录技术，分享知识，传播乐趣</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1c3799f8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-header__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            记录技术，分享知识，传播乐趣
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              "infiniDB与clickhouse对比"
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="记录技术，分享知识，传播乐趣" class="md-nav__button md-logo" aria-label="记录技术，分享知识，传播乐趣" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    记录技术，分享知识，传播乐趣
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/captainQW/captainQW.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    verynil.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about.md" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Documents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Documents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/usage.md" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapters/tutorial.md" class="md-nav__link">
+        Tutorial
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/captainQW/captainQW.github.io/edit/master/docs/_posts/infinidb与clickhouse对比.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+  <h1>"infiniDB与clickhouse对比"</h1>
+
+<hr />
+<p>机器配置：</p>
+<p>测试机：    dell R510
+cpu：    xeon E5620<em>2
+RAID卡：  H700 
+系统  ：ubuntu 14.04
+内核： Linux ubuntu 4.2.0-27-generic
+raid级别： raid0
+文件系统：   ext4
+硬盘：  SSD 240G</em>2 
+IP： 192.168.112.73</p>
+<p>一、安装
+1、infiniDB的安装见 http://verynull.com/2015/06/24/infiniDB安装配置/</p>
+<p>2、clickhouse安装
+只支持ubutu14.04,16.04，12.04，但是我在16.04上没有安装起来。</p>
+<pre><code class="language-bash">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4# optional
+
+sudo mkdir -p /etc/apt/sources.list.d
+echo &quot;deb http://repo.yandex.ru/clickhouse/trusty stable main&quot; |
+sudo tee /etc/apt/sources.list.d/clickhouse.list
+sudo apt-get update
+
+sudo apt-get install clickhouse-server-common clickhouse-client
+
+sudo service clickhouse-server start
+clickhouse-client
+</code></pre>
+<p>3、就安装过程而言，clickhouse方便很多，infiniDB要编译老半天。</p>
+<p>二、性能测试</p>
+<p>1、创建表</p>
+<p>infiniDB:</p>
+<pre><code class="language-bash">CREATE TABLE `billing` (
+`did` int(11) NOT NULL DEFAULT '0' COMMENT '',
+`hit` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
+`reqs` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
+`rx` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
+`tx` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
+`logtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
+`tpr` bigint(20) NOT NULL DEFAULT '0' COMMENT ''
+) ENGINE=infiniDB DEFAULT CHARSET=latin1
+</code></pre>
+<p>clickhouse:</p>
+<pre><code class="language-bash"> CREATE TABLE billing (id Int32,did Int32,hit Int64,reqs Int64,rx Int64,tx Int64,logtime Int64,tpr Int64) ENGINE=Log;
+</code></pre>
+<p>2、导入csv数据</p>
+<p>csv格式如下：</p>
+<pre><code class="language-bash">106,9,10,123,11858014,1467133200,330,0
+122,0,2,506,621,1467133200,150,0
+124,112,249,1131297,1899996,1467133200,49,0
+127,3,12,64257,88503,1467133200,66,0
+</code></pre>
+<p>数据量9000万,大小4.5G。</p>
+<p>infiniDB:</p>
+<pre><code class="language-bash">sudo /data/mysql/bin/mysql --defaults-file=/data/mysql/my.cnf --local-infile -u root monitor -e &quot;load data local infile '/root/1.txt' into table billing FIELDS TERMINATED BY ',';&quot;
+</code></pre>
+<p>耗时：</p>
+<pre><code class="language-bash">0.60user 
+2.50system 
+4:14.61elapsed 1%CPU (0avgtext+0avgdata 3640maxresident)k
+0inputs+0outputs (0major+227minor)pagefaults 0swaps
+</code></pre>
+<p>clickhouse:</p>
+<pre><code class="language-bash">cat 1.txt | clickhouse-client --query=&quot;INSERT INTO monitor.monitor_data FORMAT CSV&quot;;
+</code></pre>
+<p>耗时：</p>
+<pre><code class="language-bash">real1m6.809s
+user1m26.720s
+sys 0m6.724s
+</code></pre>
+<p>clickhouse导入速度明显快很多。</p>
+<p>3、查询速度</p>
+<p>SQL:</p>
+<pre><code class="language-bash">SELECT logtime, SUM(hit) as hit, SUM(reqs) as reqs, SUM(rx) as rx,SUM(tx) as tx, round(avg(tpr)) as tpr FROM billingWHERE did &gt; 0AND logtime &gt;= 1467302400 AND logtime &lt;= 1469980799 GROUP BY logtime ORDER BY l
+ogtime;
+</code></pre>
+<p>infiniDB:</p>
+<pre><code class="language-bash">9663 rows in set (1.26 sec)
+</code></pre>
+<p>clickhouse:</p>
+<pre><code class="language-bash">8924 rows in set. Elapsed: 2.676 sec. Processed 91.80 million rows, 4.77 GB (34.30 million rows/s., 1.78 GB/s.) 
+</code></pre>
+<p>infiniDB速度较快。</p>
+<p>4、2亿数据对比</p>
+<p>SQL同上</p>
+<p>infiniDB:</p>
+<pre><code class="language-bash">9663 rows in set (2.24 sec)
+</code></pre>
+<p>clickhouse:</p>
+<pre><code class="language-bash">8924 rows in set. Elapsed: 4.215 sec. Processed 183.61 million rows, 9.55 GB (43.56 million rows/s., 2.26 GB/s.) 
+</code></pre>
+<p>infiniDB较快。</p>
+<p>5、10亿数据对比</p>
+<p>SQL同上</p>
+<p>infiniDB:</p>
+<pre><code class="language-bash">9663 rows in set (9.58 sec)
+</code></pre>
+<p>clickhouse:</p>
+<pre><code class="language-bash">8924 rows in set. Elapsed: 17.040 sec. Processed 1.01 billion rows, 52.51 GB (56.67 million rows/s., 2.95 GB/s.) 
+</code></pre>
+<p>infiniDB更快。</p>
+<p>6、count对比
+infiniDB:</p>
+<pre><code class="language-bash">+------------+
+| count(*) |
++------------+
+| 1009844583 |
++------------+
+1 row in set (6.14 sec)
+</code></pre>
+<p>clickhouse:</p>
+<pre><code class="language-bash">SELECT count(*)
+FROM billing 
+
+┌────count()─┐
+│ 1009844583 │
+└────────────┘
+
+1 rows in set. Elapsed: 1.120 sec. Processed 1.01 billion rows, 4.04 GB (901.82 million rows/s., 3.61 GB/s.) 
+</code></pre>
+<p>7、压缩比
+infiniDB:</p>
+<pre><code class="language-bash">22G billing
+</code></pre>
+<p>clickhouse:</p>
+<pre><code class="language-bash">24G billing
+</code></pre>
+<p>压缩比相差不多。</p>
+<p>结果：
+1、infiniDB会使用所有CPU，而clickhouse最多使用10个。
+2、clickhouse在大数据量的时候，处理速度还是比较令人满意的。
+3、clickhouse在导入数据的时候，查询会被卡住，而infiniDB不会。
+4、infiniDB性能更好。</p>
+<p>附对比图：
+这里clickhouse是Log引擎。
+<img alt="对比图" src="https://static.verycloud.cn/sites/default/files/pic/image/20160822/20160822222132_99553.png" /></p>
+<hr />
+<p>经一位俄罗斯网友提醒,MergeTree引擎比Log引擎更高效，因为Log引擎会全表扫描，而MergeTree的结构是这样的：</p>
+<pre><code class="language-bash">xxxx@ubuntu:/opt/clickhouse$ ls data/monitor/billing_mergetree
+20150829_20150831_10964_10994_2
+20160101_20160131_10_11360_30 
+20160401_20160430_12_9964_31
+20160609_20160613_11302_11350_4
+20160808_20160820_10972_11250_2
+20150325_20150331_4_9822_23 
+20150901_20150930_1030_11316_50
+20160201_20160229_244_10606_27
+20160401_20160430_9982_11362_10 
+20160701_20160731_308_8668_14 
+20160820_20160820_11260_11260_0
+20150401_20150430_16_9932_57
+20151001_20151031_8_11352_39 
+20160220_20160229_10618_10788_10
+20160501_20160531_530_11042_23
+20160701_20160731_8678_10786_12
+20160820_20160820_11266_11266_0
+20150501_20150531_102_10032_75
+20151009_20151011_11356_11356_0
+20160229_20160229_10804_10812_1 
+20160528_20160531_11056_11124_6 
+20160731_20160731_10798_10798_0
+detached
+</code></pre>
+<p>这种存储结构就是把每个月的数据单独放置在一个文件夹中，这样就避免了全表扫描。</p>
+<p>附对比图:
+<img alt="对比图" src="https://static.verycloud.cn/sites/default/files/pic/image/20160823/20160823113203_30109.png" /></p>
+<p>结论：
+clickhouse速度更快！</p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.expand"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.3a4b43e5.min.js"></script>
+      
+    
+  </body>
+</html>
