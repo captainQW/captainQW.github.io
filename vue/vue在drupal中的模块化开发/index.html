@@ -345,580 +345,580 @@
 <p>OK，初始化一个主题，<code>lancer</code></p>
 <p>本地先安装node</p>
 <p>然后在<code>lancer</code>目录下先放个<code>package.json</code>文件</p>
-<pre><code class="language-json">{
-  &quot;name&quot;: &quot;voss&quot;,
-  &quot;version&quot;: &quot;0.0.1&quot;,
-  &quot;description&quot;: &quot;webapp with Vue.js for voss.&quot;,
-  &quot;author&quot;: &quot;panjun.liu &lt;panjun.liu@verycloud.cn&gt;&quot;,
-  &quot;private&quot;: true,
-  &quot;scripts&quot;: {
-    &quot;dev&quot;: &quot;node build/dev-server.js&quot;,
-    &quot;build&quot;: &quot;node build/build.js&quot;,
-    &quot;unit&quot;: &quot;karma start test/unit/karma.conf.js --single-run&quot;,
-    &quot;test&quot;: &quot;npm run unit&quot;,
-    &quot;lint&quot;: &quot;eslint --ext .js,.vue src test/unit/specs test/e2e/specs&quot;
-  },
-  &quot;dependencies&quot;: {
-    &quot;vue&quot;: &quot;^2.0.3&quot;,
-    &quot;babel-runtime&quot;: &quot;^6.11.6&quot;
-  },
-  &quot;devDependencies&quot;: {
-    &quot;babel-core&quot;: &quot;^6.16.0&quot;,
-    &quot;babel-loader&quot;: &quot;^6.2.5&quot;,
-    &quot;babel-plugin-transform-runtime&quot;: &quot;^6.15.0&quot;,
-    &quot;babel-preset-es2015&quot;: &quot;^6.16.0&quot;,
-    &quot;babel-preset-stage-2&quot;: &quot;^6.16.0&quot;,
-    &quot;bulma&quot;: &quot;0.2.1&quot;,
-    &quot;chai&quot;: &quot;^3.5.0&quot;,
-    &quot;chart.js&quot;: &quot;^2.3.0&quot;,
-    &quot;connect-history-api-fallback&quot;: &quot;^1.3.0&quot;,
-    &quot;css-loader&quot;: &quot;^0.25.0&quot;,
-    &quot;element-ui&quot;: &quot;^1.0.2&quot;,
-    &quot;eslint&quot;: &quot;^3.7.0&quot;,
-    &quot;eslint-config-standard&quot;: &quot;^6.2.0&quot;,
-    &quot;eslint-friendly-formatter&quot;: &quot;^2.0.6&quot;,
-    &quot;eslint-loader&quot;: &quot;^1.5.0&quot;,
-    &quot;eslint-plugin-html&quot;: &quot;^1.5.3&quot;,
-    &quot;eslint-plugin-promise&quot;: &quot;^2.0.1&quot;,
-    &quot;eslint-plugin-standard&quot;: &quot;^2.0.1&quot;,
-    &quot;eventsource-polyfill&quot;: &quot;^0.9.6&quot;,
-    &quot;express&quot;: &quot;^4.14.0&quot;,
-    &quot;extract-text-webpack-plugin&quot;: &quot;^1.0.1&quot;,
-    &quot;fastclick&quot;: &quot;^1.0.6&quot;,
-    &quot;file-loader&quot;: &quot;^0.9.0&quot;,
-    &quot;function-bind&quot;: &quot;^1.1.0&quot;,
-    &quot;html-webpack-plugin&quot;: &quot;^2.22.0&quot;,
-    &quot;http-proxy-middleware&quot;: &quot;^0.17.2&quot;,
-    &quot;inject-loader&quot;: &quot;^2.0.1&quot;,
-    &quot;isparta-loader&quot;: &quot;^2.0.0&quot;,
-    &quot;json-loader&quot;: &quot;^0.5.4&quot;,
-    &quot;karma&quot;: &quot;^1.3.0&quot;,
-    &quot;karma-coverage&quot;: &quot;^1.1.1&quot;,
-    &quot;karma-mocha&quot;: &quot;^1.2.0&quot;,
-    &quot;karma-phantomjs-launcher&quot;: &quot;^1.0.2&quot;,
-    &quot;karma-sinon-chai&quot;: &quot;^1.2.3&quot;,
-    &quot;karma-sourcemap-loader&quot;: &quot;^0.3.7&quot;,
-    &quot;karma-spec-reporter&quot;: &quot;0.0.26&quot;,
-    &quot;karma-webpack&quot;: &quot;^1.8.0&quot;,
-    &quot;less&quot;: &quot;^2.7.1&quot;,
-    &quot;less-loader&quot;: &quot;^2.2.3&quot;,
-    &quot;lolex&quot;: &quot;^1.5.1&quot;,
-    &quot;mocha&quot;: &quot;^3.1.0&quot;,
-    &quot;moment&quot;: &quot;^2.14.1&quot;,
-    &quot;ora&quot;: &quot;^0.3.0&quot;,
-    &quot;phantomjs-prebuilt&quot;: &quot;^2.1.12&quot;,
-    &quot;shelljs&quot;: &quot;^0.7.4&quot;,
-    &quot;sinon&quot;: &quot;^1.17.6&quot;,
-    &quot;sinon-chai&quot;: &quot;^2.8.0&quot;,
-    &quot;swiper&quot;: &quot;^3.3.1&quot;,
-    &quot;url-loader&quot;: &quot;^0.5.7&quot;,
-    &quot;vue-hot-reload-api&quot;: &quot;^2.0.6&quot;,
-    &quot;vue-html-loader&quot;: &quot;^1.2.3&quot;,
-    &quot;vue-loader&quot;: &quot;^9.7.0&quot;,
-    &quot;vue-resource&quot;: &quot;^1.0.3&quot;,
-    &quot;vue-router&quot;: &quot;^2.0.1&quot;,
-    &quot;vue-style-loader&quot;: &quot;^1.0.0&quot;,
-    &quot;vuex&quot;: &quot;^2.0.0&quot;,
-    &quot;webpack&quot;: &quot;^1.13.2&quot;,
-    &quot;webpack-dev-middleware&quot;: &quot;^1.8.4&quot;,
-    &quot;webpack-hot-middleware&quot;: &quot;^2.13.0&quot;,
-    &quot;webpack-merge&quot;: &quot;^0.14.1&quot;
-  }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;voss&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;webapp with Vue.js for voss.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;panjun.liu &lt;panjun.liu@verycloud.cn&gt;&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;private&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;scripts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;dev&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;node build/dev-server.js&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;build&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;node build/build.js&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;karma start test/unit/karma.conf.js --single-run&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;test&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;npm run unit&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;lint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eslint --ext .js,.vue src test/unit/specs test/e2e/specs&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;dependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vue&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.0.3&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;babel-runtime&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^6.11.6&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;babel-core&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^6.16.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;babel-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^6.2.5&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;babel-plugin-transform-runtime&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^6.15.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;babel-preset-es2015&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^6.16.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;babel-preset-stage-2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^6.16.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;bulma&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.2.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;chai&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^3.5.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;chart.js&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.3.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;connect-history-api-fallback&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.3.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;css-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.25.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;element-ui&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.2&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;eslint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^3.7.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;eslint-config-standard&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^6.2.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;eslint-friendly-formatter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.0.6&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;eslint-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.5.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;eslint-plugin-html&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.5.3&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;eslint-plugin-promise&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.0.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;eslint-plugin-standard&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.0.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;eventsource-polyfill&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.9.6&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;express&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^4.14.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;extract-text-webpack-plugin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;fastclick&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.6&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;file-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.9.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;function-bind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.1.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;html-webpack-plugin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.22.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;http-proxy-middleware&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.17.2&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;inject-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.0.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;isparta-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.0.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;json-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.5.4&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;karma&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.3.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;karma-coverage&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.1.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;karma-mocha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.2.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;karma-phantomjs-launcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.2&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;karma-sinon-chai&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.2.3&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;karma-sourcemap-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.3.7&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;karma-spec-reporter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0.26&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;karma-webpack&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.8.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;less&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.7.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;less-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.2.3&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;lolex&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.5.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;mocha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^3.1.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;moment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.14.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;ora&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.3.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;phantomjs-prebuilt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.1.12&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;shelljs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.7.4&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;sinon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.17.6&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;sinon-chai&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.8.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;swiper&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^3.3.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;url-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.5.7&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vue-hot-reload-api&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.0.6&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vue-html-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.2.3&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vue-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^9.7.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vue-resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.3&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vue-router&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.0.1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vue-style-loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;vuex&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.0.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;webpack&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.13.2&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;webpack-dev-middleware&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.8.4&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;webpack-hot-middleware&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^2.13.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;webpack-merge&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^0.14.1&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <p>运行<code>npm install</code>开始初始化环境</p>
 <p>之后<code>npm install gulp gulp-util gulp-less gulp-concat gulp-open gulp-uglify gulp-cssmin gulp-md5-plus gulp-file-include gulp-clean gulp-css-spriter gulp-css-base64 webpack gulp-connect --save-dev</code>安装<code>gulp</code>环境</p>
 <p>初始化<code>gulpfile.js</code></p>
-<pre><code class="language-js">var gulp = require('gulp'),
-  os = require('os'),
-  gutil = require('gulp-util'),
-  less = require('gulp-less'),
-  concat = require('gulp-concat'),
-  gulpOpen = require('gulp-open'),
-  uglify = require('gulp-uglify'),
-  cssmin = require('gulp-cssmin'),
-  md5 = require('gulp-md5-plus'),
-  fileinclude = require('gulp-file-include'),
-  clean = require('gulp-clean'),
-  spriter = require('gulp-css-spriter'),
-  base64 = require('gulp-css-base64'),
-  webpack = require('webpack'),
-  webpackConfig = require('./build/webpack.prod.conf.js'),
-  connect = require('gulp-connect');
+<div class="highlight"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="nx">gulp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">os</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;os&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gutil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-util&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">less</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-less&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">concat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-concat&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulpOpen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-open&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">uglify</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-uglify&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">cssmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-cssmin&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">md5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-md5-plus&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">fileinclude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-file-include&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">clean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-clean&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">spriter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-css-spriter&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">base64</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-css-base64&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">webpack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpack&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">webpackConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./build/webpack.prod.conf.js&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="nx">connect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-connect&#39;</span><span class="p">);</span><span class="w"></span>
 
-var host = {
-  path: 'dist/',
-  port: 3000,
-  html: 'index.html'
-};
+<span class="kd">var</span><span class="w"> </span><span class="nx">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;dist/&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="mf">3000</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nx">html</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;index.html&#39;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
 
-//mac chrome: &quot;Google chrome&quot;, 
-var browser = os.platform() === 'linux' ? 'Google chrome' : (
-  os.platform() === 'darwin' ? 'Google chrome' : (
-    os.platform() === 'win32' ? 'chrome' : 'firefox'));
-var pkg = require('./package.json');
+<span class="c1">//mac chrome: &quot;Google chrome&quot;, </span><span class="w"></span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">browser</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">platform</span><span class="p">()</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;linux&#39;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;Google chrome&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="nx">os</span><span class="p">.</span><span class="nx">platform</span><span class="p">()</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;darwin&#39;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;Google chrome&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="nx">os</span><span class="p">.</span><span class="nx">platform</span><span class="p">()</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;win32&#39;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;chrome&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;firefox&#39;</span><span class="p">));</span><span class="w"></span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">pkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./package.json&#39;</span><span class="p">);</span><span class="w"></span>
 
-//将图片拷贝到目标目录
-gulp.task('copy:images', function (done) {
-  gulp.src(['src/images/**/*']).pipe(gulp.dest('dist/images')).on('end', done);
-});
+<span class="c1">//将图片拷贝到目标目录</span><span class="w"></span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;copy:images&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;src/images/**/*&#39;</span><span class="p">]).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;dist/images&#39;</span><span class="p">)).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-//压缩合并css, css中既有自己写的.less, 也有引入第三方库的.css
-gulp.task('lessmin', function (done) {
-  gulp.src(['src/css/main.less', 'src/css/*.css'])
-    .pipe(less())
-    //这里可以加css sprite 让每一个css合并为一个雪碧图
-    //.pipe(spriter({}))
-    .pipe(concat('style.min.css'))
-    .pipe(gulp.dest('dist/css/'))
-    .on('end', done);
-});
+<span class="c1">//压缩合并css, css中既有自己写的.less, 也有引入第三方库的.css</span><span class="w"></span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;lessmin&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;src/css/main.less&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;src/css/*.css&#39;</span><span class="p">])</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">less</span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//这里可以加css sprite 让每一个css合并为一个雪碧图</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//.pipe(spriter({}))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">concat</span><span class="p">(</span><span class="s1">&#39;style.min.css&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;dist/css/&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-//将js加上10位md5,并修改html中的引用路径，该动作依赖build-js
-gulp.task('md5:js', ['build-js'], function (done) {
-  gulp.src('dist/js/*.js')
-    .pipe(md5(10, 'dist/app/*.html'))
-    .pipe(gulp.dest('dist/js'))
-    .on('end', done);
-});
+<span class="c1">//将js加上10位md5,并修改html中的引用路径，该动作依赖build-js</span><span class="w"></span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;md5:js&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;build-js&#39;</span><span class="p">],</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;dist/js/*.js&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">md5</span><span class="p">(</span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;dist/app/*.html&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;dist/js&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-//将css加上10位md5，并修改html中的引用路径，该动作依赖sprite
-gulp.task('md5:css', ['sprite'], function (done) {
-  gulp.src('dist/css/*.css')
-    .pipe(md5(10, 'dist/app/*.html'))
-    .pipe(gulp.dest('dist/css'))
-    .on('end', done);
-});
+<span class="c1">//将css加上10位md5，并修改html中的引用路径，该动作依赖sprite</span><span class="w"></span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;md5:css&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;sprite&#39;</span><span class="p">],</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;dist/css/*.css&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">md5</span><span class="p">(</span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;dist/app/*.html&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;dist/css&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-//用于在html文件中直接include文件
-gulp.task('fileinclude', function (done) {
-  gulp.src(['src/app/*.html'])
-    .pipe(fileinclude({
-      prefix: '@@',
-      basepath: '@file'
-    }))
-    .pipe(gulp.dest('dist/app'))
-    .on('end', done);
-  // .pipe(connect.reload())
-});
+<span class="c1">//用于在html文件中直接include文件</span><span class="w"></span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;fileinclude&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;src/app/*.html&#39;</span><span class="p">])</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">fileinclude</span><span class="p">({</span><span class="w"></span>
+<span class="w">      </span><span class="nx">prefix</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;@@&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">basepath</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;@file&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;dist/app&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// .pipe(connect.reload())</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-//雪碧图操作，应该先拷贝图片并压缩合并css
-gulp.task('sprite', ['copy:images', 'lessmin'], function (done) {
-  var timestamp = +new Date();
-  gulp.src('dist/css/style.min.css')
-    .pipe(spriter({
-      spriteSheet: 'dist/images/spritesheet' + timestamp + '.png',
-      pathToSpriteSheetFromCSS: '../images/spritesheet' + timestamp + '.png',
-      spritesmithOptions: {
-        padding: 10
-      }
-    }))
-    .pipe(base64())
-    .pipe(cssmin())
-    .pipe(gulp.dest('dist/css'))
-    .on('end', done);
-});
+<span class="c1">//雪碧图操作，应该先拷贝图片并压缩合并css</span><span class="w"></span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;sprite&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;copy:images&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;lessmin&#39;</span><span class="p">],</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">+</span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;dist/css/style.min.css&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">spriter</span><span class="p">({</span><span class="w"></span>
+<span class="w">      </span><span class="nx">spriteSheet</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;dist/images/spritesheet&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">timestamp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;.png&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">pathToSpriteSheetFromCSS</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;../images/spritesheet&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">timestamp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;.png&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">spritesmithOptions</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">base64</span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">cssmin</span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;dist/css&#39;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-gulp.task('clean', function (done) {
-  gulp.src(['dist'])
-    .pipe(clean())
-    .on('end', done);
-});
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;clean&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;dist&#39;</span><span class="p">])</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">clean</span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-gulp.task('watch', function (done) {
-  gulp.watch(['/var/www/html/voss/**/*.vue', '/var/www/html/voss/**/*.js', '/var/www/html/voss/**/*.less'], ['lessmin', 'build-js', 'fileinclude'])
-    .on('end', done);
-});
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;watch&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">([</span><span class="s1">&#39;/var/www/html/voss/**/*.vue&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;/var/www/html/voss/**/*.js&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;/var/www/html/voss/**/*.less&#39;</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;lessmin&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;build-js&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;fileinclude&#39;</span><span class="p">])</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-gulp.task('connect', function () {
-  console.log('connect------------');
-  connect.server({
-    root: host.path,
-    port: host.port,
-    livereload: true
-  });
-});
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;connect------------&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nx">connect</span><span class="p">.</span><span class="nx">server</span><span class="p">({</span><span class="w"></span>
+<span class="w">    </span><span class="nx">root</span><span class="o">:</span><span class="w"> </span><span class="nx">host</span><span class="p">.</span><span class="nx">path</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">port</span><span class="o">:</span><span class="w"> </span><span class="nx">host</span><span class="p">.</span><span class="nx">port</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">livereload</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="w">  </span><span class="p">});</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-gulp.task('open', function (done) {
-  gulp.src('')
-    .pipe(gulpOpen({
-      app: browser,
-      uri: 'http://localhost:3000/app'
-    }))
-    .on('end', done);
-});
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;open&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">done</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulpOpen</span><span class="p">({</span><span class="w"></span>
+<span class="w">      </span><span class="nx">app</span><span class="o">:</span><span class="w"> </span><span class="nx">browser</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">uri</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;http://localhost:3000/app&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}))</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">done</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-var myDevConfig = Object.create(webpackConfig);
+<span class="kd">var</span><span class="w"> </span><span class="nx">myDevConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">webpackConfig</span><span class="p">);</span><span class="w"></span>
 
-var devCompiler = webpack(myDevConfig);
+<span class="kd">var</span><span class="w"> </span><span class="nx">devCompiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">webpack</span><span class="p">(</span><span class="nx">myDevConfig</span><span class="p">);</span><span class="w"></span>
 
-//引用webpack对js进行操作
-gulp.task(&quot;build-js&quot;, ['fileinclude'], function(callback) {
-  devCompiler.run(function(err, stats) {
-    if(err) throw new gutil.PluginError(&quot;webpack:build-js&quot;, err);
-    gutil.log(&quot;[webpack:build-js]&quot;, stats.toString({
-      colors: true
-    }));
-    callback();
-  });
-});
+<span class="c1">//引用webpack对js进行操作</span><span class="w"></span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s2">&quot;build-js&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;fileinclude&#39;</span><span class="p">],</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">devCompiler</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">stats</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">gutil</span><span class="p">.</span><span class="nx">PluginError</span><span class="p">(</span><span class="s2">&quot;webpack:build-js&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">gutil</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;[webpack:build-js]&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">stats</span><span class="p">.</span><span class="nx">toString</span><span class="p">({</span><span class="w"></span>
+<span class="w">      </span><span class="nx">colors</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="w">    </span><span class="p">}));</span><span class="w"></span>
+<span class="w">    </span><span class="nx">callback</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="p">});</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 
-//发布
-gulp.task('default', ['connect', 'fileinclude', 'md5:css', 'md5:js', 'open']);
+<span class="c1">//发布</span><span class="w"></span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;fileinclude&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;md5:css&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;md5:js&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;open&#39;</span><span class="p">]);</span><span class="w"></span>
 
-//开发
-gulp.task('dev', ['connect', 'copy:images', 'fileinclude', 'lessmin', 'build-js', 'watch', 'open']);
-</code></pre>
+<span class="c1">//开发</span><span class="w"></span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;copy:images&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;fileinclude&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;lessmin&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;build-js&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;watch&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;open&#39;</span><span class="p">]);</span><span class="w"></span>
+</code></pre></div>
 <p>命令行下<code>gulp</code>回车，启动监控任务</p>
 <p>OK，现在可以开始<code>vue</code>的开发了</p>
 <p>主题下新建个目录<code>src</code>用于存放<code>vue</code>的组件，以及启动<code>js</code>文件<code>main.js</code></p>
-<pre><code class="language-js">import Vue from 'vue'
-import Router from 'vue-router'
-import Resource from 'vue-resource'
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nx">Vue</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Router</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue-router&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Resource</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;vue-resource&#39;</span><span class="w"></span>
 
-// Contrib.
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+<span class="c1">// Contrib.</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">ElementUI</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;element-ui&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="s1">&#39;element-ui/lib/theme-default/index.css&#39;</span><span class="w"></span>
 
-// Voss.
-import App from './App'
-import Notfound from './pages/base/404'
-import Organization from './pages/base/Organization'
-import Region from './pages/base/Region'
-import Position from './pages/base/Position'
-import Education from './pages/base/Education'
-import CompanyAuthority from './pages/base/CompanyAuthority'
-import CompanyAuthorityConfig from './pages/base/CompanyAuthorityConfig'
-import Memory from './pages/base/Memory'
-import Variables from './pages/base/Variables'
+<span class="c1">// Voss.</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">App</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./App&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Notfound</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./pages/base/404&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Organization</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./pages/base/Organization&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Region</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./pages/base/Region&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Position</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./pages/base/Position&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Education</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./pages/base/Education&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">CompanyAuthority</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./pages/base/CompanyAuthority&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">CompanyAuthorityConfig</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./pages/base/CompanyAuthorityConfig&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Memory</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./pages/base/Memory&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Variables</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./pages/base/Variables&#39;</span><span class="w"></span>
 
-// vuex store
-import store from './store'
+<span class="c1">// vuex store</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">store</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./store&#39;</span><span class="w"></span>
 
-Vue.use(Router)
-Vue.use(Resource)
-Vue.use(ElementUI)
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">Router</span><span class="p">)</span><span class="w"></span>
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">Resource</span><span class="p">)</span><span class="w"></span>
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">ElementUI</span><span class="p">)</span><span class="w"></span>
 
-// 全局闭包，公用函数库，也可以放置到vuex2.0中
-global.$fn = {
-  // 获取url中的参数，允许默认值的设定
-  getparam (name, defaultValue) {
-    let reg = new RegExp('(^|&amp;)' + name + '=([^&amp;]*)(&amp;|$)')
-    let r = window.location.search.substr(1).match(reg)
-    return (!r) ? ((!defaultValue) ? '' : defaultValue) : unescape(r[2])
-  },
-  init () {
-    // 登录或注销后需要清空cache
-    // store.commit('isAuth', false)
-    // this.csrf.requestToken()
-  },
-  // 随机字符串
-  getCode (n) {
-    let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    let res = ''
-    for (let i = 0; i &lt; n; i++) {
-      res += chars[Math.floor(Math.random() * chars.length)]
-    }
-    return res
-  },
-  // cache 机制
-  cache: [],
-  // 默认300秒数据缓存时间
-  exp: 300,
-  getCache (url) {
-    let json = this.cache[url]
-    return (json &amp;&amp; (json.exp &gt;= this.timestamp())) ? json.data : null
-  },
-  setCache (url, data, exp) {
-    // 默认300秒,{data,exp}
-    this.cache[url] = {data: data, exp: this.timestamp() + ((!exp) ? this.exp : exp)}
-    // console.log(this.cache)
-  },
-  httprl (method, url, sendData) {
-    var options = {
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      }
-    }
-    // handel get method.
-    if (method === 'GET' || method === 'get') {
-      options.params = sendData
-      let promise = new Promise(function (resolve, reject) {
-        Vue.http.get(url, options).then((result) =&gt; {
-          var data = result.data
-          resolve(data)
-        }, (error) =&gt; {
-          reject(error)
-        })
-      })
-      return promise
-    } else {
-      // handle post put delete method.
-      if (this.csrf.isExpired()) {
-        let promise = new Promise(function (resolve, reject) {
-          global.$fn.csrf.requestToken().then(function (token) {
-            options.headers['X-CSRF-Token'] = token
-            switch (method) {
-              case 'post':
-              case 'POST':
-                Vue.http.post(url, sendData, options).then((result) =&gt; {
-                  resolve(result.data)
-                }, (error) =&gt; {
-                  reject(error)
-                })
-                break
-              case 'put':
-              case 'PUT':
-                Vue.http.put(url, sendData, options).then((result) =&gt; {
-                  resolve(result.data)
-                }, (error) =&gt; {
-                  reject(error)
-                })
-                break
-              case 'del':
-              case 'DEL':
-                Vue.http.delete(url, sendData, options).then((result) =&gt; {
-                  resolve(result.data)
-                }, (error) =&gt; {
-                  reject(error)
-                })
-                break
-            }
-          })
-        })
-        return promise
-      } else {
-        options.headers['X-CSRF-Token'] = this.csrf.getToken()
-        let promise = new Promise(function (resolve, reject) {
-          switch (method) {
-            case 'post':
-            case 'POST':
-              Vue.http.post(url, sendData, options).then((result) =&gt; {
-                resolve(result.data)
-              }, (error) =&gt; {
-                reject(error)
-              })
-              break
-            case 'put':
-            case 'PUT':
-              Vue.http.put(url, sendData, options).then((result) =&gt; {
-                resolve(result.data)
-              }, (error) =&gt; {
-                reject(error)
-              })
-              break
-            case 'del':
-            case 'DEL':
-              Vue.http.delete(url, sendData, options).then((result) =&gt; {
-                resolve(result.data)
-              }, (error) =&gt; {
-                reject(error)
-              })
-              break
-          }
-        })
-        return promise
-      }
-    }
-  },
-  csrf: {
-    getToken: function () {
-      return store.state.csrf.token
-    },
-    getExpire: function () {
-      return store.state.csrf.expire
-    },
-    nowTime: function () {
-      let date = new Date()
-      return date.getTime()
-    },
-    isExpired: function () {
-      let csrfToken = global.$fn.csrf.getToken()
-      let tokenExpire = global.$fn.csrf.getExpire()
-      let nowTime = global.$fn.csrf.nowTime()
-      return (csrfToken === undefined || !csrfToken.length || (nowTime &gt;= tokenExpire))
-    },
-    requestToken: function () {
-      let promise = new Promise(function (resolve, reject) {
-        Vue.http.get('rest/session/token').then(function (result) {
-          store.state.csrf.token = result.data
-          store.state.csrf.expire = global.$fn.csrf.nowTime() + store.state.csrf_token_expire * 1000
-          resolve(result.data)
-        }, function (error) {
-          console.error('Error! Fail to get csrf token!')
-          console.error(error)
-          reject(error)
-        })
-      })
-      return promise
-    }
-  },
-  toast (mode, title) {
-    store.commit('toast', {
-      id: new Date().getTime(),
-      title: (title &amp;&amp; title.length) &gt; 0 ? title : '操作完成',
-      mode: mode
-    })
-  },
-  // 时间戳
-  timestamp () {
-    return Math.floor(new Date().getTime() / 1000)
-  }
-}
+<span class="c1">// 全局闭包，公用函数库，也可以放置到vuex2.0中</span><span class="w"></span>
+<span class="nb">global</span><span class="p">.</span><span class="nx">$fn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// 获取url中的参数，允许默认值的设定</span><span class="w"></span>
+<span class="w">  </span><span class="nx">getparam</span><span class="w"> </span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">defaultValue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;(^|&amp;)&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;=([^&amp;]*)(&amp;|$)&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">search</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mf">1</span><span class="p">).</span><span class="nx">match</span><span class="p">(</span><span class="nx">reg</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">r</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">((</span><span class="o">!</span><span class="nx">defaultValue</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">defaultValue</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">unescape</span><span class="p">(</span><span class="nx">r</span><span class="p">[</span><span class="mf">2</span><span class="p">])</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">init</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 登录或注销后需要清空cache</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// store.commit(&#39;isAuth&#39;, false)</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// this.csrf.requestToken()</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// 随机字符串</span><span class="w"></span>
+<span class="w">  </span><span class="nx">getCode</span><span class="w"> </span><span class="p">(</span><span class="nx">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">chars</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nx">n</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">res</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">chars</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">chars</span><span class="p">.</span><span class="nx">length</span><span class="p">)]</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// cache 机制</span><span class="w"></span>
+<span class="w">  </span><span class="nx">cache</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// 默认300秒数据缓存时间</span><span class="w"></span>
+<span class="w">  </span><span class="nx">exp</span><span class="o">:</span><span class="w"> </span><span class="mf">300</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nx">getCache</span><span class="w"> </span><span class="p">(</span><span class="nx">url</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">json</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">url</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="nx">json</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="nx">json</span><span class="p">.</span><span class="nx">exp</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">timestamp</span><span class="p">()))</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">data</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">setCache</span><span class="w"> </span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">exp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 默认300秒,{data,exp}</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">cache</span><span class="p">[</span><span class="nx">url</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">exp</span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">timestamp</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">((</span><span class="o">!</span><span class="nx">exp</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">exp</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">exp</span><span class="p">)}</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// console.log(this.cache)</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">httprl</span><span class="w"> </span><span class="p">(</span><span class="nx">method</span><span class="p">,</span><span class="w"> </span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">sendData</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json;charset=utf-8&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// handel get method.</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">method</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">method</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;get&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">options</span><span class="p">.</span><span class="nx">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sendData</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">promise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="kd">var</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="w"></span>
+<span class="w">          </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">})</span><span class="w"></span>
+<span class="w">      </span><span class="p">})</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">promise</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// handle post put delete method.</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">isExpired</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">promise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nb">global</span><span class="p">.</span><span class="nx">$fn</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">requestToken</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">token</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nx">options</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;X-CSRF-Token&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">token</span><span class="w"></span>
+<span class="w">            </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="nx">method</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;post&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">              </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">                </span><span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">sendData</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="p">})</span><span class="w"></span>
+<span class="w">                </span><span class="k">break</span><span class="w"></span>
+<span class="w">              </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;put&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">              </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;PUT&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">                </span><span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">sendData</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="p">})</span><span class="w"></span>
+<span class="w">                </span><span class="k">break</span><span class="w"></span>
+<span class="w">              </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;del&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">              </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;DEL&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">                </span><span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">sendData</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                  </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="p">})</span><span class="w"></span>
+<span class="w">                </span><span class="k">break</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">          </span><span class="p">})</span><span class="w"></span>
+<span class="w">        </span><span class="p">})</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">promise</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">options</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;X-CSRF-Token&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">getToken</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nx">promise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="nx">method</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;post&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">              </span><span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">sendData</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"></span>
+<span class="w">              </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">              </span><span class="p">})</span><span class="w"></span>
+<span class="w">              </span><span class="k">break</span><span class="w"></span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;put&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;PUT&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">              </span><span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">sendData</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"></span>
+<span class="w">              </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">              </span><span class="p">})</span><span class="w"></span>
+<span class="w">              </span><span class="k">break</span><span class="w"></span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;del&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="s1">&#39;DEL&#39;</span><span class="o">:</span><span class="w"></span>
+<span class="w">              </span><span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="w"> </span><span class="nx">sendData</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"></span>
+<span class="w">              </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">              </span><span class="p">})</span><span class="w"></span>
+<span class="w">              </span><span class="k">break</span><span class="w"></span>
+<span class="w">          </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">})</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">promise</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">csrf</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">getToken</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">store</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">token</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nx">getExpire</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">store</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">expire</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nx">nowTime</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">date</span><span class="p">.</span><span class="nx">getTime</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nx">isExpired</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">csrfToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">global</span><span class="p">.</span><span class="nx">$fn</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">getToken</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">tokenExpire</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">global</span><span class="p">.</span><span class="nx">$fn</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">getExpire</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">nowTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">global</span><span class="p">.</span><span class="nx">$fn</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">nowTime</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="nx">csrfToken</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="kc">undefined</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="nx">csrfToken</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="nx">nowTime</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">tokenExpire</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nx">requestToken</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="kd">let</span><span class="w"> </span><span class="nx">promise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">reject</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">Vue</span><span class="p">.</span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;rest/session/token&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nx">store</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="w"></span>
+<span class="w">          </span><span class="nx">store</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">expire</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">global</span><span class="p">.</span><span class="nx">$fn</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">nowTime</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">store</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">csrf_token_expire</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000</span><span class="w"></span>
+<span class="w">          </span><span class="nx">resolve</span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Error! Fail to get csrf token!&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">          </span><span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">})</span><span class="w"></span>
+<span class="w">      </span><span class="p">})</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="nx">promise</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">toast</span><span class="w"> </span><span class="p">(</span><span class="nx">mode</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">store</span><span class="p">.</span><span class="nx">commit</span><span class="p">(</span><span class="s1">&#39;toast&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">(),</span><span class="w"></span>
+<span class="w">      </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">title</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">title</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">title</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;操作完成&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="nx">mode</span><span class="w"></span>
+<span class="w">    </span><span class="p">})</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// 时间戳</span><span class="w"></span>
+<span class="w">  </span><span class="nx">timestamp</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-/*
-global.$fn.httprl('POST', 'api/login', {
-  username: 'agent', password: '123.com'
-}).then(
-  (result) =&gt; {
-    console.log(result)
-  })
-*/
-const routes = [
-  {
-    path: '/base/organization',
-    component: Organization,
-    meta: {
-      title: '组织架构'
-    }
-  },
-  {
-    path: '/base/organization/department',
-    component: Organization,
-    meta: {
-      title: '部门'
-    }
-  },
-  {
-    path: '/404',
-    component: Notfound
-  },
-  {
-    path: '*',
-    redirect: '/404'
-  }
-]
+<span class="cm">/*</span>
+<span class="cm">global.$fn.httprl(&#39;POST&#39;, &#39;api/login&#39;, {</span>
+<span class="cm">  username: &#39;agent&#39;, password: &#39;123.com&#39;</span>
+<span class="cm">}).then(</span>
+<span class="cm">  (result) =&gt; {</span>
+<span class="cm">    console.log(result)</span>
+<span class="cm">  })</span>
+<span class="cm">*/</span><span class="w"></span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">routes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/base/organization&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">component</span><span class="o">:</span><span class="w"> </span><span class="nx">Organization</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">meta</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;组织架构&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/base/organization/department&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">component</span><span class="o">:</span><span class="w"> </span><span class="nx">Organization</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">meta</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;部门&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/404&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">component</span><span class="o">:</span><span class="w"> </span><span class="nx">Notfound</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;*&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">redirect</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/404&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
 
-const router = new Router({
-  base: '/profile/',
-  mode: 'history',
-  linkActiveClass: 'is-active', // router-link active样式
-  /*
-  由于本项目采用内滚动布局，此处代码无效，需要自行hack vue-router获得此能力
-  saveScrollPosition: true,
-  scrollBehavior (to, from, savedPosition) {
-  },
-  */
-  routes // short for routes: routes
-})
+<span class="kd">const</span><span class="w"> </span><span class="nx">router</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Router</span><span class="p">({</span><span class="w"></span>
+<span class="w">  </span><span class="nx">base</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/profile/&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;history&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nx">linkActiveClass</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;is-active&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// router-link active样式</span><span class="w"></span>
+<span class="w">  </span><span class="cm">/*</span>
+<span class="cm">  由于本项目采用内滚动布局，此处代码无效，需要自行hack vue-router获得此能力</span>
+<span class="cm">  saveScrollPosition: true,</span>
+<span class="cm">  scrollBehavior (to, from, savedPosition) {</span>
+<span class="cm">  },</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="w">  </span><span class="nx">routes</span><span class="w"> </span><span class="c1">// short for routes: routes</span><span class="w"></span>
+<span class="p">})</span><span class="w"></span>
 
-router.beforeEach((to, from, next) =&gt; {
-  // if (store.getters.getIsAuth || !to.meta.auth) {
-  //  next()
-  // } else {
-  // 判断是否登录，（可以通过接口，Vuex状态 token）
-  // 没有登录走下面逻辑
-  document.title = to.meta.title + ' ' + '| 后台管理'
-  if (global.$fn.csrf.isExpired()) {
-    global.$fn.csrf.requestToken()
-  }
-  next()
-  // }
-})
+<span class="nx">router</span><span class="p">.</span><span class="nx">beforeEach</span><span class="p">((</span><span class="nx">to</span><span class="p">,</span><span class="w"> </span><span class="kr">from</span><span class="p">,</span><span class="w"> </span><span class="nx">next</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// if (store.getters.getIsAuth || !to.meta.auth) {</span><span class="w"></span>
+<span class="w">  </span><span class="c1">//  next()</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// } else {</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// 判断是否登录，（可以通过接口，Vuex状态 token）</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// 没有登录走下面逻辑</span><span class="w"></span>
+<span class="w">  </span><span class="nb">document</span><span class="p">.</span><span class="nx">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">to</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">title</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;| 后台管理&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">global</span><span class="p">.</span><span class="nx">$fn</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">isExpired</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nb">global</span><span class="p">.</span><span class="nx">$fn</span><span class="p">.</span><span class="nx">csrf</span><span class="p">.</span><span class="nx">requestToken</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="nx">next</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// }</span><span class="w"></span>
+<span class="p">})</span><span class="w"></span>
 
-new Vue({
-  router,
-  render: h =&gt; h(App)
-}).$mount('#app')
-</code></pre>
+<span class="ow">new</span><span class="w"> </span><span class="nx">Vue</span><span class="p">({</span><span class="w"></span>
+<span class="w">  </span><span class="nx">router</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nx">render</span><span class="o">:</span><span class="w"> </span><span class="nx">h</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">h</span><span class="p">(</span><span class="nx">App</span><span class="p">)</span><span class="w"></span>
+<span class="p">}).</span><span class="nx">$mount</span><span class="p">(</span><span class="s1">&#39;#app&#39;</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
 <p><code>src</code>目录下新建个文件<code>App.vue</code>，作为应用的主文件</p>
-<pre><code class="language-html">&lt;template&gt;
-  &lt;section id=&quot;app-container&quot;&gt;
-    &lt;xheader&gt;&lt;/xheader&gt;
-    &lt;sidebar&gt;&lt;/sidebar&gt;
-    &lt;div id=&quot;main-content&quot;&gt;
-      &lt;router-view keep-alive&gt;&lt;/router-view&gt;
-    &lt;/div&gt;
-    &lt;transition name=&quot;fade&quot;&gt;
-    &lt;modal v-show=&quot;isModal&quot; @closemodal=&quot;closeModal()&quot; :mode=&quot;modalinfo.mode&quot; :title=&quot;modalinfo.title&quot;&quot; :content=&quot;modalinfo.content&quot; :width=&quot;modalinfo.width&quot; :ok=&quot;modalinfo.ok&quot;&quot; :cancel=&quot;modalinfo.cancel&quot;&gt;&lt;/modal&gt;
-    &lt;/transition&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-&lt;script&gt;
-// vuex全局数据
-import store from './store'
-import Xheader from './components/header'
-import Sidebar from './components/sidebar'
-import { Modal } from './components/modal'
-export default {
-  store: store,
-  components: {
-    Modal,
-    Xheader,
-    Sidebar
-  },
-  data () {
-    return {
-      modalinfo: {
-        mode: 'alert',
-        title: '',
-        content: '',
-        callback: null
-      }
-      // data
-    }
-  },
-  computed: {
-    isModal () {
-      return this.$store.getters.getModal
-    }
-    /*
-    isAuth () {
-      return this.$store.getters.getIsAuth
-    },
-    toastArray () {
-      return this.$store.getters.getToast
-    },
-    preloaderShow () {
-      return this.$store.getters.getPreloader
-    }
-    */
-  },
-  methods: {
-    showModal (mode, title, content, width, ok, cancel) {
-      this.$set(this.modalinfo, 'mode', mode)
-      this.$set(this.modalinfo, 'title', title)
-      this.$set(this.modalinfo, 'content', content)
-      this.$set(this.modalinfo, 'width', width)
-      this.$set(this.modalinfo, 'ok', ok)
-      this.$set(this.modalinfo, 'cancel', cancel)
-      store.commit('modal', true)
-    },
-    closeModal () {
-      store.commit('modal', false)
-    }
-  },
-  mounted () {
-    // let ico = require('./assets/images/vueico.png')
-    // let icon = require('./assets/images/vuelogo.png')
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;app-container&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">xheader</span><span class="p">&gt;&lt;/</span><span class="nt">xheader</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">sidebar</span><span class="p">&gt;&lt;/</span><span class="nt">sidebar</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;main-content&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">router-view</span> <span class="na">keep-alive</span><span class="p">&gt;&lt;/</span><span class="nt">router-view</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">transition</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;fade&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">modal</span> <span class="na">v-show</span><span class="o">=</span><span class="s">&quot;isModal&quot;</span> <span class="err">@</span><span class="na">closemodal</span><span class="o">=</span><span class="s">&quot;closeModal()&quot;</span> <span class="na">:mode</span><span class="o">=</span><span class="s">&quot;modalinfo.mode&quot;</span> <span class="na">:title</span><span class="o">=</span><span class="s">&quot;modalinfo.title&quot;</span><span class="err">&quot;</span> <span class="na">:content</span><span class="o">=</span><span class="s">&quot;modalinfo.content&quot;</span> <span class="na">:width</span><span class="o">=</span><span class="s">&quot;modalinfo.width&quot;</span> <span class="na">:ok</span><span class="o">=</span><span class="s">&quot;modalinfo.ok&quot;</span><span class="err">&quot;</span> <span class="na">:cancel</span><span class="o">=</span><span class="s">&quot;modalinfo.cancel&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">modal</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">transition</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="w"></span>
+<span class="c1">// vuex全局数据</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">store</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./store&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Xheader</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./components/header&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Sidebar</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./components/sidebar&#39;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Modal</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./components/modal&#39;</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nx">store</span><span class="o">:</span><span class="w"> </span><span class="nx">store</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nx">components</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">Modal</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">Xheader</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">Sidebar</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">data</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">modalinfo</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;alert&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">content</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">callback</span><span class="o">:</span><span class="w"> </span><span class="kc">null</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="c1">// data</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">computed</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">isModal</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">$store</span><span class="p">.</span><span class="nx">getters</span><span class="p">.</span><span class="nx">getModal</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/*</span>
+<span class="cm">    isAuth () {</span>
+<span class="cm">      return this.$store.getters.getIsAuth</span>
+<span class="cm">    },</span>
+<span class="cm">    toastArray () {</span>
+<span class="cm">      return this.$store.getters.getToast</span>
+<span class="cm">    },</span>
+<span class="cm">    preloaderShow () {</span>
+<span class="cm">      return this.$store.getters.getPreloader</span>
+<span class="cm">    }</span>
+<span class="cm">    */</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">methods</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">showModal</span><span class="w"> </span><span class="p">(</span><span class="nx">mode</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="p">,</span><span class="w"> </span><span class="nx">content</span><span class="p">,</span><span class="w"> </span><span class="nx">width</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="p">,</span><span class="w"> </span><span class="nx">cancel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">modalinfo</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;mode&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">mode</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">modalinfo</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;title&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">modalinfo</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;content&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">content</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">modalinfo</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;width&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">width</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">modalinfo</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;ok&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">modalinfo</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;cancel&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">cancel</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="nx">store</span><span class="p">.</span><span class="nx">commit</span><span class="p">(</span><span class="s1">&#39;modal&#39;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nx">closeModal</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nx">store</span><span class="p">.</span><span class="nx">commit</span><span class="p">(</span><span class="s1">&#39;modal&#39;</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nx">mounted</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// let ico = require(&#39;./assets/images/vueico.png&#39;)</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// let icon = require(&#39;./assets/images/vuelogo.png&#39;)</span><span class="w"></span>
 
-    // document.getElementById('linkIcon').href = ico
-    // document.getElementById('linkAppIcon').href = icon
+<span class="w">    </span><span class="c1">// document.getElementById(&#39;linkIcon&#39;).href = ico</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// document.getElementById(&#39;linkAppIcon&#39;).href = icon</span><span class="w"></span>
 
-    window.applicationCache.addEventListener('updateready', (e) =&gt; {
-      if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
-        console.log('system update')
-        window.location.reload()
-      }
-    }, false)
-  }
-}
-&lt;/script&gt;
-&lt;style lang=&quot;less&quot;&gt;
-  @import './lancer.less';
-&lt;/style&gt;
-</code></pre>
+<span class="w">    </span><span class="nb">window</span><span class="p">.</span><span class="nx">applicationCache</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;updateready&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">applicationCache</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">applicationCache</span><span class="p">.</span><span class="nx">UPDATEREADY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;system update&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">reload</span><span class="p">()</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">style</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;less&quot;</span><span class="p">&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="p">@</span><span class="k">import</span><span class="w"> </span><span class="s1">&#39;./lancer.less&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</code></pre></div>
 <p>哦，对了，还有对应的<code>css</code>文件，当然这里可以直接用<code>less</code>文件，gulp监控任务会自动编译成css文件</p>
 <p>这里我们直接<code>import</code>引入<code>less</code>文件，基于相对路径</p>
 

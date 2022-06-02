@@ -340,31 +340,30 @@
 
   <h1>安装php7</h1>
 
-<hr />
 <p>推荐用阿里云主机，访问国外飞速。</p>
-<pre><code class="language-bash">git clone https://git.php.net/repository/php-src.git
-</code></pre>
-<pre><code class="language-bash">yum install -y gcc gcc-c++  make zlib zlib-devel pcre pcre-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers curl-devel libXpm-devel libc-client-devel re2c bison bison-devel libmcrypt libmcrypt-devel libcurl libcurl-devel 
-</code></pre>
-<pre><code class="language-bash">./buildconf
-</code></pre>
-<pre><code class="language-bash">./configure --prefix=/usr/local/php7 --with-config-file-path=/usr/local/php7/etc --with-mcrypt=/usr/include --with-mysql-sock=/var/lib/mysql/mysql.sock --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-gd --with-iconv --with-zlib --enable-xml --enable-mysqlnd --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --enable-mbregex --enable-fpm --enable-mbstring --enable-ftp --enable-gd-native-ttf --with-openssl --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --without-pear --with-gettext --enable-session --with-curl --with-jpeg-dir --with-freetype-dir --enable-opcache --enable-debug
-</code></pre>
-<pre><code class="language-bash">make &amp;&amp; make install
-</code></pre>
+<div class="highlight"><pre><span></span><code>git clone https://git.php.net/repository/php-src.git
+</code></pre></div>
+<p><div class="highlight"><pre><span></span><code>yum install -y gcc gcc-c++  make zlib zlib-devel pcre pcre-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers curl-devel libXpm-devel libc-client-devel re2c bison bison-devel libmcrypt libmcrypt-devel libcurl libcurl-devel 
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>./buildconf
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>./configure --prefix<span class="o">=</span>/usr/local/php7 --with-config-file-path<span class="o">=</span>/usr/local/php7/etc --with-mcrypt<span class="o">=</span>/usr/include --with-mysql-sock<span class="o">=</span>/var/lib/mysql/mysql.sock --with-mysqli<span class="o">=</span>mysqlnd --with-pdo-mysql<span class="o">=</span>mysqlnd --with-gd --with-iconv --with-zlib --enable-xml --enable-mysqlnd --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --enable-mbregex --enable-fpm --enable-mbstring --enable-ftp --enable-gd-native-ttf --with-openssl --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --without-pear --with-gettext --enable-session --with-curl --with-jpeg-dir --with-freetype-dir --enable-opcache --enable-debug
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>make <span class="o">&amp;&amp;</span> make install
+</code></pre></div>
 <blockquote>
 <p>软连接 ln -s /usr/local/php7/bin/php /usr/bin/php</p>
 <p>在安装目录下有两个php的配置项，php.ini-development和php.ini-production,一个是开发环境用的，一个线上环境用的，改名php.ini并移到/usr/local/php/etc目录。</p>
 <p>php -v</p>
 </blockquote>
-<pre><code>```php
+<div class="codehilite"><pre><span></span><code>```php
 
 PHP 7.0.0-dev (cli) (built: Mar 20 2015 20:04:04) 
 Copyright (c) 1997-2015 The PHP Group
 Zend Engine v3.0.0-dev, Copyright (c) 1998-2015 Zend Technologies
 
 ```
-</code></pre>
+</code></pre></div>
 
               
             </article>

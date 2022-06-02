@@ -340,31 +340,30 @@
 
   <h1>Drupal apc缓存配置策略</h1>
 
-<hr />
 <p>今天发现在如果开起来 apc缓存。并开启缓存页面（不从数据库拿）,匿名用户会返回500。。。。
 配置代码如下：</p>
-<pre><code class="language-php">$conf['page_cache_without_database'] = TRUE;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$conf[&#39;page_cache_without_database&#39;] = TRUE;</span>
+</code></pre></div>
 <p>通过追踪代码，发现drupal针对匿名用户并没有设置缓存。那用apc缓存了当然会有问题，修改代码如下：</p>
-<pre><code class="language-php">if (1) {
-  $conf['cache_backends'] = array('sites/all/modules/apc/drupal_apc_cache.inc');
-  if (1) {
-    // Use APC by default (cache everything.)
-    $conf['cache_default_class'] = 'DrupalAPCCache';
-    if (1) {
-      // Page cache without database and module hooks (approx twice as fast.)
-      $conf['page_cache_invoke_hooks'] = FALSE;
-      $conf['page_cache_without_database'] = TRUE;
-    }
-  }
-  else {
-    // Use APC for &quot;cache&quot; and &quot;bootstrap&quot; only.
-    $conf['cache_class_cache'] = 'DrupalAPCCache';
-    $conf['cache_class_cache_bootstrap'] = 'DrupalAPCCache';
-  }
-} 
-</code></pre>
-<p>问题解决. </p>
+<p><div class="highlight"><pre><span></span><code><span class="x">if (1) {</span>
+<span class="x">  $conf[&#39;cache_backends&#39;] = array(&#39;sites/all/modules/apc/drupal_apc_cache.inc&#39;);</span>
+<span class="x">  if (1) {</span>
+<span class="x">    // Use APC by default (cache everything.)</span>
+<span class="x">    $conf[&#39;cache_default_class&#39;] = &#39;DrupalAPCCache&#39;;</span>
+<span class="x">    if (1) {</span>
+<span class="x">      // Page cache without database and module hooks (approx twice as fast.)</span>
+<span class="x">      $conf[&#39;page_cache_invoke_hooks&#39;] = FALSE;</span>
+<span class="x">      $conf[&#39;page_cache_without_database&#39;] = TRUE;</span>
+<span class="x">    }</span>
+<span class="x">  }</span>
+<span class="x">  else {</span>
+<span class="x">    // Use APC for &quot;cache&quot; and &quot;bootstrap&quot; only.</span>
+<span class="x">    $conf[&#39;cache_class_cache&#39;] = &#39;DrupalAPCCache&#39;;</span>
+<span class="x">    $conf[&#39;cache_class_cache_bootstrap&#39;] = &#39;DrupalAPCCache&#39;;</span>
+<span class="x">  }</span>
+<span class="x">} </span>
+</code></pre></div>
+问题解决. </p>
 
               
             </article>

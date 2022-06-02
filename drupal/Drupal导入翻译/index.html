@@ -340,27 +340,26 @@
 
   <h1>Drupal导入翻译</h1>
 
-<hr />
-<p>有的时候po文件太大，导入的时候会出现503错误。这是因为php请求超时了。还好，有drush,用drush 导入文件非常简单。</p>
-<pre><code class="language-php">drush dl drush_language
-</code></pre>
+<p>有的时候po文件太大，导入的时候会出现503错误。这是因为php请求超时了。还好，有drush,用drush 导入文件非常简单。
+<div class="highlight"><pre><span></span><code><span class="x">drush dl drush_language</span>
+</code></pre></div></p>
 <p>Usage</p>
-<pre><code class="language-php">drush language-add &lt;langcode&gt;
-&gt; Add and import a new language definition.
-drush language-enable &lt;langcode&gt;
-&gt; Enable an existing language.
-drush language-disable &lt;langcode&gt;
-&gt; Disable an enabled language.
-drush language-default &lt;langcode&gt;
-&gt; Assign an enabled language as default.
-drush language-import &lt;langcode&gt; &lt;file.po&gt; [--replace] [--group=&lt;text-group&gt;]
-&gt; Import a .po file to a language.
-drush language-export &lt;langcode&gt; &lt;file.po&gt; [--group=&lt;text-group&gt;]
-&gt; Export a language to a .po file.
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">drush language-add &lt;langcode&gt;</span>
+<span class="x">&gt; Add and import a new language definition.</span>
+<span class="x">drush language-enable &lt;langcode&gt;</span>
+<span class="x">&gt; Enable an existing language.</span>
+<span class="x">drush language-disable &lt;langcode&gt;</span>
+<span class="x">&gt; Disable an enabled language.</span>
+<span class="x">drush language-default &lt;langcode&gt;</span>
+<span class="x">&gt; Assign an enabled language as default.</span>
+<span class="x">drush language-import &lt;langcode&gt; &lt;file.po&gt; [--replace] [--group=&lt;text-group&gt;]</span>
+<span class="x">&gt; Import a .po file to a language.</span>
+<span class="x">drush language-export &lt;langcode&gt; &lt;file.po&gt; [--group=&lt;text-group&gt;]</span>
+<span class="x">&gt; Export a language to a .po file.</span>
+</code></pre></div>
 <p>比如导入一个翻译文件，命令如下：</p>
-<pre><code class="language-php">drush language-import zh-hans xxxx/drupal-7.22.zh-hans.po 
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">drush language-import zh-hans xxxx/drupal-7.22.zh-hans.po </span>
+</code></pre></div>
 
               
             </article>

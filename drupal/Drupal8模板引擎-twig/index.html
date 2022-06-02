@@ -895,8 +895,7 @@
 
   <h1>"Drupal8模板引擎-twig"</h1>
 
-<hr />
-<h2 id="_1">一、简介</h2>
+<h2 id="_1">一、简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>Twig是一个高效、安全并可扩展的PHP模板引擎。</p>
 <p>如果你具有Smarty, Django或者Jinja这养的基于文本的模板语言的经验，那么你对Twig会感觉一见如故。在遵循PHP理念的基础之上，提供了具备强大功能的模板环境，不论是对开发者还是设计者来说，这一引擎都具有良好的可用性。</p>
 <p>关键特性：</p>
@@ -905,80 +904,80 @@
 <li>安全：Twig会使用一个沙箱模式来运行不信任的模板代码。这使得Twig可以在用户可以修改模板设计的应用中工作良好。</li>
 <li>弹性：Twig试用了弹性的词法和语法分析器。开发者可以定义自己的标记和过滤，并创建自己的DSL。</li>
 </ul>
-<h3 id="_2">需求</h3>
+<h3 id="_2">需求<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>Twig需要的最小运行环境为PHP <strong>5.2.4</strong></p>
-<h3 id="_3">安装</h3>
+<h3 id="_3">安装<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>推荐使用Composer安装Twig：</p>
-<pre><code class="language-bash">composer require &quot;twig/twig:~1.0&quot;
-</code></pre>
-<h3 id="api">基础API用法</h3>
+<div class="highlight"><pre><span></span><code>composer require <span class="s2">&quot;twig/twig:~1.0&quot;</span>
+</code></pre></div>
+<h3 id="api">基础API用法<a class="headerlink" href="#api" title="Permanent link">&para;</a></h3>
 <p>本节对Twig PHP API做一个简单介绍。</p>
-<pre><code class="language-php">require_once '/path/to/vendor/autoload.php';
+<div class="highlight"><pre><span></span><code><span class="x">require_once &#39;/path/to/vendor/autoload.php&#39;;</span>
 
-$loader = new Twig_Loader_Array(
-    'index' =&gt; 'Hello {{ name }}!',
-);
-$twig = new Twig_Environment($loader);
+<span class="x">$loader = new Twig_Loader_Array(</span>
+<span class="x">    &#39;index&#39; =&gt; &#39;Hello {{ name }}!&#39;,</span>
+<span class="x">);</span>
+<span class="x">$twig = new Twig_Environment($loader);</span>
 
-echo $twig-&gt;render('index', array('name' =&gt; 'Fabien'));
-</code></pre>
+<span class="x">echo $twig-&gt;render(&#39;index&#39;, array(&#39;name&#39; =&gt; &#39;Fabien&#39;));</span>
+</code></pre></div>
 <p>Twig使用一个加载器(Twig_Loader_Array)来定位模板文件，使用一个环境(Twig_Environment)来存储配置，render()方法的第一个参数指定了模板，后面的参数则为渲染提供了变量。 模板一般是保存在文件系统中，所以Twig提供了一个文件系统加载器：</p>
-<pre><code class="language-php">$loader = new Twig_Loader_Filesystem('/path/to/templates');
-$twig = new Twig_Environment($loader, array(
-    'cache' =&gt; '/path/to/compilation_cache',
-));
-echo $twig-&gt;render('index.html', array('name' =&gt; 'Fabien'));
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$loader = new Twig_Loader_Filesystem(&#39;/path/to/templates&#39;);</span>
+<span class="x">$twig = new Twig_Environment($loader, array(</span>
+<span class="x">    &#39;cache&#39; =&gt; &#39;/path/to/compilation_cache&#39;,</span>
+<span class="x">));</span>
+<span class="x">echo $twig-&gt;render(&#39;index.html&#39;, array(&#39;name&#39; =&gt; &#39;Fabien&#39;));</span>
+</code></pre></div>
 <p>如果没有使用 Composer，可以使用 Twig 的内置加载器：</p>
-<pre><code class="language-php">require_once '/path/to/lib/Twig/Autoloader.php';
-Twig_Autoloader::register();
-</code></pre>
-<h2 id="twig">二、模板设计者的Twig</h2>
+<div class="highlight"><pre><span></span><code><span class="x">require_once &#39;/path/to/lib/Twig/Autoloader.php&#39;;</span>
+<span class="x">Twig_Autoloader::register();</span>
+</code></pre></div>
+<h2 id="twig">二、模板设计者的Twig<a class="headerlink" href="#twig" title="Permanent link">&para;</a></h2>
 <p>本文描述了模板引擎中涉及到的语法和语义，对Twig模板的设计会很有帮助。</p>
-<h3 id="_4">概要</h3>
+<h3 id="_4">概要<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>模板是一个简单的文本文件。它能够生成任何文本格式（HTML, XML, CSV, LaTeX等）。他没有固定的扩展名，html、xml都没关系。</p>
 <p>模板中包含变量和表达式在模板被处理时会被替换为真实的值，tags则对模板的逻辑进行控制。</p>
 <p>下面用一个小例子展示一些基础内容，当然，后面会做进一步的深入。</p>
-<pre><code class="language-php">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-      &lt;title&gt;My Webpage&lt;/title&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;ul id=&quot;navigation&quot;&gt;
-    {% raw %}
-    {% for item in navigation %}
-        &lt;li&gt;&lt;a href=&quot;{{ item.href }}&quot;&gt;{{ item.caption }}&lt;/a&gt;&lt;/li&gt;
-    {% endfor %}
-    &lt;/ul&gt;
-    {% endraw %}
-    &lt;h1&gt;My Webpage&lt;/h1&gt;
-    {% raw %}
-    {{ a_variable }}
-    {% endraw %}
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">&lt;!DOCTYPE html&gt;</span>
+<span class="x">&lt;html&gt;</span>
+<span class="x">  &lt;head&gt;</span>
+<span class="x">      &lt;title&gt;My Webpage&lt;/title&gt;</span>
+<span class="x">  &lt;/head&gt;</span>
+<span class="x">  &lt;body&gt;</span>
+<span class="x">    &lt;ul id=&quot;navigation&quot;&gt;</span>
+<span class="x">    {% raw %}</span>
+<span class="x">    {% for item in navigation %}</span>
+<span class="x">        &lt;li&gt;&lt;a href=&quot;{{ item.href }}&quot;&gt;{{ item.caption }}&lt;/a&gt;&lt;/li&gt;</span>
+<span class="x">    {% endfor %}</span>
+<span class="x">    &lt;/ul&gt;</span>
+<span class="x">    {% endraw %}</span>
+<span class="x">    &lt;h1&gt;My Webpage&lt;/h1&gt;</span>
+<span class="x">    {% raw %}</span>
+<span class="x">    {{ a_variable }}</span>
+<span class="x">    {% endraw %}</span>
+<span class="x">  &lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+</code></pre></div>
 <p>{% raw %}
 上面代码中有两种分隔符：{% ... %}和{{ ... }}。第一种用于执行for循环之类的语句，第二种用于输出表达式结果。
 {% endraw %}</p>
-<h3 id="_5">变量</h3>
+<h3 id="_5">变量<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>应用会把变量传递给模板进行处理。变量自身也可以拥有属性或元素供外部访问。变量的具体形态取决于提供变量的应用。</p>
 <p>可以利用句点（.）来访问变量的属性（相当于PHP对象的属性或方法，或者PHP数组的成员），或者也可以使用下标语法（[]）：</p>
-<pre><code class="language-php">{% raw %}
-{{ foo.bar }}
-{{ foo['bar'] }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ foo.bar }}</span>
+<span class="x">{{ foo[&#39;bar&#39;] }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>当属性名字中包含了特别字符（例如“-”会被当做减号处理）的时候，可以使用attribute函数来访问变量的属性：</p>
-<pre><code class="language-php">{# 等价于不能工作的：foo.data-foo #}
-{% raw %}
-{{ attribute(foo, 'data-foo') }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{# 等价于不能工作的：foo.data-foo #}</span>
+<span class="x">{% raw %}</span>
+<span class="x">{{ attribute(foo, &#39;data-foo&#39;) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p><em>大括号是打印指令，而不是变量的组成部分。当在tag中访问变量的时候，不要在Tag中访问变量的时候使用这种语法。</em></p>
 <p>在strict_variables选项为false的时候，如果变量或属性不存在，会返回null；而如果该选项设置为true，这种情况就会抛出错误</p>
-<h3 id="_6">实现</h3>
+<h3 id="_6">实现<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>foo.bar在PHP这一层次做了如下事情：</p>
 <ul>
 <li>检查foo是不是数组，bar是不是其中的一个有效元素；</li>
@@ -990,231 +989,231 @@ Twig_Autoloader::register();
 </ul>
 <p>另一方面，foo['bar']只对PHP数组工作 - 检查foo是不是一个数组，bar是不是一个有效元素； - 如果不是，返回null。</p>
 <p><strong>如果要访问变量的动态属性，应该使用attribute()函数。</strong></p>
-<h3 id="_7">全局变量</h3>
+<h3 id="_7">全局变量<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p>模板中随时可以使用如下的变量：</p>
 <ul>
 <li>_self：当前的模板；</li>
 <li>_context：当前上下文</li>
 <li>_charset：当前编码</li>
 </ul>
-<h3 id="_8">设置变量</h3>
+<h3 id="_8">设置变量<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>可以在代码中为变量赋值。赋值过程使用settag完成：</p>
-<pre><code class="language-php">{% raw %}
-{% set foo = 'foo' %}
-{% set foo = [1, 2] %}
-{% set foo = {'foo': 'bar'} %}
-{% endraw %}
-</code></pre>
-<h3 id="filters">Filters</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% set foo = &#39;foo&#39; %}</span>
+<span class="x">{% set foo = [1, 2] %}</span>
+<span class="x">{% set foo = {&#39;foo&#39;: &#39;bar&#39;} %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h3 id="filters">Filters<a class="headerlink" href="#filters" title="Permanent link">&para;</a></h3>
 <p>变量可以用filters进行修改。Filters和变量之间用管道符（|）进行分隔，可以用括号来包含参数。多个Filter可能进行链式调用——前一个Filter的输出可作为下一个Filter的输入。</p>
 <p>下面的例子清理所有的HTML标记，并做标题大写处理：</p>
-<pre><code class="language-php">{% raw %}
-{{ name|striptags|title }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ name|striptags|title }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>Filter可以用括号的形式接收参数。这个例子用逗号连接一个列表：</p>
-<pre><code class="language-php">{% raw %}
-{{ list|join(', ') }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ list|join(&#39;, &#39;) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>要对一段代码使用Filter，可以用filter tag操作：</p>
-<pre><code class="language-php">{% raw %}
-{% filter upper %}
-  This text becomes uppercase
-{% endfilter %}
-{% endraw %}
-</code></pre>
-<h3 id="_9">函数</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% filter upper %}</span>
+<span class="x">  This text becomes uppercase</span>
+<span class="x">{% endfilter %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h3 id="_9">函数<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p>调用函数可以生成内容。调用函数的方式是：函数名称加括号，括号中可能包含参数。</p>
 <p>例如range函数返回一个递增的整数列表：</p>
-<pre><code class="language-php">{% raw %}
-{% for i in range(0, 3) %}
-  {{ i }},
-{% endfor %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% for i in range(0, 3) %}</span>
+<span class="x">  {{ i }},</span>
+<span class="x">{% endfor %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>前往<a href="http://twig.sensiolabs.org/doc/functions/index.html">functions</a>一节可以学习更多内置函数的内容。</p>
-<h3 id="_10">具名参数</h3>
+<h3 id="_10">具名参数<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <p>1.12版中新增</p>
-<pre><code class="language-php">{% raw %}
-{% for i in range(low=1, high=10, step=2) %}
-  {{ i }},
-{% endfor %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% for i in range(low=1, high=10, step=2) %}</span>
+<span class="x">  {{ i }},</span>
+<span class="x">{% endfor %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>有了具名参数，传递给模板的参数可以更加明确，让模板更加易用。</p>
-<pre><code class="language-php">{% raw %}
-{{ data|convert_encoding('UTF-8', 'iso-2022-jp') }}
-{# 相比： #}
-{{ data|convert_encoding(from='iso-2022-jp', to='UTF-8') }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ data|convert_encoding(&#39;UTF-8&#39;, &#39;iso-2022-jp&#39;) }}</span>
+<span class="x">{# 相比： #}</span>
+<span class="x">{{ data|convert_encoding(from=&#39;iso-2022-jp&#39;, to=&#39;UTF-8&#39;) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>具名参数还能在不传递某些参数时候直接跳过：</p>
-<pre><code class="language-php">{% raw %}
-{# the first argument is the date format, which defaults to the global date format if null is passed #}
-{{ &quot;now&quot;|date(null, &quot;Europe/Paris&quot;) }}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{# the first argument is the date format, which defaults to the global date format if null is passed #}</span>
+<span class="x">{{ &quot;now&quot;|date(null, &quot;Europe/Paris&quot;) }}</span>
 
-{# or skip the format value by using a named argument for the time zone #}
-{{ &quot;now&quot;|date(timezone=&quot;Europe/Paris&quot;) }}
-{% endraw %}
-</code></pre>
+<span class="x">{# or skip the format value by using a named argument for the time zone #}</span>
+<span class="x">{{ &quot;now&quot;|date(timezone=&quot;Europe/Paris&quot;) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>还可以用顺序参数和具名参数夹杂的方式进行调用，这里要保证顺序参数必须比具名参数先出现：</p>
-<pre><code class="language-php">{% raw %}
-{{ &quot;now&quot;|date('d/m/Y H:i', timezone=&quot;Europe/Paris&quot;) }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ &quot;now&quot;|date(&#39;d/m/Y H:i&#39;, timezone=&quot;Europe/Paris&quot;) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p><em>每个函数和Filter的文档中，如果该函数或者Filter支持具名参数，都会有一节列出所有的参数名称。</em></p>
-<h3 id="_11">控制结构</h3>
+<h3 id="_11">控制结构<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <p>{% raw %}
 控制结构指的是所有能够控制程序流程的元素——条件判断（也就是if/elseif/else）、for循环，以及语句块等。控制结构用{% ... %}包裹
 {% endraw %}</p>
 <p>例如，要显示一个users变量中所有的列表成员，使用for：</p>
-<pre><code class="language-php">&lt;h1&gt;Members&lt;/h1&gt;
-&lt;ul&gt;
-  {% raw %}
-  {% for user in users %}
-      &lt;li&gt;{{ user.username|e }}&lt;/li&gt;
-  {% endfor %}
-  {% endraw %}
-&lt;/ul&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">&lt;h1&gt;Members&lt;/h1&gt;</span>
+<span class="x">&lt;ul&gt;</span>
+<span class="x">  {% raw %}</span>
+<span class="x">  {% for user in users %}</span>
+<span class="x">      &lt;li&gt;{{ user.username|e }}&lt;/li&gt;</span>
+<span class="x">  {% endfor %}</span>
+<span class="x">  {% endraw %}</span>
+<span class="x">&lt;/ul&gt;</span>
+</code></pre></div>
 <p>可以用if进行条件判断：</p>
-<pre><code class="language-php">{% if users|length &gt; 0 %}
-  &lt;ul&gt;
-    {% raw %}
-    {% for user in users %}
-      &lt;li&gt;{{ user.username|e }}&lt;/li&gt;
-    {% endfor %}
-    {% endraw %}
-  &lt;/ul&gt;
-{% endif %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% if users|length &gt; 0 %}</span>
+<span class="x">  &lt;ul&gt;</span>
+<span class="x">    {% raw %}</span>
+<span class="x">    {% for user in users %}</span>
+<span class="x">      &lt;li&gt;{{ user.username|e }}&lt;/li&gt;</span>
+<span class="x">    {% endfor %}</span>
+<span class="x">    {% endraw %}</span>
+<span class="x">  &lt;/ul&gt;</span>
+<span class="x">{% endif %}</span>
+</code></pre></div>
 <p><a href="http://twig.sensiolabs.org/doc/tags/index.html">Tags</a>页中描述了各种内置Tag。</p>
-<h3 id="_12">注释</h3>
+<h3 id="_12">注释<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
 <p>在模板中进行注释，使用注释语法`{# ... #}：</p>
-<pre><code class="language-php">{% raw %}
-{# 注：禁用这一块东西，不再需要了
-{% for user in users %}
-  ...
-{% endfor %}
-{% endraw %}
-#}
-</code></pre>
-<h3 id="_13">包含其他模板</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{# 注：禁用这一块东西，不再需要了</span>
+<span class="x">{% for user in users %}</span>
+<span class="x">  ...</span>
+<span class="x">{% endfor %}</span>
+<span class="x">{% endraw %}</span>
+<span class="x">#}</span>
+</code></pre></div>
+<h3 id="_13">包含其他模板<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <p>include标签用于包含其它模版，并把该模版的渲染结果返回到当前页面：</p>
-<pre><code class="language-php">{% raw %}
-{% include 'sidebar.html' %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% include &#39;sidebar.html&#39; %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>缺省状况下，当前的上下文会被传递给被包含的模板。</p>
 <p>传递给被包含模板中的上下文包含当前模板中定义的变量：</p>
-<pre><code class="language-php">{% raw %}
-{% for box in boxes %}
-  {% include &quot;render_box.html&quot; %}
-{% endfor %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% for box in boxes %}</span>
+<span class="x">  {% include &quot;render_box.html&quot; %}</span>
+<span class="x">{% endfor %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>这个例子中，render_box.html可以访问box变量。</p>
 <p>模板文件名的选取，取决于模板加载器。比如Twig_Loader_Filesystem允许通过文件名访问其他的模板。可以使用子目录来访问其他模板：</p>
-<pre><code class="language-php">{% raw %}
-{% include &quot;sections/articles/sidebar.html&quot; %}
-{% endraw %}
-</code></pre>
-<h3 id="_14">模版继承</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% include &quot;sections/articles/sidebar.html&quot; %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h3 id="_14">模版继承<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
 <p>Twig最强大的能力就是继承。这一个能力可以让你建立一个包含所有基础元素的基础模板，并定义可以被子模板覆盖的block。</p>
 <p>这部分内容并不像听起来那么复杂。下面的例子能让你更好的理解这个概念。</p>
 <p>我们创建一个名为base.html的基本模板，在其中定义了一个简单的HTML结构，后面可以用在一个简单的两列布局的页面上：</p>
-<pre><code class="language-php">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    {% raw %}
-    {% block head %}
-      &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot; /&gt;
-      &lt;title&gt;{% block title %}{% endblock %} - My Webpage&lt;/title&gt;
-    {% endblock %}
-    {% endraw %}
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;div id=&quot;content&quot;&gt;
-      {% raw %}
-      {% block content %}
-      {% endblock %}
-      {% endraw %}
-    &lt;/div&gt;
-    &lt;div id=&quot;footer&quot;&gt;
-      {% raw %}
-      {% block footer %}
-          &amp;copy; Copyright 2011 by &lt;a href=&quot;http://domain.invalid/&quot;&gt;you&lt;/a&gt;.
-      {% endblock %}
-      {% endraw %}
-    &lt;/div&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">&lt;!DOCTYPE html&gt;</span>
+<span class="x">&lt;html&gt;</span>
+<span class="x">  &lt;head&gt;</span>
+<span class="x">    {% raw %}</span>
+<span class="x">    {% block head %}</span>
+<span class="x">      &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot; /&gt;</span>
+<span class="x">      &lt;title&gt;{% block title %}{% endblock %} - My Webpage&lt;/title&gt;</span>
+<span class="x">    {% endblock %}</span>
+<span class="x">    {% endraw %}</span>
+<span class="x">  &lt;/head&gt;</span>
+<span class="x">  &lt;body&gt;</span>
+<span class="x">    &lt;div id=&quot;content&quot;&gt;</span>
+<span class="x">      {% raw %}</span>
+<span class="x">      {% block content %}</span>
+<span class="x">      {% endblock %}</span>
+<span class="x">      {% endraw %}</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">    &lt;div id=&quot;footer&quot;&gt;</span>
+<span class="x">      {% raw %}</span>
+<span class="x">      {% block footer %}</span>
+<span class="x">          &amp;copy; Copyright 2011 by &lt;a href=&quot;http://domain.invalid/&quot;&gt;you&lt;/a&gt;.</span>
+<span class="x">      {% endblock %}</span>
+<span class="x">      {% endraw %}</span>
+<span class="x">    &lt;/div&gt;</span>
+<span class="x">  &lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+</code></pre></div>
 <p>在这个例子中，<a href="http://twig.sensiolabs.org/doc/tags/block.html">Block标记</a>定义了四个Block，子模板可以对这四个Block进行填充。所有的Block标记的作用就在于告诉模板引擎——子模板可能对模板的这一部分进行覆盖。</p>
 <p>一个子模板看起来大概是：</p>
-<pre><code class="language-php">{% raw %}
-{% extends &quot;base.html&quot; %}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% extends &quot;base.html&quot; %}</span>
 
-{% block title %}Index{% endblock %}
-{% block head %}
-  {{ parent() }}
-  &lt;style type=&quot;text/css&quot;&gt;
-      .important { color: #336699; }
-  &lt;/style&gt;
-{% endblock %}
-{% block content %}
-  &lt;h1&gt;Index&lt;/h1&gt;
-  &lt;p class=&quot;important&quot;&gt;
-      Welcome to my awesome homepage.
-  &lt;/p&gt;
-{% endblock %}
-{% endraw %}
-</code></pre>
+<span class="x">{% block title %}Index{% endblock %}</span>
+<span class="x">{% block head %}</span>
+<span class="x">  {{ parent() }}</span>
+<span class="x">  &lt;style type=&quot;text/css&quot;&gt;</span>
+<span class="x">      .important { color: #336699; }</span>
+<span class="x">  &lt;/style&gt;</span>
+<span class="x">{% endblock %}</span>
+<span class="x">{% block content %}</span>
+<span class="x">  &lt;h1&gt;Index&lt;/h1&gt;</span>
+<span class="x">  &lt;p class=&quot;important&quot;&gt;</span>
+<span class="x">      Welcome to my awesome homepage.</span>
+<span class="x">  &lt;/p&gt;</span>
+<span class="x">{% endblock %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>此处的关键就在于<a href="http://twig.sensiolabs.org/doc/tags/extends.html">Extends tag</a>。他让模板引擎得知这个模板是“扩展自其他模板”。当模板系统处理这一模板的时候，就会首先定位父模板。Extends标记应该是子模板的第一个标记。</p>
 <p>另外因为子模板中没有定义footer block，所以此处会继续使用父模板的内容。</p>
 <p>也可以用<a href="http://twig.sensiolabs.org/doc/functions/parent.html">Parent函数</a>来渲染父模板Block的内容。这一调用会返回父模板中的Block结果：</p>
-<pre><code class="language-php">{% raw %}
-{% block sidebar %}
-  &lt;h3&gt;Table Of Contents&lt;/h3&gt;
-  ...
-  {{ parent() }}
-{% endblock %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% block sidebar %}</span>
+<span class="x">  &lt;h3&gt;Table Of Contents&lt;/h3&gt;</span>
+<span class="x">  ...</span>
+<span class="x">  {{ parent() }}</span>
+<span class="x">{% endblock %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p><em><a href="http://twig.sensiolabs.org/doc/tags/extends.html">extend文档</a>中介绍了更深入的特性，例如Block嵌套、作用域、动态继承以及条件继承等。</em></p>
-<h3 id="html">HTML转义</h3>
+<h3 id="html">HTML转义<a class="headerlink" href="#html" title="Permanent link">&para;</a></h3>
 <p>从模板中生成HTML的时候，存在一种风险：一个变量可能包含了HTML代码，会影响到最终的HTML。有两种方式来解决这个问题：人工转义每一个变量，或者缺省情况下自动转义所有变量。Twig对两种方式都支持，缺省开启第二种。</p>
 <p><em>自动转义只有在escaper扩展激活的情况下才生效。</em></p>
 <ul>
 <li>
-<h4 id="_15">人工转义</h4>
+<h4 id="_15">人工转义<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h4>
 </li>
 </ul>
 <p>如果启用了人工转义，那么对需要进行处理的变量进行转义就成了开发者的责任。那么什么需要被转义呢？答案是所有不信任的变量。人工转义的方法是把变量传送给<a href="http://twig.sensiolabs.org/doc/filters/escape.html">escape filter</a>或者e filter进行处理。</p>
-<pre><code class="language-php">{% raw %}
-{{ user.username|e }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ user.username|e }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <ul>
 <li>
-<h4 id="_16">自动转义</h4>
+<h4 id="_16">自动转义<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h4>
 </li>
 </ul>
 <p>不管是否启用了自动转义，都可以利用<a href="http://twig.sensiolabs.org/doc/tags/autoescape.html">autoescape</a>标记来标记模板中的一段内容。</p>
-<pre><code class="language-php">{% raw %}
-{% autoescape %}
-  Everything will be automatically escaped in this block (using the HTML strategy)
-{% endautoescape %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% autoescape %}</span>
+<span class="x">  Everything will be automatically escaped in this block (using the HTML strategy)</span>
+<span class="x">{% endautoescape %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>缺省情况下，自动转义使用html策略。如果输出内容属于其他上下文，则需要显式的指定其他的转义策略：</p>
-<pre><code class="language-php">{% raw %}
-{% autoescape 'js' %}
-这个区块中的所有字符都会被自动转义(采用JS策略)
-{% endautoescape %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% autoescape &#39;js&#39; %}</span>
+<span class="x">这个区块中的所有字符都会被自动转义(采用JS策略)</span>
+<span class="x">{% endautoescape %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <blockquote>
 <p>转义</p>
 </blockquote>
@@ -1222,61 +1221,61 @@ Twig_Autoloader::register();
 让Twig能够忽略一部分本应当做是block或者变量来处理的东西，是个常见甚至必要的需求。例如想要以原始形态输出{{这样被语法占用的关键字，而不想被当做变量的开始，就可以使用一个小技巧。
 {% endraw %}</p>
 <p>最简单的方式就是使用一个变量表达式：</p>
-<pre><code class="language-php">{% raw %}
-{{ '{{' }}
-{% endraw %}
-</code></pre>
-<h3 id="_17">宏</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ &#39;{{&#39; }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h3 id="_17">宏<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
 <p>在版本1.12中出现：支持缺省参数值。</p>
 <p>宏和和其他语言中的函数类似。它可以复用经常使用的HTML片段。</p>
 <p>使用<a href="http://twig.sensiolabs.org/doc/tags/macro.html">macro标记</a>可以定义宏。下面是forms.html中的一个小例子：利用宏渲染一个form元素：</p>
-<pre><code class="language-php">{% raw %}
-{% macro input(name, value, type, size) %}
-  &lt;input type=&quot;{{ type|default('text') }}&quot; name=&quot;{{ name }}&quot; value=&quot;{{ value|e }}&quot; size=&quot;{{ size|default(20) }}&quot; /&gt;
-{% endmacro %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% macro input(name, value, type, size) %}</span>
+<span class="x">  &lt;input type=&quot;{{ type|default(&#39;text&#39;) }}&quot; name=&quot;{{ name }}&quot; value=&quot;{{ value|e }}&quot; size=&quot;{{ size|default(20) }}&quot; /&gt;</span>
+<span class="x">{% endmacro %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>可以在任何模板中定义宏，然后使用<a href="http://twig.sensiolabs.org/doc/tags/import.html">import标记</a>进行导入即可：</p>
-<pre><code class="language-php">{% raw %}
-{% import &quot;forms.html&quot; as forms %}
-&lt;p&gt;{{ forms.input('username') }}&lt;/p&gt;
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% import &quot;forms.html&quot; as forms %}</span>
+<span class="x">&lt;p&gt;{{ forms.input(&#39;username&#39;) }}&lt;/p&gt;</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>在从其他模板中进行引入的时候，还可以利用From标记为其赋予别名：</p>
-<pre><code class="language-php">{% raw %}
-{% from 'forms.html' import input as input_field %}
-&lt;dl&gt;
-  &lt;dt&gt;Username&lt;/dt&gt;
-  &lt;dd&gt;{{ input_field('username') }}&lt;/dd&gt;
-  &lt;dt&gt;Password&lt;/dt&gt;
-  &lt;dd&gt;{{ input_field('password', '', 'password') }}&lt;/dd&gt;
-&lt;/dl&gt;
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% from &#39;forms.html&#39; import input as input_field %}</span>
+<span class="x">&lt;dl&gt;</span>
+<span class="x">  &lt;dt&gt;Username&lt;/dt&gt;</span>
+<span class="x">  &lt;dd&gt;{{ input_field(&#39;username&#39;) }}&lt;/dd&gt;</span>
+<span class="x">  &lt;dt&gt;Password&lt;/dt&gt;</span>
+<span class="x">  &lt;dd&gt;{{ input_field(&#39;password&#39;, &#39;&#39;, &#39;password&#39;) }}&lt;/dd&gt;</span>
+<span class="x">&lt;/dl&gt;</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>还可以在为宏指定缺省参数：</p>
-<pre><code class="language-php">{% raw %}
-{% macro input(name, value = &quot;&quot;, type = &quot;text&quot;, size = 20) %}
-  &lt;input type=&quot;{{ type }}&quot; name=&quot;{{ name }}&quot; value=&quot;{{ value|e }}&quot; size=&quot;{{ size }}&quot; /&gt;
-{% endmacro %}
-{% endraw %}
-</code></pre>
-<h3 id="_18">表达式</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% macro input(name, value = &quot;&quot;, type = &quot;text&quot;, size = 20) %}</span>
+<span class="x">  &lt;input type=&quot;{{ type }}&quot; name=&quot;{{ name }}&quot; value=&quot;{{ value|e }}&quot; size=&quot;{{ size }}&quot; /&gt;</span>
+<span class="x">{% endmacro %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h3 id="_18">表达式<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
 <p>Twig允许使用表达式，工作方式类似普通的PHP，即使你对PHP没那么熟悉，也可以轻松面对。</p>
 <blockquote>
 <p>运算符优先级按递增顺序排列如下：
-b-and, b-xor, b-or, or, and, ==, !=, &lt;, &gt;, &gt;=, &lt;=, in, matches, starts with, ends with, .., +, -, ~, <em>, /, //, %, is, </em>*, |, [], and</p>
+b-and, b-xor, b-or, or, and, ==, !=, &lt;, &gt;, &gt;=, &lt;=, in, matches, starts with, ends with, .., +, -, ~, <em>, /, //, %, is, *</em>, |, [], and</p>
 </blockquote>
-<pre><code class="language-php">{% raw %}
-{% set greeting = 'Hello ' %}
-{% set name = 'Fabien' %}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% set greeting = &#39;Hello &#39; %}</span>
+<span class="x">{% set name = &#39;Fabien&#39; %}</span>
 
-{{ greeting ~ name|lower }}   {# Hello fabien #}
+<span class="x">{{ greeting ~ name|lower }}   {# Hello fabien #}</span>
 
-{# use parenthesis to change precedence #}
-{{ (greeting ~ name)|lower }} {# hello fabien #}
-{% endraw %}
-</code></pre>
-<h4 id="_19">常量</h4>
+<span class="x">{# use parenthesis to change precedence #}</span>
+<span class="x">{{ (greeting ~ name)|lower }} {# hello fabien #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h4 id="_19">常量<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h4>
 <p>在1.5中新增：支持以名称和表达式作为哈希键</p>
 <p>表达式的最简单形式就是常量了。他是PHP类型的一种实现，包含字符串、数字以及数组。以下是一些例子</p>
 <ul>
@@ -1285,31 +1284,31 @@ b-and, b-xor, b-or, or, and, ==, !=, &lt;, &gt;, &gt;=, &lt;=, in, matches, star
 <li>["foo", "bar"]：数组由方括号包含的一组逗号分隔的表达式组成。</li>
 <li>{"foo": "bar"}：同数组类似，不过是以花括号进行包装。</li>
 </ul>
-<pre><code class="language-php">{% raw %}
-{# keys as string #}
-{ 'foo': 'foo', 'bar': 'bar' }
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{# keys as string #}</span>
+<span class="x">{ &#39;foo&#39;: &#39;foo&#39;, &#39;bar&#39;: &#39;bar&#39; }</span>
 
-{# keys as names (equivalent to the previous hash) -- as of Twig 1.5 #}
-{ foo: 'foo', bar: 'bar' }
+<span class="x">{# keys as names (equivalent to the previous hash) -- as of Twig 1.5 #}</span>
+<span class="x">{ foo: &#39;foo&#39;, bar: &#39;bar&#39; }</span>
 
-{# keys as integer #}
-{ 2: 'foo', 4: 'bar' }
+<span class="x">{# keys as integer #}</span>
+<span class="x">{ 2: &#39;foo&#39;, 4: &#39;bar&#39; }</span>
 
-{# keys as expressions (the expression must be enclosed into parentheses) -- as of Twig 1.5 #}
-{ (1 + 1): 'foo', (a ~ 'b'): 'bar' }
-{% endraw %}
-</code></pre>
+<span class="x">{# keys as expressions (the expression must be enclosed into parentheses) -- as of Twig 1.5 #}</span>
+<span class="x">{ (1 + 1): &#39;foo&#39;, (a ~ &#39;b&#39;): &#39;bar&#39; }</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <ul>
 <li>true / false：布尔值，你懂的</li>
 <li>null：表明无特定值。当访问一个不存在的变量时，就会返回null，none是null的别名。</li>
 </ul>
 <p>数组和哈希可以嵌套：</p>
-<pre><code class="language-php">{% raw %}
-{% set foo = [1, {&quot;foo&quot;: &quot;bar&quot;}] %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% set foo = [1, {&quot;foo&quot;: &quot;bar&quot;}] %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p><em>字符串使用单双引号对性能没什么影响，但是只有双引号才支持字符串差值。</em></p>
-<h4 id="_20">算数运算符</h4>
+<h4 id="_20">算数运算符<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h4>
 <p>Twig可以进行运算。这个功能很少用得到，不过为了完整起见，还是提供了这个功能。目前支持下列操作符：</p>
 <p>{% raw %}</p>
 <ul>
@@ -1322,7 +1321,7 @@ b-and, b-xor, b-or, or, and, ==, !=, &lt;, &gt;, &gt;=, &lt;=, in, matches, star
 <li>**：乘方，{{ 2 3}}`等于8。</li>
 </ul>
 <p>{% endraw %}</p>
-<h4 id="_21">逻辑运算符</h4>
+<h4 id="_21">逻辑运算符<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h4>
 <p>可以用下面的操作符连接多个表达式：</p>
 <ul>
 <li>and：与运算</li>
@@ -1331,125 +1330,125 @@ b-and, b-xor, b-or, or, and, ==, !=, &lt;, &gt;, &gt;=, &lt;=, in, matches, star
 <li>(expr)：为表达式分组</li>
 </ul>
 <p><em>Twig还支持位操作：（b-and, b-xor 以及 b-or）。</em></p>
-<h4 id="_22">比较运算符</h4>
+<h4 id="_22">比较运算符<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h4>
 <p>Twig支持的比较运算符：==、!=、&lt;、&gt;、&gt;=、&lt;=，还可以对字符串使用starts with或者end with：</p>
-<pre><code class="language-php">{% raw %}
-{% if 'Fabien' starts with 'F' %}
-{% endif %}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% if &#39;Fabien&#39; starts with &#39;F&#39; %}</span>
+<span class="x">{% endif %}</span>
 
-{% if 'Fabien' ends with 'n' %}
-{% endraw %}
-</code></pre>
+<span class="x">{% if &#39;Fabien&#39; ends with &#39;n&#39; %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p><em>对于复杂的字符串比较，matches操作符提供了正则表达式的匹配能力：</em></p>
-<pre><code class="language-php">{% raw %}
-{% if phone matches '/^[\\d\\.]+$/' %}
-{% endif %}
-{% endraw %}
-</code></pre>
-<h4 id="_23">包含操作符</h4>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% if phone matches &#39;/^[\\d\\.]+$/&#39; %}</span>
+<span class="x">{% endif %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h4 id="_23">包含操作符<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h4>
 <p>操作符in提供了包含测试功能。</p>
 <p>如果右侧操作数包含左侧的操作数，则返回true：</p>
-<pre><code class="language-php">{% raw %}
-{# returns true #}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{# returns true #}</span>
 
-{{ 1 in [1, 2, 3] }}
+<span class="x">{{ 1 in [1, 2, 3] }}</span>
 
-{{ 'cd' in 'abcde' }}
-{% endraw %}
-</code></pre>
+<span class="x">{{ &#39;cd&#39; in &#39;abcde&#39; }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>还可以反着用（not in）：</p>
-<pre><code class="language-php">{% raw %}
-{% if 1 not in [1, 2, 3] %}
-{# 等价于 #}
-{% if not (1 in [1, 2, 3]) %}
-{% endraw %}
-</code></pre>
-<h4 id="_24">测试操作符</h4>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% if 1 not in [1, 2, 3] %}</span>
+<span class="x">{# 等价于 #}</span>
+<span class="x">{% if not (1 in [1, 2, 3]) %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h4 id="_24">测试操作符<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h4>
 <p>is操作符用于测试。可以用于测试一个变量和表达式，右侧的操作数就是测试的名字：</p>
-<pre><code class="language-php">{% raw %}
-{# 检测变量是不是奇数 #}
-{{ name is odd }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{# 检测变量是不是奇数 #}</span>
+<span class="x">{{ name is odd }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>测试也可以接受参数：</p>
-<pre><code class="language-php">{% raw %}
-{% if post.status is constant('Post::PUBLISHED') %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% if post.status is constant(&#39;Post::PUBLISHED&#39;) %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>可以使用is not来进行否定测试：</p>
-<pre><code class="language-php">{% raw %}
-{% if post.status is not constant('Post::PUBLISHED') %}
-{# 等价于 #}
-{% if not (post.status is constant('Post::PUBLISHED')) %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% if post.status is not constant(&#39;Post::PUBLISHED&#39;) %}</span>
+<span class="x">{# 等价于 #}</span>
+<span class="x">{% if not (post.status is constant(&#39;Post::PUBLISHED&#39;)) %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>可以去<a href="http://twig.sensiolabs.org/doc/tests/index.html">test</a>页面来了解一下内置的测试。</p>
-<h4 id="_25">其他操作符</h4>
+<h4 id="_25">其他操作符<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h4>
 <p>1.12.0中加入了扩展的三元操作符。</p>
 <ul>
 <li>|：管道符号，应用一个filter</li>
 <li>..：以左右两个操作数为基础生成一个序列</li>
 </ul>
-<pre><code class="language-php">{% raw %}
-{{ 1..5 }}
-{# 等价于 #}
-{{ range(1, 5) }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ 1..5 }}</span>
+<span class="x">{# 等价于 #}</span>
+<span class="x">{{ range(1, 5) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>{% raw %}
 - ~：把所有操作数转换为字符串并连接起来。{{ "Hello " ~ name ~ "!" }}会返回(假设name是'John')Hello John!。
 - .,[]：获取对象的属性
 - ?:：三元操作符</p>
 <p>{% endraw %}</p>
-<pre><code class="language-php">{% raw %}
-{{ foo ? 'yes' : 'no' }}
-{# 在Twig 1.12.0中 #}
-{{ foo ?: 'no' }} 等同于 {{ foo ? foo : 'no' }}
-{{ foo ? 'yes' }} 等同于 {{ foo ? 'yes' : '' }}
-{% endraw %}
-</code></pre>
-<h4 id="_26">字符串插值</h4>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ foo ? &#39;yes&#39; : &#39;no&#39; }}</span>
+<span class="x">{# 在Twig 1.12.0中 #}</span>
+<span class="x">{{ foo ?: &#39;no&#39; }} 等同于 {{ foo ? foo : &#39;no&#39; }}</span>
+<span class="x">{{ foo ? &#39;yes&#39; }} 等同于 {{ foo ? &#39;yes&#39; : &#39;&#39; }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h4 id="_26">字符串插值<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h4>
 <p>字符串差值(#{表达式})允许在双引号内的字符串中插入任何有效的表达式。表达式的结果会出现在最终的字符串中：</p>
-<pre><code class="language-php">{% raw %}
-{{ &quot;foo #{bar} baz&quot; }}
-{{ &quot;foo #{1 + 2} baz&quot; }}
-{% endraw %}
-</code></pre>
-<h3 id="_27">空白控制</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ &quot;foo #{bar} baz&quot; }}</span>
+<span class="x">{{ &quot;foo #{1 + 2} baz&quot; }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h3 id="_27">空白控制<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h3>
 <p>twig1.1新增tag级别的空白控制</p>
 <p>跟PHP类似，模板标记后面的第一个空行会被自动删除。模板引擎目前已经不再自动清理空白，所有空白（空格、制表符、换行符等）都会原样输出。</p>
 <p>使用<code>spaceless</code>标记可以移出html标记之间的空白：</p>
-<pre><code class="language-php">{% raw %}
-{% spaceless %}
-&lt;div&gt;
-    &lt;strong&gt;foo bar&lt;/strong&gt;
-&lt;/div&gt;
-{% endspaceless %}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% spaceless %}</span>
+<span class="x">&lt;div&gt;</span>
+<span class="x">    &lt;strong&gt;foo bar&lt;/strong&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+<span class="x">{% endspaceless %}</span>
 
-{# output will be &lt;div&gt;&lt;strong&gt;foo bar&lt;/strong&gt;&lt;/div&gt; #}
-{% endraw %}
-</code></pre>
+<span class="x">{# output will be &lt;div&gt;&lt;strong&gt;foo bar&lt;/strong&gt;&lt;/div&gt; #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>在spaceless标记之外，还可以在每个标记的级别控制空白。在标记上使用空白控制修饰符，可以清除前导或跟随的空白：</p>
-<pre><code class="language-php">{% raw %}
-{% set value = 'no spaces' %}
-{#- 取出首位空白 -#}
-{%- if true -%}
-    {{- value -}}
-{%- endif -%}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% set value = &#39;no spaces&#39; %}</span>
+<span class="x">{#- 取出首位空白 -#}</span>
+<span class="x">{%- if true -%}</span>
+<span class="x">    {{- value -}}</span>
+<span class="x">{%- endif -%}</span>
 
-{# 输出 'no spaces' #}
-{% endraw %}
-</code></pre>
+<span class="x">{# 输出 &#39;no spaces&#39; #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>上面的例子演示了缺省的空白控制修饰符，以及如何移除标记周围的空白。还可以只清除Tag一边的空白：</p>
-<pre><code class="language-php">{% raw %}
-{% set value = 'no spaces' %}
-&lt;li&gt;
-  {{- value }}
-&lt;/li&gt;
-{# 输出 '&lt;li&gt;no spaces&lt;/li&gt;' #}
-{% endraw %}
-</code></pre>
-<h3 id="_28">扩展</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% set value = &#39;no spaces&#39; %}</span>
+<span class="x">&lt;li&gt;</span>
+<span class="x">  {{- value }}</span>
+<span class="x">&lt;/li&gt;</span>
+<span class="x">{# 输出 &#39;&lt;li&gt;no spaces&lt;/li&gt;&#39; #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h3 id="_28">扩展<a class="headerlink" href="#_28" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p>Twig的扩展很方便。</p>
@@ -1461,36 +1460,36 @@ b-and, b-xor, b-or, or, and, ==, !=, &lt;, &gt;, &gt;=, &lt;=, in, matches, star
 <p>如果想要创建自己的扩展，请阅读创建<a href="https://drupal.fleeto.us/translation/extending-twig">扩展章节</a>。</p>
 </li>
 </ul>
-<h2 id="twig_1">三、开发者的Twig</h2>
+<h2 id="twig_1">三、开发者的Twig<a class="headerlink" href="#twig_1" title="Permanent link">&para;</a></h2>
 <p>本章讲述的是Twig的API，而不是Twig的模板语言。这些内容会对为应用实现模板接口的工作很有帮助，对模板的制作工作就没什么意义了。</p>
-<h3 id="_29">基础</h3>
-<p>Twig的中心对象为<strong>environment</strong>（是Twig_Environment类的实例）。这个类的实例用于存储配置和扩展，并用来从文件系统或者其他位置载入模板。</p>
+<h3 id="_29">基础<a class="headerlink" href="#_29" title="Permanent link">&para;</a></h3>
+<p>Twig的中心对象为**environment**（是Twig_Environment类的实例）。这个类的实例用于存储配置和扩展，并用来从文件系统或者其他位置载入模板。</p>
 <p>绝大多数应用需要在应用初始化的时候，创建一个Twig_Environment对象，然后用它来加载模板。在有些案例中，会有多个环境同时并存，用来处理不同的配置。</p>
 <p>下面举个简单例子，配置Twig来为应用载入模板：</p>
-<pre><code class="language-php">require_once '/path/to/lib/Twig/Autoloader.php';
-Twig_Autoloader::register();
+<div class="highlight"><pre><span></span><code><span class="x">require_once &#39;/path/to/lib/Twig/Autoloader.php&#39;;</span>
+<span class="x">Twig_Autoloader::register();</span>
 
-$loader = new Twig_Loader_Filesystem('/path/to/templates');
-$twig = new Twig_Environment($loader, array(
-    'cache' =&gt; '/path/to/compilation_cache',
-));
-</code></pre>
+<span class="x">$loader = new Twig_Loader_Filesystem(&#39;/path/to/templates&#39;);</span>
+<span class="x">$twig = new Twig_Environment($loader, array(</span>
+<span class="x">    &#39;cache&#39; =&gt; &#39;/path/to/compilation_cache&#39;,</span>
+<span class="x">));</span>
+</code></pre></div>
 <p>上面的代码会创建一个缺省设置的环境，然后加载器会去/path/to/templates/目录查找模板。有不同的加载器可以使用，你可以实现自己的加载器用来从数据库或者其他资源中获取模板。</p>
 <p><em>注意，environment的第二个参数是一个数组选项。cache选项声明了一个目录，用于存储Twig编译的模版，以减少解析的开销。这种缓存跟你希望在处理模板过程中加入的缓存是不一样的，所以如果需要自行缓存，请使用其他的PHP缓存库。</em></p>
 <p>要从环境中调用模版，只需要调用<code>loadTemplate</code>函数，函数会返回一个<code>Twig_Template</code>实例</p>
-<pre><code class="language-php">$template = $twig-&gt;loadTemplate('index.html');
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$template = $twig-&gt;loadTemplate(&#39;index.html&#39;);</span>
+</code></pre></div>
 <p>要渲染带有变量的模版，调用<code>render</code>函数</p>
-<pre><code class="language-php">echo $template-&gt;render(array('the' =&gt; 'variables', 'go' =&gt; 'here'));
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">echo $template-&gt;render(array(&#39;the&#39; =&gt; &#39;variables&#39;, &#39;go&#39; =&gt; &#39;here&#39;));</span>
+</code></pre></div>
 <p><em><code>display()</code>方法是用于直接输出模版的快捷方法。</em></p>
 <p>你还可以一气呵成加载和渲染模版：</p>
-<pre><code class="language-php">echo $twig-&gt;render('index.html', array('the' =&gt; 'variables', 'go' =&gt; 'here'));
-</code></pre>
-<h3 id="_30">环境选项</h3>
+<div class="highlight"><pre><span></span><code><span class="x">echo $twig-&gt;render(&#39;index.html&#39;, array(&#39;the&#39; =&gt; &#39;variables&#39;, &#39;go&#39; =&gt; &#39;here&#39;));</span>
+</code></pre></div>
+<h3 id="_30">环境选项<a class="headerlink" href="#_30" title="Permanent link">&para;</a></h3>
 <p>当创建一个新的Twig_Environment实例时，可以创建一个选项数组，作为构造函数的第二个参数：</p>
-<pre><code class="language-php">$twig = new Twig_Environment($loader, array('debug' =&gt; true));
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$twig = new Twig_Environment($loader, array(&#39;debug&#39; =&gt; true));</span>
+</code></pre></div>
 <p>可用的环境选项：</p>
 <ul>
 <li>debug：布尔值，设置为true的时候，生成的模版会带有一个<code>__toString()</code>方法，这个方法可以用来显示生成的Node（默认值false）</li>
@@ -1502,11 +1501,11 @@ $twig = new Twig_Environment($loader, array(
 <li>autoescape：字符串或者布尔值，如果设置为true，HTML的自动转义会默认对所有的模版起效，默认值是true。在Twig 1.8中，可以设置转义策略（html或者js，要关闭可以设置为false）。在Twig 1.9中的转义策略，可以设置为css，url，html_attr，甚至还可以设置为PHP回调函数，该函数需要接受一个模板文件名为参数，且必须返回要使用的转义策略，回调命名应该避免同内置的转义策略冲突。</li>
 <li>optimizations：整型值，一个标记，用于决定采用哪种优化方式（默认是-1，激活所有的优化方式；设置0的话将会禁用）</li>
 </ul>
-<h3 id="_31">加载器</h3>
+<h3 id="_31">加载器<a class="headerlink" href="#_31" title="Permanent link">&para;</a></h3>
 <p>加载器负责从文件系统等资源中加载模版</p>
-<h4 id="_32">编译缓存</h4>
+<h4 id="_32">编译缓存<a class="headerlink" href="#_32" title="Permanent link">&para;</a></h4>
 <p>所有的模版加载器都会在文件系统中缓存编译的模版，已被将来调用。由于模版只编译一次，所以大大地提升了Twig的速度，如果你还使用了PHP加速器，例如APC，性能的提升将会更加的明显。参考上文提到的<code>Twig_Environment</code>中的<code>cache</code>以及<code>auto_reload</code>选项能够获得更多信息。</p>
-<h4 id="_33">内置加载器</h4>
+<h4 id="_33">内置加载器<a class="headerlink" href="#_33" title="Permanent link">&para;</a></h4>
 <p>这里有一个Twig提供的内置加载列表：</p>
 <ul>
 <li>Twig_Loader_Filesystem</li>
@@ -1516,94 +1515,93 @@ $twig = new Twig_Environment($loader, array(
 <li>Twig_Loader_Filesystem</li>
 </ul>
 <p>从文件系统中加载模版。这个加载器可以在文件系统的目录中找到模版，也是推荐使用的加载器：</p>
-<p><code>php
-    $loader = new Twig_Loader_Filesystem($templateDir);</code></p>
+<div class="highlight"><pre><span></span><code><span class="x">  $loader = new Twig_Loader_Filesystem($templateDir);</span>
+</code></pre></div>
 <p>它还可以从目录数组中查找模版：</p>
-<p><code>php
-    $loader = new Twig_Loader_Filesystem(array($templateDir1, $templateDir2));</code></p>
+<div class="highlight"><pre><span></span><code><span class="x">  $loader = new Twig_Loader_Filesystem(array($templateDir1, $templateDir2));</span>
+</code></pre></div>
 <p>在这种配置下，Twig会首先在$templateDir1目录下查找模版，如果没有找到，再继续从templateDir2目录下查找。</p>
 <p>你可以通过<code>addPath()</code>和<code>prependPath()</code>方法添加或者追加路径</p>
-<p><code>php
-    $loader-&gt;addPath($templateDir3);
-    $loader-&gt;prependPath($templateDir4);</code></p>
+<div class="highlight"><pre><span></span><code><span class="x">  $loader-&gt;addPath($templateDir3);</span>
+<span class="x">  $loader-&gt;prependPath($templateDir4);</span>
+</code></pre></div>
 <p>filesystem加载器还支持命名空间模版。这一特性将允许用户把模版放在不同的带有命名空间的目录下。</p>
 <p>当使用<code>setPaths()</code>、<code>addPath()</code>以及<code>prependPath()</code>方法时，把命名空间作为第二个参数进行传递（如果没有传递，缺省命名空间为"main"）：</p>
-<p><code>php
-    $loader-&gt;addPath($templateDir, 'admin');</code></p>
+<div class="highlight"><pre><span></span><code><span class="x">  $loader-&gt;addPath($templateDir, &#39;admin&#39;);</span>
+</code></pre></div>
 <p>命名空间模版可以通过类似于<code>@namespace_name/template_path</code>的注解形式来访问。</p>
-<p><code>php
-    $twig-&gt;render('@admin/index.html', array());</code></p>
+<div class="highlight"><pre><span></span><code><span class="x">  $twig-&gt;render(&#39;@admin/index.html&#39;, array());</span>
+</code></pre></div>
 <ul>
 <li>Twig_Loader_Array</li>
 </ul>
 <p>Twig_Loader_Array从PHP数组中加载模版</p>
-<p><code>php
-    {% raw %}
-    $loader = new Twig_Loader_Array(array(
-    'index.html' =&gt; 'Hello {{ name }}!',));
-    $twig = new Twig_Environment($loader);
-    echo $twig-&gt;render('index.html', array('name' =&gt; 'Fabien'));
-    {% endraw %}</code></p>
+<div class="highlight"><pre><span></span><code><span class="x">  {% raw %}</span>
+<span class="x">  $loader = new Twig_Loader_Array(array(</span>
+<span class="x">  &#39;index.html&#39; =&gt; &#39;Hello {{ name }}!&#39;,));</span>
+<span class="x">  $twig = new Twig_Environment($loader);</span>
+<span class="x">  echo $twig-&gt;render(&#39;index.html&#39;, array(&#39;name&#39; =&gt; &#39;Fabien&#39;));</span>
+<span class="x">  {% endraw %}</span>
+</code></pre></div>
 <p>这个加载器对于单元测试非常有用。这个加载器适合于那些需要把所有的模版都存在在一个单独php文件的小型项目中。</p>
 <ul>
 <li>Twig_Loader_Chain</li>
 </ul>
 <p>Twig_Loader_Chain委托其它加载器加在模版</p>
-<p>```php
-    {% raw %}
-    $loader1 = new Twig_Loader_Array(array(
-        'base.html' =&gt; '{% block content %}{% endblock %}',
-    ));
-    $loader2 = new Twig_Loader_Array(array(
-        'index.html' =&gt; '{% extends "base.html" %}{% block content %}Hello {{ name }}{% endblock %}',
-        'base.html'  =&gt; 'Will never be loaded',
-    ));</p>
-<pre><code>$loader = new Twig_Loader_Chain(array($loader1, $loader2));
+<div class="highlight"><pre><span></span><code><span class="x">  {% raw %}</span>
+<span class="x">  $loader1 = new Twig_Loader_Array(array(</span>
+<span class="x">      &#39;base.html&#39; =&gt; &#39;{% block content %}{% endblock %}&#39;,</span>
+<span class="x">  ));</span>
+<span class="x">  $loader2 = new Twig_Loader_Array(array(</span>
+<span class="x">      &#39;index.html&#39; =&gt; &#39;{% extends &quot;base.html&quot; %}{% block content %}Hello {{ name }}{% endblock %}&#39;,</span>
+<span class="x">      &#39;base.html&#39;  =&gt; &#39;Will never be loaded&#39;,</span>
+<span class="x">  ));</span>
 
-$twig = new Twig_Environment($loader);
-{% endraw %}
-</code></pre>
-<p>```</p>
-<p>当搜索模版的时候，Twig会依次尝试每一个加载器，一旦找到匹配模版，立即返回。当渲染上述例子中的index.html模版时，Twig会在$loader2中加载它，但是对于base.html模版，Twig会从$loader1中加载。</p>
+<span class="x">  $loader = new Twig_Loader_Chain(array($loader1, $loader2));</span>
+
+<span class="x">  $twig = new Twig_Environment($loader);</span>
+<span class="x">  {% endraw %}</span>
+</code></pre></div>
+<p>当搜索模版的时候，Twig会依次尝试每一个加载器，一旦找到匹配模版，立即返回。当渲染上述例子中的index.html模版时，Twig会在<span class="arithmatex"><span class="MathJax_Preview">loader2中加载它，但是对于base.html模版，Twig会从</span><script type="math/tex">loader2中加载它，但是对于base.html模版，Twig会从</script></span>loader1中加载。</p>
 <p>Twig_Loader_Chain接受任何实现了Twig_LoaderInterface接口的加载器</p>
 <p><em>你还可以通过addLoader()方法添加加载器</em></p>
-<h4 id="_34">创建自己的加载器</h4>
+<h4 id="_34">创建自己的加载器<a class="headerlink" href="#_34" title="Permanent link">&para;</a></h4>
 <p>实现了Twig_LoaderInterface接口的加载器：</p>
-<pre><code class="language-php">interface Twig_LoaderInterface
-{
-  /**
-   * Gets the source code of a template, given its name.
-   *
-   * @param  string $name string The name of the template to load
-   *
-   * @return string The template source code
-   */
-  function getSource($name);
+<div class="highlight"><pre><span></span><code><span class="x">interface Twig_LoaderInterface</span>
+<span class="x">{</span>
+<span class="x">  /**</span>
+<span class="x">   * Gets the source code of a template, given its name.</span>
+<span class="x">   *</span>
+<span class="x">   * @param  string $name string The name of the template to load</span>
+<span class="x">   *</span>
+<span class="x">   * @return string The template source code</span>
+<span class="x">   */</span>
+<span class="x">  function getSource($name);</span>
 
-  /**
-   * Gets the cache key to use for the cache for a given template name.
-   *
-   * @param  string $name string The name of the template to load
-   *
-   * @return string The cache key
-   */
-  function getCacheKey($name);
+<span class="x">  /**</span>
+<span class="x">   * Gets the cache key to use for the cache for a given template name.</span>
+<span class="x">   *</span>
+<span class="x">   * @param  string $name string The name of the template to load</span>
+<span class="x">   *</span>
+<span class="x">   * @return string The cache key</span>
+<span class="x">   */</span>
+<span class="x">  function getCacheKey($name);</span>
 
-  /**
-   * Returns true if the template is still fresh.
-   *
-   * @param string    $name The template name
-   * @param timestamp $time The last modification time of the cached template
-   */
-  function isFresh($name, $time);
-}
-</code></pre>
+<span class="x">  /**</span>
+<span class="x">   * Returns true if the template is still fresh.</span>
+<span class="x">   *</span>
+<span class="x">   * @param string    $name The template name</span>
+<span class="x">   * @param timestamp $time The last modification time of the cached template</span>
+<span class="x">   */</span>
+<span class="x">  function isFresh($name, $time);</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>如果当前的缓存模版还是最新的，isFresh()方法必须返回true，否则应该返回最后一次的修改时间，或者直接false</p>
 <p><em>Twig 1.11.0，还可以实现Twig_ExistsLoaderInterface接口，让加载器在同链式加载器协同工作时稍快一些。</em></p>
-<h3 id="_35">使用扩展</h3>
+<h3 id="_35">使用扩展<a class="headerlink" href="#_35" title="Permanent link">&para;</a></h3>
 <p>Twig扩展是打包起来的一些新功能。使用扩展很简单，调用addExtension()方法：</p>
-<pre><code class="language-php">$twig-&gt;addExtension(new Twig_Extension_Sandbox());
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$twig-&gt;addExtension(new Twig_Extension_Sandbox());</span>
+</code></pre></div>
 <p>Twig自带了以下扩展：</p>
 <ul>
 <li>
@@ -1623,9 +1621,9 @@ $twig = new Twig_Environment($loader);
 </li>
 </ul>
 <p>核心、转义、以及优化扩展不需要添加到Twig环境中，他们默认就是启用的</p>
-<h3 id="_36">内置扩展</h3>
+<h3 id="_36">内置扩展<a class="headerlink" href="#_36" title="Permanent link">&para;</a></h3>
 <p>这块儿将会描述内置扩展带来的新特性</p>
-<h4 id="_37">核心扩展</h4>
+<h4 id="_37">核心扩展<a class="headerlink" href="#_37" title="Permanent link">&para;</a></h4>
 <p>core扩展定义了Twig的所有核心特性：</p>
 <ul>
 <li>
@@ -1641,137 +1639,137 @@ $twig = new Twig_Environment($loader);
 <p><a href="http://twig.sensiolabs.org/doc/tests/index.html">Tests</a></p>
 </li>
 </ul>
-<h4 id="_38">转义扩展</h4>
+<h4 id="_38">转义扩展<a class="headerlink" href="#_38" title="Permanent link">&para;</a></h4>
 <p>escaper扩展为Twig带来了自动输出转义，它定义了autoescape标记，raw filter。</p>
 <p>自行创建escaper扩展时，你可以打开或者关闭全局的转义策略：</p>
-<pre><code class="language-php">$escaper = new Twig_Extension_Escaper('html');
-$twig-&gt;addExtension($escaper);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$escaper = new Twig_Extension_Escaper(&#39;html&#39;);</span>
+<span class="x">$twig-&gt;addExtension($escaper);</span>
+</code></pre></div>
 <p>如果设置成html，模版中所有的变量都会转义，除了那些raw filter输出的</p>
-<pre><code class="language-php">{% raw %}
-{{ article.to_html|raw }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ article.to_html|raw }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>通过使用autoescape标记，你可以改变转移模式（参考<a href="http://twig.sensiolabs.org/doc/tags/autoescape.html">autoescape文档</a>）</p>
-<pre><code class="language-php">{% raw %}
-{% autoescape 'html' %}
-{{ var }}
-{{ var|raw }}      {# var 不会被转义 #}
-{{ var|escape }}   {# var 不会被再次转义 #}
-{% endautoescape %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% autoescape &#39;html&#39; %}</span>
+<span class="x">{{ var }}</span>
+<span class="x">{{ var|raw }}      {# var 不会被转义 #}</span>
+<span class="x">{{ var|escape }}   {# var 不会被再次转义 #}</span>
+<span class="x">{% endautoescape %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p><em>autoescape标记对包含进来的模版无效</em></p>
 <p>转义规则是这样实现的：</p>
 <ul>
 <li>模板中的常量（整数、布尔、数组...）会直接当做变量或filter的参数，不会被自动转义：</li>
 </ul>
-<pre><code class="language-php">{% raw %}
-{{ &quot;Twig&lt;br /&gt;&quot; }} {# won't be escaped #}
-{% set text = &quot;Twig&lt;br /&gt;&quot; %}
-{{ text }} {# will be escaped #}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ &quot;Twig&lt;br /&gt;&quot; }} {# won&#39;t be escaped #}</span>
+<span class="x">{% set text = &quot;Twig&lt;br /&gt;&quot; %}</span>
+<span class="x">{{ text }} {# will be escaped #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <ul>
 <li>对于一个结果是常量的表达式，或者一个标记为安全的变量也不会自动转义：</li>
 </ul>
-<pre><code class="language-php">{% raw %}
-{{ foo ? &quot;Twig&lt;br /&gt;&quot; : &quot;&lt;br /&gt;Twig&quot; }} {# won't be escaped #}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ foo ? &quot;Twig&lt;br /&gt;&quot; : &quot;&lt;br /&gt;Twig&quot; }} {# won&#39;t be escaped #}</span>
 
-{% set text = &quot;Twig&lt;br /&gt;&quot; %}
-{{ foo ? text : &quot;&lt;br /&gt;Twig&quot; }} {# will be escaped #}
+<span class="x">{% set text = &quot;Twig&lt;br /&gt;&quot; %}</span>
+<span class="x">{{ foo ? text : &quot;&lt;br /&gt;Twig&quot; }} {# will be escaped #}</span>
 
-{% set text = &quot;Twig&lt;br /&gt;&quot; %}
-{{ foo ? text|raw : &quot;&lt;br /&gt;Twig&quot; }} {# won't be escaped #}
+<span class="x">{% set text = &quot;Twig&lt;br /&gt;&quot; %}</span>
+<span class="x">{{ foo ? text|raw : &quot;&lt;br /&gt;Twig&quot; }} {# won&#39;t be escaped #}</span>
 
-{% set text = &quot;Twig&lt;br /&gt;&quot; %}
-{{ foo ? text|escape : &quot;&lt;br /&gt;Twig&quot; }} {# the result of the expression won't be escaped #}
-{% endraw %}
-</code></pre>
+<span class="x">{% set text = &quot;Twig&lt;br /&gt;&quot; %}</span>
+<span class="x">{{ foo ? text|escape : &quot;&lt;br /&gt;Twig&quot; }} {# the result of the expression won&#39;t be escaped #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <ul>
 <li>转义发生在打印之前，filter之后：</li>
 </ul>
-<pre><code class="language-php">{% raw %}
-{{ var|upper }} {# 等价于 {{ var|upper|escape }} #}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ var|upper }} {# 等价于 {{ var|upper|escape }} #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <ul>
 <li>raw filter应该在filter链的最后使用：</li>
 </ul>
-<pre><code class="language-php">{% raw %}
-{{ var|raw|upper }} {# 会转义 #}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ var|raw|upper }} {# 会转义 #}</span>
 
-{{ var|upper|raw }} {# 不转义 #}
-{% endraw %}
-</code></pre>
+<span class="x">{{ var|upper|raw }} {# 不转义 #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <ul>
 <li>如果最后一个filter在当前上下文中（例如html或者js）被标记为安全，escape和escape('html')被HTML标记为安全，escape('js')被JavaScript标记为安全，raw对所有内容都被标记为安全。</li>
 </ul>
-<pre><code class="language-php">{% raw %}
-{% autoescape 'js' %}
-  {{ var|escape('html') }} {# will be escaped for HTML and JavaScript #}
-  {{ var }} {# will be escaped for JavaScript #}
-  {{ var|escape('js') }} {# won't be double-escaped #}
-{% endautoescape %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% autoescape &#39;js&#39; %}</span>
+<span class="x">  {{ var|escape(&#39;html&#39;) }} {# will be escaped for HTML and JavaScript #}</span>
+<span class="x">  {{ var }} {# will be escaped for JavaScript #}</span>
+<span class="x">  {{ var|escape(&#39;js&#39;) }} {# won&#39;t be double-escaped #}</span>
+<span class="x">{% endautoescape %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>{% raw %}
 <em>注意自动转义是是在表达式运行之后发生，因此有局限性的。例如当进行连续操作时，{{ foo|raw ~ bar }}因为转义是最后发生的，因此无法给出期待的结果（这里的raw filter没有任何效果）。</em>
 {% endraw %}</p>
-<h4 id="_39">沙盒扩展</h4>
+<h4 id="_39">沙盒扩展<a class="headerlink" href="#_39" title="Permanent link">&para;</a></h4>
 <p>沙箱扩展用于运行不受信任的代码,会限制访问不安全的属性和方法。沙箱安全性由一个策略实例来管理。缺省情况下，Twig会带有一个策略类：Twig_Sandbox_SecurityPolicy。这个类允许把某些标记、Filter、属性以及方法放入白名单：</p>
-<pre><code class="language-php">$tags = array('if');
-$filters = array('upper');
-$methods = array(
-    'Article' =&gt; array('getTitle', 'getBody'),
-);
-$properties = array(
-    'Article' =&gt; array('title', 'body'),
-);
-$functions = array('range');
-$policy = new Twig_Sandbox_SecurityPolicy($tags, $filters, $methods, $properties, $functions);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$tags = array(&#39;if&#39;);</span>
+<span class="x">$filters = array(&#39;upper&#39;);</span>
+<span class="x">$methods = array(</span>
+<span class="x">    &#39;Article&#39; =&gt; array(&#39;getTitle&#39;, &#39;getBody&#39;),</span>
+<span class="x">);</span>
+<span class="x">$properties = array(</span>
+<span class="x">    &#39;Article&#39; =&gt; array(&#39;title&#39;, &#39;body&#39;),</span>
+<span class="x">);</span>
+<span class="x">$functions = array(&#39;range&#39;);</span>
+<span class="x">$policy = new Twig_Sandbox_SecurityPolicy($tags, $filters, $methods, $properties, $functions);</span>
+</code></pre></div>
 <p>在上面的例子中，安全策略只允许使用if标签和upper过滤器。另外，模版只能调用<code>Article</code>对象的<code>getTitle()</code>方法和<code>getBody()</code>方法，只能访问<code>title</code>和<code>body</code>这俩个公共属性。其它的都被禁止访问，如果尝试访问，则会抛出一个<code>Twig_Sandbox_SecurityError</code>异常。</p>
 <p>策略对象是沙盒构造器的第一个参数：</p>
-<pre><code class="language-php">$sandbox = new Twig_Extension_Sandbox($policy);
-$twig-&gt;addExtension($sandbox);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$sandbox = new Twig_Extension_Sandbox($policy);</span>
+<span class="x">$twig-&gt;addExtension($sandbox);</span>
+</code></pre></div>
 <p>默认情况下，沙盒模式处于禁用状态。当包含的模版中含有不可信的代码时，使用<code>sandbox</code>标签激活沙盒模式。</p>
-<pre><code class="language-php">{% raw %}
-{% sandbox %}
-  {% include 'user.html' %}
-{% endsandbox %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% sandbox %}</span>
+<span class="x">  {% include &#39;user.html&#39; %}</span>
+<span class="x">{% endsandbox %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>你可以通过将扩展构造器的第二个参数传值true来对所有的模版启用沙盒模式：</p>
-<pre><code class="language-php">$sandbox = new Twig_Extension_Sandbox($policy, true);
-</code></pre>
-<h4 id="_40">简介扩展</h4>
+<div class="highlight"><pre><span></span><code><span class="x">$sandbox = new Twig_Extension_Sandbox($policy, true);</span>
+</code></pre></div>
+<h4 id="_40">简介扩展<a class="headerlink" href="#_40" title="Permanent link">&para;</a></h4>
 <p>Twig1.18新增简介扩展</p>
 <p>profiler扩展为Twig模版开启一个profiler，它应该只在开发机器上使用。</p>
-<pre><code class="language-php">$profile = new Twig_Profiler_Profile();
-$twig-&gt;addExtension(new Twig_Extension_Profiler($profile));
+<div class="highlight"><pre><span></span><code><span class="x">$profile = new Twig_Profiler_Profile();</span>
+<span class="x">$twig-&gt;addExtension(new Twig_Extension_Profiler($profile));</span>
 
-$dumper = new Twig_Profiler_Dumper_Text();
-echo $dumper-&gt;dump($profile);
-</code></pre>
+<span class="x">$dumper = new Twig_Profiler_Dumper_Text();</span>
+<span class="x">echo $dumper-&gt;dump($profile);</span>
+</code></pre></div>
 <p>一个profile包含了模版，块以及宏扩展的耗时和内存消耗信息。</p>
 <p>你还可以以<a href="https://blackfire.io/">blackfire.io</a>兼容格式dump这些数据。</p>
-<pre><code class="language-php">$dumper = new Twig_Profiler_Dumper_Blackfire();
-file_put_contents('/path/to/profile.prof', $dumper-&gt;dump($profile));
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$dumper = new Twig_Profiler_Dumper_Blackfire();</span>
+<span class="x">file_put_contents(&#39;/path/to/profile.prof&#39;, $dumper-&gt;dump($profile));</span>
+</code></pre></div>
 <p>上传并显示它(先创建个<a href="https://blackfire.io/signup">免费帐号</a>)</p>
-<pre><code class="language-bash">blackfire --slot=7 upload /path/to/profile.prof
-</code></pre>
-<h4 id="_41">优化扩展</h4>
+<div class="highlight"><pre><span></span><code>blackfire --slot<span class="o">=</span><span class="m">7</span> upload /path/to/profile.prof
+</code></pre></div>
+<h4 id="_41">优化扩展<a class="headerlink" href="#_41" title="Permanent link">&para;</a></h4>
 <p>optimizer扩展会在编译模板之前对节点树进行优化：</p>
-<pre><code class="language-php">$twig-&gt;addExtension(new Twig_Extension_Optimizer());
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$twig-&gt;addExtension(new Twig_Extension_Optimizer());</span>
+</code></pre></div>
 <p>默认情况下，所有的优化都是启用的。你也可以在构造器中传递您需要激活的扩展。</p>
-<pre><code class="language-php">$optimizer = new Twig_Extension_Optimizer(Twig_NodeVisitor_Optimizer::OPTIMIZE_FOR);
+<div class="highlight"><pre><span></span><code><span class="x">$optimizer = new Twig_Extension_Optimizer(Twig_NodeVisitor_Optimizer::OPTIMIZE_FOR);</span>
 
-$twig-&gt;addExtension($optimizer);
-</code></pre>
+<span class="x">$twig-&gt;addExtension($optimizer);</span>
+</code></pre></div>
 <p>Twig支持下列优化：</p>
 <ul>
 <li>Twig_NodeVisitor_Optimizer：OPTIMIZE_ALL  默认值，启用所有优化</li>
@@ -1780,7 +1778,7 @@ $twig-&gt;addExtension($optimizer);
 <li>Twig_NodeVisitor_Optimizer::OPTIMIZE_RAW_FILTER  尽可能移出raw filter</li>
 <li>Twig_NodeVisitor_Optimizer::OPTIMIZE_VAR_ACCESS  尽可能的简化编译模版中变量的创建和访问</li>
 </ul>
-<h3 id="_42">异常</h3>
+<h3 id="_42">异常<a class="headerlink" href="#_42" title="Permanent link">&para;</a></h3>
 <p>Twig能抛出的异常：</p>
 <ul>
 <li>Twig_Error：所有异常</li>
@@ -1789,7 +1787,7 @@ $twig-&gt;addExtension($optimizer);
 <li>Twig_Error_Loader：模板载入时的异常</li>
 <li>Twig_Sandbox_SecurityError: 沙盒模式下出现了不允许使用的标记，filter或者调用了不允许调用的方法抛出的异常</li>
 </ul>
-<h2 id="twig_2">扩展Twig</h2>
+<h2 id="twig_2">扩展Twig<a class="headerlink" href="#twig_2" title="Permanent link">&para;</a></h2>
 <p><em>本章描述了如何对Twig 1.12进行扩展。如果你在使用一个旧版本，请移步到<a href="http://twig.sensiolabs.org/doc/advanced_legacy.html">过往文档</a>继续阅读。</em></p>
 <p>有多重扩展Twig的方法，可以加入额外的标记、Filter、Test、操作符、全局变量以及函数，甚至还能利用Node visitors对解析器本身进行扩展。</p>
 <p><em>本文的第一章节会介绍如何简单地扩展Twig。如果你想要在不同项目中进行复用，或者共享给他人使用，你应该按照接下来章节描述的那样创建一个扩展。</em></p>
@@ -1801,265 +1799,265 @@ $twig-&gt;addExtension($optimizer);
 {% endraw %}</p>
 <p>要理解为什么Twig提供这么多扩展点，先让我们看一下如何实现一个<code>Lorem ipsum</code>生成器。</p>
 <p>你可以使用一个名为<code>lipsum</code>的标记：</p>
-<pre><code class="language-php">{% raw %}
-{% lipsum 40 %}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% lipsum 40 %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>这样的确可以起到效果，但是，使用<code>lipsum</code>标记的确不是一个好主意，因为：</p>
 <ul>
 <li>lipsum不是一个语言结构</li>
 <li>这个标记输出了东西</li>
 <li>这个标记不够灵活，不能在表达式中复用</li>
 </ul>
-<pre><code class="language-php">{% raw %}
-{{ 'some text' ~ {% lipsum 40 %} ~ 'some more text' }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ &#39;some text&#39; ~ {% lipsum 40 %} ~ &#39;some more text&#39; }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>事实上，你很少会使用标记；不过这也是个好消息——Tag的扩展是Twig扩展方式中最复杂的一种。</p>
 <p>接下来，我们来试试filter的方式：</p>
-<pre><code class="language-php">{% raw %}
-{{ 40|lipsum }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ 40|lipsum }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>再一次，它达到了效果，但是却看上去很古怪。filter用来把输入转换成输出，但是这里我们输入了的值是用于指示生成单词的数量——也就是说，40是一个参数，但不是我们转换的目标。</p>
 <p>接下来，我们使用<code>lipsum</code>函数：</p>
-<pre><code class="language-php">{% raw %}
-{{ lipsum(40) }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ lipsum(40) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>这里我们也成功了。对于这个例子来说，这个扩展点的选择是合适的。现在可以在任何接受表达式的地方使用它了。</p>
-<pre><code class="language-php">{% raw %}
-{{ 'some text' ~ lipsum(40) ~ 'some more text' }}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ &#39;some text&#39; ~ lipsum(40) ~ &#39;some more text&#39; }}</span>
 
-{% set lipsum = lipsum(40) %}
-{% endraw %}
-</code></pre>
+<span class="x">{% set lipsum = lipsum(40) %}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>最后，还可以使用带有方法的全局对象来生成这些文字：</p>
-<pre><code class="language-php">{% raw %}
-{{ text.lipsum(40) }}
-{% endraw %}
-</code></pre>
-<h3 id="_43">全局变量</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ text.lipsum(40) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h3 id="_43">全局变量<a class="headerlink" href="#_43" title="Permanent link">&para;</a></h3>
 <p>全局变量和其它的模版变量类似，只不过全局变量在所有的模版和宏定义中都有效：</p>
-<pre><code class="language-php">$twig = new Twig_Environment($loader);
-$twig-&gt;addGlobal('text', new Text());
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$twig = new Twig_Environment($loader);</span>
+<span class="x">$twig-&gt;addGlobal(&#39;text&#39;, new Text());</span>
+</code></pre></div>
 <p>接下来你就可以在任何地方使用<code>text</code>变量了。</p>
-<pre><code class="language-php">{% raw %}
-{{ text.lipsum(40) }}
-{% endraw %}
-</code></pre>
-<h3 id="filters_1">Filters</h3>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ text.lipsum(40) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
+<h3 id="filters_1">Filters<a class="headerlink" href="#filters_1" title="Permanent link">&para;</a></h3>
 <p>创建一个filter就是简单的给一个PHP回调一个名字：</p>
-<pre><code class="language-php">// 匿名函数
-$filter = new Twig_SimpleFilter('rot13', function ($string) {
-    return str_rot13($string);
-});
+<div class="highlight"><pre><span></span><code><span class="x">// 匿名函数</span>
+<span class="x">$filter = new Twig_SimpleFilter(&#39;rot13&#39;, function ($string) {</span>
+<span class="x">    return str_rot13($string);</span>
+<span class="x">});</span>
 
-// 或者一个简单的php函数
-$filter = new Twig_SimpleFilter('rot13', 'str_rot13');
+<span class="x">// 或者一个简单的php函数</span>
+<span class="x">$filter = new Twig_SimpleFilter(&#39;rot13&#39;, &#39;str_rot13&#39;);</span>
 
-// 或者一个类的方法
-$filter = new Twig_SimpleFilter('rot13', array('SomeClass', 'rot13Filter'));
-</code></pre>
+<span class="x">// 或者一个类的方法</span>
+<span class="x">$filter = new Twig_SimpleFilter(&#39;rot13&#39;, array(&#39;SomeClass&#39;, &#39;rot13Filter&#39;));</span>
+</code></pre></div>
 <p>传递给<code>Twig_SimpleFilter</code>构造器的第一个参数是将要在模版中使用的filter的名字，第二个参数是关于这个参数的php回调函数。</p>
 <p>接下来，将filter加入到你的Twig环境中：</p>
-<pre><code class="language-php">$twig = new Twig_Environment($loader);
-$twig-&gt;addFilter($filter);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$twig = new Twig_Environment($loader);</span>
+<span class="x">$twig-&gt;addFilter($filter);</span>
+</code></pre></div>
 <p>然后就可以在模版中使用了：</p>
-<pre><code class="language-php">{% raw %}
-{{ 'Twig'|rot13 }}
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ &#39;Twig&#39;|rot13 }}</span>
 
-{# 输出： Gjvt #}
-{% endraw %}
-</code></pre>
+<span class="x">{# 输出： Gjvt #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>当Twig调用的时候，会把管道符左边的值作为第一个参数，并把括号中的Filter参数作为附加参数传递给回调。</p>
 <p>例如，下面的代码：</p>
-<pre><code class="language-php">{% raw %}
-{{ 'TWIG'|lower }}
-{{ now|date('d/m/Y') }}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{{ &#39;TWIG&#39;|lower }}</span>
+<span class="x">{{ now|date(&#39;d/m/Y&#39;) }}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>会被编译成下面这个样子：</p>
-<pre><code class="language-php">&lt;?php echo strtolower('TWIG') ?&gt;
-&lt;?php echo twig_date_format_filter($now, 'd/m/Y') ?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nb">strtolower</span><span class="p">(</span><span class="s1">&#39;TWIG&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nx">twig_date_format_filter</span><span class="p">(</span><span class="nv">$now</span><span class="p">,</span> <span class="s1">&#39;d/m/Y&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p><code>Twig_SimpleFilter</code>类将选项数组作为它的最后一个参数。</p>
-<pre><code class="language-php">$filter = new Twig_SimpleFilter('rot13', 'str_rot13', $options);
-</code></pre>
-<h4 id="filter">Filter环境感知</h4>
+<div class="highlight"><pre><span></span><code><span class="x">$filter = new Twig_SimpleFilter(&#39;rot13&#39;, &#39;str_rot13&#39;, $options);</span>
+</code></pre></div>
+<h4 id="filter">Filter环境感知<a class="headerlink" href="#filter" title="Permanent link">&para;</a></h4>
 <p>如果要在filter中访问当前的environment实例，需要在option中设置needs_environment为true；这样Twig就会把当前环境作为第一个参数传给filter：</p>
-<pre><code class="language-php">$filter = new Twig_SimpleFilter('rot13', function (Twig_Environment $env, $string) {
-    // 获取当前实例的字符集
-    $charset = $env-&gt;getCharset();
+<div class="highlight"><pre><span></span><code><span class="x">$filter = new Twig_SimpleFilter(&#39;rot13&#39;, function (Twig_Environment $env, $string) {</span>
+<span class="x">    // 获取当前实例的字符集</span>
+<span class="x">    $charset = $env-&gt;getCharset();</span>
 
-    return str_rot13($string);
-}, array('needs_environment' =&gt; true));
-</code></pre>
-<h4 id="filter_1">Filter上下文感知</h4>
+<span class="x">    return str_rot13($string);</span>
+<span class="x">}, array(&#39;needs_environment&#39; =&gt; true));</span>
+</code></pre></div>
+<h4 id="filter_1">Filter上下文感知<a class="headerlink" href="#filter_1" title="Permanent link">&para;</a></h4>
 <p>在Twig中访问上下文，则需要在option中设置needs_context为true，Twig就会吧当前上下文作为第一个参数（如果还设置了needs_environment为true，那么就会是第二个参数）进行传递：</p>
-<pre><code class="language-php">$filter = new Twig_SimpleFilter('rot13', function ($context, $string) {
-    // ...
-}, array('needs_context' =&gt; true));
+<div class="highlight"><pre><span></span><code><span class="x">$filter = new Twig_SimpleFilter(&#39;rot13&#39;, function ($context, $string) {</span>
+<span class="x">    // ...</span>
+<span class="x">}, array(&#39;needs_context&#39; =&gt; true));</span>
 
-$filter = new Twig_SimpleFilter('rot13', function (Twig_Environment $env, $context, $string) {
-    // ...
-}, array('needs_context' =&gt; true, 'needs_environment' =&gt; true));
-</code></pre>
-<h4 id="_44">自动转义</h4>
+<span class="x">$filter = new Twig_SimpleFilter(&#39;rot13&#39;, function (Twig_Environment $env, $context, $string) {</span>
+<span class="x">    // ...</span>
+<span class="x">}, array(&#39;needs_context&#39; =&gt; true, &#39;needs_environment&#39; =&gt; true));</span>
+</code></pre></div>
+<h4 id="_44">自动转义<a class="headerlink" href="#_44" title="Permanent link">&para;</a></h4>
 <p>如果启用了自动转义，filter的输出会在打印之前被转义。如果你的filter就是作为一个转义器（或者显式的输出HTML以及JavaScript代码），那么就需要输出原文。这种情况下，可以使用is_safe选项：</p>
-<pre><code class="language-php">$filter = new Twig_SimpleFilter('nl2br', 'nl2br', array('is_safe' =&gt; array('html')));
-</code></pre>
-<h4 id="filters_2">参数可变的Filters</h4>
+<div class="highlight"><pre><span></span><code><span class="x">$filter = new Twig_SimpleFilter(&#39;nl2br&#39;, &#39;nl2br&#39;, array(&#39;is_safe&#39; =&gt; array(&#39;html&#39;)));</span>
+</code></pre></div>
+<h4 id="filters_2">参数可变的Filters<a class="headerlink" href="#filters_2" title="Permanent link">&para;</a></h4>
 <p>Twig1.19中新增可变参数filters</p>
 <p>当需要一个filter接收的参数个数可变时，设置<code>is_variadic</code>选项为true；Twig会把余下的参数作为一个数组传递给filter的最后一个参数：</p>
-<pre><code class="language-php">$filter = new Twig_SimpleFilter('thumbnail', function ($file, array $options = array()) {
-    // ...
-}, array('is_variadic' =&gt; true));
-</code></pre>
-<h4 id="filters_3">动态Filters</h4>
+<div class="highlight"><pre><span></span><code><span class="x">$filter = new Twig_SimpleFilter(&#39;thumbnail&#39;, function ($file, array $options = array()) {</span>
+<span class="x">    // ...</span>
+<span class="x">}, array(&#39;is_variadic&#39; =&gt; true));</span>
+</code></pre></div>
+<h4 id="filters_3">动态Filters<a class="headerlink" href="#filters_3" title="Permanent link">&para;</a></h4>
 <p>名字中带有特殊字符”*“的filter就是一个动态filter：</p>
-<pre><code class="language-php">$filter = new Twig_SimpleFilter('*_path', function ($name, $arguments) {
-    // ...
-});
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$filter = new Twig_SimpleFilter(&#39;*_path&#39;, function ($name, $arguments) {</span>
+<span class="x">    // ...</span>
+<span class="x">});</span>
+</code></pre></div>
 <p>上面定义的动态filter将会匹配下述列表：</p>
 <ul>
 <li>product_path</li>
 <li>category_path</li>
 </ul>
 <p>动态Filter能够定义一个或者多个通配符部分：</p>
-<pre><code class="language-php">$filter = new Twig_SimpleFilter('*_path_*', function ($name, $suffix, $arguments) {
-    // ...
-});
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$filter = new Twig_SimpleFilter(&#39;*_path_*&#39;, function ($name, $suffix, $arguments) {</span>
+<span class="x">    // ...</span>
+<span class="x">});</span>
+</code></pre></div>
 <p>这个Filter能够接受所有的动态值，并摆放在（环境和上下文之后）其他参数之前。例如，对'foo'|a_path_b()的调用，会传递这些参数：('a', 'b', 'foo')。</p>
-<h3 id="_45">函数</h3>
+<h3 id="_45">函数<a class="headerlink" href="#_45" title="Permanent link">&para;</a></h3>
 <p>函数的定义类似于filter，但是你需要创建一个<code>Twig_SimpleFunction</code>的实例：</p>
-<pre><code class="language-php">$twig = new Twig_Environment($loader);
-$function = new Twig_SimpleFunction('function_name', function () {
-    // ...
-});
-$twig-&gt;addFunction($function);
-</code></pre>
-<h3 id="tests">Tests</h3>
+<div class="highlight"><pre><span></span><code><span class="x">$twig = new Twig_Environment($loader);</span>
+<span class="x">$function = new Twig_SimpleFunction(&#39;function_name&#39;, function () {</span>
+<span class="x">    // ...</span>
+<span class="x">});</span>
+<span class="x">$twig-&gt;addFunction($function);</span>
+</code></pre></div>
+<h3 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h3>
 <p>Tests的定义和filter和函数的定义方法相同，你只需要创建一个<code>Twig_SimpleTest</code>实例：</p>
-<pre><code class="language-php">$twig = new Twig_Environment($loader);
-$test = new Twig_SimpleTest('test_name', function () {
-    // ...
-});
-$twig-&gt;addTest($test);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$twig = new Twig_Environment($loader);</span>
+<span class="x">$test = new Twig_SimpleTest(&#39;test_name&#39;, function () {</span>
+<span class="x">    // ...</span>
+<span class="x">});</span>
+<span class="x">$twig-&gt;addTest($test);</span>
+</code></pre></div>
 <p>Tests允许创建自定义的带有逻辑处理的应用来处理布尔值的条件判断。举个简单的例子，创建一个Twig test来检测对象是否是‘red’：</p>
-<pre><code class="language-php">$twig = new Twig_Environment($loader);
-$test = new Twig_SimpleTest('red', function ($value) {
-  if (isset($value-&gt;color) &amp;&amp; $value-&gt;color == 'red') {
-      return true;
-  }
-  if (isset($value-&gt;paint) &amp;&amp; $value-&gt;paint == 'red') {
-      return true;
-  }
-  return false;
-});
-$twig-&gt;addTest($test);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$twig = new Twig_Environment($loader);</span>
+<span class="x">$test = new Twig_SimpleTest(&#39;red&#39;, function ($value) {</span>
+<span class="x">  if (isset($value-&gt;color) &amp;&amp; $value-&gt;color == &#39;red&#39;) {</span>
+<span class="x">      return true;</span>
+<span class="x">  }</span>
+<span class="x">  if (isset($value-&gt;paint) &amp;&amp; $value-&gt;paint == &#39;red&#39;) {</span>
+<span class="x">      return true;</span>
+<span class="x">  }</span>
+<span class="x">  return false;</span>
+<span class="x">});</span>
+<span class="x">$twig-&gt;addTest($test);</span>
+</code></pre></div>
 <p>Test函数只返回true/false。</p>
 <p>当创建Test的时候，可以使用node_class选项来提供自定义的测试编制。如果你的test可以编译成PHP原语，这个办法就很有用了，这个办法在很多Twig的内置Test中使用：</p>
-<pre><code class="language-php">$twig = new Twig_Environment($loader);
-$test = new Twig_SimpleTest(
-    'odd',
-    null,
-    array('node_class' =&gt; 'Twig_Node_Expression_Test_Odd'));
-$twig-&gt;addTest($test);
+<div class="highlight"><pre><span></span><code><span class="x">$twig = new Twig_Environment($loader);</span>
+<span class="x">$test = new Twig_SimpleTest(</span>
+<span class="x">    &#39;odd&#39;,</span>
+<span class="x">    null,</span>
+<span class="x">    array(&#39;node_class&#39; =&gt; &#39;Twig_Node_Expression_Test_Odd&#39;));</span>
+<span class="x">$twig-&gt;addTest($test);</span>
 
-class Twig_Node_Expression_Test_Odd extends Twig_Node_Expression_Test
-{
-  public function compile(Twig_Compiler $compiler)
-  {
-    $compiler
-      -&gt;raw('(')
-      -&gt;subcompile($this-&gt;getNode('node'))
-      -&gt;raw(' % 2 == 1')
-      -&gt;raw(')')
-    ;
-  }
-}
-</code></pre>
-<h3 id="tags">Tags</h3>
+<span class="x">class Twig_Node_Expression_Test_Odd extends Twig_Node_Expression_Test</span>
+<span class="x">{</span>
+<span class="x">  public function compile(Twig_Compiler $compiler)</span>
+<span class="x">  {</span>
+<span class="x">    $compiler</span>
+<span class="x">      -&gt;raw(&#39;(&#39;)</span>
+<span class="x">      -&gt;subcompile($this-&gt;getNode(&#39;node&#39;))</span>
+<span class="x">      -&gt;raw(&#39; % 2 == 1&#39;)</span>
+<span class="x">      -&gt;raw(&#39;)&#39;)</span>
+<span class="x">    ;</span>
+<span class="x">  }</span>
+<span class="x">}</span>
+</code></pre></div>
+<h3 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h3>
 <p>Twig最令人激动的特性就是可以定义新的语言结构。这也是你需要理解的关于Twig最复杂的关于如何工作的特性。</p>
 <p>让我们创建一个简单的set标记，这个标记用来在模板中定义一个简单变量，这个标记的用法如下：</p>
-<pre><code class="language-php">{% raw %}
-{% set name = &quot;value&quot; %}
-{{ name }}
-{# 输出 value #}
-{% endraw %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">{% raw %}</span>
+<span class="x">{% set name = &quot;value&quot; %}</span>
+<span class="x">{{ name }}</span>
+<span class="x">{# 输出 value #}</span>
+<span class="x">{% endraw %}</span>
+</code></pre></div>
 <p>三个步骤即可定义一个新的标记：</p>
 <ul>
 <li>定义一个Token解析器（用来解析模板代码）</li>
 <li>定义一个节点类(用于把解析的结果转换成PHP)</li>
 <li>注册这个标记</li>
 </ul>
-<h4 id="_46">注册一个新的标记</h4>
+<h4 id="_46">注册一个新的标记<a class="headerlink" href="#_46" title="Permanent link">&para;</a></h4>
 <p>简单的调用<code>Twig_Environment</code>实例的<code>addTokenParser</code>方法即可添加一个标记：</p>
-<pre><code class="language-php">$twig = new Twig_Environment($loader);
-$twig-&gt;addTokenParser(new Project_Set_TokenParser());
-</code></pre>
-<h4 id="token">定义一个token解析器</h4>
+<div class="highlight"><pre><span></span><code><span class="x">$twig = new Twig_Environment($loader);</span>
+<span class="x">$twig-&gt;addTokenParser(new Project_Set_TokenParser());</span>
+</code></pre></div>
+<h4 id="token">定义一个token解析器<a class="headerlink" href="#token" title="Permanent link">&para;</a></h4>
 <p>来看下代码实例：</p>
-<pre><code class="language-php">class Project_Set_TokenParser extends Twig_TokenParser
-{
-  public function parse(Twig_Token $token)
-  {
-    $parser = $this-&gt;parser;
-    $stream = $parser-&gt;getStream();
+<div class="highlight"><pre><span></span><code><span class="x">class Project_Set_TokenParser extends Twig_TokenParser</span>
+<span class="x">{</span>
+<span class="x">  public function parse(Twig_Token $token)</span>
+<span class="x">  {</span>
+<span class="x">    $parser = $this-&gt;parser;</span>
+<span class="x">    $stream = $parser-&gt;getStream();</span>
 
-    $name = $stream-&gt;expect(Twig_Token::NAME_TYPE)-&gt;getValue();
-    $stream-&gt;expect(Twig_Token::OPERATOR_TYPE, '=');
-    $value = $parser-&gt;getExpressionParser()-&gt;parseExpression();
-    $stream-&gt;expect(Twig_Token::BLOCK_END_TYPE);
+<span class="x">    $name = $stream-&gt;expect(Twig_Token::NAME_TYPE)-&gt;getValue();</span>
+<span class="x">    $stream-&gt;expect(Twig_Token::OPERATOR_TYPE, &#39;=&#39;);</span>
+<span class="x">    $value = $parser-&gt;getExpressionParser()-&gt;parseExpression();</span>
+<span class="x">    $stream-&gt;expect(Twig_Token::BLOCK_END_TYPE);</span>
 
-    return new Project_Set_Node($name, $value, $token-&gt;getLine(), $this-&gt;getTag());
-  }
+<span class="x">    return new Project_Set_Node($name, $value, $token-&gt;getLine(), $this-&gt;getTag());</span>
+<span class="x">  }</span>
 
-  public function getTag()
-  {
-    return 'set';
-  }
-}
-</code></pre>
+<span class="x">  public function getTag()</span>
+<span class="x">  {</span>
+<span class="x">    return &#39;set&#39;;</span>
+<span class="x">  }</span>
+<span class="x">}</span>
+</code></pre></div>
 <p><code>getTag()</code>方法必须返回我们要解析的标记，这里返回的就是<code>set</code>.</p>
 <p><code>parse()</code>方法在解析器遇到<code>set</code>标记的时候就会被调用。这个方法应该返回一个<code>Twig_Node</code>实例用于显示这个结点。</p>
 <p>Token流（$this-&gt;parser-&gt;getStream()）提供了一系列方法，简化了解析过程：</p>
 <ul>
 <li>getCurrent()：从流中获取当前的token</li>
 <li>next()：移动到流中的下一个Token，并返回之前的一个</li>
-<li>test($type), test($value）或者test($type, $value)：判断当前token是不是某种类型或值（或同时满足）。值可以是一个包含很多值的数组。</li>
+<li>test(<span class="arithmatex"><span class="MathJax_Preview">type), test(</span><script type="math/tex">type), test(</script></span>value）或者test($type, $value)：判断当前token是不是某种类型或值（或同时满足）。值可以是一个包含很多值的数组。</li>
 <li>expect($type[, $value[, $message]])：如果当前token不是指定的类型或值，就给出一个语法错误。否则，如果值和类型都正确，则返回当前token，并移动到下一个Token。</li>
 <li>look()：查看但不使用下一个token</li>
 </ul>
 <p>像set标记这样，通过调用<code>parseExpression()</code>完成对表达式的解析。</p>
-<h4 id="_47">定义一个节点</h4>
+<h4 id="_47">定义一个节点<a class="headerlink" href="#_47" title="Permanent link">&para;</a></h4>
 <p>Project_Set_Node类很简单：</p>
-<pre><code class="language-php">class Project_Set_Node extends Twig_Node
-{
-  public function __construct($name, Twig_Node_Expression $value, $line, $tag = null)
-  {
-    parent::__construct(array('value' =&gt; $value), array('name' =&gt; $name), $line, $tag);
-  }
+<div class="highlight"><pre><span></span><code><span class="x">class Project_Set_Node extends Twig_Node</span>
+<span class="x">{</span>
+<span class="x">  public function __construct($name, Twig_Node_Expression $value, $line, $tag = null)</span>
+<span class="x">  {</span>
+<span class="x">    parent::__construct(array(&#39;value&#39; =&gt; $value), array(&#39;name&#39; =&gt; $name), $line, $tag);</span>
+<span class="x">  }</span>
 
-  public function compile(Twig_Compiler $compiler)
-  {
-    $compiler
-        -&gt;addDebugInfo($this)
-        -&gt;write('$context[\''.$this-&gt;getAttribute('name').'\'] = ')
-        -&gt;subcompile($this-&gt;getNode('value'))
-        -&gt;raw(&quot;;\n&quot;)
-    ;
-  }
-}
-</code></pre>
+<span class="x">  public function compile(Twig_Compiler $compiler)</span>
+<span class="x">  {</span>
+<span class="x">    $compiler</span>
+<span class="x">        -&gt;addDebugInfo($this)</span>
+<span class="x">        -&gt;write(&#39;$context[\&#39;&#39;.$this-&gt;getAttribute(&#39;name&#39;).&#39;\&#39;] = &#39;)</span>
+<span class="x">        -&gt;subcompile($this-&gt;getNode(&#39;value&#39;))</span>
+<span class="x">        -&gt;raw(&quot;;\n&quot;)</span>
+<span class="x">    ;</span>
+<span class="x">  }</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>编译器实现了一套接口和方法用于帮助开发者生成美观易读的PHP代码：</p>
 <ul>
 <li>subcompile()：编译一个结点</li>
@@ -2071,186 +2069,186 @@ $twig-&gt;addTokenParser(new Project_Set_TokenParser());
 <li>indent()：缩进生成的代码</li>
 <li>outdent()：伸出生成的代码</li>
 </ul>
-<h3 id="_48">创建一个扩展</h3>
+<h3 id="_48">创建一个扩展<a class="headerlink" href="#_48" title="Permanent link">&para;</a></h3>
 <p>开发扩展的一个主要目的可能就是为了将经常使用的功能规范称一个可复用的类，比如说，国际化支持。一个扩展可以指定标记、Filter、Test、运算符、全局变量、函数以及Node visitors。</p>
 <p>扩展还可以分离编译时和运行时的代码，加快代码的运行速度。</p>
 <p>大多数时候，创建一个单独的包含所有标记和filters的扩展将对你的项目很有用。</p>
 <p>一个扩展就是一个实现了下面这个接口的类：</p>
-<pre><code class="language-php">interface Twig_ExtensionInterface
-{
-  /**
-   * Initializes the runtime environment.
-   *
-   * This is where you can load some file that contains filter functions for instance.
-   *
-   * @param Twig_Environment $environment The current Twig_Environment instance
-   *
-   * @deprecated since 1.23 (to be removed in 2.0), implement Twig_Extension_InitRuntimeInterace instead
-   */
-  function initRuntime(Twig_Environment $environment);
+<div class="highlight"><pre><span></span><code><span class="x">interface Twig_ExtensionInterface</span>
+<span class="x">{</span>
+<span class="x">  /**</span>
+<span class="x">   * Initializes the runtime environment.</span>
+<span class="x">   *</span>
+<span class="x">   * This is where you can load some file that contains filter functions for instance.</span>
+<span class="x">   *</span>
+<span class="x">   * @param Twig_Environment $environment The current Twig_Environment instance</span>
+<span class="x">   *</span>
+<span class="x">   * @deprecated since 1.23 (to be removed in 2.0), implement Twig_Extension_InitRuntimeInterace instead</span>
+<span class="x">   */</span>
+<span class="x">  function initRuntime(Twig_Environment $environment);</span>
 
-  /**
-   * Returns the token parser instances to add to the existing list.
-   *
-   * @return array An array of Twig_TokenParserInterface or Twig_TokenParserBrokerInterface instances
-   */
-  function getTokenParsers();
+<span class="x">  /**</span>
+<span class="x">   * Returns the token parser instances to add to the existing list.</span>
+<span class="x">   *</span>
+<span class="x">   * @return array An array of Twig_TokenParserInterface or Twig_TokenParserBrokerInterface instances</span>
+<span class="x">   */</span>
+<span class="x">  function getTokenParsers();</span>
 
-  /**
-   * Returns the node visitor instances to add to the existing list.
-   *
-   * @return array An array of Twig_NodeVisitorInterface instances
-   */
-  function getNodeVisitors();
+<span class="x">  /**</span>
+<span class="x">   * Returns the node visitor instances to add to the existing list.</span>
+<span class="x">   *</span>
+<span class="x">   * @return array An array of Twig_NodeVisitorInterface instances</span>
+<span class="x">   */</span>
+<span class="x">  function getNodeVisitors();</span>
 
-  /**
-   * Returns a list of filters to add to the existing list.
-   *
-   * @return array An array of filters
-   */
-  function getFilters();
+<span class="x">  /**</span>
+<span class="x">   * Returns a list of filters to add to the existing list.</span>
+<span class="x">   *</span>
+<span class="x">   * @return array An array of filters</span>
+<span class="x">   */</span>
+<span class="x">  function getFilters();</span>
 
-  /**
-   * Returns a list of tests to add to the existing list.
-   *
-   * @return array An array of tests
-   */
-  function getTests();
+<span class="x">  /**</span>
+<span class="x">   * Returns a list of tests to add to the existing list.</span>
+<span class="x">   *</span>
+<span class="x">   * @return array An array of tests</span>
+<span class="x">   */</span>
+<span class="x">  function getTests();</span>
 
-  /**
-   * Returns a list of functions to add to the existing list.
-   *
-   * @return array An array of functions
-   */
-  function getFunctions();
+<span class="x">  /**</span>
+<span class="x">   * Returns a list of functions to add to the existing list.</span>
+<span class="x">   *</span>
+<span class="x">   * @return array An array of functions</span>
+<span class="x">   */</span>
+<span class="x">  function getFunctions();</span>
 
-  /**
-   * Returns a list of operators to add to the existing list.
-   *
-   * @return array An array of operators
-   */
-  function getOperators();
+<span class="x">  /**</span>
+<span class="x">   * Returns a list of operators to add to the existing list.</span>
+<span class="x">   *</span>
+<span class="x">   * @return array An array of operators</span>
+<span class="x">   */</span>
+<span class="x">  function getOperators();</span>
 
-  /**
-   * Returns a list of global variables to add to the existing list.
-   *
-   * @return array An array of global variables
-   *
-   * @deprecated since 1.23 (to be removed in 2.0), implement Twig_Extension_GlobalsInterface instead
-   */
-  function getGlobals();
+<span class="x">  /**</span>
+<span class="x">   * Returns a list of global variables to add to the existing list.</span>
+<span class="x">   *</span>
+<span class="x">   * @return array An array of global variables</span>
+<span class="x">   *</span>
+<span class="x">   * @deprecated since 1.23 (to be removed in 2.0), implement Twig_Extension_GlobalsInterface instead</span>
+<span class="x">   */</span>
+<span class="x">  function getGlobals();</span>
 
-  /**
-   * Returns the name of the extension.
-   *
-   * @return string The extension name
-   */
-  function getName();
-}
-</code></pre>
+<span class="x">  /**</span>
+<span class="x">   * Returns the name of the extension.</span>
+<span class="x">   *</span>
+<span class="x">   * @return string The extension name</span>
+<span class="x">   */</span>
+<span class="x">  function getName();</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>为了保持扩展类的整洁与稳定，还可以只继承内置的<code>Twig_Extension</code>类而不需要实现所有的接口。采用这种该方式的话，你只需要实现<code>getName()</code>方法。</p>
 <p><code>getName()</code>方法必须返回这个扩展的唯一标识符</p>
 <p>现在我们来是一个最简单的扩展：</p>
-<pre><code class="language-php">class Project_Twig_Extension extends Twig_Extension
-{
-  public function getName()
-  {
-    return 'project';
-  }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">class Project_Twig_Extension extends Twig_Extension</span>
+<span class="x">{</span>
+<span class="x">  public function getName()</span>
+<span class="x">  {</span>
+<span class="x">    return &#39;project&#39;;</span>
+<span class="x">  }</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>Twig不关心你的扩展存在何处，因为所有的扩展都需要显示的注册。通过调用<code>Environment</code>对象的<code>addExtension()</code>方法即可注册一个扩展。</p>
-<pre><code class="language-php">$twig = new Twig_Environment($loader);
-$twig-&gt;addExtension(new Project_Twig_Extension());
-</code></pre>
-<h4 id="_49">全局变量</h4>
+<div class="highlight"><pre><span></span><code><span class="x">$twig = new Twig_Environment($loader);</span>
+<span class="x">$twig-&gt;addExtension(new Project_Twig_Extension());</span>
+</code></pre></div>
+<h4 id="_49">全局变量<a class="headerlink" href="#_49" title="Permanent link">&para;</a></h4>
 <p>通过调用<code>getGlobals()</code>方法即可以在扩展中注册全局变量：</p>
-<pre><code class="language-php">class Project_Twig_Extension extends Twig_Extension
-{
-  public function getGlobals()
-  {
-    return array(
-        'text' =&gt; new Text(),
-    );
-  }
+<div class="highlight"><pre><span></span><code><span class="x">class Project_Twig_Extension extends Twig_Extension</span>
+<span class="x">{</span>
+<span class="x">  public function getGlobals()</span>
+<span class="x">  {</span>
+<span class="x">    return array(</span>
+<span class="x">        &#39;text&#39; =&gt; new Text(),</span>
+<span class="x">    );</span>
+<span class="x">  }</span>
 
-  // ...
-}
-</code></pre>
-<h4 id="_50">函数</h4>
+<span class="x">  // ...</span>
+<span class="x">}</span>
+</code></pre></div>
+<h4 id="_50">函数<a class="headerlink" href="#_50" title="Permanent link">&para;</a></h4>
 <p>通过调用<code>getFunctions()</code>方法即可以在扩展中注册函数：</p>
-<pre><code class="language-php">class Project_Twig_Extension extends Twig_Extension
-{
-  public function getFunctions()
-  {
-    return array(
-        new Twig_SimpleFunction('lipsum', 'generate_lipsum'),
-    );
-  }
+<div class="highlight"><pre><span></span><code><span class="x">class Project_Twig_Extension extends Twig_Extension</span>
+<span class="x">{</span>
+<span class="x">  public function getFunctions()</span>
+<span class="x">  {</span>
+<span class="x">    return array(</span>
+<span class="x">        new Twig_SimpleFunction(&#39;lipsum&#39;, &#39;generate_lipsum&#39;),</span>
+<span class="x">    );</span>
+<span class="x">  }</span>
 
-  // ...
-}
-</code></pre>
-<h4 id="filters_4">Filters</h4>
+<span class="x">  // ...</span>
+<span class="x">}</span>
+</code></pre></div>
+<h4 id="filters_4">Filters<a class="headerlink" href="#filters_4" title="Permanent link">&para;</a></h4>
 <p>为了将filter添加到一个扩展中，你需要覆写<code>getFilters()</code>方法。这个方法必须返回一个添加到Twig环境的filters数组：</p>
-<pre><code class="language-php">class Project_Twig_Extension extends Twig_Extension
-{
-  public function getFilters()
-  {
-    return array(
-        new Twig_SimpleFilter('rot13', 'str_rot13'),
-    );
-  }
+<div class="highlight"><pre><span></span><code><span class="x">class Project_Twig_Extension extends Twig_Extension</span>
+<span class="x">{</span>
+<span class="x">  public function getFilters()</span>
+<span class="x">  {</span>
+<span class="x">    return array(</span>
+<span class="x">        new Twig_SimpleFilter(&#39;rot13&#39;, &#39;str_rot13&#39;),</span>
+<span class="x">    );</span>
+<span class="x">  }</span>
 
-  // ...
-}
-</code></pre>
-<h4 id="_51">标记</h4>
+<span class="x">  // ...</span>
+<span class="x">}</span>
+</code></pre></div>
+<h4 id="_51">标记<a class="headerlink" href="#_51" title="Permanent link">&para;</a></h4>
 <p>通过覆写<code>getTokenParsers()</code>方法就可以将一个标记添加到一个扩展中。这个方法必须返回一个天极到Twig环境的tags数组：</p>
-<pre><code class="language-php">class Project_Twig_Extension extends Twig_Extension
-{
-  public function getTokenParsers()
-  {
-    return array(new Project_Set_TokenParser());
-  }
+<div class="highlight"><pre><span></span><code><span class="x">class Project_Twig_Extension extends Twig_Extension</span>
+<span class="x">{</span>
+<span class="x">  public function getTokenParsers()</span>
+<span class="x">  {</span>
+<span class="x">    return array(new Project_Set_TokenParser());</span>
+<span class="x">  }</span>
 
-  // ...
-}
-</code></pre>
-<h4 id="_52">操作符</h4>
+<span class="x">  // ...</span>
+<span class="x">}</span>
+</code></pre></div>
+<h4 id="_52">操作符<a class="headerlink" href="#_52" title="Permanent link">&para;</a></h4>
 <p><code>getOperators()</code>方法用来新增新的操作符。下面的例子是如何添加!，||以及&amp;&amp;操作符：</p>
-<pre><code class="language-php">class Project_Twig_Extension extends Twig_Extension
-{
-  public function getOperators()
-  {
-    return array(
-      array(
-        '!' =&gt; array('precedence' =&gt; 50, 'class' =&gt; 'Twig_Node_Expression_Unary_Not'),
-      ),
-      array(
-        '||' =&gt; array('precedence' =&gt; 10, 'class' =&gt; 'Twig_Node_Expression_Binary_Or', 'associativity' =&gt; Twig_ExpressionParser::OPERATOR_LEFT),
-        '&amp;&amp;' =&gt; array('precedence' =&gt; 15, 'class' =&gt; 'Twig_Node_Expression_Binary_And', 'associativity' =&gt; Twig_ExpressionParser::OPERATOR_LEFT),
-      ),
-    );
-  }
+<div class="highlight"><pre><span></span><code><span class="x">class Project_Twig_Extension extends Twig_Extension</span>
+<span class="x">{</span>
+<span class="x">  public function getOperators()</span>
+<span class="x">  {</span>
+<span class="x">    return array(</span>
+<span class="x">      array(</span>
+<span class="x">        &#39;!&#39; =&gt; array(&#39;precedence&#39; =&gt; 50, &#39;class&#39; =&gt; &#39;Twig_Node_Expression_Unary_Not&#39;),</span>
+<span class="x">      ),</span>
+<span class="x">      array(</span>
+<span class="x">        &#39;||&#39; =&gt; array(&#39;precedence&#39; =&gt; 10, &#39;class&#39; =&gt; &#39;Twig_Node_Expression_Binary_Or&#39;, &#39;associativity&#39; =&gt; Twig_ExpressionParser::OPERATOR_LEFT),</span>
+<span class="x">        &#39;&amp;&amp;&#39; =&gt; array(&#39;precedence&#39; =&gt; 15, &#39;class&#39; =&gt; &#39;Twig_Node_Expression_Binary_And&#39;, &#39;associativity&#39; =&gt; Twig_ExpressionParser::OPERATOR_LEFT),</span>
+<span class="x">      ),</span>
+<span class="x">    );</span>
+<span class="x">  }</span>
 
-  // ...
-}
-</code></pre>
-<h4 id="tests_1">Tests</h4>
+<span class="x">  // ...</span>
+<span class="x">}</span>
+</code></pre></div>
+<h4 id="tests_1">Tests<a class="headerlink" href="#tests_1" title="Permanent link">&para;</a></h4>
 <p>getTests()方法用来添加新的Test函数：</p>
-<pre><code class="language-php">class Project_Twig_Extension extends Twig_Extension
-{
-  public function getTests()
-  {
-    return array(
-        new Twig_SimpleTest('even', 'twig_test_even'),
-    );
-  }
+<div class="highlight"><pre><span></span><code><span class="x">class Project_Twig_Extension extends Twig_Extension</span>
+<span class="x">{</span>
+<span class="x">  public function getTests()</span>
+<span class="x">  {</span>
+<span class="x">    return array(</span>
+<span class="x">        new Twig_SimpleTest(&#39;even&#39;, &#39;twig_test_even&#39;),</span>
+<span class="x">    );</span>
+<span class="x">  }</span>
 
-  // ...
-}
-</code></pre>
+<span class="x">  // ...</span>
+<span class="x">}</span>
+</code></pre></div>
 
               
             </article>

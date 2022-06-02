@@ -394,117 +394,116 @@
 
   <h1>"Drupal8功能测试"</h1>
 
-<hr />
 <p>Drupal8的功能测试必须要有一个正在运行的站点，并且安装了simpleTest核心模块。
 本文的测试用例实现的功能为：
 向user实体增加一个字段，然后检查用户里是否存在这个字段。</p>
-<h2 id="phpunitsimpletestbrowsertestbase-webtestbase">一、PHPUnit和SimpleTest功能测试(BrowserTestBase / WebTestBase)</h2>
+<h2 id="phpunitsimpletestbrowsertestbase-webtestbase">一、PHPUnit和SimpleTest功能测试(BrowserTestBase / WebTestBase)<a class="headerlink" href="#phpunitsimpletestbrowsertestbase-webtestbase" title="Permanent link">&para;</a></h2>
 <p>以后的功能测试都是使用phpUnit和BrowserTestBase，Drupal8中很多模块还在用WebTestBase.</p>
 <p>BrowserTestBase的主要限制是不能使用JavaScript和AJAX。
 如果需要测试它们，建议先用WebTestBase。</p>
-<h3 id="1">1、定义字段</h3>
-<pre><code class="language-bash">vim config/install/field.field.user.user.test_status.yml
-</code></pre>
-<p>编辑文件内容为：</p>
-<pre><code class="language-php">langcode: en
-status: true
-dependencies:
-  config:
-    - field.storage.user.test_status
-id: user.user.test_status
-field_name: test_status
-entity_type: user
-bundle: user
-label: test_status
-description: ''
-required: false
-translatable: false
-default_value:
-  -
-    value: 0
-default_value_callback: ''
-settings:
-  on_label: 'On'
-  off_label: 'Off'
-field_type: boolean
-</code></pre>
-<pre><code class="language-bash">vim config/install/field.storage.user.test_status.yml
-</code></pre>
-<p>编辑内容为：</p>
-<pre><code class="language-php">langcode: en
-status: true
-dependencies:
-  module:
-    - user
-id: user.test_status
-field_name: test_status
-entity_type: user
-type: boolean
-settings: {  }
-module: test_example
-locked: false
-cardinality: 1
-translatable: true
-indexes: {  }
-persist_with_no_fields: false
-</code></pre>
-<h3 id="2">2、创建功能测试</h3>
+<h3 id="1">1、定义字段<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>vim config/install/field.field.user.user.test_status.yml
+</code></pre></div>
+<p>编辑文件内容为：
+<div class="highlight"><pre><span></span><code><span class="x">langcode: en</span>
+<span class="x">status: true</span>
+<span class="x">dependencies:</span>
+<span class="x">  config:</span>
+<span class="x">    - field.storage.user.test_status</span>
+<span class="x">id: user.user.test_status</span>
+<span class="x">field_name: test_status</span>
+<span class="x">entity_type: user</span>
+<span class="x">bundle: user</span>
+<span class="x">label: test_status</span>
+<span class="x">description: &#39;&#39;</span>
+<span class="x">required: false</span>
+<span class="x">translatable: false</span>
+<span class="x">default_value:</span>
+<span class="x">  -</span>
+<span class="x">    value: 0</span>
+<span class="x">default_value_callback: &#39;&#39;</span>
+<span class="x">settings:</span>
+<span class="x">  on_label: &#39;On&#39;</span>
+<span class="x">  off_label: &#39;Off&#39;</span>
+<span class="x">field_type: boolean</span>
+</code></pre></div></p>
+<p><div class="highlight"><pre><span></span><code>vim config/install/field.storage.user.test_status.yml
+</code></pre></div>
+编辑内容为：
+<div class="highlight"><pre><span></span><code><span class="x">langcode: en</span>
+<span class="x">status: true</span>
+<span class="x">dependencies:</span>
+<span class="x">  module:</span>
+<span class="x">    - user</span>
+<span class="x">id: user.test_status</span>
+<span class="x">field_name: test_status</span>
+<span class="x">entity_type: user</span>
+<span class="x">type: boolean</span>
+<span class="x">settings: {  }</span>
+<span class="x">module: test_example</span>
+<span class="x">locked: false</span>
+<span class="x">cardinality: 1</span>
+<span class="x">translatable: true</span>
+<span class="x">indexes: {  }</span>
+<span class="x">persist_with_no_fields: false</span>
+</code></pre></div></p>
+<h3 id="2">2、创建功能测试<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
 <p>必须在tests/src/Functional/内创建一个以 Test.php 结尾的文件。
 创建一个继承 BrowserTestBase 的类创建测试。
 我们也使用 Drupal\Tests[module_name]\Functional 作为所有测试类的namespace。</p>
 <p>编辑src/Functional/TestExampleUserTest.php</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- *
- * Contains \Drupal\Tests\test_example\Functional\TestExampleUserTest.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> *</span>
+<span class="sd"> * Contains \Drupal\Tests\test_example\Functional\TestExampleUserTest.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\Tests\test_example\Functional;
+<span class="k">namespace</span> <span class="nx">Drupal\Tests\test_example\Functional</span><span class="p">;</span>
 
-use Drupal\simpletest\BrowserTestBase;
+<span class="k">use</span> <span class="nx">Drupal\simpletest\BrowserTestBase</span><span class="p">;</span>
 
-/**
- * Check if our user field works.
- *
- * @group test_example
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
-class TestExampleUserTest extends BrowserTestBase {
+<span class="sd">/**</span>
+<span class="sd"> * Check if our user field works.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @group test_example</span>
+<span class="sd"> * @runTestsInSeparateProcesses</span>
+<span class="sd"> * @preserveGlobalState disabled</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">TestExampleUserTest</span> <span class="k">extends</span> <span class="nx">BrowserTestBase</span> <span class="p">{</span>
 
-  /**
-   * @var \Drupal\user\Entity\User.
-   */
-  protected $user;
+  <span class="sd">/**</span>
+<span class="sd">   * @var \Drupal\user\Entity\User.</span>
+<span class="sd">   */</span>
+  <span class="k">protected</span> <span class="nv">$user</span><span class="p">;</span>
 
-  /**
-   * Enabled modules
-   */
-  public static $modules = ['test_example'];
+  <span class="sd">/**</span>
+<span class="sd">   * Enabled modules</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nv">$modules</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;test_example&#39;</span><span class="p">];</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  function setUp() {
-    parent::setUp();
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">parent</span><span class="o">::</span><span class="na">setUp</span><span class="p">();</span>
 
-    $this-&gt;user = $this-&gt;drupalCreateUser();
-  }
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">user</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">drupalCreateUser</span><span class="p">();</span>
+  <span class="p">}</span>
 
-  /**
-   * Test that the user has a test_status field.
-   */
-  public function testUserHasTestStatusField() {
-    $this-&gt;assertTrue(in_array('test_status', array_keys($this-&gt;user-&gt;getFieldDefinitions())));
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Test that the user has a test_status field.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">testUserHasTestStatusField</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertTrue</span><span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="s1">&#39;test_status&#39;</span><span class="p">,</span> <span class="nb">array_keys</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">user</span><span class="o">-&gt;</span><span class="na">getFieldDefinitions</span><span class="p">())));</span>
+  <span class="p">}</span>
 
-}
-</code></pre>
+<span class="p">}</span>
+</code></pre></div>
 <ul>
 <li>注解
-所有使用PhpUnit的功能测试必须要有两个注解，@runTestsInSeparateProcesses 和 @preserveGlobalState disabled。</li>
+所有使用PhpUnit的功能测试必须要有两个注解，<a class="magiclink magiclink-github magiclink-mention" href="https://github.com/runTestsInSeparateProcesses" title="GitHub User: runTestsInSeparateProcesses">@runTestsInSeparateProcesses</a> 和 <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/preserveGlobalState" title="GitHub User: preserveGlobalState">@preserveGlobalState</a> disabled。</li>
 <li>激活模块
 因为功能测试运行在没有完全构建的Drupal系统内，所以我们需要激活需测试的模块。</li>
 <li>setUp
@@ -514,13 +513,13 @@ class TestExampleUserTest extends BrowserTestBase {
 <li>断言语句
 和单元测试一样。在上面这个测试用例，我们检查用户实体里是否存在test_status这个字段。</li>
 </ul>
-<h3 id="3">3、执行功能测试</h3>
+<h3 id="3">3、执行功能测试<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
 <p>首先设置一下phpstrom
 * 打开 PhpStorm
 * 在 Command Line 部分，编辑 Environment  变量。
 * 设置SIMPLETEST_BASE_URL 和值（站点URL)。
 <img alt="PhpStorm 功能测试" src="https://static.verycloud.cn/sites/default/files/pic/image/20160603/20160603111934_95639.jpg" /></p>
-<h2 id="ajax-simpletest">二、Ajax功能测试-SimpleTest</h2>
+<h2 id="ajax-simpletest">二、Ajax功能测试-SimpleTest<a class="headerlink" href="#ajax-simpletest" title="Permanent link">&para;</a></h2>
 <p>phpUnit和simpleTest的主要区别是：</p>
 <ul>
 <li>文件命名和名字空间</li>
@@ -534,53 +533,53 @@ class TestExampleUserTest extends BrowserTestBase {
 simpleTest位于srs/Tests内。</p>
 <p>下面是一个simpleTest:
 src/Tests/TestExampleUserTest.php</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- *
- * Contains \Drupal\test_example\Tests\TestExampleUserTest.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> *</span>
+<span class="sd"> * Contains \Drupal\test_example\Tests\TestExampleUserTest.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\test_example\Tests;
+<span class="k">namespace</span> <span class="nx">Drupal\test_example\Tests</span><span class="p">;</span>
 
-use Drupal\simpletest\WebTestBase;
+<span class="k">use</span> <span class="nx">Drupal\simpletest\WebTestBase</span><span class="p">;</span>
 
-/**
- * Check if our user field works.
- *
- * @group test_example
- */
-class TestExampleUserTest extends WebTestBase {
+<span class="sd">/**</span>
+<span class="sd"> * Check if our user field works.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @group test_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">TestExampleUserTest</span> <span class="k">extends</span> <span class="nx">WebTestBase</span> <span class="p">{</span>
 
-  /**
-   * @var \Drupal\user\Entity\User.
-   */
-  protected $user;
+  <span class="sd">/**</span>
+<span class="sd">   * @var \Drupal\user\Entity\User.</span>
+<span class="sd">   */</span>
+  <span class="k">protected</span> <span class="nv">$user</span><span class="p">;</span>
 
-  /**
-   * Enabled modules
-   */
-  public static $modules = ['test_example'];
+  <span class="sd">/**</span>
+<span class="sd">   * Enabled modules</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nv">$modules</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;test_example&#39;</span><span class="p">];</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  function setUp() {
-    parent::setUp();
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">function</span> <span class="nf">setUp</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">parent</span><span class="o">::</span><span class="na">setUp</span><span class="p">();</span>
 
-    $this-&gt;user = $this-&gt;drupalCreateUser();
-  }
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">user</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">drupalCreateUser</span><span class="p">();</span>
+  <span class="p">}</span>
 
-  /**
-   * Test that the user has a test_status field.
-   */
-  public function testUserHasTestStatusField() {
-    $this-&gt;assertTrue(in_array('test_status', array_keys($this-&gt;user-&gt;getFieldDefinitions())));
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Test that the user has a test_status field.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">testUserHasTestStatusField</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertTrue</span><span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="s1">&#39;test_status&#39;</span><span class="p">,</span> <span class="nb">array_keys</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">user</span><span class="o">-&gt;</span><span class="na">getFieldDefinitions</span><span class="p">())));</span>
+  <span class="p">}</span>
 
-}
-</code></pre>
+<span class="p">}</span>
+</code></pre></div>
 <p>Drupal8的核心模块有很多测试用例。有想学习的可以多看看。</p>
 
               

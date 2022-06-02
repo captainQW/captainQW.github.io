@@ -400,307 +400,306 @@
 
 
 
-<hr />
 <p>MariaDB和Mysql对比（配置4核4G）:</p>
-<pre><code class="language-php">Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 2
-Server version: 5.6.25-73.1 Percona Server (GPL), Release 73.1, Revision 07b797f
-</code></pre>
-<pre><code class="language-php">Welcome to the MariaDB monitor.  Commands end with ; or \g.
-Your MariaDB connection id is 4
-Server version: 10.0.14-MariaDB MariaDB Server
-</code></pre>
-<h3 id="1mariadb">1、MariaDB导入数据：</h3>
-<pre><code class="language-php">MariaDB [billing]&gt; load data infile '/home/user_logs.txt' into table cloud_innodb FIELDS TERMINATED BY '\t';
-Query OK, 641098 rows affected, 65535 warnings (1 min 18.02 sec)
-Records: 641098  Deleted: 0  Skipped: 0  Warnings: 641098
+<div class="highlight"><pre><span></span><code><span class="x">Welcome to the MySQL monitor.  Commands end with ; or \g.</span>
+<span class="x">Your MySQL connection id is 2</span>
+<span class="x">Server version: 5.6.25-73.1 Percona Server (GPL), Release 73.1, Revision 07b797f</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="x">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span>
+<span class="x">Your MariaDB connection id is 4</span>
+<span class="x">Server version: 10.0.14-MariaDB MariaDB Server</span>
+</code></pre></div>
+<h3 id="1mariadb">1、MariaDB导入数据：<a class="headerlink" href="#1mariadb" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="x">MariaDB [billing]&gt; load data infile &#39;/home/user_logs.txt&#39; into table cloud_innodb FIELDS TERMINATED BY &#39;\t&#39;;</span>
+<span class="x">Query OK, 641098 rows affected, 65535 warnings (1 min 18.02 sec)</span>
+<span class="x">Records: 641098  Deleted: 0  Skipped: 0  Warnings: 641098</span>
 
-MariaDB [billing]&gt; load data infile '/home/user_logs.txt' into table cloud_tokudb FIELDS TERMINATED BY '\t';
-Query OK, 641098 rows affected, 65535 warnings (36.83 sec)                                 
-Records: 641098  Deleted: 0  Skipped: 0  Warnings: 641098
-</code></pre>
-<p>Mysql导入数据：</p>
-<pre><code class="language-php">mysql&gt; load data infile '/home/user_logs.txt' into table cloud_innodb FIELDS TERMINATED BY '\t';
-Query OK, 641098 rows affected, 65535 warnings (1 min 10.75 sec)
-Records: 641098  Deleted: 0  Skipped: 0  Warnings: 641098
+<span class="x">MariaDB [billing]&gt; load data infile &#39;/home/user_logs.txt&#39; into table cloud_tokudb FIELDS TERMINATED BY &#39;\t&#39;;</span>
+<span class="x">Query OK, 641098 rows affected, 65535 warnings (36.83 sec)                                 </span>
+<span class="x">Records: 641098  Deleted: 0  Skipped: 0  Warnings: 641098</span>
+</code></pre></div>
+<p>Mysql导入数据：
+<div class="highlight"><pre><span></span><code><span class="x">mysql&gt; load data infile &#39;/home/user_logs.txt&#39; into table cloud_innodb FIELDS TERMINATED BY &#39;\t&#39;;</span>
+<span class="x">Query OK, 641098 rows affected, 65535 warnings (1 min 10.75 sec)</span>
+<span class="x">Records: 641098  Deleted: 0  Skipped: 0  Warnings: 641098</span>
 
-mysql&gt; load data infile '/home/user_logs.txt' into table cloud_tokudb FIELDS TERMINATED BY '\t';
-Query OK, 641098 rows affected, 65535 warnings (33.35 sec)
-Records: 641098  Deleted: 0  Skipped: 0  Warnings: 641098
-</code></pre>
+<span class="x">mysql&gt; load data infile &#39;/home/user_logs.txt&#39; into table cloud_tokudb FIELDS TERMINATED BY &#39;\t&#39;;</span>
+<span class="x">Query OK, 641098 rows affected, 65535 warnings (33.35 sec)</span>
+<span class="x">Records: 641098  Deleted: 0  Skipped: 0  Warnings: 641098</span>
+</code></pre></div></p>
 <p>总结：
 1）、MariaDB导入数据比Mysql要慢一点
 2）、TokuDB导入数据比InnoDB速度快一倍
 3）、TokuDB采用多CPU并发导入</p>
-<h3 id="2mariadb">2、MariaDB存储空间</h3>
-<pre><code class="language-php">[root@localhost billing]# ll -h
--rw-rw----. 1 mysql mysql 1.5K Nov  4 14:16 cloud_innodb.frm
--rw-rw----. 1 mysql mysql 568M Nov  4 14:40 cloud_innodb.ibd
+<h3 id="2mariadb">2、MariaDB存储空间<a class="headerlink" href="#2mariadb" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="x">[root@localhost billing]# ll -h</span>
+<span class="x">-rw-rw----. 1 mysql mysql 1.5K Nov  4 14:16 cloud_innodb.frm</span>
+<span class="x">-rw-rw----. 1 mysql mysql 568M Nov  4 14:40 cloud_innodb.ibd</span>
 
-[root@localhost mysqldata]# ll -h
--rw-rw----. 1 mysql mysql  26M Nov  4 14:31 _billing_cloud_tokudb_main_172d_1_1b_B_0.tokudb
--rw-rw----. 1 mysql mysql  64K Nov  4 14:31 _billing_cloud_tokudb_status_1729_1_1b.tokudb
-</code></pre>
-<p>Mysql存储空间</p>
-<pre><code class="language-php">[root@localhost billing]# ll -h 
--rw-rw----. 1 mysql mysql 8.9K Nov  4 14:17 cloud_innodb.frm
--rw-rw----. 1 mysql mysql 568M Nov  4 14:36 cloud_innodb.ibd
+<span class="x">[root@localhost mysqldata]# ll -h</span>
+<span class="x">-rw-rw----. 1 mysql mysql  26M Nov  4 14:31 _billing_cloud_tokudb_main_172d_1_1b_B_0.tokudb</span>
+<span class="x">-rw-rw----. 1 mysql mysql  64K Nov  4 14:31 _billing_cloud_tokudb_status_1729_1_1b.tokudb</span>
+</code></pre></div>
+<p>Mysql存储空间
+<div class="highlight"><pre><span></span><code><span class="x">[root@localhost billing]# ll -h </span>
+<span class="x">-rw-rw----. 1 mysql mysql 8.9K Nov  4 14:17 cloud_innodb.frm</span>
+<span class="x">-rw-rw----. 1 mysql mysql 568M Nov  4 14:36 cloud_innodb.ibd</span>
 
 
-[root@localhost mysqldata]# ll -h
--rw-rw----. 1 mysql mysql  26M Nov  4 14:37 _billing_cloud_tokudb_main_8be1_1_1c_B_0.tokudb
--rw-rw----. 1 mysql mysql  64K Nov  4 14:37 _billing_cloud_tokudb_status_8bde_1_1c.tokudb
-</code></pre>
+<span class="x">[root@localhost mysqldata]# ll -h</span>
+<span class="x">-rw-rw----. 1 mysql mysql  26M Nov  4 14:37 _billing_cloud_tokudb_main_8be1_1_1c_B_0.tokudb</span>
+<span class="x">-rw-rw----. 1 mysql mysql  64K Nov  4 14:37 _billing_cloud_tokudb_status_8bde_1_1c.tokudb</span>
+</code></pre></div></p>
 <p>总结：
 1）、 MariaDB和Mysql在采用相同引擎的时候存储空间相同
 2）、 TokuDB的压缩有很多种，上面采用tokudb_lzma,压缩比例最大，但非常消耗CPU，内存
 3）、 TokuDB和InnoDB从上面的例子来看压缩比率是1：20左右，如果都是整型数据，压缩比率在1：4左右。</p>
-<h3 id="3mariadb">3、MariaDB查询速度</h3>
-<p>重启第一次查询</p>
-<pre><code class="language-php">MariaDB [billing]&gt; select count(*) from cloud_innodb;
-+----------+
-| count(*) |
-+----------+
-|   641098 |
-+----------+
-1 row in set (0.58 sec)
+<h3 id="3mariadb">3、MariaDB查询速度<a class="headerlink" href="#3mariadb" title="Permanent link">&para;</a></h3>
+<p>重启第一次查询
+<div class="highlight"><pre><span></span><code><span class="x">MariaDB [billing]&gt; select count(*) from cloud_innodb;</span>
+<span class="x">+----------+</span>
+<span class="x">| count(*) |</span>
+<span class="x">+----------+</span>
+<span class="x">|   641098 |</span>
+<span class="x">+----------+</span>
+<span class="x">1 row in set (0.58 sec)</span>
 
-MariaDB [billing]&gt; select count(*) from cloud_tokudb;
-+----------+
-| count(*) |
-+----------+
-|   641098 |
-+----------+
-1 row in set (16.55 sec)
-</code></pre>
-<p>清缓存（reset query cache）</p>
-<pre><code class="language-php">MariaDB [billing]&gt; reset query cache;
-Query OK, 0 rows affected (0.02 sec)
+<span class="x">MariaDB [billing]&gt; select count(*) from cloud_tokudb;</span>
+<span class="x">+----------+</span>
+<span class="x">| count(*) |</span>
+<span class="x">+----------+</span>
+<span class="x">|   641098 |</span>
+<span class="x">+----------+</span>
+<span class="x">1 row in set (16.55 sec)</span>
+</code></pre></div></p>
+<p>清缓存（reset query cache）
+<div class="highlight"><pre><span></span><code><span class="x">MariaDB [billing]&gt; reset query cache;</span>
+<span class="x">Query OK, 0 rows affected (0.02 sec)</span>
 
-MariaDB [billing]&gt; select count(*) from cloud_innodb;
-+----------+
-| count(*) |
-+----------+
-|   641098 |
-+----------+
-1 row in set (0.42 sec)
+<span class="x">MariaDB [billing]&gt; select count(*) from cloud_innodb;</span>
+<span class="x">+----------+</span>
+<span class="x">| count(*) |</span>
+<span class="x">+----------+</span>
+<span class="x">|   641098 |</span>
+<span class="x">+----------+</span>
+<span class="x">1 row in set (0.42 sec)</span>
 
-MariaDB [billing]&gt; select count(*) from cloud_tokudb;
-+----------+
-| count(*) |
-+----------+
-|   641098 |
-+----------+
-1 row in set (0.43 sec)
-</code></pre>
-<p>Mysql查询速度</p>
-<pre><code class="language-php">mysql&gt; select count(*) from cloud_innodb;
-+----------+
-| count(*) |
-+----------+
-|   641098 |
-+----------+
-1 row in set (0.66 sec)
+<span class="x">MariaDB [billing]&gt; select count(*) from cloud_tokudb;</span>
+<span class="x">+----------+</span>
+<span class="x">| count(*) |</span>
+<span class="x">+----------+</span>
+<span class="x">|   641098 |</span>
+<span class="x">+----------+</span>
+<span class="x">1 row in set (0.43 sec)</span>
+</code></pre></div></p>
+<p>Mysql查询速度
+<div class="highlight"><pre><span></span><code><span class="x">mysql&gt; select count(*) from cloud_innodb;</span>
+<span class="x">+----------+</span>
+<span class="x">| count(*) |</span>
+<span class="x">+----------+</span>
+<span class="x">|   641098 |</span>
+<span class="x">+----------+</span>
+<span class="x">1 row in set (0.66 sec)</span>
 
-mysql&gt; select count(*) from cloud_tokudb;
-+----------+
-| count(*) |
-+----------+
-|   641098 |
-+----------+
-1 row in set (13.74 sec)
-</code></pre>
-<p>清缓存（reset query cache）</p>
-<pre><code class="language-php">mysql&gt; reset query cache;
-Query OK, 0 rows affected (0.03 sec)
+<span class="x">mysql&gt; select count(*) from cloud_tokudb;</span>
+<span class="x">+----------+</span>
+<span class="x">| count(*) |</span>
+<span class="x">+----------+</span>
+<span class="x">|   641098 |</span>
+<span class="x">+----------+</span>
+<span class="x">1 row in set (13.74 sec)</span>
+</code></pre></div></p>
+<p>清缓存（reset query cache）
+<div class="highlight"><pre><span></span><code><span class="x">mysql&gt; reset query cache;</span>
+<span class="x">Query OK, 0 rows affected (0.03 sec)</span>
 
-mysql&gt; select count(*) from cloud_innodb;
-+----------+
-| count(*) |
-+----------+
-|   641098 |
-+----------+
-1 row in set (0.38 sec)
+<span class="x">mysql&gt; select count(*) from cloud_innodb;</span>
+<span class="x">+----------+</span>
+<span class="x">| count(*) |</span>
+<span class="x">+----------+</span>
+<span class="x">|   641098 |</span>
+<span class="x">+----------+</span>
+<span class="x">1 row in set (0.38 sec)</span>
 
-mysql&gt; select count(*) from cloud_tokudb;
-+----------+
-| count(*) |
-+----------+
-|   641098 |
-+----------+
-1 row in set (0.49 sec)
-</code></pre>
+<span class="x">mysql&gt; select count(*) from cloud_tokudb;</span>
+<span class="x">+----------+</span>
+<span class="x">| count(*) |</span>
+<span class="x">+----------+</span>
+<span class="x">|   641098 |</span>
+<span class="x">+----------+</span>
+<span class="x">1 row in set (0.49 sec)</span>
+</code></pre></div></p>
 <p>总结：
 1）、 查询速度MariaDB和Mysql速度差不多
 2）、 第一次查询的时候InnoDB和TokuDB速度相差很大
 3）、 清缓存后查询差不多</p>
-<h3 id="4">4、并发查询</h3>
-<p>MariaDB：</p>
-<pre><code class="language-php">[root@localhost mysqldata]# mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10
-Benchmark
-    Average number of seconds to run all queries: 0.509 seconds
-    Minimum number of seconds to run all queries: 0.509 seconds
-    Maximum number of seconds to run all queries: 0.509 seconds
-    Number of clients running queries: 1000
-    Average number of queries per client: 0
+<h3 id="4">4、并发查询<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>MariaDB：
+<div class="highlight"><pre><span></span><code><span class="x">[root@localhost mysqldata]# mysqlslap --concurrency=1000 --iterations=1 --create-schema=&#39;billing&#39; --query=&#39;select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;&#39; --number-of-queries=10</span>
+<span class="x">Benchmark</span>
+<span class="x">    Average number of seconds to run all queries: 0.509 seconds</span>
+<span class="x">    Minimum number of seconds to run all queries: 0.509 seconds</span>
+<span class="x">    Maximum number of seconds to run all queries: 0.509 seconds</span>
+<span class="x">    Number of clients running queries: 1000</span>
+<span class="x">    Average number of queries per client: 0</span>
 
-[root@localhost mysqldata]# mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10
-Benchmark
-    Average number of seconds to run all queries: 0.600 seconds
-    Minimum number of seconds to run all queries: 0.600 seconds
-    Maximum number of seconds to run all queries: 0.600 seconds
-    Number of clients running queries: 1000
-    Average number of queries per client: 0
+<span class="x">[root@localhost mysqldata]# mysqlslap --concurrency=1000 --iterations=1 --create-schema=&#39;billing&#39; --query=&#39;select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;&#39; --number-of-queries=10</span>
+<span class="x">Benchmark</span>
+<span class="x">    Average number of seconds to run all queries: 0.600 seconds</span>
+<span class="x">    Minimum number of seconds to run all queries: 0.600 seconds</span>
+<span class="x">    Maximum number of seconds to run all queries: 0.600 seconds</span>
+<span class="x">    Number of clients running queries: 1000</span>
+<span class="x">    Average number of queries per client: 0</span>
 
-[root@localhost mysqldata]# mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10
-Benchmark
-    Average number of seconds to run all queries: 0.901 seconds
-    Minimum number of seconds to run all queries: 0.901 seconds
-    Maximum number of seconds to run all queries: 0.901 seconds
-    Number of clients running queries: 1000
-    Average number of queries per client: 0
+<span class="x">[root@localhost mysqldata]# mysqlslap --concurrency=1000 --iterations=1 --create-schema=&#39;billing&#39; --query=&#39;select content from cloud_innodb where id &gt;9950 and id &lt; 9999;&#39; --number-of-queries=10</span>
+<span class="x">Benchmark</span>
+<span class="x">    Average number of seconds to run all queries: 0.901 seconds</span>
+<span class="x">    Minimum number of seconds to run all queries: 0.901 seconds</span>
+<span class="x">    Maximum number of seconds to run all queries: 0.901 seconds</span>
+<span class="x">    Number of clients running queries: 1000</span>
+<span class="x">    Average number of queries per client: 0</span>
 
-[root@localhost mysqldata]# mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10
-Benchmark
-    Average number of seconds to run all queries: 1.028 seconds
-    Minimum number of seconds to run all queries: 1.028 seconds
-    Maximum number of seconds to run all queries: 1.028 seconds
-    Number of clients running queries: 1000
-    Average number of queries per client: 0
-</code></pre>
-<p>Mysql：</p>
-<pre><code class="language-php">[root@localhost billing]# mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10
-Benchmark
-    Average number of seconds to run all queries: 0.496 seconds
-    Minimum number of seconds to run all queries: 0.496 seconds
-    Maximum number of seconds to run all queries: 0.496 seconds
-    Number of clients running queries: 1000
-    Average number of queries per client: 0
+<span class="x">[root@localhost mysqldata]# mysqlslap --concurrency=1000 --iterations=1 --create-schema=&#39;billing&#39; --query=&#39;select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;&#39; --number-of-queries=10</span>
+<span class="x">Benchmark</span>
+<span class="x">    Average number of seconds to run all queries: 1.028 seconds</span>
+<span class="x">    Minimum number of seconds to run all queries: 1.028 seconds</span>
+<span class="x">    Maximum number of seconds to run all queries: 1.028 seconds</span>
+<span class="x">    Number of clients running queries: 1000</span>
+<span class="x">    Average number of queries per client: 0</span>
+</code></pre></div></p>
+<p>Mysql：
+<div class="highlight"><pre><span></span><code><span class="x">[root@localhost billing]# mysqlslap --concurrency=1000 --iterations=1 --create-schema=&#39;billing&#39; --query=&#39;select count(content) from cloud_innodb where id &gt;9950 and id &lt; 9999;&#39; --number-of-queries=10</span>
+<span class="x">Benchmark</span>
+<span class="x">    Average number of seconds to run all queries: 0.496 seconds</span>
+<span class="x">    Minimum number of seconds to run all queries: 0.496 seconds</span>
+<span class="x">    Maximum number of seconds to run all queries: 0.496 seconds</span>
+<span class="x">    Number of clients running queries: 1000</span>
+<span class="x">    Average number of queries per client: 0</span>
 
-[root@localhost billing]# mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10
-Benchmark
-    Average number of seconds to run all queries: 0.483 seconds
-    Minimum number of seconds to run all queries: 0.483 seconds
-    Maximum number of seconds to run all queries: 0.483 seconds
-    Number of clients running queries: 1000
-    Average number of queries per client: 0
+<span class="x">[root@localhost billing]# mysqlslap --concurrency=1000 --iterations=1 --create-schema=&#39;billing&#39; --query=&#39;select count(content) from cloud_tokudb where id &gt;9950 and id &lt; 9999;&#39; --number-of-queries=10</span>
+<span class="x">Benchmark</span>
+<span class="x">    Average number of seconds to run all queries: 0.483 seconds</span>
+<span class="x">    Minimum number of seconds to run all queries: 0.483 seconds</span>
+<span class="x">    Maximum number of seconds to run all queries: 0.483 seconds</span>
+<span class="x">    Number of clients running queries: 1000</span>
+<span class="x">    Average number of queries per client: 0</span>
 
-[root@localhost billing]# mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_innodb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10
-Benchmark
-    Average number of seconds to run all queries: 1.231 seconds
-    Minimum number of seconds to run all queries: 1.231 seconds
-    Maximum number of seconds to run all queries: 1.231 seconds
-    Number of clients running queries: 1000
-    Average number of queries per client: 0
+<span class="x">[root@localhost billing]# mysqlslap --concurrency=1000 --iterations=1 --create-schema=&#39;billing&#39; --query=&#39;select content from cloud_innodb where id &gt;9950 and id &lt; 9999;&#39; --number-of-queries=10</span>
+<span class="x">Benchmark</span>
+<span class="x">    Average number of seconds to run all queries: 1.231 seconds</span>
+<span class="x">    Minimum number of seconds to run all queries: 1.231 seconds</span>
+<span class="x">    Maximum number of seconds to run all queries: 1.231 seconds</span>
+<span class="x">    Number of clients running queries: 1000</span>
+<span class="x">    Average number of queries per client: 0</span>
 
-[root@localhost billing]# mysqlslap --concurrency=1000 --iterations=1 --create-schema='billing' --query='select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;' --number-of-queries=10
-Benchmark
-    Average number of seconds to run all queries: 0.739 seconds
-    Minimum number of seconds to run all queries: 0.739 seconds
-    Maximum number of seconds to run all queries: 0.739 seconds
-    Number of clients running queries: 1000
-    Average number of queries per client: 0
-</code></pre>
+<span class="x">[root@localhost billing]# mysqlslap --concurrency=1000 --iterations=1 --create-schema=&#39;billing&#39; --query=&#39;select content from cloud_tokudb where id &gt;9950 and id &lt; 9999;&#39; --number-of-queries=10</span>
+<span class="x">Benchmark</span>
+<span class="x">    Average number of seconds to run all queries: 0.739 seconds</span>
+<span class="x">    Minimum number of seconds to run all queries: 0.739 seconds</span>
+<span class="x">    Maximum number of seconds to run all queries: 0.739 seconds</span>
+<span class="x">    Number of clients running queries: 1000</span>
+<span class="x">    Average number of queries per client: 0</span>
+</code></pre></div></p>
 <p>总结
 1）、 并发查询两数据相差不是很大
 2）、 Tokudb查询速度在MariaDB中比InnoDB引擎慢一点，但在Mysql中比InnoDB引擎速度还快（网上说的TokuDB查询速度不行，没有验证出来，不知道真正在线速度怎么样，按理说压缩后的数据应该查询要慢于没有压缩的数据）</p>
-<h3 id="5">5、 批量更新</h3>
-<p>MariaDB </p>
-<pre><code class="language-php">[billing]&gt; update  cloud_innodb set content=&quot;ddddddddddddddddddddsssssss&quot; where id &gt;8900 and id &lt; 90000;
-Query OK, 81099 rows affected (5.71 sec)
-Rows matched: 81099  Changed: 81099  Warnings: 0
-</code></pre>
-<p>MariaDB </p>
-<pre><code class="language-php">[billing]&gt; update  cloud_tokudb set content=&quot;ddddddddddddddddddddsssssss&quot; where id &gt;8900 and id &lt; 90000;
-Query OK, 81099 rows affected (3.46 sec)
-</code></pre>
-<pre><code class="language-php">mysql&gt; update  cloud_innodb set content=&quot;ddddddddddddddddddddsssssss&quot; where id &gt;8900 and id &lt; 90000;
-Query OK, 80952 rows affected (5.32 sec)
-Rows matched: 81099  Changed: 80952  Warnings: 0
+<h3 id="5">5、 批量更新<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>MariaDB 
+<div class="highlight"><pre><span></span><code><span class="x">[billing]&gt; update  cloud_innodb set content=&quot;ddddddddddddddddddddsssssss&quot; where id &gt;8900 and id &lt; 90000;</span>
+<span class="x">Query OK, 81099 rows affected (5.71 sec)</span>
+<span class="x">Rows matched: 81099  Changed: 81099  Warnings: 0</span>
+</code></pre></div></p>
+<p>MariaDB 
+<div class="highlight"><pre><span></span><code><span class="x">[billing]&gt; update  cloud_tokudb set content=&quot;ddddddddddddddddddddsssssss&quot; where id &gt;8900 and id &lt; 90000;</span>
+<span class="x">Query OK, 81099 rows affected (3.46 sec)</span>
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code><span class="x">mysql&gt; update  cloud_innodb set content=&quot;ddddddddddddddddddddsssssss&quot; where id &gt;8900 and id &lt; 90000;</span>
+<span class="x">Query OK, 80952 rows affected (5.32 sec)</span>
+<span class="x">Rows matched: 81099  Changed: 80952  Warnings: 0</span>
 
-mysql&gt; update  cloud_tokudb set content=&quot;ddddddddddddddddddddsssssss&quot; where id &gt;8900 and id &lt; 90000;
-Query OK, 80952 rows affected (3.40 sec)
-Rows matched: 81099  Changed: 80952  Warnings: 0
-</code></pre>
+<span class="x">mysql&gt; update  cloud_tokudb set content=&quot;ddddddddddddddddddddsssssss&quot; where id &gt;8900 and id &lt; 90000;</span>
+<span class="x">Query OK, 80952 rows affected (3.40 sec)</span>
+<span class="x">Rows matched: 81099  Changed: 80952  Warnings: 0</span>
+</code></pre></div>
 <p>总结
 1）、两数据库性能差不多
 2）、批量更新感觉TokuDB速度比InnoDB速度快（和网上说的又不一样）</p>
-<h3 id="6ddl">6、DDL操作对比</h3>
-<p>添加索引</p>
-<pre><code class="language-php">MariaDB [billing]&gt; create index idx_uid on cloud_innodb(uid);
-Query OK, 0 rows affected (12.23 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<h3 id="6ddl">6、DDL操作对比<a class="headerlink" href="#6ddl" title="Permanent link">&para;</a></h3>
+<p>添加索引
+<div class="highlight"><pre><span></span><code><span class="x">MariaDB [billing]&gt; create index idx_uid on cloud_innodb(uid);</span>
+<span class="x">Query OK, 0 rows affected (12.23 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-MariaDB [billing]&gt; create index idx_uid on cloud_tokudb(uid);
-Query OK, 0 rows affected (29.51 sec)                                   
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">MariaDB [billing]&gt; create index idx_uid on cloud_tokudb(uid);</span>
+<span class="x">Query OK, 0 rows affected (29.51 sec)                                   </span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-mysql&gt; create index idx_uid on cloud_innodb(uid);
-Query OK, 0 rows affected (15.48 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">mysql&gt; create index idx_uid on cloud_innodb(uid);</span>
+<span class="x">Query OK, 0 rows affected (15.48 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-mysql&gt; create index idx_uid on cloud_tokudb(uid);
-Query OK, 0 rows affected (31.10 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-</code></pre>
-<p>删除索引</p>
-<pre><code class="language-php">MariaDB [billing]&gt; drop index idx_uid on cloud_innodb;
-Query OK, 0 rows affected (0.05 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">mysql&gt; create index idx_uid on cloud_tokudb(uid);</span>
+<span class="x">Query OK, 0 rows affected (31.10 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
+</code></pre></div></p>
+<p>删除索引
+<div class="highlight"><pre><span></span><code><span class="x">MariaDB [billing]&gt; drop index idx_uid on cloud_innodb;</span>
+<span class="x">Query OK, 0 rows affected (0.05 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-MariaDB [billing]&gt; drop index idx_uid on cloud_tokudb;
-Query OK, 0 rows affected (0.09 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">MariaDB [billing]&gt; drop index idx_uid on cloud_tokudb;</span>
+<span class="x">Query OK, 0 rows affected (0.09 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-mysql&gt; drop index idx_uid on cloud_innodb;
-Query OK, 0 rows affected (0.07 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">mysql&gt; drop index idx_uid on cloud_innodb;</span>
+<span class="x">Query OK, 0 rows affected (0.07 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-mysql&gt; drop index idx_uid on cloud_tokudb;
-Query OK, 0 rows affected (0.13 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-</code></pre>
-<p>添加字段</p>
-<pre><code class="language-php">MariaDB [billing]&gt; alter table cloud_innodb add column test_flag varchar(20);
-Query OK, 0 rows affected (1 min 20.06 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">mysql&gt; drop index idx_uid on cloud_tokudb;</span>
+<span class="x">Query OK, 0 rows affected (0.13 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
+</code></pre></div></p>
+<p>添加字段
+<div class="highlight"><pre><span></span><code><span class="x">MariaDB [billing]&gt; alter table cloud_innodb add column test_flag varchar(20);</span>
+<span class="x">Query OK, 0 rows affected (1 min 20.06 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-MariaDB [billing]&gt; alter table cloud_tokudb add column test_flag varchar(20);
-Query OK, 0 rows affected (0.16 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">MariaDB [billing]&gt; alter table cloud_tokudb add column test_flag varchar(20);</span>
+<span class="x">Query OK, 0 rows affected (0.16 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-mysql&gt; alter table cloud_innodb add column test_flag varchar(20);
-Query OK, 0 rows affected (1 min 31.07 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">mysql&gt; alter table cloud_innodb add column test_flag varchar(20);</span>
+<span class="x">Query OK, 0 rows affected (1 min 31.07 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-mysql&gt; alter table cloud_tokudb add column test_flag varchar(20);
-Query OK, 0 rows affected (0.23 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-</code></pre>
-<p>删除字段</p>
-<pre><code class="language-php">MariaDB [billing]&gt; alter table cloud_innodb drop column test_flag;
-Query OK, 0 rows affected (1 min 19.48 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">mysql&gt; alter table cloud_tokudb add column test_flag varchar(20);</span>
+<span class="x">Query OK, 0 rows affected (0.23 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
+</code></pre></div></p>
+<p>删除字段
+<div class="highlight"><pre><span></span><code><span class="x">MariaDB [billing]&gt; alter table cloud_innodb drop column test_flag;</span>
+<span class="x">Query OK, 0 rows affected (1 min 19.48 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-MariaDB [billing]&gt; alter table cloud_tokudb drop column test_flag;
-Query OK, 0 rows affected (0.23 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">MariaDB [billing]&gt; alter table cloud_tokudb drop column test_flag;</span>
+<span class="x">Query OK, 0 rows affected (0.23 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-mysql&gt; alter table cloud_innodb drop column test_flag;
-Query OK, 0 rows affected (1 min 55.31 sec)
-Records: 0  Duplicates: 0  Warnings: 0
+<span class="x">mysql&gt; alter table cloud_innodb drop column test_flag;</span>
+<span class="x">Query OK, 0 rows affected (1 min 55.31 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
 
-mysql&gt; alter table cloud_tokudb drop column test_flag;
-Query OK, 0 rows affected (1.28 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-</code></pre>
-<p>总结
+<span class="x">mysql&gt; alter table cloud_tokudb drop column test_flag;</span>
+<span class="x">Query OK, 0 rows affected (1.28 sec)</span>
+<span class="x">Records: 0  Duplicates: 0  Warnings: 0</span>
+</code></pre></div>
+总结
 1、MariaDB的DDL操作比Mysql的快
 2、InnoDB的添加索引比TokuDB的快
 3、删除索引两个引擎都很快
 4、添加字段TokuDB非常快，InnoDB很慢
 5、删除字段TokuDB非常快，InnoDB很慢</p>
-<h1 id="_1">网上的一些总结</h1>
+<h1 id="_1">网上的一些总结<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>总结：
 TokuDB优点
 1，online ddl 非常给力，特别是对字段的修改非常快

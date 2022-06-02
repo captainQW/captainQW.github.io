@@ -340,83 +340,82 @@
 
   <h1>Mariadb ColumnStore数据库测试</h1>
 
-<hr />
 <p>顾名思义，就是Mariadb为了大数据而开发的列式数据库。后来发现，这货就是InfiniDB的翻版，InfiniDB被MariaDB收购了以后重新开发的新版本。</p>
-<pre><code class="language-bash">MariaDB [(none)]&gt; show engines;
+<div class="highlight"><pre><span></span><code>MariaDB <span class="o">[(</span>none<span class="o">)]</span>&gt; show engines<span class="p">;</span>
 +--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+
-| Engine             | Support | Comment                                                                                          | Transactions | XA   | Savepoints |
+<span class="p">|</span> Engine             <span class="p">|</span> Support <span class="p">|</span> Comment                                                                                          <span class="p">|</span> Transactions <span class="p">|</span> XA   <span class="p">|</span> Savepoints <span class="p">|</span>
 +--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+
-| Columnstore        | YES     | Columnstore storage engine                                                                       | YES          | NO   | NO         |
-| MRG_MyISAM         | YES     | Collection of identical MyISAM tables                                                            | NO           | NO   | NO         |
-| CSV                | YES     | CSV storage engine                                                                               | NO           | NO   | NO         |
-| MyISAM             | YES     | MyISAM storage engine                                                                            | NO           | NO   | NO         |
-| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables                                        | NO           | NO   | NO         |
-| InfiniDB           | YES     | Columnstore storage engine (deprecated: use columnstore)                                         | YES          | NO   | NO         |
-| InnoDB             | DEFAULT | Percona-XtraDB, Supports transactions, row-level locking, foreign keys and encryption for tables | YES          | YES  | YES        |
-| SEQUENCE           | YES     | Generated tables filled with sequential values                                                   | YES          | NO   | YES        |
-| Aria               | YES     | Crash-safe tables with MyISAM heritage                                                           | NO           | NO   | NO         |
-| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                                               | NO           | NO   | NO         |
+<span class="p">|</span> Columnstore        <span class="p">|</span> YES     <span class="p">|</span> Columnstore storage engine                                                                       <span class="p">|</span> YES          <span class="p">|</span> NO   <span class="p">|</span> NO         <span class="p">|</span>
+<span class="p">|</span> MRG_MyISAM         <span class="p">|</span> YES     <span class="p">|</span> Collection of identical MyISAM tables                                                            <span class="p">|</span> NO           <span class="p">|</span> NO   <span class="p">|</span> NO         <span class="p">|</span>
+<span class="p">|</span> CSV                <span class="p">|</span> YES     <span class="p">|</span> CSV storage engine                                                                               <span class="p">|</span> NO           <span class="p">|</span> NO   <span class="p">|</span> NO         <span class="p">|</span>
+<span class="p">|</span> MyISAM             <span class="p">|</span> YES     <span class="p">|</span> MyISAM storage engine                                                                            <span class="p">|</span> NO           <span class="p">|</span> NO   <span class="p">|</span> NO         <span class="p">|</span>
+<span class="p">|</span> MEMORY             <span class="p">|</span> YES     <span class="p">|</span> Hash based, stored <span class="k">in</span> memory, useful <span class="k">for</span> temporary tables                                        <span class="p">|</span> NO           <span class="p">|</span> NO   <span class="p">|</span> NO         <span class="p">|</span>
+<span class="p">|</span> InfiniDB           <span class="p">|</span> YES     <span class="p">|</span> Columnstore storage engine <span class="o">(</span>deprecated: use columnstore<span class="o">)</span>                                         <span class="p">|</span> YES          <span class="p">|</span> NO   <span class="p">|</span> NO         <span class="p">|</span>
+<span class="p">|</span> InnoDB             <span class="p">|</span> DEFAULT <span class="p">|</span> Percona-XtraDB, Supports transactions, row-level locking, foreign keys and encryption <span class="k">for</span> tables <span class="p">|</span> YES          <span class="p">|</span> YES  <span class="p">|</span> YES        <span class="p">|</span>
+<span class="p">|</span> SEQUENCE           <span class="p">|</span> YES     <span class="p">|</span> Generated tables filled with sequential values                                                   <span class="p">|</span> YES          <span class="p">|</span> NO   <span class="p">|</span> YES        <span class="p">|</span>
+<span class="p">|</span> Aria               <span class="p">|</span> YES     <span class="p">|</span> Crash-safe tables with MyISAM heritage                                                           <span class="p">|</span> NO           <span class="p">|</span> NO   <span class="p">|</span> NO         <span class="p">|</span>
+<span class="p">|</span> PERFORMANCE_SCHEMA <span class="p">|</span> YES     <span class="p">|</span> Performance Schema                                                                               <span class="p">|</span> NO           <span class="p">|</span> NO   <span class="p">|</span> NO         <span class="p">|</span>
 +--------------------+---------+--------------------------------------------------------------------------------------------------+--------------+------+------------+
-10 rows in set (0.00 sec)
-</code></pre>
+<span class="m">10</span> rows <span class="k">in</span> <span class="nb">set</span> <span class="o">(</span><span class="m">0</span>.00 sec<span class="o">)</span>
+</code></pre></div>
 <p>还能看到InfiniDB引擎的影子。</p>
 <p>测试环境：
 centos 6.6 8核8G
 ssd 100G
 mariadb columnstore 1.0.6 GA</p>
 <p>1、安装</p>
-<p>安装依赖</p>
-<pre><code class="language-bash"># yum -y install expect perl perl-DBI openssl zlib perl-DBD-MySQL cmake
-</code></pre>
+<p>安装依赖
+<div class="highlight"><pre><span></span><code><span class="c1"># yum -y install expect perl perl-DBI openssl zlib perl-DBD-MySQL cmake</span>
+</code></pre></div></p>
 <p>必须要boost1.50以上版本。</p>
-<pre><code class="language-bash"># wget https://static.verycloud.cn/rpm/boost_1_55_0.tgz
-# wget https://static.verycloud.cn/rpm/mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz
-</code></pre>
-<p>安装boost.</p>
-<pre><code class="language-bash"># tar -zxvf boost_1_55_0.tgz
-# tar -zxvf mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz
-# cd boost_1_55_0 
-# ./bootstrap.sh --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log --prefix=/usr 
-# ./b2 install
-</code></pre>
-<p>安装mariadb columnstore.</p>
-<pre><code class="language-bash"># rpm -ivh mariadb-columnstore-1.0.6-1-x86_64-centos6-*
-</code></pre>
-<p>2、初始化</p>
-<pre><code class="language-bash"># /usr/local/mariadb/columnstore/bin/post-install
-</code></pre>
-<p>这时会提示</p>
-<pre><code class="language-bash">The next step is:
+<div class="highlight"><pre><span></span><code><span class="c1"># wget https://static.verycloud.cn/rpm/boost_1_55_0.tgz</span>
+<span class="c1"># wget https://static.verycloud.cn/rpm/mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span>
+</code></pre></div>
+<p>安装boost.
+<div class="highlight"><pre><span></span><code><span class="c1"># tar -zxvf boost_1_55_0.tgz</span>
+<span class="c1"># tar -zxvf mariadb-columnstore-1.0.6-1-centos6.x86_64.rpm.tar.gz</span>
+<span class="c1"># cd boost_1_55_0 </span>
+<span class="c1"># ./bootstrap.sh --with-libraries=atomic,date_time,exception,filesystem,iostreams,locale,program_options,regex,signals,system,test,thread,timer,log --prefix=/usr </span>
+<span class="c1"># ./b2 install</span>
+</code></pre></div></p>
+<p>安装mariadb columnstore.
+<div class="highlight"><pre><span></span><code><span class="c1"># rpm -ivh mariadb-columnstore-1.0.6-1-x86_64-centos6-*</span>
+</code></pre></div></p>
+<p>2、初始化
+<div class="highlight"><pre><span></span><code><span class="c1"># /usr/local/mariadb/columnstore/bin/post-install</span>
+</code></pre></div></p>
+<p>这时会提示
+<div class="highlight"><pre><span></span><code>The next step is:
 
 /usr/local/mariadb/columnstore/bin/postConfigure
-</code></pre>
-<p>执行，完成安装，选择single server</p>
-<pre><code class="language-bash"># /usr/local/mariadb/columnstore/bin/postConfigure
-</code></pre>
-<p>生成别名</p>
-<pre><code class="language-bash"># . /data/mariadb/columnstore/bin/columnstoreAlias
-</code></pre>
-<p>执行 mcsmysql，会看到提示</p>
-<pre><code class="language-bash">Welcome to the MariaDB monitor.  Commands end with ; or \g.
-Your MariaDB connection id is 5
-Server version: 10.1.19-MariaDB Columnstore 1.0.6-1
+</code></pre></div></p>
+<p>执行，完成安装，选择single server
+<div class="highlight"><pre><span></span><code><span class="c1"># /usr/local/mariadb/columnstore/bin/postConfigure</span>
+</code></pre></div></p>
+<p>生成别名
+<div class="highlight"><pre><span></span><code><span class="c1"># . /data/mariadb/columnstore/bin/columnstoreAlias</span>
+</code></pre></div></p>
+<p>执行 mcsmysql，会看到提示
+<div class="highlight"><pre><span></span><code>Welcome to the MariaDB monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span>.
+Your MariaDB connection id is <span class="m">5</span>
+Server version: <span class="m">10</span>.1.19-MariaDB Columnstore <span class="m">1</span>.0.6-1
 
-Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+Copyright <span class="o">(</span>c<span class="o">)</span> <span class="m">2000</span>, <span class="m">2016</span>, Oracle, MariaDB Corporation Ab and others.
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+Type <span class="s1">&#39;help;&#39;</span> or <span class="s1">&#39;\h&#39;</span> <span class="k">for</span> help. Type <span class="s1">&#39;\c&#39;</span> to clear the current input statement.
 
-MariaDB [(none)]&gt;
-</code></pre>
+MariaDB <span class="o">[(</span>none<span class="o">)]</span>&gt;
+</code></pre></div></p>
 <p>说明安装成功了！</p>
 <p>3、数据导入</p>
-<p>执行</p>
-<pre><code class="language-bash"># mcsmysql --local-infile
-# LOAD DATA LOCAL INFILE '/root/data.txt' INTO TABLE your_table FIELDS TERMINATED BY '\t';
-</code></pre>
-<pre><code class="language-bash">Query OK, 95981370 rows affected (6 min 8.62 sec)    
-Records: 95981370  Deleted: 0  Skipped: 0  Warnings: 0
-</code></pre>
-<p>导入1亿条数据要6分钟。</p>
+<p>执行
+<div class="highlight"><pre><span></span><code><span class="c1"># mcsmysql --local-infile</span>
+<span class="c1"># LOAD DATA LOCAL INFILE &#39;/root/data.txt&#39; INTO TABLE your_table FIELDS TERMINATED BY &#39;\t&#39;;</span>
+</code></pre></div></p>
+<p><div class="highlight"><pre><span></span><code>Query OK, <span class="m">95981370</span> rows affected <span class="o">(</span><span class="m">6</span> min <span class="m">8</span>.62 sec<span class="o">)</span>    
+Records: <span class="m">95981370</span>  Deleted: <span class="m">0</span>  Skipped: <span class="m">0</span>  Warnings: <span class="m">0</span>
+</code></pre></div>
+导入1亿条数据要6分钟。</p>
 
               
             </article>

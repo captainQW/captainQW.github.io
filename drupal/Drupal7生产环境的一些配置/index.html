@@ -340,27 +340,29 @@
 
   <h1>drupal7生产环境的一些配置</h1>
 
-<hr />
 <p>由于经常需要配置，这里主要是做一个梳理和整理，免得以后忘记</p>
 <p>1、缓存设置，见文章</p>
-<pre><code>```php
+<div class="codehilite"><pre><span></span><code>```php
 http://176code.com/tags/apc/
 ```
-</code></pre>
+</code></pre></div>
+
 <p>2、如果站点启用了https，必须在settings.php里做如下设置，不然会导致session问题</p>
-<pre><code>```php 
-$conf['https'] = TRUE;
+<div class="codehilite"><pre><span></span><code>```php 
+$conf[&#39;https&#39;] = TRUE;
 ```
-</code></pre>
+</code></pre></div>
+
 <p>3、如果需要去除所有的报错，则在settings.php里做如下设置 </p>
-<pre><code>```php
-$conf['error_level'] = 0;
+<div class="codehilite"><pre><span></span><code>```php
+$conf[&#39;error_level&#39;] = 0;
 ```
-</code></pre>
+</code></pre></div>
+
 <p>4、php.ini设置 date.timezone = Asia/Chongqing</p>
 <p>5、解决跨域问题,在.htaccess里添加如下代码
-    <code>php
-    Header set Access-Control-Allow-Origin "*"</code></p>
+    <div class="highlight"><pre><span></span><code><span class="x">Header set Access-Control-Allow-Origin &quot;*&quot;</span>
+</code></pre></div></p>
 
               
             </article>

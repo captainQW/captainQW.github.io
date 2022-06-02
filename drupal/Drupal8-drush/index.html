@@ -367,37 +367,36 @@
 
   <h1>"drush for drupal8"</h1>
 
-<hr />
 <p>文档见http://docs.drush.org/en/master/install/，这里记录下笔者的安装流程。</p>
-<h2 id="1composer">1、安装composer</h2>
+<h2 id="1composer">1、安装composer<a class="headerlink" href="#1composer" title="Permanent link">&para;</a></h2>
 <p>作为最知名的php第三方库安装工具，drush也支持使用这种方式安装。
 composer的安装比较简单。</p>
-<pre><code class="language-bash">curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer
-</code></pre>
-<p>vim ~/.bashrc 并添加一条 export PATH="$HOME/.composer/vendor/bin:$PATH"。</p>
-<h2 id="2drush">2、安装drush</h2>
-<pre><code class="language-bash"># Create and/or navigate to a path for the single Composer Drush install.
+<div class="highlight"><pre><span></span><code>curl -sS https://getcomposer.org/installer <span class="p">|</span> sudo php -- --install-dir<span class="o">=</span>/usr/bin --filename<span class="o">=</span>composer
+</code></pre></div>
+<p>vim ~/.bashrc 并添加一条 export PATH="<span class="arithmatex"><span class="MathJax_Preview">HOME/.composer/vendor/bin:</span><script type="math/tex">HOME/.composer/vendor/bin:</script></span>PATH"。</p>
+<h2 id="2drush">2、安装drush<a class="headerlink" href="#2drush" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create and/or navigate to a path for the single Composer Drush install.</span>
 mkdir --parents /opt/drush-8.x
-cd /opt/drush-8.x
-# Initialise a new Composer project that requires Drush.
-composer init --require=drush/drush:8.* -n
-# Configure the path Composer should use for the Drush vendor binaries.
+<span class="nb">cd</span> /opt/drush-8.x
+<span class="c1"># Initialise a new Composer project that requires Drush.</span>
+composer init --require<span class="o">=</span>drush/drush:8.* -n
+<span class="c1"># Configure the path Composer should use for the Drush vendor binaries.</span>
 composer config bin-dir /usr/local/bin
-# Install Drush. 
+<span class="c1"># Install Drush. </span>
 composer install
-</code></pre>
+</code></pre></div>
 <p>安装完，如果有Unable to load autoload.php...的错误，编辑</p>
-<pre><code class="language-bash">vim /usr/local/drush/drush/drush/includes/preflight.inc
-</code></pre>
+<div class="highlight"><pre><span></span><code>vim /usr/local/drush/drush/drush/includes/preflight.inc
+</code></pre></div>
 <p>查找$global_vendor_path，修改为</p>
-<pre><code class="language-bash">$global_vendor_path = DRUSH_BASE_PATH . '/../vendor/autoload.php';
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nv">$global_vendor_path</span> <span class="o">=</span> DRUSH_BASE_PATH . <span class="s1">&#39;/../vendor/autoload.php&#39;</span><span class="p">;</span>
+</code></pre></div>
 <p>执行命令</p>
-<pre><code class="language-bash">drush version
-</code></pre>
+<div class="highlight"><pre><span></span><code>drush version
+</code></pre></div>
 <p>如果显示</p>
-<pre><code class="language-bash">Drush Version:  8.1.2
-</code></pre>
+<div class="highlight"><pre><span></span><code>Drush Version:  <span class="m">8</span>.1.2
+</code></pre></div>
 <p>则安装成功。</p>
 <p>为什么要安装drush?因为drush是一款非常优秀的drupal管理工具，drupal离不开drush。
 下文将讲解如何把drupal7的模块转化为drupal8的模块。</p>

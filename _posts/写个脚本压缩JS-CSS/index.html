@@ -340,18 +340,17 @@
 
   <h1>"写个脚本压缩JS,CSS"</h1>
 
-<hr />
-<p>1、下载最新版的yuicompressor.jar</p>
-<pre><code class="language-php">https://github.com/yui/yuicompressor/releases
-</code></pre>
-<p>2、遍历目录，压缩JS、CSS</p>
-<pre><code class="language-php">#!/bin/bash
-for i in `find path -name &quot;*.css&quot;`;
-do
-    echo &quot;compress $i&quot;
-    java -jar yuicompressor-2.4.8.jar --charset=utf8 -o $i $i --nomunge
-done
-</code></pre>
+<p>1、下载最新版的yuicompressor.jar
+<div class="highlight"><pre><span></span><code><span class="x">https://github.com/yui/yuicompressor/releases</span>
+</code></pre></div></p>
+<p>2、遍历目录，压缩JS、CSS
+<div class="highlight"><pre><span></span><code><span class="x">#!/bin/bash</span>
+<span class="x">for i in `find path -name &quot;*.css&quot;`;</span>
+<span class="x">do</span>
+<span class="x">    echo &quot;compress $i&quot;</span>
+<span class="x">    java -jar yuicompressor-2.4.8.jar --charset=utf8 -o $i $i --nomunge</span>
+<span class="x">done</span>
+</code></pre></div></p>
 
               
             </article>

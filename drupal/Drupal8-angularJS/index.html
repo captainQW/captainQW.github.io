@@ -360,155 +360,154 @@
 
   <h1>Drupal8中使用AngularJS</h1>
 
-<hr />
-<h2 id="drupal8angularjs">Drupal8中使用AngularJS</h2>
+<h2 id="drupal8angularjs">Drupal8中使用AngularJS<a class="headerlink" href="#drupal8angularjs" title="Permanent link">&para;</a></h2>
 <p>首先我们需要一个基础模块引入并启动<code>angular</code></p>
 <p>OK，先创建一个模块，我们起名叫<code>cloud_angular</code></p>
 <p>在<code>cloud_angular</code>中，我们新建目录<code>libs</code>，里面存放所有与<code>angular</code>相关的库文件，<code>js</code>目录，里面存放angular的启动js：<code>app.js</code></p>
 <p>接着，定义angular的library，就像这样：</p>
-<pre><code class="language-yaml">cloud_angular.angular:
-  version: VERSION
-  css:
-    angular:
-      libs/angular-loading-bar/build/loading-bar.css: {}
-  js:
-    libs/angular/angular.js: {}
-    libs/angular-animate/angular-animate.js: {}
-    libs/angular-ui-router/release/angular-ui-router.js: {}
-    libs/oclazyload/dist/ocLazyLoad.js: {}
-    libs/angular-loading-bar/build/loading-bar.js: {}
-    js/app.js: {}
-  dependencies:
-    - core/drupalSettings
-    - core/drupal
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nt">cloud_angular.angular</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VERSION</span><span class="w"></span>
+<span class="w">  </span><span class="nt">css</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">angular</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">libs/angular-loading-bar/build/loading-bar.css</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"></span>
+<span class="w">  </span><span class="nt">js</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">libs/angular/angular.js</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">libs/angular-animate/angular-animate.js</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">libs/angular-ui-router/release/angular-ui-router.js</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">libs/oclazyload/dist/ocLazyLoad.js</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">libs/angular-loading-bar/build/loading-bar.js</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">js/app.js</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"></span>
+<span class="w">  </span><span class="nt">dependencies</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core/drupalSettings</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core/drupal</span><span class="w"></span>
+</code></pre></div>
 <p>保存为<code>cloud_angular.libraries.yml</code>文件</p>
 <p>最后，打开<code>cloud_angular.module</code>，实现<code>page</code>的<code>hook</code>，引入上面定义的库，就像下面这样：</p>
-<pre><code class="language-php">/**
- * Implements hook_preprocess_page().
- */
-function cloud_angular_preprocess_page(&amp;$variables) {
-  $variables['#attached']['library'][] = 'cloud_angular/cloud_angular.angular';
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x"> * Implements hook_preprocess_page().</span>
+<span class="x"> */</span>
+<span class="x">function cloud_angular_preprocess_page(&amp;$variables) {</span>
+<span class="x">  $variables[&#39;#attached&#39;][&#39;library&#39;][] = &#39;cloud_angular/cloud_angular.angular&#39;;</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>这样我们在启用<code>cloud_angular</code>模块的时候，就全局加载了<code>angular</code></p>
 <hr />
 <p>好了，有了<code>angular</code>的启动支撑模块，接下来看下其它模块怎么使用<code>angular</code></p>
 <p>举个例子，用户模块，命名：<code>cloud_user</code>，我们定义一个路由<code>profile/console</code>，用于显示用户的控制台首页(俗称dashboard)</p>
 <p>按照drupa8的路由定义规则，我们需要新建一个文件<code>cloud_user.routing.yml</code>定义路由：</p>
-<pre><code class="language-yaml">cloud_user.console:
-  path: '/profile/console'
-  defaults:
-    _controller: '\Drupal\cloud_user\Controller\UserController::console'
-    _title: '控制台首页'
-  requirements:
-    _permission: 'access content'
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nt">cloud_user.console</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/profile/console&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">defaults</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">_controller</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;\Drupal\cloud_user\Controller\UserController::console&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">_title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;控制台首页&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">requirements</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">_permission</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;access</span><span class="nv"> </span><span class="s">content&#39;</span><span class="w"></span>
+</code></pre></div>
 <p>接着，在<code>cloud_user</code>模块下新建<code>src</code>目录及其子目录<code>Controller</code>，里面存放路由指定的控制器文件<code>UserController.php</code>，就像下面这样：</p>
 <p><img alt="cloud_user模块目录解构" src="https://static.verycloud.cn/sites/default/files/pic/image/20160606/dir.png" /></p>
 <p>控制器代码如下：</p>
-<pre><code class="language-php">&lt;?php
-/**
- * @file
- * @contains \Drupal\cloud_user\Controller\UserController.
- */
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * @contains \Drupal\cloud_user\Controller\UserController.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\cloud_user\Controller;
+<span class="k">namespace</span> <span class="nx">Drupal\cloud_user\Controller</span><span class="p">;</span>
 
-use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Database\Connection; 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Controller\ControllerBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Database\Connection</span><span class="p">;</span> 
+<span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\ContainerInterface</span><span class="p">;</span>
 
-class UserController extends ControllerBase {
+<span class="k">class</span> <span class="nc">UserController</span> <span class="k">extends</span> <span class="nx">ControllerBase</span> <span class="p">{</span>
 
-  protected $database;
+  <span class="k">protected</span> <span class="nv">$database</span><span class="p">;</span>
 
-  protected $userPath;
+  <span class="k">protected</span> <span class="nv">$userPath</span><span class="p">;</span>
 
-  function __construct($database) {
-    $this-&gt;database = $database;
-    $this-&gt;userPath = drupal_get_path('module', 'cloud_user');
-  }
+  <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nv">$database</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">database</span> <span class="o">=</span> <span class="nv">$database</span><span class="p">;</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">userPath</span> <span class="o">=</span> <span class="nx">drupal_get_path</span><span class="p">(</span><span class="s1">&#39;module&#39;</span><span class="p">,</span> <span class="s1">&#39;cloud_user&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container-&gt;get('database')
-    );
-  }
+  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">create</span><span class="p">(</span><span class="nx">ContainerInterface</span> <span class="nv">$container</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="k">static</span><span class="p">(</span>
+      <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;database&#39;</span><span class="p">)</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
 
-  function console() {
-    $build = array(
-      '#theme' =&gt; 'cloud_common',
-    );
-    // 这里我们把用户模块的路径传递到前端
-    $build['#attached']['drupalSettings']['userPath'] = $this-&gt;userPath;
-    return $build;
-  }
-}
-</code></pre>
+  <span class="k">function</span> <span class="nf">console</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$build</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#theme&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;cloud_common&#39;</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="c1">// 这里我们把用户模块的路径传递到前端</span>
+    <span class="nv">$build</span><span class="p">[</span><span class="s1">&#39;#attached&#39;</span><span class="p">][</span><span class="s1">&#39;drupalSettings&#39;</span><span class="p">][</span><span class="s1">&#39;userPath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">userPath</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$build</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><code>cloud_common</code>的theme模版<code>cloud-common.html.twig</code>统一输出是</p>
-<pre><code class="language-twig">&lt;div ui-view&gt;&lt;/div&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">&lt;div ui-view&gt;&lt;/div&gt;</span>
+</code></pre></div>
 <p>用于angular前端路由加载模版</p>
 <p>接着，在<code>cloud_user</code>模块下新建<code>scripts</code>目录及其子目录<code>controller</code>和<code>directive</code>，对了，在<code>scripts</code>目录下新建文件<code>user.route.js</code>，用于定义用户模块的前端路由：</p>
-<pre><code class="language-javascript">(function(angular, drupalSettings) {
-  'use strict';
-  /**
-   * @name verycloud
-   * @description all user's ng route here.
-   *
-   */
-  var verycloud = angular.module('verycloud');
-  verycloud.config(['$stateProvider', function($stateProvider) {
-    $stateProvider
-      .state('dashboard', {
-        url: '/profile',
-        templateUrl: 'dashboard/container.html',
-        resolve: {
-          loadMyFile: function($ocLazyLoad) {
-            return $ocLazyLoad.load({
-              name: 'console',
-              files: [
-                drupalSettings.userPath + '/scripts/directive/header/header.js'
-              ]
-            })
-          }
-        },
-        abstract: true
-      })
-      .state('dashboard.console', {
-        url: '/console',
-        templateUrl: 'dashboard/dashboard.html',
-        controller: 'ConsoleCtrl',
-        resolve: {
-          loadMyFile: function($ocLazyLoad) {
-            return $ocLazyLoad.load({
-              name: 'console',
-              files: [
-                drupalSettings.userPath + '/scripts/controller/consoleController.js'
-              ]
-            })
-          }
-        }
-      });
-  }]);
-})(angular, drupalSettings);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">angular</span><span class="p">,</span><span class="w"> </span><span class="nx">drupalSettings</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="s1">&#39;use strict&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="cm">/**</span>
+<span class="cm">   * @name verycloud</span>
+<span class="cm">   * @description all user&#39;s ng route here.</span>
+<span class="cm">   *</span>
+<span class="cm">   */</span><span class="w"></span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">verycloud</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;verycloud&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="nx">verycloud</span><span class="p">.</span><span class="nx">config</span><span class="p">([</span><span class="s1">&#39;$stateProvider&#39;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">$stateProvider</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">$stateProvider</span><span class="w"></span>
+<span class="w">      </span><span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/profile&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">templateUrl</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;dashboard/container.html&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">resolve</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nx">loadMyFile</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">$ocLazyLoad</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">$ocLazyLoad</span><span class="p">.</span><span class="nx">load</span><span class="p">({</span><span class="w"></span>
+<span class="w">              </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nx">files</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="nx">drupalSettings</span><span class="p">.</span><span class="nx">userPath</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;/scripts/directive/header/header.js&#39;</span><span class="w"></span>
+<span class="w">              </span><span class="p">]</span><span class="w"></span>
+<span class="w">            </span><span class="p">})</span><span class="w"></span>
+<span class="w">          </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="kr">abstract</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="w">      </span><span class="p">})</span><span class="w"></span>
+<span class="w">      </span><span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="s1">&#39;dashboard.console&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/console&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">templateUrl</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;dashboard/dashboard.html&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">controller</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ConsoleCtrl&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">resolve</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nx">loadMyFile</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">$ocLazyLoad</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">$ocLazyLoad</span><span class="p">.</span><span class="nx">load</span><span class="p">({</span><span class="w"></span>
+<span class="w">              </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nx">files</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="nx">drupalSettings</span><span class="p">.</span><span class="nx">userPath</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;/scripts/controller/consoleController.js&#39;</span><span class="w"></span>
+<span class="w">              </span><span class="p">]</span><span class="w"></span>
+<span class="w">            </span><span class="p">})</span><span class="w"></span>
+<span class="w">          </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">});</span><span class="w"></span>
+<span class="w">  </span><span class="p">}]);</span><span class="w"></span>
+<span class="p">})(</span><span class="nx">angular</span><span class="p">,</span><span class="w"> </span><span class="nx">drupalSettings</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
 <p>接下来将这个路由文件定义成库，保存为<code>cloud_user.libraries.yml</code>，</p>
-<pre><code class="language-yaml">cloud_user.user_route:
-  version: VERSION
-  js:
-    scripts/user.route.js: {}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nt">cloud_user.user_route</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VERSION</span><span class="w"></span>
+<span class="w">  </span><span class="nt">js</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">scripts/user.route.js</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w"></span>
+</code></pre></div>
 <p>最后，回到<code>angular</code>的支撑模块<code>cloud_angular</code>，打开<code>cloud_angular.module</code>文件，在<code>hook_page</code>中引入用户模块的js库文件，就像下面这样：</p>
-<pre><code class="language-php">/**
- * Implements hook_preprocess_page().
- */
-function cloud_angular_preprocess_page(&amp;$variables) {
-  $variables['#attached']['library'][] = 'cloud_angular/cloud_angular.angular';
-  $variables['#attached']['library'][] = 'cloud_user/cloud_user.user_route';
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x"> * Implements hook_preprocess_page().</span>
+<span class="x"> */</span>
+<span class="x">function cloud_angular_preprocess_page(&amp;$variables) {</span>
+<span class="x">  $variables[&#39;#attached&#39;][&#39;library&#39;][] = &#39;cloud_angular/cloud_angular.angular&#39;;</span>
+<span class="x">  $variables[&#39;#attached&#39;][&#39;library&#39;][] = &#39;cloud_user/cloud_user.user_route&#39;;</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>启用<code>cloud_user</code>模块，尝试访问'profile/console'</p>
 
               

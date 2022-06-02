@@ -340,57 +340,55 @@
 
   <h1>drupal的.gitignore文件</h1>
 
-<hr />
-<pre><code class="language-php"># Ignore configuration files that may contain sensitive information.
-#sites/*/*settings*.php
-settings.php
-default.settings.php
+<div class="highlight"><pre><span></span><code><span class="x"># Ignore configuration files that may contain sensitive information.</span>
+<span class="x">#sites/*/*settings*.php</span>
+<span class="x">settings.php</span>
+<span class="x">default.settings.php</span>
 
-*~
-*.*~
-*.lock
-*.DS_Store
-*.swp
-*.out
-*.swo
+<span class="x">*~</span>
+<span class="x">*.*~</span>
+<span class="x">*.lock</span>
+<span class="x">*.DS_Store</span>
+<span class="x">*.swp</span>
+<span class="x">*.out</span>
+<span class="x">*.swo</span>
 
-# Ignore paths that contain generated content.
-cache/
-files/
-sites/*/files
-sites/*/private
-files/.htaccess
+<span class="x"># Ignore paths that contain generated content.</span>
+<span class="x">cache/</span>
+<span class="x">files/</span>
+<span class="x">sites/*/files</span>
+<span class="x">sites/*/private</span>
+<span class="x">files/.htaccess</span>
 
-# Ignore default text files
-.htaccess
-robots.txt
-/CHANGELOG.txt
-/COPYRIGHT.txt
-/INSTALL*.txt
-/LICENSE.txt
-/MAINTAINERS.txt
-/UPGRADE.txt
-/README.txt
-sites/all/README.txt
-sites/all/modules/README.txt
-sites/all/themes/README.txt
+<span class="x"># Ignore default text files</span>
+<span class="x">.htaccess</span>
+<span class="x">robots.txt</span>
+<span class="x">/CHANGELOG.txt</span>
+<span class="x">/COPYRIGHT.txt</span>
+<span class="x">/INSTALL*.txt</span>
+<span class="x">/LICENSE.txt</span>
+<span class="x">/MAINTAINERS.txt</span>
+<span class="x">/UPGRADE.txt</span>
+<span class="x">/README.txt</span>
+<span class="x">sites/all/README.txt</span>
+<span class="x">sites/all/modules/README.txt</span>
+<span class="x">sites/all/themes/README.txt</span>
 
-# Ignore everything but the &quot;sites&quot; folder ( for non core developer )
-web.config
-authorize.php
-cron.php
-index.php
-install.php
-update.php
-xmlrpc.php
-/includes
-/misc
-/modules
-/profiles
-/scripts
-/themes
-
-</code></pre>
+<span class="x"># Ignore everything but the &quot;sites&quot; folder ( for non core developer )</span>
+<span class="x">web.config</span>
+<span class="x">authorize.php</span>
+<span class="x">cron.php</span>
+<span class="x">index.php</span>
+<span class="x">install.php</span>
+<span class="x">update.php</span>
+<span class="x">xmlrpc.php</span>
+<span class="x">/includes</span>
+<span class="x">/misc</span>
+<span class="x">/modules</span>
+<span class="x">/profiles</span>
+<span class="x">/scripts</span>
+<span class="x">/themes</span>
+</code></pre></div>
 <p>把该文件放在/root/目录下。执行以下命令设置到全局选项里。
 git config --global core.excludesfile /root/.gitignore</p>
 

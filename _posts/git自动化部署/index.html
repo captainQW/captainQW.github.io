@@ -340,7 +340,6 @@
 
   <h1>git自动化部属</h1>
 
-<hr />
 <p>gitlab和github都支持通过webhook自动部署，本文使用gitlab+webhook的方式实现自动化部署项目。</p>
 <p>1、填写回调URL
 随便在gitlab上找一个项目，填写回调URL，如果有Push请求，gitlab会自动回调你填写的这个地址。
@@ -348,67 +347,67 @@
 <p>2、开发服务器配置
 一般php是通过php-fpm来运行，而php-fpm一般由apache用户来运行。确保clone下来的仓库权限比如为apache.
 可通过如下命令进行修改</p>
-<pre><code class="language-bash"># chown apache:apache you_project * -R
-</code></pre>
-<p>创建apache用户的.ssh文件</p>
-<pre><code class="language-bash">sudo -u apache ssh-keygen -t rsa
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1"># chown apache:apache you_project * -R</span>
+</code></pre></div>
+<p>创建apache用户的.ssh文件
+<div class="highlight"><pre><span></span><code>sudo -u apache ssh-keygen -t rsa
+</code></pre></div></p>
 <p>3、测试
 在本地commit一个提交.</p>
-<pre><code class="language-bash"># git ci -am 'test webhook'
-# git push origin dev
-</code></pre>
-<p>在开发服务器上查看日志</p>
-<pre><code class="language-bash"># tail -f /var/log/php-fpm/www-error.log
-</code></pre>
-<p>可以看到</p>
-<pre><code class="language-bash">[20-Dec-2016 23:00:59 Asia/Chongqing] Array
-(
-    [0] =&gt; From git.xxx.cn:your_project/project_name
-    [1] =&gt;  * branch            master     -&gt; FETCH_HEAD
-    [2] =&gt; Updating c02949b..f8c52c5
-    [3] =&gt; Fast-forward
-    [4] =&gt;  webhook.php |   42 ++++++++++++++++++++++++++++++++++++++++++
-    [5] =&gt;  1 files changed, 42 insertions(+), 0 deletions(-)
-    [6] =&gt;  create mode 100644 webhook.php
-)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1"># git ci -am &#39;test webhook&#39;</span>
+<span class="c1"># git push origin dev</span>
+</code></pre></div>
+<p>在开发服务器上查看日志
+<div class="highlight"><pre><span></span><code><span class="c1"># tail -f /var/log/php-fpm/www-error.log</span>
+</code></pre></div></p>
+<p>可以看到
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="m">20</span>-Dec-2016 <span class="m">23</span>:00:59 Asia/Chongqing<span class="o">]</span> Array
+<span class="o">(</span>
+    <span class="o">[</span><span class="m">0</span><span class="o">]</span> <span class="o">=</span>&gt; From git.xxx.cn:your_project/project_name
+    <span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">=</span>&gt;  * branch            master     -&gt; FETCH_HEAD
+    <span class="o">[</span><span class="m">2</span><span class="o">]</span> <span class="o">=</span>&gt; Updating c02949b..f8c52c5
+    <span class="o">[</span><span class="m">3</span><span class="o">]</span> <span class="o">=</span>&gt; Fast-forward
+    <span class="o">[</span><span class="m">4</span><span class="o">]</span> <span class="o">=</span>&gt;  webhook.php <span class="p">|</span>   <span class="m">42</span> ++++++++++++++++++++++++++++++++++++++++++
+    <span class="o">[</span><span class="m">5</span><span class="o">]</span> <span class="o">=</span>&gt;  <span class="m">1</span> files changed, <span class="m">42</span> insertions<span class="o">(</span>+<span class="o">)</span>, <span class="m">0</span> deletions<span class="o">(</span>-<span class="o">)</span>
+    <span class="o">[</span><span class="m">6</span><span class="o">]</span> <span class="o">=</span>&gt;  create mode <span class="m">100644</span> webhook.php
+<span class="o">)</span>
+</code></pre></div></p>
 <p>搞定！</p>
 <p>附、webhook.php源码</p>
-<pre><code class="language-php">&lt;?php
-$event = $_SERVER['HTTP_X_GITLAB_EVENT'];
-$client_ip = $_SERVER['REMOTE_ADDR'];
-$access_ip = array('192.168.112.151');
-// access ip
-if (!in_array($client_ip, $access_ip)) {
-  echo &quot;Invalid ip [{$client_ip}]&quot; . PHP_EOL;
-  exit(0);
-}
-if ($event == 'Push Hook') {
-  // get json data
-  $input = file_get_contents(&quot;php://input&quot;);
-  $json = json_decode($input, true);
-  if ($json['project']['name'] != 'portal') {
-     exit(0);
-  }
-  $branch = $json['ref'];
-  switch ($branch) {
-    case 'refs/heads/dev':
-      exec(&quot;cd /var/www/html/voss/portal/;/usr/bin/git pull origin dev 2&gt;&amp;1&quot;, $output, $result);
-      error_log(print_r('pull dev', true));
-      error_log(print_r($output, true));
-      error_log(print_r($result, true));
-      break;
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="nv">$event</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;HTTP_X_GITLAB_EVENT&#39;</span><span class="p">];</span>
+<span class="nv">$client_ip</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;REMOTE_ADDR&#39;</span><span class="p">];</span>
+<span class="nv">$access_ip</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;192.168.112.151&#39;</span><span class="p">);</span>
+<span class="c1">// access ip</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$client_ip</span><span class="p">,</span> <span class="nv">$access_ip</span><span class="p">))</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="s2">&quot;Invalid ip [</span><span class="si">{</span><span class="nv">$client_ip</span><span class="si">}</span><span class="s2">]&quot;</span> <span class="o">.</span> <span class="nx">PHP_EOL</span><span class="p">;</span>
+  <span class="k">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$event</span> <span class="o">==</span> <span class="s1">&#39;Push Hook&#39;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// get json data</span>
+  <span class="nv">$input</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s2">&quot;php://input&quot;</span><span class="p">);</span>
+  <span class="nv">$json</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$input</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$json</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;portal&#39;</span><span class="p">)</span> <span class="p">{</span>
+     <span class="k">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nv">$branch</span> <span class="o">=</span> <span class="nv">$json</span><span class="p">[</span><span class="s1">&#39;ref&#39;</span><span class="p">];</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="nv">$branch</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="s1">&#39;refs/heads/dev&#39;</span><span class="o">:</span>
+      <span class="nb">exec</span><span class="p">(</span><span class="s2">&quot;cd /var/www/html/voss/portal/;/usr/bin/git pull origin dev 2&gt;&amp;1&quot;</span><span class="p">,</span> <span class="nv">$output</span><span class="p">,</span> <span class="nv">$result</span><span class="p">);</span>
+      <span class="nb">error_log</span><span class="p">(</span><span class="nb">print_r</span><span class="p">(</span><span class="s1">&#39;pull dev&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+      <span class="nb">error_log</span><span class="p">(</span><span class="nb">print_r</span><span class="p">(</span><span class="nv">$output</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+      <span class="nb">error_log</span><span class="p">(</span><span class="nb">print_r</span><span class="p">(</span><span class="nv">$result</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+      <span class="k">break</span><span class="p">;</span>
 
-    default:
-      exec(&quot;cd /var/www/html/voss/portal/;/usr/bin/git pull origin master 2&gt;&amp;1&quot;, $output, $result);
-      error_log(print_r('pull master', true));
-      error_log(print_r($output, true));
-      error_log(print_r($result, true));
-      break;
-  }
-}
-</code></pre>
+    <span class="k">default</span><span class="o">:</span>
+      <span class="nb">exec</span><span class="p">(</span><span class="s2">&quot;cd /var/www/html/voss/portal/;/usr/bin/git pull origin master 2&gt;&amp;1&quot;</span><span class="p">,</span> <span class="nv">$output</span><span class="p">,</span> <span class="nv">$result</span><span class="p">);</span>
+      <span class="nb">error_log</span><span class="p">(</span><span class="nb">print_r</span><span class="p">(</span><span class="s1">&#39;pull master&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+      <span class="nb">error_log</span><span class="p">(</span><span class="nb">print_r</span><span class="p">(</span><span class="nv">$output</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+      <span class="nb">error_log</span><span class="p">(</span><span class="nb">print_r</span><span class="p">(</span><span class="nv">$result</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+      <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 
               
             </article>

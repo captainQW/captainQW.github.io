@@ -340,31 +340,30 @@
 
   <h1>hook_form中使用Drupal.attachBehaviors</h1>
 
-<hr />
 <p>如果form中有ajax事件，可能需要重新绑定事件，可以这样解决，代码如下</p>
-<pre><code class="language-php">/**
- * Implements hook_form_alter().
- */
-function xxx_form_alter(&amp;$commands, &amp;$form, $form_state) {
-  //用于Drupal.attachBehaviors(document)
-  $commands[] =  ajax_command_invoke(NULL, 'xxx_form_alter_attach_behaviors');
-}
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x"> * Implements hook_form_alter().</span>
+<span class="x"> */</span>
+<span class="x">function xxx_form_alter(&amp;$commands, &amp;$form, $form_state) {</span>
+<span class="x">  //用于Drupal.attachBehaviors(document)</span>
+<span class="x">  $commands[] =  ajax_command_invoke(NULL, &#39;xxx_form_alter_attach_behaviors&#39;);</span>
+<span class="x">}</span>
 
-(function($) {
+<span class="x">(function($) {</span>
 
-Drupal.behaviors.xxx_form = {
-  attach: function (context, settings) {
-    //js here
+<span class="x">Drupal.behaviors.xxx_form = {</span>
+<span class="x">  attach: function (context, settings) {</span>
+<span class="x">    //js here</span>
 
-  }
-}
+<span class="x">  }</span>
+<span class="x">}</span>
 
-$.fn.xxx_form_alter_attach_behaviors = function() {
-  Drupal.attachBehaviors(document);
-}
+<span class="x">$.fn.xxx_form_alter_attach_behaviors = function() {</span>
+<span class="x">  Drupal.attachBehaviors(document);</span>
+<span class="x">}</span>
 
-})(jQuery);
-</code></pre>
+<span class="x">})(jQuery);</span>
+</code></pre></div>
 
               
             </article>

@@ -340,19 +340,18 @@
 
   <h1>yum Errno 14 解决方法</h1>
 
-<hr />
 <p>今天在安装supervisor的时候，报如下错误</p>
-<pre><code class="language-php">[root@admin yum.repos.d]# yum repolist
-Loaded plugins: fastestmirror
-Determining fastest mirrors  
-http://balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection
-Trying other mirror.
-http://balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection
-Trying other mirror.
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">[root@admin yum.repos.d]# yum repolist</span>
+<span class="x">Loaded plugins: fastestmirror</span>
+<span class="x">Determining fastest mirrors  </span>
+<span class="x">http://balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection</span>
+<span class="x">Trying other mirror.</span>
+<span class="x">http://balabala/repodata/repomd.xml: [Errno 14] problem making ssl connection</span>
+<span class="x">Trying other mirror.</span>
+</code></pre></div>
 <p>排查应该是ssl证书问题有关，网上查了资料发现需要安装 ca-certificates 才行。</p>
-<pre><code class="language-php">yum install ca-certificates -y
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">yum install ca-certificates -y</span>
+</code></pre></div>
 
               
             </article>

@@ -374,10 +374,9 @@
 
   <h1>"tpcc测试mysql性能"</h1>
 
-<hr />
 <p>TPC-C是专门针对联机交易处理系统（OLTP系统）的规范，一般情况下我们也把这类系统称为业务处理系统。
-tpcc-mysql是percona基于TPC-C(下面简写成TPCC)衍生出来的产品，专用于MySQL基准测试。其源码放在launchpad上，用bazaar管理，项目地址：https://code.launchpad.net/~percona-dev/perconatools/tpcc-mysql。</p>
-<p>也可以用叶金荣的版本，https://github.com/yejr/tpcc-mysql-autoinc-pk。</p>
+tpcc-mysql是percona基于TPC-C(下面简写成TPCC)衍生出来的产品，专用于MySQL基准测试。其源码放在launchpad上，用bazaar管理，项目地址：<a href="https://code.launchpad.net/~percona-dev/perconatools/tpcc-mysql">https://code.launchpad.net/~percona-dev/perconatools/tpcc-mysql</a>。</p>
+<p>也可以用叶金荣的版本，<a href="https://github.com/yejr/tpcc-mysql-autoinc-pk">https://github.com/yejr/tpcc-mysql-autoinc-pk</a>。</p>
 <p>tpcc-mysql的业务逻辑及其相关的几个表作用如下：</p>
 <p>New-Order：新订单，一次完整的订单事务，几乎涉及到全部表
 Payment：支付，主要对应 orders、history 表
@@ -389,43 +388,43 @@ Stock-Level：库存，主要对应 stock 表</p>
 地区：主要对应 district 表
 商品：主要对应 item 表
 仓库：主要对应 warehouse 表</p>
-<h3 id="_1">一、编译安装</h3>
+<h3 id="_1">一、编译安装<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
 <p>编译非常简单，只需要一个 make 即可。</p>
-<pre><code class="language-bash">cd /tmp/tpcc-mysql/src
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /tmp/tpcc-mysql/src
 make
-</code></pre>
+</code></pre></div>
 <p>如果 make 没有报错，就会在 /tmp/tpcc-mysql 下生成 tpcc 二进制命令行工具 tpcc_load、 tpcc_start</p>
-<h3 id="tpcc">二、TPCC测试前准备</h3>
+<h3 id="tpcc">二、TPCC测试前准备<a class="headerlink" href="#tpcc" title="Permanent link">&para;</a></h3>
 <p>初始化测试库环境</p>
-<pre><code class="language-bash">cd /tmp/tpcc-mysql
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /tmp/tpcc-mysql
 mysqladmin create tpcc
 mysql -uroot -proot tpcc &lt; create_table.sql
-</code></pre>
+</code></pre></div>
 <p>tpcc_load用法如下：</p>
-<pre><code class="language-bash">tpcc_load [server] [DB] [user] [pass] [warehouse]
+<div class="highlight"><pre><span></span><code>tpcc_load <span class="o">[</span>server<span class="o">]</span> <span class="o">[</span>DB<span class="o">]</span> <span class="o">[</span>user<span class="o">]</span> <span class="o">[</span>pass<span class="o">]</span> <span class="o">[</span>warehouse<span class="o">]</span>
 
 OR
 
-tpcc_load [server] [DB] [user] [pass] [warehouse] [part] [min_wh] [max_wh]
-</code></pre>
+tpcc_load <span class="o">[</span>server<span class="o">]</span> <span class="o">[</span>DB<span class="o">]</span> <span class="o">[</span>user<span class="o">]</span> <span class="o">[</span>pass<span class="o">]</span> <span class="o">[</span>warehouse<span class="o">]</span> <span class="o">[</span>part<span class="o">]</span> <span class="o">[</span>min_wh<span class="o">]</span> <span class="o">[</span>max_wh<span class="o">]</span>
+</code></pre></div>
 <p>选项 warehouse 意为指定测试库下的仓库数量。</p>
 <p>真实测试场景中，仓库数一般不建议少于100个，视服务器硬件配置而定，如果是配备了SSD或者PCIE SSD这种高IOPS设备的话，建议最少不低于1000个。</p>
 <p>执行下面的命令，开始灌入测试数据：</p>
-<pre><code class="language-bash">cd /tmp/tpcc-mysql
-./tpcc_load localhost tpcc tpcc_user &quot;tpcc_password&quot; 1000
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /tmp/tpcc-mysql
+./tpcc_load localhost tpcc tpcc_user <span class="s2">&quot;tpcc_password&quot;</span> <span class="m">1000</span>
+</code></pre></div>
 <p>在这里，需要注意的是 tpcc 默认会读取 /var/lib/mysql/mysql.sock 这个socket 文件。
 因此，如果你的 socket 文件不在相应路径的话，可以做个软连接，或者通过TCP/IP的方式连接测试服务器，例如：</p>
-<pre><code class="language-bash">cd /tmp/tpcc-mysql
-./tpcc_load 1.2.3.4:3306 tpcc1000 tpcc_user &quot;tpcc_password&quot; 1000
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /tmp/tpcc-mysql
+./tpcc_load <span class="m">1</span>.2.3.4:3306 tpcc1000 tpcc_user <span class="s2">&quot;tpcc_password&quot;</span> <span class="m">1000</span>
+</code></pre></div>
 <p>加载测试数据时长视仓库数量而定，若过程比较久需要稍加耐心等待。</p>
 <p>tpcc_load其实是可以并行加载的，一方面是可以区分 ITEMS、WAREHOUSE、CUSTOMER、ORDERS 四个维度的数据并行加载。
 另外，比如最终想加载1000个 warehouse的话，也可以分开成1000个并发并行加载的。看下 tpcc_load 工具的参数就知道了：</p>
-<pre><code class="language-bash">usage: tpcc_load [server] [DB] [user] [pass] [warehouse]
+<div class="highlight"><pre><span></span><code>usage: tpcc_load <span class="o">[</span>server<span class="o">]</span> <span class="o">[</span>DB<span class="o">]</span> <span class="o">[</span>user<span class="o">]</span> <span class="o">[</span>pass<span class="o">]</span> <span class="o">[</span>warehouse<span class="o">]</span>
 OR
-tpcc_load [server] [DB] [user] [pass] [warehouse] [part] [min_wh] [max_wh]
-</code></pre>
+tpcc_load <span class="o">[</span>server<span class="o">]</span> <span class="o">[</span>DB<span class="o">]</span> <span class="o">[</span>user<span class="o">]</span> <span class="o">[</span>pass<span class="o">]</span> <span class="o">[</span>warehouse<span class="o">]</span> <span class="o">[</span>part<span class="o">]</span> <span class="o">[</span>min_wh<span class="o">]</span> <span class="o">[</span>max_wh<span class="o">]</span>
+</code></pre></div>
 <ul>
 <li>[part]: 1=ITEMS 2=WAREHOUSE 3=CUSTOMER 4=ORDERS
 本来想自己写个并行加载脚本的，后来发现万能的github上已经有人做好了，我就直接拿来用了，这是项目链接 <a href="https://gist.github.com/sh2/3458844">tpcc_load_parallel.sh</a>，加载效率至少提升10倍以上。</li>
@@ -443,59 +442,59 @@ tpcc_start 工具用于tpcc压测，其用法如下：</p>
 -i  指定生成报告间隔时长
 -f 指定生成的报告文件名</p>
 <p>现在我们来开启一个测试案例：</p>
-<pre><code class="language-bash">tpcc_start -hlocalhost -d tpcc1000 -u tpcc_user -p &quot;tpcc_password&quot; \
- -w 1000 -c 32 -r 120 -l 3600 \
- -f tpcc_mysql_20140921.log &gt;&gt; tpcc_caseX_20140921.log 2&gt;&amp;1
-</code></pre>
+<div class="highlight"><pre><span></span><code>tpcc_start -hlocalhost -d tpcc1000 -u tpcc_user -p <span class="s2">&quot;tpcc_password&quot;</span> <span class="se">\</span>
+ -w <span class="m">1000</span> -c <span class="m">32</span> -r <span class="m">120</span> -l <span class="m">3600</span> <span class="se">\</span>
+ -f tpcc_mysql_20140921.log &gt;&gt; tpcc_caseX_20140921.log <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</code></pre></div>
 <p>即：模拟 1000个仓库规模，并发 16个线程进行测试，热身时间为 60秒, 压测时间为 1小时。</p>
 <p>真实测试场景中，建议预热时间不小于5分钟，持续压测时长不小于30分钟，否则测试数据可能不具参考意义。</p>
-<h3 id="tpcc_1">三、TPCC测试结果解读：</h3>
+<h3 id="tpcc_1">三、TPCC测试结果解读：<a class="headerlink" href="#tpcc_1" title="Permanent link">&para;</a></h3>
 <p>发起测试</p>
-<pre><code class="language-bash">./tpcc_start -h 1.2.3.4 -P 3306 -d tpcc10 -u tpcc -p tpcc \
- -w 10 -c 64 -r 30 -l 120 \
- -f tpcclog_201409211538_64_THREADS.log &gt;&gt; tpcc_noaid_2_20140921_64.log 2&gt;&amp;1
-</code></pre>
+<div class="highlight"><pre><span></span><code>./tpcc_start -h <span class="m">1</span>.2.3.4 -P <span class="m">3306</span> -d tpcc10 -u tpcc -p tpcc <span class="se">\</span>
+ -w <span class="m">10</span> -c <span class="m">64</span> -r <span class="m">30</span> -l <span class="m">120</span> <span class="se">\</span>
+ -f tpcclog_201409211538_64_THREADS.log &gt;&gt; tpcc_noaid_2_20140921_64.log <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</code></pre></div>
 <p>测试结果输出如下：</p>
-<pre><code class="language-bash">-- 本轮tpcc压测的一些基本信息
+<div class="highlight"><pre><span></span><code>-- 本轮tpcc压测的一些基本信息
 ***************************************
-*** ###easy### TPC-C Load Generator ***
+*** <span class="c1">###easy### TPC-C Load Generator ***</span>
 ***************************************
-option h with value '1.2.3.4'   -- 主机
-option P with value '3306'             -- 端口
-option d with value 'tpcc10'         -- 数据库
-option u with value 'tpcc'             -- 账号
-option p with value 'tpcc'             -- 密码
-option w with value '10'                 -- 仓库数
-option c with value '64'                 -- 并发线程数
-option r with value '30'                 -- 数据预热时长
-option l with value '120'               -- 压测时长
-option f with value 'tpcclog_20140921_64_THREADS.res'  -- 输出报告日志文件
+option h with value <span class="s1">&#39;1.2.3.4&#39;</span>   -- 主机
+option P with value <span class="s1">&#39;3306&#39;</span>             -- 端口
+option d with value <span class="s1">&#39;tpcc10&#39;</span>         -- 数据库
+option u with value <span class="s1">&#39;tpcc&#39;</span>             -- 账号
+option p with value <span class="s1">&#39;tpcc&#39;</span>             -- 密码
+option w with value <span class="s1">&#39;10&#39;</span>                 -- 仓库数
+option c with value <span class="s1">&#39;64&#39;</span>                 -- 并发线程数
+option r with value <span class="s1">&#39;30&#39;</span>                 -- 数据预热时长
+option l with value <span class="s1">&#39;120&#39;</span>               -- 压测时长
+option f with value <span class="s1">&#39;tpcclog_20140921_64_THREADS.res&#39;</span>  -- 输出报告日志文件
 
-     [server]: 1.2.3.4
-     [port]: 3306
-     [DBname]: tpcc10
-       [user]: tpcc
-       [pass]: tpcc
-  [warehouse]: 10
- [connection]: 64
-     [rampup]: 30 (sec.)
-    [measure]: 120 (sec.)
+     <span class="o">[</span>server<span class="o">]</span>: <span class="m">1</span>.2.3.4
+     <span class="o">[</span>port<span class="o">]</span>: <span class="m">3306</span>
+     <span class="o">[</span>DBname<span class="o">]</span>: tpcc10
+       <span class="o">[</span>user<span class="o">]</span>: tpcc
+       <span class="o">[</span>pass<span class="o">]</span>: tpcc
+  <span class="o">[</span>warehouse<span class="o">]</span>: <span class="m">10</span>
+ <span class="o">[</span>connection<span class="o">]</span>: <span class="m">64</span>
+     <span class="o">[</span>rampup<span class="o">]</span>: <span class="m">30</span> <span class="o">(</span>sec.<span class="o">)</span>
+    <span class="o">[</span>measure<span class="o">]</span>: <span class="m">120</span> <span class="o">(</span>sec.<span class="o">)</span>
 
-RAMP-UP TIME.(30 sec.)
+RAMP-UP TIME.<span class="o">(</span><span class="m">30</span> sec.<span class="o">)</span>
 
 -- 预热结束，开始进行压测
 MEASURING START.
 
 -- 每10秒钟输出一次压测数据
-  10, 8376(0):2.744|3.211, 8374(0):0.523|1.626, 838(0):0.250|0.305, 837(0):3.241|3.518, 839(0):9.086|10.676
-  20, 8294(0):2.175|2.327, 8292(0):0.420|0.495, 829(0):0.206|0.243, 827(0):2.489|2.593, 827(0):7.214|7.646
+  <span class="m">10</span>, <span class="m">8376</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:2.744<span class="p">|</span><span class="m">3</span>.211, <span class="m">8374</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:0.523<span class="p">|</span><span class="m">1</span>.626, <span class="m">838</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:0.250<span class="p">|</span><span class="m">0</span>.305, <span class="m">837</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:3.241<span class="p">|</span><span class="m">3</span>.518, <span class="m">839</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:9.086<span class="p">|</span><span class="m">10</span>.676
+  <span class="m">20</span>, <span class="m">8294</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:2.175<span class="p">|</span><span class="m">2</span>.327, <span class="m">8292</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:0.420<span class="p">|</span><span class="m">0</span>.495, <span class="m">829</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:0.206<span class="p">|</span><span class="m">0</span>.243, <span class="m">827</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:2.489<span class="p">|</span><span class="m">2</span>.593, <span class="m">827</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:7.214<span class="p">|</span><span class="m">7</span>.646
 …
- 110, 8800(0):2.149|2.458, 8792(0):0.424|0.710, 879(0):0.207|0.244, 878(0):2.461|2.556, 878(0):7.042|7.341
- 120, 8819(0):2.147|2.327, 8820(0):0.424|0.568, 882(0):0.208|0.237, 881(0):2.483|2.561, 883(0):7.025|7.405
+ <span class="m">110</span>, <span class="m">8800</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:2.149<span class="p">|</span><span class="m">2</span>.458, <span class="m">8792</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:0.424<span class="p">|</span><span class="m">0</span>.710, <span class="m">879</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:0.207<span class="p">|</span><span class="m">0</span>.244, <span class="m">878</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:2.461<span class="p">|</span><span class="m">2</span>.556, <span class="m">878</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:7.042<span class="p">|</span><span class="m">7</span>.341
+ <span class="m">120</span>, <span class="m">8819</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:2.147<span class="p">|</span><span class="m">2</span>.327, <span class="m">8820</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:0.424<span class="p">|</span><span class="m">0</span>.568, <span class="m">882</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:0.208<span class="p">|</span><span class="m">0</span>.237, <span class="m">881</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:2.483<span class="p">|</span><span class="m">2</span>.561, <span class="m">883</span><span class="o">(</span><span class="m">0</span><span class="o">)</span>:7.025<span class="p">|</span><span class="m">7</span>.405
 -- 以逗号分隔，共6列
 -- 第一列，第N次10秒
--- 第二列，新订单成功执行压测的次数(推迟执行压测的次数):90%事务的响应时间|本轮测试最大响应时间，新订单事务数也被认为是总有效事务数的指标
--- 第三列，支付业务成功执行次数(推迟执行次数):90%事务的响应时间|本轮测试最大响应时间
+-- 第二列，新订单成功执行压测的次数<span class="o">(</span>推迟执行压测的次数<span class="o">)</span>:90%事务的响应时间<span class="p">|</span>本轮测试最大响应时间，新订单事务数也被认为是总有效事务数的指标
+-- 第三列，支付业务成功执行次数<span class="o">(</span>推迟执行次数<span class="o">)</span>:90%事务的响应时间<span class="p">|</span>本轮测试最大响应时间
 -- 第四列，订单状态业务的结果，后面几个的意义同上
 -- 第五列，物流发货业务的结果，后面几个的意义同上
 -- 第六列，库存仓储业务的结果，后面几个的意义同上
@@ -504,41 +503,40 @@ MEASURING START.
 STOPPING THREADS................................................................
 
    -- 第一次结果统计
-  [0] sc:100589  lt:0  rt:0  fl:0    -- New-Order，新订单业务成功(success,简写sc)次数，延迟(late,简写lt)次数，重试(retry,简写rt)次数，失败(failure,简写fl)次数
-  [1] sc:100552  lt:0  rt:0  fl:0    -- Payment，支付业务统计，其他同上
-  [2] sc:10059  lt:0  rt:0  fl:0    -- Order-Status，订单状态业务统计，其他同上
-  [3] sc:10057  lt:0  rt:0  fl:0    -- Delivery，发货业务统计，其他同上
-  [4] sc:10058  lt:0  rt:0  fl:0    -- Stock-Level，库存业务统计，其他同上
- in 120 sec.
+  <span class="o">[</span><span class="m">0</span><span class="o">]</span> sc:100589  lt:0  rt:0  fl:0    -- New-Order，新订单业务成功<span class="o">(</span>success,简写sc<span class="o">)</span>次数，延迟<span class="o">(</span>late,简写lt<span class="o">)</span>次数，重试<span class="o">(</span>retry,简写rt<span class="o">)</span>次数，失败<span class="o">(</span>failure,简写fl<span class="o">)</span>次数
+  <span class="o">[</span><span class="m">1</span><span class="o">]</span> sc:100552  lt:0  rt:0  fl:0    -- Payment，支付业务统计，其他同上
+  <span class="o">[</span><span class="m">2</span><span class="o">]</span> sc:10059  lt:0  rt:0  fl:0    -- Order-Status，订单状态业务统计，其他同上
+  <span class="o">[</span><span class="m">3</span><span class="o">]</span> sc:10057  lt:0  rt:0  fl:0    -- Delivery，发货业务统计，其他同上
+  <span class="o">[</span><span class="m">4</span><span class="o">]</span> sc:10058  lt:0  rt:0  fl:0    -- Stock-Level，库存业务统计，其他同上
+ <span class="k">in</span> <span class="m">120</span> sec.
 
     -- 第二次统计结果，其他同上
-  [0] sc:100590  lt:0  rt:0  fl:0 
-  [1] sc:100582  lt:0  rt:0  fl:0 
-  [2] sc:10059  lt:0  rt:0  fl:0 
-  [3] sc:10057  lt:0  rt:0  fl:0 
-  [4] sc:10059  lt:0  rt:0  fl:0 
+  <span class="o">[</span><span class="m">0</span><span class="o">]</span> sc:100590  lt:0  rt:0  fl:0 
+  <span class="o">[</span><span class="m">1</span><span class="o">]</span> sc:100582  lt:0  rt:0  fl:0 
+  <span class="o">[</span><span class="m">2</span><span class="o">]</span> sc:10059  lt:0  rt:0  fl:0 
+  <span class="o">[</span><span class="m">3</span><span class="o">]</span> sc:10057  lt:0  rt:0  fl:0 
+  <span class="o">[</span><span class="m">4</span><span class="o">]</span> sc:10059  lt:0  rt:0  fl:0 
 
- (all must be [OK])       -- 下面所有业务逻辑结果都必须为 OK 才行
- [transaction percentage]
-        Payment: 43.47% (&gt;=43.0%) [OK]      -- 支付成功次数(上述统计结果中 sc + lt)必须大于43.0%，否则结果为NG，而不是OK
-   Order-Status: 4.35% (&gt;= 4.0%) [OK]       -- 订单状态，其他同上
-       Delivery: 4.35% (&gt;= 4.0%) [OK]       -- 发货，其他同上
-    Stock-Level: 4.35% (&gt;= 4.0%) [OK]       -- 库存，其他同上
- [response time (at least 90% passed)]      -- 响应耗时指标必须超过90%通过才行
-      New-Order: 100.00%  [OK]              -- 下面几个响应耗时指标全部 100% 通过
-        Payment: 100.00%  [OK]
-   Order-Status: 100.00%  [OK]
-       Delivery: 100.00%  [OK]
-    Stock-Level: 100.00%  [OK]
+ <span class="o">(</span>all must be <span class="o">[</span>OK<span class="o">])</span>       -- 下面所有业务逻辑结果都必须为 OK 才行
+ <span class="o">[</span>transaction percentage<span class="o">]</span>
+        Payment: <span class="m">43</span>.47% <span class="o">(</span>&gt;<span class="o">=</span><span class="m">43</span>.0%<span class="o">)</span> <span class="o">[</span>OK<span class="o">]</span>      -- 支付成功次数<span class="o">(</span>上述统计结果中 sc + lt<span class="o">)</span>必须大于43.0%，否则结果为NG，而不是OK
+   Order-Status: <span class="m">4</span>.35% <span class="o">(</span>&gt;<span class="o">=</span> <span class="m">4</span>.0%<span class="o">)</span> <span class="o">[</span>OK<span class="o">]</span>       -- 订单状态，其他同上
+       Delivery: <span class="m">4</span>.35% <span class="o">(</span>&gt;<span class="o">=</span> <span class="m">4</span>.0%<span class="o">)</span> <span class="o">[</span>OK<span class="o">]</span>       -- 发货，其他同上
+    Stock-Level: <span class="m">4</span>.35% <span class="o">(</span>&gt;<span class="o">=</span> <span class="m">4</span>.0%<span class="o">)</span> <span class="o">[</span>OK<span class="o">]</span>       -- 库存，其他同上
+ <span class="o">[</span>response <span class="nb">time</span> <span class="o">(</span>at least <span class="m">90</span>% passed<span class="o">)]</span>      -- 响应耗时指标必须超过90%通过才行
+      New-Order: <span class="m">100</span>.00%  <span class="o">[</span>OK<span class="o">]</span>              -- 下面几个响应耗时指标全部 <span class="m">100</span>% 通过
+        Payment: <span class="m">100</span>.00%  <span class="o">[</span>OK<span class="o">]</span>
+   Order-Status: <span class="m">100</span>.00%  <span class="o">[</span>OK<span class="o">]</span>
+       Delivery: <span class="m">100</span>.00%  <span class="o">[</span>OK<span class="o">]</span>
+    Stock-Level: <span class="m">100</span>.00%  <span class="o">[</span>OK<span class="o">]</span>
 
 
-                 50294.500 TpmC                      -- TpmC结果值（每分钟事务数，该值是第一次统计结果中的新订单事务数除以总耗时分钟数，例如本例中是：100589/2 = 50294.500）
-
-</code></pre>
+                 <span class="m">50294</span>.500 TpmC                      -- TpmC结果值（每分钟事务数，该值是第一次统计结果中的新订单事务数除以总耗时分钟数，例如本例中是：100589/2 <span class="o">=</span> <span class="m">50294</span>.500）
+</code></pre></div>
 <p>script目录下的一些脚本主要是一些性能数据采集以及分析的，可以自行摸索下怎么用。</p>
 <p>参考文章：
-1、http://imysql.com/2014/10/10/tpcc-mysql-full-user-manual.shtml
-2、https://github.com/yejr/tpcc-mysql-autoinc-pk</p>
+1、<a href="http://imysql.com/2014/10/10/tpcc-mysql-full-user-manual.shtml">http://imysql.com/2014/10/10/tpcc-mysql-full-user-manual.shtml</a>
+2、<a href="https://github.com/yejr/tpcc-mysql-autoinc-pk">https://github.com/yejr/tpcc-mysql-autoinc-pk</a></p>
 
               
             </article>

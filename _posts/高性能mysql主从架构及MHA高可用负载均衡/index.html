@@ -581,7 +581,6 @@
 
   <h1>"高性能mysql主从架构及MHA高可用负载均衡"</h1>
 
-<hr />
 <p>实验系统：CentOS 6.7_x86_64（4.2.3）</p>
 <p>实验前提：防火墙和selinux都关闭</p>
 <p>实验说明：本实验共有3台主机，拓扑图如下所示</p>
@@ -595,65 +594,65 @@ master: 172.16.115.101
 <p>mha4mysql-manager-0.56-0.el6.noarch.rpm</p>
 <p>mha4mysql-node-0.56-0.el6.noarch.rpm</p>
 <p>mysql(mysql-5.5.46-1.el6.remi.x86_64)</p>
-<h3 id="1">1、安装软件</h3>
+<h3 id="1">1、安装软件<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <p>三台机器都需要安装mha4mysql-node, master和slave还需要安装mysql, manager可以不装mysql. 当然manager也可以用slave机器来做。</p>
-<pre><code class="language-bash">yum install mysql mysql-server epel-release -y
+<div class="highlight"><pre><span></span><code>yum install mysql mysql-server epel-release -y
 
 rpm -Uvh mha4mysql-node-0.56-0.el6.noarch.rpm
-</code></pre>
+</code></pre></div>
 <p>manager还需要安装mha4mysql-manager.</p>
-<pre><code class="language-bash">yum localinstall mha4mysql-manager-0.56-0.el6.noarch.rpm -y
-</code></pre>
-<p>用localinstall会自动安装依赖。</p>
-<h3 id="2mysql">2、mysql主从配置</h3>
-<h4 id="masteretcmycnf">master上编辑/etc/my.cnf，添加配置</h4>
-<pre><code class="language-bash"># master config
-server-id = 1
-log_bin = mysql-bin
+<p><div class="highlight"><pre><span></span><code>yum localinstall mha4mysql-manager-0.56-0.el6.noarch.rpm -y
+</code></pre></div>
+用localinstall会自动安装依赖。</p>
+<h3 id="2mysql">2、mysql主从配置<a class="headerlink" href="#2mysql" title="Permanent link">&para;</a></h3>
+<h4 id="masteretcmycnf">master上编辑/etc/my.cnf，添加配置<a class="headerlink" href="#masteretcmycnf" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># master config</span>
+server-id <span class="o">=</span> <span class="m">1</span>
+<span class="nv">log_bin</span> <span class="o">=</span> mysql-bin
 log-slave-updates
-binlog_do_db = drupal
-</code></pre>
-<h4 id="slaveetcmycnf">slave上编辑/etc/my.cnf,添加配置</h4>
-<pre><code class="language-bash"># slave config
-server-id = 2
-log_bin = mysql-bin
+<span class="nv">binlog_do_db</span> <span class="o">=</span> drupal
+</code></pre></div>
+<h4 id="slaveetcmycnf">slave上编辑/etc/my.cnf,添加配置<a class="headerlink" href="#slaveetcmycnf" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># slave config</span>
+server-id <span class="o">=</span> <span class="m">2</span>
+<span class="nv">log_bin</span> <span class="o">=</span> mysql-bin
 log-slave-updates
-binlog_do_db = drupal
-</code></pre>
-<h4 id="_1">创建具有复制权限的用户</h4>
-<pre><code class="language-bash">GRANT ALL PRIVILEGES ON *.* TO 'replicate'@'%' IDENTIFIED BY '123456';
+<span class="nv">binlog_do_db</span> <span class="o">=</span> drupal
+</code></pre></div>
+<h4 id="_1">创建具有复制权限的用户<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GRANT ALL PRIVILEGES ON *.* TO <span class="s1">&#39;replicate&#39;</span>@<span class="s1">&#39;%&#39;</span> IDENTIFIED BY <span class="s1">&#39;123456&#39;</span><span class="p">;</span>
 
-FLUSH PRIVILEGES;
-</code></pre>
-<h4 id="slave">设置slave</h4>
-<pre><code class="language-bash">mysql -uroot -p123456
+FLUSH PRIVILEGES<span class="p">;</span>
+</code></pre></div>
+<h4 id="slave">设置slave<a class="headerlink" href="#slave" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>mysql -uroot -p123456
 
-mysql&gt; change master to master_host='172.16.115.101',master_port=3306,master_user='repl',master_password='123456',master_log_file='mysql-bin.000001',MASTER_LOG_POS=0;
+mysql&gt; change master to <span class="nv">master_host</span><span class="o">=</span><span class="s1">&#39;172.16.115.101&#39;</span>,master_port<span class="o">=</span><span class="m">3306</span>,master_user<span class="o">=</span><span class="s1">&#39;repl&#39;</span>,master_password<span class="o">=</span><span class="s1">&#39;123456&#39;</span>,master_log_file<span class="o">=</span><span class="s1">&#39;mysql-bin.000001&#39;</span>,MASTER_LOG_POS<span class="o">=</span><span class="m">0</span><span class="p">;</span>
 
-mysql&gt; start slave;
-</code></pre>
-<h4 id="masterslave">查看master/slave配置</h4>
-<pre><code class="language-bash">mysql&gt; show master status;
+mysql&gt; start slave<span class="p">;</span>
+</code></pre></div>
+<h4 id="masterslave">查看master/slave配置<a class="headerlink" href="#masterslave" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>mysql&gt; show master status<span class="p">;</span>
 
 +------------------+----------+--------------+------------------+
-| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB |
+<span class="p">|</span> File             <span class="p">|</span> Position <span class="p">|</span> Binlog_Do_DB <span class="p">|</span> Binlog_Ignore_DB <span class="p">|</span>
 +------------------+----------+--------------+------------------+
-| mysql-bin.000001 |      867 | drupal       |                  |
+<span class="p">|</span> mysql-bin.000001 <span class="p">|</span>      <span class="m">867</span> <span class="p">|</span> drupal       <span class="p">|</span>                  <span class="p">|</span>
 +------------------+----------+--------------+------------------+
-1 row in set (0.00 sec)
-</code></pre>
-<pre><code class="language-bash">mysql&gt; show slave status\G;
+<span class="m">1</span> row <span class="k">in</span> <span class="nb">set</span> <span class="o">(</span><span class="m">0</span>.00 sec<span class="o">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>mysql&gt; show slave status<span class="se">\G</span><span class="p">;</span>
 
-*************************** 1. row ***************************
-               Slave_IO_State: Waiting for master to send event
-                  Master_Host: 172.16.115.101
+*************************** <span class="m">1</span>. row ***************************
+               Slave_IO_State: Waiting <span class="k">for</span> master to send event
+                  Master_Host: <span class="m">172</span>.16.115.101
                   Master_User: repl
-                  Master_Port: 3306
-                Connect_Retry: 60
+                  Master_Port: <span class="m">3306</span>
+                Connect_Retry: <span class="m">60</span>
               Master_Log_File: mysql-bin.000001
-          Read_Master_Log_Pos: 867
+          Read_Master_Log_Pos: <span class="m">867</span>
                Relay_Log_File: mysqld-relay-bin.000002
-                Relay_Log_Pos: 1013
+                Relay_Log_Pos: <span class="m">1013</span>
         Relay_Master_Log_File: mysql-bin.000001
              Slave_IO_Running: Yes
             Slave_SQL_Running: Yes
@@ -663,32 +662,32 @@ mysql&gt; start slave;
        Replicate_Ignore_Table: 
       Replicate_Wild_Do_Table: 
   Replicate_Wild_Ignore_Table: 
-                   Last_Errno: 0
+                   Last_Errno: <span class="m">0</span>
                    Last_Error: 
-                 Skip_Counter: 0
-          Exec_Master_Log_Pos: 867
-              Relay_Log_Space: 1170
+                 Skip_Counter: <span class="m">0</span>
+          Exec_Master_Log_Pos: <span class="m">867</span>
+              Relay_Log_Space: <span class="m">1170</span>
               Until_Condition: None
                Until_Log_File: 
-                Until_Log_Pos: 0
+                Until_Log_Pos: <span class="m">0</span>
            Master_SSL_Allowed: No
            Master_SSL_CA_File: 
            Master_SSL_CA_Path: 
               Master_SSL_Cert: 
             Master_SSL_Cipher: 
                Master_SSL_Key: 
-        Seconds_Behind_Master: 0
+        Seconds_Behind_Master: <span class="m">0</span>
 Master_SSL_Verify_Server_Cert: No
-                Last_IO_Errno: 0
+                Last_IO_Errno: <span class="m">0</span>
                 Last_IO_Error: 
-               Last_SQL_Errno: 0
+               Last_SQL_Errno: <span class="m">0</span>
                Last_SQL_Error: 
   Replicate_Ignore_Server_Ids: 
-             Master_Server_Id: 1
-1 row in set (0.00 sec)
-</code></pre>
+             Master_Server_Id: <span class="m">1</span>
+<span class="m">1</span> row <span class="k">in</span> <span class="nb">set</span> <span class="o">(</span><span class="m">0</span>.00 sec<span class="o">)</span>
+</code></pre></div>
 <p>如果Slave_IO_Running和Slave_SQL_Running都是YES，说明slave服务器配置OK。</p>
-<h3 id="3mha">3、MHA作用</h3>
+<h3 id="3mha">3、MHA作用<a class="headerlink" href="#3mha" title="Permanent link">&para;</a></h3>
 <p>1）从宕机崩溃的master保存二进制日志事件（binlog events）;</p>
 <p>2）识别含有最新更新的slave；</p>
 <p>3）应用差异的中继日志（relay log）到其他的slave；</p>
@@ -697,614 +696,612 @@ Master_SSL_Verify_Server_Cert: No
 <p>6）使其他的slave连接新的master进行复制；</p>
 <p>MHA软件由两部分组成，Manager工具包和Node工具包，具体的说明如下。</p>
 <p>Manager工具包主要包括以下几个工具：</p>
-<pre><code class="language-bash">masterha_check_ssh              检查MHA的SSH配置状况
+<div class="highlight"><pre><span></span><code>masterha_check_ssh              检查MHA的SSH配置状况
 masterha_check_repl             检查MySQL复制状况
 masterha_manger                 启动MHA
 masterha_check_status           检测当前MHA运行状态
 masterha_master_monitor         检测master是否宕机
 masterha_master_switch          控制故障转移（自动或者手动）
 masterha_conf_host              添加或删除配置的server信息
-</code></pre>
+</code></pre></div>
 <p>Node工具包（这些工具通常由MHA Manager的脚本触发，无需人为操作）主要包括以下几个工具：</p>
-<pre><code class="language-bash">save_binary_logs                保存和复制master的二进制日志
+<div class="highlight"><pre><span></span><code>save_binary_logs                保存和复制master的二进制日志
 apply_diff_relay_logs           识别差异的中继日志事件并将其差异的事件应用于其他的slave
 filter_mysqlbinlog              去除不必要的ROLLBACK事件（MHA已不再使用这个工具）
 purge_relay_logs                清除中继日志（不会阻塞SQL线程）
-</code></pre>
-<h3 id="4mha">4、配置MHA</h3>
-<h4 id="mha">创建MHA的工作目录，并且创建相关配置文件（在软件包解压后的目录里面有样例配置文件）</h4>
-<pre><code class="language-bash">[root@172.16.2.99 ~]# vim /etc/masterha/app1.cnf 
+</code></pre></div>
+<h3 id="4mha">4、配置MHA<a class="headerlink" href="#4mha" title="Permanent link">&para;</a></h3>
+<h4 id="mha">创建MHA的工作目录，并且创建相关配置文件（在软件包解压后的目录里面有样例配置文件）<a class="headerlink" href="#mha" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 ~<span class="o">]</span><span class="c1"># vim /etc/masterha/app1.cnf </span>
 
-[server default]
-manager_log=/var/log/mha/app1/manager.log //设置manager的日志
-manager_workdir=/var/log/mha/app1.log //设置manager的工作目录
-master_binlog_dir=/var/lib/mysql //设置master 保存binlog的位置，以便MHA可以找到master的日志，我这里的也就是mysql的数据目录
+<span class="o">[</span>server default<span class="o">]</span>
+<span class="nv">manager_log</span><span class="o">=</span>/var/log/mha/app1/manager.log //设置manager的日志
+<span class="nv">manager_workdir</span><span class="o">=</span>/var/log/mha/app1.log //设置manager的工作目录
+<span class="nv">master_binlog_dir</span><span class="o">=</span>/var/lib/mysql //设置master 保存binlog的位置，以便MHA可以找到master的日志，我这里的也就是mysql的数据目录
 
-user=repl  //设置监控用户root
-password=123456 //设置mysql中root用户的密码，这个密码是前文中创建监控用户的那个密码
-ssh_user=root //设置ssh的登录用户名
-repl_user=repl //设置复制环境中的复制用户名
-repl_password=123456 //设置复制用户的密码
-ping_interval=10 //设置监控主库，发送ping包的时间间隔，默认是3秒，尝试三次没有回应的时候自动进行railover
+<span class="nv">user</span><span class="o">=</span>repl  //设置监控用户root
+<span class="nv">password</span><span class="o">=</span><span class="m">123456</span> //设置mysql中root用户的密码，这个密码是前文中创建监控用户的那个密码
+<span class="nv">ssh_user</span><span class="o">=</span>root //设置ssh的登录用户名
+<span class="nv">repl_user</span><span class="o">=</span>repl //设置复制环境中的复制用户名
+<span class="nv">repl_password</span><span class="o">=</span><span class="m">123456</span> //设置复制用户的密码
+<span class="nv">ping_interval</span><span class="o">=</span><span class="m">10</span> //设置监控主库，发送ping包的时间间隔，默认是3秒，尝试三次没有回应的时候自动进行railover
 
-shutdown_script=&quot;&quot; //设置故障发生后关闭故障主机脚本（该脚本的主要作用是关闭主机放在发生脑裂,这里没有使用）
-master_ip_online_change_script=&quot;&quot; //设置手动切换时候的切换脚本
-report_script=&quot;/usr/bin/masterha_report_script&quot; //设置发生切换后发送的报警的脚本
-master_ip_failover_script=&quot;/usr/bin/masterha_ip_failover&quot; //设置自动failover时候的切换脚本
+<span class="nv">shutdown_script</span><span class="o">=</span><span class="s2">&quot;&quot;</span> //设置故障发生后关闭故障主机脚本（该脚本的主要作用是关闭主机放在发生脑裂,这里没有使用）
+<span class="nv">master_ip_online_change_script</span><span class="o">=</span><span class="s2">&quot;&quot;</span> //设置手动切换时候的切换脚本
+<span class="nv">report_script</span><span class="o">=</span><span class="s2">&quot;/usr/bin/masterha_report_script&quot;</span> //设置发生切换后发送的报警的脚本
+<span class="nv">master_ip_failover_script</span><span class="o">=</span><span class="s2">&quot;/usr/bin/masterha_ip_failover&quot;</span> //设置自动failover时候的切换脚本
 
-[server1]
-hostname=172.16.115.101
+<span class="o">[</span>server1<span class="o">]</span>
+<span class="nv">hostname</span><span class="o">=</span><span class="m">172</span>.16.115.101
 
-[server2]
-hostname=172.16.115.102
-candidate_master=1 //设置为候选master，如果设置该参数以后，发生主从切换以后将会将此从库提升为主库，即使这个主库不是集群中时间最新的slave
-check_repl_delay=0   //默认情况下如果一个slave落后master 100M的relay logs的话，MHA将不会选择该slave作为一个新的master，因为对于这个slave的恢复需要花费很长时间，通过设置check_repl_delay=0,MHA触发切换在选择一个新的master的时候将会忽略复制延时，这个参数对于设置了candidate_master=1的主机非常有用，因为这个候选主在切换的过程中一定是新的master
-
-</code></pre>
-<h4 id="relay-logslave">设置relay log的清除方式（在每个slave节点上）：</h4>
-<pre><code class="language-bash">[root@192.168.115.102 ~]# mysql -e 'set global relay_log_purge=0'
-</code></pre>
+<span class="o">[</span>server2<span class="o">]</span>
+<span class="nv">hostname</span><span class="o">=</span><span class="m">172</span>.16.115.102
+<span class="nv">candidate_master</span><span class="o">=</span><span class="m">1</span> //设置为候选master，如果设置该参数以后，发生主从切换以后将会将此从库提升为主库，即使这个主库不是集群中时间最新的slave
+<span class="nv">check_repl_delay</span><span class="o">=</span><span class="m">0</span>   //默认情况下如果一个slave落后master 100M的relay logs的话，MHA将不会选择该slave作为一个新的master，因为对于这个slave的恢复需要花费很长时间，通过设置check_repl_delay<span class="o">=</span><span class="m">0</span>,MHA触发切换在选择一个新的master的时候将会忽略复制延时，这个参数对于设置了candidate_master<span class="o">=</span>1的主机非常有用，因为这个候选主在切换的过程中一定是新的master
+</code></pre></div>
+<h4 id="relay-logslave">设置relay log的清除方式（在每个slave节点上）：<a class="headerlink" href="#relay-logslave" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@192.168.115.102 ~<span class="o">]</span><span class="c1"># mysql -e &#39;set global relay_log_purge=0&#39;</span>
+</code></pre></div>
 <p>注意：</p>
 <p>MHA在发生切换的过程中，从库的恢复过程中依赖于relay log的相关信息，所以这里要将relay log的自动清除设置为OFF，采用手动清除relay log的方式。在默认情况下，从服务器上的中继日志会在SQL线程执行完毕后被自动删除。但是在MHA环境中，这些中继日志在恢复其他从服务器时可能会被用到，因此需要禁用中继日志的自动删除功能。定期清除中继日志需要考虑到复制延时的问题。在ext3的文件系统下，删除大的文件需要一定的时间，会导致严重的复制延时。为了避免复制延时，需要暂时为中继日志创建硬链接，因为在linux系统中通过硬链接删除大文件速度会很快。（在mysql数据库中，删除大表时，通常也采用建立硬链接的方式）</p>
 <p>MHA节点中包含了pure_relay_logs命令工具，它可以为中继日志创建硬链接，执行SET GLOBAL relay_log_purge=1,等待几秒钟以便SQL线程切换到新的中继日志，再执行SET GLOBAL relay_log_purge=0。</p>
 <p>pure_relay_logs脚本参数如下所示：</p>
-<pre><code class="language-bash">--user mysql                      用户名
+<div class="highlight"><pre><span></span><code>--user mysql                      用户名
 --password mysql                  密码
 --port                            端口号
 --workdir                         指定创建relay log的硬链接的位置，默认是/var/tmp，由于系统不同分区创建硬链接文件会失败，故需要执行硬链接具体位置，成功执行脚本后，硬链接的中继日志文件被删除
---disable_relay_log_purge         默认情况下，如果relay_log_purge=1，脚本会什么都不清理，自动退出，通过设定这个参数，当relay_log_purge=1的情况下会将relay_log_purge设置为0。清理relay log之后，最后将参数设置为OFF。
-</code></pre>
-<h4 id="relayslave">设置定期清理relay脚本（两台slave服务器）</h4>
-<pre><code class="language-bash">[root@192.168.115.102 ~]# cat purge_relay_log.sh 
-#!/bin/bash
-user=root
-passwd=123456
-port=3306
-log_dir='/var/log/masterha'
-work_dir='/var/lib/mysql'
-purge='/usr/local/bin/purge_relay_logs'
+--disable_relay_log_purge         默认情况下，如果relay_log_purge<span class="o">=</span><span class="m">1</span>，脚本会什么都不清理，自动退出，通过设定这个参数，当relay_log_purge<span class="o">=</span>1的情况下会将relay_log_purge设置为0。清理relay log之后，最后将参数设置为OFF。
+</code></pre></div>
+<h4 id="relayslave">设置定期清理relay脚本（两台slave服务器）<a class="headerlink" href="#relayslave" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code><span class="o">[</span>root@192.168.115.102 ~<span class="o">]</span><span class="c1"># cat purge_relay_log.sh </span>
+<span class="c1">#!/bin/bash</span>
+<span class="nv">user</span><span class="o">=</span>root
+<span class="nv">passwd</span><span class="o">=</span><span class="m">123456</span>
+<span class="nv">port</span><span class="o">=</span><span class="m">3306</span>
+<span class="nv">log_dir</span><span class="o">=</span><span class="s1">&#39;/var/log/masterha&#39;</span>
+<span class="nv">work_dir</span><span class="o">=</span><span class="s1">&#39;/var/lib/mysql&#39;</span>
+<span class="nv">purge</span><span class="o">=</span><span class="s1">&#39;/usr/local/bin/purge_relay_logs&#39;</span>
 
-if [ ! -d $log_dir ]
-then
-   mkdir $log_dir -p
-fi
+<span class="k">if</span> <span class="o">[</span> ! -d <span class="nv">$log_dir</span> <span class="o">]</span>
+<span class="k">then</span>
+   mkdir <span class="nv">$log_dir</span> -p
+<span class="k">fi</span>
 
-$purge --user=$user --password=$passwd --disable_relay_log_purge --port=$port --workdir=$work_dir &gt;&gt; $log_dir/purge_relay_logs.log 2&gt;&amp;1
-
-</code></pre>
-<p>添加到crontab定期执行</p>
-<pre><code class="language-bash">[root@192.168.115.102 ~]# crontab -l
-0 4 * * * /bin/bash /root/purge_relay_log.sh
-</code></pre>
-<h4 id="purge_relay_logssql">purge_relay_logs脚本删除中继日志不会阻塞SQL线程。下面我们手动执行看看什么情况。</h4>
-<pre><code class="language-bash">[root@192.168.115.102 ~]# purge_relay_logs --user=root --password=123456 --port=3306 -disable_relay_log_purge --workdir=/data/
-2014-04-20 15:47:24: purge_relay_logs script started.
+<span class="nv">$purge</span> --user<span class="o">=</span><span class="nv">$user</span> --password<span class="o">=</span><span class="nv">$passwd</span> --disable_relay_log_purge --port<span class="o">=</span><span class="nv">$port</span> --workdir<span class="o">=</span><span class="nv">$work_dir</span> &gt;&gt; <span class="nv">$log_dir</span>/purge_relay_logs.log <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</code></pre></div>
+添加到crontab定期执行
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@192.168.115.102 ~<span class="o">]</span><span class="c1"># crontab -l</span>
+<span class="m">0</span> <span class="m">4</span> * * * /bin/bash /root/purge_relay_log.sh
+</code></pre></div></p>
+<h4 id="purge_relay_logssql">purge_relay_logs脚本删除中继日志不会阻塞SQL线程。下面我们手动执行看看什么情况。<a class="headerlink" href="#purge_relay_logssql" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@192.168.115.102 ~<span class="o">]</span><span class="c1"># purge_relay_logs --user=root --password=123456 --port=3306 -disable_relay_log_purge --workdir=/data/</span>
+<span class="m">2014</span>-04-20 <span class="m">15</span>:47:24: purge_relay_logs script started.
  Found relay_log.info: /data/mysql/relay-log.info
- Removing hard linked relay log files server03-relay-bin* under /data/.. done.
+ Removing hard linked relay log files server03-relay-bin* under /data/.. <span class="k">done</span>.
  Current relay log file: /data/mysql/server03-relay-bin.000002
- Archiving unused relay log files (up to /data/mysql/server03-relay-bin.000001) ...
- Creating hard link for /data/mysql/server03-relay-bin.000001 under /data//server03-relay-bin.000001 .. ok.
- Creating hard links for unused relay log files completed.
- Executing SET GLOBAL relay_log_purge=1; FLUSH LOGS; sleeping a few seconds so that SQL thread can delete older relay log files (if it keeps up); SET GLOBAL relay_log_purge=0; .. ok.
- Removing hard linked relay log files server03-relay-bin* under /data/.. done.
-2014-04-20 15:47:27: All relay log purging operations succeeded.
-</code></pre>
-<h3 id="5ssh">5、SSH配置</h3>
+ Archiving unused relay log files <span class="o">(</span>up to /data/mysql/server03-relay-bin.000001<span class="o">)</span> ...
+ Creating hard link <span class="k">for</span> /data/mysql/server03-relay-bin.000001 under /data//server03-relay-bin.000001 .. ok.
+ Creating hard links <span class="k">for</span> unused relay log files completed.
+ Executing SET GLOBAL <span class="nv">relay_log_purge</span><span class="o">=</span><span class="m">1</span><span class="p">;</span> FLUSH LOGS<span class="p">;</span> sleeping a few seconds so that SQL thread can delete older relay log files <span class="o">(</span><span class="k">if</span> it keeps up<span class="o">)</span><span class="p">;</span> SET GLOBAL <span class="nv">relay_log_purge</span><span class="o">=</span><span class="m">0</span><span class="p">;</span> .. ok.
+ Removing hard linked relay log files server03-relay-bin* under /data/.. <span class="k">done</span>.
+<span class="m">2014</span>-04-20 <span class="m">15</span>:47:27: All relay log purging operations succeeded.
+</code></pre></div>
+<h3 id="5ssh">5、SSH配置<a class="headerlink" href="#5ssh" title="Permanent link">&para;</a></h3>
 <p>要想MHA顺利执行各项任务，还得打通每台机器的SSH。</p>
-<pre><code class="language-bash">[root@172.16.2.99 app1]# ssh-keygen -t rsa
-[root@172.16.2.99 app1]# ssh-copy-id -i .ssh/id_rsa.pub root@172.16.115.101
+<p><div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 app1<span class="o">]</span><span class="c1"># ssh-keygen -t rsa</span>
+<span class="o">[</span>root@172.16.2.99 app1<span class="o">]</span><span class="c1"># ssh-copy-id -i .ssh/id_rsa.pub root@172.16.115.101</span>
 .....
-</code></pre>
-<p>记住，每台机器都要跟别的机器打通SSH。</p>
+</code></pre></div>
+记住，每台机器都要跟别的机器打通SSH。</p>
 <p>检查MHA Manger到所有MHA Node的SSH连接状态：</p>
-<pre><code class="language-bash">[root@172.16.2.99 app1]# masterha_check_ssh --conf=/etc/masterha/app1.cnf  
-Wed Dec  2 14:42:39 2015 - [warning] Global configuration file /etc/masterha_default.cnf not found. Skipping.
-Wed Dec  2 14:42:39 2015 - [info] Reading application default configuration from /etc/masterha/app1.cnf..
-Wed Dec  2 14:42:39 2015 - [info] Reading server configuration from /etc/masterha/app1.cnf..
-Wed Dec  2 14:42:39 2015 - [info] Starting SSH connection tests..
-Wed Dec  2 14:42:39 2015 - [debug] 
-Wed Dec  2 14:42:39 2015 - [debug]  Connecting via SSH from root@172.16.115.101(172.16.115.101:22) to root@172.16.115.102(172.16.115.102:22)..
-Wed Dec  2 14:42:39 2015 - [debug]   ok.
-Wed Dec  2 14:42:40 2015 - [debug] 
-Wed Dec  2 14:42:39 2015 - [debug]  Connecting via SSH from root@172.16.115.102(172.16.115.102:22) to root@172.16.115.101(172.16.115.101:22)..
-Wed Dec  2 14:42:39 2015 - [debug]   ok.
-Wed Dec  2 14:42:40 2015 - [info] All SSH connection tests passed successfully.
-</code></pre>
-<p>可以看见各个节点ssh验证都是ok的。</p>
-<h3 id="6">6、检查整个复制环境状况</h3>
+<p><div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 app1<span class="o">]</span><span class="c1"># masterha_check_ssh --conf=/etc/masterha/app1.cnf  </span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> Global configuration file /etc/masterha_default.cnf not found. Skipping.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading application default configuration from /etc/masterha/app1.cnf..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading server configuration from /etc/masterha/app1.cnf..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Starting SSH connection tests..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span> 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span>  Connecting via SSH from root@172.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:22<span class="o">)</span> to root@172.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:22<span class="o">)</span>..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span>   ok.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:40 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span> 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span>  Connecting via SSH from root@172.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:22<span class="o">)</span> to root@172.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:22<span class="o">)</span>..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span>   ok.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> All SSH connection tests passed successfully.
+</code></pre></div>
+可以看见各个节点ssh验证都是ok的。</p>
+<h3 id="6">6、检查整个复制环境状况<a class="headerlink" href="#6" title="Permanent link">&para;</a></h3>
 <p>通过masterha_check_repl脚本查看整个集群的状态</p>
-<pre><code class="language-bash">[root@172.16.2.99 app1]# masterha_check_ssh --conf=/etc/masterha/app1.cnf  
-Wed Dec  2 14:42:39 2015 - [warning] Global configuration file /etc/masterha_default.cnf not found. Skipping.
-Wed Dec  2 14:42:39 2015 - [info] Reading application default configuration from /etc/masterha/app1.cnf..
-Wed Dec  2 14:42:39 2015 - [info] Reading server configuration from /etc/masterha/app1.cnf..
-Wed Dec  2 14:42:39 2015 - [info] Starting SSH connection tests..
-Wed Dec  2 14:42:39 2015 - [debug] 
-Wed Dec  2 14:42:39 2015 - [debug]  Connecting via SSH from root@172.16.115.101(172.16.115.101:22) to root@172.16.115.102(172.16.115.102:22)..
-Wed Dec  2 14:42:39 2015 - [debug]   ok.
-Wed Dec  2 14:42:40 2015 - [debug] 
-Wed Dec  2 14:42:39 2015 - [debug]  Connecting via SSH from root@172.16.115.102(172.16.115.102:22) to root@172.16.115.101(172.16.115.101:22)..
-Wed Dec  2 14:42:39 2015 - [debug]   ok.
-Wed Dec  2 14:42:40 2015 - [info] All SSH connection tests passed successfully.
-[root@utn-cz-1-1-s16h2 app1.log]# masterha_check_repl --conf=/etc/masterha/app1.cnf  
-Wed Dec  2 14:43:49 2015 - [warning] Global configuration file /etc/masterha_default.cnf not found. Skipping.
-Wed Dec  2 14:43:49 2015 - [info] Reading application default configuration from /etc/masterha/app1.cnf..
-Wed Dec  2 14:43:49 2015 - [info] Reading server configuration from /etc/masterha/app1.cnf..
-Wed Dec  2 14:43:49 2015 - [info] MHA::MasterMonitor version 0.56.
-Wed Dec  2 14:43:50 2015 - [info] GTID failover mode = 0
-Wed Dec  2 14:43:50 2015 - [info] Dead Servers:
-Wed Dec  2 14:43:50 2015 - [info] Alive Servers:
-Wed Dec  2 14:43:50 2015 - [info]   172.16.115.101(172.16.115.101:3306)
-Wed Dec  2 14:43:50 2015 - [info]   172.16.115.102(172.16.115.102:3306)
-Wed Dec  2 14:43:50 2015 - [info] Alive Slaves:
-Wed Dec  2 14:43:50 2015 - [info]   172.16.115.102(172.16.115.102:3306)  Version=5.5.46-log (oldest major version between slaves) log-bin:enabled
-Wed Dec  2 14:43:50 2015 - [info]     Replicating from 172.16.115.101(172.16.115.101:3306)
-Wed Dec  2 14:43:50 2015 - [info]     Primary candidate for the new Master (candidate_master is set)
-Wed Dec  2 14:43:50 2015 - [info] Current Alive Master: 172.16.115.101(172.16.115.101:3306)
-Wed Dec  2 14:43:50 2015 - [info] Checking slave configurations..
-Wed Dec  2 14:43:50 2015 - [info]  read_only=1 is not set on slave 172.16.115.102(172.16.115.102:3306).
-Wed Dec  2 14:43:50 2015 - [warning]  relay_log_purge=0 is not set on slave 172.16.115.102(172.16.115.102:3306).
-Wed Dec  2 14:43:50 2015 - [info] Checking replication filtering settings..
-Wed Dec  2 14:43:50 2015 - [info]  binlog_do_db= drupal, binlog_ignore_db= 
-Wed Dec  2 14:43:50 2015 - [info]  Replication filtering check ok.
-Wed Dec  2 14:43:50 2015 - [info] GTID (with auto-pos) is not supported
-Wed Dec  2 14:43:50 2015 - [info] Starting SSH connection tests..
-Wed Dec  2 14:43:51 2015 - [info] All SSH connection tests passed successfully.
-Wed Dec  2 14:43:51 2015 - [info] Checking MHA Node version..
-Wed Dec  2 14:43:51 2015 - [info]  Version check ok.
-Wed Dec  2 14:43:51 2015 - [info] Checking SSH publickey authentication settings on the current master..
-Wed Dec  2 14:43:51 2015 - [info] HealthCheck: SSH to 172.16.115.101 is reachable.
-Wed Dec  2 14:43:51 2015 - [info] Master MHA Node version is 0.56.
-Wed Dec  2 14:43:51 2015 - [info] Checking recovery script configurations on 172.16.115.101(172.16.115.101:3306)..
-Wed Dec  2 14:43:51 2015 - [info]   Executing command: save_binary_logs --command=test --start_pos=4 --binlog_dir=/var/lib/mysql --output_file=/var/tmp/save_binary_logs_test --manager_version=0.56 --start_file=mysql-bin.000021 
-Wed Dec  2 14:43:51 2015 - [info]   Connecting to root@172.16.115.101(172.16.115.101:22).. 
-  Creating /var/tmp if not exists..    ok.
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 app1<span class="o">]</span><span class="c1"># masterha_check_ssh --conf=/etc/masterha/app1.cnf  </span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> Global configuration file /etc/masterha_default.cnf not found. Skipping.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading application default configuration from /etc/masterha/app1.cnf..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading server configuration from /etc/masterha/app1.cnf..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Starting SSH connection tests..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span> 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span>  Connecting via SSH from root@172.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:22<span class="o">)</span> to root@172.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:22<span class="o">)</span>..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span>   ok.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:40 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span> 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span>  Connecting via SSH from root@172.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:22<span class="o">)</span> to root@172.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:22<span class="o">)</span>..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:39 <span class="m">2015</span> - <span class="o">[</span>debug<span class="o">]</span>   ok.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:42:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> All SSH connection tests passed successfully.
+<span class="o">[</span>root@utn-cz-1-1-s16h2 app1.log<span class="o">]</span><span class="c1"># masterha_check_repl --conf=/etc/masterha/app1.cnf  </span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:49 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> Global configuration file /etc/masterha_default.cnf not found. Skipping.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:49 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading application default configuration from /etc/masterha/app1.cnf..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:49 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading server configuration from /etc/masterha/app1.cnf..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:49 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> MHA::MasterMonitor version <span class="m">0</span>.56.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> GTID failover <span class="nv">mode</span> <span class="o">=</span> <span class="m">0</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Dead Servers:
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Alive Servers:
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   <span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   <span class="m">172</span>.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Alive Slaves:
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   <span class="m">172</span>.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>  <span class="nv">Version</span><span class="o">=</span><span class="m">5</span>.5.46-log <span class="o">(</span>oldest major version between slaves<span class="o">)</span> log-bin:enabled
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>     Replicating from <span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>     Primary candidate <span class="k">for</span> the new Master <span class="o">(</span>candidate_master is <span class="nb">set</span><span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Current Alive Master: <span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking slave configurations..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  <span class="nv">read_only</span><span class="o">=</span><span class="m">1</span> is not <span class="nb">set</span> on slave <span class="m">172</span>.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span>  <span class="nv">relay_log_purge</span><span class="o">=</span><span class="m">0</span> is not <span class="nb">set</span> on slave <span class="m">172</span>.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking replication filtering settings..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  <span class="nv">binlog_do_db</span><span class="o">=</span> drupal, <span class="nv">binlog_ignore_db</span><span class="o">=</span> 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  Replication filtering check ok.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> GTID <span class="o">(</span>with auto-pos<span class="o">)</span> is not supported
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:50 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Starting SSH connection tests..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:51 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> All SSH connection tests passed successfully.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:51 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking MHA Node version..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:51 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  Version check ok.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:51 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking SSH publickey authentication settings on the current master..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:51 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> HealthCheck: SSH to <span class="m">172</span>.16.115.101 is reachable.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:51 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Master MHA Node version is <span class="m">0</span>.56.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:51 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking recovery script configurations on <span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span>..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:51 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Executing command: save_binary_logs --command<span class="o">=</span><span class="nb">test</span> --start_pos<span class="o">=</span><span class="m">4</span> --binlog_dir<span class="o">=</span>/var/lib/mysql --output_file<span class="o">=</span>/var/tmp/save_binary_logs_test --manager_version<span class="o">=</span><span class="m">0</span>.56 --start_file<span class="o">=</span>mysql-bin.000021 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:51 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Connecting to root@172.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:22<span class="o">)</span>.. 
+  Creating /var/tmp <span class="k">if</span> not exists..    ok.
   Checking output directory is accessible or not..
    ok.
   Binlog found at /var/lib/mysql, up to mysql-bin.000021
-Wed Dec  2 14:43:52 2015 - [info] Binlog setting check done.
-Wed Dec  2 14:43:52 2015 - [info] Checking SSH publickey authentication and checking recovery script configurations on all alive slave servers..
-Wed Dec  2 14:43:52 2015 - [info]   Executing command : apply_diff_relay_logs --command=test --slave_user='repl' --slave_host=172.16.115.102 --slave_ip=172.16.115.102 --slave_port=3306 --workdir=/var/tmp --target_version=5.5.46-log --manager_version=0.56 --relay_log_info=/var/lib/mysql/relay-log.info  --relay_dir=/var/lib/mysql/  --slave_pass=xxx
-Wed Dec  2 14:43:52 2015 - [info]   Connecting to root@172.16.115.102(172.16.115.102:22).. 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Binlog setting check <span class="k">done</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking SSH publickey authentication and checking recovery script configurations on all alive slave servers..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Executing <span class="nb">command</span> : apply_diff_relay_logs --command<span class="o">=</span><span class="nb">test</span> --slave_user<span class="o">=</span><span class="s1">&#39;repl&#39;</span> --slave_host<span class="o">=</span><span class="m">172</span>.16.115.102 --slave_ip<span class="o">=</span><span class="m">172</span>.16.115.102 --slave_port<span class="o">=</span><span class="m">3306</span> --workdir<span class="o">=</span>/var/tmp --target_version<span class="o">=</span><span class="m">5</span>.5.46-log --manager_version<span class="o">=</span><span class="m">0</span>.56 --relay_log_info<span class="o">=</span>/var/lib/mysql/relay-log.info  --relay_dir<span class="o">=</span>/var/lib/mysql/  --slave_pass<span class="o">=</span>xxx
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Connecting to root@172.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:22<span class="o">)</span>.. 
   Checking slave recovery environment settings..
     Opening /var/lib/mysql/relay-log.info ... ok.
     Relay log found at /var/lib/mysql, up to mysqld-relay-bin.000022
     Temporary relay log file is /var/lib/mysql/mysqld-relay-bin.000022
-    Testing mysql connection and privileges.. done.
-    Testing mysqlbinlog output.. done.
-    Cleaning up test file(s).. done.
-Wed Dec  2 14:43:52 2015 - [info] Slaves settings check done.
-Wed Dec  2 14:43:52 2015 - [info] 
-172.16.115.101(172.16.115.101:3306) (current master)
- +--172.16.115.102(172.16.115.102:3306)
+    Testing mysql connection and privileges.. <span class="k">done</span>.
+    Testing mysqlbinlog output.. <span class="k">done</span>.
+    Cleaning up <span class="nb">test</span> file<span class="o">(</span>s<span class="o">)</span>.. <span class="k">done</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Slaves settings check <span class="k">done</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> 
+<span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span> <span class="o">(</span>current master<span class="o">)</span>
+ +--172.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>
 
-Wed Dec  2 14:43:52 2015 - [info] Checking replication health on 172.16.115.102..
-Wed Dec  2 14:43:52 2015 - [info]  ok.
-Wed Dec  2 14:43:52 2015 - [info] Checking master_ip_failover_script status:
-Wed Dec  2 14:43:52 2015 - [info]   /usr/bin/masterha_ip_failover --command=status --ssh_user=root --orig_master_host=172.16.115.101 --orig_master_ip=172.16.115.101 --orig_master_port=3306 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking replication health on <span class="m">172</span>.16.115.102..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  ok.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking master_ip_failover_script status:
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   /usr/bin/masterha_ip_failover --command<span class="o">=</span>status --ssh_user<span class="o">=</span>root --orig_master_host<span class="o">=</span><span class="m">172</span>.16.115.101 --orig_master_ip<span class="o">=</span><span class="m">172</span>.16.115.101 --orig_master_port<span class="o">=</span><span class="m">3306</span> 
 
 
-IN SCRIPT TEST====/sbin/ifconfig eth0:0 down==/sbin/ifconfig eth0:0 172.16.115.200/24===
+IN SCRIPT <span class="nv">TEST</span><span class="o">====</span>/sbin/ifconfig eth0:0 <span class="nv">down</span><span class="o">==</span>/sbin/ifconfig eth0:0 <span class="m">172</span>.16.115.200/24<span class="o">===</span>
 
 Checking the Status of the script.. OK 
-Wed Dec  2 14:43:52 2015 - [info]  OK.
-Wed Dec  2 14:43:52 2015 - [warning] shutdown_script is not defined.
-Wed Dec  2 14:43:52 2015 - [info] Got exit code 0 (Not master dead).
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  OK.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> shutdown_script is not defined.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:43:52 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Got <span class="nb">exit</span> code <span class="m">0</span> <span class="o">(</span>Not master dead<span class="o">)</span>.
 
 MySQL Replication Health is OK.
-</code></pre>
-<h3 id="7mha-manager">7、检查MHA Manager的状态</h3>
+</code></pre></div>
+<h3 id="7mha-manager">7、检查MHA Manager的状态<a class="headerlink" href="#7mha-manager" title="Permanent link">&para;</a></h3>
 <p>通过master_check_status脚本查看Manager的状态：</p>
-<pre><code class="language-bash">[root@172.16.2.99 ~]# masterha_check_status --conf=/etc/masterha/app1.cnf
-app1 is stopped(2:NOT_RUNNING).
-</code></pre>
-<p>注意：如果正常，会显示"PING_OK"，否则会显示"NOT_RUNNING"，这代表MHA监控没有开启。</p>
-<h3 id="8mha-manager">8、开启MHA Manager监控</h3>
-<pre><code class="language-bash">[root@172.16.2.99 ~]# nohup masterha_manager --conf=/etc/masterha/app1.cnf --ignore_last_failover &gt; /var/log/mha/app1/manager.log &lt; /dev/null 2&gt;&amp;1 &amp;
-[1] 7303
-</code></pre>
+<p><div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 ~<span class="o">]</span><span class="c1"># masterha_check_status --conf=/etc/masterha/app1.cnf</span>
+app1 is stopped<span class="o">(</span><span class="m">2</span>:NOT_RUNNING<span class="o">)</span>.
+</code></pre></div>
+注意：如果正常，会显示"PING_OK"，否则会显示"NOT_RUNNING"，这代表MHA监控没有开启。</p>
+<h3 id="8mha-manager">8、开启MHA Manager监控<a class="headerlink" href="#8mha-manager" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 ~<span class="o">]</span><span class="c1"># nohup masterha_manager --conf=/etc/masterha/app1.cnf --ignore_last_failover &gt; /var/log/mha/app1/manager.log &lt; /dev/null 2&gt;&amp;1 &amp;</span>
+<span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="m">7303</span>
+</code></pre></div>
 <p>启动参数介绍：</p>
-<pre><code class="language-bash">--remove_dead_master_conf      该参数代表当发生主从切换后，老的主库的ip将会从配置文件中移除。
+<div class="highlight"><pre><span></span><code>--remove_dead_master_conf      该参数代表当发生主从切换后，老的主库的ip将会从配置文件中移除。
 --manger_log                            日志存放位置
 --ignore_last_failover                 在缺省情况下，如果MHA检测到连续发生宕机，且两次宕机间隔不足8小时的话，则不会进行Failover，之所以这样限制是为了避免ping-pong效应。该参数代表忽略上次MHA触发切换产生的文件，默认情况下，MHA发生切换后会在日志目录，也就是上面我设置的/data产生app1.failover.complete文件，下次再次切换的时候如果发现该目录下存在该文件将不允许触发切换，除非在第一次切换后收到删除该文件，为了方便，这里设置为--ignore_last_failover。
-</code></pre>
+</code></pre></div>
 <p>查看MHA Manager监控是否正常：</p>
-<pre><code class="language-bash">[root@172.16.2.99 ~]# masterha_check_status --conf=/etc/masterha/app1.cnf
-app1 (pid:20386) is running(0:PING_OK), master:172.16.115.101
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 ~<span class="o">]</span><span class="c1"># masterha_check_status --conf=/etc/masterha/app1.cnf</span>
+app1 <span class="o">(</span>pid:20386<span class="o">)</span> is running<span class="o">(</span><span class="m">0</span>:PING_OK<span class="o">)</span>, master:172.16.115.101
+</code></pre></div>
 <p>可以看见已经在监控了，而且master的主机为172.16.115.101</p>
-<h3 id="9">9、查看启动日志</h3>
-<pre><code class="language-bash">[root@172.16.2.99 ~]#  cat /var/log/mha/app1/manager.log
-Wed Dec  2 14:46:37 2015 - [warning] Global configuration file /etc/masterha_default.cnf not found. Skipping.
-Wed Dec  2 14:46:37 2015 - [info] Reading application default configuration from /etc/masterha/app1.cnf..
-Wed Dec  2 14:46:37 2015 - [info] Reading server configuration from /etc/masterha/app1.cnf..
-Wed Dec  2 14:46:37 2015 - [info] MHA::MasterMonitor version 0.56.
-Wed Dec  2 14:46:38 2015 - [info] GTID failover mode = 0
-Wed Dec  2 14:46:38 2015 - [info] Dead Servers:
-Wed Dec  2 14:46:38 2015 - [info] Alive Servers:
-Wed Dec  2 14:46:38 2015 - [info]   172.16.115.101(172.16.115.101:3306)
-Wed Dec  2 14:46:38 2015 - [info]   172.16.115.102(172.16.115.102:3306)
-Wed Dec  2 14:46:38 2015 - [info] Alive Slaves:
-Wed Dec  2 14:46:38 2015 - [info]   172.16.115.102(172.16.115.102:3306)  Version=5.5.46-log (oldest major version between slaves) log-bin:enabled
-Wed Dec  2 14:46:38 2015 - [info]     Replicating from 172.16.115.101(172.16.115.101:3306)
-Wed Dec  2 14:46:38 2015 - [info]     Primary candidate for the new Master (candidate_master is set)
-Wed Dec  2 14:46:38 2015 - [info] Current Alive Master: 172.16.115.101(172.16.115.101:3306)
-Wed Dec  2 14:46:38 2015 - [info] Checking slave configurations..
-Wed Dec  2 14:46:38 2015 - [info]  read_only=1 is not set on slave 172.16.115.102(172.16.115.102:3306).
-Wed Dec  2 14:46:38 2015 - [warning]  relay_log_purge=0 is not set on slave 172.16.115.102(172.16.115.102:3306).
-Wed Dec  2 14:46:38 2015 - [info] Checking replication filtering settings..
-Wed Dec  2 14:46:38 2015 - [info]  binlog_do_db= drupal, binlog_ignore_db= 
-Wed Dec  2 14:46:38 2015 - [info]  Replication filtering check ok.
-Wed Dec  2 14:46:38 2015 - [info] GTID (with auto-pos) is not supported
-Wed Dec  2 14:46:38 2015 - [info] Starting SSH connection tests..
-Wed Dec  2 14:46:39 2015 - [info] All SSH connection tests passed successfully.
-Wed Dec  2 14:46:39 2015 - [info] Checking MHA Node version..
-Wed Dec  2 14:46:39 2015 - [info]  Version check ok.
-Wed Dec  2 14:46:39 2015 - [info] Checking SSH publickey authentication settings on the current master..
-Wed Dec  2 14:46:39 2015 - [info] HealthCheck: SSH to 172.16.115.101 is reachable.
-Wed Dec  2 14:46:39 2015 - [info] Master MHA Node version is 0.56.
-Wed Dec  2 14:46:39 2015 - [info] Checking recovery script configurations on 172.16.115.101(172.16.115.101:3306)..
-Wed Dec  2 14:46:39 2015 - [info]   Executing command: save_binary_logs --command=test --start_pos=4 --binlog_dir=/var/lib/mysql --output_file=/var/tmp/save_binary_logs_test --manager_version=0.56 --start_file=mysql-bin.000021 
-Wed Dec  2 14:46:39 2015 - [info]   Connecting to root@172.16.115.101(172.16.115.101:22).. 
-  Creating /var/tmp if not exists..    ok.
+<h3 id="9">9、查看启动日志<a class="headerlink" href="#9" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 ~<span class="o">]</span><span class="c1">#  cat /var/log/mha/app1/manager.log</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:37 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> Global configuration file /etc/masterha_default.cnf not found. Skipping.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:37 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading application default configuration from /etc/masterha/app1.cnf..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:37 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading server configuration from /etc/masterha/app1.cnf..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:37 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> MHA::MasterMonitor version <span class="m">0</span>.56.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> GTID failover <span class="nv">mode</span> <span class="o">=</span> <span class="m">0</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Dead Servers:
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Alive Servers:
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   <span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   <span class="m">172</span>.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Alive Slaves:
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   <span class="m">172</span>.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>  <span class="nv">Version</span><span class="o">=</span><span class="m">5</span>.5.46-log <span class="o">(</span>oldest major version between slaves<span class="o">)</span> log-bin:enabled
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>     Replicating from <span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>     Primary candidate <span class="k">for</span> the new Master <span class="o">(</span>candidate_master is <span class="nb">set</span><span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Current Alive Master: <span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking slave configurations..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  <span class="nv">read_only</span><span class="o">=</span><span class="m">1</span> is not <span class="nb">set</span> on slave <span class="m">172</span>.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span>  <span class="nv">relay_log_purge</span><span class="o">=</span><span class="m">0</span> is not <span class="nb">set</span> on slave <span class="m">172</span>.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking replication filtering settings..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  <span class="nv">binlog_do_db</span><span class="o">=</span> drupal, <span class="nv">binlog_ignore_db</span><span class="o">=</span> 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  Replication filtering check ok.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> GTID <span class="o">(</span>with auto-pos<span class="o">)</span> is not supported
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:38 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Starting SSH connection tests..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> All SSH connection tests passed successfully.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking MHA Node version..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  Version check ok.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking SSH publickey authentication settings on the current master..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> HealthCheck: SSH to <span class="m">172</span>.16.115.101 is reachable.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Master MHA Node version is <span class="m">0</span>.56.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking recovery script configurations on <span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span>..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Executing command: save_binary_logs --command<span class="o">=</span><span class="nb">test</span> --start_pos<span class="o">=</span><span class="m">4</span> --binlog_dir<span class="o">=</span>/var/lib/mysql --output_file<span class="o">=</span>/var/tmp/save_binary_logs_test --manager_version<span class="o">=</span><span class="m">0</span>.56 --start_file<span class="o">=</span>mysql-bin.000021 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Connecting to root@172.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:22<span class="o">)</span>.. 
+  Creating /var/tmp <span class="k">if</span> not exists..    ok.
   Checking output directory is accessible or not..
    ok.
   Binlog found at /var/lib/mysql, up to mysql-bin.000021
-Wed Dec  2 14:46:39 2015 - [info] Binlog setting check done.
-Wed Dec  2 14:46:39 2015 - [info] Checking SSH publickey authentication and checking recovery script configurations on all alive slave servers..
-Wed Dec  2 14:46:39 2015 - [info]   Executing command : apply_diff_relay_logs --command=test --slave_user='repl' --slave_host=172.16.115.102 --slave_ip=172.16.115.102 --slave_port=3306 --workdir=/var/tmp --target_version=5.5.46-log --manager_version=0.56 --relay_log_info=/var/lib/mysql/relay-log.info  --relay_dir=/var/lib/mysql/  --slave_pass=xxx
-Wed Dec  2 14:46:39 2015 - [info]   Connecting to root@172.16.115.102(172.16.115.102:22).. 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Binlog setting check <span class="k">done</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking SSH publickey authentication and checking recovery script configurations on all alive slave servers..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Executing <span class="nb">command</span> : apply_diff_relay_logs --command<span class="o">=</span><span class="nb">test</span> --slave_user<span class="o">=</span><span class="s1">&#39;repl&#39;</span> --slave_host<span class="o">=</span><span class="m">172</span>.16.115.102 --slave_ip<span class="o">=</span><span class="m">172</span>.16.115.102 --slave_port<span class="o">=</span><span class="m">3306</span> --workdir<span class="o">=</span>/var/tmp --target_version<span class="o">=</span><span class="m">5</span>.5.46-log --manager_version<span class="o">=</span><span class="m">0</span>.56 --relay_log_info<span class="o">=</span>/var/lib/mysql/relay-log.info  --relay_dir<span class="o">=</span>/var/lib/mysql/  --slave_pass<span class="o">=</span>xxx
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:39 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Connecting to root@172.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:22<span class="o">)</span>.. 
   Checking slave recovery environment settings..
     Opening /var/lib/mysql/relay-log.info ... ok.
     Relay log found at /var/lib/mysql, up to mysqld-relay-bin.000022
     Temporary relay log file is /var/lib/mysql/mysqld-relay-bin.000022
-    Testing mysql connection and privileges.. done.
-    Testing mysqlbinlog output.. done.
-    Cleaning up test file(s).. done.
-Wed Dec  2 14:46:40 2015 - [info] Slaves settings check done.
-Wed Dec  2 14:46:40 2015 - [info] 
-172.16.115.101(172.16.115.101:3306) (current master)
- +--172.16.115.102(172.16.115.102:3306)
+    Testing mysql connection and privileges.. <span class="k">done</span>.
+    Testing mysqlbinlog output.. <span class="k">done</span>.
+    Cleaning up <span class="nb">test</span> file<span class="o">(</span>s<span class="o">)</span>.. <span class="k">done</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Slaves settings check <span class="k">done</span>.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> 
+<span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span> <span class="o">(</span>current master<span class="o">)</span>
+ +--172.16.115.102<span class="o">(</span><span class="m">172</span>.16.115.102:3306<span class="o">)</span>
 
-Wed Dec  2 14:46:40 2015 - [info] Checking master_ip_failover_script status:
-Wed Dec  2 14:46:40 2015 - [info]   /usr/bin/masterha_ip_failover --command=status --ssh_user=root --orig_master_host=172.16.115.101 --orig_master_ip=172.16.115.101 --orig_master_port=3306 
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking master_ip_failover_script status:
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   /usr/bin/masterha_ip_failover --command<span class="o">=</span>status --ssh_user<span class="o">=</span>root --orig_master_host<span class="o">=</span><span class="m">172</span>.16.115.101 --orig_master_ip<span class="o">=</span><span class="m">172</span>.16.115.101 --orig_master_port<span class="o">=</span><span class="m">3306</span> 
 
 
-IN SCRIPT TEST====/sbin/ifconfig eth0:0 down==/sbin/ifconfig eth0:0 172.16.115.200/24===
+IN SCRIPT <span class="nv">TEST</span><span class="o">====</span>/sbin/ifconfig eth0:0 <span class="nv">down</span><span class="o">==</span>/sbin/ifconfig eth0:0 <span class="m">172</span>.16.115.200/24<span class="o">===</span>
 
 Checking the Status of the script.. OK 
-Wed Dec  2 14:46:40 2015 - [info]  OK.
-Wed Dec  2 14:46:40 2015 - [warning] shutdown_script is not defined.
-Wed Dec  2 14:46:40 2015 - [info] Set master ping interval 1 seconds.
-Wed Dec  2 14:46:40 2015 - [warning] secondary_check_script is not defined. It is highly recommended setting it to check master reachability from two or more routes.
-Wed Dec  2 14:46:40 2015 - [info] Starting ping health check on 172.16.115.101(172.16.115.101:3306)..
-Wed Dec  2 14:46:40 2015 - [info] Ping(SELECT) succeeded, waiting until MySQL doesn't respond..
-</code></pre>
-<h3 id="10vip">10、配置VIP</h3>
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  OK.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> shutdown_script is not defined.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Set master ping interval <span class="m">1</span> seconds.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> secondary_check_script is not defined. It is highly recommended setting it to check master reachability from two or more routes.
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Starting ping health check on <span class="m">172</span>.16.115.101<span class="o">(</span><span class="m">172</span>.16.115.101:3306<span class="o">)</span>..
+Wed Dec  <span class="m">2</span> <span class="m">14</span>:46:40 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Ping<span class="o">(</span>SELECT<span class="o">)</span> succeeded, waiting <span class="k">until</span> MySQL doesn<span class="err">&#39;</span>t respond..
+</code></pre></div>
+<h3 id="10vip">10、配置VIP<a class="headerlink" href="#10vip" title="Permanent link">&para;</a></h3>
 <p>我们采用脚本的方式去配置vip</p>
-<pre><code class="language-bash">[root@172.16.2.99 ~]#  vim /usr/bin/masterha_ip_failover
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 ~<span class="o">]</span><span class="c1">#  vim /usr/bin/masterha_ip_failover</span>
 
-#!/usr/bin/env perl
+<span class="c1">#!/usr/bin/env perl</span>
 
-use strict;
-use warnings FATAL =&gt; 'all';
+use strict<span class="p">;</span>
+use warnings <span class="nv">FATAL</span> <span class="o">=</span>&gt; <span class="s1">&#39;all&#39;</span><span class="p">;</span>
 
-use Getopt::Long;
+use Getopt::Long<span class="p">;</span>
 
-my (
-    $command,          $ssh_user,        $orig_master_host, $orig_master_ip,
-    $orig_master_port, $new_master_host, $new_master_ip,    $new_master_port
-);
+my <span class="o">(</span>
+    <span class="nv">$command</span>,          <span class="nv">$ssh_user</span>,        <span class="nv">$orig_master_host</span>, <span class="nv">$orig_master_ip</span>,
+    <span class="nv">$orig_master_port</span>, <span class="nv">$new_master_host</span>, <span class="nv">$new_master_ip</span>,    <span class="nv">$new_master_port</span>
+<span class="o">)</span><span class="p">;</span>
 
-my $vip = '172.16.115.200/24';
-my $key = '0';
-my $ssh_start_vip = &quot;/sbin/ifconfig eth0:$key $vip&quot;;
-my $ssh_stop_vip = &quot;/sbin/ifconfig eth0:$key down&quot;;
+my <span class="nv">$vip</span> <span class="o">=</span> <span class="s1">&#39;172.16.115.200/24&#39;</span><span class="p">;</span>
+my <span class="nv">$key</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+my <span class="nv">$ssh_start_vip</span> <span class="o">=</span> <span class="s2">&quot;/sbin/ifconfig eth0:</span><span class="nv">$key</span><span class="s2"> </span><span class="nv">$vip</span><span class="s2">&quot;</span><span class="p">;</span>
+my <span class="nv">$ssh_stop_vip</span> <span class="o">=</span> <span class="s2">&quot;/sbin/ifconfig eth0:</span><span class="nv">$key</span><span class="s2"> down&quot;</span><span class="p">;</span>
 
-GetOptions(
-    'command=s'          =&gt; \$command,
-    'ssh_user=s'         =&gt; \$ssh_user,
-    'orig_master_host=s' =&gt; \$orig_master_host,
-    'orig_master_ip=s'   =&gt; \$orig_master_ip,
-    'orig_master_port=i' =&gt; \$orig_master_port,
-    'new_master_host=s'  =&gt; \$new_master_host,
-    'new_master_ip=s'    =&gt; \$new_master_ip,
-    'new_master_port=i'  =&gt; \$new_master_port,
-);
+GetOptions<span class="o">(</span>
+    <span class="s1">&#39;command=s&#39;</span>          <span class="o">=</span>&gt; <span class="se">\$</span>command,
+    <span class="s1">&#39;ssh_user=s&#39;</span>         <span class="o">=</span>&gt; <span class="se">\$</span>ssh_user,
+    <span class="s1">&#39;orig_master_host=s&#39;</span> <span class="o">=</span>&gt; <span class="se">\$</span>orig_master_host,
+    <span class="s1">&#39;orig_master_ip=s&#39;</span>   <span class="o">=</span>&gt; <span class="se">\$</span>orig_master_ip,
+    <span class="s1">&#39;orig_master_port=i&#39;</span> <span class="o">=</span>&gt; <span class="se">\$</span>orig_master_port,
+    <span class="s1">&#39;new_master_host=s&#39;</span>  <span class="o">=</span>&gt; <span class="se">\$</span>new_master_host,
+    <span class="s1">&#39;new_master_ip=s&#39;</span>    <span class="o">=</span>&gt; <span class="se">\$</span>new_master_ip,
+    <span class="s1">&#39;new_master_port=i&#39;</span>  <span class="o">=</span>&gt; <span class="se">\$</span>new_master_port,
+<span class="o">)</span><span class="p">;</span>
 
-exit &amp;main();
+<span class="nb">exit</span> <span class="p">&amp;</span>main<span class="o">()</span><span class="p">;</span>
 
-sub main {
+sub main <span class="o">{</span>
 
-    print &quot;\n\nIN SCRIPT TEST====$ssh_stop_vip==$ssh_start_vip===\n\n&quot;;
+    print <span class="s2">&quot;\n\nIN SCRIPT TEST====</span><span class="nv">$ssh_stop_vip</span><span class="s2">==</span><span class="nv">$ssh_start_vip</span><span class="s2">===\n\n&quot;</span><span class="p">;</span>
 
-    if ( $command eq &quot;stop&quot; || $command eq &quot;stopssh&quot; ) {
+    <span class="k">if</span> <span class="o">(</span> <span class="nv">$command</span> eq <span class="s2">&quot;stop&quot;</span> <span class="o">||</span> <span class="nv">$command</span> eq <span class="s2">&quot;stopssh&quot;</span> <span class="o">)</span> <span class="o">{</span>
 
-        my $exit_code = 1;
-        eval {
-            print &quot;Disabling the VIP on old master: $orig_master_host \n&quot;;
-            &amp;stop_vip();
-            $exit_code = 0;
-        };
-        if ($@) {
-            warn &quot;Got Error: $@\n&quot;;
-            exit $exit_code;
-        }
-        exit $exit_code;
-    }
-    elsif ( $command eq &quot;start&quot; ) {
+        my <span class="nv">$exit_code</span> <span class="o">=</span> <span class="m">1</span><span class="p">;</span>
+        <span class="nb">eval</span> <span class="o">{</span>
+            print <span class="s2">&quot;Disabling the VIP on old master: </span><span class="nv">$orig_master_host</span><span class="s2"> \n&quot;</span><span class="p">;</span>
+            <span class="p">&amp;</span>stop_vip<span class="o">()</span><span class="p">;</span>
+            <span class="nv">$exit_code</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
+        <span class="o">}</span><span class="p">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nv">$@</span><span class="o">)</span> <span class="o">{</span>
+            warn <span class="s2">&quot;Got Error: </span><span class="nv">$@</span><span class="s2">\n&quot;</span><span class="p">;</span>
+            <span class="nb">exit</span> <span class="nv">$exit_code</span><span class="p">;</span>
+        <span class="o">}</span>
+        <span class="nb">exit</span> <span class="nv">$exit_code</span><span class="p">;</span>
+    <span class="o">}</span>
+    elsif <span class="o">(</span> <span class="nv">$command</span> eq <span class="s2">&quot;start&quot;</span> <span class="o">)</span> <span class="o">{</span>
 
-        my $exit_code = 10;
-        eval {
-            print &quot;Enabling the VIP - $vip on the new master - $new_master_host \n&quot;;
-            &amp;start_vip();
-            $exit_code = 0;
-        };
-        if ($@) {
-            warn $@;
-            exit $exit_code;
-        }
-        exit $exit_code;
-    }
-    elsif ( $command eq &quot;status&quot; ) {
-        print &quot;Checking the Status of the script.. OK \n&quot;;
-        exit 0;
-    }
-    else {
-        &amp;usage();
-        exit 1;
-    }
-}
+        my <span class="nv">$exit_code</span> <span class="o">=</span> <span class="m">10</span><span class="p">;</span>
+        <span class="nb">eval</span> <span class="o">{</span>
+            print <span class="s2">&quot;Enabling the VIP - </span><span class="nv">$vip</span><span class="s2"> on the new master - </span><span class="nv">$new_master_host</span><span class="s2"> \n&quot;</span><span class="p">;</span>
+            <span class="p">&amp;</span>start_vip<span class="o">()</span><span class="p">;</span>
+            <span class="nv">$exit_code</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
+        <span class="o">}</span><span class="p">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nv">$@</span><span class="o">)</span> <span class="o">{</span>
+            warn <span class="nv">$@</span><span class="p">;</span>
+            <span class="nb">exit</span> <span class="nv">$exit_code</span><span class="p">;</span>
+        <span class="o">}</span>
+        <span class="nb">exit</span> <span class="nv">$exit_code</span><span class="p">;</span>
+    <span class="o">}</span>
+    elsif <span class="o">(</span> <span class="nv">$command</span> eq <span class="s2">&quot;status&quot;</span> <span class="o">)</span> <span class="o">{</span>
+        print <span class="s2">&quot;Checking the Status of the script.. OK \n&quot;</span><span class="p">;</span>
+        <span class="nb">exit</span> <span class="m">0</span><span class="p">;</span>
+    <span class="o">}</span>
+    <span class="k">else</span> <span class="o">{</span>
+        <span class="p">&amp;</span>usage<span class="o">()</span><span class="p">;</span>
+        <span class="nb">exit</span> <span class="m">1</span><span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 
-sub start_vip() {
-    `ssh $ssh_user\@$new_master_host \&quot; $ssh_start_vip \&quot;`;
-}
-sub stop_vip() {
-     return 0  unless  ($ssh_user);
-    `ssh $ssh_user\@$orig_master_host \&quot; $ssh_stop_vip \&quot;`;
-}
+sub start_vip<span class="o">()</span> <span class="o">{</span>
+    <span class="sb">`</span>ssh <span class="nv">$ssh_user</span><span class="se">\@</span><span class="nv">$new_master_host</span> <span class="se">\&quot;</span> <span class="nv">$ssh_start_vip</span> <span class="se">\&quot;</span><span class="sb">`</span><span class="p">;</span>
+<span class="o">}</span>
+sub stop_vip<span class="o">()</span> <span class="o">{</span>
+     <span class="k">return</span> <span class="m">0</span>  unless  <span class="o">(</span><span class="nv">$ssh_user</span><span class="o">)</span><span class="p">;</span>
+    <span class="sb">`</span>ssh <span class="nv">$ssh_user</span><span class="se">\@</span><span class="nv">$orig_master_host</span> <span class="se">\&quot;</span> <span class="nv">$ssh_stop_vip</span> <span class="se">\&quot;</span><span class="sb">`</span><span class="p">;</span>
+<span class="o">}</span>
 
-sub usage {
+sub usage <span class="o">{</span>
     print
-    &quot;Usage: master_ip_failover --command=start|stop|stopssh|status --orig_master_host=host --orig_master_ip=ip 
-            --orig_master_port=port --new_master_host=host --new_master_ip=ip --new_master_port=port\n&quot;;
-}
-</code></pre>
-<h3 id="11send_report">11、邮件发送脚本send_report</h3>
-<pre><code class="language-bash">#!/usr/bin/perl
+    <span class="s2">&quot;Usage: master_ip_failover --command=start|stop|stopssh|status --orig_master_host=host --orig_master_ip=ip </span>
+<span class="s2">            --orig_master_port=port --new_master_host=host --new_master_ip=ip --new_master_port=port\n&quot;</span><span class="p">;</span>
+<span class="o">}</span>
+</code></pre></div>
+<h3 id="11send_report">11、邮件发送脚本send_report<a class="headerlink" href="#11send_report" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/perl</span>
 
-#  Copyright (C) 2011 DeNA Co.,Ltd.
-#
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public License
-#   along with this program; if not, write to the Free Software
-#  Foundation, Inc.,
-#  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+<span class="c1">#  Copyright (C) 2011 DeNA Co.,Ltd.</span>
+<span class="c1">#</span>
+<span class="c1">#  This program is free software; you can redistribute it and/or modify</span>
+<span class="c1">#  it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#  the Free Software Foundation; either version 2 of the License, or</span>
+<span class="c1">#  (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#  This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#  GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#  You should have received a copy of the GNU General Public License</span>
+<span class="c1">#   along with this program; if not, write to the Free Software</span>
+<span class="c1">#  Foundation, Inc.,</span>
+<span class="c1">#  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA</span>
 
-## Note: This is a sample script and is not complete. Modify the script based on your environment.
+<span class="c1">## Note: This is a sample script and is not complete. Modify the script based on your environment.</span>
 
-use strict;
-use warnings FATAL =&gt; 'all';
-use Mail::Sender;
-use Getopt::Long;
+use strict<span class="p">;</span>
+use warnings <span class="nv">FATAL</span> <span class="o">=</span>&gt; <span class="s1">&#39;all&#39;</span><span class="p">;</span>
+use Mail::Sender<span class="p">;</span>
+use Getopt::Long<span class="p">;</span>
 
-#new_master_host and new_slave_hosts are set only when recovering master succeeded
-my ( $dead_master_host, $new_master_host, $new_slave_hosts, $subject, $body );
-my $smtp='smtp.163.com';
-my $mail_from='services@163.com';
-my $mail_user='services@163.com';
-my $mail_pass='123456';
-my $mail_to=['xxx@xxx.cn'];
-GetOptions(
-  'orig_master_host=s' =&gt; \$dead_master_host,
-  'new_master_host=s'  =&gt; \$new_master_host,
-  'new_slave_hosts=s'  =&gt; \$new_slave_hosts,
-  'subject=s'          =&gt; \$subject,
-  'body=s'             =&gt; \$body,
-);
+<span class="c1">#new_master_host and new_slave_hosts are set only when recovering master succeeded</span>
+my <span class="o">(</span> <span class="nv">$dead_master_host</span>, <span class="nv">$new_master_host</span>, <span class="nv">$new_slave_hosts</span>, <span class="nv">$subject</span>, <span class="nv">$body</span> <span class="o">)</span><span class="p">;</span>
+my <span class="nv">$smtp</span><span class="o">=</span><span class="s1">&#39;smtp.163.com&#39;</span><span class="p">;</span>
+my <span class="nv">$mail_from</span><span class="o">=</span><span class="s1">&#39;services@163.com&#39;</span><span class="p">;</span>
+my <span class="nv">$mail_user</span><span class="o">=</span><span class="s1">&#39;services@163.com&#39;</span><span class="p">;</span>
+my <span class="nv">$mail_pass</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">;</span>
+my <span class="nv">$mail_to</span><span class="o">=[</span><span class="s1">&#39;xxx@xxx.cn&#39;</span><span class="o">]</span><span class="p">;</span>
+GetOptions<span class="o">(</span>
+  <span class="s1">&#39;orig_master_host=s&#39;</span> <span class="o">=</span>&gt; <span class="se">\$</span>dead_master_host,
+  <span class="s1">&#39;new_master_host=s&#39;</span>  <span class="o">=</span>&gt; <span class="se">\$</span>new_master_host,
+  <span class="s1">&#39;new_slave_hosts=s&#39;</span>  <span class="o">=</span>&gt; <span class="se">\$</span>new_slave_hosts,
+  <span class="s1">&#39;subject=s&#39;</span>          <span class="o">=</span>&gt; <span class="se">\$</span>subject,
+  <span class="s1">&#39;body=s&#39;</span>             <span class="o">=</span>&gt; <span class="se">\$</span>body,
+<span class="o">)</span><span class="p">;</span>
 
-mailToContacts($smtp,$mail_from,$mail_user,$mail_pass,$mail_to,$subject,$body);
+mailToContacts<span class="o">(</span><span class="nv">$smtp</span>,<span class="nv">$mail_from</span>,<span class="nv">$mail_user</span>,<span class="nv">$mail_pass</span>,<span class="nv">$mail_to</span>,<span class="nv">$subject</span>,<span class="nv">$body</span><span class="o">)</span><span class="p">;</span>
 
-sub mailToContacts {
-    my ( $smtp, $mail_from, $user, $passwd, $mail_to, $subject, $msg ) = @_;
-    open my $DEBUG, &quot;&gt; /tmp/monitormail.log&quot;
-        or die &quot;Can't open the debug      file:$!\n&quot;;
-    my $sender = new Mail::Sender {
-        ctype       =&gt; 'text/plain; charset=utf-8',
-        encoding    =&gt; 'utf-8',
-        smtp        =&gt; $smtp,
-        from        =&gt; $mail_from,
-        auth        =&gt; 'LOGIN',
-        TLS_allowed =&gt; '0',
-        authid      =&gt; $user,
-        authpwd     =&gt; $passwd,
-        to          =&gt; $mail_to,
-        subject     =&gt; $subject,
-        debug       =&gt; $DEBUG
-    };
+sub mailToContacts <span class="o">{</span>
+    my <span class="o">(</span> <span class="nv">$smtp</span>, <span class="nv">$mail_from</span>, <span class="nv">$user</span>, <span class="nv">$passwd</span>, <span class="nv">$mail_to</span>, <span class="nv">$subject</span>, <span class="nv">$msg</span> <span class="o">)</span> <span class="o">=</span> @_<span class="p">;</span>
+    open my <span class="nv">$DEBUG</span>, <span class="s2">&quot;&gt; /tmp/monitormail.log&quot;</span>
+        or die <span class="s2">&quot;Can&#39;t open the debug      file:</span><span class="nv">$!</span><span class="s2">\n&quot;</span><span class="p">;</span>
+    my <span class="nv">$sender</span> <span class="o">=</span> new Mail::Sender <span class="o">{</span>
+        <span class="nv">ctype</span>       <span class="o">=</span>&gt; <span class="s1">&#39;text/plain; charset=utf-8&#39;</span>,
+        <span class="nv">encoding</span>    <span class="o">=</span>&gt; <span class="s1">&#39;utf-8&#39;</span>,
+        <span class="nv">smtp</span>        <span class="o">=</span>&gt; <span class="nv">$smtp</span>,
+        <span class="nv">from</span>        <span class="o">=</span>&gt; <span class="nv">$mail_from</span>,
+        <span class="nv">auth</span>        <span class="o">=</span>&gt; <span class="s1">&#39;LOGIN&#39;</span>,
+        <span class="nv">TLS_allowed</span> <span class="o">=</span>&gt; <span class="s1">&#39;0&#39;</span>,
+        <span class="nv">authid</span>      <span class="o">=</span>&gt; <span class="nv">$user</span>,
+        <span class="nv">authpwd</span>     <span class="o">=</span>&gt; <span class="nv">$passwd</span>,
+        <span class="nv">to</span>          <span class="o">=</span>&gt; <span class="nv">$mail_to</span>,
+        <span class="nv">subject</span>     <span class="o">=</span>&gt; <span class="nv">$subject</span>,
+        <span class="nv">debug</span>       <span class="o">=</span>&gt; <span class="nv">$DEBUG</span>
+    <span class="o">}</span><span class="p">;</span>
 
-    $sender-&gt;MailMsg(
-        {   msg   =&gt; $msg,
-            debug =&gt; $DEBUG
-        }
-    ) or print $Mail::Sender::Error;
-    return 1;
-}
+    <span class="nv">$sender</span>-&gt;MailMsg<span class="o">(</span>
+        <span class="o">{</span>   <span class="nv">msg</span>   <span class="o">=</span>&gt; <span class="nv">$msg</span>,
+            <span class="nv">debug</span> <span class="o">=</span>&gt; <span class="nv">$DEBUG</span>
+        <span class="o">}</span>
+    <span class="o">)</span> or print <span class="nv">$Mail</span>::Sender::Error<span class="p">;</span>
+    <span class="k">return</span> <span class="m">1</span><span class="p">;</span>
+<span class="o">}</span>
 
 
 
-# Do whatever you want here
+<span class="c1"># Do whatever you want here</span>
 
-exit 0;
-</code></pre>
-<h3 id="12">12、测试</h3>
+<span class="nb">exit</span> <span class="m">0</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="12">12、测试<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
 <p>1.主库断电  <br />
 2.主库断网<br />
 3.主库重启<br />
 4.主库关机<br />
 以上情况都测试过都能自动切换~<br />
 请看日志分析切换过程  </p>
-<h3 id="13">13、主库模拟故障后的恢复</h3>
-<pre><code class="language-bash">[root@172.16.2.99 app1]# grep -i &quot;All other slaves should start&quot; manager.log 
-Mon Apr 21 22:28:33 2014 - [info]  All other slaves should start replication from here. Statement should be: CHANGE MASTER TO MASTER_HOST='172.16.115.102', MASTER_PORT=3306, MASTER_LOG_FILE='mysql-bin.000022', MASTER_LOG_POS=506716, MASTER_USER='repl', MASTER_PASSWORD='xxx';
-[root@192.168.0.20 app1]# 
-</code></pre>
+<h3 id="13">13、主库模拟故障后的恢复<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@172.16.2.99 app1<span class="o">]</span><span class="c1"># grep -i &quot;All other slaves should start&quot; manager.log </span>
+Mon Apr <span class="m">21</span> <span class="m">22</span>:28:33 <span class="m">2014</span> - <span class="o">[</span>info<span class="o">]</span>  All other slaves should start replication from here. Statement should be: CHANGE MASTER TO <span class="nv">MASTER_HOST</span><span class="o">=</span><span class="s1">&#39;172.16.115.102&#39;</span>, <span class="nv">MASTER_PORT</span><span class="o">=</span><span class="m">3306</span>, <span class="nv">MASTER_LOG_FILE</span><span class="o">=</span><span class="s1">&#39;mysql-bin.000022&#39;</span>, <span class="nv">MASTER_LOG_POS</span><span class="o">=</span><span class="m">506716</span>, <span class="nv">MASTER_USER</span><span class="o">=</span><span class="s1">&#39;repl&#39;</span>, <span class="nv">MASTER_PASSWORD</span><span class="o">=</span><span class="s1">&#39;xxx&#39;</span><span class="p">;</span>
+<span class="o">[</span>root@192.168.0.20 app1<span class="o">]</span><span class="c1"># </span>
+</code></pre></div>
 <p>然后再就得主库里执行下,再start slave ,然后就得主库就变为了新的主库的从库了。<br />
 记得看下show slave status\G;  </p>
-<h3 id="14">14、报错记录总结</h3>
+<h3 id="14">14、报错记录总结<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
 <p>摘抄自google.</p>
-<h4 id="1_1">报错记录1：</h4>
-<pre><code class="language-bash">[root@data01 ~]# masterha_check_repl--conf=/etc/masterha/app1.cnf
-Tue Apr 7 22:31:06 2015 - [warning] Global configuration file/etc/masterha_default.cnf not found. Skipping.
-Tue Apr 7 22:31:07 2015 - [info] Reading application default configuration from/etc/masterha/app1.cnf..
-Tue Apr 7 22:31:07 2015 - [info] Reading server configuration from/etc/masterha/app1.cnf..
-Tue Apr 7 22:31:07 2015 - [info] MHA::MasterMonitor version 0.56.
-Tue Apr 7 22:31:07 2015 - [error][/usr/local/share/perl5/MHA/Server.pm,ln303]  Getting relay log directory orcurrent relay logfile from replication table failed on192.168.52.130(192.168.52.130:3306)!
-Tue Apr 7 22:31:07 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424] Error happened on checking configurations.  at /usr/local/share/perl5/MHA/ServerManager.pmline 315
-Tue Apr 7 22:31:07 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523] Error happened on monitoring servers.
-Tue Apr 7 22:31:07 2015 - [info] Got exit code 1 (Not master dead).
+<h4 id="1_1">报错记录1：<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@data01 ~<span class="o">]</span><span class="c1"># masterha_check_repl--conf=/etc/masterha/app1.cnf</span>
+Tue Apr <span class="m">7</span> <span class="m">22</span>:31:06 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> Global configuration file/etc/masterha_default.cnf not found. Skipping.
+Tue Apr <span class="m">7</span> <span class="m">22</span>:31:07 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading application default configuration from/etc/masterha/app1.cnf..
+Tue Apr <span class="m">7</span> <span class="m">22</span>:31:07 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading server configuration from/etc/masterha/app1.cnf..
+Tue Apr <span class="m">7</span> <span class="m">22</span>:31:07 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> MHA::MasterMonitor version <span class="m">0</span>.56.
+Tue Apr <span class="m">7</span> <span class="m">22</span>:31:07 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/Server.pm,ln303<span class="o">]</span>  Getting relay log directory orcurrent relay logfile from replication table failed on192.168.52.130<span class="o">(</span><span class="m">192</span>.168.52.130:3306<span class="o">)</span>!
+Tue Apr <span class="m">7</span> <span class="m">22</span>:31:07 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424<span class="o">]</span> Error happened on checking configurations.  at /usr/local/share/perl5/MHA/ServerManager.pmline <span class="m">315</span>
+Tue Apr <span class="m">7</span> <span class="m">22</span>:31:07 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523<span class="o">]</span> Error happened on monitoring servers.
+Tue Apr <span class="m">7</span> <span class="m">22</span>:31:07 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Got <span class="nb">exit</span> code <span class="m">1</span> <span class="o">(</span>Not master dead<span class="o">)</span>.
 
 MySQL Replication Health is NOT OK!
-[root@data01 ~]#
-</code></pre>
+<span class="o">[</span>root@data01 ~<span class="o">]</span><span class="c1">#</span>
+</code></pre></div>
 <p>解决办法：在192.168.52.130上面，vim /etc/my.cnf，在里面添加</p>
-<pre><code class="language-bash">relay-log=/home/data/mysql/binlog/mysql-relay-bin
-</code></pre>
+<div class="highlight"><pre><span></span><code>relay-log<span class="o">=</span>/home/data/mysql/binlog/mysql-relay-bin
+</code></pre></div>
 <p>然后重启mysql，再去重新设置slave连接。</p>
-<pre><code class="language-bash">STOP SLAVE;
-RESET SLAVE;
-CHANGE MASTER TOMASTER_HOST='192.168.52.129',MASTER_USER='repl',MASTER_PASSWORD='repl_1234',MASTER_LOG_FILE='mysql-bin.000178',MASTER_LOG_POS=459;
-START SLAVE;
-</code></pre>
+<div class="highlight"><pre><span></span><code>STOP SLAVE<span class="p">;</span>
+RESET SLAVE<span class="p">;</span>
+CHANGE MASTER <span class="nv">TOMASTER_HOST</span><span class="o">=</span><span class="s1">&#39;192.168.52.129&#39;</span>,MASTER_USER<span class="o">=</span><span class="s1">&#39;repl&#39;</span>,MASTER_PASSWORD<span class="o">=</span><span class="s1">&#39;repl_1234&#39;</span>,MASTER_LOG_FILE<span class="o">=</span><span class="s1">&#39;mysql-bin.000178&#39;</span>,MASTER_LOG_POS<span class="o">=</span><span class="m">459</span><span class="p">;</span>
+START SLAVE<span class="p">;</span>
+</code></pre></div>
 <p>Ok，搞定了。</p>
-<h4 id="2">报错记录2：</h4>
-<pre><code class="language-bash">[root@data01 perl]# masterha_check_repl--conf=/etc/masterha/app1.cnf
-Thu Apr 9 00:54:32 2015 - [warning] Global configuration file/etc/masterha_default.cnf not found. Skipping.
-Thu Apr 9 00:54:32 2015 - [info] Reading application default configuration from/etc/masterha/app1.cnf..
-Thu Apr 9 00:54:32 2015 - [info] Reading server configuration from/etc/masterha/app1.cnf..
-Thu Apr 9 00:54:32 2015 - [info] MHA::MasterMonitor version 0.56.
-Thu Apr 9 00:54:32 2015 - [error][/usr/local/share/perl5/MHA/Server.pm,ln306]  Getting relay log directory orcurrent relay logfile from replication table failed on 192.168.52.130(192.168.52.130:3306)!
-Thu Apr 9 00:54:32 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424] Error happened on checking configurations.  at/usr/local/share/perl5/MHA/ServerManager.pm line 315
-Thu Apr 9 00:54:32 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523] Error happened on monitoring servers.
-Thu Apr 9 00:54:32 2015 - [info] Got exit code 1 (Not master dead).
+<h4 id="2">报错记录2：<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@data01 perl<span class="o">]</span><span class="c1"># masterha_check_repl--conf=/etc/masterha/app1.cnf</span>
+Thu Apr <span class="m">9</span> <span class="m">00</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> Global configuration file/etc/masterha_default.cnf not found. Skipping.
+Thu Apr <span class="m">9</span> <span class="m">00</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading application default configuration from/etc/masterha/app1.cnf..
+Thu Apr <span class="m">9</span> <span class="m">00</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading server configuration from/etc/masterha/app1.cnf..
+Thu Apr <span class="m">9</span> <span class="m">00</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> MHA::MasterMonitor version <span class="m">0</span>.56.
+Thu Apr <span class="m">9</span> <span class="m">00</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/Server.pm,ln306<span class="o">]</span>  Getting relay log directory orcurrent relay logfile from replication table failed on <span class="m">192</span>.168.52.130<span class="o">(</span><span class="m">192</span>.168.52.130:3306<span class="o">)</span>!
+Thu Apr <span class="m">9</span> <span class="m">00</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424<span class="o">]</span> Error happened on checking configurations.  at/usr/local/share/perl5/MHA/ServerManager.pm line <span class="m">315</span>
+Thu Apr <span class="m">9</span> <span class="m">00</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523<span class="o">]</span> Error happened on monitoring servers.
+Thu Apr <span class="m">9</span> <span class="m">00</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Got <span class="nb">exit</span> code <span class="m">1</span> <span class="o">(</span>Not master dead<span class="o">)</span>.
 
 MySQL Replication Health is NOT OK!
-[root@data01 perl]#
-</code></pre>
+<span class="o">[</span>root@data01 perl<span class="o">]</span><span class="c1">#</span>
+</code></pre></div>
 <p>解决方法：
 /etc/masterha/app1.cnf文件里面的参数配置，user和repl_user都是mysql账号，需要创建好，这里是只创建了repl_user而没有创建好user账号：</p>
-<pre><code class="language-bash">user=manager
-password=manager_1234
-repl_user=repl
-repl_password=repl_1234
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nv">user</span><span class="o">=</span>manager
+<span class="nv">password</span><span class="o">=</span>manager_1234
+<span class="nv">repl_user</span><span class="o">=</span>repl
+<span class="nv">repl_password</span><span class="o">=</span>repl_1234
+</code></pre></div>
 <p>在mysql节点上，建立允许manager 访问数据库的“ manager manager ”账户，主要用于SHOW SLAVESTATUS,RESET SLAVE; 所以需要执行如下命令：</p>
-<pre><code class="language-bash">GRANT SUPER,RELOAD,REPLICATIONCLIENT,SELECT ON *.* TO manager@'192.168.52.%' IDENTIFIED BY 'manager_1234';
-</code></pre>
-<h4 id="3">错误记录3：</h4>
-<pre><code class="language-bash">[root@oraclem1 ~]#  masterha_check_repl--conf=/etc/masterha/app1.cnf
-Thu Apr 9 23:09:05 2015 - [warning] Global configuration file/etc/masterha_default.cnf not found. Skipping.
-Thu Apr 9 23:09:05 2015 - [info] Reading application default configuration from/etc/masterha/app1.cnf..
-Thu Apr 9 23:09:05 2015 - [info] Reading server configuration from/etc/masterha/app1.cnf..
-Thu Apr 9 23:09:05 2015 - [info] MHA::MasterMonitor version 0.56.
-Thu Apr 9 23:09:05 2015 - [error][/usr/local/share/perl5/MHA/ServerManager.pm,ln781] Multi-master configuration is detected, but two or more masters areeither writable (read-only is not set) or dead! Check configurations fordetails. Master configurations are as below:
-Master 192.168.52.130(192.168.52.130:3306),replicating from 192.168.52.129(192.168.52.129:3306)
-Master 192.168.52.129(192.168.52.129:3306),replicating from 192.168.52.130(192.168.52.130:3306)
+<div class="highlight"><pre><span></span><code>GRANT SUPER,RELOAD,REPLICATIONCLIENT,SELECT ON *.* TO manager@<span class="s1">&#39;192.168.52.%&#39;</span> IDENTIFIED BY <span class="s1">&#39;manager_1234&#39;</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="3">错误记录3：<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@oraclem1 ~<span class="o">]</span><span class="c1">#  masterha_check_repl--conf=/etc/masterha/app1.cnf</span>
+Thu Apr <span class="m">9</span> <span class="m">23</span>:09:05 <span class="m">2015</span> - <span class="o">[</span>warning<span class="o">]</span> Global configuration file/etc/masterha_default.cnf not found. Skipping.
+Thu Apr <span class="m">9</span> <span class="m">23</span>:09:05 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading application default configuration from/etc/masterha/app1.cnf..
+Thu Apr <span class="m">9</span> <span class="m">23</span>:09:05 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Reading server configuration from/etc/masterha/app1.cnf..
+Thu Apr <span class="m">9</span> <span class="m">23</span>:09:05 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> MHA::MasterMonitor version <span class="m">0</span>.56.
+Thu Apr <span class="m">9</span> <span class="m">23</span>:09:05 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/ServerManager.pm,ln781<span class="o">]</span> Multi-master configuration is detected, but two or more masters areeither writable <span class="o">(</span>read-only is not <span class="nb">set</span><span class="o">)</span> or dead! Check configurations fordetails. Master configurations are as below:
+Master <span class="m">192</span>.168.52.130<span class="o">(</span><span class="m">192</span>.168.52.130:3306<span class="o">)</span>,replicating from <span class="m">192</span>.168.52.129<span class="o">(</span><span class="m">192</span>.168.52.129:3306<span class="o">)</span>
+Master <span class="m">192</span>.168.52.129<span class="o">(</span><span class="m">192</span>.168.52.129:3306<span class="o">)</span>,replicating from <span class="m">192</span>.168.52.130<span class="o">(</span><span class="m">192</span>.168.52.130:3306<span class="o">)</span>
 
-Thu Apr 9 23:09:05 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424] Error happened on checking configurations.  at/usr/local/share/perl5/MHA/MasterMonitor.pm line 326
-Thu Apr 9 23:09:05 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523] Error happened on monitoring servers.
-Thu Apr 9 23:09:05 2015 - [info] Got exit code 1 (Not master dead).
+Thu Apr <span class="m">9</span> <span class="m">23</span>:09:05 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424<span class="o">]</span> Error happened on checking configurations.  at/usr/local/share/perl5/MHA/MasterMonitor.pm line <span class="m">326</span>
+Thu Apr <span class="m">9</span> <span class="m">23</span>:09:05 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523<span class="o">]</span> Error happened on monitoring servers.
+Thu Apr <span class="m">9</span> <span class="m">23</span>:09:05 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Got <span class="nb">exit</span> code <span class="m">1</span> <span class="o">(</span>Not master dead<span class="o">)</span>.
 
 MySQL Replication Health is NOT OK!
-[root@oraclem1 ~]#
-</code></pre>
+<span class="o">[</span>root@oraclem1 ~<span class="o">]</span><span class="c1">#</span>
+</code></pre></div>
 <p>解决办法：</p>
-<pre><code class="language-bash">mysql&gt; set global read_only=1;
-Query OK, 0 rows affected (0.00 sec)
+<div class="highlight"><pre><span></span><code>mysql&gt; <span class="nb">set</span> global <span class="nv">read_only</span><span class="o">=</span><span class="m">1</span><span class="p">;</span>
+Query OK, <span class="m">0</span> rows affected <span class="o">(</span><span class="m">0</span>.00 sec<span class="o">)</span>
 
 mysql&gt;
-</code></pre>
-<h4 id="4">报错记录4：</h4>
-<pre><code class="language-bash">Thu Apr 9 23:54:32 2015 - [info] Checking SSH publickey authentication andchecking recovery script configurations on all alive slave servers..
-Thu Apr 9 23:54:32 2015 - [info]  Executing command : apply_diff_relay_logs --command=test--slave_user='manager' --slave_host=192.168.52.130 --slave_ip=192.168.52.130--slave_port=3306 --workdir=/var/tmp --target_version=5.6.12-log--manager_version=0.56 --relay_dir=/home/data/mysql/data--current_relay_log=mysqld-relay-bin.000011 --slave_pass=xxx
-Thu Apr 9 23:54:32 2015 - [info]  Connecting to root@192.168.52.130(192.168.52.130:22)..
-Can't exec &quot;mysqlbinlog&quot;: No suchfile or directory at /usr/local/share/perl5/MHA/BinlogManager.pm line 106.
-mysqlbinlog version command failed with rc1:0, please verify PATH, LD_LIBRARY_PATH, and client options
- at/usr/local/bin/apply_diff_relay_logs line 493
-Thu Apr 9 23:54:32 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln205] Slaves settings check failed!
-Thu Apr 9 23:54:32 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln413] Slave configuration failed.
-Thu Apr 9 23:54:32 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424] Error happened on checking configurations.  at /usr/local/bin/masterha_check_repl line 48
-Thu Apr 9 23:54:32 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523] Error happened on monitoring servers.
-Thu Apr 9 23:54:32 2015 - [info] Got exit code 1 (Not master dead).
+</code></pre></div>
+<h4 id="4">报错记录4：<a class="headerlink" href="#4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Thu Apr <span class="m">9</span> <span class="m">23</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Checking SSH publickey authentication andchecking recovery script configurations on all alive slave servers..
+Thu Apr <span class="m">9</span> <span class="m">23</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  Executing <span class="nb">command</span> : apply_diff_relay_logs --command<span class="o">=</span>test--slave_user<span class="o">=</span><span class="s1">&#39;manager&#39;</span> --slave_host<span class="o">=</span><span class="m">192</span>.168.52.130 --slave_ip<span class="o">=</span><span class="m">192</span>.168.52.130--slave_port<span class="o">=</span><span class="m">3306</span> --workdir<span class="o">=</span>/var/tmp --target_version<span class="o">=</span><span class="m">5</span>.6.12-log--manager_version<span class="o">=</span><span class="m">0</span>.56 --relay_dir<span class="o">=</span>/home/data/mysql/data--current_relay_log<span class="o">=</span>mysqld-relay-bin.000011 --slave_pass<span class="o">=</span>xxx
+Thu Apr <span class="m">9</span> <span class="m">23</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  Connecting to root@192.168.52.130<span class="o">(</span><span class="m">192</span>.168.52.130:22<span class="o">)</span>..
+Can<span class="err">&#39;</span>t <span class="nb">exec</span> <span class="s2">&quot;mysqlbinlog&quot;</span>: No suchfile or directory at /usr/local/share/perl5/MHA/BinlogManager.pm line <span class="m">106</span>.
+mysqlbinlog version <span class="nb">command</span> failed with rc1:0, please verify PATH, LD_LIBRARY_PATH, and client options
+ at/usr/local/bin/apply_diff_relay_logs line <span class="m">493</span>
+Thu Apr <span class="m">9</span> <span class="m">23</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln205<span class="o">]</span> Slaves settings check failed!
+Thu Apr <span class="m">9</span> <span class="m">23</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln413<span class="o">]</span> Slave configuration failed.
+Thu Apr <span class="m">9</span> <span class="m">23</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424<span class="o">]</span> Error happened on checking configurations.  at /usr/local/bin/masterha_check_repl line <span class="m">48</span>
+Thu Apr <span class="m">9</span> <span class="m">23</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523<span class="o">]</span> Error happened on monitoring servers.
+Thu Apr <span class="m">9</span> <span class="m">23</span>:54:32 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Got <span class="nb">exit</span> code <span class="m">1</span> <span class="o">(</span>Not master dead<span class="o">)</span>.
 
 MySQL Replication Health is NOT OK!
-[root@oraclem1 ~]#
-</code></pre>
+<span class="o">[</span>root@oraclem1 ~<span class="o">]</span><span class="c1">#</span>
+</code></pre></div>
 <p>解决办法：</p>
-<pre><code class="language-bash">[root@data02 ~]# type mysqlbinlog
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@data02 ~<span class="o">]</span><span class="c1"># type mysqlbinlog</span>
 mysqlbinlog is/usr/local/mysql/bin/mysqlbinlog
-[root@data02 ~]#
-[root@data02 ~]# ln -s/usr/local/mysql/bin/mysqlbinlog /usr/bin/mysqlbinlog
-</code></pre>
-<h4 id="5">报错记录5：</h4>
-<pre><code class="language-bash">Thu Apr 9 23:57:24 2015 - [info]  Connecting to root@192.168.52.130(192.168.52.130:22)..
+<span class="o">[</span>root@data02 ~<span class="o">]</span><span class="c1">#</span>
+<span class="o">[</span>root@data02 ~<span class="o">]</span><span class="c1"># ln -s/usr/local/mysql/bin/mysqlbinlog /usr/bin/mysqlbinlog</span>
+</code></pre></div>
+<h4 id="5">报错记录5：<a class="headerlink" href="#5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Thu Apr <span class="m">9</span> <span class="m">23</span>:57:24 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>  Connecting to root@192.168.52.130<span class="o">(</span><span class="m">192</span>.168.52.130:22<span class="o">)</span>..
  Checking slave recovery environment settings..
    Relay log found at /home/data/mysql/data, up to mysqld-relay-bin.000013
    Temporary relay log file is /home/data/mysql/data/mysqld-relay-bin.000013
-   Testing mysql connection and privileges..sh: mysql: command not found
-mysql command failed with rc 127:0!
- at/usr/local/bin/apply_diff_relay_logs line 375
-         main::check()called at /usr/local/bin/apply_diff_relay_logs line 497
-         eval{...} called at /usr/local/bin/apply_diff_relay_logs line 475
-         main::main()called at /usr/local/bin/apply_diff_relay_logs line 120
-Thu Apr 9 23:57:24 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln205] Slaves settings check failed!
-Thu Apr 9 23:57:24 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln413] Slave configuration failed.
-Thu Apr 9 23:57:24 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424] Error happened on checking configurations.  at /usr/local/bin/masterha_check_repl line 48
-Thu Apr 9 23:57:24 2015 - [error][/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523] Error happened on monitoring servers.
-Thu Apr 9 23:57:24 2015 - [info] Got exit code 1 (Not master dead).
+   Testing mysql connection and privileges..sh: mysql: <span class="nb">command</span> not found
+mysql <span class="nb">command</span> failed with rc <span class="m">127</span>:0!
+ at/usr/local/bin/apply_diff_relay_logs line <span class="m">375</span>
+         main::check<span class="o">()</span>called at /usr/local/bin/apply_diff_relay_logs line <span class="m">497</span>
+         eval<span class="o">{</span>...<span class="o">}</span> called at /usr/local/bin/apply_diff_relay_logs line <span class="m">475</span>
+         main::main<span class="o">()</span>called at /usr/local/bin/apply_diff_relay_logs line <span class="m">120</span>
+Thu Apr <span class="m">9</span> <span class="m">23</span>:57:24 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln205<span class="o">]</span> Slaves settings check failed!
+Thu Apr <span class="m">9</span> <span class="m">23</span>:57:24 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln413<span class="o">]</span> Slave configuration failed.
+Thu Apr <span class="m">9</span> <span class="m">23</span>:57:24 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln424<span class="o">]</span> Error happened on checking configurations.  at /usr/local/bin/masterha_check_repl line <span class="m">48</span>
+Thu Apr <span class="m">9</span> <span class="m">23</span>:57:24 <span class="m">2015</span> - <span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm,ln523<span class="o">]</span> Error happened on monitoring servers.
+Thu Apr <span class="m">9</span> <span class="m">23</span>:57:24 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Got <span class="nb">exit</span> code <span class="m">1</span> <span class="o">(</span>Not master dead<span class="o">)</span>.
 
 MySQL Replication Health is NOT OK!
-</code></pre>
+</code></pre></div>
 <p>解决办法：</p>
-<pre><code class="language-bash">ln -s /usr/local/mysql/bin/mysql/usr/bin/mysql
-</code></pre>
-<h4 id="6_1">报错记录6：</h4>
-<pre><code class="language-bash">Fri Apr 10 00:58:36 2015 - [info]   Executing command : apply_diff_relay_logs--command=test --slave_user='manager' --slave_host=192.168.52.130--slave_ip=192.168.52.130 --slave_port=3306 --workdir=/var/tmp--target_version=5.6.12-log --manager_version=0.56--relay_dir=/home/data/mysql/data--current_relay_log=mysqld-relay-bin.000011 --slave_pass=xxx
-Fri Apr 10 00:58:36 2015 - [info]   Connecting to root@192.168.52.130(192.168.52.130:22)..
+<div class="highlight"><pre><span></span><code>ln -s /usr/local/mysql/bin/mysql/usr/bin/mysql
+</code></pre></div>
+<h4 id="6_1">报错记录6：<a class="headerlink" href="#6_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>Fri Apr <span class="m">10</span> <span class="m">00</span>:58:36 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Executing <span class="nb">command</span> : apply_diff_relay_logs--command<span class="o">=</span><span class="nb">test</span> --slave_user<span class="o">=</span><span class="s1">&#39;manager&#39;</span> --slave_host<span class="o">=</span><span class="m">192</span>.168.52.130--slave_ip<span class="o">=</span><span class="m">192</span>.168.52.130 --slave_port<span class="o">=</span><span class="m">3306</span> --workdir<span class="o">=</span>/var/tmp--target_version<span class="o">=</span><span class="m">5</span>.6.12-log --manager_version<span class="o">=</span><span class="m">0</span>.56--relay_dir<span class="o">=</span>/home/data/mysql/data--current_relay_log<span class="o">=</span>mysqld-relay-bin.000011 --slave_pass<span class="o">=</span>xxx
+Fri Apr <span class="m">10</span> <span class="m">00</span>:58:36 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span>   Connecting to root@192.168.52.130<span class="o">(</span><span class="m">192</span>.168.52.130:22<span class="o">)</span>..
  Checking slave recovery environment settings..
    Relay log found at /home/data/mysql/data, up to mysqld-relay-bin.000013
    Temporary relay log file is/home/data/mysql/data/mysqld-relay-bin.000013
-   Testing mysql connection and privileges..Warning: Using a password onthe command line interface can be insecure.
-ERROR 1142 (42000) at line 1: CREATEcommand denied to user 'manager'@'192.168.52.130' for table'apply_diff_relay_logs_test'
-mysql command failed with rc 1:0!
- at/usr/local/bin/apply_diff_relay_logs line 375
-         main::check()called at /usr/local/bin/apply_diff_relay_logs line 497
-         eval{...} called at /usr/local/bin/apply_diff_relay_logs line 475
-         main::main()called at /usr/local/bin/apply_diff_relay_logs line 120
-Fri Apr 10 00:58:37 2015 -[error][/usr/local/share/perl5/MHA/MasterMonitor.pm, ln205] Slaves settingscheck failed!
-Fri Apr 10 00:58:37 2015 -[error][/usr/local/share/perl5/MHA/MasterMonitor.pm, ln413] Slave configurationfailed.
-Fri Apr 10 00:58:37 2015 -[error][/usr/local/share/perl5/MHA/MasterMonitor.pm, ln424] Error happened onchecking configurations.  at/usr/local/bin/masterha_check_repl line 48
-Fri Apr 10 00:58:37 2015 -[error][/usr/local/share/perl5/MHA/MasterMonitor.pm, ln523] Error happened onmonitoring servers.
-Fri Apr 10 00:58:37 2015 - [info] Got exitcode 1 (Not master dead).
+   Testing mysql connection and privileges..Warning: Using a password onthe <span class="nb">command</span> line interface can be insecure.
+ERROR <span class="m">1142</span> <span class="o">(</span><span class="m">42000</span><span class="o">)</span> at line <span class="m">1</span>: CREATEcommand denied to user <span class="s1">&#39;manager&#39;</span>@<span class="s1">&#39;192.168.52.130&#39;</span> <span class="k">for</span> table<span class="s1">&#39;apply_diff_relay_logs_test&#39;</span>
+mysql <span class="nb">command</span> failed with rc <span class="m">1</span>:0!
+ at/usr/local/bin/apply_diff_relay_logs line <span class="m">375</span>
+         main::check<span class="o">()</span>called at /usr/local/bin/apply_diff_relay_logs line <span class="m">497</span>
+         eval<span class="o">{</span>...<span class="o">}</span> called at /usr/local/bin/apply_diff_relay_logs line <span class="m">475</span>
+         main::main<span class="o">()</span>called at /usr/local/bin/apply_diff_relay_logs line <span class="m">120</span>
+Fri Apr <span class="m">10</span> <span class="m">00</span>:58:37 <span class="m">2015</span> -<span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm, ln205<span class="o">]</span> Slaves settingscheck failed!
+Fri Apr <span class="m">10</span> <span class="m">00</span>:58:37 <span class="m">2015</span> -<span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm, ln413<span class="o">]</span> Slave configurationfailed.
+Fri Apr <span class="m">10</span> <span class="m">00</span>:58:37 <span class="m">2015</span> -<span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm, ln424<span class="o">]</span> Error happened onchecking configurations.  at/usr/local/bin/masterha_check_repl line <span class="m">48</span>
+Fri Apr <span class="m">10</span> <span class="m">00</span>:58:37 <span class="m">2015</span> -<span class="o">[</span>error<span class="o">][</span>/usr/local/share/perl5/MHA/MasterMonitor.pm, ln523<span class="o">]</span> Error happened onmonitoring servers.
+Fri Apr <span class="m">10</span> <span class="m">00</span>:58:37 <span class="m">2015</span> - <span class="o">[</span>info<span class="o">]</span> Got exitcode <span class="m">1</span> <span class="o">(</span>Not master dead<span class="o">)</span>.
 
 MySQL Replication Health is NOT OK!
-</code></pre>
+</code></pre></div>
 <p>解决办法：
 执行如下授权语句sql：</p>
-<pre><code class="language-bash">GRANT CREATE,INSERT,UPDATE,DELETE,DROP ON*.* TO manager@'192.168.52.%';
-</code></pre>
-<h4 id="_2">其他</h4>
+<div class="highlight"><pre><span></span><code>GRANT CREATE,INSERT,UPDATE,DELETE,DROP ON*.* TO manager@<span class="s1">&#39;192.168.52.%&#39;</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="_2">其他<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <p>另外，如果nohup masterha_manager执行不了，请检查master和slave是否配置正确。可以通过</p>
-<pre><code class="language-bash">change master to master_host='172.16.115.101',master_port=3306,master_user='repl',master_password='123456',master_log_file='mysql-bin.000001',MASTER_LOG_POS=0;
-</code></pre>
+<div class="highlight"><pre><span></span><code>change master to <span class="nv">master_host</span><span class="o">=</span><span class="s1">&#39;172.16.115.101&#39;</span>,master_port<span class="o">=</span><span class="m">3306</span>,master_user<span class="o">=</span><span class="s1">&#39;repl&#39;</span>,master_password<span class="o">=</span><span class="s1">&#39;123456&#39;</span>,master_log_file<span class="o">=</span><span class="s1">&#39;mysql-bin.000001&#39;</span>,MASTER_LOG_POS<span class="o">=</span><span class="m">0</span><span class="p">;</span>
+</code></pre></div>
 <p>重新设置slave。</p>
 
               

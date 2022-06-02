@@ -345,27 +345,26 @@
 
 
 
-<hr />
 <p>同步服务器192.168.1.100
 接收服务器192.168.1.200
 即把192.168.1.100的代码备份到192.168.1.200。</p>
-<h1 id="1921681100">192.168.1.100上的配置如下：</h1>
-<pre><code class="language-bash">yum install rsync inotify-tools
+<h1 id="1921681100">192.168.1.100上的配置如下：<a class="headerlink" href="#1921681100" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code>yum install rsync inotify-tools
 
 crontab -e
 */59 * * * * /bin/sh /usr/local/scripts/rsync.sh &gt;&gt; /var/log/rsync.log
 即每小时的第59分钟同步代码
-</code></pre>
-<h1 id="usrlocalscriptsrsyncsh">/usr/local/scripts/rsync.sh脚本内容如下</h1>
-<pre><code class="language-bash">#!/bin/sh 
-SRC=/var/www/html/ #记得在最后面加/不然RYNC会自动增加一层目录 
-DES=rsync_data #192.168.1.200认证的模块名，后面会说明
-IP=192.168.1.200
-USER=backup 
-INWT=/usr/bin/inotifywait 
-RSYNC=/usr/bin/rsync 
-$RSYNC -auzviL --delete --progress --password-file=/root/rsync.pwd $SRC $USER@$IP::$DES
-</code></pre>
+</code></pre></div>
+<h1 id="usrlocalscriptsrsyncsh">/usr/local/scripts/rsync.sh脚本内容如下<a class="headerlink" href="#usrlocalscriptsrsyncsh" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh </span>
+<span class="nv">SRC</span><span class="o">=</span>/var/www/html/ <span class="c1">#记得在最后面加/不然RYNC会自动增加一层目录 </span>
+<span class="nv">DES</span><span class="o">=</span>rsync_data <span class="c1">#192.168.1.200认证的模块名，后面会说明</span>
+<span class="nv">IP</span><span class="o">=</span><span class="m">192</span>.168.1.200
+<span class="nv">USER</span><span class="o">=</span>backup 
+<span class="nv">INWT</span><span class="o">=</span>/usr/bin/inotifywait 
+<span class="nv">RSYNC</span><span class="o">=</span>/usr/bin/rsync 
+<span class="nv">$RSYNC</span> -auzviL --delete --progress --password-file<span class="o">=</span>/root/rsync.pwd <span class="nv">$SRC</span> <span class="nv">$USER</span>@<span class="nv">$IP</span>::<span class="nv">$DES</span>
+</code></pre></div>
 <blockquote>
 <p>rsync 选项说明
  -a 称为归档模式，执行以下操作
@@ -381,70 +380,70 @@ $RSYNC -auzviL --delete --progress --password-file=/root/rsync.pwd $SRC $USER@$I
 查看每个文件的传输进程,用 –-progress 参数
 删除在目的文件夹中创建的文件,用 –-delete 参数</p>
 </blockquote>
-<h1 id="1921681200">192.168.1.200上的配置如下：</h1>
-<pre><code class="language-bash">yum install rsync
+<h1 id="1921681200">192.168.1.200上的配置如下：<a class="headerlink" href="#1921681200" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code>yum install rsync
 
 vim /etc/rsyncd.conf
-uid=root 
-gid=root 
-max connections=36000 
-use chroot=no 
-log file=/var/log/rsyncd.log 
-pid file=/var/run/rsyncd.pid 
-lock file=/var/run/rsyncd.lock 
-[rsync_data] 
-path=/data/192.168.1.100/ #192.168.1.100是一个必须存在的目录
-comment = 192.168.1.100
-ignore errors = yes
-read only = no 
-hosts allow = 192.168.1.100
-</code></pre>
-<p>rsync启动脚本</p>
-<pre><code class="language-bash">#! /bin/sh
-#
-# chkconfig:   2345 50 50
-# description: The rsync daemon
+<span class="nv">uid</span><span class="o">=</span>root 
+<span class="nv">gid</span><span class="o">=</span>root 
+max <span class="nv">connections</span><span class="o">=</span><span class="m">36000</span> 
+use <span class="nv">chroot</span><span class="o">=</span>no 
+log <span class="nv">file</span><span class="o">=</span>/var/log/rsyncd.log 
+pid <span class="nv">file</span><span class="o">=</span>/var/run/rsyncd.pid 
+lock <span class="nv">file</span><span class="o">=</span>/var/run/rsyncd.lock 
+<span class="o">[</span>rsync_data<span class="o">]</span> 
+<span class="nv">path</span><span class="o">=</span>/data/192.168.1.100/ <span class="c1">#192.168.1.100是一个必须存在的目录</span>
+<span class="nv">comment</span> <span class="o">=</span> <span class="m">192</span>.168.1.100
+ignore <span class="nv">errors</span> <span class="o">=</span> yes
+<span class="nb">read</span> <span class="nv">only</span> <span class="o">=</span> no 
+hosts <span class="nv">allow</span> <span class="o">=</span> <span class="m">192</span>.168.1.100
+</code></pre></div>
+<p>rsync启动脚本
+<div class="highlight"><pre><span></span><code><span class="ch">#! /bin/sh</span>
+<span class="c1">#</span>
+<span class="c1"># chkconfig:   2345 50 50</span>
+<span class="c1"># description: The rsync daemon</span>
 
-# source function library
+<span class="c1"># source function library</span>
  . /etc/rc.d/init.d/functions
 
-PROG='/usr/bin/rsync'
-BASE=${0##*/}
+<span class="nv">PROG</span><span class="o">=</span><span class="s1">&#39;/usr/bin/rsync&#39;</span>
+<span class="nv">BASE</span><span class="o">=</span><span class="si">${</span><span class="nv">0</span><span class="p">##*/</span><span class="si">}</span>
 
-# Adapt the --config parameter to point to your rsync daemon configuration
-# The config file must contain following line:
-#  pid file = /var/run/&lt;filename&gt;.pid
-# Where &lt;filename&gt; is the filename of the init script (= this file)
-OPTIONS=&quot;--daemon --config=/etc/rsyncd.conf&quot;
+<span class="c1"># Adapt the --config parameter to point to your rsync daemon configuration</span>
+<span class="c1"># The config file must contain following line:</span>
+<span class="c1">#  pid file = /var/run/&lt;filename&gt;.pid</span>
+<span class="c1"># Where &lt;filename&gt; is the filename of the init script (= this file)</span>
+<span class="nv">OPTIONS</span><span class="o">=</span><span class="s2">&quot;--daemon --config=/etc/rsyncd.conf&quot;</span>
 
-case &quot;$1&quot; in
-  start)
-    echo -n $&quot;Starting $BASE: &quot;
-    daemon --check $BASE $PROG $OPTIONS
-    RETVAL=$?
-    [ $RETVAL -eq 0 ] &amp;&amp; touch /var/lock/subsys/$BASE
-    echo
-    ;;
-  stop)
-    echo -n $&quot;Shutting down $BASE: &quot;
-    killproc $BASE
-    RETVAL=$?
-    [ $RETVAL -eq 0 ] &amp;&amp; rm -f /var/lock/subsys/$BASE
-    echo
-    ;;
-  restart|force-reload)
-    $0 stop
-    sleep 1
-    $0 start
-    ;;
-  *)
-    echo &quot;Usage: $0 {start|stop|restart|force-reload}&quot; &gt;&amp;2
-    exit 1
-    ;;
-esac
+<span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="k">in</span>
+  start<span class="o">)</span>
+    <span class="nb">echo</span> -n $<span class="s2">&quot;Starting </span><span class="nv">$BASE</span><span class="s2">: &quot;</span>
+    daemon --check <span class="nv">$BASE</span> <span class="nv">$PROG</span> <span class="nv">$OPTIONS</span>
+    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="o">[</span> <span class="nv">$RETVAL</span> -eq <span class="m">0</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> touch /var/lock/subsys/<span class="nv">$BASE</span>
+    <span class="nb">echo</span>
+    <span class="p">;;</span>
+  stop<span class="o">)</span>
+    <span class="nb">echo</span> -n $<span class="s2">&quot;Shutting down </span><span class="nv">$BASE</span><span class="s2">: &quot;</span>
+    killproc <span class="nv">$BASE</span>
+    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="o">[</span> <span class="nv">$RETVAL</span> -eq <span class="m">0</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> rm -f /var/lock/subsys/<span class="nv">$BASE</span>
+    <span class="nb">echo</span>
+    <span class="p">;;</span>
+  restart<span class="p">|</span>force-reload<span class="o">)</span>
+    <span class="nv">$0</span> stop
+    sleep <span class="m">1</span>
+    <span class="nv">$0</span> start
+    <span class="p">;;</span>
+  *<span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> {start|stop|restart|force-reload}&quot;</span> &gt;<span class="p">&amp;</span><span class="m">2</span>
+    <span class="nb">exit</span> <span class="m">1</span>
+    <span class="p">;;</span>
+<span class="k">esac</span>
 
-exit 0
-</code></pre>
+<span class="nb">exit</span> <span class="m">0</span>
+</code></pre></div></p>
 <p>至此，同步就算完成。可以tailf /var/log/rsync.log查看同步日志。</p>
 
               

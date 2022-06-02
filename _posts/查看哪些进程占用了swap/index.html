@@ -340,49 +340,48 @@
 
   <h1>"查看哪些进程占用了swap"</h1>
 
-<hr />
 <p>这个脚本可以方便的查看哪些进程占用了swap。</p>
-<pre><code class="language-bash">##############################################################################
-# 脚本功能 ： 列出正在占用swap的进程。
-###############################################################################
+<div class="highlight"><pre><span></span><code><span class="c1">##############################################################################</span>
+<span class="c1"># 脚本功能 ： 列出正在占用swap的进程。</span>
+<span class="c1">###############################################################################</span>
 
-echo -e &quot;PID\t\tSwap\t\tProc_Name&quot;
+<span class="nb">echo</span> -e <span class="s2">&quot;PID\t\tSwap\t\tProc_Name&quot;</span>
 
-# 拿出/proc目录下所有以数字为名的目录（进程名是数字才是进程，其他如sys,net等存放的是其他信息）
-for pid in `ls -l /proc | grep ^d | awk '{ print $9 }'| grep -v [^0-9]`
-do
-    # 让进程释放swap的方法只有一个：就是重启该进程。或者等其自动释放。放
-    # 如果进程会自动释放，那么我们就不会写脚本来找他了，找他都是因为他没有自动释放。
-    # 所以我们要列出占用swap并需要重启的进程，但是init这个进程是系统里所有进程的祖先进程
-    # 重启init进程意味着重启系统，这是万万不可以的，所以就不必检测他了，以免对系统造成影响。
-    if [ $pid -eq 1 ];then continue;fi
-    grep -q &quot;Swap&quot; /proc/$pid/smaps 2&gt;/dev/null
-    if [ $? -eq 0 ];then
-        swap=$(grep Swap /proc/$pid/smaps \
-            | gawk '{ sum+=$2;} END{ print sum }')
-        proc_name=$(ps aux | grep -w &quot;$pid&quot; | grep -v grep \
-            | awk '{ for(i=11;i&lt;=NF;i++){ printf(&quot;%s &quot;,$i); }}')
-        if [ $swap -gt 0 ];then
-            echo -e &quot;${pid}\t${swap}\t${proc_name}&quot;
-        fi 
-    fi 
-done | sort -k2 -n | awk -F'\t' '{
-    pid[NR]=$1;
-    size[NR]=$2;
-    name[NR]=$3;
-}
-END{
-    for(id=1;id&lt;=length(pid);id++)
-    {
-        if(size[id]&lt;1024)
-            printf(&quot;%-10s\t%15sKB\t%s\n&quot;,pid[id],size[id],name[id]);
-        else if(size[id]&lt;1048576)
-            printf(&quot;%-10s\t%15.2fMB\t%s\n&quot;,pid[id],size[id]/1024,name[id]);
-        else
-            printf(&quot;%-10s\t%15.2fGB\t%s\n&quot;,pid[id],size[id]/1048576,name[id]);
-    }
-}'
-</code></pre>
+<span class="c1"># 拿出/proc目录下所有以数字为名的目录（进程名是数字才是进程，其他如sys,net等存放的是其他信息）</span>
+<span class="k">for</span> pid <span class="k">in</span> <span class="sb">`</span>ls -l /proc <span class="p">|</span> grep ^d <span class="p">|</span> awk <span class="s1">&#39;{ print $9 }&#39;</span><span class="p">|</span> grep -v <span class="o">[</span>^0-9<span class="o">]</span><span class="sb">`</span>
+<span class="k">do</span>
+    <span class="c1"># 让进程释放swap的方法只有一个：就是重启该进程。或者等其自动释放。放</span>
+    <span class="c1"># 如果进程会自动释放，那么我们就不会写脚本来找他了，找他都是因为他没有自动释放。</span>
+    <span class="c1"># 所以我们要列出占用swap并需要重启的进程，但是init这个进程是系统里所有进程的祖先进程</span>
+    <span class="c1"># 重启init进程意味着重启系统，这是万万不可以的，所以就不必检测他了，以免对系统造成影响。</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="nv">$pid</span> -eq <span class="m">1</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span> <span class="k">continue</span><span class="p">;</span><span class="k">fi</span>
+    grep -q <span class="s2">&quot;Swap&quot;</span> /proc/<span class="nv">$pid</span>/smaps <span class="m">2</span>&gt;/dev/null
+    <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+        <span class="nv">swap</span><span class="o">=</span><span class="k">$(</span>grep Swap /proc/<span class="nv">$pid</span>/smaps <span class="se">\</span>
+            <span class="p">|</span> gawk <span class="s1">&#39;{ sum+=$2;} END{ print sum }&#39;</span><span class="k">)</span>
+        <span class="nv">proc_name</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span> grep -w <span class="s2">&quot;</span><span class="nv">$pid</span><span class="s2">&quot;</span> <span class="p">|</span> grep -v grep <span class="se">\</span>
+            <span class="p">|</span> awk <span class="s1">&#39;{ for(i=11;i&lt;=NF;i++){ printf(&quot;%s &quot;,$i); }}&#39;</span><span class="k">)</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="nv">$swap</span> -gt <span class="m">0</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+            <span class="nb">echo</span> -e <span class="s2">&quot;</span><span class="si">${</span><span class="nv">pid</span><span class="si">}</span><span class="s2">\t</span><span class="si">${</span><span class="nv">swap</span><span class="si">}</span><span class="s2">\t</span><span class="si">${</span><span class="nv">proc_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">fi</span> 
+    <span class="k">fi</span> 
+<span class="k">done</span> <span class="p">|</span> sort -k2 -n <span class="p">|</span> awk -F<span class="s1">&#39;\t&#39;</span> <span class="s1">&#39;{</span>
+<span class="s1">    pid[NR]=$1;</span>
+<span class="s1">    size[NR]=$2;</span>
+<span class="s1">    name[NR]=$3;</span>
+<span class="s1">}</span>
+<span class="s1">END{</span>
+<span class="s1">    for(id=1;id&lt;=length(pid);id++)</span>
+<span class="s1">    {</span>
+<span class="s1">        if(size[id]&lt;1024)</span>
+<span class="s1">            printf(&quot;%-10s\t%15sKB\t%s\n&quot;,pid[id],size[id],name[id]);</span>
+<span class="s1">        else if(size[id]&lt;1048576)</span>
+<span class="s1">            printf(&quot;%-10s\t%15.2fMB\t%s\n&quot;,pid[id],size[id]/1024,name[id]);</span>
+<span class="s1">        else</span>
+<span class="s1">            printf(&quot;%-10s\t%15.2fGB\t%s\n&quot;,pid[id],size[id]/1048576,name[id]);</span>
+<span class="s1">    }</span>
+<span class="s1">}&#39;</span>
+</code></pre></div>
 
               
             </article>

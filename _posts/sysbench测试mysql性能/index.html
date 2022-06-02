@@ -415,8 +415,7 @@
 
   <h1>"sysbench测试mysql性能"</h1>
 
-<hr />
-<p>sysbench是一个模块化的、跨平台、多线程基准测试工具，主要用于评估测试各种不同系统参数下的数据库负载情况。关于这个项目的详细介绍请看：https://launchpad.net/sysbench。
+<p>sysbench是一个模块化的、跨平台、多线程基准测试工具，主要用于评估测试各种不同系统参数下的数据库负载情况。关于这个项目的详细介绍请看：<a href="https://launchpad.net/sysbench">https://launchpad.net/sysbench</a>。
 它主要包括以下几种方式的测试：
 1、cpu性能
 2、磁盘io性能
@@ -425,44 +424,44 @@
 5、POSIX线程性能
 6、数据库性能(OLTP基准测试)
 目前sysbench主要支持 MySQL,pgsql,oracle 这3种数据库。</p>
-<h3 id="_1">一、安装</h3>
+<h3 id="_1">一、安装<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
 <p>环境：</p>
 <p>centos 6.7
 mysql  5.7.10</p>
-<pre><code class="language-bash">yum install automake gcc gcc-c++ libtool mysql-devel
+<div class="highlight"><pre><span></span><code>yum install automake gcc gcc-c++ libtool mysql-devel
 
 git clone https://github.com/akopytov/sysbench.git
 
 ./autogen.sh
 ./configure
-make &amp;&amp; make install
-</code></pre>
+make <span class="o">&amp;&amp;</span> make install
+</code></pre></div>
 <p>如果想要让 sysbench 支持 pgsql/oracle 的话，就需要在编译的时候加上参数
 --with-pgsql
 或者
 --with-oracle
 这2个参数默认是关闭的，只有 MySQL 是默认支持的。</p>
-<h3 id="_2">二、测试</h3>
-<h5 id="1cpu">1、cpu性能测试</h5>
-<pre><code class="language-bash">sysbench --test=cpu --cpu-max-prime=20000 run
-</code></pre>
+<h3 id="_2">二、测试<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h5 id="1cpu">1、cpu性能测试<a class="headerlink" href="#1cpu" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code>sysbench --test<span class="o">=</span>cpu --cpu-max-prime<span class="o">=</span><span class="m">20000</span> run
+</code></pre></div>
 <p>cpu测试主要是进行素数的加法运算，在上面的例子中，指定了最大的素数为 20000，自己可以根据机器cpu的性能来适当调整数值。</p>
-<h5 id="2">2、线程测试</h5>
-<pre><code class="language-bash">sysbench --test=threads --num-threads=64 --thread-yields=100 --thread-locks=2 run
-</code></pre>
-<h5 id="3io">3、磁盘IO性能测试</h5>
-<pre><code class="language-bash">sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw prepare
-sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw run
-sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw cleanup
-</code></pre>
+<h5 id="2">2、线程测试<a class="headerlink" href="#2" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code>sysbench --test<span class="o">=</span>threads --num-threads<span class="o">=</span><span class="m">64</span> --thread-yields<span class="o">=</span><span class="m">100</span> --thread-locks<span class="o">=</span><span class="m">2</span> run
+</code></pre></div>
+<h5 id="3io">3、磁盘IO性能测试<a class="headerlink" href="#3io" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code>sysbench --test<span class="o">=</span>fileio --num-threads<span class="o">=</span><span class="m">16</span> --file-total-size<span class="o">=</span>3G --file-test-mode<span class="o">=</span>rndrw prepare
+sysbench --test<span class="o">=</span>fileio --num-threads<span class="o">=</span><span class="m">16</span> --file-total-size<span class="o">=</span>3G --file-test-mode<span class="o">=</span>rndrw run
+sysbench --test<span class="o">=</span>fileio --num-threads<span class="o">=</span><span class="m">16</span> --file-total-size<span class="o">=</span>3G --file-test-mode<span class="o">=</span>rndrw cleanup
+</code></pre></div>
 <p>上述参数指定了最大创建16个线程，创建的文件总大小为3G，文件读写模式为随机读。</p>
-<h5 id="4">4、内存测试</h5>
-<pre><code class="language-bash">sysbench --test=memory --memory-block-size=8k --memory-total-size=4G run
-</code></pre>
+<h5 id="4">4、内存测试<a class="headerlink" href="#4" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code>sysbench --test<span class="o">=</span>memory --memory-block-size<span class="o">=</span>8k --memory-total-size<span class="o">=</span>4G run
+</code></pre></div>
 <p>上述参数指定了本次测试整个过程是在内存中传输 4G 的数据量，每个 block 大小为 8K。</p>
-<h5 id="5oltp">5、OLTP测试</h5>
-<pre><code class="language-bash">sysbench --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-user=root --mysql-password=root  --test=/root/sysbench/sysbench/tests/db/oltp.lua --oltp_tables_count=10 --oltp-table-size=100000 --rand-init=on prepare
-</code></pre>
+<h5 id="5oltp">5、OLTP测试<a class="headerlink" href="#5oltp" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code>sysbench --mysql-host<span class="o">=</span><span class="m">127</span>.0.0.1 --mysql-port<span class="o">=</span><span class="m">3306</span> --mysql-user<span class="o">=</span>root --mysql-password<span class="o">=</span>root  --test<span class="o">=</span>/root/sysbench/sysbench/tests/db/oltp.lua --oltp_tables_count<span class="o">=</span><span class="m">10</span> --oltp-table-size<span class="o">=</span><span class="m">100000</span> --rand-init<span class="o">=</span>on prepare
+</code></pre></div>
 <p>关于这几个参数的解释：</p>
 <p>--test=tests/db/oltp.lua 表示调用 tests/db/oltp.lua 脚本进行 oltp 模式测试
 --oltp_tables_count=10 表示会生成 10 个测试表
@@ -470,12 +469,12 @@ sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rn
 --rand-init=on 表示每个测试表都是用随机数据来填充的
 如果在本机，也可以使用 –mysql-socket 指定 socket 文件来连接。加载测试数据时长视数据量而定，若过程比较久需要稍加耐心等待。</p>
 <p>真实测试场景中，数据表建议不低于10个，单表数据量不低于500万行，当然了，要视服务器硬件配置而定。如果是配备了SSD或者PCIE SSD这种高IOPS设备的话，则建议单表数据量最少不低于1亿行。</p>
-<pre><code class="language-bash">sysbench --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-user=root \
---mysql-password=root --test=/root/sysbench/sysbench/tests/db/oltp.lua --oltp_tables_count=10 \
---oltp-table-size=10000000 --num-threads=8 --oltp-read-only=off \
---report-interval=10 --rand-type=uniform --max-time=3600 \
- --max-requests=0 --percentile=99 run &gt;&gt; /tmp/sysbench_oltpX_8.log
-</code></pre>
+<div class="highlight"><pre><span></span><code>sysbench --mysql-host<span class="o">=</span><span class="m">127</span>.0.0.1 --mysql-port<span class="o">=</span><span class="m">3306</span> --mysql-user<span class="o">=</span>root <span class="se">\</span>
+--mysql-password<span class="o">=</span>root --test<span class="o">=</span>/root/sysbench/sysbench/tests/db/oltp.lua --oltp_tables_count<span class="o">=</span><span class="m">10</span> <span class="se">\</span>
+--oltp-table-size<span class="o">=</span><span class="m">10000000</span> --num-threads<span class="o">=</span><span class="m">8</span> --oltp-read-only<span class="o">=</span>off <span class="se">\</span>
+--report-interval<span class="o">=</span><span class="m">10</span> --rand-type<span class="o">=</span>uniform --max-time<span class="o">=</span><span class="m">3600</span> <span class="se">\</span>
+ --max-requests<span class="o">=</span><span class="m">0</span> --percentile<span class="o">=</span><span class="m">99</span> run &gt;&gt; /tmp/sysbench_oltpX_8.log
+</code></pre></div>
 <p>参数解释：
 --num-threads=8 表示发起 8个并发连接
 --oltp-read-only=off 表示不要进行只读测试，也就是会采用读写混合模式测试
@@ -486,52 +485,52 @@ sysbench --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rn
 --percentile=99 表示设定采样比例，默认是 95%，即丢弃1%的长请求，在剩余的99%里取最大值</p>
 <p>即：模拟 对10个表并发OLTP测试，每个表1000万行记录，持续压测时间为 1小时。</p>
 <p>真实测试场景中，建议持续压测时长不小于30分钟，否则测试数据可能不具参考意义。</p>
-<h5 id="6">6、测试结果解读</h5>
+<h5 id="6">6、测试结果解读<a class="headerlink" href="#6" title="Permanent link">&para;</a></h5>
 <p>测试结果解读如下：</p>
-<pre><code class="language-bash">sysbench 0.5:  multi-threaded system evaluation benchmark
+<div class="highlight"><pre><span></span><code>sysbench <span class="m">0</span>.5:  multi-threaded system evaluation benchmark
 
-Running the test with following options:
-Number of threads: 8
-Report intermediate results every 10 second(s)
-Random number generator seed is 0 and will be ignored
+Running the <span class="nb">test</span> with following options:
+Number of threads: <span class="m">8</span>
+Report intermediate results every <span class="m">10</span> second<span class="o">(</span>s<span class="o">)</span>
+Random number generator seed is <span class="m">0</span> and will be ignored
 
 
 Threads started!
 -- 每10秒钟报告一次测试结果，tps、每秒读、每秒写、99%以上的响应时长统计
-[  10s] threads: 8, tps: 1111.51, reads/s: 15568.42, writes/s: 4446.13, response time: 9.95ms (99%)
-[  20s] threads: 8, tps: 1121.90, reads/s: 15709.62, writes/s: 4487.80, response time: 9.78ms (99%)
-[  30s] threads: 8, tps: 1120.00, reads/s: 15679.10, writes/s: 4480.20, response time: 9.84ms (99%)
-[  40s] threads: 8, tps: 1114.20, reads/s: 15599.39, writes/s: 4456.30, response time: 9.90ms (99%)
-[  50s] threads: 8, tps: 1114.00, reads/s: 15593.60, writes/s: 4456.70, response time: 9.84ms (99%)
-[  60s] threads: 8, tps: 1119.30, reads/s: 15671.60, writes/s: 4476.50, response time: 9.99ms (99%)
-OLTP test statistics:
+<span class="o">[</span>  10s<span class="o">]</span> threads: <span class="m">8</span>, tps: <span class="m">1111</span>.51, reads/s: <span class="m">15568</span>.42, writes/s: <span class="m">4446</span>.13, response time: <span class="m">9</span>.95ms <span class="o">(</span><span class="m">99</span>%<span class="o">)</span>
+<span class="o">[</span>  20s<span class="o">]</span> threads: <span class="m">8</span>, tps: <span class="m">1121</span>.90, reads/s: <span class="m">15709</span>.62, writes/s: <span class="m">4487</span>.80, response time: <span class="m">9</span>.78ms <span class="o">(</span><span class="m">99</span>%<span class="o">)</span>
+<span class="o">[</span>  30s<span class="o">]</span> threads: <span class="m">8</span>, tps: <span class="m">1120</span>.00, reads/s: <span class="m">15679</span>.10, writes/s: <span class="m">4480</span>.20, response time: <span class="m">9</span>.84ms <span class="o">(</span><span class="m">99</span>%<span class="o">)</span>
+<span class="o">[</span>  40s<span class="o">]</span> threads: <span class="m">8</span>, tps: <span class="m">1114</span>.20, reads/s: <span class="m">15599</span>.39, writes/s: <span class="m">4456</span>.30, response time: <span class="m">9</span>.90ms <span class="o">(</span><span class="m">99</span>%<span class="o">)</span>
+<span class="o">[</span>  50s<span class="o">]</span> threads: <span class="m">8</span>, tps: <span class="m">1114</span>.00, reads/s: <span class="m">15593</span>.60, writes/s: <span class="m">4456</span>.70, response time: <span class="m">9</span>.84ms <span class="o">(</span><span class="m">99</span>%<span class="o">)</span>
+<span class="o">[</span>  60s<span class="o">]</span> threads: <span class="m">8</span>, tps: <span class="m">1119</span>.30, reads/s: <span class="m">15671</span>.60, writes/s: <span class="m">4476</span>.50, response time: <span class="m">9</span>.99ms <span class="o">(</span><span class="m">99</span>%<span class="o">)</span>
+OLTP <span class="nb">test</span> statistics:
     queries performed:
-        read:                            938224    -- 读总数
-        write:                           268064    -- 写总数
-        other:                           134032    -- 其他操作总数(SELECT、INSERT、UPDATE、DELETE之外的操作，例如COMMIT等)
-        total:                           1340320    -- 全部总数
-    transactions:                        67016  (1116.83 per sec.)    -- 总事务数(每秒事务数)
-    deadlocks:                           0      (0.00 per sec.)    -- 发生死锁总数
-    read/write requests:                 1206288 (20103.01 per sec.)    -- 读写总数(每秒读写次数)
-    other operations:                    134032 (2233.67 per sec.)    -- 其他操作总数(每秒其他操作次数)
+        read:                            <span class="m">938224</span>    -- 读总数
+        write:                           <span class="m">268064</span>    -- 写总数
+        other:                           <span class="m">134032</span>    -- 其他操作总数<span class="o">(</span>SELECT、INSERT、UPDATE、DELETE之外的操作，例如COMMIT等<span class="o">)</span>
+        total:                           <span class="m">1340320</span>    -- 全部总数
+    transactions:                        <span class="m">67016</span>  <span class="o">(</span><span class="m">1116</span>.83 per sec.<span class="o">)</span>    -- 总事务数<span class="o">(</span>每秒事务数<span class="o">)</span>
+    deadlocks:                           <span class="m">0</span>      <span class="o">(</span><span class="m">0</span>.00 per sec.<span class="o">)</span>    -- 发生死锁总数
+    read/write requests:                 <span class="m">1206288</span> <span class="o">(</span><span class="m">20103</span>.01 per sec.<span class="o">)</span>    -- 读写总数<span class="o">(</span>每秒读写次数<span class="o">)</span>
+    other operations:                    <span class="m">134032</span> <span class="o">(</span><span class="m">2233</span>.67 per sec.<span class="o">)</span>    -- 其他操作总数<span class="o">(</span>每秒其他操作次数<span class="o">)</span>
 
 General statistics:    -- 一些统计结果
-    total time:                          60.0053s    -- 总耗时
-    total number of events:              67016    -- 共发生多少事务数
-    total time taken by event execution: 479.8171s    -- 所有事务耗时相加(不考虑并行因素)
+    total time:                          <span class="m">60</span>.0053s    -- 总耗时
+    total number of events:              <span class="m">67016</span>    -- 共发生多少事务数
+    total <span class="nb">time</span> taken by event execution: <span class="m">479</span>.8171s    -- 所有事务耗时相加<span class="o">(</span>不考虑并行因素<span class="o">)</span>
     response time:    -- 响应时长统计
-         min:                                  4.27ms    -- 最小耗时
-         avg:                                  7.16ms    -- 平均耗时
-         max:                                 13.80ms    -- 最长耗时
-         approx.  99 percentile:               9.88ms    -- 超过99%平均耗时
+         min:                                  <span class="m">4</span>.27ms    -- 最小耗时
+         avg:                                  <span class="m">7</span>.16ms    -- 平均耗时
+         max:                                 <span class="m">13</span>.80ms    -- 最长耗时
+         approx.  <span class="m">99</span> percentile:               <span class="m">9</span>.88ms    -- 超过99%平均耗时
 
 Threads fairness:
-    events (avg/stddev):           8377.0000/44.33
-    execution time (avg/stddev):   59.9771/0.00
-</code></pre>
+    events <span class="o">(</span>avg/stddev<span class="o">)</span>:           <span class="m">8377</span>.0000/44.33
+    execution <span class="nb">time</span> <span class="o">(</span>avg/stddev<span class="o">)</span>:   <span class="m">59</span>.9771/0.00
+</code></pre></div>
 <p>参考文章：
-1、http://imysql.com/2014/10/17/sysbench-full-user-manual.shtml
-2、http://imysql.com/2015/07/28/mysql-benchmark-reference.shtml</p>
+1、<a href="http://imysql.com/2014/10/17/sysbench-full-user-manual.shtml">http://imysql.com/2014/10/17/sysbench-full-user-manual.shtml</a>
+2、<a href="http://imysql.com/2015/07/28/mysql-benchmark-reference.shtml">http://imysql.com/2015/07/28/mysql-benchmark-reference.shtml</a></p>
 
               
             </article>

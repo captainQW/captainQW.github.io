@@ -340,13 +340,12 @@
 
   <h1>PHP获取Raw POST Data数据</h1>
 
-<hr />
-<p>通常在做网站开发的时候，接收POST数组通过$_POST即可获取，但是如果把一段 XML 文本直接作为POST DATA提交到服务器时，$_POST是一个空数组，如：</p>
-<pre><code class="language-php">curl -X POST http://www.example.com -H &quot;Accept:application/json&quot; -d '{&quot;ip&quot;:&quot;8.8.4.4&quot;}'
-</code></pre>
-<p>如何解决这个问题呢，PHP提供了解析Raw POST data的方法，见http://www.php.net/manual/en/reserved.variables.httprawpostdata.php，用法如下：</p>
-<pre><code class="language-php">$postdata = file_get_contents(&quot;php://input&quot;);
-</code></pre>
+<p>通常在做网站开发的时候，接收POST数组通过<span class="arithmatex"><span class="MathJax_Preview">_POST即可获取，但是如果把一段 XML 文本直接作为POST DATA提交到服务器时，</span><script type="math/tex">_POST即可获取，但是如果把一段 XML 文本直接作为POST DATA提交到服务器时，</script></span>_POST是一个空数组，如：
+<div class="highlight"><pre><span></span><code><span class="x">curl -X POST http://www.example.com -H &quot;Accept:application/json&quot; -d &#39;{&quot;ip&quot;:&quot;8.8.4.4&quot;}&#39;</span>
+</code></pre></div></p>
+<p>如何解决这个问题呢，PHP提供了解析Raw POST data的方法，见http://<a href="http://www.php.net/manual/en/reserved.variables.httprawpostdata.php">www.php.net/manual/en/reserved.variables.httprawpostdata.php</a>，用法如下：</p>
+<div class="highlight"><pre><span></span><code><span class="x">$postdata = file_get_contents(&quot;php://input&quot;);</span>
+</code></pre></div>
 <p>解释一下，php://input 是一个资源标识，用 file_get_contents 从这个资源中获取的内容，就是原始的 Raw POST Data。</p>
 
               

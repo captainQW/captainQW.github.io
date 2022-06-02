@@ -340,25 +340,24 @@
 
   <h1>"infiniDB与clickhouse对比"</h1>
 
-<hr />
 <p>机器配置：</p>
 <p>测试机：    dell R510
-cpu：    xeon E5620<em>2
+cpu：    xeon E5620*2
 RAID卡：  H700 
 系统  ：ubuntu 14.04
 内核： Linux ubuntu 4.2.0-27-generic
 raid级别： raid0
 文件系统：   ext4
-硬盘：  SSD 240G</em>2 
+硬盘：  SSD 240G*2 
 IP： 192.168.112.73</p>
 <p>一、安装
-1、infiniDB的安装见 http://verynull.com/2015/06/24/infiniDB安装配置/</p>
+1、infiniDB的安装见 <a href="http://verynull.com/2015/06/24/infiniDB安装配置/">http://verynull.com/2015/06/24/infiniDB安装配置/</a></p>
 <p>2、clickhouse安装
-只支持ubutu14.04,16.04，12.04，但是我在16.04上没有安装起来。</p>
-<pre><code class="language-bash">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4# optional
+只支持ubutu14.04,16.04，12.04，但是我在16.04上没有安装起来。
+<div class="highlight"><pre><span></span><code>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4# optional
 
 sudo mkdir -p /etc/apt/sources.list.d
-echo &quot;deb http://repo.yandex.ru/clickhouse/trusty stable main&quot; |
+<span class="nb">echo</span> <span class="s2">&quot;deb http://repo.yandex.ru/clickhouse/trusty stable main&quot;</span> <span class="p">|</span>
 sudo tee /etc/apt/sources.list.d/clickhouse.list
 sudo apt-get update
 
@@ -366,106 +365,106 @@ sudo apt-get install clickhouse-server-common clickhouse-client
 
 sudo service clickhouse-server start
 clickhouse-client
-</code></pre>
+</code></pre></div></p>
 <p>3、就安装过程而言，clickhouse方便很多，infiniDB要编译老半天。</p>
 <p>二、性能测试</p>
 <p>1、创建表</p>
-<p>infiniDB:</p>
-<pre><code class="language-bash">CREATE TABLE `billing` (
-`did` int(11) NOT NULL DEFAULT '0' COMMENT '',
-`hit` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
-`reqs` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
-`rx` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
-`tx` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
-`logtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '',
-`tpr` bigint(20) NOT NULL DEFAULT '0' COMMENT ''
-) ENGINE=infiniDB DEFAULT CHARSET=latin1
-</code></pre>
-<p>clickhouse:</p>
-<pre><code class="language-bash"> CREATE TABLE billing (id Int32,did Int32,hit Int64,reqs Int64,rx Int64,tx Int64,logtime Int64,tpr Int64) ENGINE=Log;
-</code></pre>
+<p>infiniDB:
+<div class="highlight"><pre><span></span><code>CREATE TABLE <span class="sb">`</span>billing<span class="sb">`</span> <span class="o">(</span>
+<span class="sb">`</span>did<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;&#39;</span>,
+<span class="sb">`</span>hit<span class="sb">`</span> bigint<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;&#39;</span>,
+<span class="sb">`</span>reqs<span class="sb">`</span> bigint<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;&#39;</span>,
+<span class="sb">`</span>rx<span class="sb">`</span> bigint<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;&#39;</span>,
+<span class="sb">`</span>tx<span class="sb">`</span> bigint<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;&#39;</span>,
+<span class="sb">`</span>logtime<span class="sb">`</span> bigint<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;&#39;</span>,
+<span class="sb">`</span>tpr<span class="sb">`</span> bigint<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;&#39;</span>
+<span class="o">)</span> <span class="nv">ENGINE</span><span class="o">=</span>infiniDB DEFAULT <span class="nv">CHARSET</span><span class="o">=</span>latin1
+</code></pre></div></p>
+<p>clickhouse:
+<div class="highlight"><pre><span></span><code> CREATE TABLE billing <span class="o">(</span>id Int32,did Int32,hit Int64,reqs Int64,rx Int64,tx Int64,logtime Int64,tpr Int64<span class="o">)</span> <span class="nv">ENGINE</span><span class="o">=</span>Log<span class="p">;</span>
+</code></pre></div></p>
 <p>2、导入csv数据</p>
-<p>csv格式如下：</p>
-<pre><code class="language-bash">106,9,10,123,11858014,1467133200,330,0
-122,0,2,506,621,1467133200,150,0
-124,112,249,1131297,1899996,1467133200,49,0
-127,3,12,64257,88503,1467133200,66,0
-</code></pre>
+<p>csv格式如下：
+<div class="highlight"><pre><span></span><code><span class="m">106</span>,9,10,123,11858014,1467133200,330,0
+<span class="m">122</span>,0,2,506,621,1467133200,150,0
+<span class="m">124</span>,112,249,1131297,1899996,1467133200,49,0
+<span class="m">127</span>,3,12,64257,88503,1467133200,66,0
+</code></pre></div></p>
 <p>数据量9000万,大小4.5G。</p>
-<p>infiniDB:</p>
-<pre><code class="language-bash">sudo /data/mysql/bin/mysql --defaults-file=/data/mysql/my.cnf --local-infile -u root monitor -e &quot;load data local infile '/root/1.txt' into table billing FIELDS TERMINATED BY ',';&quot;
-</code></pre>
-<p>耗时：</p>
-<pre><code class="language-bash">0.60user 
-2.50system 
-4:14.61elapsed 1%CPU (0avgtext+0avgdata 3640maxresident)k
-0inputs+0outputs (0major+227minor)pagefaults 0swaps
-</code></pre>
-<p>clickhouse:</p>
-<pre><code class="language-bash">cat 1.txt | clickhouse-client --query=&quot;INSERT INTO monitor.monitor_data FORMAT CSV&quot;;
-</code></pre>
-<p>耗时：</p>
-<pre><code class="language-bash">real1m6.809s
+<p>infiniDB:
+<div class="highlight"><pre><span></span><code>sudo /data/mysql/bin/mysql --defaults-file<span class="o">=</span>/data/mysql/my.cnf --local-infile -u root monitor -e <span class="s2">&quot;load data local infile &#39;/root/1.txt&#39; into table billing FIELDS TERMINATED BY &#39;,&#39;;&quot;</span>
+</code></pre></div></p>
+<p>耗时：
+<div class="highlight"><pre><span></span><code><span class="m">0</span>.60user 
+<span class="m">2</span>.50system 
+<span class="m">4</span>:14.61elapsed <span class="m">1</span>%CPU <span class="o">(</span>0avgtext+0avgdata 3640maxresident<span class="o">)</span>k
+0inputs+0outputs <span class="o">(</span>0major+227minor<span class="o">)</span>pagefaults 0swaps
+</code></pre></div></p>
+<p>clickhouse:
+<div class="highlight"><pre><span></span><code>cat <span class="m">1</span>.txt <span class="p">|</span> clickhouse-client --query<span class="o">=</span><span class="s2">&quot;INSERT INTO monitor.monitor_data FORMAT CSV&quot;</span><span class="p">;</span>
+</code></pre></div></p>
+<p>耗时：
+<div class="highlight"><pre><span></span><code>real1m6.809s
 user1m26.720s
 sys 0m6.724s
-</code></pre>
+</code></pre></div></p>
 <p>clickhouse导入速度明显快很多。</p>
 <p>3、查询速度</p>
-<p>SQL:</p>
-<pre><code class="language-bash">SELECT logtime, SUM(hit) as hit, SUM(reqs) as reqs, SUM(rx) as rx,SUM(tx) as tx, round(avg(tpr)) as tpr FROM billingWHERE did &gt; 0AND logtime &gt;= 1467302400 AND logtime &lt;= 1469980799 GROUP BY logtime ORDER BY l
-ogtime;
-</code></pre>
-<p>infiniDB:</p>
-<pre><code class="language-bash">9663 rows in set (1.26 sec)
-</code></pre>
-<p>clickhouse:</p>
-<pre><code class="language-bash">8924 rows in set. Elapsed: 2.676 sec. Processed 91.80 million rows, 4.77 GB (34.30 million rows/s., 1.78 GB/s.) 
-</code></pre>
+<p>SQL:
+<div class="highlight"><pre><span></span><code>SELECT logtime, SUM<span class="o">(</span>hit<span class="o">)</span> as hit, SUM<span class="o">(</span>reqs<span class="o">)</span> as reqs, SUM<span class="o">(</span>rx<span class="o">)</span> as rx,SUM<span class="o">(</span>tx<span class="o">)</span> as tx, round<span class="o">(</span>avg<span class="o">(</span>tpr<span class="o">))</span> as tpr FROM billingWHERE did &gt; 0AND logtime &gt;<span class="o">=</span> <span class="m">1467302400</span> AND logtime &lt;<span class="o">=</span> <span class="m">1469980799</span> GROUP BY logtime ORDER BY l
+ogtime<span class="p">;</span>
+</code></pre></div></p>
+<p>infiniDB:
+<div class="highlight"><pre><span></span><code><span class="m">9663</span> rows <span class="k">in</span> <span class="nb">set</span> <span class="o">(</span><span class="m">1</span>.26 sec<span class="o">)</span>
+</code></pre></div></p>
+<p>clickhouse:
+<div class="highlight"><pre><span></span><code><span class="m">8924</span> rows <span class="k">in</span> set. Elapsed: <span class="m">2</span>.676 sec. Processed <span class="m">91</span>.80 million rows, <span class="m">4</span>.77 GB <span class="o">(</span><span class="m">34</span>.30 million rows/s., <span class="m">1</span>.78 GB/s.<span class="o">)</span> 
+</code></pre></div></p>
 <p>infiniDB速度较快。</p>
 <p>4、2亿数据对比</p>
 <p>SQL同上</p>
-<p>infiniDB:</p>
-<pre><code class="language-bash">9663 rows in set (2.24 sec)
-</code></pre>
-<p>clickhouse:</p>
-<pre><code class="language-bash">8924 rows in set. Elapsed: 4.215 sec. Processed 183.61 million rows, 9.55 GB (43.56 million rows/s., 2.26 GB/s.) 
-</code></pre>
+<p>infiniDB:
+<div class="highlight"><pre><span></span><code><span class="m">9663</span> rows <span class="k">in</span> <span class="nb">set</span> <span class="o">(</span><span class="m">2</span>.24 sec<span class="o">)</span>
+</code></pre></div></p>
+<p>clickhouse:
+<div class="highlight"><pre><span></span><code><span class="m">8924</span> rows <span class="k">in</span> set. Elapsed: <span class="m">4</span>.215 sec. Processed <span class="m">183</span>.61 million rows, <span class="m">9</span>.55 GB <span class="o">(</span><span class="m">43</span>.56 million rows/s., <span class="m">2</span>.26 GB/s.<span class="o">)</span> 
+</code></pre></div></p>
 <p>infiniDB较快。</p>
 <p>5、10亿数据对比</p>
 <p>SQL同上</p>
-<p>infiniDB:</p>
-<pre><code class="language-bash">9663 rows in set (9.58 sec)
-</code></pre>
-<p>clickhouse:</p>
-<pre><code class="language-bash">8924 rows in set. Elapsed: 17.040 sec. Processed 1.01 billion rows, 52.51 GB (56.67 million rows/s., 2.95 GB/s.) 
-</code></pre>
+<p>infiniDB:
+<div class="highlight"><pre><span></span><code><span class="m">9663</span> rows <span class="k">in</span> <span class="nb">set</span> <span class="o">(</span><span class="m">9</span>.58 sec<span class="o">)</span>
+</code></pre></div></p>
+<p>clickhouse:
+<div class="highlight"><pre><span></span><code><span class="m">8924</span> rows <span class="k">in</span> set. Elapsed: <span class="m">17</span>.040 sec. Processed <span class="m">1</span>.01 billion rows, <span class="m">52</span>.51 GB <span class="o">(</span><span class="m">56</span>.67 million rows/s., <span class="m">2</span>.95 GB/s.<span class="o">)</span> 
+</code></pre></div></p>
 <p>infiniDB更快。</p>
 <p>6、count对比
-infiniDB:</p>
-<pre><code class="language-bash">+------------+
-| count(*) |
+infiniDB:
+<div class="highlight"><pre><span></span><code>+------------+
+<span class="p">|</span> count<span class="o">(</span>*<span class="o">)</span> <span class="p">|</span>
 +------------+
-| 1009844583 |
+<span class="p">|</span> <span class="m">1009844583</span> <span class="p">|</span>
 +------------+
-1 row in set (6.14 sec)
-</code></pre>
-<p>clickhouse:</p>
-<pre><code class="language-bash">SELECT count(*)
+<span class="m">1</span> row <span class="k">in</span> <span class="nb">set</span> <span class="o">(</span><span class="m">6</span>.14 sec<span class="o">)</span>
+</code></pre></div></p>
+<p>clickhouse:
+<div class="highlight"><pre><span></span><code>SELECT count<span class="o">(</span>*<span class="o">)</span>
 FROM billing 
 
-┌────count()─┐
-│ 1009844583 │
+┌────count<span class="o">()</span>─┐
+│ <span class="m">1009844583</span> │
 └────────────┘
 
-1 rows in set. Elapsed: 1.120 sec. Processed 1.01 billion rows, 4.04 GB (901.82 million rows/s., 3.61 GB/s.) 
-</code></pre>
+<span class="m">1</span> rows <span class="k">in</span> set. Elapsed: <span class="m">1</span>.120 sec. Processed <span class="m">1</span>.01 billion rows, <span class="m">4</span>.04 GB <span class="o">(</span><span class="m">901</span>.82 million rows/s., <span class="m">3</span>.61 GB/s.<span class="o">)</span> 
+</code></pre></div></p>
 <p>7、压缩比
-infiniDB:</p>
-<pre><code class="language-bash">22G billing
-</code></pre>
-<p>clickhouse:</p>
-<pre><code class="language-bash">24G billing
-</code></pre>
+infiniDB:
+<div class="highlight"><pre><span></span><code>22G billing
+</code></pre></div></p>
+<p>clickhouse:
+<div class="highlight"><pre><span></span><code>24G billing
+</code></pre></div></p>
 <p>压缩比相差不多。</p>
 <p>结果：
 1、infiniDB会使用所有CPU，而clickhouse最多使用10个。
@@ -477,7 +476,7 @@ infiniDB:</p>
 <img alt="对比图" src="https://static.verycloud.cn/sites/default/files/pic/image/20160822/20160822222132_99553.png" /></p>
 <hr />
 <p>经一位俄罗斯网友提醒,MergeTree引擎比Log引擎更高效，因为Log引擎会全表扫描，而MergeTree的结构是这样的：</p>
-<pre><code class="language-bash">xxxx@ubuntu:/opt/clickhouse$ ls data/monitor/billing_mergetree
+<div class="highlight"><pre><span></span><code>xxxx@ubuntu:/opt/clickhouse$ ls data/monitor/billing_mergetree
 20150829_20150831_10964_10994_2
 20160101_20160131_10_11360_30 
 20160401_20160430_12_9964_31
@@ -501,7 +500,7 @@ infiniDB:</p>
 20160528_20160531_11056_11124_6 
 20160731_20160731_10798_10798_0
 detached
-</code></pre>
+</code></pre></div>
 <p>这种存储结构就是把每个月的数据单独放置在一个文件夹中，这样就避免了全表扫描。</p>
 <p>附对比图:
 <img alt="对比图" src="https://static.verycloud.cn/sites/default/files/pic/image/20160823/20160823113203_30109.png" /></p>

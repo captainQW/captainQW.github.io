@@ -367,14 +367,13 @@
 
   <h1>"sublime text创建快捷注释信息"</h1>
 
-<hr />
 <ul>
 <li>该方式适用于sublime text2和3。</li>
 </ul>
-<h2 id="_1">创建代码片段</h2>
-<p>点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下</p>
-<pre><code class="language-bash">&lt;snippet&gt;
-    &lt;content&gt;&lt;![CDATA[
+<h2 id="_1">创建代码片段<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>点击菜单栏里的 Tools 菜单，然后点击 New Snippet，之后会在新的 tab 页创建一个代码片段模板，编辑代码如下
+<div class="highlight"><pre><span></span><code>&lt;snippet&gt;
+    &lt;content&gt;&lt;!<span class="o">[</span>CDATA<span class="o">[</span>
 /**
  * 定义函数
  *
@@ -382,30 +381,30 @@
  * 
  * @author panjun.liu &lt;lpj163@gmail.com&gt;
  *
- * @param int $param1      参数释义
- * @param string $param2   参数释义
+ * @param int <span class="nv">$param1</span>      参数释义
+ * @param string <span class="nv">$param2</span>   参数释义
  *
- * @return integer|string|array
+ * @return integer<span class="p">|</span>string<span class="p">|</span>array
 */
-]]&gt;&lt;/content&gt;
+<span class="o">]]</span>&gt;&lt;/content&gt;
     &lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;
     &lt;tabTrigger&gt;phpdoc&lt;/tabTrigger&gt;
     &lt;!-- Optional: Set a scope to limit where the snippet will trigger --&gt;
     &lt;!-- &lt;scope&gt;source.python&lt;/scope&gt; --&gt;
 &lt;/snippet&gt;
-</code></pre>
+</code></pre></div></p>
 <blockquote>
 <p>注：
 tabTrigger 此节是可选的配置，默认是被注释掉的。默认 hello 的意思是：如果你在某个文档里输入了单词 hello ，然后按下 Tab 键，接着 hello 就会被替换为1中定义的代码片段。再次按下Tab键，接着snippet会被替换为2中定义的代码片段。</p>
 </blockquote>
 <p>保存到当前用户主目录下的\Sublime Text 3\Packages\User目录中，命名为phpdoc.sublime-snippet(注意：后缀必须为.sublime-snippet)。</p>
-<h2 id="_2">绑定快捷键</h2>
+<h2 id="_2">绑定快捷键<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>可以将上述的操作绑定到一个快捷键，在不键入任何文本的情况下，直接按快捷键插入代码片段。</p>
 <p>点击菜单栏的 Preferences 的子菜单 Key Binding – User，在打开的文件的方括号内部粘贴如下配置：</p>
-<pre><code class="language-bash">[
-    { &quot;keys&quot;: [&quot;phpdoc&quot;], &quot;command&quot;: &quot;insert_snippet&quot;, &quot;args&quot;: {&quot;name&quot;: &quot;Packages/User/phpdoc.sublime-snippet&quot;} }
-]
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>
+    <span class="o">{</span> <span class="s2">&quot;keys&quot;</span>: <span class="o">[</span><span class="s2">&quot;phpdoc&quot;</span><span class="o">]</span>, <span class="s2">&quot;command&quot;</span>: <span class="s2">&quot;insert_snippet&quot;</span>, <span class="s2">&quot;args&quot;</span>: <span class="o">{</span><span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;Packages/User/phpdoc.sublime-snippet&quot;</span><span class="o">}</span> <span class="o">}</span>
+<span class="o">]</span>
+</code></pre></div>
 <p>现在简单介绍一下这段配置：</p>
 <ol>
 <li>

@@ -421,137 +421,136 @@
 
   <h1>"mysql-5.7.x安装"</h1>
 
-<hr />
-<h3 id="1yum">1、添加yum源</h3>
-<h4 id="wget">wget</h4>
-<pre><code class="language-bash">--------------- On RHEL/CentOS 7 ---------------
-# wget http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On RHEL/CentOS 6 ---------------
-# wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On RHEL/CentOS 5 ---------------
-# wget http://dev.mysql.com/get/mysql57-community-release-el5-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On Fedora 23 ---------------
-# wget http://dev.mysql.com/get/mysql57-community-release-fc23-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On Fedora 22 ---------------
-# wget http://dev.mysql.com/get/mysql57-community-release-fc22-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On Fedora 21 ---------------
-# wget http://dev.mysql.com/get/mysql57-community-release-fc21-7.noarch.rpm
-</code></pre>
-<h4 id="_1">安装</h4>
-<pre><code class="language-bash">--------------- On RHEL/CentOS 7 ---------------
-# yum localinstall mysql57-community-release-el7-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On RHEL/CentOS 6 ---------------
-# yum localinstall mysql57-community-release-el6-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On RHEL/CentOS 5 ---------------
-# yum localinstall mysql57-community-release-el5-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On Fedora 23 ---------------
-# dnf localinstall mysql57-community-release-fc23-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On Fedora 22 ---------------
-# dnf localinstall mysql57-community-release-fc22-7.noarch.rpm
-</code></pre>
-<pre><code class="language-bash">--------------- On Fedora 21 ---------------
-# yum localinstall mysql57-community-release-fc21-7.noarch.rpm
-</code></pre>
-<h4 id="_2">校验源</h4>
-<pre><code class="language-bash"># yum repolist enabled | grep &quot;mysql.*-community.*&quot;
-# dnf repolist enabled | grep &quot;mysql.*-community.*&quot;      [On Fedora 22+ versions]
-</code></pre>
+<h3 id="1yum">1、添加yum源<a class="headerlink" href="#1yum" title="Permanent link">&para;</a></h3>
+<h4 id="wget">wget<a class="headerlink" href="#wget" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>--------------- On RHEL/CentOS <span class="m">7</span> ---------------
+<span class="c1"># wget http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On RHEL/CentOS <span class="m">6</span> ---------------
+<span class="c1"># wget http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On RHEL/CentOS <span class="m">5</span> ---------------
+<span class="c1"># wget http://dev.mysql.com/get/mysql57-community-release-el5-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On Fedora <span class="m">23</span> ---------------
+<span class="c1"># wget http://dev.mysql.com/get/mysql57-community-release-fc23-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On Fedora <span class="m">22</span> ---------------
+<span class="c1"># wget http://dev.mysql.com/get/mysql57-community-release-fc22-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On Fedora <span class="m">21</span> ---------------
+<span class="c1"># wget http://dev.mysql.com/get/mysql57-community-release-fc21-7.noarch.rpm</span>
+</code></pre></div>
+<h4 id="_1">安装<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>--------------- On RHEL/CentOS <span class="m">7</span> ---------------
+<span class="c1"># yum localinstall mysql57-community-release-el7-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On RHEL/CentOS <span class="m">6</span> ---------------
+<span class="c1"># yum localinstall mysql57-community-release-el6-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On RHEL/CentOS <span class="m">5</span> ---------------
+<span class="c1"># yum localinstall mysql57-community-release-el5-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On Fedora <span class="m">23</span> ---------------
+<span class="c1"># dnf localinstall mysql57-community-release-fc23-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On Fedora <span class="m">22</span> ---------------
+<span class="c1"># dnf localinstall mysql57-community-release-fc22-7.noarch.rpm</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>--------------- On Fedora <span class="m">21</span> ---------------
+<span class="c1"># yum localinstall mysql57-community-release-fc21-7.noarch.rpm</span>
+</code></pre></div>
+<h4 id="_2">校验源<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># yum repolist enabled | grep &quot;mysql.*-community.*&quot;</span>
+<span class="c1"># dnf repolist enabled | grep &quot;mysql.*-community.*&quot;      [On Fedora 22+ versions]</span>
+</code></pre></div>
 <p><img alt="Verify-MySQL-Yum-Repository" src="https://static.verycloud.cn/sites/default/files/images/Verify-MySQL-Yum-Repository.png" /></p>
-<h3 id="2mysql">2、安装mysql</h3>
-<pre><code class="language-bash"># yum install mysql-community-server mysql mysql-libs mysql-devel
-# dnf install mysql-community-server mysql mysql-libs mysql-devel     [On Fedora 22+ versions]
-</code></pre>
-<h3 id="3mysql">3、开启mysql</h3>
-<pre><code class="language-bash">service mysqld start
-</code></pre>
-<p>查看mysql版本</p>
-<pre><code class="language-bash"># mysql --version
-mysql  Ver 14.14 Distrib 5.7.12, for Linux (x86_64) using  EditLine wrapper
-</code></pre>
-<h3 id="4mysql">4、配置mysql</h3>
-<h4 id="_3">查看默认密码</h4>
-<pre><code class="language-bash"># grep 'temporary password' /var/log/mysqld.log
-</code></pre>
-<p>执行</p>
-<pre><code class="language-bash"># mysql_secure_installation
-</code></pre>
+<h3 id="2mysql">2、安装mysql<a class="headerlink" href="#2mysql" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># yum install mysql-community-server mysql mysql-libs mysql-devel</span>
+<span class="c1"># dnf install mysql-community-server mysql mysql-libs mysql-devel     [On Fedora 22+ versions]</span>
+</code></pre></div>
+<h3 id="3mysql">3、开启mysql<a class="headerlink" href="#3mysql" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>service mysqld start
+</code></pre></div>
+<p>查看mysql版本
+<div class="highlight"><pre><span></span><code><span class="c1"># mysql --version</span>
+mysql  Ver <span class="m">14</span>.14 Distrib <span class="m">5</span>.7.12, <span class="k">for</span> Linux <span class="o">(</span>x86_64<span class="o">)</span> using  EditLine wrapper
+</code></pre></div></p>
+<h3 id="4mysql">4、配置mysql<a class="headerlink" href="#4mysql" title="Permanent link">&para;</a></h3>
+<h4 id="_3">查看默认密码<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># grep &#39;temporary password&#39; /var/log/mysqld.log</span>
+</code></pre></div>
+<p>执行
+<div class="highlight"><pre><span></span><code><span class="c1"># mysql_secure_installation</span>
+</code></pre></div></p>
 <p>配置示例：</p>
-<pre><code class="language-bash">Securing the MySQL server deployment.
+<div class="highlight"><pre><span></span><code>Securing the MySQL server deployment.
 
-Enter password for user root: Enter New Root Password
+Enter password <span class="k">for</span> user root: Enter New Root Password
 
-VALIDATE PASSWORD PLUGIN can be used to test passwords
+VALIDATE PASSWORD PLUGIN can be used to <span class="nb">test</span> passwords
 and improve security. It checks the strength of password
-and allows the users to set only those passwords which are
+and allows the users to <span class="nb">set</span> only those passwords which are
 secure enough. Would you like to setup VALIDATE PASSWORD plugin?
 
-Press y|Y for Yes, any other key for No: y
+Press y<span class="p">|</span>Y <span class="k">for</span> Yes, any other key <span class="k">for</span> No: y
 
 There are three levels of password validation policy:
 
-LOW    Length &gt;= 8
-MEDIUM Length &gt;= 8, numeric, mixed case, and special characters
-STRONG Length &gt;= 8, numeric, mixed case, special characters and dictionary                  file
+LOW    Length &gt;<span class="o">=</span> <span class="m">8</span>
+MEDIUM Length &gt;<span class="o">=</span> <span class="m">8</span>, numeric, mixed <span class="k">case</span>, and special characters
+STRONG Length &gt;<span class="o">=</span> <span class="m">8</span>, numeric, mixed <span class="k">case</span>, special characters and dictionary                  file
 
-Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG: 2
-Using existing password for root.
+Please enter <span class="nv">0</span> <span class="o">=</span> LOW, <span class="nv">1</span> <span class="o">=</span> MEDIUM and <span class="nv">2</span> <span class="o">=</span> STRONG: <span class="m">2</span>
+Using existing password <span class="k">for</span> root.
 
-Estimated strength of the password: 50 
-Change the password for root ? ((Press y|Y for Yes, any other key for No) : y
+Estimated strength of the password: <span class="m">50</span> 
+Change the password <span class="k">for</span> root ? <span class="o">((</span>Press y<span class="p">|</span>Y <span class="k">for</span> Yes, any other key <span class="k">for</span> No<span class="o">)</span> : y
 
 New password: Set New MySQL Password
 
 Re-enter new password: Re-enter New MySQL Password
 
-Estimated strength of the password: 100 
-Do you wish to continue with the password provided?(Press y|Y for Yes, any other key for No) : y
+Estimated strength of the password: <span class="m">100</span> 
+Do you wish to <span class="k">continue</span> with the password provided?<span class="o">(</span>Press y<span class="p">|</span>Y <span class="k">for</span> Yes, any other key <span class="k">for</span> No<span class="o">)</span> : y
 By default, a MySQL installation has an anonymous user,
 allowing anyone to log into MySQL without having to have
-a user account created for them. This is intended only for
+a user account created <span class="k">for</span> them. This is intended only <span class="k">for</span>
 testing, and to make the installation go a bit smoother.
 You should remove them before moving into a production
 environment.
 
-Remove anonymous users? (Press y|Y for Yes, any other key for No) : y
+Remove anonymous users? <span class="o">(</span>Press y<span class="p">|</span>Y <span class="k">for</span> Yes, any other key <span class="k">for</span> No<span class="o">)</span> : y
 Success.
 
 
 Normally, root should only be allowed to connect from
-'localhost'. This ensures that someone cannot guess at
+<span class="s1">&#39;localhost&#39;</span>. This ensures that someone cannot guess at
 the root password from the network.
 
-Disallow root login remotely? (Press y|Y for Yes, any other key for No) : y
+Disallow root login remotely? <span class="o">(</span>Press y<span class="p">|</span>Y <span class="k">for</span> Yes, any other key <span class="k">for</span> No<span class="o">)</span> : y
 Success.
 
-By default, MySQL comes with a database named 'test' that
-anyone can access. This is also intended only for testing,
+By default, MySQL comes with a database named <span class="s1">&#39;test&#39;</span> that
+anyone can access. This is also intended only <span class="k">for</span> testing,
 and should be removed before moving into a production
 environment.
 
-Remove test database and access to it? (Press y|Y for Yes, any other key for No) : y
- - Dropping test database...
+Remove <span class="nb">test</span> database and access to it? <span class="o">(</span>Press y<span class="p">|</span>Y <span class="k">for</span> Yes, any other key <span class="k">for</span> No<span class="o">)</span> : y
+ - Dropping <span class="nb">test</span> database...
 Success.
 
- - Removing privileges on test database...
+ - Removing privileges on <span class="nb">test</span> database...
 Success.
 
 Reloading the privilege tables will ensure that all changes
 made so far will take effect immediately.
 
-Reload privilege tables now? (Press y|Y for Yes, any other key for No) : y
+Reload privilege tables now? <span class="o">(</span>Press y<span class="p">|</span>Y <span class="k">for</span> Yes, any other key <span class="k">for</span> No<span class="o">)</span> : y
 Success.
 
-All done! 
-</code></pre>
+All <span class="k">done</span>! 
+</code></pre></div>
 <p>至此，安装完成！</p>
 
               

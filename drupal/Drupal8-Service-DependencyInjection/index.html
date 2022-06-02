@@ -449,7 +449,6 @@
 
   <h1>"Drupal8-Service-DependencyInjection"</h1>
 
-<hr />
 <p>先来认识几个名词：</p>
 <p>1、Service</p>
 <p>Drupal8的service帮助代码去耦合，提高重复利用。比如操作数据库，发送mail等。一般来说，service是一个PHP类，包含了一些全局的方法。</p>
@@ -458,25 +457,25 @@
 <p>3、Dependency Injection</p>
 <p>如果要传递对象给另一个对象，一般用Dependency Injection来去耦。简单点说，一个service只处理一件事情，如果它要调用另外一个service，那么后面的这个service可以注入到前面的service中。</p>
 <p>下文我们以service表示Service，container表示Service Container，DI表示Dependency Injection。</p>
-<h3 id="core-services">一、core services</h3>
+<h3 id="core-services">一、core services<a class="headerlink" href="#core-services" title="Permanent link">&para;</a></h3>
 <p>Drupal8的核心servive都在<a href="https://api.drupal.org/api/drupal/core%21core.services.yml/8">core.services.yml</a>中。</p>
 <p>当然，也可以在module_name.services.yml中自定义service。</p>
 <p>*.services.yml的写法如：</p>
-<pre><code class="language-php">  path.alias_manager:
-    class: Drupal\Core\Path\AliasManager
-    arguments: ['@path.crud', '@path.alias_whitelist', '@language_manager']
-  breadcrumb:
-    class: Drupal\Core\Breadcrumb\BreadcrumbManager
-    arguments: ['@module_handler']
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">  path.alias_manager:</span>
+<span class="x">    class: Drupal\Core\Path\AliasManager</span>
+<span class="x">    arguments: [&#39;@path.crud&#39;, &#39;@path.alias_whitelist&#39;, &#39;@language_manager&#39;]</span>
+<span class="x">  breadcrumb:</span>
+<span class="x">    class: Drupal\Core\Breadcrumb\BreadcrumbManager</span>
+<span class="x">    arguments: [&#39;@module_handler&#39;]</span>
+</code></pre></div>
 <p>如要把别的service当作工厂使用，写法如下：</p>
-<pre><code class="language-php">  cache.entity:
-    class: Drupal\Core\Cache\CacheBackendInterface
-    tags:
-      - { name: cache.bin }
-    factory: cache_factory:get
-    arguments: [entity]
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">  cache.entity:</span>
+<span class="x">    class: Drupal\Core\Cache\CacheBackendInterface</span>
+<span class="x">    tags:</span>
+<span class="x">      - { name: cache.bin }</span>
+<span class="x">    factory: cache_factory:get</span>
+<span class="x">    arguments: [entity]</span>
+</code></pre></div>
 <p>1、第一行定义了一个唯一的service名称，如果是自定义的模块，必须以模块名作为前缀。
 2、第二行定义了默认调用的类、工厂类、接口类等。
 3、arguments带@表示依赖于该service。
@@ -488,166 +487,166 @@
     &gt; needs_destruction: 标明一个destructor()方法，通常被调用于一个请求完成时。
     &gt; context_provice: 标明一个block上下文提供者。
     &gt; http_client_middleware: 标明该service提供者是一个guzzle中间件。</p>
-<h3 id="service">二、访问service</h3>
-<h4 id="1global-functions">1、全局函数(global functions)</h4>
+<h3 id="service">二、访问service<a class="headerlink" href="#service" title="Permanent link">&para;</a></h3>
+<h4 id="1global-functions">1、全局函数(global functions)<a class="headerlink" href="#1global-functions" title="Permanent link">&para;</a></h4>
 <p>Drupal8的全局类提供了一些静态方法去访问一些通用的service。如Drupal::moduleHandler()将返回模块处理service，Drupal.translation()将返回翻译service。用 Drupal::service()可以获取所有已经定义的service。</p>
 <p>如：访问一个数据库service</p>
-<pre><code class="language-php">&lt;?php
-// Returns a Drupal\Core\Database\Connection object.
-$connection = \Drupal::database();
-$result = $connection-&gt;select('node', 'n')
-  -&gt;fields('n', array('nid'))
-  -&gt;execute();
-?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="c1">// Returns a Drupal\Core\Database\Connection object.</span>
+<span class="nv">$connection</span> <span class="o">=</span> <span class="nx">\Drupal</span><span class="o">::</span><span class="na">database</span><span class="p">();</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nv">$connection</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;node&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="na">fields</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;nid&#39;</span><span class="p">))</span>
+  <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>如：通过\Drupal::service()访问一个date service</p>
-<pre><code class="language-php">&lt;?php
-// Returns a Drupal\Core\Datetime\Date object.
-$date = \Drupal::service('date');
-?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="c1">// Returns a Drupal\Core\Datetime\Date object.</span>
+<span class="nv">$date</span> <span class="o">=</span> <span class="nx">\Drupal</span><span class="o">::</span><span class="na">service</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>如：自定义的demo模块</p>
-<h4 id="2demoservicesyml">2、创建demo.services.yml</h4>
-<pre><code class="language-php">services:
-    demo.demo_service:
-        class: Drupal\demo\DemoService
-</code></pre>
-<h4 id="3srcdemoservicephp">3、在src目录下创建DemoService.php</h4>
-<pre><code class="language-php">&lt;?php
+<h4 id="2demoservicesyml">2、创建demo.services.yml<a class="headerlink" href="#2demoservicesyml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="x">services:</span>
+<span class="x">    demo.demo_service:</span>
+<span class="x">        class: Drupal\demo\DemoService</span>
+</code></pre></div>
+<h4 id="3srcdemoservicephp">3、在src目录下创建DemoService.php<a class="headerlink" href="#3srcdemoservicephp" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains Drupal\demo\DemoService.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains Drupal\demo\DemoService.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo;
+<span class="k">namespace</span> <span class="nx">Drupal\demo</span><span class="p">;</span>
 
-class DemoService {
+<span class="k">class</span> <span class="nc">DemoService</span> <span class="p">{</span>
 
-  protected $demo_value;
+  <span class="k">protected</span> <span class="nv">$demo_value</span><span class="p">;</span>
 
-  public function __construct() {
-    $this-&gt;demo_value = 'Upchuk';
-  }
+  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">demo_value</span> <span class="o">=</span> <span class="s1">&#39;Upchuk&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  public function getDemoValue() {
-    return $this-&gt;demo_value;
-  }
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getDemoValue</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">demo_value</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
-?&gt;
-</code></pre>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>可以直接这样访问demo service</p>
-<pre><code class="language-php">$service = \Drupal::service('demo.demo_service');
-</code></pre>
-<h4 id="4service">4、重写默认service</h4>
+<div class="highlight"><pre><span></span><code><span class="x">$service = \Drupal::service(&#39;demo.demo_service&#39;);</span>
+</code></pre></div>
+<h4 id="4service">4、重写默认service<a class="headerlink" href="#4service" title="Permanent link">&para;</a></h4>
 <p>Drupal8允许在自定义的模块中重写已存在的service。如自定义了一个名为demo的模块。</p>
 <p>1)、在demo的src文件中创建一个名为DemoServiceProvider.php文件。</p>
 <p>2)、DemoServiceProvider必须实现<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21DependencyInjection%21ServiceModifierInterface.php/interface/ServiceModifierInterface/8"> \Drupal\Core\DependencyInjection\ServiceModifierInterface</a>.</p>
 <p>3)、这个类必须包含一个方法：alter()。这个方法是告诉Drupal用你的类来替代默认的类。如：</p>
-<pre><code class="language-php">  public function alter(ContainerBuilder $container) {
-    // Override the language_manager class with a new class.
-    $definition = $container-&gt;getDefinition('language_manager');
-    $definition-&gt;setClass('Drupal\my_module\MyLanguageManager');
-  }
-</code></pre>
-<h3 id="diservice">三、通过DI访问service</h3>
+<div class="highlight"><pre><span></span><code><span class="x">  public function alter(ContainerBuilder $container) {</span>
+<span class="x">    // Override the language_manager class with a new class.</span>
+<span class="x">    $definition = $container-&gt;getDefinition(&#39;language_manager&#39;);</span>
+<span class="x">    $definition-&gt;setClass(&#39;Drupal\my_module\MyLanguageManager&#39;);</span>
+<span class="x">  }</span>
+</code></pre></div>
+<h3 id="diservice">三、通过DI访问service<a class="headerlink" href="#diservice" title="Permanent link">&para;</a></h3>
 <p>这块比较重要，单独来讲一下。还是以demo模块为例。</p>
-<h4 id="1demoservicesyml">1、创建demo.services.yml</h4>
-<pre><code class="language-php">services:
-    demo.demo_service:
-        class: Drupal\demo\DemoService
-</code></pre>
-<h4 id="2srcdemoservicephp">2、在src目录下创建DemoService.php</h4>
-<pre><code class="language-php">&lt;?php
+<h4 id="1demoservicesyml">1、创建demo.services.yml<a class="headerlink" href="#1demoservicesyml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="x">services:</span>
+<span class="x">    demo.demo_service:</span>
+<span class="x">        class: Drupal\demo\DemoService</span>
+</code></pre></div>
+<h4 id="2srcdemoservicephp">2、在src目录下创建DemoService.php<a class="headerlink" href="#2srcdemoservicephp" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains Drupal\demo\DemoService.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains Drupal\demo\DemoService.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo;
+<span class="k">namespace</span> <span class="nx">Drupal\demo</span><span class="p">;</span>
 
-class DemoService {
+<span class="k">class</span> <span class="nc">DemoService</span> <span class="p">{</span>
 
-  protected $demo_value;
+  <span class="k">protected</span> <span class="nv">$demo_value</span><span class="p">;</span>
 
-  public function __construct() {
-    $this-&gt;demo_value = 'Upchuk';
-  }
+  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">demo_value</span> <span class="o">=</span> <span class="s1">&#39;Upchuk&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  public function getDemoValue() {
-    return $this-&gt;demo_value;
-  }
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getDemoValue</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">demo_value</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
-?&gt;
-</code></pre>
-<h4 id="3demoroutingyml">3、创建demo.routing.yml</h4>
-<pre><code class="language-php">demo.demo:
-  path: '/demo'
-  defaults:
-    _controller: '\Drupal\demo\Controller\DemoController:demo'
-  requirements:
-    _permission: 'access content'
-</code></pre>
-<h4 id="4srccontrollerdemocontrollerphp">4、在src/Controller目录下创建DemoController.php</h4>
-<pre><code class="language-php">&lt;?php
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h4 id="3demoroutingyml">3、创建demo.routing.yml<a class="headerlink" href="#3demoroutingyml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="x">demo.demo:</span>
+<span class="x">  path: &#39;/demo&#39;</span>
+<span class="x">  defaults:</span>
+<span class="x">    _controller: &#39;\Drupal\demo\Controller\DemoController:demo&#39;</span>
+<span class="x">  requirements:</span>
+<span class="x">    _permission: &#39;access content&#39;</span>
+</code></pre></div>
+<h4 id="4srccontrollerdemocontrollerphp">4、在src/Controller目录下创建DemoController.php<a class="headerlink" href="#4srccontrollerdemocontrollerphp" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\demo\Controller\DemoController.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\Controller\DemoController.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo\Controller;
+<span class="k">namespace</span> <span class="nx">Drupal\demo\Controller</span><span class="p">;</span>
 
-use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Controller\ControllerBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\ContainerInterface</span><span class="p">;</span>
 
-/**
- * DemoController.
- */
-class DemoController extends ControllerBase {
+<span class="sd">/**</span>
+<span class="sd"> * DemoController.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">DemoController</span> <span class="k">extends</span> <span class="nx">ControllerBase</span> <span class="p">{</span>
 
-  protected $demoService;
+  <span class="k">protected</span> <span class="nv">$demoService</span><span class="p">;</span>
 
-  /**
-   * Class constructor.
-   */
-  public function __construct($demoService) {
-    $this-&gt;demoService = $demoService;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Class constructor.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nv">$demoService</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">demoService</span> <span class="o">=</span> <span class="nv">$demoService</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container-&gt;get('demo.demo_service')
-    );
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">create</span><span class="p">(</span><span class="nx">ContainerInterface</span> <span class="nv">$container</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="k">static</span><span class="p">(</span>
+      <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;demo.demo_service&#39;</span><span class="p">)</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * Generates an example page.
-   */
-  public function demo() {
-    return array(
-      '#markup' =&gt; t('Hello @value!', array('@value' =&gt; $this-&gt;demoService-&gt;getDemoValue())),
-    );
-  }
-}
-?&gt;
-</code></pre>
+  <span class="sd">/**</span>
+<span class="sd">   * Generates an example page.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">demo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#markup&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Hello @value!&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;@value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">demoService</span><span class="o">-&gt;</span><span class="na">getDemoValue</span><span class="p">())),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>create()方法创建了一个控制器类的实例，参数为container中获取到的service。这样，DemoService实例就可以存储到$demoService中，我们就可以调用getDemoValue()这个方法了。</p>
-<h4 id="5demohello-upchuk">5、访问/demo的时候屏幕上就会出现Hello Upchuk!</h4>
+<h4 id="5demohello-upchuk">5、访问/demo的时候屏幕上就会出现Hello Upchuk!<a class="headerlink" href="#5demohello-upchuk" title="Permanent link">&para;</a></h4>
 <p>参考文章：
-1、https://docs.acquia.com/articles/drupal-8-dependency-injection
-2、http://katbailey.github.io/2013/05/15/dependency-injection-in-drupal-8/
-3、https://www.drupal.org/node/2133171
-4、http://redcrackle.com/blog/drupal-8/dependency-injection
-5、https://api.drupal.org/api/drupal/core!core.api.php/group/container/8
-6、http://www.sitepoint.com/building-drupal-8-module-configuration-management-service-container/
-7、https://api.drupal.org/api/drupal/core%21core.api.php/group/service_tag/8</p>
+1、<a href="https://docs.acquia.com/articles/drupal-8-dependency-injection">https://docs.acquia.com/articles/drupal-8-dependency-injection</a>
+2、<a href="http://katbailey.github.io/2013/05/15/dependency-injection-in-drupal-8/">http://katbailey.github.io/2013/05/15/dependency-injection-in-drupal-8/</a>
+3、<a href="https://www.drupal.org/node/2133171">https://www.drupal.org/node/2133171</a>
+4、<a href="http://redcrackle.com/blog/drupal-8/dependency-injection">http://redcrackle.com/blog/drupal-8/dependency-injection</a>
+5、<a href="https://api.drupal.org/api/drupal/core!core.api.php/group/container/8">https://api.drupal.org/api/drupal/core!core.api.php/group/container/8</a>
+6、<a href="http://www.sitepoint.com/building-drupal-8-module-configuration-management-service-container/">http://www.sitepoint.com/building-drupal-8-module-configuration-management-service-container/</a>
+7、<a href="https://api.drupal.org/api/drupal/core%21core.api.php/group/service_tag/8">https://api.drupal.org/api/drupal/core%21core.api.php/group/service_tag/8</a></p>
 
               
             </article>

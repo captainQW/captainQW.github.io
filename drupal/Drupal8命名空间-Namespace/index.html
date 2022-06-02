@@ -381,173 +381,176 @@
 
   <h1>"Drupal8命名空间(Namespace)"</h1>
 
-<hr />
 <p>命名空间是php5.3引进的概念，这边文章主要介绍在Drupal中如何使用命名空间，如果你对命名空间还不熟悉，请移步到<a href="http://php.net/manual/zh/language.namespaces.php" title="PHP:命名空间">这里</a>学习，这篇文章<a href="http://www.sitepoint.com/php-53-namespaces-basics/" title="php53:namespace">article introducing namespaces</a>也讲的不错。</p>
 <p>在Drupal中，并不是每一个文件都需要指定命名空间。Drupal8之前为了跟php5.2保持兼容，从未用过命名空间。Drupal8限定了php版本必须是5.5以上，So，让我们尽情的享受OOP的乐趣吧！</p>
-<h3 id="use">用"use"导入类</h3>
+<h3 id="use">用"use"导入类<a class="headerlink" href="#use" title="Permanent link">&para;</a></h3>
 <blockquote>
 <p>在访问系统内部或包含在命名空间中的类名称时，可以不使用完全限定名称。命名空间和use关键字的声明必须放在文件的开头，并且以反斜杠\做为分隔符。如</p>
 </blockquote>
-<pre><code class="language-php">&lt;?php
-namespace Drupal\mymodule\Tests\Foo;
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="k">namespace</span> <span class="nx">Drupal\mymodule\Tests\Foo</span><span class="p">;</span>
 
-use Drupal\simpletest\WebTestBase;
+<span class="k">use</span> <span class="nx">Drupal\simpletest\WebTestBase</span><span class="p">;</span>
 
-/**
- * Tests that the foo bars.
- */
-class BarTest extends WebTestBase {
-    // WebTestBase前不需要加\
-}
-?&gt;
-</code></pre>
+<span class="sd">/**</span>
+<span class="sd"> * Tests that the foo bars.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">BarTest</span> <span class="k">extends</span> <span class="nx">WebTestBase</span> <span class="p">{</span>
+    <span class="c1">// WebTestBase前不需要加\</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <blockquote>
 <p>在访问系统内部或不包含在命名空间中的类名称时，必须使用完全限定名称。如</p>
 </blockquote>
-<pre><code class="language-php">new \Exception();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">new \Exception();</span>
+</code></pre></div>
 <blockquote>
 <p>在一个没有声明命名空间的文件里，就算它是全局命名空间，如果要使用其他非全局命名空间的类，必须使用"use"关键字，并且需要声明在文件的开头哦！</p>
 <p>当用"use"导入类时，不要在开头加\。大PHP官方也是这么推荐的，见<a href="http://www.php.net/manual/en/language.namespaces.importing.php">PHP documentation</a></p>
 <p>当在字符串中指定类名时，必须使用带命名空间的全类名，并且不能以\开头。</p>
 </blockquote>
-<pre><code>如果要在双引号中使用命名空间，必须转义，如：
-</code></pre>
-<pre><code class="language-php">&quot;Drupal\\Content\\ContentInterface&quot;
-</code></pre>
-<pre><code>在单引号中就不需要转义了，如：
-</code></pre>
-<pre><code class="language-php">'Drupal\Context\ContextInterface'
-</code></pre>
-<pre><code>通常情况下，推荐使用单引号的写法！
-</code></pre>
+<div class="codehilite"><pre><span></span><code>如果要在双引号中使用命名空间，必须转义，如：
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="x">&quot;Drupal\\Content\\ContentInterface&quot;</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>在单引号中就不需要转义了，如：
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="x">&#39;Drupal\Context\ContextInterface&#39;</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>通常情况下，推荐使用单引号的写法！
+</code></pre></div>
+
 <blockquote>
 <p>一个"use"只能声明一个类，不建议使用"use"导入多个类.如这种写法就是不推荐的</p>
 </blockquote>
-<pre><code class="language-php">use My\Full\Classname, My\Full\NSname;
-</code></pre>
-<pre><code>而这种写法是推荐的
-</code></pre>
-<pre><code class="language-php">use My\Full\Classname;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">use My\Full\Classname, My\Full\NSname;</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>而这种写法是推荐的
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="x">use My\Full\Classname;</span>
+</code></pre></div>
 <blockquote>
 <p>在.api.php这种API文件中必须使用类的全名，这样别人要想hook你的类，他们就可以"use"导入了。如</p>
 </blockquote>
 <p>定义Drupal\Subsystem\Foo</p>
-<pre><code class="language-php">&lt;?php
-/**
- * @file
- * Contains \Drupal\Subsystem\Foo.
- */
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\Subsystem\Foo.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\Subsystem;
+<span class="k">namespace</span> <span class="nx">Drupal\Subsystem</span><span class="p">;</span>
 
-// This imports just the Cat class from the Drupal\Othersystem namespace.
-use Drupal\Othersystem\Cat;
+<span class="c1">// This imports just the Cat class from the Drupal\Othersystem namespace.</span>
+<span class="k">use</span> <span class="nx">Drupal\Othersystem\Cat</span><span class="p">;</span>
 
-// Bar is a class in the Drupal\Subsystem namespace in another file.
-// It is already available without any importing.
+<span class="c1">// Bar is a class in the Drupal\Subsystem namespace in another file.</span>
+<span class="c1">// It is already available without any importing.</span>
 
-/**
- * Defines a Foo.
- */
-class Foo {
+<span class="sd">/**</span>
+<span class="sd"> * Defines a Foo.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
 
-  /**
-   * Constructs a new Foo object.
-   */
-  public function __construct(Bar $b, Cat $c) {
-    // Global classes must be prefixed with a \ character.
-    $d = new \DateTime();
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Constructs a new Foo object.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nx">Bar</span> <span class="nv">$b</span><span class="p">,</span> <span class="nx">Cat</span> <span class="nv">$c</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Global classes must be prefixed with a \ character.</span>
+    <span class="nv">$d</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DateTime</span><span class="p">();</span>
+  <span class="p">}</span>
 
-}
-?&gt;
-</code></pre>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>hook Drupal\Subsystem\Foo</p>
-<pre><code class="language-php">&lt;?php
-/**
- * @file
- * The Example module.
- *
- * This file is not part of any namespace, so all global namespaced classes
- *  are automatically available.
- */
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * The Example module.</span>
+<span class="sd"> *</span>
+<span class="sd"> * This file is not part of any namespace, so all global namespaced classes</span>
+<span class="sd"> *  are automatically available.</span>
+<span class="sd"> */</span>
 
-use Drupal\Subsystem\Foo;
+<span class="k">use</span> <span class="nx">Drupal\Subsystem\Foo</span><span class="p">;</span>
 
-/**
- * Does stuff with Foo stuff.
- *
- * @param \Drupal\Subsystem\Foo $f
- *   A Foo object used to bar the baz.
- */
-function do_stuff(Foo $f) {
-  // The DateTime class does not need to be imported as it is already global
-  $d = new DateTime();
-}
-?&gt;
-</code></pre>
-<h3 id="_1">类的别名</h3>
+<span class="sd">/**</span>
+<span class="sd"> * Does stuff with Foo stuff.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @param \Drupal\Subsystem\Foo $f</span>
+<span class="sd"> *   A Foo object used to bar the baz.</span>
+<span class="sd"> */</span>
+<span class="k">function</span> <span class="nf">do_stuff</span><span class="p">(</span><span class="nx">Foo</span> <span class="nv">$f</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// The DateTime class does not need to be imported as it is already global</span>
+  <span class="nv">$d</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DateTime</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h3 id="_1">类的别名<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
 <p>php允许导入类的时候使用别名，这样可以避免可恶的重名！一旦两个类重名了，可以将各自命名空间里的上一级的名字拿出来作为相应的前缀。</p>
 <p>如：</p>
-<pre><code class="language-php">&lt;?php
-use Foo\Bar\Baz as BarBaz;
-use Stuff\Thing\Baz as ThingBaz;
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="k">use</span> <span class="nx">Foo\Bar\Baz</span> <span class="k">as</span> <span class="nx">BarBaz</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Stuff\Thing\Baz</span> <span class="k">as</span> <span class="nx">ThingBaz</span><span class="p">;</span>
 
-/**
- * Tests stuff for the whichever.
- */
-function test() {
-  $a = new BarBaz(); // This will be Foo\Bar\Baz
-  $b = new ThingBaz(); // This will be Stuff\Thing\Baz
-}
-?&gt;
-</code></pre>
-<h3 id="_2">导入的顺序</h3>
+<span class="sd">/**</span>
+<span class="sd"> * Tests stuff for the whichever.</span>
+<span class="sd"> */</span>
+<span class="k">function</span> <span class="nf">test</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nv">$a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BarBaz</span><span class="p">();</span> <span class="c1">// This will be Foo\Bar\Baz</span>
+  <span class="nv">$b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ThingBaz</span><span class="p">();</span> <span class="c1">// This will be Stuff\Thing\Baz</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h3 id="_2">导入的顺序<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>如果要导入多个类，Drupal8并没有限制导入的顺序。如：</p>
-<pre><code class="language-php">&lt;?php
-namespace Drupal\block;
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="k">namespace</span> <span class="nx">Drupal\block</span><span class="p">;</span>
 
-use Drupal\Core\Entity\EntityForm;
-use Drupal\Core\Entity\EntityManagerInterface;
-use Drupal\Core\Form\FormState;
-use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-?&gt;
-</code></pre>
-<h3 id="_3">模块</h3>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityForm</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityManagerInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormState</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\ContainerInterface</span><span class="p">;</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h3 id="_3">模块<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>模块中的类必须申明为特定的命名空间，如模块名为example_module。</p>
-<pre><code class="language-php">namespace Drupal\example_module
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">namespace Drupal\example_module</span>
+</code></pre></div>
 <p>要在Drupal8中自动加载(autoload)，还要这些类归置到指定的文件夹下，一般约定在</p>
-<pre><code class="language-php">modules/example_module/src
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">modules/example_module/src</span>
+</code></pre></div>
 <p>举个简单的例子，如：</p>
 <blockquote>
 <p>NO.1</p>
 </blockquote>
-<pre><code class="language-php">// 声明命名空间
-namespace Drupal\example_module
+<div class="highlight"><pre><span></span><code><span class="x">// 声明命名空间</span>
+<span class="x">namespace Drupal\example_module</span>
 
-// 创建类
-class Foo {}
-</code></pre>
+<span class="x">// 创建类</span>
+<span class="x">class Foo {}</span>
+</code></pre></div>
 <p>这个对应的文件就是example_module/src/Foo.php。</p>
 <blockquote>
-<p>NO.2</p>
-</blockquote>
-<pre><code class="language-php">// 声明命名空间
-namespace Drupal\example_module\Foo
+<p>NO.2
+<div class="highlight"><pre><span></span><code><span class="x">// 声明命名空间</span>
+<span class="x">namespace Drupal\example_module\Foo</span>
 
-// 创建类
-class Bar {}
-</code></pre>
+<span class="x">// 创建类</span>
+<span class="x">class Bar {}</span>
+</code></pre></div></p>
+</blockquote>
 <p>这个对应的文件就是example_module/src/Foo/Bar.php。</p>
 <p>以上，就是对Drupal8的命名空间做简单的梳理和介绍。欢迎拍砖交流！</p>
 <p>参考文章：
-1、https://www.drupal.org/node/1353118
-2、https://www.drupal.org/node/2156625</p>
+1、<a href="https://www.drupal.org/node/1353118">https://www.drupal.org/node/1353118</a>
+2、<a href="https://www.drupal.org/node/2156625">https://www.drupal.org/node/2156625</a></p>
 
               
             </article>

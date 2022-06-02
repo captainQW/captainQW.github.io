@@ -381,21 +381,20 @@
 
 
 
-<hr />
-<h1 id="css">CSS格式</h1>
-<h2 id="_1">空白</h2>
+<h1 id="css">CSS格式<a class="headerlink" href="#css" title="Permanent link">&para;</a></h1>
+<h2 id="_1">空白<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>缩进</p>
 </blockquote>
 <p>不要使用tab键进行缩进，采用2个空格进行缩进。</p>
-<pre><code class="language-css">@media print {
-  /* This line is indented with 2 spaces, 2 spaces x 1 level of indentation. */
-  .example {
-    /* This line is indented with 4 spaces, 2 spaces x 2 levels of indentation. */
-    padding: 0;
-  }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">@</span><span class="k">media</span><span class="w"> </span><span class="nt">print</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* This line is indented with 2 spaces, 2 spaces x 1 level of indentation. */</span><span class="w"></span>
+<span class="w">  </span><span class="p">.</span><span class="nc">example</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c">/* This line is indented with 4 spaces, 2 spaces x 2 levels of indentation. */</span><span class="w"></span>
+<span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <blockquote>
 <p>空白行</p>
 </blockquote>
@@ -404,92 +403,92 @@
 <li>如果规则块之前有单行或者块级注释，那么需要在注释之前空白行</li>
 <li>如果两个规则块之间没有空白行，那么必然具有逻辑关系。如果没有的话，需要添加空白行。</li>
 </ul>
-<pre><code class="language-css">/* A comment describing the ruleset. */
-.selector-1,
-.selector-2,
-.selector-3[type=&quot;text&quot;] {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-  display: block;
-  margin: 0;
-  font-family: Times, &quot;Times New Roman&quot;, sans-serif;
-  color: #333;
-  background: #fff;
-  background: linear-gradient(#fff, rgba(0, 0, 0, 0.8));
-}
+<div class="highlight"><pre><span></span><code><span class="c">/* A comment describing the ruleset. */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">selector-1</span><span class="o">,</span><span class="w"></span>
+<span class="p">.</span><span class="nc">selector-2</span><span class="o">,</span><span class="w"></span>
+<span class="p">.</span><span class="nc">selector-3</span><span class="o">[</span><span class="nt">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="o">]</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kp">-webkit-</span><span class="k">box-sizing</span><span class="p">:</span><span class="w"> </span><span class="kc">border-box</span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="kp">-moz-</span><span class="k">box-sizing</span><span class="p">:</span><span class="w"> </span><span class="kc">border-box</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="k">box-sizing</span><span class="p">:</span><span class="w"> </span><span class="kc">border-box</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">block</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="n">Times</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Times New Roman&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">sans-serif</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#333</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nb">linear-gradient</span><span class="p">(</span><span class="mh">#fff</span><span class="p">,</span><span class="w"> </span><span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-/**
- * A longer comment describing this ruleset. Note
- * the blank line before the docblock.
- */
-.selector-4,
-.selector-5 {
-  background-color: lime;
-}
+<span class="c">/**</span>
+<span class="c"> * A longer comment describing this ruleset. Note</span>
+<span class="c"> * the blank line before the docblock.</span>
+<span class="c"> */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">selector-4</span><span class="o">,</span><span class="w"></span>
+<span class="p">.</span><span class="nc">selector-5</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="kc">lime</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-/* This logical grouping of rulesets has no interleaving blank lines. */
-.profile {
-  margin: 16px 0;
-  margin: 1rem 0;
-}
-.profile__picture {
-  float: right; /* LTR */
-}
-</code></pre>
+<span class="c">/* This logical grouping of rulesets has no interleaving blank lines. */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">profile</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="p">.</span><span class="nc">profile__picture</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">float</span><span class="p">:</span><span class="w"> </span><span class="kc">right</span><span class="p">;</span><span class="w"> </span><span class="c">/* LTR */</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <blockquote>
 <p>行尾</p>
 </blockquote>
 <p>行尾绝不能有任何空白(空白或者tab)。所有的文件应该以单个空白行结尾。</p>
 <p>文件应该以Unix行尾格式结尾(<code>\n</code>或者<code>LF</code>)，同时也是MAC OS X的默认方式，不要使用windows的行尾格式(<code>\r\n</code>或者<code>CRLF</code>)</p>
 <p>小提示：文本编辑启用<code>show invisibles</code>。</p>
-<h2 id="_2">注释</h2>
+<h2 id="_2">注释<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>文件注释</p>
 </blockquote>
 <p>每一个文件应该以注释开头，注释中写明文件的用途。例如：</p>
-<pre><code class="language-css">/**
- * @file
- * Short description describing the file.
- *
- * The first sentence of the long description starts here and continues on this
- * line for a while finally concluding here at the end of this paragraph.
- */
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c">/**</span>
+<span class="c"> * @file</span>
+<span class="c"> * Short description describing the file.</span>
+<span class="c"> *</span>
+<span class="c"> * The first sentence of the long description starts here and continues on this</span>
+<span class="c"> * line for a while finally concluding here at the end of this paragraph.</span>
+<span class="c"> */</span><span class="w"></span>
+</code></pre></div>
 <blockquote>
 <p>多行注释</p>
 </blockquote>
 <p>当用于描述一个或者一组规则集的时候，注释应该遵循Doxygen注释风格(也被称作"docblock")</p>
-<pre><code class="language-css">/**
- * Short description using Doxygen-style comment format.
- *
- * The first sentence of the long description starts here and continues on this
- * line for a while finally concluding here at the end of this paragraph.
- *
- * The long description is ideal for more detailed explanations and
- * documentation. It can include example HTML, URLs, or any other information
- * that is deemed necessary or useful.
- */
-.example-rule {
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c">/**</span>
+<span class="c"> * Short description using Doxygen-style comment format.</span>
+<span class="c"> *</span>
+<span class="c"> * The first sentence of the long description starts here and continues on this</span>
+<span class="c"> * line for a while finally concluding here at the end of this paragraph.</span>
+<span class="c"> *</span>
+<span class="c"> * The long description is ideal for more detailed explanations and</span>
+<span class="c"> * documentation. It can include example HTML, URLs, or any other information</span>
+<span class="c"> * that is deemed necessary or useful.</span>
+<span class="c"> */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">example-rule</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <blockquote>
 <p>单行注释</p>
 </blockquote>
 <p>当用于描述一个属性或者一个规则集的时候，注释应该控制在80个字符并遵循简单CSS注释风格。</p>
-<pre><code class="language-css">.example {
-  /* Override the default margins. */
-  margin: 0;
-}
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">example</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* Override the default margins. */</span><span class="w"></span>
+<span class="w">  </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-/* This is a variant of the .example component. */
-.example--item {
-  display: inline;
-}
-</code></pre>
+<span class="c">/* This is a variant of the .example component. */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">example--item</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">inline</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <p>将注释直接放在属性或者它的规则集前面，并保持与它所属的属性或者规则集相同的缩进。</p>
 <p>如果注释用于描述一个规则集，记得在规则集前面添加一空白行。</p>
-<h2 id="_3">格式</h2>
+<h2 id="_3">格式<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>CSS格式规范确保代码的可读性，注释的清晰性，最大化减少意外错误的情况。</p>
 <blockquote>
 <p>规则集</p>
@@ -500,12 +499,12 @@
 <li>结束大括号<code>}</code>保持与规则集中选择器的第一个字符保同一列。</li>
 <li>每一行样式规则都应该相对于它的选择器进行缩进。</li>
 </ul>
-<pre><code class="language-css">.selector-alpha,
-.selector-beta {
-  counter-reset: section;
-  text-transform: small-caps;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">selector-alpha</span><span class="o">,</span><span class="w"></span>
+<span class="p">.</span><span class="nc">selector-beta</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">counter-reset</span><span class="p">:</span><span class="w"> </span><span class="n">section</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">text-transform</span><span class="p">:</span><span class="w"> </span><span class="kc">small-caps</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <blockquote>
 <p>属性</p>
 </blockquote>
@@ -521,32 +520,32 @@
 <li>每一个<code>,</code>后面跟一个空格。</li>
 <li>括号两边不要加空格，例如：<code>color: rgba(0, 0, 0, 0.8);</code>。</li>
 </ul>
-<pre><code class="language-css">/*  Basic syntax */
-display: block;
+<div class="highlight"><pre><span></span><code><span class="c">/*  Basic syntax */</span><span class="w"></span>
+<span class="nt">display</span><span class="o">:</span><span class="w"> </span><span class="nt">block</span><span class="o">;</span><span class="w"></span>
 
-/* 
- * Use shorthand syntax for hexadecimal colors when possible
- * Always use lowercase
- */
-color: #fff;
-color: #df7dcf;
+<span class="c">/* </span>
+<span class="c"> * Use shorthand syntax for hexadecimal colors when possible</span>
+<span class="c"> * Always use lowercase</span>
+<span class="c"> */</span><span class="w"></span>
+<span class="nt">color</span><span class="o">:</span><span class="w"> </span><span class="p">#</span><span class="nn">fff</span><span class="o">;</span><span class="w"></span>
+<span class="nt">color</span><span class="o">:</span><span class="w"> </span><span class="p">#</span><span class="nn">df7dcf</span><span class="o">;</span><span class="w"></span>
 
-/* Use double quotes instead of single quotes */
-font-family: &quot;Frutiger Ultra&quot;;
+<span class="c">/* Use double quotes instead of single quotes */</span><span class="w"></span>
+<span class="nt">font-family</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Frutiger Ultra&quot;</span><span class="o">;</span><span class="w"></span>
 
-/* Do not attach units to zero-values */
-text-shadow: 0 0 2px #ddd;
+<span class="c">/* Do not attach units to zero-values */</span><span class="w"></span>
+<span class="nt">text-shadow</span><span class="o">:</span><span class="w"> </span><span class="nt">0</span><span class="w"> </span><span class="nt">0</span><span class="w"> </span><span class="nt">2px</span><span class="w"> </span><span class="p">#</span><span class="nn">ddd</span><span class="o">;</span><span class="w"></span>
 
-/* 
- * Use rem units preceded by px units for a safe fallback,
- * unless it creates an undesired effect.
- */
-font-size: 24px;
-font-size: 1.5rem;
+<span class="c">/* </span>
+<span class="c"> * Use rem units preceded by px units for a safe fallback,</span>
+<span class="c"> * unless it creates an undesired effect.</span>
+<span class="c"> */</span><span class="w"></span>
+<span class="nt">font-size</span><span class="o">:</span><span class="w"> </span><span class="nt">24px</span><span class="o">;</span><span class="w"></span>
+<span class="nt">font-size</span><span class="o">:</span><span class="w"> </span><span class="nt">1</span><span class="p">.</span><span class="nc">5rem</span><span class="o">;</span><span class="w"></span>
 
-/* Spaces MUST follow commas in property or function values */
-color: rgba(0, 136, 18, 0.8)
-</code></pre>
+<span class="c">/* Spaces MUST follow commas in property or function values */</span><span class="w"></span>
+<span class="nt">color</span><span class="o">:</span><span class="w"> </span><span class="nt">rgba</span><span class="o">(</span><span class="nt">0</span><span class="o">,</span><span class="w"> </span><span class="nt">136</span><span class="o">,</span><span class="w"> </span><span class="nt">18</span><span class="o">,</span><span class="w"> </span><span class="nt">0</span><span class="p">.</span><span class="nc">8</span><span class="o">)</span><span class="w"></span>
+</code></pre></div>
 <blockquote>
 <p>属性声明顺序</p>
 </blockquote>
@@ -555,44 +554,44 @@ color: rgba(0, 136, 18, 0.8)
 <li>Box model：display, [(max|min)-]height, [(max|min)-]width, margin, padding, border 以及它们对应的可变样式规则(例如：margin-top等.)，以及box-sizing</li>
 <li>其它</li>
 </ol>
-<pre><code class="language-css">.selector {
-  /* Positioning declarations */
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  /* Box model declarations */
-  display: inline-block;
-  width: 100%;
-  padding: 10px;
-  padding: 0.625rem;
-  border: 1px solid #333;
-  /* Other declarations */
-  background: #000;
-  color: #fff;
-  font-family: sans-serif;
-  font-size: 18px;
-  font-size: 1.125rem;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">selector</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* Positioning declarations */</span><span class="w"></span>
+<span class="w">  </span><span class="k">position</span><span class="p">:</span><span class="w"> </span><span class="kc">absolute</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">top</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">left</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">z-index</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* Box model declarations */</span><span class="w"></span>
+<span class="w">  </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">inline-block</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.625</span><span class="kt">rem</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#333</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* Other declarations */</span><span class="w"></span>
+<span class="w">  </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#000</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="kc">sans-serif</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="kt">px</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mf">1.125</span><span class="kt">rem</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <blockquote>
 <p>特例</p>
 </blockquote>
 <p>单行样式规则块，起始大括号的后面以及结束大括号的后面包含一个空格。</p>
-<pre><code class="language-css">.selector-1 { width: 10%; }
-.selector-2 { width: 20%; }
-.selector-3 { width: 30%; }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">selector-1</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="p">.</span><span class="nc">selector-2</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="p">.</span><span class="nc">selector-3</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <p>很长的，逗号相隔的属性值例如，<code>gradients</code>或者<code>shadows</code>，可能占据多行。</p>
-<pre><code class="language-css">.selector {
-  background-image:
-    linear-gradient(#fff, #ccc),
-    linear-gradient(#f3c, #4ec);
-  box-shadow:
-    1px 1px 1px #000,
-    2px 2px 1px 1px #ccc inset;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">selector</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">background-image</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nb">linear-gradient</span><span class="p">(</span><span class="mh">#fff</span><span class="p">,</span><span class="w"> </span><span class="mh">#ccc</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="nb">linear-gradient</span><span class="p">(</span><span class="mh">#f3c</span><span class="p">,</span><span class="w"> </span><span class="mh">#4ec</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">box-shadow</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="mh">#000</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="mh">#ccc</span><span class="w"> </span><span class="kc">inset</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <blockquote>
 <p>Media Queries</p>
 </blockquote>
@@ -602,16 +601,16 @@ color: rgba(0, 136, 18, 0.8)
 <li>所有的值以rem为单位。</li>
 <li>px值直接加在起始大括号之后。</li>
 </ul>
-<pre><code class="language-css">@media screen and (min-width: 28.125rem) { /* 450px */
-  #page {
-    margin-left: 20px;
-    margin-left: 1.25rem;
-    margin-right: 20px;
-    margin-right: 1.25rem;
-  }
-}
-</code></pre>
-<h2 id="_4">杂项</h2>
+<div class="highlight"><pre><span></span><code><span class="p">@</span><span class="k">media</span><span class="w"> </span><span class="nt">screen</span><span class="w"> </span><span class="nt">and</span><span class="w"> </span><span class="o">(</span><span class="nt">min-width</span><span class="o">:</span><span class="w"> </span><span class="nt">28</span><span class="p">.</span><span class="nc">125rem</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c">/* 450px */</span><span class="w"></span>
+<span class="w">  </span><span class="p">#</span><span class="nn">page</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">margin-left</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">margin-left</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="kt">rem</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">margin-right</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">margin-right</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="kt">rem</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="_4">杂项<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>@charset语句</p>
 </blockquote>
@@ -619,83 +618,83 @@ color: rgba(0, 136, 18, 0.8)
 <blockquote>
 <p>综合例子：</p>
 </blockquote>
-<pre><code class="language-css">/**
- * @file
- * Layouts for this theme.
- */
+<div class="highlight"><pre><span></span><code><span class="c">/**</span>
+<span class="c"> * @file</span>
+<span class="c"> * Layouts for this theme.</span>
+<span class="c"> */</span><span class="w"></span>
 
-/**
- * Column layout with horizontal scroll.
- *
- * This creates a single row of full-height, non-wrapping columns that can be
- * browsed horizontally within their parent.
- *
- * Example HTML:
- *
- * &lt;div class=&quot;grid&quot;&gt;
- *   &lt;div class=&quot;cell cell-3&quot;&gt;&lt;/div&gt;
- *   &lt;div class=&quot;cell cell-3&quot;&gt;&lt;/div&gt;
- *   &lt;div class=&quot;cell cell-3&quot;&gt;&lt;/div&gt;
- * &lt;/div&gt;
- */
+<span class="c">/**</span>
+<span class="c"> * Column layout with horizontal scroll.</span>
+<span class="c"> *</span>
+<span class="c"> * This creates a single row of full-height, non-wrapping columns that can be</span>
+<span class="c"> * browsed horizontally within their parent.</span>
+<span class="c"> *</span>
+<span class="c"> * Example HTML:</span>
+<span class="c"> *</span>
+<span class="c"> * &lt;div class=&quot;grid&quot;&gt;</span>
+<span class="c"> *   &lt;div class=&quot;cell cell-3&quot;&gt;&lt;/div&gt;</span>
+<span class="c"> *   &lt;div class=&quot;cell cell-3&quot;&gt;&lt;/div&gt;</span>
+<span class="c"> *   &lt;div class=&quot;cell cell-3&quot;&gt;&lt;/div&gt;</span>
+<span class="c"> * &lt;/div&gt;</span>
+<span class="c"> */</span><span class="w"></span>
 
-/**
- * Grid container
- *
- * Must only contain '.cell' children.
- */
-.grid {
-  height: 100%;
-  /* Remove inter-cell whitespace */
-  font-size: 0;
-  /* Prevent inline-block cells wrapping */
-  white-space: nowrap;
-}
+<span class="c">/**</span>
+<span class="c"> * Grid container</span>
+<span class="c"> *</span>
+<span class="c"> * Must only contain &#39;.cell&#39; children.</span>
+<span class="c"> */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">grid</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* Remove inter-cell whitespace */</span><span class="w"></span>
+<span class="w">  </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* Prevent inline-block cells wrapping */</span><span class="w"></span>
+<span class="w">  </span><span class="k">white-space</span><span class="p">:</span><span class="w"> </span><span class="kc">nowrap</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-/**
- * Grid cells
- *
- * No explicit width by default. Extend with '.cell-n' classes.
- */
-.cell {
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  box-sizing: border-box;
-  height: 100%;
-  /* Set the inter-cell spacing */
-  padding: 0 10px;
-  padding: 0.625rem;
-  border: 2px solid #333;
-  vertical-align: top;
-  /* Reset white-space */
-  white-space: normal;
-  /* Reset font-size */
-  font-size: 16px;
-  font-size: 1rem;
-}
+<span class="c">/**</span>
+<span class="c"> * Grid cells</span>
+<span class="c"> *</span>
+<span class="c"> * No explicit width by default. Extend with &#39;.cell-n&#39; classes.</span>
+<span class="c"> */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">cell</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">position</span><span class="p">:</span><span class="w"> </span><span class="kc">relative</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">inline-block</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">overflow</span><span class="p">:</span><span class="w"> </span><span class="kc">hidden</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">box-sizing</span><span class="p">:</span><span class="w"> </span><span class="kc">border-box</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* Set the inter-cell spacing */</span><span class="w"></span>
+<span class="w">  </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mf">0.625</span><span class="kt">rem</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#333</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">vertical-align</span><span class="p">:</span><span class="w"> </span><span class="kc">top</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* Reset white-space */</span><span class="w"></span>
+<span class="w">  </span><span class="k">white-space</span><span class="p">:</span><span class="w"> </span><span class="kc">normal</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* Reset font-size */</span><span class="w"></span>
+<span class="w">  </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-/* Cell states */
-.cell.is-animating {
-  background-color: #fffdec;
-}
+<span class="c">/* Cell states */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">cell</span><span class="p">.</span><span class="nc">is-animating</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fffdec</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-/* Cell dimensions */
-.cell-1 { width: 10%; }
-.cell-2 { width: 20%; }
-.cell-3 { width: 30%; }
-.cell-4 { width: 40%; }
-.cell-5 { width: 50%; }
+<span class="c">/* Cell dimensions */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">cell-1</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="p">.</span><span class="nc">cell-2</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="p">.</span><span class="nc">cell-3</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="p">.</span><span class="nc">cell-4</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="p">.</span><span class="nc">cell-5</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 
-/* Cell modifiers */
-.cell--detail,
-.cell--important {
-  border-width: 4px;
-}
-</code></pre>
+<span class="c">/* Cell modifiers */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">cell--detail</span><span class="o">,</span><span class="w"></span>
+<span class="p">.</span><span class="nc">cell--important</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">border-width</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <hr />
-<h1 id="css_1">CSS架构</h1>
-<h2 id="_5">目标</h2>
+<h1 id="css_1">CSS架构<a class="headerlink" href="#css_1" title="Permanent link">&para;</a></h1>
+<h2 id="_5">目标<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>可预期性</p>
 </blockquote>
@@ -711,7 +710,7 @@ color: rgba(0, 136, 18, 0.8)
 <blockquote>
 <p>可扩展</p>
 </blockquote>
-<h2 id="_6">最佳实践</h2>
+<h2 id="_6">最佳实践<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>避免依赖HTML结构</p>
 </blockquote>
@@ -721,16 +720,16 @@ color: rgba(0, 136, 18, 0.8)
 <li>保证选择器足够短。最优的选择器就是一个class或者一个元素</li>
 <li>有时候multi-part选择器很实用。例如：</li>
 </ul>
-<pre><code class="language-css">/**
-  * Add a horizontal rule between adjacent list rows
-  *
-  * Could be part of an implementation of the Pears “slats” component:
-  * http://pea.rs/content/slats-html5 
-  */
-.slat + .slat {
-  border-top: 1px solid #cccccc;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c">/**</span>
+<span class="c">  * Add a horizontal rule between adjacent list rows</span>
+<span class="c">  *</span>
+<span class="c">  * Could be part of an implementation of the Pears “slats” component:</span>
+<span class="c">  * http://pea.rs/content/slats-html5 </span>
+<span class="c">  */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">slat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">.</span><span class="nc">slat</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">border-top</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#cccccc</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <p>然而，需要注意的是：</p>
 <ol>
 <li>在multi-part选择器中尽量避免原生标记，例如：<code>div</code>, <code>span</code></li>
@@ -742,31 +741,31 @@ color: rgba(0, 136, 18, 0.8)
 <p>使用组件自己的class命名组件元素</p>
 </blockquote>
 <p>为了避免依赖html标签结构，更加明确地定义一个组件元素，可以给组件加上以<code>_</code>相连的组件名。</p>
-<pre><code class="language-css">.component {}
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">component</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
 
-/* Component elements */
-.component__header {}
-.component__body {}
-</code></pre>
+<span class="c">/* Component elements */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">component__header</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="p">.</span><span class="nc">component__body</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+</code></pre></div>
 <blockquote>
 <p>使用修饰class扩展组件</p>
 </blockquote>
 <p>例如：</p>
 <p>CSS</p>
-<pre><code class="language-css">/* 按钮组件 */
-.button {
-  /* styles */
-}
+<div class="highlight"><pre><span></span><code><span class="c">/* 按钮组件 */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">button</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* styles */</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-/* 按钮修饰类 */
-.button--primary {
-  /* modifications and additions */
-}
-</code></pre>
+<span class="c">/* 按钮修饰类 */</span><span class="w"></span>
+<span class="p">.</span><span class="nc">button--primary</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c">/* modifications and additions */</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 <p>HTML</p>
-<pre><code class="language-html">&lt;!-- Button variant is created by applying both component and modifier classes --&gt;
-&lt;button class=&quot;button button--primary&quot;&gt;Save&lt;/button&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Button variant is created by applying both component and modifier classes --&gt;</span>
+<span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;button button--primary&quot;</span><span class="p">&gt;</span>Save<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre></div>
 <blockquote>
 <p>分离出相关的css</p>
 </blockquote>

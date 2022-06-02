@@ -456,8 +456,7 @@
 
   <h1>"Drupal8相对Drupal7的变化"</h1>
 
-<hr />
-<h3 id="1">1、概述</h3>
+<h3 id="1">1、概述<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <p>Drupal 8已经正式发布，与Drupal 7相比，Drupal 8在实现机制上发生了根本性的改变。最本质的改变，应该就是从主要以面向过程的编码方式转为了主要以面向对象的编码方式。虽然Drupal 8仍然保留了部分面向过程的文件，比如.module文件，但是可以预见，在Drupal 9中，这些面向过程的代码将被全部移除，所以在使用Drupal 8做开发的时候，应该尽量避免引用面向过程的代码，以免从Drupal 8升级到Drupal 9的过程中增加不必要的麻烦。</p>
 <p>本文将从模块开发的角度（而非其他角度，比如网站编辑、性能优劣等）讨论Drupal 8 与Drupal 7的不同之处，通过对Drupal 8的研究，我将Drupal 8模块开发与Drupal 7的不同点概括为以下几点：</p>
 <ol>
@@ -470,9 +469,9 @@
 <li>Drupal 8中的新增机制。</li>
 </ol>
 <p>下面将详细论述这些不同点。</p>
-<h3 id="2">2、目录结构</h3>
+<h3 id="2">2、目录结构<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
 <p>Drupal 7的目录结构为：</p>
-<pre><code>|-includes
+<div class="highlight"><pre><span></span><code>|-includes
 |-misc
 |-modules
 |-scripts
@@ -482,9 +481,9 @@
 |  |  |-themes
 |  |-default
 |-themes
-</code></pre>
+</code></pre></div>
 <p>Drupal 8的目录结构为：</p>
-<pre><code>|-core
+<div class="highlight"><pre><span></span><code>|-core
 |  |-assets
 |  |-config
 |  |-includes
@@ -499,99 +498,99 @@
 |  |-default
 |-themes
 |-vendor
-</code></pre>
+</code></pre></div>
 <p>可以看出，Drupal 8与Drupal 7的目录结构大不相同，在Drupal7中核心的代码都直接放在根目录下，比如includes等，核心模块放在根目录下的modules目录下，核心主题放在根目录下的themes目录下。用户自定义或者第三方的模块放在sites\all\modules、主题放在sites\all\themes目录下。</p>
 <p>而在Drupal 8里面，核心的东西都被移到根目录下的core目录下，原来用来放核心模块和主题的modules、themes目录分别用来放用户自定义的模块和主题。按照约定俗称的规则，一般在modules目录下新建contrib和custom目录，分别用来放贡献和自定义模块。</p>
-<h3 id="2_1">2、配置文件</h3>
+<h3 id="2_1">2、配置文件<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
 <p>在Drupal模块开发中，很多功能的实现都要靠配置文件来实现，比如模块的基本信息在Drupal 7中就必须配置在*.info文件中。在Drupal 8中，配置文件的使用得到了进一步的扩充，可以说，Drupal 8的几乎所有功能都离不开配置文件。</p>
 <p>但是同时配置文件的格式也与Drupal 7有所不同。Drupal 7中的配置文件主要是.info文件，.info文件采用使用等号隔开的键值对的形式配置信息，例如模块信息的配置文件demo.info：</p>
-<pre><code>core            = &quot;7.x&quot;
+<div class="highlight"><pre><span></span><code>core            = &quot;7.x&quot;
 description     = &quot;Demo Module&quot;
 dependencies[] = system 
 name            = &quot;demo&quot;
 package         = &quot;demo&quot;
 version = &quot;7.x-1.0&quot;
-</code></pre>
+</code></pre></div>
 <p>Drupal 8中配置文件广泛使用yaml格式的文件，例如模块信息的配置文件demo.info.yml:</p>
-<pre><code>name: demo
+<div class="highlight"><pre><span></span><code>name: demo
 type: module
 description: &quot;demo module&quot;
 package: demo
 core: 8.x
 dependencies:
   - rest
-</code></pre>
+</code></pre></div>
 <p>对比Drupal 7和Drupal 8的配置文件，不难看出，里面的内容基本一致，所不同的只是文件格式的不同。需要注意的是Drupal 8的配置文件后缀名都是.yml，表明这是一个yaml文件。Drupal 8的模块配置信息比Drupal 7的多一项type: module，这是因为Drupal 8的主题也是用同样格式的配置文件，为了区分这是一个主题还是模块，该项是必须的。</p>
 <p>Drupal 8 不仅需要模块信息配置文件，还需要各种其他的配置文件，比如后面将要讲到的路由配置文件*.routing.yml、服务配置文件*.services.yml等。</p>
-<h3 id="3">3、路由方式</h3>
+<h3 id="3">3、路由方式<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
 <p>Drupal 7和Drupal 8的路由也存在很大的区别。Drupal 7 使用Hook的方式，而Drupal 8使用Symfony框架的路由配置文件的方式。本文只讨论Drupal 8和Drupal 7 的不同之处，更深入的介绍请参考<a href="http://verynull.com/2015/12/23/Drupal8-routing/" title="Drupal8路由">http://verynull.com/2015/12/23/Drupal8-routing/</a>和<a href="http://verynull.com/2015/12/23/Drupal8-Controller/" title="Drupal8控制器">http://verynull.com/2015/12/23/Drupal8-Controller/</a></p>
 <p>Drupal 7需要在module_name.module中实现hook_menu钩子来将某个url和请求处理方法关联起来，示例代码如下：</p>
-<pre><code class="language-php">function demo_menu() {
-  $items = array();
+<div class="highlight"><pre><span></span><code><span class="x">function demo_menu() {</span>
+<span class="x">  $items = array();</span>
 
-  $items['demo'] = array(
-    'title' =&gt; '示例',
-    'page callback' =&gt; 'theme',
-    'page arguments' =&gt; array('demo'),
-    'access callback' =&gt; 'user_is_logged_in',
-    'type' =&gt; MENU_CALLBACK
-  );
-  return $items;
-}
-</code></pre>
+<span class="x">  $items[&#39;demo&#39;] = array(</span>
+<span class="x">    &#39;title&#39; =&gt; &#39;示例&#39;,</span>
+<span class="x">    &#39;page callback&#39; =&gt; &#39;theme&#39;,</span>
+<span class="x">    &#39;page arguments&#39; =&gt; array(&#39;demo&#39;),</span>
+<span class="x">    &#39;access callback&#39; =&gt; &#39;user_is_logged_in&#39;,</span>
+<span class="x">    &#39;type&#39; =&gt; MENU_CALLBACK</span>
+<span class="x">  );</span>
+<span class="x">  return $items;</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>上述代码表示，当用户访问/demo路径时。调用theme方法渲染demo主题，主题需要在hook_theme中注册，这一点Drupal 8没有变化。</p>
 <p>实现同样的功能，Drupal 8 首先需要配置module_name.routing.yml，将路径和控制器中的某个action关联起来，然后编写控制器，实现里面的action。这里需要提到一个概念MVC，MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码。Drupal 8里面的控制器就是MVC中controller，用于衔接界面（view）和数据（model），即在控制器里面，接收参数，然后读取数据，传递给界面，最后返回给终端用户。</p>
 <p>example.rounting.yml格式如下：</p>
-<pre><code>example.demo:
-  path: '/demo/{name}'
+<div class="highlight"><pre><span></span><code>example.demo:
+  path: &#39;/demo/{name}&#39;
   defaults:
-    _controller: '\Drupal\example\Controller\ExampleController::demo'
-    _title: 'test drupal 8 routing'
+    _controller: &#39;\Drupal\example\Controller\ExampleController::demo&#39;
+    _title: &#39;test drupal 8 routing&#39;
   requirements:
-    _permission: 'access content'
-</code></pre>
+    _permission: &#39;access content&#39;
+</code></pre></div>
 <p>example.demo为路由的机读名称，格式为"模块名.路由"，path是实际的url路径，其中{name}，表示参数，该参数会传递给action，参数名称就是name。</p>
 <p>defaults下有的_controller: '\Drupal\example\Controller\ExampleController::demo'表示控制器为\Drupal\example\Controller\ExampleController，action为demo方法。</p>
 <p>defaults下的_title: 'test drupal 8 routing'表示页面标题为：test drupal 8 routing。</p>
 <p>requirements下的_permission表示可以访问该路径的权限。</p>
 <p>ExampleController的代码如下：</p>
-<pre><code class="language-php">&lt;?php
-/**
- * @file
- * Contains ExampleController
- */
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains ExampleController</span>
+<span class="sd"> */</span>
 
-namespace Drupal\example\Controller;
+<span class="k">namespace</span> <span class="nx">Drupal\example\Controller</span><span class="p">;</span>
 
-use Drupal\Core\Controller\ControllerBase;
+<span class="k">use</span> <span class="nx">Drupal\Core\Controller\ControllerBase</span><span class="p">;</span>
 
-/**
- * Provides route responses for example.module.
- */
-class ExampleController extends ControllerBase {
-  /**
-   * 展示hello {name}.
-   * @param $name
-   *
-   * @return array
-   *
-   */
-  public function demo($name) {
-    return array(
-      '#markup' =&gt; t('Hello ' . $name),
-    );
-  }
-}
-</code></pre>
+<span class="sd">/**</span>
+<span class="sd"> * Provides route responses for example.module.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">ExampleController</span> <span class="k">extends</span> <span class="nx">ControllerBase</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * 展示hello {name}.</span>
+<span class="sd">   * @param $name</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return array</span>
+<span class="sd">   *</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">demo</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#markup&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Hello &#39;</span> <span class="o">.</span> <span class="nv">$name</span><span class="p">),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <p>当完成上述代码后，清除缓存，在浏览器中访问http://yourdomain/demo/World，界面就会显示Hello World。example.info.yml、example.routing.yml和ExampleController就构成了Drupal 8中的一个最基本模块，一般来说，这三类文件是必须的。</p>
-<h3 id="4">4、主题</h3>
+<h3 id="4">4、主题<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
 <p>Drupal 8和Drupal 7相比，主题上也发生了本质的变化，首先是主题引擎的变化，其次是配置方式的变化，最后是js、css引入方式的变化。本文只讨论Drupal 8 与Drupal 7主题的不同之处，主题更深入的介绍请参考<a href="http://verynull.com/2015/11/19/Drupal8主题-theme/" title="Drupal8主题">http://verynull.com/2015/11/19/Drupal8主题-theme/</a>和<a href="http://verynull.com/2015/11/18/Drupal8模板引擎-twig/" title="Drupal8的模板引擎-twig">http://verynull.com/2015/11/18/Drupal8模板引擎-twig/</a>。</p>
-<h4 id="41">4.1、模板引擎的变化</h4>
+<h4 id="41">4.1、模板引擎的变化<a class="headerlink" href="#41" title="Permanent link">&para;</a></h4>
 <p>Drupal 7使用的模板引擎是PHPTemplate，该模板引擎的特点是模板里面可以写php代码。这种模板的缺点显而易见，可能会产生XSS和SQL注入等攻击，如下代码：</p>
-<pre><code class="language-php">&lt;?php
-echo $name;
-?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="k">echo</span> <span class="nv">$name</span><span class="p">;</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>如果$name = '&lt;script&gt;js语句&lt;/script&gt;'，这样输出到页面中就会执行script标签中的js代码，这样就会被黑客利用来攻击网站。</p>
 <p>而Drupal 8则使用twig模板引擎，twig模板相对于PHPTemplate引擎，主要有以下有点：</p>
 <ol>
@@ -600,93 +599,93 @@ echo $name;
 <li>弹性：Twig试用了弹性的词法和语法分析器。开发者可以定义自己的标记和过滤，并创建自己的DSL。</li>
 </ol>
 <p>可以看出，twig里面不能写php代码，他有一套自己的语法，并且最终被编译为php，运行在安全沙箱中，一句话，就是安全。像上面的输出变量，在twig中如下：</p>
-<pre><code>{{ name }}
-</code></pre>
+<div class="highlight"><pre><span></span><code>{{ name }}
+</code></pre></div>
 <p>这样会自动把不安全的字符过滤掉。下面来比较PHPTemplate和twig的典型的不同之处。</p>
 <p>1.后缀名</p>
 <p>PHPTemplate的后缀名是.tpl.php，twig的后缀名为.html.twig.</p>
 <p>2.变量</p>
 <p>输出一个变量</p>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;div class=&quot;content&quot;&gt;&lt;?php print $content; ?&gt;&lt;/div&gt;
-</code></pre>
-<p>Twig:</p>
-<pre><code>&lt;div class=&quot;content&quot;&gt;{{ content }}&lt;/div&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">&lt;div class=&quot;content&quot;&gt;</span><span class="cp">&lt;?php</span> <span class="k">print</span> <span class="nv">$content</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="x">&lt;/div&gt;</span>
+</code></pre></div>
+<p>Twig:
+<div class="highlight"><pre><span></span><code>&lt;div class=&quot;content&quot;&gt;{{ content }}&lt;/div&gt;
+</code></pre></div></p>
 <p>输出一个哈希键值</p>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php print $item['#item']['alt']; ?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">print</span> <span class="nv">$item</span><span class="p">[</span><span class="s1">&#39;#item&#39;</span><span class="p">][</span><span class="s1">&#39;alt&#39;</span><span class="p">];</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>Twig:</p>
-<pre><code>{{ item['#item'].alt }}
-</code></pre>
+<div class="highlight"><pre><span></span><code>{{ item[&#39;#item&#39;].alt }}
+</code></pre></div>
 <p>变量赋值</p>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php $custom_var = $content-&gt;comments; ?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="nv">$custom_var</span> <span class="o">=</span> <span class="nv">$content</span><span class="o">-&gt;</span><span class="na">comments</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>Twig:</p>
-<pre><code>{% set custom_var = content.comments %}
-</code></pre>
+<div class="highlight"><pre><span></span><code>{% set custom_var = content.comments %}
+</code></pre></div>
 <p>数组初始化</p>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php
-  $args = array('!author' =&gt; $author, '!date' =&gt; $created);
-?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+  <span class="nv">$args</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;!author&#39;</span> <span class="o">=&gt;</span> <span class="nv">$author</span><span class="p">,</span> <span class="s1">&#39;!date&#39;</span> <span class="o">=&gt;</span> <span class="nv">$created</span><span class="p">);</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>Twig:</p>
-<pre><code>{% set args = {'!author': author, '!date': created} 
-</code></pre>
+<div class="highlight"><pre><span></span><code>{% set args = {&#39;!author&#39;: author, &#39;!date&#39;: created} 
+</code></pre></div>
 <p>3.条件判断</p>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php if ($content-&gt;comments): endif; ?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$content</span><span class="o">-&gt;</span><span class="na">comments</span><span class="p">)</span><span class="o">:</span> <span class="k">endif</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>Twig:</p>
-<pre><code>{% if content.comments %} {% endif %}
-</code></pre>
+<div class="highlight"><pre><span></span><code>{% if content.comments %} {% endif %}
+</code></pre></div>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php if (!empty($content-&gt;comments)): endif; ?&gt;
-</code></pre>
-<p>Twig:</p>
-<pre><code>{% if content.comments is not empty %} {% endif %}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$content</span><span class="o">-&gt;</span><span class="na">comments</span><span class="p">))</span><span class="o">:</span> <span class="k">endif</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>Twig:
+<div class="highlight"><pre><span></span><code>{% if content.comments is not empty %} {% endif %}
+</code></pre></div></p>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php if (isset($content-&gt;comments)): endif; ?&gt;
-</code></pre>
-<p>Twig:</p>
-<pre><code>{% if content.comments is defined %} {% endif %}
-</code></pre>
+<p><div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$content</span><span class="o">-&gt;</span><span class="na">comments</span><span class="p">))</span><span class="o">:</span> <span class="k">endif</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+Twig:</p>
+<div class="highlight"><pre><span></span><code>{% if content.comments is defined %} {% endif %}
+</code></pre></div>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php if ($count &gt; 0): endif; ?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">:</span> <span class="k">endif</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>Twig:</p>
-<pre><code>{% if count &gt; 0 %} {% endif %}
-</code></pre>
+<div class="highlight"><pre><span></span><code>{% if count &gt; 0 %} {% endif %}
+</code></pre></div>
 <p>4.控制结构</p>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php foreach ($users as $user) {} ?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$users</span> <span class="k">as</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{}</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>Twig:</p>
-<pre><code>{% for user in users %} {% endfor %}
-</code></pre>
+<div class="highlight"><pre><span></span><code>{% for user in users %} {% endfor %}
+</code></pre></div>
 <p>5.过滤</p>
 <p>check_plain：</p>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php print check_plain($title); ?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">print</span> <span class="nx">check_plain</span><span class="p">(</span><span class="nv">$title</span><span class="p">);</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>Twig:</p>
-<pre><code>{{ title|striptags }}
-</code></pre>
+<div class="highlight"><pre><span></span><code>{{ title|striptags }}
+</code></pre></div>
 <p>Translate：</p>
 <p>PHPTemplate:</p>
-<pre><code class="language-php">&lt;?php print t('Home'); ?&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">print</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Home&#39;</span><span class="p">);</span> <span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>Twig:</p>
-<pre><code>{{ 'Home'|t }}
-</code></pre>
+<div class="highlight"><pre><span></span><code>{{ &#39;Home&#39;|t }}
+</code></pre></div>
 <p>更深入的介绍请参考上述文章。</p>
-<h4 id="42">4.2、主题配置</h4>
+<h4 id="42">4.2、主题配置<a class="headerlink" href="#42" title="Permanent link">&para;</a></h4>
 <p>Drupal 7的主题配置文件bartik.info格式如下：</p>
-<pre><code>name = Bartik
+<div class="highlight"><pre><span></span><code>name = Bartik
 description = A flexible, recolorable theme with many regions.
 package = Core
 version = VERSION
@@ -719,12 +718,12 @@ regions[footer_fourthcolumn] = Footer fourth column
 regions[footer] = Footer
 
 settings[shortcut_module_link] = 0
-</code></pre>
+</code></pre></div>
 <p>本文第二章节已经提到，Drupal 8 的配置文件都是用yaml文件，bartik.info.yml：</p>
-<pre><code>name: Bartik
+<div class="highlight"><pre><span></span><code>name: Bartik
 type: theme
 base theme: classy
-description: 'A flexible, recolorable theme with many regions and a responsive, mobile-first layout.'
+description: &#39;A flexible, recolorable theme with many regions and a responsive, mobile-first layout.&#39;
 package: Core
 # version: VERSION
 # core: 8.x
@@ -736,32 +735,32 @@ ckeditor_stylesheets:
   - css/components/table.css
 regions:
   header: Header
-  primary_menu: 'Primary menu'
-  secondary_menu: 'Secondary menu'
-  page_top: 'Page top'
-  page_bottom: 'Page bottom'
+  primary_menu: &#39;Primary menu&#39;
+  secondary_menu: &#39;Secondary menu&#39;
+  page_top: &#39;Page top&#39;
+  page_bottom: &#39;Page bottom&#39;
   highlighted: Highlighted
-  featured_top: 'Featured top'
+  featured_top: &#39;Featured top&#39;
   breadcrumb: Breadcrumb
   content: Content
-  sidebar_first: 'Sidebar first'
-  sidebar_second: 'Sidebar second'
-  featured_bottom_first: 'Featured bottom first'
-  featured_bottom_second: 'Featured bottom second'
-  featured_bottom_third: 'Featured bottom third'
-  footer_first: 'Footer first'
-  footer_second: 'Footer second'
-  footer_third: 'Footer third'
-  footer_fourth: 'Footer fourth'
-  footer_fifth: 'Footer fifth'
-</code></pre>
+  sidebar_first: &#39;Sidebar first&#39;
+  sidebar_second: &#39;Sidebar second&#39;
+  featured_bottom_first: &#39;Featured bottom first&#39;
+  featured_bottom_second: &#39;Featured bottom second&#39;
+  featured_bottom_third: &#39;Featured bottom third&#39;
+  footer_first: &#39;Footer first&#39;
+  footer_second: &#39;Footer second&#39;
+  footer_third: &#39;Footer third&#39;
+  footer_fourth: &#39;Footer fourth&#39;
+  footer_fifth: &#39;Footer fifth&#39;
+</code></pre></div>
 <p>从以上可以看出，Drupal 7 和Drupal 8 的主题配置文件大致相同，只是格式不一致，主要的不同有两点：</p>
 <p>1.Drupal 8的配置文件多了type: theme，这是用来表明这是一个主题，而不是模块。</p>
 <p>2.js、css的全局引入，Drupal 7可以直接引入单个js、css文件，而Drupal 8需要先将css、js设置成library，然后在主题配置文件中引入library，如上例中的：
     libraries:
       - bartik/global-styling</p>
 <p>表示引入bartik主题下的global-styling库。library库是在theme_name.libraries.yml文件中定义的，bartik.libraries.yml的部分代码如下:</p>
-<pre><code>color.preview:
+<div class="highlight"><pre><span></span><code>color.preview:
   version: VERSION
   css:
     theme:
@@ -779,16 +778,16 @@ maintenance_page:
   dependencies:
     - system/maintenance
     - bartik/global-styling
-</code></pre>
+</code></pre></div>
 <p>其中color.preview、maintenance_page就表示一个library，每个library下可以有css、js、dependencies等键，分别表示引入css、引入js和引入依赖的库。</p>
-<h4 id="43jscss">4.3、引入js、css</h4>
+<h4 id="43jscss">4.3、引入js、css<a class="headerlink" href="#43jscss" title="Permanent link">&para;</a></h4>
 <p>在4.2节中已经提到，Drupal 8中引入js和css必须使用library，不能单独引入单个js或css文件。在主题配置文件中引入全局的库也已经在4.2节中阐述，那在单个页面中引入js和css有何不同呢？</p>
 <p>我们在Drupal 7中通常通过drupal_add_js和drupal_add_css来引入js和css，例如：</p>
-<pre><code class="language-php">drupal_add_js(drupal_get_path('module', 'demo') . '/js/demo.js');
-drupal_add_css(drupal_get_path('module', 'demo') . '/css/demo.css');
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">drupal_add_js(drupal_get_path(&#39;module&#39;, &#39;demo&#39;) . &#39;/js/demo.js&#39;);</span>
+<span class="x">drupal_add_css(drupal_get_path(&#39;module&#39;, &#39;demo&#39;) . &#39;/css/demo.css&#39;);</span>
+</code></pre></div>
 <p>在Drupal 8中，我们首先将js、css配置成库，如demo.libraries.yml:</p>
-<pre><code>base:
+<div class="highlight"><pre><span></span><code>base:
   version: VERSION
   css:
     theme:
@@ -797,129 +796,129 @@ drupal_add_css(drupal_get_path('module', 'demo') . '/css/demo.css');
     js/demo.js: {}
   dependencies:
     - core/jquery
-</code></pre>
+</code></pre></div>
 <p>上面配置了一个base库，Drupal 8中除了要配置库，还要在渲染数组中使用#attached才能将库加到页面中：</p>
-<pre><code class="language-php">return array(
-  '#theme' =&gt; 'example_demo',
-  '#attached' =&gt; array(
-    'library' =&gt; array(
-      'example/base'
-    )
-  )
-);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">return array(</span>
+<span class="x">  &#39;#theme&#39; =&gt; &#39;example_demo&#39;,</span>
+<span class="x">  &#39;#attached&#39; =&gt; array(</span>
+<span class="x">    &#39;library&#39; =&gt; array(</span>
+<span class="x">      &#39;example/base&#39;</span>
+<span class="x">    )</span>
+<span class="x">  )</span>
+<span class="x">);</span>
+</code></pre></div>
 <p>上述代码表示，渲染example_demo主题，并且加载example/base'库。</p>
-<h3 id="5">5、表单</h3>
+<h3 id="5">5、表单<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
 <p>我们将以一个简单的示例来分析Drupal 7和Drupal 8表单的异同。
 在Drupal 7中要实现表单的展示、提交，首先需要配置菜单，将路径和表单函数关联起来在hook_menu中定义如下菜单：</p>
-<pre><code class="language-php">$items['demo/form'] = array(
-  'title' =&gt; 'Create demo form',
-  'page callback' =&gt; 'drupal_get_form',
-  'page arguments' =&gt; array('demo_form'),
-  'access callback' =&gt; 'access content',
-  'type' =&gt; MENU_LOCAL_TASK,
-);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">$items[&#39;demo/form&#39;] = array(</span>
+<span class="x">  &#39;title&#39; =&gt; &#39;Create demo form&#39;,</span>
+<span class="x">  &#39;page callback&#39; =&gt; &#39;drupal_get_form&#39;,</span>
+<span class="x">  &#39;page arguments&#39; =&gt; array(&#39;demo_form&#39;),</span>
+<span class="x">  &#39;access callback&#39; =&gt; &#39;access content&#39;,</span>
+<span class="x">  &#39;type&#39; =&gt; MENU_LOCAL_TASK,</span>
+<span class="x">);</span>
+</code></pre></div>
 <p>接下来，定义表单函数demo_form：</p>
-<pre><code class="language-php">function demo_form($form, &amp;$form_state) {
-  $form['name'] = array(
-    '#type' =&gt; 'textfield',
-    '#title' =&gt; '姓名'
-  );
-  $form['actions']['#type'] = 'actions';
-  $form['actions']['submit'] = array(
-    '#type' =&gt; 'submit',
-    '#value' =&gt; $this-&gt;t('Save'),
-    '#button_type' =&gt; 'primary',
-  );
-  $form['#validate'][] = 'demo_validate';
-  $form['#submit'][] = 'demo_submit';
-  return $form;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">function demo_form($form, &amp;$form_state) {</span>
+<span class="x">  $form[&#39;name&#39;] = array(</span>
+<span class="x">    &#39;#type&#39; =&gt; &#39;textfield&#39;,</span>
+<span class="x">    &#39;#title&#39; =&gt; &#39;姓名&#39;</span>
+<span class="x">  );</span>
+<span class="x">  $form[&#39;actions&#39;][&#39;#type&#39;] = &#39;actions&#39;;</span>
+<span class="x">  $form[&#39;actions&#39;][&#39;submit&#39;] = array(</span>
+<span class="x">    &#39;#type&#39; =&gt; &#39;submit&#39;,</span>
+<span class="x">    &#39;#value&#39; =&gt; $this-&gt;t(&#39;Save&#39;),</span>
+<span class="x">    &#39;#button_type&#39; =&gt; &#39;primary&#39;,</span>
+<span class="x">  );</span>
+<span class="x">  $form[&#39;#validate&#39;][] = &#39;demo_validate&#39;;</span>
+<span class="x">  $form[&#39;#submit&#39;][] = &#39;demo_submit&#39;;</span>
+<span class="x">  return $form;</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>上述代码表明表单有一个文本框，一个提交按钮，表单的验证函数书demo_validate，提交处理函数是demo_submit。</p>
 <p>下面实现demo_validate、demo_submit：</p>
-<pre><code class="language-php">function demo_validate($form, &amp;$form_state) {
-  $name = $form_state['value']['name'];
-  if($name != 'world') {
-    form_set_error('name', '参数错误');
-  }
-}
+<div class="highlight"><pre><span></span><code><span class="x">function demo_validate($form, &amp;$form_state) {</span>
+<span class="x">  $name = $form_state[&#39;value&#39;][&#39;name&#39;];</span>
+<span class="x">  if($name != &#39;world&#39;) {</span>
+<span class="x">    form_set_error(&#39;name&#39;, &#39;参数错误&#39;);</span>
+<span class="x">  }</span>
+<span class="x">}</span>
 
-function demo_submit($form, &amp;$form_state) {
-  $name = $form_state['value']['name'];
-  drupal_set_message('Hello' . $name);
-}
-</code></pre>
+<span class="x">function demo_submit($form, &amp;$form_state) {</span>
+<span class="x">  $name = $form_state[&#39;value&#39;][&#39;name&#39;];</span>
+<span class="x">  drupal_set_message(&#39;Hello&#39; . $name);</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>到这里，我们就可以访问demo/form了，在文本框中输入world，则界面就会显示Hello world，但是输入其他的文本，则会报错“参数错误”。</p>
 <p>接下来，我们来看一下Drupal 8中的表单是如何实现的，首先我们要配置一个路由指向表单，</p>
-<pre><code>example.demo_form:
-  path: '/demo/form'
+<div class="highlight"><pre><span></span><code>example.demo_form:
+  path: &#39;/demo/form&#39;
   defaults:
-    _form: '\Drupal\example\Form\ExampleForm'
-    _title: 'test drupal 8 form'
+    _form: &#39;\Drupal\example\Form\ExampleForm&#39;
+    _title: &#39;test drupal 8 form&#39;
   requirements:
-    _permission: 'access content'
-</code></pre>
+    _permission: &#39;access content&#39;
+</code></pre></div>
 <p>path：'/demo/form'表示表单路径是/demo/form，_form: '\Drupal\example\Form\ExampleForm'表示表单类是\Drupal\example\Form\ExampleForm，那么下面就来实现这个类：</p>
-<pre><code class="language-php">&lt;?php
-    /**
-     * @file
-     * contains Drupal\example\Form\ExampleForm
-     */
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @file</span>
+<span class="sd">     * contains Drupal\example\Form\ExampleForm</span>
+<span class="sd">     */</span>
 
-    namespace Drupal\example\Form;
+    <span class="k">namespace</span> <span class="nx">Drupal\example\Form</span><span class="p">;</span>
 
 
-    use Drupal\Core\Form\FormBase;
-    use Drupal\Core\Form\FormStateInterface;
+    <span class="k">use</span> <span class="nx">Drupal\Core\Form\FormBase</span><span class="p">;</span>
+    <span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
 
-    class ExampleForm extends FormBase
-    {
-      /**
-       * @inheritdoc
-       */
-      public function getFormId() {
-        return 'example_form';
-      }
+    <span class="k">class</span> <span class="nc">ExampleForm</span> <span class="k">extends</span> <span class="nx">FormBase</span>
+    <span class="p">{</span>
+      <span class="sd">/**</span>
+<span class="sd">       * @inheritdoc</span>
+<span class="sd">       */</span>
+      <span class="k">public</span> <span class="k">function</span> <span class="nf">getFormId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;example_form&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
 
-      /**
-       * @inheritdoc
-       */
-      public function buildForm(array $form, FormStateInterface $form_state) {
-        $form['name'] = array(
-          '#type' =&gt; 'textfield',
-          '#title' =&gt; '姓名'
-        );
-        $form['actions']['#type'] = 'actions';
-        $form['actions']['submit'] = array(
-          '#type' =&gt; 'submit',
-          '#value' =&gt; $this-&gt;t('Save'),
-          '#button_type' =&gt; 'primary',
-        );
-        return $form;
-      }
+      <span class="sd">/**</span>
+<span class="sd">       * @inheritdoc</span>
+<span class="sd">       */</span>
+      <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+          <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;textfield&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;姓名&#39;</span>
+        <span class="p">);</span>
+        <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">][</span><span class="s1">&#39;#type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;actions&#39;</span><span class="p">;</span>
+        <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">][</span><span class="s1">&#39;submit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+          <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;submit&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;#value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Save&#39;</span><span class="p">),</span>
+          <span class="s1">&#39;#button_type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;primary&#39;</span><span class="p">,</span>
+        <span class="p">);</span>
+        <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+      <span class="p">}</span>
 
-      /**
-       * @inheritdoc
-       */
-      public function validateForm(array &amp;$form, FormStateInterface $form_state) {
-        parent::validateForm($form, $form_state);
-        if($form_state-&gt;getValue('name') != 'world') {
-          $a = array('name');
-          $form_state-&gt;setErrorByName('name', '参数错误');
-        }
-      }
+      <span class="sd">/**</span>
+<span class="sd">       * @inheritdoc</span>
+<span class="sd">       */</span>
+      <span class="k">public</span> <span class="k">function</span> <span class="nf">validateForm</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">parent</span><span class="o">::</span><span class="na">validateForm</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$form_state</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;world&#39;</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nv">$a</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
+          <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">setErrorByName</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;参数错误&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
 
-      /**
-       * @inheritdoc
-       */
-      public function submitForm(array &amp;$form, FormStateInterface $form_state) {
-        $name = $form_state-&gt;getValue('name');
-        drupal_set_message('Hello' . $name);
-      }
-    }
-</code></pre>
+      <span class="sd">/**</span>
+<span class="sd">       * @inheritdoc</span>
+<span class="sd">       */</span>
+      <span class="k">public</span> <span class="k">function</span> <span class="nf">submitForm</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$name</span> <span class="o">=</span> <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">getValue</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
+        <span class="nx">drupal_set_message</span><span class="p">(</span><span class="s1">&#39;Hello&#39;</span> <span class="o">.</span> <span class="nv">$name</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div>
 <p>可见，Drupal 8中的表单就是一个类，继承自formBase，需要覆写父类的四个方法：getFormId、buildForm、validateForm和submitForm。</p>
 <p>1.getFormId</p>
 <p>返回表单ID，对应于Drupal 7中的表单的方法名；</p>
@@ -930,472 +929,472 @@ function demo_submit($form, &amp;$form_state) {
 <p>4.submitForm
 表单提交处理方法，对应于Drupal 7 中$form['#submit'][] = 'demo_submit'中指定的方法。</p>
 <p>通过对比可以发现，Drupal 8将表单的各个元素组织在一个类里面，结构清晰，逻辑分明，相对于Drupal 7松散的代码是很大的进步。</p>
-<h3 id="6drupal-8">6、钩子机制在Drupal 8中的变化及实现</h3>
+<h3 id="6drupal-8">6、钩子机制在Drupal 8中的变化及实现<a class="headerlink" href="#6drupal-8" title="Permanent link">&para;</a></h3>
 <p>钩子机制在Drupal 7中起着举足轻重的作用，主要体现在两个方面：</p>
 <p>一是info类的钩子，例如hook_menu、hook_theme、hook_services_resources等，起到关联信息的作用，比如hook_menu告诉系统URL路径和处理方法的对应关系以便用户访问某个路径的时候找到正确的函数来处理；</p>
 <p>二是调用类钩子，例如hook_user_delete等，调用类钩子的作用是系统在做了某个操作之后通过module_invoke_all来调用其他模块中实现的钩子函数。比如，删除某个用户之后，可能需要删除该用户关联的其他资源，则模块需要通过实现hook_user_delete钩子。</p>
 <p>Drupal 8中这两类钩子都有了相应的替代方法，info类型的钩子大部分被插件（Plugin）代替，调用类型的钩子则被事件（Event）代替。下面分别针对两种钩子选择具有代表性的功能做分析。</p>
-<h4 id="61">6.1、调用钩子的替代与实现</h4>
+<h4 id="61">6.1、调用钩子的替代与实现<a class="headerlink" href="#61" title="Permanent link">&para;</a></h4>
 <p>调用钩子在Drupal 7 中最有代表性的应用是用户的删除，实现需要分两步：</p>
 <p>1.实现hook_user_delete方法，以demo模块为例：</p>
-<pre><code class="language-php">function demo_user_delete($account) {
-  db_delete('user_demo', 'ud')
-  -&gt;condition('ud.uid', $account-&gt;uid)
-  -&gt;execute();
-} 
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">function demo_user_delete($account) {</span>
+<span class="x">  db_delete(&#39;user_demo&#39;, &#39;ud&#39;)</span>
+<span class="x">  -&gt;condition(&#39;ud.uid&#39;, $account-&gt;uid)</span>
+<span class="x">  -&gt;execute();</span>
+<span class="x">} </span>
+</code></pre></div>
 <p>2.在用户删除的方法里面通过module_invoke_all来调用钩子：</p>
-<pre><code class="language-php">module_invoke_all('user_delete', $account);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">module_invoke_all(&#39;user_delete&#39;, $account);</span>
+</code></pre></div>
 <p>只需要两步就实现了用户删除之后，删除关联资源的功能。</p>
 <p>Drupal 8里面的事件的三个要素：事件、事件监听和事件触发。</p>
 <p>要实现事件机制，首先我们必须先定义一个事件（Event），比如站点配置保存事件，其次有了这个事件后，需要有订阅者来监听这个事件，最后在某个时间点触发这个事件，将事件传递给所有监听这个事件的订阅者。</p>
 <p>我们以站点配置保存事件为例，介绍事件订阅的实现：</p>
 <p>1.定义事件</p>
 <p>Drupal 8的核心模块Config模块中定义了ConfigEvent，代码如下：</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\Core\Config\ConfigEvents.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\Core\Config\ConfigEvents.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\Core\Config;
+<span class="k">namespace</span> <span class="nx">Drupal\Core\Config</span><span class="p">;</span>
 
-/**
- * Defines events for the configuration system.
- *
- * @see \Drupal\Core\Config\ConfigCrudEvent
- */
-final class ConfigEvents {
+<span class="sd">/**</span>
+<span class="sd"> * Defines events for the configuration system.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @see \Drupal\Core\Config\ConfigCrudEvent</span>
+<span class="sd"> */</span>
+<span class="k">final</span> <span class="k">class</span> <span class="nc">ConfigEvents</span> <span class="p">{</span>
 
-  /**
-   * Name of the event fired when saving a configuration object.
-   *
-   * This event allows modules to perform an action whenever a configuration
-   * object is saved. The event listener method receives a
-   * \Drupal\Core\Config\ConfigCrudEvent instance.
-   *
-   * See hook_update_N() documentation for safe configuration API usage and
-   * restrictions as this event will be fired when configuration is saved by
-   * hook_update_N().
-   *
-   * @Event
-   *
-   * @see \Drupal\Core\Config\ConfigCrudEvent
-   * @see \Drupal\Core\Config\Config::save()
-   * @see \Drupal\Core\Config\ConfigFactory::onConfigSave()
-   * @see hook_update_N()
-   *
-   * @var string
-   */
-  const SAVE = 'config.save';
+  <span class="sd">/**</span>
+<span class="sd">   * Name of the event fired when saving a configuration object.</span>
+<span class="sd">   *</span>
+<span class="sd">   * This event allows modules to perform an action whenever a configuration</span>
+<span class="sd">   * object is saved. The event listener method receives a</span>
+<span class="sd">   * \Drupal\Core\Config\ConfigCrudEvent instance.</span>
+<span class="sd">   *</span>
+<span class="sd">   * See hook_update_N() documentation for safe configuration API usage and</span>
+<span class="sd">   * restrictions as this event will be fired when configuration is saved by</span>
+<span class="sd">   * hook_update_N().</span>
+<span class="sd">   *</span>
+<span class="sd">   * @Event</span>
+<span class="sd">   *</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigCrudEvent</span>
+<span class="sd">   * @see \Drupal\Core\Config\Config::save()</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigFactory::onConfigSave()</span>
+<span class="sd">   * @see hook_update_N()</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">const</span> <span class="no">SAVE</span> <span class="o">=</span> <span class="s1">&#39;config.save&#39;</span><span class="p">;</span>
 
-  /**
-   * Name of the event fired when deleting a configuration object.
-   *
-   * This event allows modules to perform an action whenever a configuration
-   * object is deleted. The event listener method receives a
-   * \Drupal\Core\Config\ConfigCrudEvent instance.
-   *
-   * See hook_update_N() documentation for safe configuration API usage and
-   * restrictions as this event will be fired when configuration is deleted by
-   * hook_update_N().
-   *
-   * @Event
-   *
-   * @see \Drupal\Core\Config\ConfigCrudEvent
-   * @see \Drupal\Core\Config\Config::delete()
-   * @see \Drupal\Core\Config\ConfigFactory::onConfigDelete()
-   * @see hook_update_N()
-   *
-   * @var string
-   */
-  const DELETE = 'config.delete';
+  <span class="sd">/**</span>
+<span class="sd">   * Name of the event fired when deleting a configuration object.</span>
+<span class="sd">   *</span>
+<span class="sd">   * This event allows modules to perform an action whenever a configuration</span>
+<span class="sd">   * object is deleted. The event listener method receives a</span>
+<span class="sd">   * \Drupal\Core\Config\ConfigCrudEvent instance.</span>
+<span class="sd">   *</span>
+<span class="sd">   * See hook_update_N() documentation for safe configuration API usage and</span>
+<span class="sd">   * restrictions as this event will be fired when configuration is deleted by</span>
+<span class="sd">   * hook_update_N().</span>
+<span class="sd">   *</span>
+<span class="sd">   * @Event</span>
+<span class="sd">   *</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigCrudEvent</span>
+<span class="sd">   * @see \Drupal\Core\Config\Config::delete()</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigFactory::onConfigDelete()</span>
+<span class="sd">   * @see hook_update_N()</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">const</span> <span class="no">DELETE</span> <span class="o">=</span> <span class="s1">&#39;config.delete&#39;</span><span class="p">;</span>
 
-  /**
-   * Name of the event fired when renaming a configuration object.
-   *
-   * This event allows modules to perform an action whenever a configuration
-   * object's name is changed. The event listener method receives a
-   * \Drupal\Core\Config\ConfigRenameEvent instance.
-   *
-   * See hook_update_N() documentation for safe configuration API usage and
-   * restrictions as this event will be fired when configuration is renamed by
-   * hook_update_N().
-   *
-   * @Event
-   *
-   * @see \Drupal\Core\Config\ConfigRenameEvent
-   * @see \Drupal\Core\Config\ConfigFactoryInterface::rename()
-   * @see hook_update_N()
-   *
-   * @var string
-   */
-  const RENAME = 'config.rename';
+  <span class="sd">/**</span>
+<span class="sd">   * Name of the event fired when renaming a configuration object.</span>
+<span class="sd">   *</span>
+<span class="sd">   * This event allows modules to perform an action whenever a configuration</span>
+<span class="sd">   * object&#39;s name is changed. The event listener method receives a</span>
+<span class="sd">   * \Drupal\Core\Config\ConfigRenameEvent instance.</span>
+<span class="sd">   *</span>
+<span class="sd">   * See hook_update_N() documentation for safe configuration API usage and</span>
+<span class="sd">   * restrictions as this event will be fired when configuration is renamed by</span>
+<span class="sd">   * hook_update_N().</span>
+<span class="sd">   *</span>
+<span class="sd">   * @Event</span>
+<span class="sd">   *</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigRenameEvent</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigFactoryInterface::rename()</span>
+<span class="sd">   * @see hook_update_N()</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">const</span> <span class="no">RENAME</span> <span class="o">=</span> <span class="s1">&#39;config.rename&#39;</span><span class="p">;</span>
 
-  /**
-   * Name of the event fired when validating imported configuration.
-   *
-   * This event allows modules to perform additional validation operations when
-   * configuration is being imported. The event listener method receives a
-   * \Drupal\Core\Config\ConfigImporterEvent instance.
-   *
-   * @Event
-   *
-   * @see \Drupal\Core\Config\ConfigImporterEvent
-   * @see \Drupal\Core\Config\ConfigImporter::validate().
-   * @see \Drupal\Core\EventSubscriber\ConfigImportSubscriber::onConfigImporterValidate().
-   *
-   * @var string
-   */
-  const IMPORT_VALIDATE = 'config.importer.validate';
+  <span class="sd">/**</span>
+<span class="sd">   * Name of the event fired when validating imported configuration.</span>
+<span class="sd">   *</span>
+<span class="sd">   * This event allows modules to perform additional validation operations when</span>
+<span class="sd">   * configuration is being imported. The event listener method receives a</span>
+<span class="sd">   * \Drupal\Core\Config\ConfigImporterEvent instance.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @Event</span>
+<span class="sd">   *</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigImporterEvent</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigImporter::validate().</span>
+<span class="sd">   * @see \Drupal\Core\EventSubscriber\ConfigImportSubscriber::onConfigImporterValidate().</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">const</span> <span class="no">IMPORT_VALIDATE</span> <span class="o">=</span> <span class="s1">&#39;config.importer.validate&#39;</span><span class="p">;</span>
 
-  /**
-   * Name of the event fired when importing configuration to target storage.
-   *
-   * This event allows modules to perform additional actions when configuration
-   * is imported. The event listener method receives a
-   * \Drupal\Core\Config\ConfigImporterEvent instance.
-   *
-   * @Event
-   *
-   * @see \Drupal\Core\Config\ConfigImporterEvent
-   * @see \Drupal\Core\Config\ConfigImporter::import().
-   * @see \Drupal\Core\EventSubscriber\ConfigSnapshotSubscriber::onConfigImporterImport().
-   *
-   * @var string
-   */
-  const IMPORT = 'config.importer.import';
+  <span class="sd">/**</span>
+<span class="sd">   * Name of the event fired when importing configuration to target storage.</span>
+<span class="sd">   *</span>
+<span class="sd">   * This event allows modules to perform additional actions when configuration</span>
+<span class="sd">   * is imported. The event listener method receives a</span>
+<span class="sd">   * \Drupal\Core\Config\ConfigImporterEvent instance.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @Event</span>
+<span class="sd">   *</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigImporterEvent</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigImporter::import().</span>
+<span class="sd">   * @see \Drupal\Core\EventSubscriber\ConfigSnapshotSubscriber::onConfigImporterImport().</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">const</span> <span class="no">IMPORT</span> <span class="o">=</span> <span class="s1">&#39;config.importer.import&#39;</span><span class="p">;</span>
 
-  /**
-   * Name of event fired when missing content dependencies are detected.
-   *
-   * Events subscribers are fired as part of the configuration import batch.
-   * Each subscribe should call
-   * \Drupal\Core\Config\MissingContentEvent::resolveMissingContent() when they
-   * address a missing dependency. To address large amounts of dependencies
-   * subscribers can call
-   * \Drupal\Core\Config\MissingContentEvent::stopPropagation() which will stop
-   * calling other events and guarantee that the configuration import batch will
-   * fire the event again to continue processing missing content dependencies.
-   *
-   * @see \Drupal\Core\Config\ConfigImporter::processMissingContent()
-   * @see \Drupal\Core\Config\MissingContentEvent
-   */
-  const IMPORT_MISSING_CONTENT = 'config.importer.missing_content';
+  <span class="sd">/**</span>
+<span class="sd">   * Name of event fired when missing content dependencies are detected.</span>
+<span class="sd">   *</span>
+<span class="sd">   * Events subscribers are fired as part of the configuration import batch.</span>
+<span class="sd">   * Each subscribe should call</span>
+<span class="sd">   * \Drupal\Core\Config\MissingContentEvent::resolveMissingContent() when they</span>
+<span class="sd">   * address a missing dependency. To address large amounts of dependencies</span>
+<span class="sd">   * subscribers can call</span>
+<span class="sd">   * \Drupal\Core\Config\MissingContentEvent::stopPropagation() which will stop</span>
+<span class="sd">   * calling other events and guarantee that the configuration import batch will</span>
+<span class="sd">   * fire the event again to continue processing missing content dependencies.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigImporter::processMissingContent()</span>
+<span class="sd">   * @see \Drupal\Core\Config\MissingContentEvent</span>
+<span class="sd">   */</span>
+  <span class="k">const</span> <span class="no">IMPORT_MISSING_CONTENT</span> <span class="o">=</span> <span class="s1">&#39;config.importer.missing_content&#39;</span><span class="p">;</span>
 
-  /**
-   * Name of event fired to collect information on all config collections.
-   *
-   * This event allows modules to add to the list of configuration collections
-   * retrieved by \Drupal\Core\Config\ConfigManager::getConfigCollectionInfo().
-   * The event listener method receives a
-   * \Drupal\Core\Config\ConfigCollectionInfo instance.
-   *
-   * @Event
-   *
-   * @see \Drupal\Core\Config\ConfigCollectionInfo
-   * @see \Drupal\Core\Config\ConfigManager::getConfigCollectionInfo()
-   * @see \Drupal\Core\Config\ConfigFactoryOverrideBase
-   *
-   * @var string
-   */
-  const COLLECTION_INFO = 'config.collection_info';
+  <span class="sd">/**</span>
+<span class="sd">   * Name of event fired to collect information on all config collections.</span>
+<span class="sd">   *</span>
+<span class="sd">   * This event allows modules to add to the list of configuration collections</span>
+<span class="sd">   * retrieved by \Drupal\Core\Config\ConfigManager::getConfigCollectionInfo().</span>
+<span class="sd">   * The event listener method receives a</span>
+<span class="sd">   * \Drupal\Core\Config\ConfigCollectionInfo instance.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @Event</span>
+<span class="sd">   *</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigCollectionInfo</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigManager::getConfigCollectionInfo()</span>
+<span class="sd">   * @see \Drupal\Core\Config\ConfigFactoryOverrideBase</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">const</span> <span class="no">COLLECTION_INFO</span> <span class="o">=</span> <span class="s1">&#39;config.collection_info&#39;</span><span class="p">;</span>
 
-}
-</code></pre>
+<span class="p">}</span>
+</code></pre></div>
 <p>该事件类中定义了一系列的事件，例如const SAVE = 'config.save'的意思即定义了配置保存事件，当配置保存完成后触发该事件。</p>
 <p>有了事件之后，我们就需要有事件订阅者来监听这个事件，一旦配置保存，则执行相应的代码。我们仍然以demo模块为例，假设配置保存后，我们的demo模块需要记录一条日志，那demo模块需要实现相应的事件订阅类：</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\demo\EventSubscriber\ConfigSubscriber.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\EventSubscriber\ConfigSubscriber.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo\EventSubscriber;
+<span class="k">namespace</span> <span class="nx">Drupal\demo\EventSubscriber</span><span class="p">;</span>
 
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Config\ConfigCrudEvent;
-use Drupal\Core\Config\ConfigEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Config\ConfigFactoryInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Config\ConfigCrudEvent</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Config\ConfigEvents</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\EventDispatcher\EventSubscriberInterface</span><span class="p">;</span>
 
-/**
- * 记录日志，如果配置保存了
- */
-class ConfigSubscriber implements EventSubscriberInterface {
+<span class="sd">/**</span>
+<span class="sd"> * 记录日志，如果配置保存了</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">ConfigSubscriber</span> <span class="k">implements</span> <span class="nx">EventSubscriberInterface</span> <span class="p">{</span>
 
-  /**
-   * 日志记录
-   *
-   *
-   * @param ConfigCrudEvent $event
-   *   The configuration event.
-   */
-  public function onConfigSave(ConfigCrudEvent $event) {
-    $saved_config = $event-&gt;getConfig();
-    $logger = \Drupal::logger('config save');
-    $logger-&gt;notice($saved_config-&gt;getName() . '保存了');
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * 日志记录</span>
+<span class="sd">   *</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param ConfigCrudEvent $event</span>
+<span class="sd">   *   The configuration event.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">onConfigSave</span><span class="p">(</span><span class="nx">ConfigCrudEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$saved_config</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getConfig</span><span class="p">();</span>
+    <span class="nv">$logger</span> <span class="o">=</span> <span class="nx">\Drupal</span><span class="o">::</span><span class="na">logger</span><span class="p">(</span><span class="s1">&#39;config save&#39;</span><span class="p">);</span>
+    <span class="nv">$logger</span><span class="o">-&gt;</span><span class="na">notice</span><span class="p">(</span><span class="nv">$saved_config</span><span class="o">-&gt;</span><span class="na">getName</span><span class="p">()</span> <span class="o">.</span> <span class="s1">&#39;保存了&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  static function getSubscribedEvents() {
-    $events[ConfigEvents::SAVE][] = array('onConfigSave', 0);
-    return $events;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">static</span> <span class="k">function</span> <span class="nf">getSubscribedEvents</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$events</span><span class="p">[</span><span class="nx">ConfigEvents</span><span class="o">::</span><span class="na">SAVE</span><span class="p">][]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;onConfigSave&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$events</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
-</code></pre>
+<span class="p">}</span>
+</code></pre></div>
 <p>这个事件订阅类实现了EventSubscriberInterface，这个接口只有一个方法getSubscribedEvents，这个方法返回事件对用的处理方法，比如$events[ConfigEvents::SAVE][] = array('onConfigSave', 0)表示ConfigEvents::SAVE事件的处理方法为onConfigSave，后面的第二个参数0表示优先级，越大越先执行。</p>
 <p>实现了这个订阅类之后，为了让事件调度器（event dispacher）知道这个订阅者，我们需要把这个订阅类配置成服务，在demo.services.yml中我们增加如下代码：</p>
-<pre><code>demo.config_subscriber:
+<div class="highlight"><pre><span></span><code>demo.config_subscriber:
   class: Drupal\demo\EventSubscriber\ConfigSubscriber
   arguments: []
   tags:
     - { name: event_subscriber }
-</code></pre>
+</code></pre></div>
 <p>到此事件订阅的工作就完成了，要触发事件，必须要在配置保存的时候使用事件调度器将事件传递给订阅者，代码如下：</p>
-<pre><code class="language-php">public function save($has_trusted_data = FALSE) {
-    // Validate the configuration object name before saving.
-    static::validateName($this-&gt;name);
+<div class="highlight"><pre><span></span><code><span class="x">public function save($has_trusted_data = FALSE) {</span>
+<span class="x">    // Validate the configuration object name before saving.</span>
+<span class="x">    static::validateName($this-&gt;name);</span>
 
-    // If there is a schema for this configuration object, cast all values to
-    // conform to the schema.
-    if (!$has_trusted_data) {
-      if ($this-&gt;typedConfigManager-&gt;hasConfigSchema($this-&gt;name)) {
-        // Ensure that the schema wrapper has the latest data.
-        $this-&gt;schemaWrapper = NULL;
-        foreach ($this-&gt;data as $key =&gt; $value) {
-          $this-&gt;data[$key] = $this-&gt;castValue($key, $value);
-        }
-      }
-      else {
-        foreach ($this-&gt;data as $key =&gt; $value) {
-          $this-&gt;validateValue($key, $value);
-        }
-      }
-    }
+<span class="x">    // If there is a schema for this configuration object, cast all values to</span>
+<span class="x">    // conform to the schema.</span>
+<span class="x">    if (!$has_trusted_data) {</span>
+<span class="x">      if ($this-&gt;typedConfigManager-&gt;hasConfigSchema($this-&gt;name)) {</span>
+<span class="x">        // Ensure that the schema wrapper has the latest data.</span>
+<span class="x">        $this-&gt;schemaWrapper = NULL;</span>
+<span class="x">        foreach ($this-&gt;data as $key =&gt; $value) {</span>
+<span class="x">          $this-&gt;data[$key] = $this-&gt;castValue($key, $value);</span>
+<span class="x">        }</span>
+<span class="x">      }</span>
+<span class="x">      else {</span>
+<span class="x">        foreach ($this-&gt;data as $key =&gt; $value) {</span>
+<span class="x">          $this-&gt;validateValue($key, $value);</span>
+<span class="x">        }</span>
+<span class="x">      }</span>
+<span class="x">    }</span>
 
-    $this-&gt;storage-&gt;write($this-&gt;name, $this-&gt;data);
-    if (!$this-&gt;isNew) {
-      Cache::invalidateTags($this-&gt;getCacheTags());
-    }
-    $this-&gt;isNew = FALSE;
-    $this-&gt;eventDispatcher-&gt;dispatch(ConfigEvents::SAVE, new ConfigCrudEvent($this));
-    $this-&gt;originalData = $this-&gt;data;
-    // Potentially configuration schema could have changed the underlying data's
-    // types.
-    $this-&gt;resetOverriddenData();
-    return $this;
-}
-</code></pre>
-<p>上述代码为Config模块中配置保存的方法，其中的$this-&gt;eventDispatcher-&gt;dispatch(ConfigEvents::SAVE, new ConfigCrudEvent($this))这句代码就是讲事件传递给所有监听了ConfigEvents::SAVE事件的订阅者，当然也包括我们demo模块里面的订阅者。</p>
+<span class="x">    $this-&gt;storage-&gt;write($this-&gt;name, $this-&gt;data);</span>
+<span class="x">    if (!$this-&gt;isNew) {</span>
+<span class="x">      Cache::invalidateTags($this-&gt;getCacheTags());</span>
+<span class="x">    }</span>
+<span class="x">    $this-&gt;isNew = FALSE;</span>
+<span class="x">    $this-&gt;eventDispatcher-&gt;dispatch(ConfigEvents::SAVE, new ConfigCrudEvent($this));</span>
+<span class="x">    $this-&gt;originalData = $this-&gt;data;</span>
+<span class="x">    // Potentially configuration schema could have changed the underlying data&#39;s</span>
+<span class="x">    // types.</span>
+<span class="x">    $this-&gt;resetOverriddenData();</span>
+<span class="x">    return $this;</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>上述代码为Config模块中配置保存的方法，其中的<span class="arithmatex"><span class="MathJax_Preview">this-&gt;eventDispatcher-&gt;dispatch(ConfigEvents::SAVE, new ConfigCrudEvent(</span><script type="math/tex">this->eventDispatcher->dispatch(ConfigEvents::SAVE, new ConfigCrudEvent(</script></span>this))这句代码就是讲事件传递给所有监听了ConfigEvents::SAVE事件的订阅者，当然也包括我们demo模块里面的订阅者。</p>
 <p>关于自定义事件的实现请参考<a href="http://www.sitepoint.com/drupal-8-hooks-symfony-event-dispatcher/" title="自定义事件">http://www.sitepoint.com/drupal-8-hooks-symfony-event-dispatcher/</a></p>
-<h4 id="62info">6.2、info类钩子的替换与实现</h4>
+<h4 id="62info">6.2、info类钩子的替换与实现<a class="headerlink" href="#62info" title="Permanent link">&para;</a></h4>
 <p>info类钩子的一个重要应用是web services。在Drupal 7中，内核不带rest，需要第三方模块。而在drupal8中，核心自带rest，除了rest界面管理模块（rest UI）外，不需要第三方模块。</p>
 <p>Drupal 7中实现一个web services需要以下几步：</p>
 <p>1.下载Services、REST Server、Chaos tools、OAuth Authentication第三方模块放入相应目录，进入后台-&gt;模块，勾选这几个模块保存启用。</p>
 <p>2.实现hook_services_resources,代码如下：</p>
-<pre><code class="language-php">/**
- * Implements hook_services_resources().
- */
-function demo_services_resources() {  
-  return array(
-    'demo' =&gt; array(
-      'actions' =&gt; array(
-        'add' =&gt; array(
-          'help' =&gt; '创建示例',
-          'file' =&gt; array('file' =&gt; 'inc', 'module' =&gt; 'demo', 'name' =&gt; 'demo.apis'),
-          'callback' =&gt; 'demo_add_resources',
-          'access arguments' =&gt; array('access_to_demo_api'),
-          'args' =&gt; array(
-            array(
-              'name' =&gt; 'data',
-              'source' =&gt; 'data',
-              'type' =&gt; 'array',
-              'optional' =&gt; FALSE,
-            ),
-          ),
-        ),
-      ),           
-    ),
-  );
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x"> * Implements hook_services_resources().</span>
+<span class="x"> */</span>
+<span class="x">function demo_services_resources() {  </span>
+<span class="x">  return array(</span>
+<span class="x">    &#39;demo&#39; =&gt; array(</span>
+<span class="x">      &#39;actions&#39; =&gt; array(</span>
+<span class="x">        &#39;add&#39; =&gt; array(</span>
+<span class="x">          &#39;help&#39; =&gt; &#39;创建示例&#39;,</span>
+<span class="x">          &#39;file&#39; =&gt; array(&#39;file&#39; =&gt; &#39;inc&#39;, &#39;module&#39; =&gt; &#39;demo&#39;, &#39;name&#39; =&gt; &#39;demo.apis&#39;),</span>
+<span class="x">          &#39;callback&#39; =&gt; &#39;demo_add_resources&#39;,</span>
+<span class="x">          &#39;access arguments&#39; =&gt; array(&#39;access_to_demo_api&#39;),</span>
+<span class="x">          &#39;args&#39; =&gt; array(</span>
+<span class="x">            array(</span>
+<span class="x">              &#39;name&#39; =&gt; &#39;data&#39;,</span>
+<span class="x">              &#39;source&#39; =&gt; &#39;data&#39;,</span>
+<span class="x">              &#39;type&#39; =&gt; &#39;array&#39;,</span>
+<span class="x">              &#39;optional&#39; =&gt; FALSE,</span>
+<span class="x">            ),</span>
+<span class="x">          ),</span>
+<span class="x">        ),</span>
+<span class="x">      ),           </span>
+<span class="x">    ),</span>
+<span class="x">  );</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>其中数组的第一层表示接口地址的第一个参数，actions下的每一个键表示一个接口，同时也是接口地址的第二个参数，例如上面的例子表示demo/add接口，callback表示接口的处理函数。file表示接口方法所在的文件。</p>
 <p>接下来，我们就要实现demo_add_resources方法：</p>
-<pre><code class="language-php">function demo_add_resources($data) {
-  $return = array(
-    'code' =&gt; 0,
-    'message' =&gt; '操作失败'
-  );
-  return $return;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">function demo_add_resources($data) {</span>
+<span class="x">  $return = array(</span>
+<span class="x">    &#39;code&#39; =&gt; 0,</span>
+<span class="x">    &#39;message&#39; =&gt; &#39;操作失败&#39;</span>
+<span class="x">  );</span>
+<span class="x">  return $return;</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>最后我们要进入系统管理界面-》结构-》services添加一个端点，我们将机读名称设置为api，服务器选择rest，端点路径设为API，保存，则端点新建成功。点击编辑，将我们刚才新建的接口勾选，保存。这时，接口就发布成功，访问路径为API/demo/add。</p>
 <p>Drupal 8中，web services用插件的形式实现，具体步骤：</p>
 <p>1.下载rest UI第三方模块，放入相应目录，进入后台-》扩展，勾选rest UI、RESTful Web Services、Serialization、HAL、HTTP Basic Authentication，保存。</p>
 <p>2.新建一个自定义的反序列化类。因为Drupal 8 在处理web service的请求时，首先将接收的数据反序列化为某个类，然后处理数据，最后将返回值序列化为json或者xml等数据返回给客户端。所以必须要有反序列化和序列化的类。但是Drupal 8核心中的反序列化类只支持将数据反序列化为entity，这样，对于写接口会非常不便，比如，某个API传递的参数可能并不能和某个entity对应，这样这个接口就没法实现，所以必须要自定义一个反序列化的类，比如可以将数据反序列化为数组。代码如下：</p>
-<pre><code class="language-php">&lt;?php
-/**
- * @file
- * Contains \Drupal\demo\Normalizer\CustomNormalizer.
- */
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\Normalizer\CustomNormalizer.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo\Normalizer;
+<span class="k">namespace</span> <span class="nx">Drupal\demo\Normalizer</span><span class="p">;</span>
 
-class CustomNormalizer extends AbstractNormalizer {
+<span class="k">class</span> <span class="nc">CustomNormalizer</span> <span class="k">extends</span> <span class="nx">AbstractNormalizer</span> <span class="p">{</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function supportsNormalization($data, $format = null)
-  {
-    return false;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">supportsNormalization</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$format</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   *
-   */
-  public function normalize($object, $format = null, array $context = array())
-  {
-    return '';
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   *</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">normalize</span><span class="p">(</span><span class="nv">$object</span><span class="p">,</span> <span class="nv">$format</span> <span class="o">=</span> <span class="k">null</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$context</span> <span class="o">=</span> <span class="k">array</span><span class="p">())</span>
+  <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
 
 
-  /**
-   * {@inheritdoc}
-   */
-  public function supportsDenormalization($data, $type, $format = null)
-  {
-    return $type == 'Array';
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">supportsDenormalization</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$type</span><span class="p">,</span> <span class="nv">$format</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$type</span> <span class="o">==</span> <span class="s1">&#39;Array&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function denormalize($data, $class, $format = null, array $context = array())
-  {
-    $array = (array) $data;
-    return $array;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">denormalize</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$class</span><span class="p">,</span> <span class="nv">$format</span> <span class="o">=</span> <span class="k">null</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$context</span> <span class="o">=</span> <span class="k">array</span><span class="p">())</span>
+  <span class="p">{</span>
+    <span class="nv">$array</span> <span class="o">=</span> <span class="p">(</span><span class="k">array</span><span class="p">)</span> <span class="nv">$data</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$array</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
-</code></pre>
+<span class="p">}</span>
+</code></pre></div>
 <p>实现上述类之后，我们需要将该类定义为service，在demo.services.yml中添加如下代码：</p>
-<pre><code>demo.normalizer.custom:
+<div class="highlight"><pre><span></span><code>demo.normalizer.custom:
   class: Drupal\demo\Normalizer\CustomNormalizer
   tags:
     - { name: normalizer }
-</code></pre>
+</code></pre></div>
 <p>接下来，再实现插件，插件其实是一个类，该类继承自该种插件的基类，并且需要用注解表明该类的插件性质。</p>
-<pre><code class="language-php">&lt;?php
-/**
- * @file
- * Contains \Drupal\demo\Plugin\rest\resource\ExampleResource
- */
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\Plugin\rest\resource\ExampleResource</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo\Plugin\rest\resource;
+<span class="k">namespace</span> <span class="nx">Drupal\demo\Plugin\rest\resource</span><span class="p">;</span>
 
-use Drupal\rest\Plugin\ResourceBase;
-use Drupal\rest\ResourceResponse;
-use Symfony\Component\HttpFoundation\Request;
+<span class="k">use</span> <span class="nx">Drupal\rest\Plugin\ResourceBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\rest\ResourceResponse</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
 
-/**
- * Represents demo as resources.
- *
- * @RestResource(
- *   id = &quot;demo&quot;,
- *   label = @Translation(&quot;Demo Resource&quot;),
- *   serialization_class = &quot;Array&quot;,
- *   uri_paths = {
- *     &quot;canonical&quot; = &quot;/API/demo&quot;,
- *     
- *   }
- * )
- *
- */
-class ExampleResource extends ResourceBase {
+<span class="sd">/**</span>
+<span class="sd"> * Represents demo as resources.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @RestResource(</span>
+<span class="sd"> *   id = &quot;demo&quot;,</span>
+<span class="sd"> *   label = @Translation(&quot;Demo Resource&quot;),</span>
+<span class="sd"> *   serialization_class = &quot;Array&quot;,</span>
+<span class="sd"> *   uri_paths = {</span>
+<span class="sd"> *     &quot;canonical&quot; = &quot;/API/demo&quot;,</span>
+<span class="sd"> *     </span>
+<span class="sd"> *   }</span>
+<span class="sd"> * )</span>
+<span class="sd"> *</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">ExampleResource</span> <span class="k">extends</span> <span class="nx">ResourceBase</span> <span class="p">{</span>
 
-  /**
-   * Responds to GET requests.
-   *
-   * @param array $data
-   * @param Symfony\Component\HttpFoundation\Request $request
-   *
-   * @return \Drupal\rest\ResourceResponse
-   *   The response containing the entity with its accessible fields.
-   *
-   */
-  public function get($data, Request $request) {
-    $logger = \Drupal::logger('rest_get');
-    $logger-&gt;notice($request-&gt;get('sid'));
-    $return = array(
-      'code' =&gt; 1,
-      'message' =&gt; '这是get方法',
-    );
-    $response = new ResourceResponse($return, 200);
-    return $response;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Responds to GET requests.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param array $data</span>
+<span class="sd">   * @param Symfony\Component\HttpFoundation\Request $request</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return \Drupal\rest\ResourceResponse</span>
+<span class="sd">   *   The response containing the entity with its accessible fields.</span>
+<span class="sd">   *</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">get</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$logger</span> <span class="o">=</span> <span class="nx">\Drupal</span><span class="o">::</span><span class="na">logger</span><span class="p">(</span><span class="s1">&#39;rest_get&#39;</span><span class="p">);</span>
+    <span class="nv">$logger</span><span class="o">-&gt;</span><span class="na">notice</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;sid&#39;</span><span class="p">));</span>
+    <span class="nv">$return</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;code&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s1">&#39;message&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;这是get方法&#39;</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ResourceResponse</span><span class="p">(</span><span class="nv">$return</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * Responds to POST requests.
-   *
-   * @param array $data
-   * @param Symfony\Component\HttpFoundation\Request $request
-   *
-   * @return \Drupal\rest\ResourceResponse
-   *   The response containing the entity with its accessible fields.
-   *
-   */
-  public function post($data, Request $request) {
-    $logger = \Drupal::logger('rest_post');
-    $logger-&gt;notice('&lt;pre&gt;' . print_r($data, TRUE). '&lt;/pre&gt;');
-    $return = array(
-      'code' =&gt; 1,
-      'message' =&gt; '这是post方法',
-      'data' =&gt; $data
-    );
-    $response = new ResourceResponse($return, 200);
-    return $response;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Responds to POST requests.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param array $data</span>
+<span class="sd">   * @param Symfony\Component\HttpFoundation\Request $request</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return \Drupal\rest\ResourceResponse</span>
+<span class="sd">   *   The response containing the entity with its accessible fields.</span>
+<span class="sd">   *</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">post</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$logger</span> <span class="o">=</span> <span class="nx">\Drupal</span><span class="o">::</span><span class="na">logger</span><span class="p">(</span><span class="s1">&#39;rest_post&#39;</span><span class="p">);</span>
+    <span class="nv">$logger</span><span class="o">-&gt;</span><span class="na">notice</span><span class="p">(</span><span class="s1">&#39;&lt;pre&gt;&#39;</span> <span class="o">.</span> <span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">)</span><span class="o">.</span> <span class="s1">&#39;&lt;/pre&gt;&#39;</span><span class="p">);</span>
+    <span class="nv">$return</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;code&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s1">&#39;message&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;这是post方法&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="nv">$data</span>
+    <span class="p">);</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ResourceResponse</span><span class="p">(</span><span class="nv">$return</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * Responds to DELETE requests.
-   *
-   * @param array $data
-   * @param Symfony\Component\HttpFoundation\Request $request
-   *
-   * @return \Drupal\rest\ResourceResponse
-   *   The response containing the entity with its accessible fields.
-   *
-   */
-  public function delete($data, Request $request) {
-    $logger = \Drupal::logger('rest_delete');
-    $logger-&gt;notice('&lt;pre&gt;' . print_r($data, TRUE). '&lt;/pre&gt;');
-    $return = array(
-      'code' =&gt; 1,
-      'message' =&gt; '这是delete方法',
-      'data' =&gt; $data
-    );
-    $response = new ResourceResponse($return, 200);
-    return $response;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Responds to DELETE requests.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param array $data</span>
+<span class="sd">   * @param Symfony\Component\HttpFoundation\Request $request</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return \Drupal\rest\ResourceResponse</span>
+<span class="sd">   *   The response containing the entity with its accessible fields.</span>
+<span class="sd">   *</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">delete</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$logger</span> <span class="o">=</span> <span class="nx">\Drupal</span><span class="o">::</span><span class="na">logger</span><span class="p">(</span><span class="s1">&#39;rest_delete&#39;</span><span class="p">);</span>
+    <span class="nv">$logger</span><span class="o">-&gt;</span><span class="na">notice</span><span class="p">(</span><span class="s1">&#39;&lt;pre&gt;&#39;</span> <span class="o">.</span> <span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">)</span><span class="o">.</span> <span class="s1">&#39;&lt;/pre&gt;&#39;</span><span class="p">);</span>
+    <span class="nv">$return</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;code&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s1">&#39;message&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;这是delete方法&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="nv">$data</span>
+    <span class="p">);</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ResourceResponse</span><span class="p">(</span><span class="nv">$return</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
-</code></pre>
+<span class="p">}</span>
+</code></pre></div>
 <p>下面我们来分析一下上述代码，</p>
 <p>1.@RestResource注解表示该类是RestResource类型的插件，也就是该类实现rest web services；</p>
 <p>2.注解中的ID是该插件的ID，label是插件的名称；</p>
 <p>3.serialization_class就是序列化和反序列化的类，我们这里设置为“Array”，则代码会自动调用我们的自定义的反序列化类来反序列化数据；</p>
-<p>4."canonical" = "/API/demo"表示api的路径是/API/demo；"https://www.drupal.org/link-relations/create" = "/API/demo"，表示POST方法提交时的路径，当用POST方法提交时，会覆盖canonical指定路径。</p>
+<p>4."canonical" = "/API/demo"表示api的路径是/API/demo；"<a href="https://www.drupal.org/link-relations/create">https://www.drupal.org/link-relations/create</a>" = "/API/demo"，表示POST方法提交时的路径，当用POST方法提交时，会覆盖canonical指定路径。</p>
 <p>这个web services插件内部实现了三个方法，get、post、delete，分别对应以get方法、post方法和delete方法提交的处理方法。换句话说，如果我以get方法访问API/demo，则调用get，以post方法访问API/demo，则调用post，以delete方法访问API/demo则调用delete。</p>
 <p>到目前为止，我们的代码就全部写完，要使用该API，需要进入后台-》配置-》rest，启用这个api，您可以选择性的启用get、post和delete方法，同时选择请求和返回的数据格式，比如hal_json、json、xml，点击保存后，您就可以访问该api了。</p>
-<h3 id="7drupal-8">7、Drupal 8中的新增机制</h3>
+<h3 id="7drupal-8">7、Drupal 8中的新增机制<a class="headerlink" href="#7drupal-8" title="Permanent link">&para;</a></h3>
 <p>Drupal 8采用了面向对象的方法，自然也会引入很多面向对象的新特性，比如依赖注入、服务容器，本文只是提出这些新特性，更深入的介绍请参考相应的文章。</p>
 <ol>
 <li>依赖注入和服务容器，请参考<a href="http://verynull.com/2015/12/15/Drupal8-Service-DependencyInjection/" title="依赖注入和服务容器">http://verynull.com/2015/12/15/Drupal8-Service-DependencyInjection/</a></li>

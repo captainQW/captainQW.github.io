@@ -442,101 +442,100 @@
 
   <h1>"Drupal8 Configuration Entity"</h1>
 
-<hr />
 <p>Drupal8的实体由2部分组成，配置实体(configuration entities)和内容实体(content entities)。如图：
 <img alt="Entity" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222113456_92999.png" /></p>
-<p>本节源代码见 https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example</p>
-<p>内容实体见：http://verynull.com/2015/12/22/drupal8-content-entity/</p>
-<h3 id="configuration-entity-interface">一、配置实体接口(configuration entity interface)</h3>
+<p>本节源代码见 <a href="https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example">https://github.com/RamboLau/drupal8-demos/tree/master/config_entities_example</a></p>
+<p>内容实体见：<a href="http://verynull.com/2015/12/22/drupal8-content-entity/">http://verynull.com/2015/12/22/drupal8-content-entity/</a></p>
+<h3 id="configuration-entity-interface">一、配置实体接口(configuration entity interface)<a class="headerlink" href="#configuration-entity-interface" title="Permanent link">&para;</a></h3>
 <p>在src目录下touch DemoInterface.php，DemoInterface继承并实现<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Config%21Entity%21ConfigEntityInterface.php/interface/ConfigEntityInterface/8">ConfigEntityInterface</a>。</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\demo\DemoInterface.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\DemoInterface.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo;
+<span class="k">namespace</span> <span class="nx">Drupal\demo</span><span class="p">;</span>
 
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Config\Entity\ConfigEntityInterface</span><span class="p">;</span>
 
-/**
- * Provides an interface defining a demo entity type.
- */
-interface DemoInterface extends ConfigEntityInterface {
-  // Add get/set methods for your configuration properties here.
-}
+<span class="sd">/**</span>
+<span class="sd"> * Provides an interface defining a demo entity type.</span>
+<span class="sd"> */</span>
+<span class="k">interface</span> <span class="nx">DemoInterface</span> <span class="k">extends</span> <span class="nx">ConfigEntityInterface</span> <span class="p">{</span>
+  <span class="c1">// Add get/set methods for your configuration properties here.</span>
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
-<h3 id="configuration-entity-class">二、配置实体类(configuration entity class)</h3>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h3 id="configuration-entity-class">二、配置实体类(configuration entity class)<a class="headerlink" href="#configuration-entity-class" title="Permanent link">&para;</a></h3>
 <p>在src目录下创建Entity目录，并touch src/Entity/Demo.php，在这个文件中我们将实现DemoEntity。</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\demo\Entity\Demo.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\Entity\Demo.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo\Entity;
+<span class="k">namespace</span> <span class="nx">Drupal\demo\Entity</span><span class="p">;</span>
 
-use Drupal\Core\Config\Entity\ConfigEntityBase;
-use Drupal\demo\DemoInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Config\Entity\ConfigEntityBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\demo\DemoInterface</span><span class="p">;</span>
 
-/**
- * Defines the Demo entity.
- *
- * @ConfigEntityType(
- *   id = &quot;demo&quot;,
- *   label = @Translation(&quot;Demo&quot;),
- *   fieldable = FALSE,
- *   handlers = {
- *     &quot;list_builder&quot; = &quot;Drupal\demo\DemoListBuilder&quot;,
- *     &quot;form&quot; = {
- *       &quot;add&quot; = &quot;Drupal\demo\Form\DemoForm&quot;,
- *       &quot;edit&quot; = &quot;Drupal\demo\Form\DemoForm&quot;,
- *       &quot;delete&quot; = &quot;Drupal\demo\Form\DemoDeleteForm&quot;
- *     }
- *   },
- *   config_prefix = &quot;demo&quot;,
- *   admin_permission = &quot;administer site configuration&quot;,
- *   entity_keys = {
- *     &quot;id&quot; = &quot;id&quot;,
- *     &quot;label&quot; = &quot;name&quot;
- *   },
- *   links = {
- *     &quot;edit-form&quot; = &quot;/admin/structure/demos/{demo}&quot;,
- *     &quot;delete-form&quot; = &quot;/admin/structure/demos/{demo}/delete&quot;
- *   }
- * )
- */
-class Demo extends ConfigEntityBase implements DemoInterface {
+<span class="sd">/**</span>
+<span class="sd"> * Defines the Demo entity.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ConfigEntityType(</span>
+<span class="sd"> *   id = &quot;demo&quot;,</span>
+<span class="sd"> *   label = @Translation(&quot;Demo&quot;),</span>
+<span class="sd"> *   fieldable = FALSE,</span>
+<span class="sd"> *   handlers = {</span>
+<span class="sd"> *     &quot;list_builder&quot; = &quot;Drupal\demo\DemoListBuilder&quot;,</span>
+<span class="sd"> *     &quot;form&quot; = {</span>
+<span class="sd"> *       &quot;add&quot; = &quot;Drupal\demo\Form\DemoForm&quot;,</span>
+<span class="sd"> *       &quot;edit&quot; = &quot;Drupal\demo\Form\DemoForm&quot;,</span>
+<span class="sd"> *       &quot;delete&quot; = &quot;Drupal\demo\Form\DemoDeleteForm&quot;</span>
+<span class="sd"> *     }</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   config_prefix = &quot;demo&quot;,</span>
+<span class="sd"> *   admin_permission = &quot;administer site configuration&quot;,</span>
+<span class="sd"> *   entity_keys = {</span>
+<span class="sd"> *     &quot;id&quot; = &quot;id&quot;,</span>
+<span class="sd"> *     &quot;label&quot; = &quot;name&quot;</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   links = {</span>
+<span class="sd"> *     &quot;edit-form&quot; = &quot;/admin/structure/demos/{demo}&quot;,</span>
+<span class="sd"> *     &quot;delete-form&quot; = &quot;/admin/structure/demos/{demo}/delete&quot;</span>
+<span class="sd"> *   }</span>
+<span class="sd"> * )</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">Demo</span> <span class="k">extends</span> <span class="nx">ConfigEntityBase</span> <span class="k">implements</span> <span class="nx">DemoInterface</span> <span class="p">{</span>
 
-  /**
-   * The ID of the demo.
-   *
-   * @var string
-   */
-  public $id;
+  <span class="sd">/**</span>
+<span class="sd">   * The ID of the demo.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="nv">$id</span><span class="p">;</span>
 
-  /**
-   * The demo name.
-   *
-   * @var string
-   */
-  public $name;
+  <span class="sd">/**</span>
+<span class="sd">   * The demo name.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
 
-  /**
-   * The demo sex.
-   *
-   * @var string
-   */
-  public $sex;
+  <span class="sd">/**</span>
+<span class="sd">   * The demo sex.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var string</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="nv">$sex</span><span class="p">;</span>
 
-}
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>上面定义Entity的方式熟悉吧！对，就是注解annotation。</p>
 <p>@ConfigEntityType告诉Drupal这是一个配置实体。参数如下：
 1、lable：翻译系统的标签
@@ -547,320 +546,320 @@ class Demo extends ConfigEntityBase implements DemoInterface {
 6、admin_permission：管理员权限
 7、entity_keys：主要实体属性的集合
 8、links：编辑和删除的路径，在demo.routing.yml中定义</p>
-<h3 id="entity-form">三、实体表单(entity form)</h3>
+<h3 id="entity-form">三、实体表单(entity form)<a class="headerlink" href="#entity-form" title="Permanent link">&para;</a></h3>
 <p>接下来我们来实现在Entity中的定义的表单，如add, edit, delete。</p>
-<h4 id="1mkdir-p-srcformtouch-srcformdemoformphp">1、mkdir -p src/Form，并touch src/Form/DemoForm.php。</h4>
+<h4 id="1mkdir-p-srcformtouch-srcformdemoformphp">1、mkdir -p src/Form，并touch src/Form/DemoForm.php。<a class="headerlink" href="#1mkdir-p-srcformtouch-srcformdemoformphp" title="Permanent link">&para;</a></h4>
 <p>在DemoForm主要实现2个方法，form()和save()。</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\demo\Form\DemoForm.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\Form\DemoForm.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo\Form;
+<span class="k">namespace</span> <span class="nx">Drupal\demo\Form</span><span class="p">;</span>
 
-use Drupal\Core\Entity\EntityForm;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
-use Drupal\Core\Form\FormStateInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityForm</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityTypeInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\ContainerInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\Query\QueryFactory</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
 
-/**
- * Class DemoForm
- *
- * Form class for adding/editing demo config entities.
- */
-class DemoForm extends EntityForm {
+<span class="sd">/**</span>
+<span class="sd"> * Class DemoForm</span>
+<span class="sd"> *</span>
+<span class="sd"> * Form class for adding/editing demo config entities.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">DemoForm</span> <span class="k">extends</span> <span class="nx">EntityForm</span> <span class="p">{</span>
 
-  /**
-   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
-   *   The entity query.
-   */
-  public function __construct(QueryFactory $entity_query) {
-    $this-&gt;entityQuery = $entity_query;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query</span>
+<span class="sd">   *   The entity query.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nx">QueryFactory</span> <span class="nv">$entity_query</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityQuery</span> <span class="o">=</span> <span class="nv">$entity_query</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container-&gt;get('entity.query')
-    );
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">create</span><span class="p">(</span><span class="nx">ContainerInterface</span> <span class="nv">$container</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="k">static</span><span class="p">(</span>
+      <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;entity.query&#39;</span><span class="p">)</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function form(array $form, FormStateInterface $form_state) {
-    $form = parent::form($form, $form_state);
-    $demo = $this-&gt;entity;
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">form</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">form</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$form_state</span><span class="p">);</span>
+    <span class="nv">$demo</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
 
-    // Change page title for the edit operation
-    if ($this-&gt;operation == 'edit') {
-      $form['#title'] = $this-&gt;t('Edit demo: @name', array('@name' =&gt; $demo-&gt;name));
-    }
+    <span class="c1">// Change page title for the edit operation</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">operation</span> <span class="o">==</span> <span class="s1">&#39;edit&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Edit demo: @name&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;@name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">));</span>
+    <span class="p">}</span>
 
-    // The demo name.
-    $form['name'] = array(
-      '#type' =&gt; 'textfield',
-      '#title' =&gt; $this-&gt;t('Name'),
-      '#maxlength' =&gt; 255,
-      '#default_value' =&gt; $demo-&gt;name,
-      '#description' =&gt; $this-&gt;t(&quot;demo name.&quot;),
-      '#required' =&gt; TRUE,
-    );
+    <span class="c1">// The demo name.</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;textfield&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">),</span>
+      <span class="s1">&#39;#maxlength&#39;</span> <span class="o">=&gt;</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span>
+      <span class="s1">&#39;#description&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s2">&quot;demo name.&quot;</span><span class="p">),</span>
+      <span class="s1">&#39;#required&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+    <span class="p">);</span>
 
-    // The unique machine name of the demo.
-    $form['id'] = array(
-      '#type' =&gt; 'machine_name',
-      '#maxlength' =&gt; EntityTypeInterface::BUNDLE_MAX_LENGTH,
-      '#default_value' =&gt; $demo-&gt;id,
-      '#disabled' =&gt; !$demo-&gt;isNew(),
-      '#machine_name' =&gt; array(
-        'source' =&gt; array('name'),
-        'exists' =&gt; 'demo_load'
-      ),
-    );
+    <span class="c1">// The unique machine name of the demo.</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;machine_name&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#maxlength&#39;</span> <span class="o">=&gt;</span> <span class="nx">EntityTypeInterface</span><span class="o">::</span><span class="na">BUNDLE_MAX_LENGTH</span><span class="p">,</span>
+      <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">,</span>
+      <span class="s1">&#39;#disabled&#39;</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">isNew</span><span class="p">(),</span>
+      <span class="s1">&#39;#machine_name&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;source&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;exists&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;demo_load&#39;</span>
+      <span class="p">),</span>
+    <span class="p">);</span>
 
-    // The sex.
-    $form['sex'] = array(
-      '#type' =&gt; 'select',
-      '#options' =&gt; array(
-        'Man' =&gt; 'Man',
-        'Woman' =&gt; 'Woman',
-      ),
-      '#title' =&gt; $this-&gt;t('Sex'),
-      '#maxlength' =&gt; 255,
-      '#default_value' =&gt; $demo-&gt;sex,
-      '#description' =&gt; $this-&gt;t(&quot;sex&quot;),
-      '#required' =&gt; TRUE,
-    );
-    return $form;
-  }
+    <span class="c1">// The sex.</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#options&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;Man&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Man&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Woman&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Woman&#39;</span><span class="p">,</span>
+      <span class="p">),</span>
+      <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Sex&#39;</span><span class="p">),</span>
+      <span class="s1">&#39;#maxlength&#39;</span> <span class="o">=&gt;</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">sex</span><span class="p">,</span>
+      <span class="s1">&#39;#description&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s2">&quot;sex&quot;</span><span class="p">),</span>
+      <span class="s1">&#39;#required&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function save(array $form, FormStateInterface $form_state) {
-    $demo = $this-&gt;entity;
-    $status = $demo-&gt;save();
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">save</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$demo</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+    <span class="nv">$status</span> <span class="o">=</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
 
-    if ($status) {
-      // Setting the success message.
-      drupal_set_message($this-&gt;t('Saved the demo: @label.', array(
-        '@label' =&gt; $demo-&gt;name,
-      )));
-    }
-    else {
-      drupal_set_message($this-&gt;t('The @label demo was not saved.', array(
-        '@label' =&gt; $demo-&gt;name,
-      )));
-    }
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$status</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Setting the success message.</span>
+      <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Saved the demo: @label.&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;@label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span>
+      <span class="p">)));</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;The @label demo was not saved.&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;@label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$demo</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">,</span>
+      <span class="p">)));</span>
+    <span class="p">}</span>
 
-    $form_state-&gt;setRedirect('demo.list');
-  }
-} 
-?&gt;
-</code></pre>
+    <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">setRedirect</span><span class="p">(</span><span class="s1">&#39;demo.list&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> 
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>如图：</p>
 <p><img alt="DemoForm" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212259_77460.png" /></p>
-<h4 id="2touch-srcformdemoformdeletephp">2、touch src/Form/DemoFormDelete.php。</h4>
+<h4 id="2touch-srcformdemoformdeletephp">2、touch src/Form/DemoFormDelete.php。<a class="headerlink" href="#2touch-srcformdemoformdeletephp" title="Permanent link">&para;</a></h4>
 <p>DemoFormDelete继承<a href="https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21EntityConfirmFormBase.php/class/EntityConfirmFormBase/8">EntityConfirmFormBase</a>。</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\demo\Form\DemoDeleteForm.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\demo\Form\DemoDeleteForm.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo\Form;
+<span class="k">namespace</span> <span class="nx">Drupal\demo\Form</span><span class="p">;</span>
 
-use Drupal\Core\Entity\EntityConfirmFormBase;
-use Drupal\Core\Url;
-use Drupal\Core\Form\FormStateInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityConfirmFormBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Url</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
 
 
-/**
- * Form that handles the removal of demo entities.
- */
-class DemoDeleteForm extends EntityConfirmFormBase {
+<span class="sd">/**</span>
+<span class="sd"> * Form that handles the removal of demo entities.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">DemoDeleteForm</span> <span class="k">extends</span> <span class="nx">EntityConfirmFormBase</span> <span class="p">{</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getQuestion() {
-    return $this-&gt;t('Are you sure you want to delete this demo: @name?', array('@name' =&gt; $this-&gt;entity-&gt;name));
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getQuestion</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Are you sure you want to delete this demo: @name?&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;@name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">));</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getCancelUrl() {
-    return new Url('demo.list');
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getCancelUrl</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Url</span><span class="p">(</span><span class="s1">&#39;demo.list&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getConfirmText() {
-    return $this-&gt;t('Delete');
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getConfirmText</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Delete&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &amp;$form, FormStateInterface $form_state) {
-    // Delete and set message
-    $this-&gt;entity-&gt;delete();
-    drupal_set_message($this-&gt;t('The demo @name has been deleted.', array('@name' =&gt; $this-&gt;entity-&gt;name)));
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">submitForm</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Delete and set message</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
+    <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;The demo @name has been deleted.&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;@name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">)));</span>
 
-    $form_state-&gt;setRedirectUrl($this-&gt;getCancelUrl());
-  }
-}
-?&gt;
-</code></pre>
+    <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">setRedirectUrl</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getCancelUrl</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>如图：
 <img alt="FormDelete" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212429_43428.png" /></p>
-<h3 id="list-builder">四、list builder</h3>
+<h3 id="list-builder">四、list builder<a class="headerlink" href="#list-builder" title="Permanent link">&para;</a></h3>
 <p>接下来就该创建管理界面啦！</p>
 <p>在src目录下，touch DemoListBuilder.php</p>
 <p>DemoListBuilder继承<a href="https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Config!Entity!ConfigEntityListBuilder.php/class/ConfigEntityListBuilder/8">ConfigEntityListBuilder</a>，实现了三个方法。</p>
 <p>1、buildHeader：创建表格header
 2、buildRow：创建表格行
 3、render：重写表格输出的内容，类似于Drupal7的hook</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- *
- * Contains Drupal\demo\DemoListBuilder
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> *</span>
+<span class="sd"> * Contains Drupal\demo\DemoListBuilder</span>
+<span class="sd"> */</span>
 
-namespace Drupal\demo;
+<span class="k">namespace</span> <span class="nx">Drupal\demo</span><span class="p">;</span>
 
-use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
-use Drupal\Core\Entity\EntityInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Config\Entity\ConfigEntityListBuilder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityInterface</span><span class="p">;</span>
 
-class DemoListBuilder extends ConfigEntityListBuilder {
+<span class="k">class</span> <span class="nc">DemoListBuilder</span> <span class="k">extends</span> <span class="nx">ConfigEntityListBuilder</span> <span class="p">{</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildHeader() {
-    $header['label'] = $this-&gt;t('Name');
-    $header['sex'] = $this-&gt;t('Sex');
-    return $header + parent::buildHeader();
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildHeader</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$header</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">);</span>
+    <span class="nv">$header</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Sex&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$header</span> <span class="o">+</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildHeader</span><span class="p">();</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildRow(EntityInterface $entity) {
-    // Label
-    $row['label'] = $this-&gt;getLabel($entity);
-    // Sex
-    $row['sex'] = $entity-&gt;sex;
-    return $row + parent::buildRow($entity);
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildRow</span><span class="p">(</span><span class="nx">EntityInterface</span> <span class="nv">$entity</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Label</span>
+    <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getLabel</span><span class="p">(</span><span class="nv">$entity</span><span class="p">);</span>
+    <span class="c1">// Sex</span>
+    <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">sex</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$row</span> <span class="o">+</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildRow</span><span class="p">(</span><span class="nv">$entity</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function render() {
-    $build = parent::render();
-    $build['#empty'] = $this-&gt;t('There are no data available.');
-    return $build;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$build</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">render</span><span class="p">();</span>
+    <span class="nv">$build</span><span class="p">[</span><span class="s1">&#39;#empty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;There are no data available.&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$build</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
-?&gt;
-</code></pre>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>如图：
 <img alt="ListBuilder" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212547_35896.png" /></p>
-<h3 id="schema">五、schema</h3>
-<pre><code class="language-bash">mkdir config/schema
+<h3 id="schema">五、schema<a class="headerlink" href="#schema" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>mkdir config/schema
 touch demo.schema.yml
-</code></pre>
-<pre><code class="language-php"># Schema for the configuration files of the Demo module.
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="x"># Schema for the configuration files of the Demo module.</span>
 
-demo.demo.*:
-  type: mapping
-  label: 'Demo'
-  mapping:
-    id:
-      type: string
-      label: 'Demo identifier'
-    uuid:
-      type: string
-      label: 'UUID'
-    name:
-      type: label
-      label: 'Name'
-    sex:
-      type: string
-      label: 'Sex'
-      translatable: true
-</code></pre>
+<span class="x">demo.demo.*:</span>
+<span class="x">  type: mapping</span>
+<span class="x">  label: &#39;Demo&#39;</span>
+<span class="x">  mapping:</span>
+<span class="x">    id:</span>
+<span class="x">      type: string</span>
+<span class="x">      label: &#39;Demo identifier&#39;</span>
+<span class="x">    uuid:</span>
+<span class="x">      type: string</span>
+<span class="x">      label: &#39;UUID&#39;</span>
+<span class="x">    name:</span>
+<span class="x">      type: label</span>
+<span class="x">      label: &#39;Name&#39;</span>
+<span class="x">    sex:</span>
+<span class="x">      type: string</span>
+<span class="x">      label: &#39;Sex&#39;</span>
+<span class="x">      translatable: true</span>
+</code></pre></div>
 <p>schema的命名规则：</p>
-<pre><code class="language-bash">(demo module).(demo configuration entity type).(all demo configuration entities).
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="o">(</span>demo module<span class="o">)</span>.<span class="o">(</span>demo configuration entity <span class="nb">type</span><span class="o">)</span>.<span class="o">(</span>all demo configuration entities<span class="o">)</span>.
+</code></pre></div>
 <p>uuid在这里也可以不用定义，drupal默认会添加。</p>
-<h3 id="routing">六、routing</h3>
+<h3 id="routing">六、routing<a class="headerlink" href="#routing" title="Permanent link">&para;</a></h3>
 <p>定义一些路由：</p>
-<pre><code class="language-bash">demo.list:
-  path: '/admin/structure/demos'
+<div class="highlight"><pre><span></span><code>demo.list:
+  path: <span class="s1">&#39;/admin/structure/demos&#39;</span>
   defaults:
-    _entity_list: 'demo'
-    _title: 'Demos'
+    _entity_list: <span class="s1">&#39;demo&#39;</span>
+    _title: <span class="s1">&#39;Demos&#39;</span>
   requirements:
-    _permission: 'administer site configuration'
+    _permission: <span class="s1">&#39;administer site configuration&#39;</span>
 demo.add:
-  path: '/admin/structure/demos/add'
+  path: <span class="s1">&#39;/admin/structure/demos/add&#39;</span>
   defaults:
-    _entity_form: 'demo.add'
-    _title: 'Add a new demo'
+    _entity_form: <span class="s1">&#39;demo.add&#39;</span>
+    _title: <span class="s1">&#39;Add a new demo&#39;</span>
   requirements:
-    _permission: 'administer site configuration'
+    _permission: <span class="s1">&#39;administer site configuration&#39;</span>
 entity.demo.edit_form:
-  path: '/admin/structure/demos/{demo}'
+  path: <span class="s1">&#39;/admin/structure/demos/{demo}&#39;</span>
   defaults:
-    _entity_form: 'demo.edit'
-    _title: 'Edit demo'
+    _entity_form: <span class="s1">&#39;demo.edit&#39;</span>
+    _title: <span class="s1">&#39;Edit demo&#39;</span>
   requirements:
-    _permission: 'administer site configuration'
+    _permission: <span class="s1">&#39;administer site configuration&#39;</span>
 entity.demo.delete_form:
-  path: '/admin/structure/demos/{demo}/delete'
+  path: <span class="s1">&#39;/admin/structure/demos/{demo}/delete&#39;</span>
   defaults:
-    _entity_form: 'demo.delete'
-    _title: 'Delete demo'
+    _entity_form: <span class="s1">&#39;demo.delete&#39;</span>
+    _title: <span class="s1">&#39;Delete demo&#39;</span>
   requirements:
-    _permission: 'administer site configuration'
-</code></pre>
-<h3 id="links">七、 links</h3>
-<h4 id="1demolinksactionyml">1、显示添加按钮在网页上，需要在demo.links.action.yml中定义</h4>
-<pre><code class="language-bash">demo.add:
-  route_name: 'demo.add'
-  title: 'Add demo'
+    _permission: <span class="s1">&#39;administer site configuration&#39;</span>
+</code></pre></div>
+<h3 id="links">七、 links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h3>
+<h4 id="1demolinksactionyml">1、显示添加按钮在网页上，需要在demo.links.action.yml中定义<a class="headerlink" href="#1demolinksactionyml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>demo.add:
+  route_name: <span class="s1">&#39;demo.add&#39;</span>
+  title: <span class="s1">&#39;Add demo&#39;</span>
   appears_on:
     - demo.list
-</code></pre>
+</code></pre></div>
 <p><img alt="demo.add" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212157_21914.png" /></p>
-<h4 id="2adminstructuredemodemolinksmenuyml">2、在admin/structure页面显示demo，需要在demo.links.menu.yml中定义</h4>
-<pre><code class="language-bash">demo.list:
+<h4 id="2adminstructuredemodemolinksmenuyml">2、在admin/structure页面显示demo，需要在demo.links.menu.yml中定义<a class="headerlink" href="#2adminstructuredemodemolinksmenuyml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>demo.list:
   title: Demo
-  description: 'Administrator the demo entities'
+  description: <span class="s1">&#39;Administrator the demo entities&#39;</span>
   parent: system.admin_structure
   route_name: demo.list
-</code></pre>
+</code></pre></div>
 <p>如图：
 <img alt="demo.list" src="https://static.verycloud.cn/sites/default/files/pic/image/20151222/20151222212041_77165.png" /></p>
 <p>参考文章：
-1、http://www.slideshare.net/andypost/d8-entity
-2、http://www.sitepoint.com/drupal-8-version-entityfieldquery/
-3、https://www.drupal.org/node/1809494</p>
+1、<a href="http://www.slideshare.net/andypost/d8-entity">http://www.slideshare.net/andypost/d8-entity</a>
+2、<a href="http://www.sitepoint.com/drupal-8-version-entityfieldquery/">http://www.sitepoint.com/drupal-8-version-entityfieldquery/</a>
+3、<a href="https://www.drupal.org/node/1809494">https://www.drupal.org/node/1809494</a></p>
 
               
             </article>

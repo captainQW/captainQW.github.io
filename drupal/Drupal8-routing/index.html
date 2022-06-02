@@ -454,246 +454,245 @@
 
   <h1>"Drupal8 Routing"</h1>
 
-<hr />
 <p>Drupal8的路由控制系统跟Drupal7完全不同，在drupal7中，路由一般是定义在module文件的hook_menu中，如链接、访问控制、回调方法等。而drupal8由于包含了Symfony2的路由组件（Symfony2 Routing component），一般定义在{module_name}.routing.yml中。</p>
 <p>本文介绍如何创建一个路由控制器，并如何使用依赖注入(DI)。</p>
 <p>下面这张图非常明了的说明了他们之间的关系。</p>
 <p><img alt="D8-routing" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223201522_69597.png" /></p>
-<p>本文github： https://github.com/RamboLau/drupal8-demos/tree/master/routing_example</p>
-<h3 id="static-routes">一、静态路由(Static Routes)</h3>
-<h4 id="1drupal7">1、Drupal7路由</h4>
+<p>本文github： <a href="https://github.com/RamboLau/drupal8-demos/tree/master/routing_example">https://github.com/RamboLau/drupal8-demos/tree/master/routing_example</a></p>
+<h3 id="static-routes">一、静态路由(Static Routes)<a class="headerlink" href="#static-routes" title="Permanent link">&para;</a></h3>
+<h4 id="1drupal7">1、Drupal7路由<a class="headerlink" href="#1drupal7" title="Permanent link">&para;</a></h4>
 <p>在Drupal7中，通过hook_menu来管理路由，但是这就导致代码的耦合性太高，如果要提供丰富的返回格式，如JSON, XML or HTML，就无能为力了！</p>
 <p>如：</p>
-<pre><code class="language-php">&lt;?php
-/**
- * Implements hook_menu()
- */
-function routing_example_menu() {
-  $items['hello'] = array(
-    'title' =&gt; 'Hello World',
-    'description' =&gt; &quot;hello world page&quot;,
-    'route_name' =&gt; 'helloWorldPage', 
-    'type' =&gt; MENU_LOCAL_TASK,
-  );
-  return $items;
-}
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * Implements hook_menu()</span>
+<span class="sd"> */</span>
+<span class="k">function</span> <span class="nf">routing_example_menu</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nv">$items</span><span class="p">[</span><span class="s1">&#39;hello&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Hello World&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;description&#39;</span> <span class="o">=&gt;</span> <span class="s2">&quot;hello world page&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;route_name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;helloWorldPage&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="nx">MENU_LOCAL_TASK</span><span class="p">,</span>
+  <span class="p">);</span>
+  <span class="k">return</span> <span class="nv">$items</span><span class="p">;</span>
+<span class="p">}</span>
 
-/**
- * Implements hook_permission().
- */
-function routing_example_permission() {
-  return array(
-    'access hello world' =&gt; array(
-      'title' =&gt; t('Access hello world page'),
-    ),
-  );
-}
+<span class="sd">/**</span>
+<span class="sd"> * Implements hook_permission().</span>
+<span class="sd"> */</span>
+<span class="k">function</span> <span class="nf">routing_example_permission</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;access hello world&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Access hello world page&#39;</span><span class="p">),</span>
+    <span class="p">),</span>
+  <span class="p">);</span>
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
-<h4 id="2drupal8">2、Drupal8路由</h4>
-<h5 id="routing_exampleroutingyml">routing_example.routing.yml</h5>
-<pre><code class="language-php">routing_example.example_controller_index:
-  path: '/routing_example/index/hello/{name}'
-  defaults:
-    _controller: '\Drupal\routing_example\Controller\BaseController::index'
-    _title: 'hello world'
-  requirements:
-    _permission: 'access content'
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h4 id="2drupal8">2、Drupal8路由<a class="headerlink" href="#2drupal8" title="Permanent link">&para;</a></h4>
+<h5 id="routing_exampleroutingyml">routing_example.routing.yml<a class="headerlink" href="#routing_exampleroutingyml" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="x">routing_example.example_controller_index:</span>
+<span class="x">  path: &#39;/routing_example/index/hello/{name}&#39;</span>
+<span class="x">  defaults:</span>
+<span class="x">    _controller: &#39;\Drupal\routing_example\Controller\BaseController::index&#39;</span>
+<span class="x">    _title: &#39;hello world&#39;</span>
+<span class="x">  requirements:</span>
+<span class="x">    _permission: &#39;access content&#39;</span>
 
-routing_example.example_controller_dependency_injection:
-  path: '/routing_example/dependency_injection'
-  defaults:
-    _controller: '\Drupal\routing_example\Controller\ExampleDependencyInjectionController::index'
-    _title: 'hello world'
-  requirements:
-    _permission: 'access content'
-</code></pre>
-<h5 id="srccontrollerbasecontrollerphp">src/Controller/BaseController.php</h5>
+<span class="x">routing_example.example_controller_dependency_injection:</span>
+<span class="x">  path: &#39;/routing_example/dependency_injection&#39;</span>
+<span class="x">  defaults:</span>
+<span class="x">    _controller: &#39;\Drupal\routing_example\Controller\ExampleDependencyInjectionController::index&#39;</span>
+<span class="x">    _title: &#39;hello world&#39;</span>
+<span class="x">  requirements:</span>
+<span class="x">    _permission: &#39;access content&#39;</span>
+</code></pre></div>
+<h5 id="srccontrollerbasecontrollerphp">src/Controller/BaseController.php<a class="headerlink" href="#srccontrollerbasecontrollerphp" title="Permanent link">&para;</a></h5>
 <p>这是一个普通的Controller类，通过访问/routing_example/index/hello/{name}调用index，输出Implement method: index with parameter(s): $name。</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\routing_example\Controller\BaseController.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\routing_example\Controller\BaseController.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\routing_example\Controller;
+<span class="k">namespace</span> <span class="nx">Drupal\routing_example\Controller</span><span class="p">;</span>
 
-use Drupal\Core\Controller\ControllerBase;
+<span class="k">use</span> <span class="nx">Drupal\Core\Controller\ControllerBase</span><span class="p">;</span>
 
-/**
- * Class BaseController.
- *
- * @package Drupal\routing_example\Controller
- */
-class BaseController extends ControllerBase {
-  /**
-   * Index.
-   *
-   * @return string
-   *   Return Hello string.
-   */
-  public function index($name) {
-    return [
-        '#type' =&gt; 'markup',
-        '#markup' =&gt; $this-&gt;t(&quot;Implement method: index with parameter(s): $name&quot;)
-    ];
-  }
+<span class="sd">/**</span>
+<span class="sd"> * Class BaseController.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @package Drupal\routing_example\Controller</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">BaseController</span> <span class="k">extends</span> <span class="nx">ControllerBase</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * Index.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return string</span>
+<span class="sd">   *   Return Hello string.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">index</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;markup&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;#markup&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s2">&quot;Implement method: index with parameter(s): </span><span class="si">$name</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="p">];</span>
+  <span class="p">}</span>
 
-}
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
-<h5 id="srccontrollerexampledependencyinjectioncontrollerphp">src/Controller/ExampleDependencyInjectionController.php</h5>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h5 id="srccontrollerexampledependencyinjectioncontrollerphp">src/Controller/ExampleDependencyInjectionController.php<a class="headerlink" href="#srccontrollerexampledependencyinjectioncontrollerphp" title="Permanent link">&para;</a></h5>
 <p>这是一个依赖注入的Controler类，我们这里以访问数据库为例。</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\routing_example\Controller\ExampleDependencyInjectionController.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\routing_example\Controller\ExampleDependencyInjectionController.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\routing_example\Controller;
+<span class="k">namespace</span> <span class="nx">Drupal\routing_example\Controller</span><span class="p">;</span>
 
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\Core\Database\Connection;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\DependencyInjection\ContainerInjectionInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Database\Connection</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\ContainerInterface</span><span class="p">;</span>
 
-/**
- * Class ExampleDependencyInjectionController.
- *
- * @package Drupal\routing_example\Controller
- */
-class ExampleDependencyInjectionController implements  ContainerInjectionInterface {
+<span class="sd">/**</span>
+<span class="sd"> * Class ExampleDependencyInjectionController.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @package Drupal\routing_example\Controller</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">ExampleDependencyInjectionController</span> <span class="k">implements</span>  <span class="nx">ContainerInjectionInterface</span> <span class="p">{</span>
 
-  /**
-   * The database connection.
-   *
-   * @var \Drupal\Core\Database\Connection;
-   */
-  protected $database;
+  <span class="sd">/**</span>
+<span class="sd">   * The database connection.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @var \Drupal\Core\Database\Connection;</span>
+<span class="sd">   */</span>
+  <span class="k">protected</span> <span class="nv">$database</span><span class="p">;</span>
 
-  /**
-   * Constructs a \Drupal\routing_example\Controller\ExampleDependencyInjectionController object.
-   *
-   * @param \Drupal\Core\Database\Connection $database
-   *   The database connection.
-   */
-  public function __construct(Connection $database) {
-    $this-&gt;database = $database;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Constructs a \Drupal\routing_example\Controller\ExampleDependencyInjectionController object.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param \Drupal\Core\Database\Connection $database</span>
+<span class="sd">   *   The database connection.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="fm">__construct</span><span class="p">(</span><span class="nx">Connection</span> <span class="nv">$database</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">database</span> <span class="o">=</span> <span class="nv">$database</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static($container-&gt;get('database'));
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">create</span><span class="p">(</span><span class="nx">ContainerInterface</span> <span class="nv">$container</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="k">static</span><span class="p">(</span><span class="nv">$container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;database&#39;</span><span class="p">));</span>
+  <span class="p">}</span>
 
-  /**
-   * Displays a list of nodes.
-   */
-  public function index() {
-    // query the database
-    $result = $this-&gt;database-&gt;query('SELECT * from {node} WHERE nid = 1')-&gt;fetchAll();
+  <span class="sd">/**</span>
+<span class="sd">   * Displays a list of nodes.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">index</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// query the database</span>
+    <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">database</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="s1">&#39;SELECT * from {node} WHERE nid = 1&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">fetchAll</span><span class="p">();</span>
 
-    return [
-      '#type' =&gt; 'markup',
-      '#markup' =&gt; json_encode($result),
-    ];
-  }
+    <span class="k">return</span> <span class="p">[</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;markup&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#markup&#39;</span> <span class="o">=&gt;</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$result</span><span class="p">),</span>
+    <span class="p">];</span>
+  <span class="p">}</span>
 
-}
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
-<p>访问 http://127.0.0.1/routing_example/dependency_injection</p>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>访问 <a href="http://127.0.0.1/routing_example/dependency_injection">http://127.0.0.1/routing_example/dependency_injection</a></p>
 <p>输出：</p>
 <p><img alt="DI" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223205139_89300.png" /></p>
-<h3 id="dynamic-routes">二、动态路由(Dynamic Routes)</h3>
+<h3 id="dynamic-routes">二、动态路由(Dynamic Routes)<a class="headerlink" href="#dynamic-routes" title="Permanent link">&para;</a></h3>
 <p>静态路由我们一般是在{module_name}.routing.yml中指定，那么如何定义动态路由呢？</p>
-<h4 id="1drupal7_1">1、Drupal7动态路由</h4>
+<h4 id="1drupal7_1">1、Drupal7动态路由<a class="headerlink" href="#1drupal7_1" title="Permanent link">&para;</a></h4>
 <p>一般是通过foreach hook_menu实现，如：</p>
-<pre><code class="language-php">/**
- * Implements hook_menu().
- */
-function routing_example_menu() {
-  $items = array();
-  foreach (routing_example_types() as $type) {
-    $items['routing_example/add/' . $type-&gt;machine_name] = array(
-      'title' =&gt; $type-&gt;title,
-      'page callback' =&gt; 'routing_example_type_add_page',
-      'access arguments' =&gt; 'create ' . $type-&gt;type,
-    );
-  }
-  return $items;
-}
-</code></pre>
-<h4 id="2drupal8_1">2、Drupal8动态路由</h4>
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x"> * Implements hook_menu().</span>
+<span class="x"> */</span>
+<span class="x">function routing_example_menu() {</span>
+<span class="x">  $items = array();</span>
+<span class="x">  foreach (routing_example_types() as $type) {</span>
+<span class="x">    $items[&#39;routing_example/add/&#39; . $type-&gt;machine_name] = array(</span>
+<span class="x">      &#39;title&#39; =&gt; $type-&gt;title,</span>
+<span class="x">      &#39;page callback&#39; =&gt; &#39;routing_example_type_add_page&#39;,</span>
+<span class="x">      &#39;access arguments&#39; =&gt; &#39;create &#39; . $type-&gt;type,</span>
+<span class="x">    );</span>
+<span class="x">  }</span>
+<span class="x">  return $items;</span>
+<span class="x">}</span>
+</code></pre></div>
+<h4 id="2drupal8_1">2、Drupal8动态路由<a class="headerlink" href="#2drupal8_1" title="Permanent link">&para;</a></h4>
 <p>在D8中，我们推荐使用RouteSubscriber来实现动态路由。</p>
-<h5 id="routing_exampleroutingyml_1">routing_example.routing.yml</h5>
+<h5 id="routing_exampleroutingyml_1">routing_example.routing.yml<a class="headerlink" href="#routing_exampleroutingyml_1" title="Permanent link">&para;</a></h5>
 <p>添加：</p>
-<pre><code class="language-bash">route_callbacks:
-  - '\Drupal\routing_example\Routing\ExampleRoutes::routes'
-</code></pre>
-<h5 id="srcroutingexampleroutesphp">src/Routing/ExampleRoutes.php</h5>
-<pre><code class="language-php">&lt;?php
-/**
- * @file
- * Contains \Drupal\routing_example\Routing\ExampleRoutes.
- */
+<div class="highlight"><pre><span></span><code>route_callbacks:
+  - <span class="s1">&#39;\Drupal\routing_example\Routing\ExampleRoutes::routes&#39;</span>
+</code></pre></div>
+<h5 id="srcroutingexampleroutesphp">src/Routing/ExampleRoutes.php<a class="headerlink" href="#srcroutingexampleroutesphp" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\routing_example\Routing\ExampleRoutes.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\routing_example\Routing;
+<span class="k">namespace</span> <span class="nx">Drupal\routing_example\Routing</span><span class="p">;</span>
 
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\Route</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\RouteCollection</span><span class="p">;</span>
 
-/**
- * Defines dynamic routes.
- */
-class ExampleRoutes {
+<span class="sd">/**</span>
+<span class="sd"> * Defines dynamic routes.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">ExampleRoutes</span> <span class="p">{</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function routes() {
-    $route_collection = new RouteCollection();
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">routes</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$route_collection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RouteCollection</span><span class="p">();</span>
 
-    // Dynamically routing.
-    $route = new Route(
-      'routing_example/add/dynamic_route',
-      array(
-        '_controller' =&gt; '\Drupal\routing_example\Controller\ExampleDependencyInjectionController::index',
-        '_title' =&gt; 'Hello'
-      ),
-      // Route requirements:
-      array(
-        '_permission'  =&gt; 'access content',
-      )
-    );
+    <span class="c1">// Dynamically routing.</span>
+    <span class="nv">$route</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Route</span><span class="p">(</span>
+      <span class="s1">&#39;routing_example/add/dynamic_route&#39;</span><span class="p">,</span>
+      <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;_controller&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;\Drupal\routing_example\Controller\ExampleDependencyInjectionController::index&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Hello&#39;</span>
+      <span class="p">),</span>
+      <span class="c1">// Route requirements:</span>
+      <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;_permission&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;access content&#39;</span><span class="p">,</span>
+      <span class="p">)</span>
+    <span class="p">);</span>
 
-    // Add the route under the name 'example.content'.
-    $route_collection-&gt;add('routing_example.add.dynamic_route', $route);
-    return $route_collection;
-  }
+    <span class="c1">// Add the route under the name &#39;example.content&#39;.</span>
+    <span class="nv">$route_collection</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;routing_example.add.dynamic_route&#39;</span><span class="p">,</span> <span class="nv">$route</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$route_collection</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
-<p>访问：http://127.0.0.1/routing_example/add/dynamic_route</p>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>访问：<a href="http://127.0.0.1/routing_example/add/dynamic_route">http://127.0.0.1/routing_example/add/dynamic_route</a></p>
 <p><img alt="dynamic_route" src="https://static.verycloud.cn/sites/default/files/pic/image/20151224/20151224154334_42518.png" /></p>
 <p>动态路由还有很多高级的玩法，比如使用Entity Storage等，后续再来介绍。</p>
 <p>参考文章：
-1、https://www.drupal.org/developing/api/8/routing
-2、https://www.drupal.org/node/2116767
-3、https://www.drupal.org/node/2092643
-4、http://www.sitepoint.com/build-drupal-8-module-routing-controllers-menu-links/
-5、http://www.slideshare.net/ygerasimov/drupal-8-routing
-6、https://www.previousnext.com.au/blog/using-drupal-8s-new-route-controllers
-7、https://www.previousnext.com.au/blog/dynamic-routes-drupal-8-routesubscriber
-8、https://www.drupal.org/node/2122201</p>
+1、<a href="https://www.drupal.org/developing/api/8/routing">https://www.drupal.org/developing/api/8/routing</a>
+2、<a href="https://www.drupal.org/node/2116767">https://www.drupal.org/node/2116767</a>
+3、<a href="https://www.drupal.org/node/2092643">https://www.drupal.org/node/2092643</a>
+4、<a href="http://www.sitepoint.com/build-drupal-8-module-routing-controllers-menu-links/">http://www.sitepoint.com/build-drupal-8-module-routing-controllers-menu-links/</a>
+5、<a href="http://www.slideshare.net/ygerasimov/drupal-8-routing">http://www.slideshare.net/ygerasimov/drupal-8-routing</a>
+6、<a href="https://www.previousnext.com.au/blog/using-drupal-8s-new-route-controllers">https://www.previousnext.com.au/blog/using-drupal-8s-new-route-controllers</a>
+7、<a href="https://www.previousnext.com.au/blog/dynamic-routes-drupal-8-routesubscriber">https://www.previousnext.com.au/blog/dynamic-routes-drupal-8-routesubscriber</a>
+8、<a href="https://www.drupal.org/node/2122201">https://www.drupal.org/node/2122201</a></p>
 
               
             </article>

@@ -340,65 +340,64 @@
 
   <h1>"PHP Trait多重继承的实现"</h1>
 
-<hr />
 <p>官方地址：
-http://php.net/manual/en/language.oop5.traits.php</p>
+<a href="http://php.net/manual/en/language.oop5.traits.php">http://php.net/manual/en/language.oop5.traits.php</a></p>
 <p>自 PHP 5.4.0 起，PHP 实现了代码复用的一个方法，称为 traits。</p>
 <p>Traits 是一种为类似 PHP 的单继承语言而准备的代码复用机制。Trait 为了减少单继承语言的限制，使开发人员能够自由地在不同层次结构内独立的类中复用方法集。Traits 和类组合的语义是定义了一种方式来减少复杂性，避免传统多继承和混入类（Mixin）相关的典型问题。</p>
 <p>Trait 和一个类相似，但仅仅旨在用细粒度和一致的方式来组合功能。Trait 不能通过它自身来实例化。它为传统继承增加了水平特性的组合；也就是说，应用类的成员不需要继承。</p>
 <p>在我理解说白了就是在继承类链中隔离了子类继承父类的某些特性（就是子类“要用父类的特性的时候”，如果trait有，就优先调用trait的方法、属性等）。</p>
-<pre><code class="language-php">&lt;?php
-trait MyTrait
-{
-    protected $var = &quot;MyTrait_var&quot;;
-    protected $var1 = &quot;MyTrait_var&quot;;
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="k">trait</span> <span class="nx">MyTrait</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$var</span> <span class="o">=</span> <span class="s2">&quot;MyTrait_var&quot;</span><span class="p">;</span>
+    <span class="k">protected</span> <span class="nv">$var1</span> <span class="o">=</span> <span class="s2">&quot;MyTrait_var&quot;</span><span class="p">;</span>
 
-    function __construct()
-    {
-        echo $this-&gt;var.PHP_EOL;
-    }
+    <span class="k">function</span> <span class="fm">__construct</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">echo</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">var</span><span class="o">.</span><span class="nx">PHP_EOL</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    function a()
-    {
-        echo &quot;a&quot;.PHP_EOL;
-    }
-}
+    <span class="k">function</span> <span class="nf">a</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">echo</span> <span class="s2">&quot;a&quot;</span><span class="o">.</span><span class="nx">PHP_EOL</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-interface MyInterface
-{
-    function __construct();
-    function b();
-}
+<span class="k">interface</span> <span class="nx">MyInterface</span>
+<span class="p">{</span>
+    <span class="k">function</span> <span class="fm">__construct</span><span class="p">();</span>
+    <span class="k">function</span> <span class="nf">b</span><span class="p">();</span>
+<span class="p">}</span>
 
-abstract class MyAbstract
-{
-    protected $var2 = &quot;MyAbstract_var&quot;;
+<span class="k">abstract</span> <span class="k">class</span> <span class="nc">MyAbstract</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$var2</span> <span class="o">=</span> <span class="s2">&quot;MyAbstract_var&quot;</span><span class="p">;</span>
 
-    use MyTrait;
+    <span class="k">use</span> <span class="nx">MyTrait</span><span class="p">;</span>
 
-    function b()
-    {
-        echo &quot;b&quot;.PHP_EOL;
-    }
-}
+    <span class="k">function</span> <span class="nf">b</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">echo</span> <span class="s2">&quot;b&quot;</span><span class="o">.</span><span class="nx">PHP_EOL</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-class MyClass extends MyAbstract implements MyInterface
-{
-    protected $var3 = &quot;MyClass_var&quot;;
+<span class="k">class</span> <span class="nc">MyClass</span> <span class="k">extends</span> <span class="nx">MyAbstract</span> <span class="k">implements</span> <span class="nx">MyInterface</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$var3</span> <span class="o">=</span> <span class="s2">&quot;MyClass_var&quot;</span><span class="p">;</span>
 
-    //也可以在这里引用，不区分继承关系
-    //use MyTrait;
-    function c()
-    {
-        echo &quot;c&quot;.PHP_EOL;
-    }
-}
+    <span class="c1">//也可以在这里引用，不区分继承关系</span>
+    <span class="c1">//use MyTrait;</span>
+    <span class="k">function</span> <span class="nf">c</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">echo</span> <span class="s2">&quot;c&quot;</span><span class="o">.</span><span class="nx">PHP_EOL</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-$class = new MyClass();
-$class-&gt;a();
-$class-&gt;b();
-$class-&gt;c();
-</code></pre>
+<span class="nv">$class</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyClass</span><span class="p">();</span>
+<span class="nv">$class</span><span class="o">-&gt;</span><span class="na">a</span><span class="p">();</span>
+<span class="nv">$class</span><span class="o">-&gt;</span><span class="na">b</span><span class="p">();</span>
+<span class="nv">$class</span><span class="o">-&gt;</span><span class="na">c</span><span class="p">();</span>
+</code></pre></div>
 <p>输出结果
 MyTrait_var
 a

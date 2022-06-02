@@ -340,46 +340,42 @@
 
   <h1>drupal动静分离</h1>
 
-<hr />
-<pre><code class="language-php">
-/**
- * Implements hook_file_url_alter().
- */
-function modulename_file_url_alter(&amp;$uri) {
-  if ($resource_server = variable_get('static_server', '')) {
-    $resource_extensions = array('css', 'js', 'gif', 'jpg', 'jpeg', 'png');
-    // Most CDNs don't support private file transfers without a lot of hassle,
-    // so don't support this in the common case.
-    $schemes = array('public');
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x"> * Implements hook_file_url_alter().</span>
+<span class="x"> */</span>
+<span class="x">function modulename_file_url_alter(&amp;$uri) {</span>
+<span class="x">  if ($resource_server = variable_get(&#39;static_server&#39;, &#39;&#39;)) {</span>
+<span class="x">    $resource_extensions = array(&#39;css&#39;, &#39;js&#39;, &#39;gif&#39;, &#39;jpg&#39;, &#39;jpeg&#39;, &#39;png&#39;);</span>
+<span class="x">    // Most CDNs don&#39;t support private file transfers without a lot of hassle,</span>
+<span class="x">    // so don&#39;t support this in the common case.</span>
+<span class="x">    $schemes = array(&#39;public&#39;);</span>
 
-    $scheme = file_uri_scheme($uri);
+<span class="x">    $scheme = file_uri_scheme($uri);</span>
 
-    // Only serve shipped files and public created files from the static_server.
-    if (!$scheme || in_array($scheme, $schemes)) {
-      // Shipped files.
-      if (!$scheme) {
-        $path = $uri;
-      }
-      // Public created files.
-      else {
-        $wrapper = file_stream_wrapper_get_instance_by_scheme($scheme);
-        $path = $wrapper-&gt;getDirectoryPath() . '/' . file_uri_target($uri);
-      }
+<span class="x">    // Only serve shipped files and public created files from the static_server.</span>
+<span class="x">    if (!$scheme || in_array($scheme, $schemes)) {</span>
+<span class="x">      // Shipped files.</span>
+<span class="x">      if (!$scheme) {</span>
+<span class="x">        $path = $uri;</span>
+<span class="x">      }</span>
+<span class="x">      // Public created files.</span>
+<span class="x">      else {</span>
+<span class="x">        $wrapper = file_stream_wrapper_get_instance_by_scheme($scheme);</span>
+<span class="x">        $path = $wrapper-&gt;getDirectoryPath() . &#39;/&#39; . file_uri_target($uri);</span>
+<span class="x">      }</span>
 
-      // Clean up Windows paths.
-      $path = str_replace('\\', '/', $path);
+<span class="x">      // Clean up Windows paths.</span>
+<span class="x">      $path = str_replace(&#39;\\&#39;, &#39;/&#39;, $path);</span>
 
-      // Serve files with one of the resource extensions from resource_server 
-      $pathinfo = pathinfo($path);
-      if (isset($pathinfo['extension']) &amp;&amp; in_array($pathinfo['extension'], $resource_extensions)) {
-        $uri = $resource_server . '/' . $path;
-      }
-    }
-  }
-}
-
-
-</code></pre>
+<span class="x">      // Serve files with one of the resource extensions from resource_server </span>
+<span class="x">      $pathinfo = pathinfo($path);</span>
+<span class="x">      if (isset($pathinfo[&#39;extension&#39;]) &amp;&amp; in_array($pathinfo[&#39;extension&#39;], $resource_extensions)) {</span>
+<span class="x">        $uri = $resource_server . &#39;/&#39; . $path;</span>
+<span class="x">      }</span>
+<span class="x">    }</span>
+<span class="x">  }</span>
+<span class="x">}</span>
+</code></pre></div>
 
               
             </article>

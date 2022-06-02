@@ -409,132 +409,131 @@
 
   <h1>"centos6.6安装Percona Tokudb"</h1>
 
-<hr />
-<p>在percona官网https://www.percona.com/
+<p>在percona官网https://<a href="http://www.percona.com/">www.percona.com/</a>
 下载带有Tokudb的二进制包，也可以选择源码编译。tokudb有单独的包. 
 我这里下载的是最新的包，5.6.25-73
 Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101.tar.gz
 Percona-Server-5.6.25-rel73.1-TokuDB.Linux.x86_64.ssl101.tar.gz</p>
-<h3 id="_1">前期账号创建</h3>
-<pre><code class="language-php">shell&gt; groupadd mysql
-shell&gt; useradd -g mysql mysql
-</code></pre>
-<h3 id="_2">解压软件包</h3>
-<pre><code class="language-php">shell&gt; cd /usr/local
-shell&gt; tar -zxvf Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101.tar.gz
-shell&gt; tar -zxvf Percona-Server-5.6.25-rel73.1-TokuDB.Linux.x86_64.ssl101.tar.gz
-shell&gt; ln -s Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101 mysql
-</code></pre>
-<h3 id="_3">设置权限</h3>
-<pre><code class="language-php">shell&gt; cd mysql
-shell&gt; chown -R mysql .
-shell&gt; chgrp -R mysql .
-</code></pre>
-<h3 id="etcmycnf">创建配置文件/etc/my.cnf</h3>
+<h3 id="_1">前期账号创建<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="x">shell&gt; groupadd mysql</span>
+<span class="x">shell&gt; useradd -g mysql mysql</span>
+</code></pre></div>
+<h3 id="_2">解压软件包<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="x">shell&gt; cd /usr/local</span>
+<span class="x">shell&gt; tar -zxvf Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101.tar.gz</span>
+<span class="x">shell&gt; tar -zxvf Percona-Server-5.6.25-rel73.1-TokuDB.Linux.x86_64.ssl101.tar.gz</span>
+<span class="x">shell&gt; ln -s Percona-Server-5.6.25-rel73.1-Linux.x86_64.ssl101 mysql</span>
+</code></pre></div>
+<h3 id="_3">设置权限<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="x">shell&gt; cd mysql</span>
+<span class="x">shell&gt; chown -R mysql .</span>
+<span class="x">shell&gt; chgrp -R mysql .</span>
+</code></pre></div>
+<h3 id="etcmycnf">创建配置文件/etc/my.cnf<a class="headerlink" href="#etcmycnf" title="Permanent link">&para;</a></h3>
 <p>创建存放数据源的目录</p>
-<pre><code class="language-php">Shell&gt; mkdir -p /var/lib/mysql
-Shell&gt; mkdir -p /data/mysqldata /data/mysqllog
-Shell&gt; chown -R mysql:mysql /var/lib/mysql /data/mysqldata /data/mysqllog
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">Shell&gt; mkdir -p /var/lib/mysql</span>
+<span class="x">Shell&gt; mkdir -p /data/mysqldata /data/mysqllog</span>
+<span class="x">Shell&gt; chown -R mysql:mysql /var/lib/mysql /data/mysqldata /data/mysqllog</span>
+</code></pre></div>
 <p>在附件中给出，请参考附配置文件内容</p>
-<h3 id="db">初始化DB</h3>
-<pre><code class="language-php">Shell&gt; scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf
-shell&gt; chown -R root .
-</code></pre>
-<h3 id="_4">修改系统参数</h3>
-<pre><code class="language-php">echo never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag
-echo never &gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled
-echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled
-echo never &gt; /sys/kernel/mm/transparent_hugepage/defrag
-</code></pre>
-<p>建议写到 /etc/rc.local 中，重启后也可生效</p>
-<h3 id="_5">启动数据库</h3>
-<pre><code class="language-php">shell&gt; bin/mysqld_safe --user=mysql &amp;
-</code></pre>
-<h3 id="_6">把启动文件放去自启动中</h3>
-<pre><code class="language-php">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
-chkconfig --add mysqld
-service mysqld start
-service mysqld stop
-</code></pre>
+<h3 id="db">初始化DB<a class="headerlink" href="#db" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="x">Shell&gt; scripts/mysql_install_db --user=mysql --defaults-file=/etc/my.cnf</span>
+<span class="x">shell&gt; chown -R root .</span>
+</code></pre></div>
+<h3 id="_4">修改系统参数<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="x">echo never &gt; /sys/kernel/mm/redhat_transparent_hugepage/defrag</span>
+<span class="x">echo never &gt; /sys/kernel/mm/redhat_transparent_hugepage/enabled</span>
+<span class="x">echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled</span>
+<span class="x">echo never &gt; /sys/kernel/mm/transparent_hugepage/defrag</span>
+</code></pre></div>
+建议写到 /etc/rc.local 中，重启后也可生效</p>
+<h3 id="_5">启动数据库<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="x">shell&gt; bin/mysqld_safe --user=mysql &amp;</span>
+</code></pre></div>
+<h3 id="_6">把启动文件放去自启动中<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="x">cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</span>
+<span class="x">chkconfig --add mysqld</span>
+<span class="x">service mysqld start</span>
+<span class="x">service mysqld stop</span>
+</code></pre></div>
 <p>然后启动。</p>
-<pre><code class="language-php">mysql&gt; show engines;
-+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+
-| Engine             | Support | Comment                                                                    | Transactions | XA   | Savepoints |
-+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+
-| InnoDB             | DEFAULT | Percona-XtraDB, Supports transactions, row-level locking, and foreign keys | YES          | YES  | YES        |
-| CSV                | YES     | CSV storage engine                                                         | NO           | NO   | NO         |
-| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                                      | NO           | NO   | NO         |
-| BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears)             | NO           | NO   | NO         |
-| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables                  | NO           | NO   | NO         |
-| TokuDB             | YES     | Tokutek TokuDB Storage Engine with Fractal Tree(tm) Technology             | YES          | YES  | YES        |
-| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                         | NO           | NO   | NO         |
-| ARCHIVE            | YES     | Archive storage engine                                                     | NO           | NO   | NO         |
-| MyISAM             | YES     | MyISAM storage engine                                                      | NO           | NO   | NO         |
-| FEDERATED          | NO      | Federated MySQL storage engine                                             | NULL         | NULL | NULL       |
-+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+
-10 rows in set (0.00 sec)
-</code></pre>
-<p>看到上面一行红字就代表数据库支持TokuDB的存储引擎了。</p>
-<p>tokudb安装顺利完成，后附配置文件</p>
-<pre><code class="language-bash">[root@localhost mysql]# cat /etc/my.cnf 
-[mysqld]
-datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
-user=mysql
-# Disabling symbolic-links is recommended to prevent assorted security risks
-symbolic-links=0
-#public
-max_connections=3000
-max_connect_errors=6000
-key_buffer_size = 384M
-low_priority_updates = 1
-back_log = 1500
-query_cache_type = 1
-query_cache_size = 64M
-query_cache_limit = 4M
-query_cache_min_res_unit = 2k
-tmp_table_size = 256M
-read_buffer_size=1M
-read_rnd_buffer_size = 16M
-bulk_insert_buffer_size = 64M
-max_allowed_packet = 64M
-thread_cache_size = 300
-#file
+<p><div class="highlight"><pre><span></span><code><span class="x">mysql&gt; show engines;</span>
+<span class="x">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span>
+<span class="x">| Engine             | Support | Comment                                                                    | Transactions | XA   | Savepoints |</span>
+<span class="x">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span>
+<span class="x">| InnoDB             | DEFAULT | Percona-XtraDB, Supports transactions, row-level locking, and foreign keys | YES          | YES  | YES        |</span>
+<span class="x">| CSV                | YES     | CSV storage engine                                                         | NO           | NO   | NO         |</span>
+<span class="x">| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                                      | NO           | NO   | NO         |</span>
+<span class="x">| BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears)             | NO           | NO   | NO         |</span>
+<span class="x">| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables                  | NO           | NO   | NO         |</span>
+<span class="x">| TokuDB             | YES     | Tokutek TokuDB Storage Engine with Fractal Tree(tm) Technology             | YES          | YES  | YES        |</span>
+<span class="x">| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                         | NO           | NO   | NO         |</span>
+<span class="x">| ARCHIVE            | YES     | Archive storage engine                                                     | NO           | NO   | NO         |</span>
+<span class="x">| MyISAM             | YES     | MyISAM storage engine                                                      | NO           | NO   | NO         |</span>
+<span class="x">| FEDERATED          | NO      | Federated MySQL storage engine                                             | NULL         | NULL | NULL       |</span>
+<span class="x">+--------------------+---------+----------------------------------------------------------------------------+--------------+------+------------+</span>
+<span class="x">10 rows in set (0.00 sec)</span>
+</code></pre></div>
+看到上面一行红字就代表数据库支持TokuDB的存储引擎了。</p>
+<p>tokudb安装顺利完成，后附配置文件
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@localhost mysql<span class="o">]</span><span class="c1"># cat /etc/my.cnf </span>
+<span class="o">[</span>mysqld<span class="o">]</span>
+<span class="nv">datadir</span><span class="o">=</span>/var/lib/mysql
+<span class="nv">socket</span><span class="o">=</span>/var/lib/mysql/mysql.sock
+<span class="nv">user</span><span class="o">=</span>mysql
+<span class="c1"># Disabling symbolic-links is recommended to prevent assorted security risks</span>
+symbolic-links<span class="o">=</span><span class="m">0</span>
+<span class="c1">#public</span>
+<span class="nv">max_connections</span><span class="o">=</span><span class="m">3000</span>
+<span class="nv">max_connect_errors</span><span class="o">=</span><span class="m">6000</span>
+<span class="nv">key_buffer_size</span> <span class="o">=</span> 384M
+<span class="nv">low_priority_updates</span> <span class="o">=</span> <span class="m">1</span>
+<span class="nv">back_log</span> <span class="o">=</span> <span class="m">1500</span>
+<span class="nv">query_cache_type</span> <span class="o">=</span> <span class="m">1</span>
+<span class="nv">query_cache_size</span> <span class="o">=</span> 64M
+<span class="nv">query_cache_limit</span> <span class="o">=</span> 4M
+<span class="nv">query_cache_min_res_unit</span> <span class="o">=</span> 2k
+<span class="nv">tmp_table_size</span> <span class="o">=</span> 256M
+<span class="nv">read_buffer_size</span><span class="o">=</span>1M
+<span class="nv">read_rnd_buffer_size</span> <span class="o">=</span> 16M
+<span class="nv">bulk_insert_buffer_size</span> <span class="o">=</span> 64M
+<span class="nv">max_allowed_packet</span> <span class="o">=</span> 64M
+<span class="nv">thread_cache_size</span> <span class="o">=</span> <span class="m">300</span>
+<span class="c1">#file</span>
 innodb_file_per_table
-#buffer
-innodb_buffer_pool_size = 2500M
-innodb_log_buffer_size = 64M
-join_buffer_size = 16M
-sort_buffer_size = 16M
-innodb_max_dirty_pages_pct = 90
-innodb_lock_wait_timeout = 120
-innodb_thread_concurrency = 16
-innodb_flush_log_at_trx_commit = 2
-character_set_server=utf8
-init_connect='SET NAMES utf8'
+<span class="c1">#buffer</span>
+<span class="nv">innodb_buffer_pool_size</span> <span class="o">=</span> 2500M
+<span class="nv">innodb_log_buffer_size</span> <span class="o">=</span> 64M
+<span class="nv">join_buffer_size</span> <span class="o">=</span> 16M
+<span class="nv">sort_buffer_size</span> <span class="o">=</span> 16M
+<span class="nv">innodb_max_dirty_pages_pct</span> <span class="o">=</span> <span class="m">90</span>
+<span class="nv">innodb_lock_wait_timeout</span> <span class="o">=</span> <span class="m">120</span>
+<span class="nv">innodb_thread_concurrency</span> <span class="o">=</span> <span class="m">16</span>
+<span class="nv">innodb_flush_log_at_trx_commit</span> <span class="o">=</span> <span class="m">2</span>
+<span class="nv">character_set_server</span><span class="o">=</span>utf8
+<span class="nv">init_connect</span><span class="o">=</span><span class="s1">&#39;SET NAMES utf8&#39;</span>
 
-#tokudb
-plugin_dir =  /usr/local/mysql/lib/mysql/plugin/
-plugin_load=ha_tokudb.so
-#把TokuDB datadir以及logdir和MySQL的datadir分开，美观点，也可以不分开，注释掉本行以及下面2行即可
-tokudb_data-dir = /data/mysqldata
-tokudb_log-dir = /data/mysqllog
-#TokuDB的行模式，建议用 FAST 就足够了，如果磁盘空间很紧张，建议用 SMALL
-tokudb_row_format = tokudb_small
-tokudb_row_format = tokudb_fast
-tokudb_cache_size = 2G
-#其他大部分配置其实可以不用修改的，只需要几个关键配置即可
-tokudb_commit_sync = 0
-tokudb_directio = 1
-tokudb_read_block_size = 128K
-tokudb_read_buf_size = 128K
+<span class="c1">#tokudb</span>
+<span class="nv">plugin_dir</span> <span class="o">=</span>  /usr/local/mysql/lib/mysql/plugin/
+<span class="nv">plugin_load</span><span class="o">=</span>ha_tokudb.so
+<span class="c1">#把TokuDB datadir以及logdir和MySQL的datadir分开，美观点，也可以不分开，注释掉本行以及下面2行即可</span>
+tokudb_data-dir <span class="o">=</span> /data/mysqldata
+tokudb_log-dir <span class="o">=</span> /data/mysqllog
+<span class="c1">#TokuDB的行模式，建议用 FAST 就足够了，如果磁盘空间很紧张，建议用 SMALL</span>
+<span class="nv">tokudb_row_format</span> <span class="o">=</span> tokudb_small
+<span class="nv">tokudb_row_format</span> <span class="o">=</span> tokudb_fast
+<span class="nv">tokudb_cache_size</span> <span class="o">=</span> 2G
+<span class="c1">#其他大部分配置其实可以不用修改的，只需要几个关键配置即可</span>
+<span class="nv">tokudb_commit_sync</span> <span class="o">=</span> <span class="m">0</span>
+<span class="nv">tokudb_directio</span> <span class="o">=</span> <span class="m">1</span>
+<span class="nv">tokudb_read_block_size</span> <span class="o">=</span> 128K
+<span class="nv">tokudb_read_buf_size</span> <span class="o">=</span> 128K
 
-[mysqld_safe]
-log-error=/var/log/mysqld.log
-pid-file=/var/run/mysqld/mysqld.pid
-malloc_lib = /usr/local/mysql/lib/mysql/libjemalloc.so #只能放在mysqld_safe中，不得报错
-</code></pre>
+<span class="o">[</span>mysqld_safe<span class="o">]</span>
+log-error<span class="o">=</span>/var/log/mysqld.log
+pid-file<span class="o">=</span>/var/run/mysqld/mysqld.pid
+<span class="nv">malloc_lib</span> <span class="o">=</span> /usr/local/mysql/lib/mysql/libjemalloc.so <span class="c1">#只能放在mysqld_safe中，不得报错</span>
+</code></pre></div></p>
 
               
             </article>

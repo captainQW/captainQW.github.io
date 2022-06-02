@@ -381,72 +381,71 @@
 
   <h1>"使用gdb调试php-fpm"</h1>
 
-<hr />
 <p>有很多php开发人员经常问我，如果执行php代码的时候出现严重错误的时候，如何快速定位问题。我一般推荐他们用gdb去调试。</p>
 <p>下面用php-fpm的一个段错误来举例说明，如：</p>
-<pre><code class="language-bash">WARNING: [pool www] child 15109 exited on signal 11 (SIGSEGV) after 654.485221 seconds from start
-</code></pre>
-<h3 id="1gdb">1、安装gdb</h3>
-<pre><code class="language-bash">yum install gdb php-dbg
-</code></pre>
+<div class="highlight"><pre><span></span><code>WARNING: <span class="o">[</span>pool www<span class="o">]</span> child <span class="m">15109</span> exited on signal <span class="m">11</span> <span class="o">(</span>SIGSEGV<span class="o">)</span> after <span class="m">654</span>.485221 seconds from start
+</code></pre></div>
+<h3 id="1gdb">1、安装gdb<a class="headerlink" href="#1gdb" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>yum install gdb php-dbg
+</code></pre></div>
 <p>有的时候可能需要安装debuginfo相关的库，如:</p>
-<pre><code class="language-bash">debuginfo-install php-fpm
-</code></pre>
-<h3 id="2coredump">2、设置coredump</h3>
-<pre><code class="language-bash">echo '/tmp/core-%e.%p' &gt; /proc/sys/kernel/core_pattern
-echo 0 &gt; /proc/sys/kernel/core_uses_pid
-ulimit -c unlimited
-</code></pre>
+<div class="highlight"><pre><span></span><code>debuginfo-install php-fpm
+</code></pre></div>
+<h3 id="2coredump">2、设置coredump<a class="headerlink" href="#2coredump" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="s1">&#39;/tmp/core-%e.%p&#39;</span> &gt; /proc/sys/kernel/core_pattern
+<span class="nb">echo</span> <span class="m">0</span> &gt; /proc/sys/kernel/core_uses_pid
+<span class="nb">ulimit</span> -c unlimited
+</code></pre></div>
 <p>当然,coredump的文件格式可以设置为其他的，这里是详细的设置项说明</p>
-<pre><code class="language-bash">%%  a single % character
-%c  core file size soft resource limit of crashing process (since
-    Linux 2.6.24)
-%d  dump mode—same as value returned by prctl(2) PR_GET_DUMPABLE
-    (since Linux 3.7)
-%e  executable filename (without path prefix)
-%E  pathname of executable, with slashes ('/') replaced by
-    exclamation marks ('!') (since Linux 3.0).
-%g  (numeric) real GID of dumped process
-%h  hostname (same as nodename returned by uname(2))
-%p  PID of dumped process, as seen in the PID namespace in which
+<div class="highlight"><pre><span></span><code>%%  a single % character
+%c  core file size soft resource limit of crashing process <span class="o">(</span>since
+    Linux <span class="m">2</span>.6.24<span class="o">)</span>
+%d  dump mode—same as value returned by prctl<span class="o">(</span><span class="m">2</span><span class="o">)</span> PR_GET_DUMPABLE
+    <span class="o">(</span>since Linux <span class="m">3</span>.7<span class="o">)</span>
+%e  executable filename <span class="o">(</span>without path prefix<span class="o">)</span>
+%E  pathname of executable, with slashes <span class="o">(</span><span class="s1">&#39;/&#39;</span><span class="o">)</span> replaced by
+    exclamation marks <span class="o">(</span><span class="s1">&#39;!&#39;</span><span class="o">)</span> <span class="o">(</span>since Linux <span class="m">3</span>.0<span class="o">)</span>.
+%g  <span class="o">(</span>numeric<span class="o">)</span> real GID of dumped process
+%h  hostname <span class="o">(</span>same as nodename returned by uname<span class="o">(</span><span class="m">2</span><span class="o">))</span>
+%p  PID of dumped process, as seen <span class="k">in</span> the PID namespace <span class="k">in</span> which
     the process resides
-%P  PID of dumped process, as seen in the initial PID namespace
-    (since Linux 3.12)
+%P  PID of dumped process, as seen <span class="k">in</span> the initial PID namespace
+    <span class="o">(</span>since Linux <span class="m">3</span>.12<span class="o">)</span>
 %s  number of signal causing dump
-%t  time of dump, expressed as seconds since the Epoch,
-    1970-01-01 00:00:00 +0000 (UTC)
-%u  (numeric) real UID of dumped process
-</code></pre>
-<h3 id="3php-fpm">3、设置php-fpm</h3>
-<pre><code class="language-bash">vim /etc/php-fpm.d/www.conf
-</code></pre>
+%t  <span class="nb">time</span> of dump, expressed as seconds since the Epoch,
+    <span class="m">1970</span>-01-01 <span class="m">00</span>:00:00 +0000 <span class="o">(</span>UTC<span class="o">)</span>
+%u  <span class="o">(</span>numeric<span class="o">)</span> real UID of dumped process
+</code></pre></div>
+<h3 id="3php-fpm">3、设置php-fpm<a class="headerlink" href="#3php-fpm" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>vim /etc/php-fpm.d/www.conf
+</code></pre></div>
 <p>找到关键字 rlimit_core，并修改为</p>
-<pre><code class="language-bash">rlimit_core = unlimited
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nv">rlimit_core</span> <span class="o">=</span> unlimited
+</code></pre></div>
 <p>然后执行</p>
-<pre><code class="language-bash">/usr/sbin/php-fpm --daemonize
-</code></pre>
+<div class="highlight"><pre><span></span><code>/usr/sbin/php-fpm --daemonize
+</code></pre></div>
 <p>这时就会在/tmp下看到有coredump文件生成了。</p>
-<pre><code class="language-bash">[root@localhost tmp]# ls
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@localhost tmp<span class="o">]</span><span class="c1"># ls</span>
 core-php-fpm.7279
-</code></pre>
-<h3 id="4">4、追踪</h3>
+</code></pre></div>
+<h3 id="4">4、追踪<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
 <p>执行命令</p>
-<pre><code class="language-bash">gdb /usr/sbin/php-fpm /tmp/core-php-fpm.7279
-</code></pre>
+<div class="highlight"><pre><span></span><code>gdb /usr/sbin/php-fpm /tmp/core-php-fpm.7279
+</code></pre></div>
 <p>执行bt命令就可以查看详细的错误日志了</p>
-<pre><code class="language-bash">(gdb) bt
-#0  _zend_hash_init (ht=0x2b4d1a4f8100, nSize=174762, pDestructor=0, persistent=1 '\001') at /usr/src/debug/php-7.0.0RC8/Zend/zend_hash.c:172
-#1  0x00002b4d0d0e87ac in zend_accel_init_shm (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2387
-#2  accel_startup (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2640
-#3  0x00000000005e8d21 in zend_extension_startup (extension=0x168c810) at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:176
-#4  0x00000000005d2293 in zend_llist_apply_with_del (l=0x9dd420, func=0x5e8d10 &lt;zend_extension_startup&gt;) at /usr/src/debug/php-7.0.0RC8/Zend/zend_llist.c:171
-#5  0x00000000005e8d07 in zend_startup_extensions () at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:197
-#6  0x0000000000580985 in php_module_startup (sf=&lt;value optimized out&gt;, additional_modules=&lt;value optimized out&gt;, num_additional_modules=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/main/main.c:2197
-#7  0x000000000067aec5 in php_cgi_startup (sapi_module=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:837
-#8  0x000000000067bcfe in main (argc=2, argv=0x7fff1a037498) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:1788
-</code></pre>
-<p>至此，整个追踪过程结束。</p>
+<p><div class="highlight"><pre><span></span><code><span class="o">(</span>gdb<span class="o">)</span> bt
+<span class="c1">#0  _zend_hash_init (ht=0x2b4d1a4f8100, nSize=174762, pDestructor=0, persistent=1 &#39;\001&#39;) at /usr/src/debug/php-7.0.0RC8/Zend/zend_hash.c:172</span>
+<span class="c1">#1  0x00002b4d0d0e87ac in zend_accel_init_shm (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2387</span>
+<span class="c1">#2  accel_startup (extension=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/ext/opcache/ZendAccelerator.c:2640</span>
+<span class="c1">#3  0x00000000005e8d21 in zend_extension_startup (extension=0x168c810) at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:176</span>
+<span class="c1">#4  0x00000000005d2293 in zend_llist_apply_with_del (l=0x9dd420, func=0x5e8d10 &lt;zend_extension_startup&gt;) at /usr/src/debug/php-7.0.0RC8/Zend/zend_llist.c:171</span>
+<span class="c1">#5  0x00000000005e8d07 in zend_startup_extensions () at /usr/src/debug/php-7.0.0RC8/Zend/zend_extensions.c:197</span>
+<span class="c1">#6  0x0000000000580985 in php_module_startup (sf=&lt;value optimized out&gt;, additional_modules=&lt;value optimized out&gt;, num_additional_modules=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/main/main.c:2197</span>
+<span class="c1">#7  0x000000000067aec5 in php_cgi_startup (sapi_module=&lt;value optimized out&gt;) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:837</span>
+<span class="c1">#8  0x000000000067bcfe in main (argc=2, argv=0x7fff1a037498) at /usr/src/debug/php-7.0.0RC8/sapi/fpm/fpm/fpm_main.c:1788</span>
+</code></pre></div>
+至此，整个追踪过程结束。</p>
 
               
             </article>

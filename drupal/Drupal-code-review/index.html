@@ -395,84 +395,83 @@
 
   <h1>"Drupal code review"</h1>
 
-<hr />
 <p>如何你的模块已经在线上，比如github或者Drupal的git仓库，可以使用在线的<a href="http://pareview.sh/">pareview.sh</a>工具。</p>
-<h3 id="1composer">1、安装composer</h3>
-<pre><code class="language-bash">$ curl -sS https://getcomposer.org/installer | php
+<h3 id="1composer">1、安装composer<a class="headerlink" href="#1composer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>$ curl -sS https://getcomposer.org/installer <span class="p">|</span> php
 $ mv composer.phar /usr/local/bin/composer
-</code></pre>
-<h3 id="2coder-reference-httpswwwdrupalorgnode1419988coder-composer">2、安装Coder (reference: https://www.drupal.org/node/1419988#coder-composer)</h3>
-<pre><code class="language-bash">$ composer global require drupal/coder
+</code></pre></div>
+<h3 id="2coder-reference-httpswwwdrupalorgnode1419988coder-composer">2、安装Coder (reference: <a href="https://www.drupal.org/node/1419988#coder-composer">https://www.drupal.org/node/1419988#coder-composer</a>)<a class="headerlink" href="#2coder-reference-httpswwwdrupalorgnode1419988coder-composer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>$ composer global require drupal/coder
 $ sudo ln -s ~/.composer/vendor/bin/phpcs /usr/local/bin
 $ sudo ln -s ~/.composer/vendor/bin/phpcbf /usr/local/bin
 $ phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
-</code></pre>
-<h3 id="3codespell-reference-httpsgithubcomlucasdemarchicodespell">3、安装codespell (reference: https://github.com/lucasdemarchi/codespell)</h3>
-<pre><code class="language-bash">$ sudo apt-get help2man -y
-$ cd /usr/local/src
+</code></pre></div>
+<h3 id="3codespell-reference-httpsgithubcomlucasdemarchicodespell">3、安装codespell (reference: <a href="https://github.com/lucasdemarchi/codespell">https://github.com/lucasdemarchi/codespell</a>)<a class="headerlink" href="#3codespell-reference-httpsgithubcomlucasdemarchicodespell" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>$ sudo apt-get help2man -y
+$ <span class="nb">cd</span> /usr/local/src
 $ git clone https://github.com/lucasdemarchi/codespell.git
-$ cd codespell &amp;&amp; sudo make install
+$ <span class="nb">cd</span> codespell <span class="o">&amp;&amp;</span> sudo make install
 $ sudo cp codespell /usr/local/bin
-</code></pre>
-<p>注：MAC下安装codespell</p>
-<pre><code class="language-bash">sudo python setup.py install
-</code></pre>
-<h3 id="4drupalsecure-reference-httpswwwdrupalorgsandboxcoltrane1921926">4、安装DrupalSecure (reference: https://www.drupal.org/sandbox/coltrane/1921926)</h3>
-<pre><code class="language-bash">$ sudo apt-get update &amp;&amp; sudo apt-get install php-pear
+</code></pre></div>
+<p>注：MAC下安装codespell
+<div class="highlight"><pre><span></span><code>sudo python setup.py install
+</code></pre></div></p>
+<h3 id="4drupalsecure-reference-httpswwwdrupalorgsandboxcoltrane1921926">4、安装DrupalSecure (reference: <a href="https://www.drupal.org/sandbox/coltrane/1921926">https://www.drupal.org/sandbox/coltrane/1921926</a>)<a class="headerlink" href="#4drupalsecure-reference-httpswwwdrupalorgsandboxcoltrane1921926" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>$ sudo apt-get update <span class="o">&amp;&amp;</span> sudo apt-get install php-pear
 $ sudo pear install PHP_CodeSniffer
-$ cd $(pear config-get php_dir)/PHP/CodeSniffer/Standards/
+$ <span class="nb">cd</span> <span class="k">$(</span>pear config-get php_dir<span class="k">)</span>/PHP/CodeSniffer/Standards/
 $ git clone git://git.drupal.org/sandbox/coltrane/1921926.git secure_cs
 $ sudo ln -sv ./secure_cs/DrupalSecure ./DrupalSecure
-</code></pre>
-<p>注：MAC下安装php-pear</p>
-<pre><code class="language-bash">wget http://pear.php.net/go-pear.phar
+</code></pre></div>
+<p>注：MAC下安装php-pear
+<div class="highlight"><pre><span></span><code>wget http://pear.php.net/go-pear.phar
 php go-pear.phar
-</code></pre>
-<h3 id="5eslint">5、安装ESLint</h3>
-<pre><code class="language-bash">$ sudo npm install -g eslint
-</code></pre>
+</code></pre></div></p>
+<h3 id="5eslint">5、安装ESLint<a class="headerlink" href="#5eslint" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>$ sudo npm install -g eslint
+</code></pre></div>
 <p>在Ubuntu precise （12.04）, 你有可能会遇到以下错误：</p>
-<pre><code class="language-bash">npm http GET https://registry.npmjs.org/
+<div class="highlight"><pre><span></span><code>npm http GET https://registry.npmjs.org/
 npm ERR! Error: failed to fetch from registry: 
-This is because the version supplied by Ubuntu 12.04 is no longer supported, updating node (and npm with it) resolved the issue.
-</code></pre>
+This is because the version supplied by Ubuntu <span class="m">12</span>.04 is no longer supported, updating node <span class="o">(</span>and npm with it<span class="o">)</span> resolved the issue.
+</code></pre></div>
 <p>首先, 卸载nodejs版本</p>
-<pre><code class="language-bash">sudo apt-get purge nodejs npm
-</code></pre>
+<div class="highlight"><pre><span></span><code>sudo apt-get purge nodejs npm
+</code></pre></div>
 <p>启用nodesource's仓库并进行安装:</p>
-<pre><code class="language-bash">curl -sL https://deb.nodesource.com/setup | sudo bash -
+<div class="highlight"><pre><span></span><code>curl -sL https://deb.nodesource.com/setup <span class="p">|</span> sudo bash -
 sudo apt-get install -y nodejs
 $ sudo apt-get install nodejs
-$ eslint --init # run for the first time
-</code></pre>
-<h3 id="6pareviewsh">6、安装pareviewsh</h3>
-<pre><code class="language-bash">$ cd /usr/local/src
+$ eslint --init <span class="c1"># run for the first time</span>
+</code></pre></div>
+<h3 id="6pareviewsh">6、安装pareviewsh<a class="headerlink" href="#6pareviewsh" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>$ <span class="nb">cd</span> /usr/local/src
 $ sudo wget http://ftp.drupal.org/files/projects/pareviewsh-7.x-1.7.tar.gz
 $ sudo tar xzf pareviewsh-7.x-1.7.tar.gz
 $ sudo ln -s /usr/local/src/pareviewsh/pareview.sh /usr/local/bin/pareviewsh
-</code></pre>
+</code></pre></div>
 <p>查看pareview是否已经安装成功</p>
-<pre><code class="language-bash">$ pareviewsh /path/to/module or /path/to/git-repos.git
-</code></pre>
-<p>phpcs自动修复代码标准</p>
-<pre><code class="language-bash">phpcbf --standard=Drupal --extensions=php,module,inc,install,test,profile,theme,js,css,info,txt,md /file/to/drupal/example_module
-</code></pre>
+<p><div class="highlight"><pre><span></span><code>$ pareviewsh /path/to/module or /path/to/git-repos.git
+</code></pre></div>
+phpcs自动修复代码标准</p>
+<div class="highlight"><pre><span></span><code>phpcbf --standard<span class="o">=</span>Drupal --extensions<span class="o">=</span>php,module,inc,install,test,profile,theme,js,css,info,txt,md /file/to/drupal/example_module
+</code></pre></div>
 <p>在~/.bash_profile中添加别名</p>
-<pre><code class="language-bash">// Check Drupal coding standards
-alias drupalcs=&quot;phpcs --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'&quot;
+<div class="highlight"><pre><span></span><code>// Check Drupal coding standards
+<span class="nb">alias</span> <span class="nv">drupalcs</span><span class="o">=</span><span class="s2">&quot;phpcs --standard=Drupal --extensions=&#39;php,module,inc,install,test,profile,theme,js,css,info,txt,md&#39;&quot;</span>
 
 // Check Drupal best practices
-alias drupalpractice=&quot;phpcs --standard=DrupalPractice --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'&quot;
+<span class="nb">alias</span> <span class="nv">drupalpractice</span><span class="o">=</span><span class="s2">&quot;phpcs --standard=DrupalPractice --extensions=&#39;php,module,inc,install,test,profile,theme,js,css,info,txt,md&#39;&quot;</span>
 
 // Automatically fix coding standards
-alias drupalcbf=&quot;phpcbf --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,js,css,info,txt,md'&quot;
-</code></pre>
+<span class="nb">alias</span> <span class="nv">drupalcbf</span><span class="o">=</span><span class="s2">&quot;phpcbf --standard=Drupal --extensions=&#39;php,module,inc,install,test,profile,theme,js,css,info,txt,md&#39;&quot;</span>
+</code></pre></div>
 <p>参照文章：
-1、https://www.drupal.org/node/1587138
-2、https://www.drupal.org/node/1419988
-3、https://www.drupal.org/node/172169
-4、https://www.drupal.org/project/pareviewsh
-5、https://www.drupal.org/project/coder</p>
+1、<a href="https://www.drupal.org/node/1587138">https://www.drupal.org/node/1587138</a>
+2、<a href="https://www.drupal.org/node/1419988">https://www.drupal.org/node/1419988</a>
+3、<a href="https://www.drupal.org/node/172169">https://www.drupal.org/node/172169</a>
+4、<a href="https://www.drupal.org/project/pareviewsh">https://www.drupal.org/project/pareviewsh</a>
+5、<a href="https://www.drupal.org/project/coder">https://www.drupal.org/project/coder</a></p>
 
               
             </article>

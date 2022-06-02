@@ -381,9 +381,8 @@
 
 
 
-<hr />
-<h1 id="_1">一、命名规范</h1>
-<h3 id="_2">[数据库环境介绍]</h3>
+<h1 id="_1">一、命名规范<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h3 id="_2">[数据库环境介绍]<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>通常来讲，各个互联网公司的数据库分为5个数据库环境：</p>
 <ol>
 <li>dev : 开发环境, 开发可读写,可修改表结构; 常用的163的数据库表; 开发人员可以修改表结构, 可以随意修改其中的数据; 但是需要保证不影响其他开发同事; </li>
@@ -393,17 +392,17 @@
 <li>online: 线上环境;开发人员不允许直接在线上环境进行数据库操作,如果需要操作必须找DBA进行操作并进行相应记录;</li>
 </ol>
 <p>这些环境的机器，一定要做到权限划分明确，读写帐号分离，并且有辨识度，能区分具体业务。例如用户名w_wap, r_wap 能看出来，读写帐号是wap应用的。</p>
-<h3 id="_3">[数据库命名规范]</h3>
+<h3 id="_3">[数据库命名规范]<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <ol>
 <li>尽量简洁明义，能够一眼看出来这个数据库是用来做什么的；</li>
 <li>使用名词作为数据库名称，并且只用英文，不用中文拼音；</li>
 <li>使用英文字母，全部小写，控制在3-7个字母以内；</li>
 <li>如果有多个单词，则使用下划线隔开，不建义驼峰命名；
-例如，每个公司都有crm业务，那就叫做xx_crm, 字符集统一utf8。字符集踩过的坑很多，为了通用性统一utf8。</li>
+例如，每个公司都有crm业务，那就叫做xx_crm, 字符集统一utf8。字符集踩过的坑很多，为了通用性统一utf8。
+<div class="highlight"><pre><span></span><code>create database xx_crm default character <span class="nv">set</span><span class="o">=</span>utf8<span class="p">;</span>
+</code></pre></div></li>
 </ol>
-<pre><code class="language-bash">create database xx_crm default character set=utf8;
-</code></pre>
-<h3 id="_4">[表命名规范]</h3>
+<h3 id="_4">[表命名规范]<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ol>
 <li>具备统一前缀，对相关功能的表应当使用相同前缀，如acl_xxx，house_xxx,ppc_xxx；其中前缀通常为这个表的模块或依赖主实体对象的名字，通常来讲表名为：业务_动作_类型，或是业务_类型；</li>
 <li>表名使用英文小写单词，如果有多个单词则使用下划线隔开；
@@ -416,15 +415,15 @@
 <li>职责相近的表，命名规则应该相同；如合同申请，账户信息，交友相关等；
 举个例子，一张在线冲值记录表：user_bank_deposit 这个就非常符合标准，如果叫做userBankDeposit或是user_chongzhi，就非常不友好。</li>
 </ol>
-<pre><code class="language-bash">CREATE TABLE `house_refresh_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `fangid` int(11) NOT NULL COMMENT '房贴子ID',
-  `refresh_time` int(11) NOT NULL COMMENT '刷新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `fangid` (`fangid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='房刷新记录表'
-</code></pre>
-<h3 id="_5">[字段命名规范]</h3>
+<div class="highlight"><pre><span></span><code>CREATE TABLE <span class="sb">`</span>house_refresh_log<span class="sb">`</span> <span class="o">(</span>
+  <span class="sb">`</span>id<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL AUTO_INCREMENT COMMENT <span class="s1">&#39;自增ID&#39;</span>,
+  <span class="sb">`</span>fangid<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;房贴子ID&#39;</span>,
+  <span class="sb">`</span>refresh_time<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;刷新时间&#39;</span>,
+  PRIMARY KEY <span class="o">(</span><span class="sb">`</span>id<span class="sb">`</span><span class="o">)</span>,
+  UNIQUE KEY <span class="sb">`</span>fangid<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>fangid<span class="sb">`</span><span class="o">)</span>
+<span class="o">)</span> <span class="nv">ENGINE</span><span class="o">=</span>InnoDB DEFAULT <span class="nv">CHARSET</span><span class="o">=</span>utf8 <span class="nv">COMMENT</span><span class="o">=</span><span class="s1">&#39;房刷新记录表&#39;</span>
+</code></pre></div>
+<h3 id="_5">[字段命名规范]<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <ol>
 <li>数据库字段命名与表名命名类似：</li>
 <li>使用小写英文单词，如果有多个单词使用下划线隔开；</li>
@@ -438,35 +437,35 @@
 <li>有些驱动对tinyint支持不够好，通常建义按容量来选择字段；</li>
 <li>text字段尽量少用，或是拆到冗余表中；</li>
 </ol>
-<pre><code class="language-bash">CREATE TABLE `wanted_post` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `puid` int(10) unsigned NOT NULL,
-  `user_id` int(10) NOT NULL COMMENT '发贴用户的id',
-  `username` varchar(50) NOT NULL COMMENT '发贴用户的用户名',
-  `city` smallint(4) NOT NULL COMMENT '所在城市',
-  `ip` bigint(14) NOT NULL COMMENT '发帖人的ip',
-  `district_id` tinyint(2) NOT NULL COMMENT '所在区域的id',
-  `district_name` varchar(20) NOT NULL COMMENT '行政区名字',
-  `street_id` tinyint(2) NOT NULL COMMENT '所在街道(地标)的id',
-  `street_name` varchar(20) NOT NULL COMMENT '小区名字',
-  `title` varchar(255) NOT NULL COMMENT '帖子的标题',
-  `description` text NOT NULL COMMENT '帖子详情描述',
-  `post_at` int(11) NOT NULL COMMENT '用户发帖时间,数据创建的时间,使用整型存储',
-  `refresh_at` int(11) NOT NULL COMMENT '帖子被修改的时间,整型存储',
-  `show_time` int(11) NOT NULL COMMENT '帖子显示时间',
-  `age_max` int(11) NOT NULL DEFAULT '0' COMMENT '招聘最小年龄',
-  `age_min` int(11) NOT NULL DEFAULT '0' COMMENT '招聘最大年龄',
-  `post_refresh_at` int(11) NOT NULL COMMENT '刷新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_puid` (`puid`),
-  KEY `user_id_index` (`user_id`),
-  KEY `post_at_index` (`post_at`),
-  KEY `refresh_at_index` (`refresh_at`),
-  KEY `show_time_index` (`show_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT='招聘帖子表'
-</code></pre>
-<h1 id="_6">二、表设计原则</h1>
-<h3 id="_7">[职责分离原则]</h3>
+<div class="highlight"><pre><span></span><code>CREATE TABLE <span class="sb">`</span>wanted_post<span class="sb">`</span> <span class="o">(</span>
+  <span class="sb">`</span>id<span class="sb">`</span> int<span class="o">(</span><span class="m">10</span><span class="o">)</span> NOT NULL AUTO_INCREMENT,
+  <span class="sb">`</span>puid<span class="sb">`</span> int<span class="o">(</span><span class="m">10</span><span class="o">)</span> unsigned NOT NULL,
+  <span class="sb">`</span>user_id<span class="sb">`</span> int<span class="o">(</span><span class="m">10</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;发贴用户的id&#39;</span>,
+  <span class="sb">`</span>username<span class="sb">`</span> varchar<span class="o">(</span><span class="m">50</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;发贴用户的用户名&#39;</span>,
+  <span class="sb">`</span>city<span class="sb">`</span> smallint<span class="o">(</span><span class="m">4</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;所在城市&#39;</span>,
+  <span class="sb">`</span>ip<span class="sb">`</span> bigint<span class="o">(</span><span class="m">14</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;发帖人的ip&#39;</span>,
+  <span class="sb">`</span>district_id<span class="sb">`</span> tinyint<span class="o">(</span><span class="m">2</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;所在区域的id&#39;</span>,
+  <span class="sb">`</span>district_name<span class="sb">`</span> varchar<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;行政区名字&#39;</span>,
+  <span class="sb">`</span>street_id<span class="sb">`</span> tinyint<span class="o">(</span><span class="m">2</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;所在街道(地标)的id&#39;</span>,
+  <span class="sb">`</span>street_name<span class="sb">`</span> varchar<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;小区名字&#39;</span>,
+  <span class="sb">`</span>title<span class="sb">`</span> varchar<span class="o">(</span><span class="m">255</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;帖子的标题&#39;</span>,
+  <span class="sb">`</span>description<span class="sb">`</span> text NOT NULL COMMENT <span class="s1">&#39;帖子详情描述&#39;</span>,
+  <span class="sb">`</span>post_at<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;用户发帖时间,数据创建的时间,使用整型存储&#39;</span>,
+  <span class="sb">`</span>refresh_at<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;帖子被修改的时间,整型存储&#39;</span>,
+  <span class="sb">`</span>show_time<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;帖子显示时间&#39;</span>,
+  <span class="sb">`</span>age_max<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;招聘最小年龄&#39;</span>,
+  <span class="sb">`</span>age_min<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;招聘最大年龄&#39;</span>,
+  <span class="sb">`</span>post_refresh_at<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;刷新时间&#39;</span>,
+  PRIMARY KEY <span class="o">(</span><span class="sb">`</span>id<span class="sb">`</span><span class="o">)</span>,
+  UNIQUE KEY <span class="sb">`</span>idx_puid<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>puid<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>user_id_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>user_id<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>post_at_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>post_at<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>refresh_at_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>refresh_at<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>show_time_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>show_time<span class="sb">`</span><span class="o">)</span>
+<span class="o">)</span> <span class="nv">ENGINE</span><span class="o">=</span>InnoDB <span class="nv">AUTO_INCREMENT</span><span class="o">=</span><span class="m">55295</span> DEFAULT <span class="nv">CHARSET</span><span class="o">=</span>utf8 <span class="nv">COMMENT</span><span class="o">=</span><span class="s1">&#39;招聘帖子表&#39;</span>
+</code></pre></div>
+<h1 id="_6">二、表设计原则<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h1>
+<h3 id="_7">[职责分离原则]<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p>职责分离原则是指在设计的时候应当考虑到数据的产生，聚合使用等原则，每个系统干自己能干的事情，每个系统只干自己的事情。一个数据表应该放在哪个系统中，通常取决于几点：</p>
 <ol>
 <li>
@@ -480,74 +479,74 @@
 </li>
 </ol>
 <p>在我们设计数据库表间的关系的时候也应当遵守相同原则，职责分离降低耦合，但同时要考虑到性能情况，做到适当冗余而不导致修改逻辑复杂。</p>
-<p>举个最常见贴子与评论的例子：</p>
-<pre><code class="language-bash">CREATE TABLE `wanted_post` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `puid` int(10) unsigned NOT NULL,
-  `user_id` int(10) NOT NULL COMMENT '发贴用户的id',
-  `username` varchar(50) NOT NULL COMMENT '发贴用户的用户名',
-  `city` smallint(4) NOT NULL COMMENT '所在城市',
-  `ip` bigint(14) NOT NULL COMMENT '发帖人的ip',
-  `district_id` tinyint(2) NOT NULL COMMENT '所在区域的id',
-  `district_name` varchar(20) NOT NULL COMMENT '行政区名字',
-  `street_id` tinyint(2) NOT NULL COMMENT '所在街道(地标)的id',
-  `street_name` varchar(20) NOT NULL COMMENT '小区名字',
-  `title` varchar(255) NOT NULL COMMENT '帖子的标题',
-  `description` text NOT NULL COMMENT '帖子详情描述',
-  `post_at` int(11) NOT NULL COMMENT '用户发帖时间,数据创建的时间,使用整型存储',
-  `refresh_at` int(11) NOT NULL COMMENT '帖子被修改的时间,整型存储',
-  `show_time` int(11) NOT NULL COMMENT '帖子显示时间',
-  `age_max` int(11) NOT NULL DEFAULT '0' COMMENT '招聘最小年龄',
-  `age_min` int(11) NOT NULL DEFAULT '0' COMMENT '招聘最大年龄',
-  `post_refresh_at` int(11) NOT NULL COMMENT '刷新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_puid` (`puid`),
-  KEY `user_id_index` (`user_id`),
-  KEY `post_at_index` (`post_at`),
-  KEY `refresh_at_index` (`refresh_at`),
-  KEY `show_time_index` (`show_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=55295 DEFAULT CHARSET=utf8 COMMENT='招聘帖子表'
+<p>举个最常见贴子与评论的例子：
+<div class="highlight"><pre><span></span><code>CREATE TABLE <span class="sb">`</span>wanted_post<span class="sb">`</span> <span class="o">(</span>
+  <span class="sb">`</span>id<span class="sb">`</span> int<span class="o">(</span><span class="m">10</span><span class="o">)</span> NOT NULL AUTO_INCREMENT,
+  <span class="sb">`</span>puid<span class="sb">`</span> int<span class="o">(</span><span class="m">10</span><span class="o">)</span> unsigned NOT NULL,
+  <span class="sb">`</span>user_id<span class="sb">`</span> int<span class="o">(</span><span class="m">10</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;发贴用户的id&#39;</span>,
+  <span class="sb">`</span>username<span class="sb">`</span> varchar<span class="o">(</span><span class="m">50</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;发贴用户的用户名&#39;</span>,
+  <span class="sb">`</span>city<span class="sb">`</span> smallint<span class="o">(</span><span class="m">4</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;所在城市&#39;</span>,
+  <span class="sb">`</span>ip<span class="sb">`</span> bigint<span class="o">(</span><span class="m">14</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;发帖人的ip&#39;</span>,
+  <span class="sb">`</span>district_id<span class="sb">`</span> tinyint<span class="o">(</span><span class="m">2</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;所在区域的id&#39;</span>,
+  <span class="sb">`</span>district_name<span class="sb">`</span> varchar<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;行政区名字&#39;</span>,
+  <span class="sb">`</span>street_id<span class="sb">`</span> tinyint<span class="o">(</span><span class="m">2</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;所在街道(地标)的id&#39;</span>,
+  <span class="sb">`</span>street_name<span class="sb">`</span> varchar<span class="o">(</span><span class="m">20</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;小区名字&#39;</span>,
+  <span class="sb">`</span>title<span class="sb">`</span> varchar<span class="o">(</span><span class="m">255</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;帖子的标题&#39;</span>,
+  <span class="sb">`</span>description<span class="sb">`</span> text NOT NULL COMMENT <span class="s1">&#39;帖子详情描述&#39;</span>,
+  <span class="sb">`</span>post_at<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;用户发帖时间,数据创建的时间,使用整型存储&#39;</span>,
+  <span class="sb">`</span>refresh_at<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;帖子被修改的时间,整型存储&#39;</span>,
+  <span class="sb">`</span>show_time<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;帖子显示时间&#39;</span>,
+  <span class="sb">`</span>age_max<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;招聘最小年龄&#39;</span>,
+  <span class="sb">`</span>age_min<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL DEFAULT <span class="s1">&#39;0&#39;</span> COMMENT <span class="s1">&#39;招聘最大年龄&#39;</span>,
+  <span class="sb">`</span>post_refresh_at<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;刷新时间&#39;</span>,
+  PRIMARY KEY <span class="o">(</span><span class="sb">`</span>id<span class="sb">`</span><span class="o">)</span>,
+  UNIQUE KEY <span class="sb">`</span>idx_puid<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>puid<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>user_id_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>user_id<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>post_at_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>post_at<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>refresh_at_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>refresh_at<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>show_time_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>show_time<span class="sb">`</span><span class="o">)</span>
+<span class="o">)</span> <span class="nv">ENGINE</span><span class="o">=</span>InnoDB <span class="nv">AUTO_INCREMENT</span><span class="o">=</span><span class="m">55295</span> DEFAULT <span class="nv">CHARSET</span><span class="o">=</span>utf8 <span class="nv">COMMENT</span><span class="o">=</span><span class="s1">&#39;招聘帖子表&#39;</span>
 
 
-CREATE TABLE `wanted_post_comment_99` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `puid` int(10) unsigned NOT NULL,
-  `user_id` int(10) NOT NULL COMMENT '评论用户ID',
-  `post_at` int(11) NOT NULL COMMENT '评论时间',
-  `detail` text NOT NULL COMMENT '评论详情',
-  PRIMARY KEY (`id`),
-  KEY `user_id_index` (`user_id`),
-  KEY `puidid_index` (`puid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='招聘评论分表99'
-</code></pre>
-<p>由于评论表数据量很大，在预先做好分表，按贴子puid分成100张子表，那么当前详情页涉及sql如下：</p>
-<pre><code class="language-bash">select * from wanted_post where puid=xxxx;
-select * from wanted_post_comment_99 where puid=xxxx;
-</code></pre>
-<p>这是一个简化的模型，评论多了，还要涉及分页，不可能一次性全取出来。对于上面的场景，严格尊守高内聚，低耦合的原则，不会存储冗余数据。相比较还有一种文档型数据库，例如mongo，就可以将评论与贴子存放在一起，访问的时候只需一次顺序IO操作。整体来讲表设计，要按照职责划分原则。</p>
-<h3 id="_8">[在线处理与分析分离]</h3>
+CREATE TABLE <span class="sb">`</span>wanted_post_comment_99<span class="sb">`</span> <span class="o">(</span>
+  <span class="sb">`</span>id<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL AUTO_INCREMENT,
+  <span class="sb">`</span>puid<span class="sb">`</span> int<span class="o">(</span><span class="m">10</span><span class="o">)</span> unsigned NOT NULL,
+  <span class="sb">`</span>user_id<span class="sb">`</span> int<span class="o">(</span><span class="m">10</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;评论用户ID&#39;</span>,
+  <span class="sb">`</span>post_at<span class="sb">`</span> int<span class="o">(</span><span class="m">11</span><span class="o">)</span> NOT NULL COMMENT <span class="s1">&#39;评论时间&#39;</span>,
+  <span class="sb">`</span>detail<span class="sb">`</span> text NOT NULL COMMENT <span class="s1">&#39;评论详情&#39;</span>,
+  PRIMARY KEY <span class="o">(</span><span class="sb">`</span>id<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>user_id_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>user_id<span class="sb">`</span><span class="o">)</span>,
+  KEY <span class="sb">`</span>puidid_index<span class="sb">`</span> <span class="o">(</span><span class="sb">`</span>puid<span class="sb">`</span><span class="o">)</span>
+<span class="o">)</span> <span class="nv">ENGINE</span><span class="o">=</span>InnoDB <span class="nv">AUTO_INCREMENT</span><span class="o">=</span><span class="m">10</span> DEFAULT <span class="nv">CHARSET</span><span class="o">=</span>utf8 <span class="nv">COMMENT</span><span class="o">=</span><span class="s1">&#39;招聘评论分表99&#39;</span>
+</code></pre></div></p>
+<p>由于评论表数据量很大，在预先做好分表，按贴子puid分成100张子表，那么当前详情页涉及sql如下：
+<div class="highlight"><pre><span></span><code><span class="k">select</span> * from wanted_post where <span class="nv">puid</span><span class="o">=</span>xxxx<span class="p">;</span>
+<span class="k">select</span> * from wanted_post_comment_99 where <span class="nv">puid</span><span class="o">=</span>xxxx<span class="p">;</span>
+</code></pre></div>
+这是一个简化的模型，评论多了，还要涉及分页，不可能一次性全取出来。对于上面的场景，严格尊守高内聚，低耦合的原则，不会存储冗余数据。相比较还有一种文档型数据库，例如mongo，就可以将评论与贴子存放在一起，访问的时候只需一次顺序IO操作。整体来讲表设计，要按照职责划分原则。</p>
+<h3 id="_8">[在线处理与分析分离]<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <ol>
 <li>为了保障线上数据处理的性能，将一些分析相关的数据及分析结果，应当使用单独的库来进行存储，避免在数据分析的时候导致业务数据吞吐量下降，引起系统问题。</li>
 <li>专门用于存放离线报表数据，并提供线上数据查询方法，建议将统计结果，汇总的数据都从在线处理数据库中移走。</li>
 </ol>
-<p>对于上面的wanted_post求职贴子表，在线处理只能是用户在操作：浏览，修改，删除，分别对应如下sql：</p>
-<pre><code class="language-bash">select * from wanted_post where puid=xxxxx;
-update wanted_post set xxx=xxx where puid=xxxx;
-delete from wanted_post where puid=xxxx;
-</code></pre>
-<p>同样，对于后台统计来讲，都是些聚合操作，非常消耗性能，例如查看某一用户发贴量：</p>
-<pre><code class="language-bash">select count(*) from wanted_post where user_id=xxxx;
-</code></pre>
-<p>上面举个通用的例子，原则上要将在线用户请求和后台统计请求分开。简单来讲，对于这种需求处理如下：</p>
+<p>对于上面的wanted_post求职贴子表，在线处理只能是用户在操作：浏览，修改，删除，分别对应如下sql：
+<div class="highlight"><pre><span></span><code><span class="k">select</span> * from wanted_post where <span class="nv">puid</span><span class="o">=</span>xxxxx<span class="p">;</span>
+update wanted_post <span class="nb">set</span> <span class="nv">xxx</span><span class="o">=</span>xxx where <span class="nv">puid</span><span class="o">=</span>xxxx<span class="p">;</span>
+delete from wanted_post where <span class="nv">puid</span><span class="o">=</span>xxxx<span class="p">;</span>
+</code></pre></div></p>
+<p>同样，对于后台统计来讲，都是些聚合操作，非常消耗性能，例如查看某一用户发贴量：
+<div class="highlight"><pre><span></span><code><span class="k">select</span> count<span class="o">(</span>*<span class="o">)</span> from wanted_post where <span class="nv">user_id</span><span class="o">=</span>xxxx<span class="p">;</span>
+</code></pre></div>
+上面举个通用的例子，原则上要将在线用户请求和后台统计请求分开。简单来讲，对于这种需求处理如下：</p>
 <p>将请求指向不同slave ，这种方法简单高效，缺点是数据量增大就玩不转。</p>
 <p>建立离线报表库，专门存放统计结果，这样将计算与展示异步处理，缺点是对于实时业务响应不好。</p>
 <p>实时拉取mysql row binlog，做数据的异构处理(tungsten, canal)，将增量结果处理后(storm)，保存在数据库中，基本实时。</p>
-<h3 id="_9">[事务与日志分离]</h3>
+<h3 id="_9">[事务与日志分离]<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p>用户生成内容和用户行为日志要分开，这一点很好理解，举两个例子：</p>
 <p>游戏DB里存放玩家的基础信息，装备，属性，好友列表等等，这些放到数据库里面。但是玩家的行为日志，比如消耗金币，今天下过哪些副本，买过什么顶级装备，这些属于行为日志，应该单独存放并分析处理。 </p>
 <p>对于web用记，有好多用户置顶，刷新，竞价，展示等行为，要求实时并且量很大，一定要和贴子分开。</p>
 <p>行为日志，需要做分析处理，并且由于时效性不宜存储在mysql中，后期维护就是地雷。</p>
-<h3 id="_10">[历史可追溯]</h3>
+<h3 id="_10">[历史可追溯]<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <p>在数据库设计的时候为了保障数据是可追溯的，应当遵循一些简单的约定，事后方便数据的查询和统计：</p>
 <ol>
 <li>

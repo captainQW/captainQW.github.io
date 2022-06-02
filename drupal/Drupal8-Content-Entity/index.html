@@ -476,127 +476,122 @@
 
   <h1>"Drupal8 Content Entity"</h1>
 
-<hr />
 <p>这篇文章是<a href="http://verynull.com/2015/12/21/Drupal8-configuration-Entity/">Drupal8-configuration-Entity</a>的姊妹篇。主要介绍如何创建内容实体，并在界面上管理。</p>
 <p>content entity最大的优势在于可自定义字段。</p>
-<p>本文github：https://github.com/RamboLau/drupal8-demos/tree/master/content_entity_example</p>
-<h3 id="_1">一、创建模块</h3>
-<pre><code class="language-bash">mkdir content_entity_example
+<p>本文github：<a href="https://github.com/RamboLau/drupal8-demos/tree/master/content_entity_example">https://github.com/RamboLau/drupal8-demos/tree/master/content_entity_example</a></p>
+<h3 id="_1">一、创建模块<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>mkdir content_entity_example
 
 touch content_entity_example.info.yml
-</code></pre>
+</code></pre></div>
 <p>编辑内容为：</p>
-<pre><code class="language-bash">name: content_entity_example
+<div class="highlight"><pre><span></span><code>name: content_entity_example
 type: module
 description: Provides ContentEntityExampleOnlineMessage entity.
-core: 8.x
+core: <span class="m">8</span>.x
 package: Other
-</code></pre>
-<h3 id="content_entity_exampleroutingyml">二、content_entity_example.routing.yml</h3>
+</code></pre></div>
+<h3 id="content_entity_exampleroutingyml">二、content_entity_example.routing.yml<a class="headerlink" href="#content_entity_exampleroutingyml" title="Permanent link">&para;</a></h3>
 <p>编辑内容为：</p>
-<pre><code class="language-bash">
-# OnlineMessage routing definition
+<div class="highlight"><pre><span></span><code><span class="c1"># OnlineMessage routing definition</span>
 entity.online_message.canonical:
-  path: '/admin/structure/online_message/{online_message}'
+  path: <span class="s1">&#39;/admin/structure/online_message/{online_message}&#39;</span>
   defaults:
-    _entity_view: 'online_message'
-    _title: 'Online message'
+    _entity_view: <span class="s1">&#39;online_message&#39;</span>
+    _title: <span class="s1">&#39;Online message&#39;</span>
   requirements:
-    _entity_access: 'online_message.view'
+    _entity_access: <span class="s1">&#39;online_message.view&#39;</span>
   options:
     _admin_route: TRUE
 
 entity.online_message.collection:
-  path: '/admin/structure/online_message'
+  path: <span class="s1">&#39;/admin/structure/online_message&#39;</span>
   defaults:
-    _entity_list: 'online_message'
-    _title: 'Online message list'
+    _entity_list: <span class="s1">&#39;online_message&#39;</span>
+    _title: <span class="s1">&#39;Online message list&#39;</span>
   requirements:
-    _permission: 'view online message entities'
+    _permission: <span class="s1">&#39;view online message entities&#39;</span>
   options:
     _admin_route: TRUE
 
 entity.online_message.add_form:
-  path: '/admin/structure/online_message/add'
+  path: <span class="s1">&#39;/admin/structure/online_message/add&#39;</span>
   defaults:
     _entity_form: online_message.add
-    _title: 'Add Online message'
+    _title: <span class="s1">&#39;Add Online message&#39;</span>
   requirements:
-    _permission: 'add online message entities'
+    _permission: <span class="s1">&#39;add online message entities&#39;</span>
   options:
     _admin_route: TRUE
 
 entity.online_message.edit_form:
-  path: '/admin/structure/online_message/{online_message}/edit'
+  path: <span class="s1">&#39;/admin/structure/online_message/{online_message}/edit&#39;</span>
   defaults:
     _entity_form: online_message.edit
-    _title: 'Edit Online message'
+    _title: <span class="s1">&#39;Edit Online message&#39;</span>
   requirements:
-    _permission: 'edit online message entities'
+    _permission: <span class="s1">&#39;edit online message entities&#39;</span>
   options:
     _admin_route: TRUE
 
 entity.online_message.delete_form:
-  path: '/admin/structure/online_message/{online_message}/delete'
+  path: <span class="s1">&#39;/admin/structure/online_message/{online_message}/delete&#39;</span>
   defaults:
     _entity_form: online_message.delete
-    _title: 'Delete Online message'
+    _title: <span class="s1">&#39;Delete Online message&#39;</span>
   requirements:
-    _permission: 'delete online message entities'
+    _permission: <span class="s1">&#39;delete online message entities&#39;</span>
   options:
     _admin_route: TRUE
 
 online_message.settings:
-  path: '/admin/structure/online_message/settings'
+  path: <span class="s1">&#39;/admin/structure/online_message/settings&#39;</span>
   defaults:
-   _form: '\Drupal\content_entity_example\Form\OnlineMessageSettingsForm'
-   _title: 'Online message settings'
+   _form: <span class="s1">&#39;\Drupal\content_entity_example\Form\OnlineMessageSettingsForm&#39;</span>
+   _title: <span class="s1">&#39;Online message settings&#39;</span>
   requirements:
-    _permission: 'administer online message entities'
+    _permission: <span class="s1">&#39;administer online message entities&#39;</span>
   options:
     _admin_route: TRUE
-
-</code></pre>
-<h3 id="content_entity_examplelinksmenuyml">三、content_entity_example.links.menu.yml</h3>
+</code></pre></div>
+<h3 id="content_entity_examplelinksmenuyml">三、content_entity_example.links.menu.yml<a class="headerlink" href="#content_entity_examplelinksmenuyml" title="Permanent link">&para;</a></h3>
 <p>编辑内容为：</p>
-<pre><code class="language-bash"># Online message menu items definition
+<div class="highlight"><pre><span></span><code><span class="c1"># Online message menu items definition</span>
 entity.online_message.collection:
-  title: 'Online message list'
+  title: <span class="s1">&#39;Online message list&#39;</span>
   route_name: entity.online_message.collection
-  description: 'List Online message entities'
+  description: <span class="s1">&#39;List Online message entities&#39;</span>
   parent: system.admin_structure
-  weight: 100
+  weight: <span class="m">100</span>
 
 online_message.admin.structure.settings:
   title: Online message settings
-  description: 'Configure Online message entities'
+  description: <span class="s1">&#39;Configure Online message entities&#39;</span>
   route_name: online_message.settings
   parent: system.admin_structure
-
-</code></pre>
+</code></pre></div>
 <p><img alt="menu" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223140428_47031.png" /></p>
-<h3 id="content_entity_examplelinksactionyml">四、content_entity_example.links.action.yml</h3>
+<h3 id="content_entity_examplelinksactionyml">四、content_entity_example.links.action.yml<a class="headerlink" href="#content_entity_examplelinksactionyml" title="Permanent link">&para;</a></h3>
 <p>编辑内容为：</p>
-<pre><code class="language-bash">entity.online_message.add_form:
+<div class="highlight"><pre><span></span><code>entity.online_message.add_form:
   route_name: entity.online_message.add_form
-  title: 'Add Online message'
+  title: <span class="s1">&#39;Add Online message&#39;</span>
   appears_on:
     - entity.online_message.collection
     - entity.online_message.canonical
-
-</code></pre>
+</code></pre></div>
 <p><img alt="action" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223140610_19940.png" /></p>
-<h3 id="content_entity_examplelinkstaskyml">五、content_entity_example.links.task.yml</h3>
+<h3 id="content_entity_examplelinkstaskyml">五、content_entity_example.links.task.yml<a class="headerlink" href="#content_entity_examplelinkstaskyml" title="Permanent link">&para;</a></h3>
 <p>编辑内容为：</p>
-<pre><code class="language-bash"># Online message routing definition
+<div class="highlight"><pre><span></span><code><span class="c1"># Online message routing definition</span>
 online_message.settings_tab:
   route_name: online_message.settings
-  title: 'Settings'
+  title: <span class="s1">&#39;Settings&#39;</span>
   base_route: online_message.settings
 entity.online_message.canonical:
   route_name: entity.online_message.canonical
   base_route: entity.online_message.canonical
-  title: 'View'
+  title: <span class="s1">&#39;View&#39;</span>
 
 entity.online_message.edit_form:
   route_name: entity.online_message.edit_form
@@ -607,612 +602,612 @@ entity.online_message.delete_form:
   route_name:  entity.online_message.delete_form
   base_route:  entity.online_message.canonical
   title: Delete
-  weight: 10
-
-</code></pre>
-<h3 id="entity">六、Entity类</h3>
-<h4 id="1srconlinemessageinterfacephp">1、src/OnlineMessageInterface.php</h4>
+  weight: <span class="m">10</span>
+</code></pre></div>
+<h3 id="entity">六、Entity类<a class="headerlink" href="#entity" title="Permanent link">&para;</a></h3>
+<h4 id="1srconlinemessageinterfacephp">1、src/OnlineMessageInterface.php<a class="headerlink" href="#1srconlinemessageinterfacephp" title="Permanent link">&para;</a></h4>
 <p>注：通过EntityOwnerInterface接口可获取其他的一些函数，如</p>
 <p>编辑内容为：</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\content_entity_example\OnlineMessageInterface.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\OnlineMessageInterface.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\content_entity_example;
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example</span><span class="p">;</span>
 
-use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\EntityChangedInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\user\EntityOwnerInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityChangedInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityTypeInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\user\EntityOwnerInterface</span><span class="p">;</span>
 
-/**
- * Provides an interface for defining Online message entities.
- *
- * @ingroup content_entity_example
- */
-interface OnlineMessageInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
-  // Add get/set methods for your configuration properties here.
+<span class="sd">/**</span>
+<span class="sd"> * Provides an interface for defining Online message entities.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">interface</span> <span class="nx">OnlineMessageInterface</span> <span class="k">extends</span> <span class="nx">ContentEntityInterface</span><span class="p">,</span> <span class="nx">EntityChangedInterface</span><span class="p">,</span> <span class="nx">EntityOwnerInterface</span> <span class="p">{</span>
+  <span class="c1">// Add get/set methods for your configuration properties here.</span>
 
-  /**
-   * Gets the Online message name.
-   *
-   * @return string
-   *   Name of the Online message.
-   */
-  public function getName();
+  <span class="sd">/**</span>
+<span class="sd">   * Gets the Online message name.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return string</span>
+<span class="sd">   *   Name of the Online message.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">();</span>
 
-  /**
-   * Sets the Online message name.
-   *
-   * @param string $name
-   *   The Online message name.
-   *
-   * @return \Drupal\content_entity_example\OnlineMessageInterface
-   *   The called Online message entity.
-   */
-  public function setName($name);
+  <span class="sd">/**</span>
+<span class="sd">   * Sets the Online message name.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param string $name</span>
+<span class="sd">   *   The Online message name.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return \Drupal\content_entity_example\OnlineMessageInterface</span>
+<span class="sd">   *   The called Online message entity.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">);</span>
 
-  /**
-   * Gets the Online message creation timestamp.
-   *
-   * @return int
-   *   Creation timestamp of the Online message.
-   */
-  public function getCreatedTime();
+  <span class="sd">/**</span>
+<span class="sd">   * Gets the Online message creation timestamp.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return int</span>
+<span class="sd">   *   Creation timestamp of the Online message.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getCreatedTime</span><span class="p">();</span>
 
-  /**
-   * Sets the Online message creation timestamp.
-   *
-   * @param int $timestamp
-   *   The Online message creation timestamp.
-   *
-   * @return \Drupal\content_entity_example\OnlineMessageInterface
-   *   The called Online message entity.
-   */
-  public function setCreatedTime($timestamp);
+  <span class="sd">/**</span>
+<span class="sd">   * Sets the Online message creation timestamp.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param int $timestamp</span>
+<span class="sd">   *   The Online message creation timestamp.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return \Drupal\content_entity_example\OnlineMessageInterface</span>
+<span class="sd">   *   The called Online message entity.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setCreatedTime</span><span class="p">(</span><span class="nv">$timestamp</span><span class="p">);</span>
 
-  /**
-   * Returns the Online message published status indicator.
-   *
-   * Unpublished Online message are only visible to restricted users.
-   *
-   * @return bool
-   *   TRUE if the Online message is published.
-   */
-  public function isPublished();
+  <span class="sd">/**</span>
+<span class="sd">   * Returns the Online message published status indicator.</span>
+<span class="sd">   *</span>
+<span class="sd">   * Unpublished Online message are only visible to restricted users.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return bool</span>
+<span class="sd">   *   TRUE if the Online message is published.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">isPublished</span><span class="p">();</span>
 
-  /**
-   * Sets the published status of a Online message.
-   *
-   * @param bool $published
-   *   TRUE to set this Online message to published, FALSE to set it to unpublished.
-   *
-   * @return \Drupal\content_entity_example\OnlineMessageInterface
-   *   The called Online message entity.
-   */
-  public function setPublished($published);
+  <span class="sd">/**</span>
+<span class="sd">   * Sets the published status of a Online message.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param bool $published</span>
+<span class="sd">   *   TRUE to set this Online message to published, FALSE to set it to unpublished.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return \Drupal\content_entity_example\OnlineMessageInterface</span>
+<span class="sd">   *   The called Online message entity.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setPublished</span><span class="p">(</span><span class="nv">$published</span><span class="p">);</span>
 
-}
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
-<h4 id="2srcentityonlinemessagephp">2、src/Entity/OnlineMessage.php</h4>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h4 id="2srcentityonlinemessagephp">2、src/Entity/OnlineMessage.php<a class="headerlink" href="#2srcentityonlinemessagephp" title="Permanent link">&para;</a></h4>
 <p>编辑内容为：</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\content_entity_example\Entity\OnlineMessage.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\Entity\OnlineMessage.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\content_entity_example\Entity;
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example\Entity</span><span class="p">;</span>
 
-use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\Core\Entity\ContentEntityBase;
-use Drupal\Core\Entity\EntityChangedTrait;
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\content_entity_example\OnlineMessageInterface;
-use Drupal\user\UserInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityStorageInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Field\BaseFieldDefinition</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityChangedTrait</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityTypeInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\content_entity_example\OnlineMessageInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\user\UserInterface</span><span class="p">;</span>
 
-/**
- * Defines the Online message entity.
- *
- * @ingroup content_entity_example
- *
- * @ContentEntityType(
- *   id = &quot;online_message&quot;,
- *   label = @Translation(&quot;Online message&quot;),
- *   handlers = {
- *     &quot;view_builder&quot; = &quot;Drupal\Core\Entity\EntityViewBuilder&quot;,
- *     &quot;list_builder&quot; = &quot;Drupal\content_entity_example\OnlineMessageListBuilder&quot;,
- *     &quot;views_data&quot; = &quot;Drupal\content_entity_example\Entity\OnlineMessageViewsData&quot;,
- *
- *     &quot;form&quot; = {
- *       &quot;default&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageForm&quot;,
- *       &quot;add&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageForm&quot;,
- *       &quot;edit&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageForm&quot;,
- *       &quot;delete&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageDeleteForm&quot;,
- *     },
- *     &quot;access&quot; = &quot;Drupal\content_entity_example\OnlineMessageAccessControlHandler&quot;,
- *   },
- *   base_table = &quot;online_message&quot;,
- *   admin_permission = &quot;administer OnlineMessage entities&quot;,
- *   entity_keys = {
- *     &quot;id&quot; = &quot;id&quot;,
- *     &quot;label&quot; = &quot;name&quot;,
- *     &quot;uuid&quot; = &quot;uuid&quot;,
- *     &quot;uid&quot; = &quot;user_id&quot;,
- *     &quot;langcode&quot; = &quot;langcode&quot;,
- *   },
- *   links = {
- *     &quot;canonical&quot; = &quot;/admin/online_message/{online_message}&quot;,
- *     &quot;edit-form&quot; = &quot;/admin/online_message/{online_message}/edit&quot;,
- *     &quot;delete-form&quot; = &quot;/admin/online_message/{online_message}/delete&quot;
- *   },
- *   field_ui_base_route = &quot;online_message.settings&quot;
- * )
- */
-class OnlineMessage extends ContentEntityBase implements OnlineMessageInterface {
-  use EntityChangedTrait;
-  /**
-   * {@inheritdoc}
-   */
-  public static function preCreate(EntityStorageInterface $storage_controller, array &amp;$values) {
-    parent::preCreate($storage_controller, $values);
-    $values += array(
-      'user_id' =&gt; \Drupal::currentUser()-&gt;id(),
-    );
-  }
+<span class="sd">/**</span>
+<span class="sd"> * Defines the Online message entity.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ContentEntityType(</span>
+<span class="sd"> *   id = &quot;online_message&quot;,</span>
+<span class="sd"> *   label = @Translation(&quot;Online message&quot;),</span>
+<span class="sd"> *   handlers = {</span>
+<span class="sd"> *     &quot;view_builder&quot; = &quot;Drupal\Core\Entity\EntityViewBuilder&quot;,</span>
+<span class="sd"> *     &quot;list_builder&quot; = &quot;Drupal\content_entity_example\OnlineMessageListBuilder&quot;,</span>
+<span class="sd"> *     &quot;views_data&quot; = &quot;Drupal\content_entity_example\Entity\OnlineMessageViewsData&quot;,</span>
+<span class="sd"> *</span>
+<span class="sd"> *     &quot;form&quot; = {</span>
+<span class="sd"> *       &quot;default&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageForm&quot;,</span>
+<span class="sd"> *       &quot;add&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageForm&quot;,</span>
+<span class="sd"> *       &quot;edit&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageForm&quot;,</span>
+<span class="sd"> *       &quot;delete&quot; = &quot;Drupal\content_entity_example\Form\OnlineMessageDeleteForm&quot;,</span>
+<span class="sd"> *     },</span>
+<span class="sd"> *     &quot;access&quot; = &quot;Drupal\content_entity_example\OnlineMessageAccessControlHandler&quot;,</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   base_table = &quot;online_message&quot;,</span>
+<span class="sd"> *   admin_permission = &quot;administer OnlineMessage entities&quot;,</span>
+<span class="sd"> *   entity_keys = {</span>
+<span class="sd"> *     &quot;id&quot; = &quot;id&quot;,</span>
+<span class="sd"> *     &quot;label&quot; = &quot;name&quot;,</span>
+<span class="sd"> *     &quot;uuid&quot; = &quot;uuid&quot;,</span>
+<span class="sd"> *     &quot;uid&quot; = &quot;user_id&quot;,</span>
+<span class="sd"> *     &quot;langcode&quot; = &quot;langcode&quot;,</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   links = {</span>
+<span class="sd"> *     &quot;canonical&quot; = &quot;/admin/online_message/{online_message}&quot;,</span>
+<span class="sd"> *     &quot;edit-form&quot; = &quot;/admin/online_message/{online_message}/edit&quot;,</span>
+<span class="sd"> *     &quot;delete-form&quot; = &quot;/admin/online_message/{online_message}/delete&quot;</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   field_ui_base_route = &quot;online_message.settings&quot;</span>
+<span class="sd"> * )</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessage</span> <span class="k">extends</span> <span class="nx">ContentEntityBase</span> <span class="k">implements</span> <span class="nx">OnlineMessageInterface</span> <span class="p">{</span>
+  <span class="k">use</span> <span class="nx">EntityChangedTrait</span><span class="p">;</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">preCreate</span><span class="p">(</span><span class="nx">EntityStorageInterface</span> <span class="nv">$storage_controller</span><span class="p">,</span> <span class="k">array</span> <span class="o">&amp;</span><span class="nv">$values</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">parent</span><span class="o">::</span><span class="na">preCreate</span><span class="p">(</span><span class="nv">$storage_controller</span><span class="p">,</span> <span class="nv">$values</span><span class="p">);</span>
+    <span class="nv">$values</span> <span class="o">+=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;user_id&#39;</span> <span class="o">=&gt;</span> <span class="nx">\Drupal</span><span class="o">::</span><span class="na">currentUser</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">(),</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getName() {
-    return $this-&gt;get('name')-&gt;value;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setName($name) {
-    $this-&gt;set('name', $name);
-    return $this;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nv">$name</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getCreatedTime() {
-    return $this-&gt;get('created')-&gt;value;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getCreatedTime</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setCreatedTime($timestamp) {
-    $this-&gt;set('created', $timestamp);
-    return $this;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setCreatedTime</span><span class="p">(</span><span class="nv">$timestamp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">,</span> <span class="nv">$timestamp</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getOwner() {
-    return $this-&gt;get('user_id')-&gt;entity;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getOwner</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getOwnerId() {
-    return $this-&gt;get('user_id')-&gt;target_id;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getOwnerId</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">target_id</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwnerId($uid) {
-    $this-&gt;set('user_id', $uid);
-    return $this;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setOwnerId</span><span class="p">(</span><span class="nv">$uid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="nv">$uid</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwner(UserInterface $account) {
-    $this-&gt;set('user_id', $account-&gt;id());
-    return $this;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setOwner</span><span class="p">(</span><span class="nx">UserInterface</span> <span class="nv">$account</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="nv">$account</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">());</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function isPublished() {
-    return (bool) $this-&gt;getEntityKey('status');
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">isPublished</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nx">bool</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getEntityKey</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setPublished($published) {
-    $this-&gt;set('status', $published ? NODE_PUBLISHED : NODE_NOT_PUBLISHED);
-    return $this;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">setPublished</span><span class="p">(</span><span class="nv">$published</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="nv">$published</span> <span class="o">?</span> <span class="nx">NODE_PUBLISHED</span> <span class="o">:</span> <span class="nx">NODE_NOT_PUBLISHED</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
-    $fields['id'] = BaseFieldDefinition::create('integer')
-      -&gt;setLabel(t('ID'))
-      -&gt;setDescription(t('The ID of the Online message entity.'))
-      -&gt;setReadOnly(TRUE);
-    $fields['uuid'] = BaseFieldDefinition::create('uuid')
-      -&gt;setLabel(t('UUID'))
-      -&gt;setDescription(t('The UUID of the Online message entity.'))
-      -&gt;setReadOnly(TRUE);
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">baseFieldDefinitions</span><span class="p">(</span><span class="nx">EntityTypeInterface</span> <span class="nv">$entity_type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;integer&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The ID of the Online message entity.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setReadOnly</span><span class="p">(</span><span class="k">TRUE</span><span class="p">);</span>
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;uuid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;uuid&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;UUID&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The UUID of the Online message entity.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setReadOnly</span><span class="p">(</span><span class="k">TRUE</span><span class="p">);</span>
 
-    $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
-      -&gt;setLabel(t('Authored by'))
-      -&gt;setDescription(t('The user ID of author of the Online message entity.'))
-      -&gt;setRevisionable(TRUE)
-      -&gt;setSetting('target_type', 'user')
-      -&gt;setSetting('handler', 'default')
-      -&gt;setDefaultValueCallback('Drupal\node\Entity\Node::getCurrentUserId')
-      -&gt;setTranslatable(TRUE)
-      -&gt;setDisplayOptions('view', array(
-        'label' =&gt; 'hidden',
-        'type' =&gt; 'author',
-        'weight' =&gt; 0,
-      ))
-      -&gt;setDisplayOptions('form', array(
-        'type' =&gt; 'entity_reference_autocomplete',
-        'weight' =&gt; 5,
-        'settings' =&gt; array(
-          'match_operator' =&gt; 'CONTAINS',
-          'size' =&gt; '60',
-          'autocomplete_type' =&gt; 'tags',
-          'placeholder' =&gt; '',
-        ),
-      ))
-      -&gt;setDisplayConfigurable('form', TRUE)
-      -&gt;setDisplayConfigurable('view', TRUE);
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;entity_reference&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Authored by&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The user ID of author of the Online message entity.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setRevisionable</span><span class="p">(</span><span class="k">TRUE</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setSetting</span><span class="p">(</span><span class="s1">&#39;target_type&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setSetting</span><span class="p">(</span><span class="s1">&#39;handler&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDefaultValueCallback</span><span class="p">(</span><span class="s1">&#39;Drupal\node\Entity\Node::getCurrentUserId&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setTranslatable</span><span class="p">(</span><span class="k">TRUE</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayOptions</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;author&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayOptions</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;entity_reference_autocomplete&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s1">&#39;settings&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+          <span class="s1">&#39;match_operator&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;CONTAINS&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;size&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;60&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;autocomplete_type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;placeholder&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayConfigurable</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayConfigurable</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
 
-    $fields['name'] = BaseFieldDefinition::create('string')
-      -&gt;setLabel(t('Name'))
-      -&gt;setDescription(t('The name of the Online message entity.'))
-      -&gt;setSettings(array(
-        'max_length' =&gt; 50,
-        'text_processing' =&gt; 0,
-      ))
-      -&gt;setDefaultValue('')
-      -&gt;setDisplayOptions('view', array(
-        'label' =&gt; 'above',
-        'type' =&gt; 'string',
-        'weight' =&gt; -4,
-      ))
-      -&gt;setDisplayOptions('form', array(
-        'type' =&gt; 'string_textfield',
-        'weight' =&gt; -4,
-      ))
-      -&gt;setDisplayConfigurable('form', TRUE)
-      -&gt;setDisplayConfigurable('view', TRUE);
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The name of the Online message entity.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setSettings</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;max_length&#39;</span> <span class="o">=&gt;</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="s1">&#39;text_processing&#39;</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDefaultValue</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayOptions</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;above&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayOptions</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;string_textfield&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+      <span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayConfigurable</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setDisplayConfigurable</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">,</span> <span class="k">TRUE</span><span class="p">);</span>
 
-    $fields['status'] = BaseFieldDefinition::create('boolean')
-      -&gt;setLabel(t('Publishing status'))
-      -&gt;setDescription(t('A boolean indicating whether the Online message is published.'))
-      -&gt;setDefaultValue(TRUE);
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;boolean&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Publishing status&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;A boolean indicating whether the Online message is published.&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDefaultValue</span><span class="p">(</span><span class="k">TRUE</span><span class="p">);</span>
 
-    $fields['langcode'] = BaseFieldDefinition::create('language')
-      -&gt;setLabel(t('Language code'))
-      -&gt;setDescription(t('The language code for the Online message entity.'));
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;langcode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;language&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Language code&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The language code for the Online message entity.&#39;</span><span class="p">));</span>
 
-    $fields['created'] = BaseFieldDefinition::create('created')
-      -&gt;setLabel(t('Created'))
-      -&gt;setDescription(t('The time that the entity was created.'));
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Created&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The time that the entity was created.&#39;</span><span class="p">));</span>
 
-    $fields['changed'] = BaseFieldDefinition::create('changed')
-      -&gt;setLabel(t('Changed'))
-      -&gt;setDescription(t('The time that the entity was last edited.'));
+    <span class="nv">$fields</span><span class="p">[</span><span class="s1">&#39;changed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">BaseFieldDefinition</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;changed&#39;</span><span class="p">)</span>
+      <span class="o">-&gt;</span><span class="na">setLabel</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Changed&#39;</span><span class="p">))</span>
+      <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The time that the entity was last edited.&#39;</span><span class="p">));</span>
 
-    return $fields;
-  }
+    <span class="k">return</span> <span class="nv">$fields</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
-?&gt;
-</code></pre>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p>注解的相关名词解释：</p>
 <p>1、id：实体类型唯一标识符，一般遵循'modulename_xyz'的命名规则。</p>
 <p>2、label：易读的实体名称。</p>
 <p>3、handlers：不同的任务所使用的处理程序，一般来说，标准的处理方法有：
     1)、view_builder：由routing.yml中的'_entity_view'所调用。</p>
-<pre><code>2)、list_builder：继承entityListBuilder，展示在线留言的列表。
+<div class="codehilite"><pre><span></span><code>2)、list_builder：继承entityListBuilder，展示在线留言的列表。
 
-3)、form：由routing.yml中的'_entity_form'所调用。
+3)、form：由routing.yml中的&#39;_entity_form&#39;所调用。
 
 4)、access：设定访问权限
-</code></pre>
+</code></pre></div>
+
 <p>4、base_table：定义存储数据的表，必须唯一哦！schema由BaseFieldDefinitions决定，该表会在模块启用的时候自动创建。</p>
 <p>5、fieldable：可以添加自定义字段，只有内容实体才有这个功能</p>
 <p>6、entity_keys：访问fields的字段，如nid或uid</p>
 <p>7、links：操作链接，如'edit-form'和'delete-form'。在列表页可以看到相应的操作按钮。</p>
-<h3 id="_2">七、控制器类</h3>
-<h4 id="1srcformonlinemessageformphp">1、src/Form/OnlineMessageForm.php</h4>
+<h3 id="_2">七、控制器类<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h4 id="1srcformonlinemessageformphp">1、src/Form/OnlineMessageForm.php<a class="headerlink" href="#1srcformonlinemessageformphp" title="Permanent link">&para;</a></h4>
 <p>由routing中定义的'_entity_form'调用。</p>
 <p>编辑内容为：</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\content_entity_example\Form\OnlineMessageForm.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\Form\OnlineMessageForm.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\content_entity_example\Form;
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example\Form</span><span class="p">;</span>
 
-use Drupal\Core\Entity\ContentEntityForm;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Language\Language;
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityForm</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Language\Language</span><span class="p">;</span>
 
-/**
- * Form controller for Online message edit forms.
- *
- * @ingroup content_entity_example
- */
-class OnlineMessageForm extends ContentEntityForm {
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    /* @var $entity \Drupal\content_entity_example\Entity\OnlineMessage */
-    $form = parent::buildForm($form, $form_state);
-    $entity = $this-&gt;entity;
+<span class="sd">/**</span>
+<span class="sd"> * Form controller for Online message edit forms.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessageForm</span> <span class="k">extends</span> <span class="nx">ContentEntityForm</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* @var $entity \Drupal\content_entity_example\Entity\OnlineMessage */</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildForm</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$form_state</span><span class="p">);</span>
+    <span class="nv">$entity</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
 
-    $form['langcode'] = array(
-      '#title' =&gt; $this-&gt;t('Language'),
-      '#type' =&gt; 'language_select',
-      '#default_value' =&gt; $entity-&gt;langcode-&gt;value,
-      '#languages' =&gt; Language::STATE_ALL,
-    );
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;langcode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Language&#39;</span><span class="p">),</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;language_select&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">langcode</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">,</span>
+      <span class="s1">&#39;#languages&#39;</span> <span class="o">=&gt;</span> <span class="nx">Language</span><span class="o">::</span><span class="na">STATE_ALL</span><span class="p">,</span>
+    <span class="p">);</span>
 
-    return $form;
-  }
+    <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function submit(array $form, FormStateInterface $form_state) {
-    // Build the entity object from the submitted values.
-    $entity = parent::submit($form, $form_state);
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">submit</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Build the entity object from the submitted values.</span>
+    <span class="nv">$entity</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$form_state</span><span class="p">);</span>
 
-    return $entity;
-  }
+    <span class="k">return</span> <span class="nv">$entity</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function save(array $form, FormStateInterface $form_state) {
-    $entity = $this-&gt;entity;
-    $status = $entity-&gt;save();
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">save</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$entity</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+    <span class="nv">$status</span> <span class="o">=</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
 
-    switch ($status) {
-      case SAVED_NEW:
-        drupal_set_message($this-&gt;t('Created the %label Online message.', [
-          '%label' =&gt; $entity-&gt;label(),
-        ]));
-        break;
+    <span class="k">switch</span> <span class="p">(</span><span class="nv">$status</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="nx">SAVED_NEW</span><span class="o">:</span>
+        <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Created the %label Online message.&#39;</span><span class="p">,</span> <span class="p">[</span>
+          <span class="s1">&#39;%label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(),</span>
+        <span class="p">]));</span>
+        <span class="k">break</span><span class="p">;</span>
 
-      default:
-        drupal_set_message($this-&gt;t('Saved the %label Online message.', [
-          '%label' =&gt; $entity-&gt;label(),
-        ]));
-    }
-    $form_state-&gt;setRedirect('entity.online_message.edit_form', ['online_message' =&gt; $entity-&gt;id()]);
-  }
+      <span class="k">default</span><span class="o">:</span>
+        <span class="nx">drupal_set_message</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Saved the %label Online message.&#39;</span><span class="p">,</span> <span class="p">[</span>
+          <span class="s1">&#39;%label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(),</span>
+        <span class="p">]));</span>
+    <span class="p">}</span>
+    <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">setRedirect</span><span class="p">(</span><span class="s1">&#39;entity.online_message.edit_form&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;online_message&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">()]);</span>
+  <span class="p">}</span>
 
-}
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p><img alt="add_form" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223143411_52761.png" /></p>
-<h4 id="2srcformonlinemessagedeleteformphp">2、src/Form/OnlineMessageDeleteForm.php</h4>
+<h4 id="2srcformonlinemessagedeleteformphp">2、src/Form/OnlineMessageDeleteForm.php<a class="headerlink" href="#2srcformonlinemessagedeleteformphp" title="Permanent link">&para;</a></h4>
 <p>编辑内容为：</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\content_entity_example\Form\OnlineMessageDeleteForm.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\Form\OnlineMessageDeleteForm.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\content_entity_example\Form;
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example\Form</span><span class="p">;</span>
 
-use Drupal\Core\Entity\ContentEntityConfirmFormBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityConfirmFormBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Url</span><span class="p">;</span>
 
-/**
- * Provides a form for deleting Online message entities.
- *
- * @ingroup content_entity_example
- */
-class OnlineMessageDeleteForm extends ContentEntityConfirmFormBase {
-  /**
-   * {@inheritdoc}
-   */
-  public function getQuestion() {
-    return $this-&gt;t('Are you sure you want to delete entity %name?', array('%name' =&gt; $this-&gt;entity-&gt;label()));
-  }
+<span class="sd">/**</span>
+<span class="sd"> * Provides a form for deleting Online message entities.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessageDeleteForm</span> <span class="k">extends</span> <span class="nx">ContentEntityConfirmFormBase</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getQuestion</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Are you sure you want to delete entity %name?&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;%name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">()));</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getCancelUrl() {
-    return new Url('entity.online_message.collection');
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getCancelUrl</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Url</span><span class="p">(</span><span class="s1">&#39;entity.online_message.collection&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getConfirmText() {
-    return $this-&gt;t('Delete');
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getConfirmText</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Delete&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &amp;$form, FormStateInterface $form_state) {
-    $this-&gt;entity-&gt;delete();
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">submitForm</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
 
-    drupal_set_message(
-      $this-&gt;t('content @type: deleted @label.',
-        [
-          '@type' =&gt; $this-&gt;entity-&gt;bundle(),
-          '@label' =&gt; $this-&gt;entity-&gt;label()
-        ]
-        )
-    );
+    <span class="nx">drupal_set_message</span><span class="p">(</span>
+      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;content @type: deleted @label.&#39;</span><span class="p">,</span>
+        <span class="p">[</span>
+          <span class="s1">&#39;@type&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">bundle</span><span class="p">(),</span>
+          <span class="s1">&#39;@label&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="p">);</span>
 
-    $form_state-&gt;setRedirectUrl($this-&gt;getCancelUrl());
-  }
+    <span class="nv">$form_state</span><span class="o">-&gt;</span><span class="na">setRedirectUrl</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getCancelUrl</span><span class="p">());</span>
+  <span class="p">}</span>
 
-}
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p><img alt="delete_form" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223143307_47107.png" /></p>
-<h4 id="3srconlinemessagelistbuilderphp">3、src/OnlineMessageListBuilder.php</h4>
+<h4 id="3srconlinemessagelistbuilderphp">3、src/OnlineMessageListBuilder.php<a class="headerlink" href="#3srconlinemessagelistbuilderphp" title="Permanent link">&para;</a></h4>
 <p>编辑内容为：</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\content_entity_example\OnlineMessageListBuilder.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\OnlineMessageListBuilder.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\content_entity_example;
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example</span><span class="p">;</span>
 
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityListBuilder;
-use Drupal\Core\Routing\LinkGeneratorTrait;
-use Drupal\Core\Url;
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityListBuilder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Routing\LinkGeneratorTrait</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Url</span><span class="p">;</span>
 
-/**
- * Defines a class to build a listing of Online message entities.
- *
- * @ingroup content_entity_example
- */
-class OnlineMessageListBuilder extends EntityListBuilder {
-  use LinkGeneratorTrait;
-  /**
-   * {@inheritdoc}
-   */
-  public function buildHeader() {
-    $header['id'] = $this-&gt;t('Online message ID');
-    $header['name'] = $this-&gt;t('Name');
-    return $header + parent::buildHeader();
-  }
+<span class="sd">/**</span>
+<span class="sd"> * Defines a class to build a listing of Online message entities.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessageListBuilder</span> <span class="k">extends</span> <span class="nx">EntityListBuilder</span> <span class="p">{</span>
+  <span class="k">use</span> <span class="nx">LinkGeneratorTrait</span><span class="p">;</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildHeader</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$header</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Online message ID&#39;</span><span class="p">);</span>
+    <span class="nv">$header</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$header</span> <span class="o">+</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildHeader</span><span class="p">();</span>
+  <span class="p">}</span>
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\content_entity_example\Entity\OnlineMessage */
-    $row['id'] = $entity-&gt;id();
-    $row['name'] = $this-&gt;l(
-      $entity-&gt;label(),
-      new Url(
-        'entity.online_message.edit_form', array(
-          'online_message' =&gt; $entity-&gt;id(),
-        )
-      )
-    );
-    return $row + parent::buildRow($entity);
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildRow</span><span class="p">(</span><span class="nx">EntityInterface</span> <span class="nv">$entity</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* @var $entity \Drupal\content_entity_example\Entity\OnlineMessage */</span>
+    <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">();</span>
+    <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">l</span><span class="p">(</span>
+      <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(),</span>
+      <span class="k">new</span> <span class="nx">Url</span><span class="p">(</span>
+        <span class="s1">&#39;entity.online_message.edit_form&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+          <span class="s1">&#39;online_message&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">(),</span>
+        <span class="p">)</span>
+      <span class="p">)</span>
+    <span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$row</span> <span class="o">+</span> <span class="k">parent</span><span class="o">::</span><span class="na">buildRow</span><span class="p">(</span><span class="nv">$entity</span><span class="p">);</span>
+  <span class="p">}</span>
 
-}
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p><img alt="list_builder" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223143200_33896.png" /></p>
-<h3 id="field">八、Field配置</h3>
-<h4 id="1srcformonlinemessagesettingsformphp">1、src/Form/OnlineMessageSettingsForm.php</h4>
+<h3 id="field">八、Field配置<a class="headerlink" href="#field" title="Permanent link">&para;</a></h3>
+<h4 id="1srcformonlinemessagesettingsformphp">1、src/Form/OnlineMessageSettingsForm.php<a class="headerlink" href="#1srcformonlinemessagesettingsformphp" title="Permanent link">&para;</a></h4>
 <p>编辑内容为：</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains \Drupal\content_entity_example\Form\OnlineMessageSettingsForm.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains \Drupal\content_entity_example\Form\OnlineMessageSettingsForm.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\content_entity_example\Form;
+<span class="k">namespace</span> <span class="nx">Drupal\content_entity_example\Form</span><span class="p">;</span>
 
-use Drupal\Core\Form\FormBase;
-use Drupal\Core\Form\FormStateInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Form\FormStateInterface</span><span class="p">;</span>
 
-/**
- * Class OnlineMessageSettingsForm.
- *
- * @package Drupal\content_entity_example\Form
- *
- * @ingroup content_entity_example
- */
-class OnlineMessageSettingsForm extends FormBase {
-  /**
-   * Returns a unique string identifying the form.
-   *
-   * @return string
-   *   The unique string identifying the form.
-   */
-  public function getFormId() {
-    return 'OnlineMessage_settings';
-  }
+<span class="sd">/**</span>
+<span class="sd"> * Class OnlineMessageSettingsForm.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @package Drupal\content_entity_example\Form</span>
+<span class="sd"> *</span>
+<span class="sd"> * @ingroup content_entity_example</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">OnlineMessageSettingsForm</span> <span class="k">extends</span> <span class="nx">FormBase</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * Returns a unique string identifying the form.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return string</span>
+<span class="sd">   *   The unique string identifying the form.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getFormId</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;OnlineMessage_settings&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  /**
-   * Form submission handler.
-   *
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
-   */
-  public function submitForm(array &amp;$form, FormStateInterface $form_state) {
-    // Empty implementation of the abstract submit class.
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Form submission handler.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param array $form</span>
+<span class="sd">   *   An associative array containing the structure of the form.</span>
+<span class="sd">   * @param \Drupal\Core\Form\FormStateInterface $form_state</span>
+<span class="sd">   *   The current state of the form.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">submitForm</span><span class="p">(</span><span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Empty implementation of the abstract submit class.</span>
+  <span class="p">}</span>
 
 
-  /**
-   * Defines the settings form for Online message entities.
-   *
-   * @param array $form
-   *   An associative array containing the structure of the form.
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
-   *   The current state of the form.
-   *
-   * @return array
-   *   Form definition array.
-   */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['OnlineMessage_settings']['#markup'] = 'Settings form for Online message entities. Manage field settings here.';
-    return $form;
-  }
+  <span class="sd">/**</span>
+<span class="sd">   * Defines the settings form for Online message entities.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @param array $form</span>
+<span class="sd">   *   An associative array containing the structure of the form.</span>
+<span class="sd">   * @param \Drupal\Core\Form\FormStateInterface $form_state</span>
+<span class="sd">   *   The current state of the form.</span>
+<span class="sd">   *</span>
+<span class="sd">   * @return array</span>
+<span class="sd">   *   Form definition array.</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="nx">FormStateInterface</span> <span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;OnlineMessage_settings&#39;</span><span class="p">][</span><span class="s1">&#39;#markup&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Settings form for Online message entities. Manage field settings here.&#39;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
 <p><img alt="设置" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223142648_96014.png" /></p>
 <p><img alt="管理字段" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223142758_83626.png" /></p>
 <p><img alt="管理表单显示" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223142828_19080.png" /></p>
 <p><img alt="管理显示" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223142848_49971.png" /></p>
-<h3 id="entity_1">九、注册entity</h3>
+<h3 id="entity_1">九、注册entity<a class="headerlink" href="#entity_1" title="Permanent link">&para;</a></h3>
 <p>启用模块，会自动根据Entity中的配置创建online_message表。</p>
 <p><img alt="online_message_table" src="https://static.verycloud.cn/sites/default/files/pic/image/20151223/20151223140008_92664.png" /></p>
 <p>参考文章：
-1、https://www.drupal.org/node/2192175
-2、http://www.slideshare.net/andypost/d8-entity</p>
+1、<a href="https://www.drupal.org/node/2192175">https://www.drupal.org/node/2192175</a>
+2、<a href="http://www.slideshare.net/andypost/d8-entity">http://www.slideshare.net/andypost/d8-entity</a></p>
 
               
             </article>

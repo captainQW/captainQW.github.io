@@ -340,133 +340,131 @@
 
   <h1>drupal8表单(form)</h1>
 
-<hr />
 <p>这里简单做下Entity Form的实现，包括调用模板输出form.
-详情请访问俺的github，链接地址： https://github.com/aboutblankchina/drupal8_test</p>
+详情请访问俺的github，链接地址： <a href="https://github.com/aboutblankchina/drupal8_test">https://github.com/aboutblankchina/drupal8_test</a></p>
 <p>1、首先创建相关文件
 [$install_path]/modules/hello_world/lib/Drupal/hello_world/Entity/Hello.php
 注：该文件定义实例（Entity）</p>
-<p>如下：</p>
-<pre><code class="language-php">&lt;?php
+<p>如下：
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Definition of Drupal\hello_world\Entity\Hello.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Definition of Drupal\hello_world\Entity\Hello.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\hello_world\Entity;
+<span class="k">namespace</span> <span class="nx">Drupal\hello_world\Entity</span><span class="p">;</span>
 
-use Drupal\Core\Entity\ContentEntityBase;
-use Drupal\Core\Entity\EntityStorageControllerInterface;
-use Drupal\Core\Field\FieldDefinition;
-use Drupal\Core\Language\Language;
-use Drupal\Core\Session\AccountInterface;
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityBase</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\EntityStorageControllerInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Field\FieldDefinition</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Language\Language</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Session\AccountInterface</span><span class="p">;</span>
 
-/**
- * Defines the hello entity class.
- *
- * @EntityType(
- *   id = &quot;hello&quot;,
- *   label = @Translation(&quot;Hello&quot;),
- *   controllers = {
- *     &quot;storage&quot; = &quot;Drupal\Core\Entity\FieldableDatabaseStorageController&quot;,
- *     &quot;view_builder&quot; = &quot;Drupal\Core\Entity\EntityViewBuilder&quot;,
- *     &quot;form&quot; = {
- *       &quot;default&quot; = &quot;Drupal\hello_world\HelloWorldFormController&quot;,
- *     },
- *   },
- *   base_table = &quot;node&quot;,
- *   entity_keys = {
- *     &quot;id&quot; = &quot;nid&quot;,
- *     &quot;label&quot; = &quot;title&quot;,
- *     &quot;uuid&quot; = &quot;uuid&quot;
- *   },
- *   links = {
- *     &quot;edit-form&quot; = &quot;hello.edit&quot;,
- *   }
- * )
- */
-class Hello extends ContentEntityBase {
+<span class="sd">/**</span>
+<span class="sd"> * Defines the hello entity class.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @EntityType(</span>
+<span class="sd"> *   id = &quot;hello&quot;,</span>
+<span class="sd"> *   label = @Translation(&quot;Hello&quot;),</span>
+<span class="sd"> *   controllers = {</span>
+<span class="sd"> *     &quot;storage&quot; = &quot;Drupal\Core\Entity\FieldableDatabaseStorageController&quot;,</span>
+<span class="sd"> *     &quot;view_builder&quot; = &quot;Drupal\Core\Entity\EntityViewBuilder&quot;,</span>
+<span class="sd"> *     &quot;form&quot; = {</span>
+<span class="sd"> *       &quot;default&quot; = &quot;Drupal\hello_world\HelloWorldFormController&quot;,</span>
+<span class="sd"> *     },</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   base_table = &quot;node&quot;,</span>
+<span class="sd"> *   entity_keys = {</span>
+<span class="sd"> *     &quot;id&quot; = &quot;nid&quot;,</span>
+<span class="sd"> *     &quot;label&quot; = &quot;title&quot;,</span>
+<span class="sd"> *     &quot;uuid&quot; = &quot;uuid&quot;</span>
+<span class="sd"> *   },</span>
+<span class="sd"> *   links = {</span>
+<span class="sd"> *     &quot;edit-form&quot; = &quot;hello.edit&quot;,</span>
+<span class="sd"> *   }</span>
+<span class="sd"> * )</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">Hello</span> <span class="k">extends</span> <span class="nx">ContentEntityBase</span> <span class="p">{</span>
 
-}
-</code></pre>
+<span class="p">}</span>
+</code></pre></div></p>
 <p>需要说明的是，上面的一部分注释(Annotation)是必须使用的，这是symfony的标准。
 Symfony2框架中大量使用了Annotation：从缓存的定义到路由的配置，甚至到表结构的定义，处处都使用了Annotation功能。你甚至可以根据规范编写自己的Annotation。所以在使用Symfony2开发程序时，复杂的逻辑会变成一行行清晰的注释，程序的流程控制将变得非常简单。
-详细见 https://api.drupal.org/api/drupal/core!modules!system!system.api.php/group/annotation/8 。</p>
+详细见 <a href="https://api.drupal.org/api/drupal/core!modules!system!system.api.php/group/annotation/8">https://api.drupal.org/api/drupal/core!modules!system!system.api.php/group/annotation/8</a> 。</p>
 <p>2、在hello_world.routing.yml中增加一行</p>
-<pre><code class="language-php">hello.edit:
-  path: '/hello/edit'
-  defaults:
-    _entity_form: 'hello.default'
-  requirements:
-    _permission: 'access hello world'
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">hello.edit:</span>
+<span class="x">  path: &#39;/hello/edit&#39;</span>
+<span class="x">  defaults:</span>
+<span class="x">    _entity_form: &#39;hello.default&#39;</span>
+<span class="x">  requirements:</span>
+<span class="x">    _permission: &#39;access hello world&#39;</span>
+</code></pre></div>
 <p>3、创建文件 lib/Drupal/hello_world/HelloWorldFormController.php</p>
-<pre><code class="language-php">&lt;?php
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Definition of Drupal\hello_world\HelloWorldFormController.
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Definition of Drupal\hello_world\HelloWorldFormController.</span>
+<span class="sd"> */</span>
 
-namespace Drupal\hello_world;
+<span class="k">namespace</span> <span class="nx">Drupal\hello_world</span><span class="p">;</span>
 
-use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Entity\ContentEntityFormController;
-use Drupal\Core\Language\Language;
-use Drupal\Component\Utility\String;
+<span class="k">use</span> <span class="nx">Drupal\Component\Utility\NestedArray</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Datetime\DrupalDateTime</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Entity\ContentEntityFormController</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Core\Language\Language</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Drupal\Component\Utility\String</span><span class="p">;</span>
 
-/**
- * Form controller for the node edit forms.
- */
-class HelloWorldFormController extends ContentEntityFormController {
+<span class="sd">/**</span>
+<span class="sd"> * Form controller for the node edit forms.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">HelloWorldFormController</span> <span class="k">extends</span> <span class="nx">ContentEntityFormController</span> <span class="p">{</span>
 
-  public function form(array $form, array &amp;$form_state) {
-    $form = parent::form($form, $form_state); $entity = $this-&gt;entity;
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">form</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">form</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$form_state</span><span class="p">);</span> <span class="nv">$entity</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
 
-    $form['#title'] = '这里写入网页标题';
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;这里写入网页标题&#39;</span><span class="p">;</span>
 
-    $form['title'] = array(
-      '#type' =&gt; 'textfield',
-      '#title' =&gt; t('Title'),
-      '#default_value' =&gt; $entity-&gt;title-&gt;value,
-    );
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;textfield&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Title&#39;</span><span class="p">),</span>
+      <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">title</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">,</span>
+    <span class="p">);</span>
 
-    // 如果要用模板输出。则这样调用
-    $form['#theme'] = 'hello_world_form';
-    return $form;
-  }
+    <span class="c1">// 如果要用模板输出。则这样调用</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#theme&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;hello_world_form&#39;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  public function save(array $form, array &amp;$form_state) { 
-    $entity = $this-&gt;entity;
-    $entity-&gt;save();
-    drupal_set_message(&quot;hello saved&quot;);
-  }
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">save</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nv">$entity</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+    <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">save</span><span class="p">();</span>
+    <span class="nx">drupal_set_message</span><span class="p">(</span><span class="s2">&quot;hello saved&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  public function delete(array $form, array &amp;$form_state) { 
-    $entity = $this-&gt;entity;
-    $entity-&gt;delete();
-    drupal_set_message(&quot;hello has been deleted.&quot;); 
-    $form_sate['redirect_route']['route_name'] = '&lt;front&gt;';
-  }
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">delete</span><span class="p">(</span><span class="k">array</span> <span class="nv">$form</span><span class="p">,</span> <span class="k">array</span> <span class="o">&amp;</span><span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nv">$entity</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entity</span><span class="p">;</span>
+    <span class="nv">$entity</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">();</span>
+    <span class="nx">drupal_set_message</span><span class="p">(</span><span class="s2">&quot;hello has been deleted.&quot;</span><span class="p">);</span> 
+    <span class="nv">$form_sate</span><span class="p">[</span><span class="s1">&#39;redirect_route&#39;</span><span class="p">][</span><span class="s1">&#39;route_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&lt;front&gt;&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
 
-}
-
-</code></pre>
+<span class="p">}</span>
+</code></pre></div>
 <p>4、如果要使用模板输出，则要定义hook_theme</p>
-<pre><code class="language-php">/**
- * Implements hook_theme().
- */
-function hello_world_theme() {
-  return array(
-    'hello_world_form' =&gt; array(
-      'render element' =&gt; 'form',
-      'template' =&gt; 'hello-world-form',
-    ),
-  );
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x"> * Implements hook_theme().</span>
+<span class="x"> */</span>
+<span class="x">function hello_world_theme() {</span>
+<span class="x">  return array(</span>
+<span class="x">    &#39;hello_world_form&#39; =&gt; array(</span>
+<span class="x">      &#39;render element&#39; =&gt; &#39;form&#39;,</span>
+<span class="x">      &#39;template&#39; =&gt; &#39;hello-world-form&#39;,</span>
+<span class="x">    ),</span>
+<span class="x">  );</span>
+<span class="x">}</span>
+</code></pre></div>
 <p>访问http://localhost/drupal8/hello/edit就可以看到表单了。</p>
 
               

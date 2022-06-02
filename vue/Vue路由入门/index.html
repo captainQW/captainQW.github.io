@@ -456,10 +456,9 @@
 
   <h1>"Vue路由入门"</h1>
 
-<hr />
-<h3 id="1">1、概述</h3>
+<h3 id="1">1、概述<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <p>Vue路由（vue-router）是Vue用来创建单页应用的第三方库，使用vue-router可以很方便的创建无刷新切换页面的应用。vue-router基于vue的组件系统（不熟悉组件请先学习Vue组件），要使用vue-router只需要将路径和组件建立对应关系，这样路由系统就知道哪个路径需要渲染哪个组件。</p>
-<h3 id="2">2、开始</h3>
+<h3 id="2">2、开始<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
 <p>在开始写第一个路由示例之前，我们先来了解一些基本概念。
 （1）路由
 路由即url路径和组件之间的对应关系。
@@ -467,8 +466,8 @@
  router-link组件即页面上连接到某个路由的超链接，最终渲染后会变成a标签。比如我需要在页面上设置连接到/profile/user的超链接，则只要在页面放上&lt;router-link to="/profile/user"&gt;用户列表&lt;/router-link&gt;就行了。
  （3）router-view组件
  router-view组件是路由组件渲染的容器，一旦路由匹配到了，vue就会将路由对应的组件渲染到router-view标签所在的位置。比如点击上例中的profile/user超链接，vue首先查找profile/user对应的路由是什么，查找到后再找出路由对应的组件，然后将组件渲染到router-view标签。</p>
-<p>了解上述概念之后，我们可以开始写我们的第一个路由示例，我们首先创建index.html,代码如下：</p>
-<pre><code>&lt;div id=&quot;app&quot;&gt;
+<p>了解上述概念之后，我们可以开始写我们的第一个路由示例，我们首先创建index.html,代码如下：
+<div class="highlight"><pre><span></span><code>&lt;div id=&quot;app&quot;&gt;
   &lt;h1&gt;Hello App!&lt;/h1&gt;
   &lt;p&gt;
     &lt;!-- 使用 router-link 组件来导航. --&gt;
@@ -485,13 +484,13 @@
 &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
 &lt;!-- 应用入口文件 --&gt;
 &lt;script src=&quot;/js/app.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-<p>接着我们继续创建app.js，代码如下：</p>
-<pre><code>// 1. 定义（路由）组件。
+</code></pre></div></p>
+<p>接着我们继续创建app.js，代码如下：
+<div class="highlight"><pre><span></span><code>// 1. 定义（路由）组件。
 // 在现实的开发中，一般将组件放在单独的文件中，然后从其他文件 import 进来
 // 为了简单起见，我们这里先使用字符串模板组件，以后再讨论单文件组件（.vue文件）
 const User = {
-  template: '&lt;div&gt;这里是用户列表&lt;/div&gt;' 
+  template: &#39;&lt;div&gt;这里是用户列表&lt;/div&gt;&#39; 
 }
 
 // 2. 定义路由
@@ -500,7 +499,7 @@ const User = {
 // 或者，只是一个组件配置对象。
 const routes = [
   { 
-    path: '/profile/user', 
+    path: &#39;/profile/user&#39;, 
     component: User 
   }
 ]
@@ -516,16 +515,16 @@ const router = new VueRouter({
 // 从而让整个应用都有路由功能
 const app = new Vue({
   router
-}).$mount('#app')
+}).$mount(&#39;#app&#39;)
 
 // 现在，应用已经启动了！
-</code></pre>
+</code></pre></div></p>
 <p>至此，一个最简单的路由应用就完成了，部署到服务器后，打开http://localhost,则可以看到界面有一个“用户详情”超链接，点击超链接，界面会显示“这里是用户列表”，同时界面并没有刷新，所有的操作都在一个界面内完成，所以这也叫单页应用，与以前那些点击超链接就要刷新页面的应用相比是不是用户体验更高？</p>
-<h3 id="_1">动态路由</h3>
-<p>有的时候，我们的url里面需要带参数，比如上例中，我们需要查看不同用户的详情，那么url应该是/profile/user/1这样，里面的“1”即用户ID，可以动态变化，要实现这样的功能，我们只需要对我们的路由定义做一些微小变动。</p>
-<pre><code>const routes = [
+<h3 id="_1">动态路由<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>有的时候，我们的url里面需要带参数，比如上例中，我们需要查看不同用户的详情，那么url应该是/profile/user/1这样，里面的“1”即用户ID，可以动态变化，要实现这样的功能，我们只需要对我们的路由定义做一些微小变动。
+<div class="highlight"><pre><span></span><code>const routes = [
   { 
-    path: '/profile/user/:id', 
+    path: &#39;/profile/user/:id&#39;, 
     component: User 
   }
 ]
@@ -533,31 +532,30 @@ const app = new Vue({
 const router = new VueRouter({
   routes // ES6（缩写）相当于 routes: routes
 })
-
-</code></pre>
+</code></pre></div></p>
 <p>可以看到路由的定义唯一不同的地方就是在url上加了“:id”占位符，那么像“/profile/user/1”、“/profile/user/2”这样的url都会匹配到这个路由。
-一个『路径参数』使用冒号 : 标记。当匹配到一个路由时，参数值会被设置到 this.$route.params，可以在每个组件内使用。于是，我们可以更新 User 的模板，输出当前用户的 ID：</p>
-<pre><code>const User = {
-  template: '&lt;div&gt;这里是用户# {{ $route.params.id }}详情页&lt;/div&gt;'
+一个『路径参数』使用冒号 : 标记。当匹配到一个路由时，参数值会被设置到 this.$route.params，可以在每个组件内使用。于是，我们可以更新 User 的模板，输出当前用户的 ID：
+<div class="highlight"><pre><span></span><code>const User = {
+  template: &#39;&lt;div&gt;这里是用户# {{ $route.params.id }}详情页&lt;/div&gt;&#39;
 }
-</code></pre>
-<p>你可以在一个路由中设置多段『路径参数』，对应的值都会设置到 $route.params 中。例如：profile/user/:id/post/:pid，则可以使用$route.params.id和$route.params.pid来引用路由参数。如果url带有查询参数，则参数会被设置到$route.query对象。</p>
-<h3 id="_2">嵌套路由</h3>
-<p>在实际的应用中，我们可能会碰到某个页面下面还有子页面的情况，比如用户列表页面里面点击某个用户，显示用户详情，我们定义/profile/user为用户列表url，/profile/user/:id为用户详情url，那么这两个URL就是父子关系，即嵌套关系，这样的URL我们应该怎么定义呢？</p>
-<pre><code>const routes = [
-    { path: '/profile/user', component: User,
+</code></pre></div></p>
+<p>你可以在一个路由中设置多段『路径参数』，对应的值都会设置到 <span class="arithmatex"><span class="MathJax_Preview">route.params 中。例如：profile/user/:id/post/:pid，则可以使用</span><script type="math/tex">route.params 中。例如：profile/user/:id/post/:pid，则可以使用</script></span>route.params.id和<span class="arithmatex"><span class="MathJax_Preview">route.params.pid来引用路由参数。如果url带有查询参数，则参数会被设置到</span><script type="math/tex">route.params.pid来引用路由参数。如果url带有查询参数，则参数会被设置到</script></span>route.query对象。</p>
+<h3 id="_2">嵌套路由<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>在实际的应用中，我们可能会碰到某个页面下面还有子页面的情况，比如用户列表页面里面点击某个用户，显示用户详情，我们定义/profile/user为用户列表url，/profile/user/:id为用户详情url，那么这两个URL就是父子关系，即嵌套关系，这样的URL我们应该怎么定义呢？
+<div class="highlight"><pre><span></span><code>const routes = [
+    { path: &#39;/profile/user&#39;, component: User,
       children: [
         {
-          path: ':id',
+          path: &#39;:id&#39;,
           component: UserProfile
         }
       ]
     }
   ]
-</code></pre>
-<p>你会发现，children 配置就是像 routes 配置一样的路由配置数组，所以呢，你可以嵌套多层路由。
-上面只是定义了路由的结构，如果要在父页面里面显示子页面的内容，那么父页面的模板我们该如何定义？我们前面已经说过，要让路由的组件能在页面中渲染，必须在页面中放router-view组件，那么父页面的模板的定义可以这样：</p>
-<pre><code>const User = {
+</code></pre></div>
+你会发现，children 配置就是像 routes 配置一样的路由配置数组，所以呢，你可以嵌套多层路由。
+上面只是定义了路由的结构，如果要在父页面里面显示子页面的内容，那么父页面的模板我们该如何定义？我们前面已经说过，要让路由的组件能在页面中渲染，必须在页面中放router-view组件，那么父页面的模板的定义可以这样：
+<div class="highlight"><pre><span></span><code>const User = {
   template: `
     &lt;div class=&quot;user&quot;&gt;
       &lt;h2&gt;这是用户列表页面&lt;/h2&gt;
@@ -567,29 +565,29 @@ const router = new VueRouter({
     &lt;/div&gt;
   `
 }
-</code></pre>
-<h3 id="_3">编程式的导航</h3>
+</code></pre></div></p>
+<h3 id="_3">编程式的导航<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>除了使用 <router-link> 创建 a 标签来定义导航链接，我们还可以借助 router 的实例方法，通过编写代码来实现。</p>
-<h4 id="routerpushlocation">router.push(location)</h4>
+<h4 id="routerpushlocation">router.push(location)<a class="headerlink" href="#routerpushlocation" title="Permanent link">&para;</a></h4>
 <p>想要导航到不同的 URL，则使用 router.push 方法。这个方法会向 history 栈添加一个新的记录，所以，当用户点击浏览器后退按钮时，则回到之前的 URL。
-当你点击 <router-link> 时，这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 router.push(...)。该方法的参数可以是一个字符串路径，或者一个描述地址的对象。例如：</p>
-<pre><code>// 字符串
-router.push('home')
+当你点击 <router-link> 时，这个方法会在内部调用，所以说，点击 <router-link :to="..."> 等同于调用 router.push(...)。该方法的参数可以是一个字符串路径，或者一个描述地址的对象。例如：
+<div class="highlight"><pre><span></span><code>// 字符串
+router.push(&#39;home&#39;)
 
 // 对象
-router.push({ path: 'home' })
+router.push({ path: &#39;home&#39; })
 
 // 命名的路由
-router.push({ name: 'user', params: { userId: 123 }})
+router.push({ name: &#39;user&#39;, params: { userId: 123 }})
 
 // 带查询参数，变成 /register?plan=private
-router.push({ path: 'register', query: { plan: 'private' }})
-</code></pre>
-<h4 id="routerreplacelocation">router.replace(location)</h4>
+router.push({ path: &#39;register&#39;, query: { plan: &#39;private&#39; }})
+</code></pre></div></p>
+<h4 id="routerreplacelocation">router.replace(location)<a class="headerlink" href="#routerreplacelocation" title="Permanent link">&para;</a></h4>
 <p>跟 router.push 很像，唯一的不同就是，它不会向 history 添加新记录，而是跟它的方法名一样 —— 替换掉当前的 history 记录。</p>
-<h4 id="routergon">router.go(n)</h4>
-<p>这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。</p>
-<pre><code>// 在浏览器记录中前进一步，等同于 history.forward()
+<h4 id="routergon">router.go(n)<a class="headerlink" href="#routergon" title="Permanent link">&para;</a></h4>
+<p>这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。
+<div class="highlight"><pre><span></span><code>// 在浏览器记录中前进一步，等同于 history.forward()
 router.go(1)
 
 // 后退一步记录，等同于 history.back()
@@ -601,32 +599,32 @@ router.go(3)
 // 如果 history 记录不够用，那就默默地失败呗
 router.go(-100)
 router.go(100)
-</code></pre>
-<h3 id="_4">命名路由</h3>
-<p>到此为止，我们例子中定义的路由都只有path和component两个属性，有时候，通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候。你可以在创建 Router 实例的时候，在 routes 配置中给某个路由设置名称。</p>
-<pre><code>const router = new VueRouter({
+</code></pre></div></p>
+<h3 id="_4">命名路由<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>到此为止，我们例子中定义的路由都只有path和component两个属性，有时候，通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候。你可以在创建 Router 实例的时候，在 routes 配置中给某个路由设置名称。
+<div class="highlight"><pre><span></span><code>const router = new VueRouter({
   routes: [
     {
-      path: '/profile/user/:id',
-      name: 'user',
+      path: &#39;/profile/user/:id&#39;,
+      name: &#39;user&#39;,
       component: User
     }
   ]
 })
-</code></pre>
-<p>要链接到一个命名路由，可以给 router-link 的 to 属性传一个对象：</p>
-<pre><code>&lt;router-link :to=&quot;{ name: 'user', params: { id: 123 }}&quot;&gt;User&lt;/router-link&gt;
-</code></pre>
-<h3 id="_5">命名视图</h3>
-<p>我们上面的例子中，所有的模板里面都只有一个router-view组件，也就是说，一个路由只能渲染一个组件，但是有时候想同时（同级）展示多个视图，而不是嵌套展示，例如创建一个布局，有 sidebar（侧导航） 和 main（主内容） 两个视图，这个时候命名视图就派上用场了。你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果 router-view 没有设置名字，那么默认为 default。</p>
-<pre><code>&lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;
+</code></pre></div></p>
+<p>要链接到一个命名路由，可以给 router-link 的 to 属性传一个对象：
+<div class="highlight"><pre><span></span><code>&lt;router-link :to=&quot;{ name: &#39;user&#39;, params: { id: 123 }}&quot;&gt;User&lt;/router-link&gt;
+</code></pre></div></p>
+<h3 id="_5">命名视图<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>我们上面的例子中，所有的模板里面都只有一个router-view组件，也就是说，一个路由只能渲染一个组件，但是有时候想同时（同级）展示多个视图，而不是嵌套展示，例如创建一个布局，有 sidebar（侧导航） 和 main（主内容） 两个视图，这个时候命名视图就派上用场了。你可以在界面中拥有多个单独命名的视图，而不是只有一个单独的出口。如果 router-view 没有设置名字，那么默认为 default。
+<div class="highlight"><pre><span></span><code>&lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;
 &lt;router-view class=&quot;view two&quot; name=&quot;a&quot;&gt;&lt;/router-view&gt;
 &lt;router-view class=&quot;view three&quot; name=&quot;b&quot;&gt;&lt;/router-view&gt;
-</code></pre>
+</code></pre></div></p>
 <p>一个视图使用一个组件渲染，因此对于同个路由，多个视图就需要多个组件。确保正确使用 components 配置（带上 s）：</p>
-<pre><code>const router = new VueRouter({
+<div class="highlight"><pre><span></span><code>const router = new VueRouter({
   routes: [
-      path: '/',
+      path: &#39;/&#39;,
       components: {
         default: Foo,
         a: Bar,
@@ -635,43 +633,43 @@ router.go(100)
     }
   ]
 })
-</code></pre>
-<h3 id="_6">重定向 和 别名</h3>
-<h4 id="_7">重定向</h4>
-<p>重定向也是通过 routes 配置来完成，下面例子是从 /a 重定向到 /b：</p>
-<pre><code>const router = new VueRouter({
+</code></pre></div>
+<h3 id="_6">重定向 和 别名<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<h4 id="_7">重定向<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<p>重定向也是通过 routes 配置来完成，下面例子是从 /a 重定向到 /b：
+<div class="highlight"><pre><span></span><code>const router = new VueRouter({
   routes: [
-    { path: '/a', redirect: '/b' }
+    { path: &#39;/a&#39;, redirect: &#39;/b&#39; }
   ]
 })
-</code></pre>
-<p>重定向的目标也可以是一个命名的路由：</p>
-<pre><code>const router = new VueRouter({
+</code></pre></div></p>
+<p>重定向的目标也可以是一个命名的路由：
+<div class="highlight"><pre><span></span><code>const router = new VueRouter({
   routes: [
-    { path: '/a', redirect: { name: 'foo' }}
+    { path: &#39;/a&#39;, redirect: { name: &#39;foo&#39; }}
   ]
 })
-</code></pre>
-<p>甚至是一个方法，动态返回重定向目标：</p>
-<pre><code>const router = new VueRouter({
+</code></pre></div></p>
+<p>甚至是一个方法，动态返回重定向目标：
+<div class="highlight"><pre><span></span><code>const router = new VueRouter({
   routes: [
-    { path: '/a', redirect: to =&gt; {
+    { path: &#39;/a&#39;, redirect: to =&gt; {
       // 方法接收 目标路由 作为参数
       // return 重定向的 字符串路径/路径对象
     }}
   ]
 })
-</code></pre>
-<h4 id="_8">别名</h4>
+</code></pre></div></p>
+<h4 id="_8">别名<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
 <p>『重定向』的意思是，当用户访问 /a时，URL 将会被替换成 /b，然后匹配路由为 /b，那么『别名』又是什么呢？
 /a 的别名是 /b，意味着，当用户访问 /b 时，URL 会保持为 /b，但是路由匹配则为 /a，就像用户访问 /a 一样。
-上面对应的路由配置为：</p>
-<pre><code>const router = new VueRouter({
+上面对应的路由配置为：
+<div class="highlight"><pre><span></span><code>const router = new VueRouter({
   routes: [
-    { path: '/a', component: A, alias: '/b' }
+    { path: &#39;/a&#39;, component: A, alias: &#39;/b&#39; }
   ]
 })
-</code></pre>
+</code></pre></div></p>
 
               
             </article>

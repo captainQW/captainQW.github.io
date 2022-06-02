@@ -394,85 +394,84 @@
 
   <h1>"Drupal8 Cron Queue"</h1>
 
-<hr />
 <p>Drupal中的Queue(队列)用于处理比较耗时的任务，一般是通过系统的Cron来触发。</p>
-<p>本文github：https://github.com/RamboLau/drupal8-demos/tree/master/queue_example</p>
-<h3 id="drupal7-queue">一、Drupal7 Queue</h3>
+<p>本文github：<a href="https://github.com/RamboLau/drupal8-demos/tree/master/queue_example">https://github.com/RamboLau/drupal8-demos/tree/master/queue_example</a></p>
+<h3 id="drupal7-queue">一、Drupal7 Queue<a class="headerlink" href="#drupal7-queue" title="Permanent link">&para;</a></h3>
 <p>Drupal7一般是通过hook_cron_queue_info()这个钩子来实现，如：</p>
-<pre><code class="language-php">&lt;?php
-/**
- * Implements hook_cron().
- */
-function queue_example_cron() {
-  $queue = DrupalQueue::get('example_queue');
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * Implements hook_cron().</span>
+<span class="sd"> */</span>
+<span class="k">function</span> <span class="nf">queue_example_cron</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nv">$queue</span> <span class="o">=</span> <span class="nx">DrupalQueue</span><span class="o">::</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;example_queue&#39;</span><span class="p">);</span>
 
-  foreach(example_data() as $item) {
-    $queue-&gt;createItem($item);
-  }
-}
+  <span class="k">foreach</span><span class="p">(</span><span class="nx">example_data</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$item</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$queue</span><span class="o">-&gt;</span><span class="na">createItem</span><span class="p">(</span><span class="nv">$item</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 
-/**
- * Implements hook_cron_queue_info().
- */
-function queue_example_cron_queue_info() {
-  $queues = array();
+<span class="sd">/**</span>
+<span class="sd"> * Implements hook_cron_queue_info().</span>
+<span class="sd"> */</span>
+<span class="k">function</span> <span class="nf">queue_example_cron_queue_info</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nv">$queues</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
 
-  $queues['example_queue'] = array(
-    'worker callback' =&gt; 'example_queue_worker', // queue调用的函数
-    'time' =&gt; 60, //每次运行时，可供消耗的最长时间，单位是秒
-  );
+  <span class="nv">$queues</span><span class="p">[</span><span class="s1">&#39;example_queue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;worker callback&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;example_queue_worker&#39;</span><span class="p">,</span> <span class="c1">// queue调用的函数</span>
+    <span class="s1">&#39;time&#39;</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="p">,</span> <span class="c1">//每次运行时，可供消耗的最长时间，单位是秒</span>
+  <span class="p">);</span>
 
-  return $queues;
-}
-?&gt;
-</code></pre>
-<h3 id="drupal8-queue">二、Drupal8 Queue</h3>
+  <span class="k">return</span> <span class="nv">$queues</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h3 id="drupal8-queue">二、Drupal8 Queue<a class="headerlink" href="#drupal8-queue" title="Permanent link">&para;</a></h3>
 <p>Drupal8的Queue(队列)是通过QueueWorker这个插件来实现的。</p>
-<h4 id="1srcpluginqueueworkerexamplequeuephp">1、src/Plugin/QueueWorker/ExampleQueue.php</h4>
-<pre><code class="language-php">&lt;?php
+<h4 id="1srcpluginqueueworkerexamplequeuephp">1、src/Plugin/QueueWorker/ExampleQueue.php<a class="headerlink" href="#1srcpluginqueueworkerexamplequeuephp" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span>
 
-/**
- * @file
- * Contains Drupal\queue_example\Plugin\QueueWorker\ExampleQueue
- */
+<span class="sd">/**</span>
+<span class="sd"> * @file</span>
+<span class="sd"> * Contains Drupal\queue_example\Plugin\QueueWorker\ExampleQueue</span>
+<span class="sd"> */</span>
 
-namespace Drupal\queue_example\Plugin\QueueWorker;
+<span class="k">namespace</span> <span class="nx">Drupal\queue_example\Plugin\QueueWorker</span><span class="p">;</span>
 
-use Drupal\Core\Queue\QueueWorkerBase;
+<span class="k">use</span> <span class="nx">Drupal\Core\Queue\QueueWorkerBase</span><span class="p">;</span>
 
-/**
- * @QueueWorker(
- *   id = &quot;example_queue&quot;,
- *   title = @Translation(&quot;example queue&quot;),
- *   cron = {&quot;time&quot; = 10}
- * )
- */
-class ExampleQueue extends QueueWorkerBase {
-  /**
-   * {@inheritdoc}
-   */
-  public function processItem($data) {
-    // Process data here.
-    throw new \Exception('Process data ' . json_encode($data));
-  }
-}
+<span class="sd">/**</span>
+<span class="sd"> * @QueueWorker(</span>
+<span class="sd"> *   id = &quot;example_queue&quot;,</span>
+<span class="sd"> *   title = @Translation(&quot;example queue&quot;),</span>
+<span class="sd"> *   cron = {&quot;time&quot; = 10}</span>
+<span class="sd"> * )</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">ExampleQueue</span> <span class="k">extends</span> <span class="nx">QueueWorkerBase</span> <span class="p">{</span>
+  <span class="sd">/**</span>
+<span class="sd">   * {@inheritdoc}</span>
+<span class="sd">   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">processItem</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Process data here.</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nx">\Exception</span><span class="p">(</span><span class="s1">&#39;Process data &#39;</span> <span class="o">.</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 
-?&gt;
-</code></pre>
-<h4 id="2queue_examplemodule">2、queue_example.module</h4>
+<span class="cp">?&gt;</span><span class="x"></span>
+</code></pre></div>
+<h4 id="2queue_examplemodule">2、queue_example.module<a class="headerlink" href="#2queue_examplemodule" title="Permanent link">&para;</a></h4>
 <p>要执行queue，必选实现hook_cron这个钩子。</p>
-<pre><code class="language-php">/**
- * Implements hook_cron().
- *
- * @see \Drupal\queue_example\Plugin\QueueWorker\ExampleQueue
- */
-function queue_example_cron() {
-  $queue = \Drupal::queue('example_queue', TRUE);
-  $item = [ 'entity_type' =&gt; 'node', 'id' =&gt; 1 ];
-  $queue-&gt;createItem($item);
-}
-</code></pre>
-<h4 id="3">3、结果</h4>
+<div class="highlight"><pre><span></span><code><span class="x">/**</span>
+<span class="x"> * Implements hook_cron().</span>
+<span class="x"> *</span>
+<span class="x"> * @see \Drupal\queue_example\Plugin\QueueWorker\ExampleQueue</span>
+<span class="x"> */</span>
+<span class="x">function queue_example_cron() {</span>
+<span class="x">  $queue = \Drupal::queue(&#39;example_queue&#39;, TRUE);</span>
+<span class="x">  $item = [ &#39;entity_type&#39; =&gt; &#39;node&#39;, &#39;id&#39; =&gt; 1 ];</span>
+<span class="x">  $queue-&gt;createItem($item);</span>
+<span class="x">}</span>
+</code></pre></div>
+<h4 id="3">3、结果<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
 <p>1）、访问http://127.0.0.1/drupal8/admin/config/system/cron执行cron
 2）、打开phpmyadmin，查看queue表</p>
 <p><img alt="queue" src="https://static.verycloud.cn/sites/default/files/pic/image/20151225/20151225142932_68268.png" /></p>
@@ -480,8 +479,8 @@ function queue_example_cron() {
 <p><img alt="dblog" src="https://static.verycloud.cn/sites/default/files/pic/image/20151225/20151225143322_46779.png" /></p>
 <p><img alt="dblog1" src="https://static.verycloud.cn/sites/default/files/pic/image/20151225/20151225143400_63877.png" /></p>
 <p>参考文章：
-1、http://www.vdmi.nl/blog/creating-drupal-cron-queue-worker-drupal-8
-2、http://www.sitepoint.com/drupal-8-queue-api-powerful-manual-and-cron-queueing/</p>
+1、<a href="http://www.vdmi.nl/blog/creating-drupal-cron-queue-worker-drupal-8">http://www.vdmi.nl/blog/creating-drupal-cron-queue-worker-drupal-8</a>
+2、<a href="http://www.sitepoint.com/drupal-8-queue-api-powerful-manual-and-cron-queueing/">http://www.sitepoint.com/drupal-8-queue-api-powerful-manual-and-cron-queueing/</a></p>
 
               
             </article>

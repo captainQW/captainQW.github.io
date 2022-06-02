@@ -388,31 +388,30 @@
 
   <h1>"CentOS6.4安装oracle 10g教程"</h1>
 
-<hr />
-<h2 id="_1">一、硬件要求</h2>
+<h2 id="_1">一、硬件要求<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>1、内存 &amp; swap
 Minimum: 1 GB of RAM
 Recommended: 2 GB of RAM or more
 <img alt="硬件要求" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211127_56147.png" /></p>
-<p>检查内存情况</p>
-<pre><code class="language-bash">grep MemTotal /proc/meminfo
+<p>检查内存情况
+<div class="highlight"><pre><span></span><code>grep MemTotal /proc/meminfo
 grep SwapTotal /proc/meminfo
-</code></pre>
+</code></pre></div></p>
 <p>2、硬盘
 由于CentOS安装后差不多有4~5G，再加上Oracle等等的安装，所以请准备至少10G的硬盘空间。
-检查磁盘情况</p>
-<pre><code class="language-bash">df -h
-</code></pre>
-<p><img alt="df-h" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211509_28032.jpg" /></p>
-<h2 id="_2">二、软件</h2>
+检查磁盘情况
+<div class="highlight"><pre><span></span><code>df -h
+</code></pre></div>
+<img alt="df-h" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118211509_28032.jpg" /></p>
+<h2 id="_2">二、软件<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>系统平台：CentOS 6.3(x86_64)
 CentOS-6.3-x86_64-bin-DVD1.iso
 Oracle版本：Oracle 10g R2
 10201_database_linux_x86_64.cpio</p>
-<h2 id="_3">三、系统安装注意</h2>
+<h2 id="_3">三、系统安装注意<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>系统安装时一定要安装桌面模式，否则无法安装oracle，另外请勿开启SELinux，oracle官方不建议使用SELinux，CentOS 的防火墙也请暂时关闭，减少安装时的困扰。为防止Oracle安装过程中出现乱码，建议使用英文作为系统语言，进行Oracle的安装工作。
 本文中所描述的系统命令，未经特殊标示，均为“#”代表root权限，“$”代表oracle权限。</p>
-<h2 id="oracle">四、安装Oracle前的系统准备工作</h2>
+<h2 id="oracle">四、安装Oracle前的系统准备工作<a class="headerlink" href="#oracle" title="Permanent link">&para;</a></h2>
 <p>首先，请先以root账号登入作一些前置设定作业。
 1、关闭防火墙、禁用SELinux
 setup
@@ -426,97 +425,97 @@ Oracle官方文档要求的安装包：
 <img alt="oracle安装依赖包" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212103_24755.jpg" /></p>
 <p>查看Oracle相关包是否已经安装：
 <img alt="oracle相关包" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212212_30050.jpg" /></p>
-<p>用yum方式安装所需的包：</p>
-<pre><code class="language-bash">yum -y install binutils compat-libstdc++-33 compat-libstdc++-33.i686 elfutils-libelf elfutils-libelf-devel gcc gcc-c++ glibc glibc.i686 glibc-common glibc-devel glibc-devel.i686 glibc-headers ksh libaio libaio.i686 libaio-devel libaio-devel.i686 libgcc libgcc.i686 libstdc++ libstdc++.i686 libstdc++-devel make sysstat
-</code></pre>
-<p><img alt="yum" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212321_10098.jpg" /></p>
-<p>最后还需要安装libXp这个Library，这个一定要安装，否则安装Oracle时会出现java Exception。</p>
-<pre><code class="language-bash">yum install libXp
-</code></pre>
-<p><img alt="libXp" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212436_33952.jpg" /></p>
+<p>用yum方式安装所需的包：
+<div class="highlight"><pre><span></span><code>yum -y install binutils compat-libstdc++-33 compat-libstdc++-33.i686 elfutils-libelf elfutils-libelf-devel gcc gcc-c++ glibc glibc.i686 glibc-common glibc-devel glibc-devel.i686 glibc-headers ksh libaio libaio.i686 libaio-devel libaio-devel.i686 libgcc libgcc.i686 libstdc++ libstdc++.i686 libstdc++-devel make sysstat
+</code></pre></div>
+<img alt="yum" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212321_10098.jpg" /></p>
+<p>最后还需要安装libXp这个Library，这个一定要安装，否则安装Oracle时会出现java Exception。
+<div class="highlight"><pre><span></span><code>yum install libXp
+</code></pre></div>
+<img alt="libXp" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212436_33952.jpg" /></p>
 <p>3、创建Oracle用户与组
 在这里只讨论单主机环境，不考虑RAC环境的配置。
 执行以下指令以新增oracle安装时所需要的使用者与群组。
-(1) 建立群组oinstall </p>
-<pre><code class="language-bash">groupadd oinstall
-</code></pre>
-<p>(2) 建立群组dba</p>
-<pre><code class="language-bash">groupadd dba
-</code></pre>
-<p>(3) 新增使用者oracle并将其加入oinstall和dba群组</p>
-<pre><code class="language-bash">useradd -m -g oinstall -G dba oracle
-</code></pre>
-<p>(4) 测试oracle账号是否建立完成</p>
-<pre><code class="language-bash">id oracle
-</code></pre>
-<p>(5) 建立oracle的新密码</p>
-<pre><code class="language-bash">passwd oracle
-</code></pre>
-<p><img alt="passwd" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212623_66655.jpg" /></p>
-<p>(6) 建立oracle安装目录</p>
-<pre><code class="language-bash">mkdir -p /home/app/oracle
+(1) 建立群组oinstall 
+<div class="highlight"><pre><span></span><code>groupadd oinstall
+</code></pre></div>
+(2) 建立群组dba
+<div class="highlight"><pre><span></span><code>groupadd dba
+</code></pre></div>
+(3) 新增使用者oracle并将其加入oinstall和dba群组
+<div class="highlight"><pre><span></span><code>useradd -m -g oinstall -G dba oracle
+</code></pre></div>
+(4) 测试oracle账号是否建立完成
+<div class="highlight"><pre><span></span><code>id oracle
+</code></pre></div>
+(5) 建立oracle的新密码
+<div class="highlight"><pre><span></span><code>passwd oracle
+</code></pre></div>
+<img alt="passwd" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118212623_66655.jpg" /></p>
+<p>(6) 建立oracle安装目录
+<div class="highlight"><pre><span></span><code>mkdir -p /home/app/oracle
 chown -R oracle:oinstall /home/app/oracle
-chmod -R 775 /home/app/oracle
-</code></pre>
-<p>4、将oracle使用者加入到sudo群组中
+chmod -R <span class="m">775</span> /home/app/oracle
+</code></pre></div>
+4、将oracle使用者加入到sudo群组中
 vi /etc/sudoers
-找到</p>
-<pre><code class="language-bash">root        ALL=(ALL)        ALL 
-</code></pre>
-<p>这行，并且在底下再加入</p>
-<pre><code class="language-bash">oracle        ALL=(ALL)        ALL
-</code></pre>
-<p>输入wq!（由于这是一份只读文档所以需要再加上!）并且按下Enter
+找到
+<div class="highlight"><pre><span></span><code>root        <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span>        ALL 
+</code></pre></div>
+这行，并且在底下再加入
+<div class="highlight"><pre><span></span><code>oracle        <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span>        ALL
+</code></pre></div>
+输入wq!（由于这是一份只读文档所以需要再加上!）并且按下Enter
 <img alt="sudo" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213155_30373.jpg" /></p>
 <p>5、配置系统内核参数
 vi /etc/sysctl.conf
-修改和添加以下内容：</p>
-<pre><code class="language-bash">kernel.shmall = 4294967296                           //表示系统一次可以使用的共享内存总量（以页为单位）。缺省值就是2097152，通常不需要修改
-kernel.shmmax = 68719476736                      //定义了共享内存段的最大尺寸（以字节为单位）。缺省为32M，对于oracle来说，该缺省值太低了，通常将其设置为2G
-kernel.shmmni = 4096                                    //用于设置系统范围内共享内存段的最大数量。该参数的默认值是 4096 。通常不需要更改
-kernel.sem = 250 32000 100 128                    //表示设置的信号量
-net.ipv4.ip_local_port_range = 1024 65000
-net.core.rmem_default=4194304                     //默认的接收窗口大小
-net.core.rmem_max=4194304                        //接收窗口的最大大小
-net.core.wmem_default=262144                      //默认的发送窗口大小
-net.core.wmem_max=262144                         //发送窗口的最大大小
-</code></pre>
-<p>会有一些与目前的参数重复的，就修改成文件上提供的。
+修改和添加以下内容：
+<div class="highlight"><pre><span></span><code>kernel.shmall <span class="o">=</span> <span class="m">4294967296</span>                           //表示系统一次可以使用的共享内存总量（以页为单位）。缺省值就是2097152，通常不需要修改
+kernel.shmmax <span class="o">=</span> <span class="m">68719476736</span>                      //定义了共享内存段的最大尺寸（以字节为单位）。缺省为32M，对于oracle来说，该缺省值太低了，通常将其设置为2G
+kernel.shmmni <span class="o">=</span> <span class="m">4096</span>                                    //用于设置系统范围内共享内存段的最大数量。该参数的默认值是 <span class="m">4096</span> 。通常不需要更改
+kernel.sem <span class="o">=</span> <span class="m">250</span> <span class="m">32000</span> <span class="m">100</span> <span class="m">128</span>                    //表示设置的信号量
+net.ipv4.ip_local_port_range <span class="o">=</span> <span class="m">1024</span> <span class="m">65000</span>
+net.core.rmem_default<span class="o">=</span><span class="m">4194304</span>                     //默认的接收窗口大小
+net.core.rmem_max<span class="o">=</span><span class="m">4194304</span>                        //接收窗口的最大大小
+net.core.wmem_default<span class="o">=</span><span class="m">262144</span>                      //默认的发送窗口大小
+net.core.wmem_max<span class="o">=</span><span class="m">262144</span>                         //发送窗口的最大大小
+</code></pre></div>
+会有一些与目前的参数重复的，就修改成文件上提供的。
 <img alt="sysctl" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213249_97968.jpg" /></p>
-<p>编辑完之后，储存，然后执行：</p>
-<pre><code class="language-bash">sysctl –p
-</code></pre>
-<p>启用刚刚所做的变更。
+<p>编辑完之后，储存，然后执行：
+<div class="highlight"><pre><span></span><code>sysctl –p
+</code></pre></div>
+启用刚刚所做的变更。
 <img alt="sysctl-p" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213427_99326.jpg" /></p>
 <p>6、编辑/etc/security/limits.conf
 vi /etc/security/limits.conf
-添加以下四行</p>
-<pre><code class="language-bash">oracle  soft        nproc   2047
-oracle  hard        nproc   16384
-oracle  soft        nofile  1024
-oracle  hard        nofile  65536
-</code></pre>
-<p><img alt="limits" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213539_84050.jpg" /></p>
+添加以下四行
+<div class="highlight"><pre><span></span><code>oracle  soft        nproc   <span class="m">2047</span>
+oracle  hard        nproc   <span class="m">16384</span>
+oracle  soft        nofile  <span class="m">1024</span>
+oracle  hard        nofile  <span class="m">65536</span>
+</code></pre></div>
+<img alt="limits" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213539_84050.jpg" /></p>
 <p>7、编辑/etc/pam.d/login
 vi /etc/pam.d/login
-添加以下两行</p>
-<pre><code class="language-bash">session required /lib64/security/pam_limits.so
+添加以下两行
+<div class="highlight"><pre><span></span><code>session required /lib64/security/pam_limits.so
 session required pam_limits.so
-</code></pre>
-<p><img alt="login" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213641_35440.jpg" /></p>
+</code></pre></div>
+<img alt="login" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213641_35440.jpg" /></p>
 <p>8、修改/etc/profile
 vi /etc/profile
-将以下代码新增到profile档案中。</p>
-<pre><code class="language-bash">if [ $USER = &quot;oracle&quot; ]; then
-    if [ $SHELL = &quot;/bin/ksh&quot; ]; then
-        ulimit -p 16384
-        ulimit -n 65536
-    else
-        ulimit -u 16384 -n 65536
-    fi
-fi 
-</code></pre>
-<p><img alt="profile" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213744_91921.jpg" /></p>
+将以下代码新增到profile档案中。
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="o">[</span> <span class="nv">$USER</span> <span class="o">=</span> <span class="s2">&quot;oracle&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="nv">$SHELL</span> <span class="o">=</span> <span class="s2">&quot;/bin/ksh&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">ulimit</span> -p <span class="m">16384</span>
+        <span class="nb">ulimit</span> -n <span class="m">65536</span>
+    <span class="k">else</span>
+        <span class="nb">ulimit</span> -u <span class="m">16384</span> -n <span class="m">65536</span>
+    <span class="k">fi</span>
+<span class="k">fi</span> 
+</code></pre></div>
+<img alt="profile" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213744_91921.jpg" /></p>
 <p>9、修改Linux发行版本信息
 由于Oracle 10g发行的时候，CentOS 6没有发行，所以Oracle 10g并没有对CentOS 6确认支持，需要修改文件让Oracle 10g支持CentOS 6。
 我们需要手工修改Linux的发行注记，让Oracle 10g支持CentOS 6。
@@ -524,96 +523,96 @@ fi
 vi /etc/redhat-release
 将其中的内容CentOS release 6.3 (Final)修改为redhat 4
 <img alt="redhat-release" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118213909_63963.jpg" /></p>
-<p>10、创建Oracle安装文件夹以及数据存放文件夹</p>
-<pre><code class="language-bash">mkdir /opt/oracle
+<p>10、创建Oracle安装文件夹以及数据存放文件夹
+<div class="highlight"><pre><span></span><code>mkdir /opt/oracle
 mkdir /opt/oracle/102
 chown -R oracle:dba /opt/oracle
-</code></pre>
-<p><img alt="mkdir" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214010_35072.jpg" /></p>
+</code></pre></div>
+<img alt="mkdir" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214010_35072.jpg" /></p>
 <p>11、配置Linux主机
 检查/etc/hosts文件中是否有localhost的记录（指向127.0.0.1即可），若没有的话，在后面配置Oracle监听的时候会出现一些问题，导致无法启动监听，在此手工添加此记录即可。
 <img alt="配置linux主机" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214213_76672.jpg" />
 第一阶段到此完毕，接下来，完成这些设定之后，请先注销root账号，并且以oracle账号再次登入系统。</p>
-<p>12、配置oracle用户环境变量</p>
-<pre><code class="language-bash">cd /home/oracle
+<p>12、配置oracle用户环境变量
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /home/oracle
 vi .bash_profile
-</code></pre>
-<p>修改并加入以下內容</p>
-<pre><code class="language-bash">export ORACLE_BASE=/home/app/oracle
-export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db_1
-export ORACLE_SID=pltest02
-export PATH=.:${PATH}:$HOME/bin:$ORACLE_HOME/bin
-export PATH=${PATH}:/usr/bin:/bin:/usr/bin/X11:/usr/local/bin
-export PATH=${PATH}:$ORACLE_BASE/common/oracle/bin
-export ORACLE_TERM=xterm
-export TNS_ADMIN=$ORACLE_HOME/network/admin
-export ORA_NLS10=$ORACLE_HOME/nls/data
-export LD_LIBRARY_PATH32=$ORACLE_HOME/lib32
-export LD_LIBRARY_PATH=$ORACLE_HOME/lib
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$ORACLE_HOME/oracm/lib
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/lib:/usr/lib:/usr/local/lib
-export CLASSPATH=$ORACLE_HOME/jre
-export CLASSPATH=${CLASSPATH}:$ORACLE_HOME/jlib
-export CLASSPATH=${CLASSPATH}:$ORACLE_HOME/rdbms/jlib
-export CLASSPATH=${CLASSPATH}:$ORACLE_HOME/network/jlib
-export THREADS_FLAG=native
-export TEMP=/tmp
-export TMPDIR=/tmp
-export NLS_LANG=AMERICAN_AMERICA.ZHS16GBK
-</code></pre>
-<p><img alt="export" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214338_80244.jpg" /></p>
-<p>保存后使用如下命令，使设置生效：</p>
-<pre><code class="language-bash">source /home/oracle/.bash_profile
-</code></pre>
-<h2 id="oracle_1">五、安装Oracle，并进行相关设置</h2>
+</code></pre></div>
+修改并加入以下內容
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">ORACLE_BASE</span><span class="o">=</span>/home/app/oracle
+<span class="nb">export</span> <span class="nv">ORACLE_HOME</span><span class="o">=</span><span class="nv">$ORACLE_BASE</span>/product/10.2.0/db_1
+<span class="nb">export</span> <span class="nv">ORACLE_SID</span><span class="o">=</span>pltest02
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>.:<span class="si">${</span><span class="nv">PATH</span><span class="si">}</span>:<span class="nv">$HOME</span>/bin:<span class="nv">$ORACLE_HOME</span>/bin
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span>:/usr/bin:/bin:/usr/bin/X11:/usr/local/bin
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span>:<span class="nv">$ORACLE_BASE</span>/common/oracle/bin
+<span class="nb">export</span> <span class="nv">ORACLE_TERM</span><span class="o">=</span>xterm
+<span class="nb">export</span> <span class="nv">TNS_ADMIN</span><span class="o">=</span><span class="nv">$ORACLE_HOME</span>/network/admin
+<span class="nb">export</span> <span class="nv">ORA_NLS10</span><span class="o">=</span><span class="nv">$ORACLE_HOME</span>/nls/data
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH32</span><span class="o">=</span><span class="nv">$ORACLE_HOME</span>/lib32
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$ORACLE_HOME</span>/lib
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span>:<span class="nv">$ORACLE_HOME</span>/oracm/lib
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span>:/lib:/usr/lib:/usr/local/lib
+<span class="nb">export</span> <span class="nv">CLASSPATH</span><span class="o">=</span><span class="nv">$ORACLE_HOME</span>/jre
+<span class="nb">export</span> <span class="nv">CLASSPATH</span><span class="o">=</span><span class="si">${</span><span class="nv">CLASSPATH</span><span class="si">}</span>:<span class="nv">$ORACLE_HOME</span>/jlib
+<span class="nb">export</span> <span class="nv">CLASSPATH</span><span class="o">=</span><span class="si">${</span><span class="nv">CLASSPATH</span><span class="si">}</span>:<span class="nv">$ORACLE_HOME</span>/rdbms/jlib
+<span class="nb">export</span> <span class="nv">CLASSPATH</span><span class="o">=</span><span class="si">${</span><span class="nv">CLASSPATH</span><span class="si">}</span>:<span class="nv">$ORACLE_HOME</span>/network/jlib
+<span class="nb">export</span> <span class="nv">THREADS_FLAG</span><span class="o">=</span>native
+<span class="nb">export</span> <span class="nv">TEMP</span><span class="o">=</span>/tmp
+<span class="nb">export</span> <span class="nv">TMPDIR</span><span class="o">=</span>/tmp
+<span class="nb">export</span> <span class="nv">NLS_LANG</span><span class="o">=</span>AMERICAN_AMERICA.ZHS16GBK
+</code></pre></div>
+<img alt="export" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214338_80244.jpg" /></p>
+<p>保存后使用如下命令，使设置生效：
+<div class="highlight"><pre><span></span><code><span class="nb">source</span> /home/oracle/.bash_profile
+</code></pre></div></p>
+<h2 id="oracle_1">五、安装Oracle，并进行相关设置<a class="headerlink" href="#oracle_1" title="Permanent link">&para;</a></h2>
 <p>1、解压缩安装文件
 将下载的10201_database_linux_x86_64.cpio放至即将安装oracle的文件夹/opt/oracle
-回到终端模式并且进入到oracle文件夹：</p>
-<pre><code class="language-bash">cd /opt/oracle
-</code></pre>
-<p>解压缩10201_database_linux_x86_64.cpio</p>
-<pre><code class="language-bash">cpio -idmv &lt; 10201_database_linux_x86_64.cpio
-</code></pre>
-<p>接着会看到一连串的解压缩动作。
+回到终端模式并且进入到oracle文件夹：
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> /opt/oracle
+</code></pre></div>
+解压缩10201_database_linux_x86_64.cpio
+<div class="highlight"><pre><span></span><code>cpio -idmv &lt; 10201_database_linux_x86_64.cpio
+</code></pre></div>
+接着会看到一连串的解压缩动作。
 <img alt="解压缩" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214635_35567.jpg" /></p>
-<p>解压缩完成会在同一个文件夹中看到database的文件夹，请进入到database文件夹中：</p>
-<pre><code class="language-bash">cd database
-</code></pre>
-<p>准备执行数据库安装，如果你的centos是中文环境，安装时会出现中文乱码，请下以下指令</p>
-<pre><code class="language-bash">export LANG=en_US
-</code></pre>
-<p>接着执行</p>
-<pre><code class="language-bash">./runInstaller
-</code></pre>
-<p>如果无法看到安装界面，请使用root帐户执行如下命令后再运行安装程序：</p>
-<pre><code class="language-bash">export DISPLAY=:0.0 
+<p>解压缩完成会在同一个文件夹中看到database的文件夹，请进入到database文件夹中：
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> database
+</code></pre></div>
+准备执行数据库安装，如果你的centos是中文环境，安装时会出现中文乱码，请下以下指令
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">LANG</span><span class="o">=</span>en_US
+</code></pre></div>
+接着执行
+<div class="highlight"><pre><span></span><code>./runInstaller
+</code></pre></div>
+如果无法看到安装界面，请使用root帐户执行如下命令后再运行安装程序：
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">DISPLAY</span><span class="o">=</span>:0.0 
 xhost + 
 ./runInstaller
-</code></pre>
-<p><img alt="runInstatller" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214735_68730.jpg" /></p>
+</code></pre></div>
+<img alt="runInstatller" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214735_68730.jpg" /></p>
 <p>遇到错误：Exception in ...... /lib/i386/libawt.so: libXp.so.6: cannot open shared object file: No such file or directory
 <img alt="exception-in" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214829_59489.jpg" /></p>
 <p>解决：
 yum -y install libXp.i686
 分析：看报错信息"/lib/i386/libawt.so: libXp.so.6: cannot open shared object file: No such file or directory"，libXp需要安装i386的包，而不能安装X64的包。上面认为64位的linux需要安装64位的libXp包，所以导致这个问题。
-再次执行 </p>
-<pre><code class="language-bash">$ ./runInstaller
-</code></pre>
-<p>遇到错误：Exception in ...... /lib/i386/libawt.so: libXt.so.6: cannot open shared object file: No such file or directory
+再次执行 
+<div class="highlight"><pre><span></span><code>$ ./runInstaller
+</code></pre></div>
+遇到错误：Exception in ...... /lib/i386/libawt.so: libXt.so.6: cannot open shared object file: No such file or directory
 <img alt="exception-in" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118214942_33265.jpg" /></p>
 <p>解决：
 yum -y install libXt.i686
-再次执行 </p>
-<pre><code class="language-bash">$ ./runInstaller
-</code></pre>
-<p>遇到错误：Exception in ...... /lib/i386/libawt.so: libXtst.so.6: cannot open shared object file: No such file or directory
+再次执行 
+<div class="highlight"><pre><span></span><code>$ ./runInstaller
+</code></pre></div>
+遇到错误：Exception in ...... /lib/i386/libawt.so: libXtst.so.6: cannot open shared object file: No such file or directory
 <img alt="exception-in" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215043_90710.jpg" /></p>
 <p>解决：
 yum -y install libXtst.i686
-再次执行 </p>
-<pre><code class="language-bash">$ ./runInstaller
-</code></pre>
-<p>开始执行安装程序。
+再次执行 
+<div class="highlight"><pre><span></span><code>$ ./runInstaller
+</code></pre></div>
+开始执行安装程序。
 <img alt="安装" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215145_27087.jpg" /></p>
 <p>由于相关的前置作业已经在之前做好了，在这个步骤只需要将UNIX DBA Group选择为dba以及输入SYS, SYSTEM等账号共享的database Password即可。然后选择Next即可。
 <img alt="安装" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118215315_24196.jpg" /></p>
@@ -640,14 +639,14 @@ OUI-25031:Some of the configuration assistants failed.
 ORA-27125:unable to create shared memory segment
 <img alt="安装" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220100_66235.jpg" /></p>
 <p>解决：
-1. 确定安装oracle所使用的用户组</p>
-<pre><code class="language-bash">id oracle
-</code></pre>
-<p>可以看到oracle组dba id 为501。
-2. 修改内核参数</p>
-<pre><code class="language-bash">echo &quot;501&quot; &gt;/proc/sys/vm/hugetlb_shm_group
-</code></pre>
-<p>就可以了。
+1. 确定安装oracle所使用的用户组
+<div class="highlight"><pre><span></span><code>id oracle
+</code></pre></div>
+可以看到oracle组dba id 为501。
+2. 修改内核参数
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="s2">&quot;501&quot;</span> &gt;/proc/sys/vm/hugetlb_shm_group
+</code></pre></div>
+就可以了。
 <img alt="安装" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220150_52635.jpg" /></p>
 <p>安装到数据库设置助理，可以在这边选取password management作密码的修改，如不需要修改，只需要按下ok按钮即可。
 <img alt="安装" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220251_89589.jpg" /></p>
@@ -662,9 +661,9 @@ ORA-27125:unable to create shared memory segment
 执行完后，回到安装窗口按下OK完成所有的oracle安装。安装完成会出现以下画面。安装
 <img alt="安装" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220520_19858.jpg" /></p>
 <p>此时，您可以以上述网址，作为测试，登入账号可以为sys或system
-http://CentOS-Oracle:5560/isqlplus
-http://CentOS-Oracle:5560/isqlplus/dba
-http://CentOS-Oracle:1158/em
+<a href="http://CentOS-Oracle:5560/isqlplus">http://CentOS-Oracle:5560/isqlplus</a>
+<a href="http://CentOS-Oracle:5560/isqlplus/dba">http://CentOS-Oracle:5560/isqlplus/dba</a>
+<a href="http://CentOS-Oracle:1158/em">http://CentOS-Oracle:1158/em</a>
 <img alt="安装" src="https://static.verycloud.cn/sites/default/files/pic/image/20151118/20151118220623_26138.jpg" /></p>
 <p>以上画面都成功代表oracle已经正常安装了。</p>
 

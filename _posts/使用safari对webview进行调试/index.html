@@ -340,7 +340,6 @@
 
   <h1>使用safari对webview进行调试</h1>
 
-<hr />
 <p>在web开发的过程中，抓包、调试页面样式、查看请求头是很常用的技巧。其实在iOS开发中，这些技巧也能用（无论是模拟器还是真机），不过我们需要用到mac自带的浏览器Safari。所以，本文将讲解如何使用Safari对iOS程序中的webview进行调试。</p>
 <p>环境信息：
 Mac OS X 10.10.1
@@ -355,27 +354,27 @@ iOS 8.1</p>
 <p><img alt="打开Safari中的开发者模式" src="https://static.verycloud.cn/sites/default/files/images/ios-user-safari-debug-webview-2.png" />
 打开Safari中的开发者模式</p>
 <p>3、写一个webview并加载一个网页</p>
-<pre><code class="language-bash">#import &quot;ViewController.h&quot;
-@interfaceViewController ()
+<div class="highlight"><pre><span></span><code><span class="c1">#import &quot;ViewController.h&quot;</span>
+@interfaceViewController <span class="o">()</span>
 
-@property (strong, nonatomic) UIWebView *webView;
+@property <span class="o">(</span>strong, nonatomic<span class="o">)</span> UIWebView *webView<span class="p">;</span>
 
 @end
 
 @implementation ViewController
 
- - (void)viewDidLoad {
+ - <span class="o">(</span>void<span class="o">)</span>viewDidLoad <span class="o">{</span>
 
-    [superviewDidLoad];
+    <span class="o">[</span>superviewDidLoad<span class="o">]</span><span class="p">;</span>
     // Do any additional setup after loading the view, typically from a nib.
 
-    _webView = [[UIWebViewalloc] initWithFrame:self.view.bounds];
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@&quot;http://www.baidu.com&quot;]]];
-    [self.view addSubview:_webView];
- }
+    <span class="nv">_webView</span> <span class="o">=</span> <span class="o">[[</span>UIWebViewalloc<span class="o">]</span> initWithFrame:self.view.bounds<span class="o">]</span><span class="p">;</span>
+    <span class="o">[</span>_webView loadRequest:<span class="o">[</span>NSURLRequest requestWithURL:<span class="o">[</span>NSURL URLWithString:@<span class="s2">&quot;http://www.baidu.com&quot;</span><span class="o">]]]</span><span class="p">;</span>
+    <span class="o">[</span>self.view addSubview:_webView<span class="o">]</span><span class="p">;</span>
+ <span class="o">}</span>
 
 @end
-</code></pre>
+</code></pre></div>
 <p>4、在模拟器（真机）中打开webview应用，并打开Safari查看网络信息</p>
 <p>【开发】-&gt;【iOS Simulator】-&gt;【正在调试的网站】</p>
 <p>注意：必须要webview在加载网页时，打开Safari才可以看到调试模式。</p>
