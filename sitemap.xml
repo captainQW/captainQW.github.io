@@ -191,6 +191,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://www.verynil.com/go/</loc>
+         <lastmod>2022-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://www.verynil.com/other/</loc>
          <lastmod>2022-06-02</lastmod>
          <changefreq>daily</changefreq>
