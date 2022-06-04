@@ -1,0 +1,91 @@
+# Project information
+site_name: 记录技术，分享知识，传播乐趣
+site_url: https://www.verynil.com
+site_author: law
+
+# Repository
+repo_name: verynil.github.io
+repo_url: https://github.com/captainQW/captainQW.github.io
+
+# Navigation
+# Navigation
+# nav: ommitted, because we're using the awesome-pages plugin (https://squidfunk.github.io/mkdocs-material/plugins/awesome-pages/)
+
+## DO NOT CHANGE BELOW THIS LINE
+
+# Copyright
+# TBD
+
+# Theme
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - content.code.annotate
+    # - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    - navigation.indexes
+    # - navigation.instant
+    # - navigation.prune
+    - navigation.sections
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  palette: # 颜色
+    primary: indigo # 主色
+    accent: indigo # 辅助色
+  font: # 字体
+    text: Ubuntu # 正文，默认为Roboto
+    code: Ubuntu Mono # 代码，默认为Roboto Mono
+  #favicon: /images/favicon.ico # 网页图标
+  #logo: /images/icon.png # 顶端图标
+
+# Plugins
+plugins:
+  - awesome-pages:
+      filename: .pages
+      collapse_single_pages: false
+      strict: false
+  - search:
+      separator: '[\s\u200b\-]'
+      lang: 
+        - en
+
+markdown_extensions:
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde  
